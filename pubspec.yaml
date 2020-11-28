@@ -11,9 +11,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # https://pub.dev/packages/font_awesome_flutter
+  font_awesome_flutter: 8.10.0
+  # https://pub.dev/packages/intl
+  intl: 0.16.1
+  # https://pub.dev/packages/email_validator
+  email_validator: 1.0.6
+  # https://pub.dev/packages/cpf_cnpj_validator
+  cpf_cnpj_validator: 1.0.5
+  # https://pub.dev/packages/pedantic
+  pedantic: 1.9.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
+  uses-material-design: true
