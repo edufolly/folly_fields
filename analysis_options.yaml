@@ -1,0 +1,6 @@
+include: package:pedantic/analysis_options.yaml
+
+linter:
+  rules:
+    always_specify_types: true
+    omit_local_variable_types: false
