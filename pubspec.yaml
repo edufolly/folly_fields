@@ -25,9 +25,9 @@ dependencies:
   # https://pub.dev/packages/pedantic
   pedantic: 1.9.2
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#dev_dependencies:
+#  flutter_test:
+#    sdk: flutter
 
 flutter:
   uses-material-design: true
