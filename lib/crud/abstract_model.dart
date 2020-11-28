@@ -3,6 +3,7 @@
 ///
 abstract class AbstractModel {
   int id;
+  int updatedAt;
 
   ///
   ///
@@ -12,7 +13,9 @@ abstract class AbstractModel {
   ///
   ///
   ///
-  AbstractModel.fromJson(Map<String, dynamic> map) : id = map['id'];
+  AbstractModel.fromJson(Map<String, dynamic> map)
+      : id = map['id'],
+        updatedAt = map['updatedAt'];
 
   ///
   ///
