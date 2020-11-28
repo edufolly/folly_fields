@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -10,11 +8,12 @@ import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// TODO - BackgroundContainer
+/// TODO - bottomNavigationBar: BottomBar(),
 ///
 ///
 ///
-abstract class AbstractEdit<T extends AbstractModel>
-    extends StatefulWidget {
+abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
   final T model;
   final AbstractUIBuilder<T> uiBuilder;
   final AbstractConsumer<T> consumer;
@@ -41,9 +40,9 @@ abstract class AbstractEdit<T extends AbstractModel>
   ///
   ///
   Future<Map<String, dynamic>> stateInjection(
-      BuildContext context,
-      T model,
-      ) async {
+    BuildContext context,
+    T model,
+  ) async {
     return <String, dynamic>{};
   }
 
@@ -79,9 +78,9 @@ abstract class AbstractEdit<T extends AbstractModel>
   ///
   ///
   void stateDispose(
-      BuildContext context,
-      Map<String, dynamic> stateInjection,
-      ) {}
+    BuildContext context,
+    Map<String, dynamic> stateInjection,
+  ) {}
 }
 
 ///
@@ -177,9 +176,9 @@ class _AbstractEditState<T extends AbstractModel>
           child: StreamBuilder<bool>(
             stream: _controller.stream,
             builder: (
-                BuildContext context,
-                AsyncSnapshot<bool> snapshot,
-                ) {
+              BuildContext context,
+              AsyncSnapshot<bool> snapshot,
+            ) {
               if (snapshot.hasData) {
                 return SingleChildScrollView(
                   padding: const EdgeInsets.all(24.0),
@@ -202,7 +201,7 @@ class _AbstractEditState<T extends AbstractModel>
                 return Center(
                   child: Text(
                     'Ocorreu um erro:\n'
-                        '${snapshot.error}',
+                    '${snapshot.error}',
                     textAlign: TextAlign.center,
                   ),
                 );

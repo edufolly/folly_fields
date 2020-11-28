@@ -18,6 +18,26 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
+  String get offlineTableName => null;
+
+  ///
+  ///
+  ///
+  String get offlineWhere => null;
+
+  ///
+  ///
+  ///
+  List<dynamic> get offlineWhereArgs => null;
+
+  ///
+  ///
+  ///
+  String get offlineOrderBy => 'id';
+
+  ///
+  ///
+  ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context, {
     List<String> paths,
@@ -29,6 +49,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   Future<List<T>> list(
     BuildContext context, {
+    bool forceOffline = false,
     Map<String, String> qsParam,
     bool returnLog = false,
   });

@@ -11,6 +11,8 @@ import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// TODO - BackgroundContainer
+/// TODO - bottomNavigationBar: BottomBar(),
 ///
 ///
 ///
@@ -18,6 +20,7 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
+  final bool forceOffline;
   final AbstractConsumer<T> consumer;
   final AbstractUIBuilder<T> uiBuilder;
   final Widget Function(
@@ -52,6 +55,7 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
     @required this.selection,
     @required this.multipleSelection,
     this.invertSelection = false,
+    this.forceOffline = false,
     @required this.consumer,
     @required this.uiBuilder,
     this.onAdd,
@@ -64,6 +68,11 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
     this.isWeb = false,
     this.isMobile = true,
   }) : super(key: key);
+
+  ///
+  ///
+  ///
+  List<String> get routeName => consumer.routeName;
 
   ///
   ///
@@ -167,6 +176,7 @@ class _AbstractListState<T extends AbstractModel>
 
       List<T> result = await widget.consumer.list(
         context,
+        forceOffline: widget.forceOffline,
         qsParam: _qsParam,
       );
 
@@ -305,6 +315,7 @@ class _AbstractListState<T extends AbstractModel>
           }
 
           /// Botão Pesquisar
+          // TODO - if (Config().isOnline) {
           _actions.add(
             IconButton(
               tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
@@ -665,6 +676,7 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
       return FutureBuilder<List<W>>(
         future: abstractListModel.consumer.list(
           context,
+          forceOffline: abstractListModel.forceOffline,
           qsParam: param,
         ),
         builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
@@ -729,6 +741,7 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
         _lastWidget = FutureBuilder<List<W>>(
           future: abstractListModel.consumer.list(
             context,
+            forceOffline: abstractListModel.forceOffline,
             qsParam: param,
           ),
           builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
