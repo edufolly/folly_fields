@@ -11,8 +11,6 @@ import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// TODO - BackgroundContainer
-/// TODO - bottomNavigationBar: BottomBar(),
 ///
 ///
 ///
@@ -210,53 +208,6 @@ class _AbstractListState<T extends AbstractModel>
   ///
   ///
   ///
-  Widget _buildResultItem({
-    T model,
-    bool selection,
-    bool canDelete,
-    Future<void> Function() afterDeleteRefresh,
-    Function onTap,
-  }) {
-    return ListTile(
-      leading: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          widget.multipleSelection && onTap == null
-              ? FaIcon(
-                  selection
-                      ? FontAwesomeIcons.checkCircle
-                      : FontAwesomeIcons.circle,
-                )
-              : widget.uiBuilder.getLeading(model),
-        ],
-      ),
-      title: widget.uiBuilder.getTitle(model),
-      subtitle: widget.uiBuilder.getSubtitle(model),
-      trailing: canDelete
-          ? IconButton(
-              icon: Icon(FontAwesomeIcons.trashAlt),
-              onPressed: () async {
-                bool refresh = await _deleteEntity(model, ask: true);
-                if (afterDeleteRefresh != null && refresh) {
-                  await afterDeleteRefresh();
-                }
-              },
-            )
-          : Container(width: 1, height: 1),
-      onTap: onTap != null
-          ? () => onTap(model)
-          : () => _internalRoute(
-                model,
-                !(selection ?? false),
-              ),
-    );
-  }
-
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<bool>(
@@ -267,16 +218,22 @@ class _AbstractListState<T extends AbstractModel>
             appBar: AppBar(
               title: _getScaffoldTitle(),
             ),
-            body: Column(
-              children: <Widget>[
-                Scrollbar(
-                  child: RefreshIndicator(
-                    key: _refreshIndicatorKey,
-                    onRefresh: () => _loadData(context),
-                    child: TextMessage(snapshot.error.toString()),
+            bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
+              context: context,
+            ),
+            body: widget.uiBuilder.buildBackgroundContainer(
+              context: context,
+              child: Column(
+                children: <Widget>[
+                  Scrollbar(
+                    child: RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: () => _loadData(context),
+                      child: TextMessage(snapshot.error.toString()),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }
@@ -413,72 +370,78 @@ class _AbstractListState<T extends AbstractModel>
               title: _getScaffoldTitle(),
               actions: _actions,
             ),
-            body: RefreshIndicator(
-              key: _refreshIndicatorKey,
-              onRefresh: () => _loadData(context),
-              child: _globalItems.isEmpty
-                  ? TextMessage(
-                      'Sem '
-                      '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
-                      ' até o momento.',
-                    )
-                  : ListView.separated(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      padding: EdgeInsets.all(16.0),
-                      controller: _scrollController,
-                      itemBuilder: (BuildContext context, int index) {
-                        /// Atualizando...
-                        if (index >= _globalItems.length) {
-                          return Container(
-                            height: 80,
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-
-                        T model = _globalItems[index];
-
-                        if (_delete &&
-                            widget.isMobile &&
-                            widget.canDelete(model)) {
-                          return Dismissible(
-                            key: Key('key_${model.id}'),
-                            direction: DismissDirection.endToStart,
-                            background: Container(
-                              color: Colors.red,
-                              alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: const FaIcon(
-                                FontAwesomeIcons.trashAlt,
-                                color: Colors.white,
+            bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
+              context: context,
+            ),
+            body: widget.uiBuilder.buildBackgroundContainer(
+              context: context,
+              child: RefreshIndicator(
+                key: _refreshIndicatorKey,
+                onRefresh: () => _loadData(context),
+                child: _globalItems.isEmpty
+                    ? TextMessage(
+                        'Sem '
+                        '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
+                        ' até o momento.',
+                      )
+                    : ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.all(16.0),
+                        controller: _scrollController,
+                        itemBuilder: (BuildContext context, int index) {
+                          /// Atualizando...
+                          if (index >= _globalItems.length) {
+                            return Container(
+                              height: 80,
+                              child: Center(
+                                child: CircularProgressIndicator(),
                               ),
-                            ),
-                            confirmDismiss: (DismissDirection direction) =>
-                                _askDelete(),
-                            onDismissed: (DismissDirection direction) =>
-                                _deleteEntity(model),
-                            child: _buildResultItem(
+                            );
+                          }
+
+                          T model = _globalItems[index];
+
+                          if (_delete &&
+                              widget.isMobile &&
+                              widget.canDelete(model)) {
+                            return Dismissible(
+                              key: Key('key_${model.id}'),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: const FaIcon(
+                                  FontAwesomeIcons.trashAlt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              confirmDismiss: (DismissDirection direction) =>
+                                  _askDelete(),
+                              onDismissed: (DismissDirection direction) =>
+                                  _deleteEntity(model),
+                              child: _buildResultItem(
+                                model: model,
+                                selection: selections.containsKey(model.id),
+                                canDelete: false,
+                                onTap: null,
+                              ),
+                            );
+                          } else {
+                            return _buildResultItem(
                               model: model,
                               selection: selections.containsKey(model.id),
-                              canDelete: false,
+                              canDelete: _delete &&
+                                  widget.isWeb &&
+                                  widget.canDelete(model),
                               onTap: null,
-                            ),
-                          );
-                        } else {
-                          return _buildResultItem(
-                            model: model,
-                            selection: selections.containsKey(model.id),
-                            canDelete: _delete &&
-                                widget.isWeb &&
-                                widget.canDelete(model),
-                            onTap: null,
-                          );
-                        }
-                      },
-                      separatorBuilder: (_, __) => MyDivider(),
-                      itemCount: itemCount,
-                    ),
+                            );
+                          }
+                        },
+                        separatorBuilder: (_, __) => MyDivider(),
+                        itemCount: itemCount,
+                      ),
+              ),
             ),
             floatingActionButton: _fabAdd,
           );
@@ -488,9 +451,62 @@ class _AbstractListState<T extends AbstractModel>
           appBar: AppBar(
             title: _getScaffoldTitle(),
           ),
-          body: WaitingMessage(message: 'Consultando...'),
+          bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
+            context: context,
+          ),
+          body: widget.uiBuilder.buildBackgroundContainer(
+            context: context,
+            child: WaitingMessage(message: 'Consultando...'),
+          ),
         );
       },
+    );
+  }
+
+  ///
+  ///
+  ///
+  Widget _buildResultItem({
+    T model,
+    bool selection,
+    bool canDelete,
+    Future<void> Function() afterDeleteRefresh,
+    Function onTap,
+  }) {
+    return ListTile(
+      leading: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          widget.multipleSelection && onTap == null
+              ? FaIcon(
+                  selection
+                      ? FontAwesomeIcons.checkCircle
+                      : FontAwesomeIcons.circle,
+                )
+              : widget.uiBuilder.getLeading(model),
+        ],
+      ),
+      title: widget.uiBuilder.getTitle(model),
+      subtitle: widget.uiBuilder.getSubtitle(model),
+      trailing: canDelete
+          ? IconButton(
+              icon: Icon(FontAwesomeIcons.trashAlt),
+              onPressed: () async {
+                bool refresh = await _deleteEntity(model, ask: true);
+                if (afterDeleteRefresh != null && refresh) {
+                  await afterDeleteRefresh();
+                }
+              },
+            )
+          : Container(width: 1, height: 1),
+      onTap: onTap != null
+          ? () => onTap(model)
+          : () => _internalRoute(
+                model,
+                !(selection ?? false),
+              ),
     );
   }
 

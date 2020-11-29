@@ -61,4 +61,23 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   /// Widget do subtitle do ListTile das sugestões.
   Widget getSuggestionSubtitle(T model) => getSubtitle(model);
+
+  ///
+  ///
+  ///
+  Widget buildBackgroundContainer({
+    @required BuildContext context,
+    @required Widget child,
+  }) =>
+      Container(
+        child: child,
+      );
+
+  ///
+  ///
+  ///
+  Widget buildBottomNavigationBar({
+    @required BuildContext context,
+  }) =>
+      null;
 }

@@ -8,8 +8,6 @@ import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// TODO - BackgroundContainer
-/// TODO - bottomNavigationBar: BottomBar(),
 ///
 ///
 ///
@@ -171,44 +169,50 @@ class _AbstractEditState<T extends AbstractModel>
             )
           ],
         ),
-        body: Form(
-          key: _formKey,
-          child: StreamBuilder<bool>(
-            stream: _controller.stream,
-            builder: (
-              BuildContext context,
-              AsyncSnapshot<bool> snapshot,
-            ) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    children: widget.formContent(
-                      context: context,
-                      model: _model,
-                      refresh: (bool value) => _controller.add(value),
-                      edit: widget.edit,
-                      stateInjection: _stateInjection,
-                      prefix: widget.uiBuilder.prefix,
-                      remap: snapshot.data,
+        bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
+          context: context,
+        ),
+        body: widget.uiBuilder.buildBackgroundContainer(
+          context: context,
+          child: Form(
+            key: _formKey,
+            child: StreamBuilder<bool>(
+              stream: _controller.stream,
+              builder: (
+                BuildContext context,
+                AsyncSnapshot<bool> snapshot,
+              ) {
+                if (snapshot.hasData) {
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      children: widget.formContent(
+                        context: context,
+                        model: _model,
+                        refresh: (bool value) => _controller.add(value),
+                        edit: widget.edit,
+                        stateInjection: _stateInjection,
+                        prefix: widget.uiBuilder.prefix,
+                        remap: snapshot.data,
+                      ),
                     ),
-                  ),
-                );
-              }
+                  );
+                }
 
-              // TODO - Melhorar visualização do erro.
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'Ocorreu um erro:\n'
-                    '${snapshot.error}',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
+                // TODO - Melhorar visualização do erro.
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Ocorreu um erro:\n'
+                      '${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
 
-              return WaitingMessage(message: 'Consultando...');
-            },
+                return WaitingMessage(message: 'Consultando...');
+              },
+            ),
           ),
         ),
       ),
