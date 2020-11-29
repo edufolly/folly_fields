@@ -21,6 +21,7 @@ class StringField extends StatelessWidget {
   final FormFieldSetter<String> onSaved;
   final String initialValue;
   final bool enabled;
+  final AutovalidateMode autoValidateMode;
   final ValueChanged<String> onChanged;
   final FocusNode focusNode;
 
@@ -45,6 +46,7 @@ class StringField extends StatelessWidget {
     this.onSaved,
     this.initialValue,
     @required this.enabled,
+    this.autoValidateMode = AutovalidateMode.disabled,
     this.onChanged,
     this.focusNode,
   }) : super(key: key);
@@ -78,6 +80,7 @@ class StringField extends StatelessWidget {
         onSaved: onSaved,
         initialValue: initialValue,
         enabled: enabled,
+        autovalidateMode: autoValidateMode,
         onChanged: onChanged,
         focusNode: focusNode,
         style: enabled

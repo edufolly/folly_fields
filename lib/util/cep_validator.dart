@@ -17,11 +17,11 @@ class CepValidator {
   ///
   ///
   ///
-  static String strip(String phone) {
+  static String strip(String cep) {
     RegExp regex = RegExp(STRIP_REGEX);
-    phone = phone ?? '';
+    cep = cep ?? '';
 
-    return phone.replaceAll(regex, '');
+    return cep.replaceAll(regex, '');
   }
 
   ///
@@ -32,7 +32,6 @@ class CepValidator {
       cep = strip(cep);
     }
 
-    // phone must be defined
     if (cep == null || cep.isEmpty) {
       return false;
     }
