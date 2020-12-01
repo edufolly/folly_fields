@@ -3,7 +3,7 @@ import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 ///
 ///
-///
+/// TODO - Criar classe abstrata para manter o padrão da validação.
 class CpfCnpjValidator {
   static const String STRIP_REGEX = r'[^\d]';
 

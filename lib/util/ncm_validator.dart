@@ -1,6 +1,6 @@
 ///
 ///
-///
+/// TODO - Criar classe abstrata para manter o padrão da validação.
 class NcmValidator {
   static const String STRIP_REGEX = r'[^\d]';
 

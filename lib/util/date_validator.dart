@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 ///
 ///
-///
+/// TODO - Criar classe abstrata para manter o padrão da validação.
 class DateValidator {
   static const List<int> _months31 = <int>[1, 3, 5, 7, 8, 10, 12];
   static const List<int> _months30 = <int>[4, 6, 9, 11];

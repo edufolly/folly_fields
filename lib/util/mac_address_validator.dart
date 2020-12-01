@@ -1,6 +1,6 @@
 ///
 ///
-///
+/// TODO - Criar classe abstrata para manter o padrão da validação.
 class MacAddressValidator {
   static const String STRIP_REGEX = r'[^A-F0-9]';
 

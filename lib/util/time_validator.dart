@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ///
 ///
-///
+/// TODO - Criar classe abstrata para manter o padrão da validação.
 class TimeValidator {
   ///
   ///
