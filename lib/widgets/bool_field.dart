@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class BoolField extends StatelessWidget {
   final String prefix;
   final String label;
-  final String keyStart;
   final bool value;
   final ValueChanged<bool> onChanged;
   final bool enabled;
@@ -16,12 +15,11 @@ class BoolField extends StatelessWidget {
   ///
   const BoolField({
     Key key,
-    @required this.prefix,
-    @required this.label,
-    @required this.keyStart,
+    this.prefix,
+    this.label,
     this.value = false,
     @required this.onChanged,
-    @required this.enabled,
+    this.enabled = true,
   }) : super(key: key);
 
   ///
@@ -37,13 +35,12 @@ class BoolField extends StatelessWidget {
           border: Border.all(color: Colors.black45),
         ),
         child: SwitchListTile.adaptive(
-          key: Key('${keyStart}SwitchListTile'),
           title: Text(
             prefix == null || prefix.isEmpty ? label : '$prefix - $label',
             style: TextStyle(color: Colors.black45),
           ),
           value: value,
-          onChanged: enabled ? onChanged : null,
+          onChanged: enabled ? onChanged : (_) {},
         ),
       ),
     );

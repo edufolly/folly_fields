@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/util/field_helper.dart';
 
 ///
 ///
 ///
-class StringField extends StatelessWidget {
+class EmailField extends StatelessWidget {
   final String prefix;
   final String label;
   final TextEditingController controller;
-  final TextInputType keyboard;
   final FormFieldValidator<String> validator;
   final int minLines;
   final int maxLines;
@@ -27,18 +27,18 @@ class StringField extends StatelessWidget {
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;
+  final String validatorMessage;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
 
   ///
   ///
   ///
-  const StringField({
+  const EmailField({
     Key key,
     this.prefix,
     this.label,
     this.controller,
-    this.keyboard = TextInputType.text,
     this.validator,
     this.minLines = 1,
     this.maxLines = 1,
@@ -57,6 +57,7 @@ class StringField extends StatelessWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.textCapitalization = TextCapitalization.none,
+    this.validatorMessage = 'Informe o e-mail.',
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
   }) : super(key: key);
@@ -70,7 +71,7 @@ class StringField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
         controller: controller,
-        keyboardType: keyboard,
+        keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           labelText:
               prefix == null || prefix.isEmpty ? label : '$prefix - $label',
@@ -78,10 +79,13 @@ class StringField extends StatelessWidget {
           counterText: '',
           enabled: enabled,
         ),
-        validator: validator,
-        minLines: minLines,
-        maxLines: maxLines,
-        obscureText: obscureText,
+        validator: validator ??
+            (String value) => FieldHelper.validators[FieldType.email](value)
+                ? null
+                : validatorMessage,
+        minLines: 1,
+        maxLines: 1,
+        obscureText: false,
         inputFormatters: inputFormatter,
         textAlign: textAlign,
         maxLength: maxLength,
@@ -93,9 +97,9 @@ class StringField extends StatelessWidget {
         focusNode: focusNode,
         textInputAction: textInputAction,
         onFieldSubmitted: onFieldSubmitted,
-        autocorrect: autocorrect,
-        enableSuggestions: enableSuggestions,
-        textCapitalization: textCapitalization,
+        autocorrect: false,
+        enableSuggestions: false,
+        textCapitalization: TextCapitalization.none,
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
         style: enabled

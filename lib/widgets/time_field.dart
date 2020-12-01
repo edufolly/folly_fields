@@ -17,16 +17,19 @@ class TimeField extends FormField<TimeOfDay> {
   TimeField({
     Key key,
     String prefix,
-    @required String label,
-    TimeOfDay initialValue,
+    String label,
     this.controller,
-    this.focusNode,
-    FormFieldSetter<TimeOfDay> onSaved,
     FormFieldValidator<TimeOfDay> validator,
+    FormFieldSetter<TimeOfDay> onSaved,
+    TimeOfDay initialValue,
     bool enabled = true,
+    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    // TODO - onChanged
+    this.focusNode,
+    TextInputAction textInputAction,
+    ValueChanged<String> onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
-    AutovalidateMode autovalidateMode,
   }) : super(
           key: key,
           initialValue: controller != null
@@ -35,9 +38,9 @@ class TimeField extends FormField<TimeOfDay> {
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
           enabled: enabled,
-          autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
+          autovalidateMode: autoValidateMode,
           builder: (FormFieldState<TimeOfDay> field) {
-            final _NewTimeFieldState state = field as _NewTimeFieldState;
+            final _TimeFieldState state = field as _TimeFieldState;
 
             Color rootColor = Theme.of(state.context).primaryColor;
 
@@ -76,14 +79,6 @@ class TimeField extends FormField<TimeOfDay> {
               ),
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            ///
-            // void onChangedHandler(String value) {
-            //   field.didChange(value);
-            //   if (onChanged != null) {
-            //     onChanged(value);
-            //   }
-            // }
-
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -93,46 +88,28 @@ class TimeField extends FormField<TimeOfDay> {
                   errorText: enabled ? field.errorText : null,
                 ),
                 keyboardType: TextInputType.datetime,
-                // textInputAction: textInputAction,
-                style: enabled ? null : TextStyle(color: Colors.black26),
-                // strutStyle: strutStyle,
-                textAlign: TextAlign.start,
-                // textAlignVertical: textAlignVertical,
-                // textDirection: textDirection,
-                textCapitalization: TextCapitalization.none,
-                autofocus: false,
-                // toolbarOptions: toolbarOptions,
-                readOnly: false,
-                showCursor: true,
-                // obscuringCharacter: obscuringCharacter,
-                obscureText: false,
-                autocorrect: false,
-                smartDashesType: SmartDashesType.disabled,
-                smartQuotesType: SmartQuotesType.disabled,
-                enableSuggestions: false,
-                // maxLengthEnforced: maxLengthEnforced,
-                maxLines: 1,
                 minLines: 1,
-                expands: false,
-                // maxLength: maxLength,
-                // onChanged: onChangedHandler,
-                // onTap: onTap,
-                // onEditingComplete: onEditingComplete,
-                // onSubmitted: onFieldSubmitted,
+                maxLines: 1,
+                obscureText: false,
                 inputFormatters: <TextInputFormatter>[
                   FieldHelper.masks[FieldType.time],
                 ],
+                textAlign: TextAlign.start,
                 enabled: enabled,
-                // cursorWidth: cursorWidth,
-                // cursorHeight: cursorHeight,
-                // cursorRadius: cursorRadius,
-                // cursorColor: cursorColor,
+                textInputAction: textInputAction,
+                onSubmitted: onFieldSubmitted,
+                autocorrect: false,
+                enableSuggestions: false,
+                textCapitalization: TextCapitalization.none,
                 scrollPadding: scrollPadding,
-                // scrollPhysics: scrollPhysics,
-                // keyboardAppearance: keyboardAppearance,
                 enableInteractiveSelection: enableInteractiveSelection,
-                // buildCounter: buildCounter,
-                // autofillHints: autofillHints,
+                style: enabled ? null : TextStyle(color: Colors.black26),
+                // onChanged: (String value) {
+                //   field.didChange(value);
+                //   if (onChanged != null) {
+                //     onChanged(value);
+                //   }
+                // },
               ),
             );
           },
@@ -142,13 +119,13 @@ class TimeField extends FormField<TimeOfDay> {
   ///
   ///
   @override
-  _NewTimeFieldState createState() => _NewTimeFieldState();
+  _TimeFieldState createState() => _TimeFieldState();
 }
 
 ///
 ///
 ///
-class _NewTimeFieldState extends FormFieldState<TimeOfDay> {
+class _TimeFieldState extends FormFieldState<TimeOfDay> {
   TimeEditingController _controller;
   FocusNode _focusNode;
 

@@ -11,7 +11,7 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
   final AbstractUIBuilder<T> uiBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
-  final bool isWeb;
+  final bool isWeb; // TODO - Pode ficar dentro do uiBuilder?
   final Future<bool> Function(BuildContext) beforeAdd;
   final Future<bool> Function(BuildContext, int, T) beforeEdit;
 
@@ -22,11 +22,11 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
     Key key,
     @required List<T> list,
     @required this.uiBuilder,
-    @required this.routeAddBuilder,
+    @required this.routeAddBuilder, // TODO - Precisa ser required?
     this.routeEditBuilder,
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
-    @required bool enabled,
+    bool enabled = true,
     this.isWeb = true,
     this.beforeAdd,
     this.beforeEdit,

@@ -15,31 +15,38 @@ class DecimalFormField extends FormField<Decimal> {
   DecimalFormField({
     Key key,
     String prefix,
-    @required String label,
-    Decimal initialValue,
+    String label,
     this.controller,
-    this.focusNode,
-    FormFieldSetter<Decimal> onSaved,
     FormFieldValidator<Decimal> validator,
+    int minLines,
+    int maxLines,
+    bool obscureText,
+    TextAlign textAlign = TextAlign.end,
+    int maxLength,
+    FormFieldSetter<Decimal> onSaved,
+    Decimal initialValue,
     bool enabled = true,
+    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    // TODO - onChanged
+    this.focusNode,
+    TextInputAction textInputAction,
+    ValueChanged<String> onFieldSubmitted,
+    bool autocorrect = false,
+    bool enableSuggestions = false,
+    TextCapitalization textCapitalization = TextCapitalization.none,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
-    AutovalidateMode autovalidateMode,
-  })  :
-        super(
+  }) : super(
           key: key,
           initialValue: controller != null
               ? controller.decimalValue
               : (initialValue ?? Decimal(precision: 2)),
           onSaved: onSaved,
-        validator: enabled ? validator : (_) => null,
+          validator: enabled ? validator : (_) => null,
           enabled: enabled,
-        autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
+          autovalidateMode: autoValidateMode,
           builder: (FormFieldState<Decimal> field) {
             final _DecimalFieldState state = field as _DecimalFieldState;
-
-            // final InputDecoration effectiveDecoration = (decoration ?? const InputDecoration())
-            //     .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
@@ -57,23 +64,20 @@ class DecimalFormField extends FormField<Decimal> {
                   errorText: enabled ? field.errorText : null,
                 ),
                 keyboardType: TextInputType.number,
-                style: enabled ? null : TextStyle(color: Colors.black26),
-                textAlign: TextAlign.end,
-                textCapitalization: TextCapitalization.none,
-                autofocus: false,
-                readOnly: false,
-                showCursor: true,
-                obscureText: false,
-                autocorrect: false,
-                smartDashesType: SmartDashesType.disabled,
-                smartQuotesType: SmartQuotesType.disabled,
-                enableSuggestions: false,
-                maxLines: 1,
-                minLines: 1,
-                expands: false,
+                minLines: minLines,
+                maxLines: maxLines,
+                obscureText: obscureText,
+                textAlign: textAlign,
+                maxLength: maxLength,
                 enabled: enabled,
+                textInputAction: textInputAction,
+                onSubmitted: onFieldSubmitted,
+                autocorrect: autocorrect,
+                enableSuggestions: enableSuggestions,
+                textCapitalization: textCapitalization,
                 scrollPadding: scrollPadding,
                 enableInteractiveSelection: enableInteractiveSelection,
+                style: enabled ? null : TextStyle(color: Colors.black26),
               ),
             );
           },
@@ -210,7 +214,7 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
     _effectiveController.selection = TextSelection(
       baseOffset: 0,
       extentOffset:
-      _effectiveFocusNode.hasFocus ? _effectiveController.text.length : 0,
+          _effectiveFocusNode.hasFocus ? _effectiveController.text.length : 0,
     );
   }
 }

@@ -8,7 +8,6 @@ class DropdownField<T> extends StatelessWidget {
   final String label;
   final T initialValue;
   final Map<T, String> items;
-  final String keyStart;
   final ValueChanged<T> onChanged;
   final FormFieldValidator<T> validator;
   final FormFieldSetter<T> onSaved;
@@ -20,10 +19,9 @@ class DropdownField<T> extends StatelessWidget {
   const DropdownField({
     Key key,
     this.prefix,
-    @required this.label,
+    this.label,
     @required this.initialValue,
     @required this.items,
-    @required this.keyStart,
     this.onChanged,
     this.validator,
     this.onSaved,
@@ -38,7 +36,6 @@ class DropdownField<T> extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DropdownButtonFormField<T>(
-        key: Key('${keyStart}DropdownButtonFormField'),
         isExpanded: true,
         isDense: true,
         decoration: InputDecoration(
