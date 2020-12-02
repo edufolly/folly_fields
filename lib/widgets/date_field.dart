@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/date_validator.dart';
-import 'package:folly_fields/util/field_helper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -20,6 +19,7 @@ class DateField extends FormField<DateTime> {
     String label,
     this.controller,
     FormFieldValidator<DateTime> validator,
+    TextAlign textAlign = TextAlign.start,
     FormFieldSetter<DateTime> onSaved,
     DateTime initialValue,
     bool enabled = true,
@@ -32,6 +32,7 @@ class DateField extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     DateTime firstDate,
     DateTime lastDate,
+    bool filled = true,
   }) : super(
           key: key,
           initialValue: controller != null
@@ -48,6 +49,7 @@ class DateField extends FormField<DateTime> {
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
+              filled: filled,
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
@@ -95,10 +97,8 @@ class DateField extends FormField<DateTime> {
                 minLines: 1,
                 maxLines: 1,
                 obscureText: false,
-                inputFormatters: <TextInputFormatter>[
-                  FieldHelper.masks[FieldType.date],
-                ],
-                textAlign: TextAlign.start,
+                inputFormatters: <TextInputFormatter>[DateValidator().mask],
+                textAlign: textAlign,
                 enabled: enabled,
                 textInputAction: textInputAction,
                 onSubmitted: onFieldSubmitted,
@@ -253,11 +253,13 @@ class _DateFieldState extends FormFieldState<DateTime> {
 ///
 ///
 class DateEditingController extends TextEditingController {
+  static final DateValidator DATE_VALIDATOR = DateValidator();
+
   ///
   ///
   ///
   DateEditingController({DateTime date})
-      : super(text: DateValidator.format(date ?? DateTime.now()));
+      : super(text: DATE_VALIDATOR.format(date ?? DateTime.now()));
 
   ///
   ///
@@ -268,10 +270,10 @@ class DateEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateTime get date => DateValidator.parse(text);
+  DateTime get date => DATE_VALIDATOR.parse(text);
 
   ///
   ///
   ///
-  set date(DateTime date) => text = DateValidator.format(date);
+  set date(DateTime date) => text = DATE_VALIDATOR.format(date);
 }

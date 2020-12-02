@@ -1,35 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
 
 ///
 ///
-/// TODO - Criar classe abstrata para manter o padrão da validação.
-class DateValidator {
+///
+class DateValidator extends AbstractValidator<DateTime>
+    implements AbstractTimeParser<DateTime> {
   static const List<int> _months31 = <int>[1, 3, 5, 7, 8, 10, 12];
   static const List<int> _months30 = <int>[4, 6, 9, 11];
 
-  ///
-  ///
-  ///
-  static String format(
-      DateTime datetime, {
-        dynamic locale = 'pt_br',
-      }) =>
-      DateFormat.yMd(locale).format(datetime);
+  final dynamic locale;
 
   ///
   ///
   ///
-  static String fullFormat(DateTime dateTime) =>
-      DateFormat('dd/MM/yyyy HH:mm:ss').format(dateTime);
+  DateValidator({this.locale = 'pt_br'});
 
   ///
   ///
   ///
-  static DateTime parse(
-      String text, {
-        dynamic locale = 'pt_br',
-      }) {
+  @override
+  String format(DateTime value) => DateFormat.yMd(locale).format(value);
+
+  ///
+  ///
+  ///
+  @override
+  String strip(String value) => value;
+
+  ///
+  ///
+  ///
+  @override
+  bool isValid(String value, {bool stripBeforeValidation = true}) =>
+      valid(value) == null;
+
+  ///
+  ///
+  ///
+  @override
+  MaskTextInputFormatter get mask => MaskTextInputFormatter(
+        mask: '##/##/####',
+      );
+
+  ///
+  ///
+  ///
+  @override
+  DateTime parse(String text) {
     try {
       return DateFormat.yMd(locale).parse(text);
     } catch (e) {
@@ -40,41 +60,8 @@ class DateValidator {
   ///
   ///
   ///
-  static DateTime mergeStart({
-    @required DateTime date,
-    TimeOfDay time = const TimeOfDay(hour: 0, minute: 0),
-  }) =>
-      DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-        0,
-        0,
-      );
-
-  ///
-  ///
-  ///
-  static DateTime mergeEnd({
-    @required DateTime date,
-    TimeOfDay time = const TimeOfDay(hour: 23, minute: 59),
-  }) =>
-      DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-        59,
-        999,
-      );
-
-  ///
-  ///
-  ///
-  static String valid(String value) {
+  @override
+  String valid(String value) {
     if (value.isEmpty) return 'Data vazia';
 
     List<String> parts = value.split('/');
@@ -111,5 +98,40 @@ class DateValidator {
   ///
   ///
   ///
-  static bool isValid(String value) => valid(value) == null;
+  String fullFormat(DateTime dateTime) =>
+      DateFormat('dd/MM/yyyy HH:mm:ss').format(dateTime);
+
+  ///
+  ///
+  ///
+  static DateTime mergeStart({
+    @required DateTime date,
+    TimeOfDay time = const TimeOfDay(hour: 0, minute: 0),
+  }) =>
+      DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+        0,
+        0,
+      );
+
+  ///
+  ///
+  ///
+  static DateTime mergeEnd({
+    @required DateTime date,
+    TimeOfDay time = const TimeOfDay(hour: 23, minute: 59),
+  }) =>
+      DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+        59,
+        999,
+      );
 }

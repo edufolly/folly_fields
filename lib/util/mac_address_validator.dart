@@ -1,45 +1,54 @@
+import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/util/mask_text_input_formatter.dart';
+
 ///
 ///
-/// TODO - Criar classe abstrata para manter o padrão da validação.
-class MacAddressValidator {
-  static const String STRIP_REGEX = r'[^A-F0-9]';
+///
+class MacAddressValidator extends AbstractValidator<String> {
+  ///
+  ///
+  ///
+  @override
+  String format(String macAddress) => strip(macAddress).replaceAllMapped(
+        RegExp(r'^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
+            r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$'),
+        (Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
+      );
 
   ///
   ///
   ///
-  static String format(String macAddress) {
-    RegExp regExp = RegExp(r'^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
-        r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$');
-
-    return strip(macAddress).replaceAllMapped(
-      regExp,
-      (Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
-    );
-  }
+  @override
+  String strip(String value) =>
+      (value ?? '').replaceAll(RegExp(r'[^A-F0-9]'), '');
 
   ///
   ///
   ///
-  static String strip(String macAddress) {
-    RegExp regex = RegExp(STRIP_REGEX);
-    macAddress = macAddress ?? '';
-
-    return macAddress.replaceAll(regex, '');
-  }
-
-  ///
-  ///
-  ///
-  static bool isValid(String macAddress, [bool stripBeforeValidation = true]) {
+  @override
+  bool isValid(String value, {bool stripBeforeValidation = true}) {
     if (stripBeforeValidation) {
-      macAddress = strip(macAddress);
+      value = strip(value);
     }
 
     // mac address must be defined
-    if (macAddress == null || macAddress.isEmpty || macAddress.length > 12) {
+    if (value == null || value.isEmpty || value.length > 12) {
       return false;
     }
 
+    // TODO - Validar as letras.
+
     return true;
   }
+
+  ///
+  ///
+  ///
+  @override
+  MaskTextInputFormatter get mask => MaskTextInputFormatter(
+        mask: '##:##:##:##:##:##',
+        filter: <String, RegExp>{
+          '#': RegExp(r'[a-fA-F0-9]'),
+        },
+      );
 }

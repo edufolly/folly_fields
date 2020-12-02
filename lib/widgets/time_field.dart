@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/util/field_helper.dart';
 import 'package:folly_fields/util/time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -20,6 +19,7 @@ class TimeField extends FormField<TimeOfDay> {
     String label,
     this.controller,
     FormFieldValidator<TimeOfDay> validator,
+    TextAlign textAlign = TextAlign.start,
     FormFieldSetter<TimeOfDay> onSaved,
     TimeOfDay initialValue,
     bool enabled = true,
@@ -30,6 +30,7 @@ class TimeField extends FormField<TimeOfDay> {
     ValueChanged<String> onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
+    bool filled = false,
   }) : super(
           key: key,
           initialValue: controller != null
@@ -46,6 +47,7 @@ class TimeField extends FormField<TimeOfDay> {
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
+              filled: filled,
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
@@ -91,10 +93,8 @@ class TimeField extends FormField<TimeOfDay> {
                 minLines: 1,
                 maxLines: 1,
                 obscureText: false,
-                inputFormatters: <TextInputFormatter>[
-                  FieldHelper.masks[FieldType.time],
-                ],
-                textAlign: TextAlign.start,
+                inputFormatters: <TextInputFormatter>[TimeValidator().mask],
+                textAlign: textAlign,
                 enabled: enabled,
                 textInputAction: textInputAction,
                 onSubmitted: onFieldSubmitted,
@@ -257,11 +257,13 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
 ///
 ///
 class TimeEditingController extends TextEditingController {
+  static final TimeValidator TIME_VALIDATOR = TimeValidator();
+
   ///
   ///
   ///
   TimeEditingController({TimeOfDay time})
-      : super(text: TimeValidator.format(time ?? TimeOfDay.now()));
+      : super(text: TIME_VALIDATOR.format(time ?? TimeOfDay.now()));
 
   ///
   ///
@@ -272,10 +274,10 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  TimeOfDay get time => TimeValidator.parse(text);
+  TimeOfDay get time => TIME_VALIDATOR.parse(text);
 
   ///
   ///
   ///
-  set time(TimeOfDay time) => text = TimeValidator.format(time);
+  set time(TimeOfDay time) => text = TIME_VALIDATOR.format(time);
 }

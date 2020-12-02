@@ -1,29 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
 ///
 ///
-/// TODO - Criar classe abstrata para manter o padrão da validação.
-class TimeValidator {
+///
+class TimeValidator extends AbstractValidator<TimeOfDay>
+    implements AbstractTimeParser<TimeOfDay> {
   ///
   ///
   ///
-  static String format(TimeOfDay time) {
-    return time.hour.toString().padLeft(2, '0') +
-        ':' +
-        time.minute.toString().padLeft(2, '0');
+  @override
+  String format(TimeOfDay time) =>
+      time.hour.toString().padLeft(2, '0') +
+      ':' +
+      time.minute.toString().padLeft(2, '0');
+
+  ///
+  ///
+  ///
+  @override
+  String strip(String value) => value;
+
+  ///
+  ///
+  ///
+  @override
+  bool isValid(String value, {bool stripBeforeValidation = true}) =>
+      valid(value) == null;
+
+  ///
+  ///
+  ///
+  @override
+  MaskTextInputFormatter get mask => MaskTextInputFormatter(
+        mask: 'AB:CB',
+        filter: <String, RegExp>{
+          'A': RegExp(r'[0-2]'),
+          'B': RegExp(r'[0-9]'),
+          'C': RegExp(r'[0-5]'),
+        },
+      );
+
+  ///
+  ///
+  ///
+  @override
+  TimeOfDay parse(String value) {
+    if (isValid(value)) {
+      List<String> parts = value.split(':');
+      return TimeOfDay(
+        hour: int.tryParse(parts[0]),
+        minute: int.tryParse(parts[1]),
+      );
+    }
+    return null;
   }
 
   ///
   ///
   ///
-  static String formatDateTime(DateTime dateTime) {
-    return format(TimeOfDay.fromDateTime(dateTime));
-  }
-
-  ///
-  ///
-  ///
-  static String valid(String value) {
+  @override
+  String valid(String value) {
     if (value.isEmpty) return 'Hora vazia';
 
     List<String> parts = value.split(':');
@@ -48,19 +86,7 @@ class TimeValidator {
   ///
   ///
   ///
-  static bool isValid(String value) => valid(value) == null;
-
-  ///
-  ///
-  ///
-  static TimeOfDay parse(String value) {
-    if (isValid(value)) {
-      List<String> parts = value.split(':');
-      return TimeOfDay(
-        hour: int.tryParse(parts[0]),
-        minute: int.tryParse(parts[1]),
-      );
-    }
-    return null;
+  String formatDateTime(DateTime dateTime) {
+    return format(TimeOfDay.fromDateTime(dateTime));
   }
 }

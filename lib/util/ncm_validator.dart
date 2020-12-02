@@ -1,33 +1,23 @@
+import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/util/mask_text_input_formatter.dart';
+
 ///
 ///
-/// TODO - Criar classe abstrata para manter o padrão da validação.
-class NcmValidator {
-  static const String STRIP_REGEX = r'[^\d]';
+///
+class NcmValidator extends AbstractValidator<String> {
+  ///
+  ///
+  ///
+  @override
+  String format(String value) => strip(value).replaceAllMapped(
+      RegExp(r'^(\d{4})(\d{2})(\d{2})$'),
+      (Match m) => '${m[1]}.${m[2]}.${m[3]}');
 
   ///
   ///
   ///
-  static String format(String ncm) {
-    RegExp regExp = RegExp(r'^(\d{4})(\d{2})(\d{2})$');
-
-    return strip(ncm)
-        .replaceAllMapped(regExp, (Match m) => '${m[1]}.${m[2]}.${m[3]}');
-  }
-
-  ///
-  ///
-  ///
-  static String strip(String ncm) {
-    RegExp regex = RegExp(STRIP_REGEX);
-    ncm = ncm ?? '';
-
-    return ncm.replaceAll(regex, '');
-  }
-
-  ///
-  ///
-  ///
-  static bool isValid(String ncm, [bool stripBeforeValidation = true]) {
+  @override
+  bool isValid(String ncm, {bool stripBeforeValidation = true}) {
     if (stripBeforeValidation) {
       ncm = strip(ncm);
     }
@@ -42,4 +32,12 @@ class NcmValidator {
 
     return true;
   }
+
+  ///
+  ///
+  ///
+  @override
+  MaskTextInputFormatter get mask => MaskTextInputFormatter(
+        mask: '####.##.##',
+      );
 }

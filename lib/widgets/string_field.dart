@@ -29,11 +29,12 @@ class StringField extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
+  final bool filled;
 
   ///
   ///
   ///
-  const StringField({
+  StringField({
     Key key,
     this.prefix,
     this.label,
@@ -44,7 +45,7 @@ class StringField extends StatelessWidget {
     this.maxLines = 1,
     this.obscureText = false,
     this.inputFormatter,
-    this.textAlign = TextAlign.left,
+    this.textAlign = TextAlign.start,
     this.maxLength,
     this.onSaved,
     this.initialValue,
@@ -59,6 +60,7 @@ class StringField extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
+    this.filled = false,
   }) : super(key: key);
 
   ///
@@ -77,8 +79,9 @@ class StringField extends StatelessWidget {
           border: OutlineInputBorder(),
           counterText: '',
           enabled: enabled,
+          filled: filled,
         ),
-        validator: validator,
+        validator: enabled ? validator : (_) => null,
         minLines: minLines,
         maxLines: maxLines,
         obscureText: obscureText,
