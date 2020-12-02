@@ -10,6 +10,17 @@ class CpfCnpjValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  CpfCnpjValidator()
+      : super(
+          ChangeMask(
+            firstMask: '###.###.###-##',
+            secondMask: '##.###.###/####-##',
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String value) {
     String stripped = strip(value);
@@ -36,13 +47,4 @@ class CpfCnpjValidator extends AbstractValidator<String> {
         ? CNPJValidator.isValid(value, false)
         : CPFValidator.isValid(value, false);
   }
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => ChangeMask(
-        firstMask: '###.###.###-##',
-        secondMask: '##.###.###/####-##',
-      );
 }

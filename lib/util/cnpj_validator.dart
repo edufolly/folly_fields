@@ -9,6 +9,16 @@ class CnpjValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  CnpjValidator()
+      : super(
+          MaskTextInputFormatter(
+            mask: '##.###.###/####-##',
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String value) => CNPJValidator.format(value);
 
@@ -18,12 +28,4 @@ class CnpjValidator extends AbstractValidator<String> {
   @override
   bool isValid(String value, {bool stripBeforeValidation = true}) =>
       CNPJValidator.isValid(value, stripBeforeValidation);
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: '##.###.###/####-##',
-      );
 }

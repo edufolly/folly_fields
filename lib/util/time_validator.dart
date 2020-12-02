@@ -10,6 +10,21 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   ///
+  TimeValidator()
+      : super(
+          MaskTextInputFormatter(
+            mask: 'AB:CB',
+            filter: <String, RegExp>{
+              'A': RegExp(r'[0-2]'),
+              'B': RegExp(r'[0-9]'),
+              'C': RegExp(r'[0-5]'),
+            },
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(TimeOfDay time) =>
       time.hour.toString().padLeft(2, '0') +
@@ -28,19 +43,6 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   @override
   bool isValid(String value, {bool stripBeforeValidation = true}) =>
       valid(value) == null;
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: 'AB:CB',
-        filter: <String, RegExp>{
-          'A': RegExp(r'[0-2]'),
-          'B': RegExp(r'[0-9]'),
-          'C': RegExp(r'[0-5]'),
-        },
-      );
 
   ///
   ///

@@ -1,9 +1,17 @@
+import 'package:flutter/material.dart';
+
 import 'mask_text_input_formatter.dart';
 
 ///
 ///
 ///
 abstract class AbstractValidator<T> {
+  final MaskTextInputFormatter mask;
+
+  ///
+  ///
+  ///
+  AbstractValidator(this.mask);
 
   ///
   ///
@@ -23,7 +31,7 @@ abstract class AbstractValidator<T> {
   ///
   ///
   ///
-  MaskTextInputFormatter get mask;
+  TextInputType get keyboard => TextInputType.text;
 }
 
 ///

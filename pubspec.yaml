@@ -18,6 +18,10 @@ dependencies:
   font_awesome_flutter: 8.10.0
   # https://pub.dev/packages/intl
   intl: 0.16.1
+  # https://pub.dev/packages/http
+  http: 0.12.2
+  # https://pub.dev/packages/connectivity
+  connectivity: 2.0.2
   # https://pub.dev/packages/email_validator
   email_validator: 1.0.6
   # https://pub.dev/packages/cpf_cnpj_validator

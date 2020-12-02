@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,7 +12,6 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
   final AbstractUIBuilder<T> uiBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
-  final bool isWeb; // TODO - Pode ficar dentro do uiBuilder?
   final Future<bool> Function(BuildContext) beforeAdd;
   final Future<bool> Function(BuildContext, int, T) beforeEdit;
 
@@ -27,7 +27,6 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
-    this.isWeb = true,
     this.beforeAdd,
     this.beforeEdit,
   }) : super(
@@ -36,6 +35,7 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
+          // TODO - User o builder no lugar do estado.
           builder: (FormFieldState<List<T>> field) => null,
         );
 
@@ -47,7 +47,6 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
         uiBuilder,
         routeAddBuilder,
         routeEditBuilder,
-        isWeb,
         beforeAdd,
         beforeEdit,
       );
@@ -61,7 +60,6 @@ class _ListFormFieldState<T extends AbstractModel>
   final AbstractUIBuilder<T> uiBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
-  final bool isWeb;
   final Future<bool> Function(BuildContext) beforeAdd;
   final Future<bool> Function(BuildContext, int, T) beforeEdit;
 
@@ -72,7 +70,6 @@ class _ListFormFieldState<T extends AbstractModel>
     this.uiBuilder,
     this.routeAddBuilder,
     this.routeEditBuilder,
-    this.isWeb,
     this.beforeAdd,
     this.beforeEdit,
   );
@@ -94,66 +91,66 @@ class _ListFormFieldState<T extends AbstractModel>
     InputDecoration effectiveDecoration =
         inputDecoration.applyDefaults(Theme.of(context).inputDecorationTheme);
 
-    List<Widget> widgets = <Widget>[];
-
-    if (value.isEmpty) {
-      widgets.add(Container(
-        height: 75.0,
-        child: Center(
-          child: Text('Sem ${uiBuilder.getSuperPlural()} até o momento.'),
-        ),
-      ));
-    } else {
-      value.asMap().forEach((int index, T model) {
-        widgets.add(_getTile(context, index, model));
-      });
-    }
-
-    widgets.add(
-      Padding(
-        padding: const EdgeInsets.only(
-          left: 12.0,
-          top: 12.0,
-          right: 12.0,
-        ),
-        child: RaisedButton(
-          elevation: 0.0,
-          disabledElevation: 0.0,
-          highlightElevation: 0.0,
-          focusElevation: 0.0,
-          hoverElevation: 0.0,
-          color: Colors.grey,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FaIcon(
-                  FontAwesomeIcons.plus,
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-          onPressed: _add,
-        ),
-      ),
-    );
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InputDecorator(
         decoration: effectiveDecoration,
         child: Column(
-          children: widgets,
+          children: <Widget>[
+            if (value.isEmpty)
+              Container(
+                height: 75.0,
+                child: Center(
+                  child:
+                      Text('Sem ${uiBuilder.getSuperPlural()} até o momento.'),
+                ),
+              )
+            else
+              ...value
+                  .asMap()
+                  .entries
+                  .map((MapEntry<int, T> entry) =>
+                      _getTile(context, entry.key, entry.value))
+                  .toList(),
+
+            /// Botão Adicionar
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 12.0,
+                top: 12.0,
+                right: 12.0,
+              ),
+              child: RaisedButton(
+                elevation: 0.0,
+                disabledElevation: 0.0,
+                highlightElevation: 0.0,
+                focusElevation: 0.0,
+                hoverElevation: 0.0,
+                color: Colors.grey,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FaIcon(
+                        FontAwesomeIcons.plus,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
+                onPressed: _add,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -164,11 +161,12 @@ class _ListFormFieldState<T extends AbstractModel>
   ///
   Widget _getTile(BuildContext context, int index, T model) {
     int id = model.id;
-    return isWeb
+    return FollyFields().isWeb
         ? _internalTile(context, index, model)
         : Dismissible(
             // FIXME - Possui acentuação e espaços.
-            key: Key('key_${uiBuilder.getSuperSingle()}_$id'),
+            // TODO - Testar.
+            key: Key('key_${index}_$id'),
             direction: DismissDirection.endToStart,
             background: Container(
               color: Colors.red,
@@ -200,7 +198,7 @@ class _ListFormFieldState<T extends AbstractModel>
       title: uiBuilder.getTitle(model),
       subtitle: uiBuilder.getSubtitle(model),
       trailing: Visibility(
-        visible: isWeb,
+        visible: FollyFields().isWeb,
         child: IconButton(
           icon: Icon(FontAwesomeIcons.trashAlt),
           onPressed: () => _delete(model, ask: true),
@@ -261,8 +259,9 @@ class _ListFormFieldState<T extends AbstractModel>
         }
       } else {
         if ((selected as AbstractModel).id == null ||
-            !value.any(
-                (T element) => element.id == (selected as AbstractModel).id)) {
+            !value.any((T element) {
+              return element.id == (selected as AbstractModel).id;
+            })) {
           value.add(selected);
         }
       }

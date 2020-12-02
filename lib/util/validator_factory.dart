@@ -5,6 +5,7 @@ import 'package:folly_fields/util/cpf_cnpj_validator.dart';
 import 'package:folly_fields/util/cpf_validator.dart';
 import 'package:folly_fields/util/date_validator.dart';
 import 'package:folly_fields/util/email_validator.dart';
+import 'package:folly_fields/util/empty_validator.dart';
 import 'package:folly_fields/util/mac_address_validator.dart';
 import 'package:folly_fields/util/ncm_validator.dart';
 import 'package:folly_fields/util/phone_validator.dart';
@@ -39,7 +40,8 @@ class ValidatorFactory {
         return MacAddressValidator();
       case 'ncm':
         return NcmValidator();
+      default:
+        return EmptyValidator();
     }
-    return null;
   }
 }

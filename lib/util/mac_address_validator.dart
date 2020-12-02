@@ -8,6 +8,19 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  MacAddressValidator()
+      : super(
+          MaskTextInputFormatter(
+            mask: '##:##:##:##:##:##',
+            filter: <String, RegExp>{
+              '#': RegExp(r'[a-fA-F0-9]'),
+            },
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String macAddress) => strip(macAddress).replaceAllMapped(
         RegExp(r'^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
@@ -40,15 +53,4 @@ class MacAddressValidator extends AbstractValidator<String> {
 
     return true;
   }
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: '##:##:##:##:##:##',
-        filter: <String, RegExp>{
-          '#': RegExp(r'[a-fA-F0-9]'),
-        },
-      );
 }

@@ -6,6 +6,9 @@ import 'package:folly_fields/widgets/validator_field.dart';
 ///
 ///
 class EmailField extends ValidatorField {
+  ///
+  ///
+  ///
   EmailField({
     Key key,
     String validatorMessage = 'Informe o e-mail.',
@@ -32,7 +35,6 @@ class EmailField extends ValidatorField {
           prefix: prefix,
           label: label,
           controller: controller,
-          keyboard: TextInputType.emailAddress,
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: onSaved,

@@ -8,6 +8,17 @@ class PhoneValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  PhoneValidator()
+      : super(
+          ChangeMask(
+            firstMask: '(##) ####-####',
+            secondMask: '(##) #####-####',
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
         RegExp(r'^(\d{2})(\d{4,5})(\d{4})$'),
@@ -45,13 +56,4 @@ class PhoneValidator extends AbstractValidator<String> {
 
     return true;
   }
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => ChangeMask(
-        firstMask: '(##) ####-####',
-        secondMask: '(##) #####-####',
-      );
 }

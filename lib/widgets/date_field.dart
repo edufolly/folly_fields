@@ -32,7 +32,7 @@ class DateField extends FormField<DateTime> {
     bool enableInteractiveSelection = true,
     DateTime firstDate,
     DateTime lastDate,
-    bool filled = true,
+    bool filled = false,
   }) : super(
           key: key,
           initialValue: controller != null

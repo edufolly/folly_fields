@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:folly_fields/widgets/my_divider.dart';
@@ -34,9 +35,6 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
   final int itemsPerPage;
   final int qtdSuggestions;
   final List<List<String>> actionRoutes;
-  final bool debug;
-  final bool isWeb;
-  final bool isMobile;
 
   ///
   ///
@@ -62,9 +60,6 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
     this.actionRoutes = const <List<String>>[],
-    this.debug = false,
-    this.isWeb = false,
-    this.isMobile = true,
   }) : super(key: key);
 
   ///
@@ -188,7 +183,7 @@ class _AbstractListState<T extends AbstractModel>
       _streamController.add(true);
       _loading = false;
     } catch (exception, stack) {
-      if (widget.debug) {
+      if (FollyFields().isDebug) {
         print(exception);
         print(stack);
       }
@@ -272,32 +267,35 @@ class _AbstractListState<T extends AbstractModel>
           }
 
           /// Botão Pesquisar
-          // TODO - if (Config().isOnline) {
-          _actions.add(
-            IconButton(
-              tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch<T>(
-                  context: context,
-                  delegate: InternalSearch<T>(
-                    abstractListModel: widget,
-                    buildResultItem: _buildResultItem,
-                    canDelete: (T model) =>
-                        _delete && widget.isWeb && widget.canDelete(model),
-                    qsParam: widget.qsParam,
-                  ),
-                ).then((T entity) {
-                  if (entity != null) {
-                    _internalRoute(
-                      entity,
-                      !selections.containsKey(entity.id),
-                    );
-                  }
-                });
-              },
-            ),
-          );
+          if (FollyFields().isOnline) {
+            _actions.add(
+              IconButton(
+                tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch<T>(
+                    context: context,
+                    delegate: InternalSearch<T>(
+                      abstractListModel: widget,
+                      buildResultItem: _buildResultItem,
+                      canDelete: (T model) =>
+                          _delete &&
+                          FollyFields().isWeb &&
+                          widget.canDelete(model),
+                      qsParam: widget.qsParam,
+                    ),
+                  ).then((T entity) {
+                    if (entity != null) {
+                      _internalRoute(
+                        entity,
+                        !selections.containsKey(entity.id),
+                      );
+                    }
+                  });
+                },
+              ),
+            );
+          }
 
           /// Botão Confirmar Seleção
           if (widget.selection) {
@@ -347,7 +345,7 @@ class _AbstractListState<T extends AbstractModel>
 
             /// Botão Adicionar
             if (_insert) {
-              if (widget.isWeb) {
+              if (FollyFields().isWeb) {
                 _actions.add(
                   IconButton(
                     tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
@@ -402,7 +400,7 @@ class _AbstractListState<T extends AbstractModel>
                           T model = _globalItems[index];
 
                           if (_delete &&
-                              widget.isMobile &&
+                              FollyFields().isMobile &&
                               widget.canDelete(model)) {
                             return Dismissible(
                               key: Key('key_${model.id}'),
@@ -432,7 +430,7 @@ class _AbstractListState<T extends AbstractModel>
                               model: model,
                               selection: selections.containsKey(model.id),
                               canDelete: _delete &&
-                                  widget.isWeb &&
+                                  FollyFields().isWeb &&
                                   widget.canDelete(model),
                               onTap: null,
                             );

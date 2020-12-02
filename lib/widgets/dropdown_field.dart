@@ -22,7 +22,7 @@ class DropdownField<T> extends StatelessWidget {
     this.label,
     @required this.initialValue,
     @required this.items,
-    this.onChanged,
+    @required this.onChanged,
     this.validator,
     this.onSaved,
     this.enabled = true,

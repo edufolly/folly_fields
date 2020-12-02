@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 ///
 ///
 ///
@@ -39,7 +38,8 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
             }
 
             if (remap && !field.hasError) {
-              (field as ModelFormFieldState<T>).internalSetValue(model);
+              field.didChange(model);
+              // (field as ModelFormFieldState<T>).internalSetValue(model);
             }
 
             if (label == null) {
@@ -153,21 +153,21 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
           },
         );
 
-  ///
-  ///
-  ///
-  @override
-  FormFieldState<T> createState() => ModelFormFieldState<T>();
+// ///
+// ///
+// ///
+// @override
+// FormFieldState<T> createState() => ModelFormFieldState<T>();
 }
 
-///
-///
-///
-class ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
-  ///
-  ///
-  ///
-  void internalSetValue(T value) {
-    super.setValue(value);
-  }
-}
+// ///
+// ///
+// ///
+// class ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
+//   ///
+//   ///
+//   ///
+//   void internalSetValue(T value) {
+//     super.setValue(value);
+//   }
+// }

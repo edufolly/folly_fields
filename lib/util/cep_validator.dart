@@ -8,6 +8,16 @@ class CepValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  CepValidator()
+      : super(
+          MaskTextInputFormatter(
+            mask: '##.###-###',
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
         r'^(\d{2})(\d{3})(\d{3})$',
@@ -33,12 +43,4 @@ class CepValidator extends AbstractValidator<String> {
 
     return true;
   }
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: '##.###-###',
-      );
 }

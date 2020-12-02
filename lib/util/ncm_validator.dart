@@ -8,6 +8,16 @@ class NcmValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  NcmValidator()
+      : super(
+          MaskTextInputFormatter(
+            mask: '####.##.##',
+          ),
+        );
+
+  ///
+  ///
+  ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
       RegExp(r'^(\d{4})(\d{2})(\d{2})$'),
@@ -32,12 +42,4 @@ class NcmValidator extends AbstractValidator<String> {
 
     return true;
   }
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: '####.##.##',
-      );
 }

@@ -16,7 +16,13 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   ///
   ///
-  DateValidator({this.locale = 'pt_br'});
+  DateValidator({
+    this.locale = 'pt_br',
+  }) : super(
+          MaskTextInputFormatter(
+            mask: '##/##/####',
+          ),
+        );
 
   ///
   ///
@@ -36,14 +42,6 @@ class DateValidator extends AbstractValidator<DateTime>
   @override
   bool isValid(String value, {bool stripBeforeValidation = true}) =>
       valid(value) == null;
-
-  ///
-  ///
-  ///
-  @override
-  MaskTextInputFormatter get mask => MaskTextInputFormatter(
-        mask: '##/##/####',
-      );
 
   ///
   ///
