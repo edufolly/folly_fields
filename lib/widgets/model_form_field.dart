@@ -21,7 +21,6 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
     Future<bool> Function(T model) acceptChange,
     bool enabled = true,
     Function(T model) tapToVisualize,
-    bool remap = false, // TODO - Realmente é necessário?
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
   }) : super(
           key: key,
@@ -37,10 +36,10 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
               label = '$prefix - $label';
             }
 
-            if (remap && !field.hasError) {
-              field.didChange(model);
-              // (field as ModelFormFieldState<T>).internalSetValue(model);
-            }
+            // if (remap && !field.hasError) {
+            //   field.didChange(model);
+            //   // (field as ModelFormFieldState<T>).internalSetValue(model);
+            // }
 
             if (label == null) {
               inputDecoration = InputDecoration(

@@ -54,7 +54,7 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
     @required bool edit,
     @required Map<String, dynamic> stateInjection,
     @required String prefix,
-    @required bool remap,
+    // @required bool remap,
   });
 
   ///
@@ -68,7 +68,7 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
       edit: edit,
       stateInjection: <String, dynamic>{},
       prefix: uiBuilder.prefix,
-      remap: true,
+      // remap: true,
     );
   }
 
@@ -132,6 +132,7 @@ class _AbstractEditState<T extends AbstractModel>
   ///
   @override
   Widget build(BuildContext context) {
+    print('Abstract Edit Build');
     return WillPopScope(
       onWillPop: () async {
         if (!widget.edit) return true;
@@ -193,7 +194,6 @@ class _AbstractEditState<T extends AbstractModel>
                         edit: widget.edit,
                         stateInjection: _stateInjection,
                         prefix: widget.uiBuilder.prefix,
-                        remap: snapshot.data,
                       ),
                     ),
                   );

@@ -2,34 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/widgets/my_divider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-/// TODO - Testar com Stateless widget ao invés de FormField.
 /// TODO - Testar com DataTable.
+/// TODO - Tirar o array de objetos do builder.
 class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
-  final AbstractUIBuilder<T> uiBuilder;
-  final AbstractConsumer<T> consumer;
-  final List<String> columns;
-  final List<int> columnsFlex;
-  final List<Widget> Function(T row, int index, List<T> data) buildRow;
-  final Future<bool> Function(BuildContext context) beforeAdd;
-  final void Function(T row, int index, List<T> data) removeRow;
-
   ///
   ///
   ///
   TableFormField({
     Key key,
     @required List<T> list,
-    @required this.uiBuilder,
-    @required this.consumer,
-    @required this.columns,
-    this.columnsFlex,
-    @required this.buildRow,
-    this.beforeAdd,
-    this.removeRow,
+    @required AbstractUIBuilder<T> uiBuilder,
+    @required AbstractConsumer<T> consumer,
+    @required List<String> columns,
+    List<int> columnsFlex = const <int>[],
+    @required List<Widget> Function(T row, int index, List<T> data) buildRow,
+    Future<bool> Function(BuildContext context) beforeAdd,
+    void Function(T row, int index, List<T> data) removeRow,
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
@@ -42,7 +35,7 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
           enabled: enabled,
           builder: (FormFieldState<List<T>> field) {
             final TextStyle columnTheme =
-                Theme.of(field.context).textTheme.subtitle1;
+                Theme.of(field.context).textTheme.subtitle2;
 
             InputDecoration inputDecoration = InputDecoration(
               labelText: uiBuilder.getSuperPlural(),
@@ -54,180 +47,240 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
             InputDecoration effectiveDecoration = inputDecoration
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            List<Widget> internal = <Widget>[];
-
-            if (field.value.isEmpty) {
-              /// Tabela vazia.
-              internal.add(Container(
-                height: 75.0,
-                child: Center(
-                  child:
-                      Text('Sem ${uiBuilder.getSuperPlural()} até o momento.'),
-                ),
-              ));
-            } else {
-              /// Conteúdo da tabela.
-              List<Widget> tableBody = <Widget>[];
-
-              /// Cabeçalho
-              List<Widget> header = <Widget>[];
-
-              /// Nome das Colunas
-              for (int x = 0; x < columns.length; x++) {
-                header.add(
-                  Flexible(
-                    flex: columnsFlex != null ? columnsFlex[x] : 1,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text(columns[x], style: columnTheme),
-                      ),
-                    ),
-                  ),
-                );
-              }
-
-              /// Coluna vazia para o botão excluir.
-              header.add(
-                Flexible(
-                  flex: 0,
-                  child: IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.trashAlt,
-                      color: Colors.transparent,
-                    ),
-                    onPressed: null,
-                  ),
-                ),
-              );
-
-              /// Adicionando cabeçalho na tabela.
-              tableBody.add(
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: header,
-                ),
-              );
-
-              /// Dados da tabela
-              for (int i = 0; i < field.value.length; i++) {
-                /// Divisor
-                tableBody.add(Divider());
-
-                /// Células
-                List<Widget> tableRow = <Widget>[];
-
-                List<Widget> cells = buildRow(field.value[i], i, field.value);
-
-                for (int j = 0; j < cells.length; j++) {
-                  tableRow.add(
-                    Flexible(
-                      flex: columnsFlex != null ? columnsFlex[j] : 1,
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: cells[j],
-                      ),
-                    ),
-                  );
-                }
-
-                /// Botão de excluir linha
-                tableRow.add(
-                  Flexible(
-                    flex: 0,
-                    child: IconButton(
-                      icon: FaIcon(
-                        FontAwesomeIcons.trashAlt,
-                        color: Colors.black54,
-                      ),
-                      onPressed: () {
-                        if (removeRow != null) {
-                          removeRow(field.value[i], i, field.value);
-                        }
-                        field.value.removeAt(i);
-                        field.didChange(field.value);
-                      },
-                    ),
-                  ),
-                );
-
-                tableBody.add(
-                  Row(
-                    children: tableRow,
-                  ),
-                );
-              }
-
-              /// Tabela
-              internal.add(
-                Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: tableBody,
-                  ),
-                ),
-              );
-            }
-
-            /// Botão Adicionar
-            internal.add(
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 12.0,
-                  top: 12.0,
-                  right: 12.0,
-                ),
-                child: RaisedButton(
-                  elevation: 0.0,
-                  disabledElevation: 0.0,
-                  highlightElevation: 0.0,
-                  focusElevation: 0.0,
-                  hoverElevation: 0.0,
-                  color: Colors.grey,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: FaIcon(
-                          FontAwesomeIcons.plus,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Text(
-                        'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
-                        style: Theme.of(field.context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  onPressed: () async {
-                    if (beforeAdd != null) {
-                      bool go = await beforeAdd(field.context);
-                      if (!go) return;
-                    }
-
-                    field.value.add(consumer.modelInstance);
-                    field.didChange(field.value);
-                  },
-                ),
-              ),
-            );
-
-            /// Widget final
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: InputDecorator(
                 decoration: effectiveDecoration,
                 child: Column(
-                  children: internal,
+                  children: <Widget>[
+                    if (field.value.isEmpty)
+
+                      /// Tabela vazia
+                      Container(
+                        height: 75.0,
+                        child: Center(
+                          child: Text(
+                            'Sem ${uiBuilder.getSuperPlural()} até o momento.',
+                          ),
+                        ),
+                      )
+                    else
+
+                      /// Tabela
+                      Container(
+                        width: double.infinity,
+                        child: Column(
+                          children: <Widget>[
+                            /// Cabeçalho
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                /// Nome das colunas
+                                ...columns
+                                    .asMap()
+                                    .entries
+                                    .map<Widget>(
+                                      (MapEntry<int, String> entry) =>
+                                          HeaderCell(
+                                        flex: columnsFlex[entry.key],
+                                        child: Text(
+                                          entry.value,
+                                          style: columnTheme,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+
+                                /// Coluna vazia para o botão excluir
+                                DeleteButton(
+                                  onPressed: null,
+                                  color: Colors.transparent,
+                                  top: 0.0,
+                                ),
+                              ],
+                            ),
+
+                            /// Dados da tabela
+                            ...field.value.asMap().entries.map<Widget>(
+                                  (MapEntry<int, T> entry) => Column(
+                                    children: <Widget>[
+                                      /// Divisor
+                                      MyDivider(
+                                        color: Colors.black12,
+                                      ),
+
+                                      /// Linha
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          /// Células
+                                          ...buildRow(
+                                            entry.value,
+                                            entry.key,
+                                            field.value,
+                                          )
+                                              .asMap()
+                                              .entries
+                                              .map<Widget>(
+                                                (MapEntry<int, Widget> entry) =>
+                                                    Flexible(
+                                                  flex:
+                                                      columnsFlex[entry.key] ??
+                                                          1,
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: entry.value,
+                                                  ),
+                                                ),
+                                              )
+                                              .toList(),
+
+                                          /// Botão de excluir linha
+                                          DeleteButton(
+                                            onPressed: () {
+                                              if (removeRow != null) {
+                                                removeRow(
+                                                  entry.value,
+                                                  entry.key,
+                                                  field.value,
+                                                );
+                                              }
+                                              field.value.removeAt(entry.key);
+                                              field.didChange(field.value);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          ],
+                        ),
+                      ),
+
+                    /// Divisor
+                    MyDivider(
+                      color: Colors.black12,
+                    ),
+
+                    /// Botão Adicionar
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
+                      child: FlatButton(
+                        color: Colors.grey,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FaIcon(
+                                FontAwesomeIcons.plus,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              'Adicionar ${uiBuilder.getSuperSingle()}'
+                                  .toUpperCase(),
+                              style: Theme.of(field.context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        onPressed: () async {
+                          if (beforeAdd != null) {
+                            bool go = await beforeAdd(field.context);
+                            if (!go) return;
+                          }
+
+                          field.value.add(consumer.modelInstance);
+                          field.didChange(field.value);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
           },
         );
+}
+
+///
+///
+///
+class DeleteButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final Color color;
+  final double top;
+
+  ///
+  ///
+  ///
+  const DeleteButton({
+    Key key,
+    @required this.onPressed,
+    this.color = Colors.black54,
+    this.top = 12.0,
+  }) : super(key: key);
+
+  ///
+  ///
+  ///
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: 0,
+      child: IconButton(
+        padding: EdgeInsets.only(
+          top: top,
+        ),
+        icon: FaIcon(
+          FontAwesomeIcons.trashAlt,
+          color: color,
+        ),
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+///
+///
+///
+class HeaderCell extends StatelessWidget {
+  final int flex;
+  final Widget child;
+
+  ///
+  ///
+  ///
+  const HeaderCell({
+    Key key,
+    this.flex = 1,
+    @required this.child,
+  }) : super(key: key);
+
+  ///
+  ///
+  ///
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: flex ?? 1,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: child,
+        ),
+      ),
+    );
+  }
 }
