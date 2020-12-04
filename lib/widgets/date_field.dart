@@ -35,6 +35,7 @@ class DateField extends FormField<DateTime> {
     bool filled = false,
   }) : super(
           key: key,
+          // TODO - Tirar o DateTime.now()
           initialValue: controller != null
               ? controller.date
               : (initialValue ?? DateTime.now()),
@@ -130,6 +131,12 @@ class _DateFieldState extends FormFieldState<DateTime> {
   ///
   ///
   ///
+  @override
+  DateField get widget => super.widget as DateField;
+
+  ///
+  ///
+  ///
   DateEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
@@ -137,12 +144,6 @@ class _DateFieldState extends FormFieldState<DateTime> {
   ///
   ///
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
-
-  ///
-  ///
-  ///
-  @override
-  DateField get widget => super.widget as DateField;
 
   ///
   ///

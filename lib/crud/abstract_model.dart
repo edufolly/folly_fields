@@ -46,21 +46,21 @@ abstract class AbstractModel {
   ///
   ///
   int _hashIterable(Iterable<dynamic> iterable) => _finish(
-    iterable.fold(
-      0,
+        iterable.fold(
+          0,
           (int h, dynamic i) {
-        int hash;
-        if (i is List) {
-          hash = _hashIterable(i);
-        } else if (i is Map) {
-          hash = _hashIterable(i.values);
-        } else {
-          hash = i.hashCode;
-        }
-        return _combine(h, hash);
-      },
-    ),
-  );
+            int hash;
+            if (i is List) {
+              hash = _hashIterable(i);
+            } else if (i is Map) {
+              hash = _hashIterable(i.values);
+            } else {
+              hash = i.hashCode;
+            }
+            return _combine(h, hash);
+          },
+        ),
+      );
 
   ///
   ///
@@ -84,7 +84,7 @@ abstract class AbstractModel {
   ///
   ///
   @override
-  bool operator ==(dynamic other) => id == other.id;
+  bool operator ==(dynamic other) => id ?? -1 == other.id ?? -2;
 
   ///
   ///

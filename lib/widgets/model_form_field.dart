@@ -6,144 +6,112 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class ModelFormField<T extends AbstractModel> extends FormField<T> {
+  final ModelEditingController<T> controller;
+
   ///
   ///
   ///
   ModelFormField({
     Key key,
-    @required T model,
-    @required Widget Function(BuildContext) routeBuilder,
     String prefix,
     String label,
-    Future<bool> Function(BuildContext, T) beforeRoute,
-    FormFieldSetter<T> onSaved,
+    this.controller,
     FormFieldValidator<T> validator,
-    Future<bool> Function(T model) acceptChange,
+    TextAlign textAlign = TextAlign.start,
+    FormFieldSetter<T> onSaved,
+    T initialValue,
     bool enabled = true,
-    Function(T model) tapToVisualize,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    // TODO - onChanged
+    TextInputAction textInputAction,
+    ValueChanged<String> onFieldSubmitted,
+    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    bool enableInteractiveSelection = true,
+    bool filled = false,
+    Widget Function(BuildContext) routeBuilder,
+    Future<bool> Function(BuildContext, T) beforeRoute,
+    Future<bool> Function(T model) acceptChange,
+    Function(T model) tapToVisualize,
   }) : super(
           key: key,
-          initialValue: model,
+          initialValue: controller != null ? controller.model : initialValue,
           onSaved: onSaved,
-          validator: validator,
+          validator: enabled ? validator : (_) => null,
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T> field) {
-            InputDecoration inputDecoration;
+            final _ModelFormFieldState<T> state =
+                field as _ModelFormFieldState<T>;
 
-            if (prefix != null && prefix.isNotEmpty && label != null) {
-              label = '$prefix - $label';
-            }
-
-            // if (remap && !field.hasError) {
-            //   field.didChange(model);
-            //   // (field as ModelFormFieldState<T>).internalSetValue(model);
-            // }
-
-            if (label == null) {
-              inputDecoration = InputDecoration(
-                border: OutlineInputBorder(),
-                counterText: '',
-                errorText: field.errorText,
-              );
-            } else {
-              inputDecoration = InputDecoration(
-                labelText: field.value == null ? null : label,
-                hintText: label,
-                border: OutlineInputBorder(),
-                counterText: '',
-                errorText: field.errorText,
-              );
-            }
-
-            final InputDecoration effectiveDecoration = inputDecoration
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
-            final TextStyle disabledStyle = Theme.of(field.context)
-                .textTheme
-                .subtitle1
-                .copyWith(color: Colors.black54);
+            final InputDecoration effectiveDecoration = InputDecoration(
+              border: OutlineInputBorder(),
+              filled: filled,
+              labelText: prefix == null || prefix.isEmpty
+                  ? label
+                  : '${prefix} - ${label}',
+              suffixIcon: enabled && routeBuilder != null
+                  ? FaIcon(FontAwesomeIcons.search)
+                  : tapToVisualize != null
+                      ? FaIcon(FontAwesomeIcons.chevronRight)
+                      : null,
+            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 10.0,
-              ),
-              child: GestureDetector(
-                child: InputDecorator(
-                  decoration: effectiveDecoration,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: field.value == null
-                            ? Text(
-                                label ?? '',
-                                style: disabledStyle,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            : Text(
-                                field.value.toString(),
-                                overflow: TextOverflow.ellipsis,
-                                style: enabled
-                                    ? Theme.of(field.context)
-                                        .textTheme
-                                        .subtitle1
-                                    : disabledStyle,
-                              ),
-                      ),
-                      enabled
-                          ? Flexible(
-                              flex: 0,
-                              child: FaIcon(
-                                FontAwesomeIcons.search,
-                                color: Colors.black45,
-                              ),
-                            )
-                          : tapToVisualize != null
-                              ? Flexible(
-                                  flex: 0,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                    color: Colors.black45,
-                                  ),
-                                )
-                              : Container(),
-                    ],
-                  ),
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: state._effectiveController,
+                decoration: effectiveDecoration.copyWith(
+                  errorText: enabled ? field.errorText : null,
                 ),
-                onTap: enabled
+                keyboardType: TextInputType.datetime,
+                minLines: 1,
+                maxLines: 1,
+                obscureText: false,
+                textAlign: textAlign,
+                enabled: enabled,
+                textInputAction: textInputAction,
+                onSubmitted: onFieldSubmitted,
+                autocorrect: false,
+                enableSuggestions: false,
+                textCapitalization: TextCapitalization.none,
+                scrollPadding: scrollPadding,
+                enableInteractiveSelection: enableInteractiveSelection,
+                style: enabled ? null : TextStyle(color: Colors.black26),
+                readOnly: true,
+                onTap: enabled && routeBuilder != null
                     ? () async {
-                        if (beforeRoute != null) {
-                          bool go = await beforeRoute(
-                            field.context,
-                            field.value,
+                        try {
+                          if (beforeRoute != null) {
+                            bool go = await beforeRoute(
+                              state.context,
+                              state.value,
+                            );
+                            if (!go) return;
+                          }
+
+                          T selected = await Navigator.of(state.context).push(
+                            MaterialPageRoute<T>(
+                              builder: routeBuilder,
+                            ),
                           );
-                          if (!go) return;
+
+                          bool accept = true;
+
+                          if (acceptChange != null) {
+                            accept = await acceptChange(selected);
+                          }
+
+                          if (accept) state.didChange(selected);
+                        } catch (e, s) {
+                          print(e);
+                          print(s);
                         }
-
-                        T selected = await Navigator.of(field.context).push(
-                          MaterialPageRoute<T>(
-                            builder: routeBuilder,
-                          ),
-                        );
-
-                        bool accept = true;
-
-                        if (acceptChange != null) {
-                          accept = await acceptChange(selected);
-                        }
-
-                        if (accept) field.didChange(selected);
                       }
-                    : tapToVisualize != null && field.value != null
-                        ? () => Navigator.of(field.context).push(
+                    : tapToVisualize != null && state.value != null
+                        ? () => Navigator.of(state.context).push(
                               MaterialPageRoute<dynamic>(
                                 builder: (BuildContext context) =>
-                                    tapToVisualize(field.value),
+                                    tapToVisualize(state.value),
                               ),
                             )
                         : null,
@@ -152,21 +120,141 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
           },
         );
 
-// ///
-// ///
-// ///
-// @override
-// FormFieldState<T> createState() => ModelFormFieldState<T>();
+  ///
+  ///
+  ///
+  @override
+  _ModelFormFieldState<T> createState() => _ModelFormFieldState<T>();
 }
 
-// ///
-// ///
-// ///
-// class ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
-//   ///
-//   ///
-//   ///
-//   void internalSetValue(T value) {
-//     super.setValue(value);
-//   }
-// }
+///
+///
+///
+class _ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
+  ModelEditingController<T> _controller;
+
+  ///
+  ///
+  ///
+  @override
+  ModelFormField<T> get widget => super.widget as ModelFormField<T>;
+
+  ///
+  ///
+  ///
+  ModelEditingController<T> get _effectiveController =>
+      widget.controller ?? _controller;
+
+  ///
+  ///
+  ///
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller == null) {
+      _controller = ModelEditingController<T>(model: widget.initialValue);
+    } else {
+      widget.controller.addListener(_handleControllerChanged);
+    }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void didUpdateWidget(ModelFormField<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_handleControllerChanged);
+
+      widget.controller?.addListener(_handleControllerChanged);
+
+      if (oldWidget.controller != null && widget.controller == null) {
+        _controller = ModelEditingController<T>(
+          model: oldWidget.controller.model,
+        );
+      }
+
+      if (widget.controller != null) {
+        setValue(widget.controller.model);
+
+        if (oldWidget.controller == null) {
+          _controller = null;
+        }
+      }
+    }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    super.dispose();
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void didChange(T value) {
+    super.didChange(value);
+    if (_effectiveController.model != value) {
+      _effectiveController.model = value;
+    }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void reset() {
+    super.reset();
+    setState(() => _effectiveController.model = widget.initialValue);
+  }
+
+  ///
+  ///
+  ///
+  void _handleControllerChanged() {
+    if (_effectiveController.model != value) {
+      didChange(_effectiveController.model);
+    }
+  }
+}
+
+///
+///
+///
+class ModelEditingController<T extends AbstractModel>
+    extends TextEditingController {
+  T _model;
+
+  ///
+  ///
+  ///
+  ModelEditingController({T model})
+      : _model = model,
+        super(text: model.toString());
+
+  ///
+  ///
+  ///
+  T get model => _model;
+
+  ///
+  ///
+  ///
+  set model(T model) {
+    value = TextEditingValue(
+      text: model.toString(),
+    );
+    _model = model;
+  }
+
+  ///
+  ///
+  ///
+  String get Text => _model.toString();
+}

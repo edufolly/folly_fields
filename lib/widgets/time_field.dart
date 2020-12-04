@@ -132,6 +132,12 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   ///
+  @override
+  TimeField get widget => super.widget as TimeField;
+
+  ///
+  ///
+  ///
   TimeEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
@@ -139,12 +145,6 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
-
-  ///
-  ///
-  ///
-  @override
-  TimeField get widget => super.widget as TimeField;
 
   ///
   ///

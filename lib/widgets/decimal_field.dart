@@ -96,6 +96,12 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   ///
+  @override
+  DecimalFormField get widget => super.widget as DecimalFormField;
+
+  ///
+  ///
+  ///
   DecimalEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
@@ -103,12 +109,6 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
-
-  ///
-  ///
-  ///
-  @override
-  DecimalFormField get widget => super.widget as DecimalFormField;
 
   ///
   ///

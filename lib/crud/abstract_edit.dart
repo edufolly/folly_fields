@@ -132,7 +132,6 @@ class _AbstractEditState<T extends AbstractModel>
   ///
   @override
   Widget build(BuildContext context) {
-    print('Abstract Edit Build');
     return WillPopScope(
       onWillPop: () async {
         if (!widget.edit) return true;

@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 /// TODO - Testar com DataTable.
-/// TODO - Tirar o array de objetos do builder.
 class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
   ///
   ///
@@ -166,41 +165,24 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
                     ),
 
                     /// Botão Adicionar
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
-                      child: FlatButton(
-                        color: Colors.grey,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: FaIcon(
-                                FontAwesomeIcons.plus,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              'Adicionar ${uiBuilder.getSuperSingle()}'
-                                  .toUpperCase(),
-                              style: Theme.of(field.context)
-                                  .textTheme
-                                  .subtitle1
-                                  .copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                        onPressed: () async {
-                          if (beforeAdd != null) {
-                            bool go = await beforeAdd(field.context);
-                            if (!go) return;
-                          }
 
-                          field.value.add(consumer.modelInstance);
-                          field.didChange(field.value);
-                        },
+                    AddButton(
+                      text: Text(
+                        'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
+                        style: Theme.of(field.context)
+                            .textTheme
+                            .subtitle1
+                            .copyWith(color: Colors.white),
                       ),
+                      onPressed: () async {
+                        if (beforeAdd != null) {
+                          bool go = await beforeAdd(field.context);
+                          if (!go) return;
+                        }
+
+                        field.value.add(consumer.modelInstance);
+                        field.didChange(field.value);
+                      },
                     ),
                   ],
                 ),
@@ -208,6 +190,50 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
             );
           },
         );
+}
+
+///
+///
+///
+class AddButton extends StatelessWidget {
+  final Text text;
+  final VoidCallback onPressed;
+
+  ///
+  ///
+  ///
+  const AddButton({
+    Key key,
+    this.text,
+    this.onPressed,
+  }) : super(key: key);
+
+  ///
+  ///
+  ///
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
+      child: FlatButton(
+        color: Colors.grey,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FaIcon(
+                FontAwesomeIcons.plus,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        onPressed: onPressed,
+      ),
+    );
+  }
 }
 
 ///
