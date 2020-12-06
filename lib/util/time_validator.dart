@@ -48,6 +48,12 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
+  TextInputType get keyboard => TextInputType.datetime;
+
+  ///
+  ///
+  ///
+  @override
   TimeOfDay parse(String value) {
     if (isValid(value)) {
       List<String> parts = value.split(':');

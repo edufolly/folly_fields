@@ -5,14 +5,14 @@ import 'package:folly_fields/util/decimal.dart';
 ///
 ///
 ///
-class DecimalFormField extends FormField<Decimal> {
+class DecimalField extends FormField<Decimal> {
   final DecimalEditingController controller;
   final FocusNode focusNode;
 
   ///
   ///
   ///
-  DecimalFormField({
+  DecimalField({
     Key key,
     String prefix,
     String label,
@@ -97,7 +97,7 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   @override
-  DecimalFormField get widget => super.widget as DecimalFormField;
+  DecimalField get widget => super.widget as DecimalField;
 
   ///
   ///
@@ -134,7 +134,7 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   @override
-  void didUpdateWidget(DecimalFormField oldWidget) {
+  void didUpdateWidget(DecimalField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);

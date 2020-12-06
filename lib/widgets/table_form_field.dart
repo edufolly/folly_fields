@@ -14,7 +14,7 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
   ///
   TableFormField({
     Key key,
-    @required List<T> list,
+    @required List<T> initialValue,
     @required AbstractUIBuilder<T> uiBuilder,
     @required AbstractConsumer<T> consumer,
     @required List<String> columns,
@@ -25,13 +25,15 @@ class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
+    AutovalidateMode autoValidateMode,
   })  : assert(columnsFlex == null || columnsFlex.length == columns.length),
         super(
           key: key,
-          initialValue: list,
+          initialValue: initialValue ?? <T>[],
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
+          autovalidateMode: autoValidateMode ?? AutovalidateMode.disabled,
           builder: (FormFieldState<List<T>> field) {
             final TextStyle columnTheme =
                 Theme.of(field.context).textTheme.subtitle2;

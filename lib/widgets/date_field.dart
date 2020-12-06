@@ -5,7 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-///
+/// TODO - Usar date_validator.
+/// TODO - Implementar a validação padrão.
 class DateField extends FormField<DateTime> {
   final DateEditingController controller;
   final FocusNode focusNode;

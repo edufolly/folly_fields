@@ -5,7 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-///
+/// TODO - Usar time_validator
+/// TODO - Implementar a validação padrão.
 class TimeField extends FormField<TimeOfDay> {
   final TimeEditingController controller;
   final FocusNode focusNode;

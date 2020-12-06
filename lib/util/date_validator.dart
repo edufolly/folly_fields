@@ -8,9 +8,6 @@ import 'package:intl/intl.dart';
 ///
 class DateValidator extends AbstractValidator<DateTime>
     implements AbstractTimeParser<DateTime> {
-  static const List<int> _months31 = <int>[1, 3, 5, 7, 8, 10, 12];
-  static const List<int> _months30 = <int>[4, 6, 9, 11];
-
   final dynamic locale;
 
   ///
@@ -47,6 +44,12 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
+  TextInputType get keyboard => TextInputType.datetime;
+
+  ///
+  ///
+  ///
+  @override
   DateTime parse(String text) {
     try {
       return DateFormat.yMd(locale).parse(text);
@@ -75,22 +78,24 @@ class DateValidator extends AbstractValidator<DateTime>
     if (month == null || month < 1 || month > 12) return 'Mês inválido';
 
     int day = int.tryParse(parts[0]);
-    if (day == null) return 'Dia inválido';
-
-    if (_months31.contains(month)) {
-      if (day < 1 || day > 31) return 'Dia inválido';
-    }
-
-    if (_months30.contains(month)) {
-      if (day < 1 || day > 30) return 'Dia inválido';
-    }
-
-    if (month == 2) {
-      int max = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? 29 : 28;
-      if (day < 1 || day > max) return 'Dia inválido';
+    if (day == null || day < 1 || day > getDaysInMonth(year, month)) {
+      return 'Dia inválido';
     }
 
     return null;
+  }
+
+  ///
+  ///
+  ///
+  int getDaysInMonth(int year, int month) {
+    if (month == DateTime.february) {
+      return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
+          ? 29
+          : 28;
+    }
+    List<int> _days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return _days[month - 1];
   }
 
   ///

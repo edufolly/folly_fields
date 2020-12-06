@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
-import 'mask_text_input_formatter.dart';
+
 
 ///
 ///

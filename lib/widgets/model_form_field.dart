@@ -26,7 +26,6 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
     TextInputAction textInputAction,
     ValueChanged<String> onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    bool enableInteractiveSelection = true,
     bool filled = false,
     Widget Function(BuildContext) routeBuilder,
     Future<bool> Function(BuildContext, T) beforeRoute,
@@ -75,7 +74,7 @@ class ModelFormField<T extends AbstractModel> extends FormField<T> {
                 enableSuggestions: false,
                 textCapitalization: TextCapitalization.none,
                 scrollPadding: scrollPadding,
-                enableInteractiveSelection: enableInteractiveSelection,
+                enableInteractiveSelection: true,
                 style: enabled ? null : TextStyle(color: Colors.black26),
                 readOnly: true,
                 onTap: enabled && routeBuilder != null
