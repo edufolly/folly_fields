@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/fields/table_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,165 +9,185 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ListField<T extends AbstractModel> extends FormField<List<T>> {
-  final AbstractUIBuilder<T> uiBuilder;
-  final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
-  final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
-  final Future<bool> Function(BuildContext) beforeAdd;
-  final Future<bool> Function(BuildContext, int, T) beforeEdit;
-
+class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
+    extends FormField<List<T>> {
   ///
   ///
   ///
   ListField({
     Key key,
-    @required List<T> list,
-    @required this.uiBuilder,
-    @required this.routeAddBuilder, // TODO - Precisa ser required?
-    this.routeEditBuilder,
+    @required List<T> initialValue,
+    @required UI uiBuilder,
+    @required Widget Function(BuildContext, UI) routeAddBuilder,
+    Function(BuildContext, UI, T) routeEditBuilder,
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
-    this.beforeAdd,
-    this.beforeEdit,
+    AutovalidateMode autoValidateMode,
+    Future<bool> Function(BuildContext) beforeAdd,
+    Future<bool> Function(BuildContext, int, T) beforeEdit,
   }) : super(
           key: key,
-          initialValue: list,
+          initialValue: initialValue ?? <T>[],
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
-          // TODO - Usar o builder no lugar do estado.
-          builder: (FormFieldState<List<T>> field) => null,
-        );
+          autovalidateMode: autoValidateMode ?? AutovalidateMode.disabled,
+          builder: (FormFieldState<List<T>> field) {
+            InputDecoration inputDecoration = InputDecoration(
+              labelText: uiBuilder.getSuperPlural(),
+              border: OutlineInputBorder(),
+              counterText: '',
+              errorText: field.errorText,
+            );
 
-  ///
-  ///
-  ///
-  @override
-  _ListFormFieldState<T> createState() => _ListFormFieldState<T>(
-        uiBuilder,
-        routeAddBuilder,
-        routeEditBuilder,
-        beforeAdd,
-        beforeEdit,
-      );
+            InputDecoration effectiveDecoration = inputDecoration
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InputDecorator(
+                decoration: effectiveDecoration,
+                child: Column(
+                  children: <Widget>[
+                    if (field.value.isEmpty)
+
+                      /// Lista vazia.
+                      Container(
+                        height: 75.0,
+                        child: Center(
+                          child: Text('Sem ${uiBuilder.getSuperPlural()} '
+                              'até o momento.'),
+                        ),
+                      )
+                    else
+
+                      /// Lista
+                      ...field.value
+                          .asMap()
+                          .entries
+                          .map(
+                            (MapEntry<int, T> entry) => _MyListTile<T, UI>(
+                              index: entry.key,
+                              model: entry.value,
+                              uiBuilder: uiBuilder,
+                              onEdit: (int index, T model) async {
+                                if (beforeEdit != null) {
+                                  bool go = await beforeEdit(
+                                      field.context, index, model);
+                                  if (!go) return;
+                                }
+
+                                T returned =
+                                    await Navigator.of(field.context).push(
+                                  MaterialPageRoute<T>(
+                                    builder: (BuildContext context) =>
+                                        routeEditBuilder(
+                                      context,
+                                      uiBuilder,
+                                      model,
+                                    ),
+                                  ),
+                                );
+
+                                if (returned != null) {
+                                  field.value[index] = returned;
+                                  field.didChange(field.value);
+                                }
+                              },
+                              onDelete: (T model) {
+                                field.value.remove(model);
+                                field.didChange(field.value);
+                              },
+                            ),
+                          )
+                          .toList(),
+
+                    /// Botão Adicionar
+                    AddButton(
+                      label: 'Adicionar ${uiBuilder.getSuperSingle()}'
+                          .toUpperCase(),
+                      onPressed: () async {
+                        if (beforeAdd != null) {
+                          bool go = await beforeAdd(field.context);
+                          if (!go) return;
+                        }
+
+                        final dynamic selected =
+                            await Navigator.of(field.context).push(
+                          MaterialPageRoute<dynamic>(
+                            builder: (BuildContext context) =>
+                                routeAddBuilder(context, uiBuilder),
+                          ),
+                        );
+
+                        if (selected != null) {
+                          if (selected is List) {
+                            for (T item in selected) {
+                              if (item.id == null ||
+                                  !field.value.any(
+                                      (T element) => element.id == item.id)) {
+                                field.value.add(item);
+                              }
+                            }
+                          } else {
+                            if ((selected as AbstractModel).id == null ||
+                                !field.value.any((T element) {
+                                  return element.id ==
+                                      (selected as AbstractModel).id;
+                                })) {
+                              field.value.add(selected);
+                            }
+                          }
+
+                          field.value.sort((T a, T b) =>
+                              a.toString().compareTo(b.toString()));
+
+                          field.didChange(field.value);
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
 }
 
 ///
 ///
 ///
-class _ListFormFieldState<T extends AbstractModel>
-    extends FormFieldState<List<T>> {
-  final AbstractUIBuilder<T> uiBuilder;
-  final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
-  final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
-  final Future<bool> Function(BuildContext) beforeAdd;
-  final Future<bool> Function(BuildContext, int, T) beforeEdit;
+class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
+    extends StatelessWidget {
+  final int index;
+  final T model;
+  final UI uiBuilder;
+  final void Function(int, T) onEdit;
+  final void Function(T) onDelete;
 
   ///
   ///
   ///
-  _ListFormFieldState(
+  const _MyListTile({
+    Key key,
+    this.index,
+    this.model,
     this.uiBuilder,
-    this.routeAddBuilder,
-    this.routeEditBuilder,
-    this.beforeAdd,
-    this.beforeEdit,
-  );
+    this.onEdit,
+    this.onDelete,
+  }) : super(key: key);
 
   ///
   ///
   ///
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
-    InputDecoration inputDecoration = InputDecoration(
-      labelText: uiBuilder.getSuperPlural(),
-      border: OutlineInputBorder(),
-      counterText: '',
-      errorText: errorText,
-    );
-
-    InputDecoration effectiveDecoration =
-        inputDecoration.applyDefaults(Theme.of(context).inputDecorationTheme);
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InputDecorator(
-        decoration: effectiveDecoration,
-        child: Column(
-          children: <Widget>[
-            if (value.isEmpty)
-              Container(
-                height: 75.0,
-                child: Center(
-                  child:
-                      Text('Sem ${uiBuilder.getSuperPlural()} até o momento.'),
-                ),
-              )
-            else
-              ...value
-                  .asMap()
-                  .entries
-                  .map((MapEntry<int, T> entry) =>
-                      _getTile(context, entry.key, entry.value))
-                  .toList(),
-
-            /// Botão Adicionar
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 12.0,
-                top: 12.0,
-                right: 12.0,
-              ),
-              child: RaisedButton(
-                elevation: 0.0,
-                disabledElevation: 0.0,
-                highlightElevation: 0.0,
-                focusElevation: 0.0,
-                hoverElevation: 0.0,
-                color: Colors.grey,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FaIcon(
-                        FontAwesomeIcons.plus,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(color: Colors.white),
-                    ),
-                  ],
-                ),
-                onPressed: _add,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  ///
-  ///
-  ///
-  Widget _getTile(BuildContext context, int index, T model) {
-    int id = model.id;
     return FollyFields().isWeb
         ? _internalTile(context, index, model)
         : Dismissible(
-            // FIXME - Possui acentuação e espaços.
             // TODO - Testar.
-            key: Key('key_${index}_$id'),
+            key: Key('key_${index}_${model.id}'),
             direction: DismissDirection.endToStart,
             background: Container(
               color: Colors.red,
@@ -177,8 +198,9 @@ class _ListFormFieldState<T extends AbstractModel>
                 color: Colors.white,
               ),
             ),
-            confirmDismiss: (DismissDirection direction) => _askDelete(),
-            onDismissed: (DismissDirection direction) => _delete(model),
+            confirmDismiss: (DismissDirection direction) => _askDelete(context),
+            onDismissed: (DismissDirection direction) =>
+                _delete(context, model),
             child: _internalTile(context, index, model),
           );
   }
@@ -201,99 +223,28 @@ class _ListFormFieldState<T extends AbstractModel>
         visible: FollyFields().isWeb,
         child: IconButton(
           icon: Icon(FontAwesomeIcons.trashAlt),
-          onPressed: () => _delete(model, ask: true),
+          onPressed: () => _delete(context, model, ask: true),
         ),
       ),
-      onTap:
-          routeEditBuilder == null ? null : () => _edit(context, index, model),
+      onTap: onEdit == null ? null : () => onEdit(index, model),
     );
   }
 
   ///
   ///
   ///
-  Future<bool> _askDelete() => MyDialogs.yesNoDialog(
+  void _delete(BuildContext context, T model, {bool ask = false}) async {
+    bool del = true;
+    if (ask) del = await _askDelete(context);
+    if (del) onDelete(model);
+  }
+
+  ///
+  ///
+  ///
+  Future<bool> _askDelete(BuildContext context) => MyDialogs.yesNoDialog(
         context: context,
         title: 'Atenção',
         message: 'Deseja remover ${uiBuilder.getSuperSingle()}?',
       );
-
-  ///
-  ///
-  ///
-  void _delete(T model, {bool ask = false}) async {
-    bool delete = true;
-
-    if (ask) {
-      delete = await _askDelete();
-    }
-
-    if (delete) {
-      value.remove(model);
-      didChange(value);
-    }
-  }
-
-  ///
-  ///
-  ///
-  void _add() async {
-    if (beforeAdd != null) {
-      bool go = await beforeAdd(context);
-      if (!go) return;
-    }
-
-    final dynamic selected = await Navigator.of(context).push(
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => routeAddBuilder(context, uiBuilder),
-      ),
-    );
-
-    if (selected != null) {
-      if (selected is List) {
-        for (T item in selected) {
-          if (item.id == null ||
-              !value.any((T element) => element.id == item.id)) {
-            value.add(item);
-          }
-        }
-      } else {
-        if ((selected as AbstractModel).id == null ||
-            !value.any((T element) {
-              return element.id == (selected as AbstractModel).id;
-            })) {
-          value.add(selected);
-        }
-      }
-
-      value.sort((T a, T b) => a.toString().compareTo(b.toString()));
-
-      didChange(value);
-    }
-  }
-
-  ///
-  ///
-  ///
-  void _edit(BuildContext context, int index, T model) async {
-    if (beforeEdit != null) {
-      bool go = await beforeEdit(context, index, model);
-      if (!go) return;
-    }
-
-    T returned = await Navigator.of(context).push(
-      MaterialPageRoute<T>(
-        builder: (BuildContext context) => routeEditBuilder(
-          context,
-          uiBuilder,
-          model,
-        ),
-      ),
-    );
-
-    if (returned != null) {
-      value[index] = returned;
-      didChange(value);
-    }
-  }
 }

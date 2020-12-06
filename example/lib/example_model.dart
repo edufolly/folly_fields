@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
@@ -11,6 +12,7 @@ import 'package:folly_fields/validators/time_validator.dart';
 class ExampleModel extends AbstractModel {
   static final TimeValidator timeValidator = TimeValidator();
 
+  Decimal decimal;
   String text;
   String email;
   String password;
@@ -35,7 +37,9 @@ class ExampleModel extends AbstractModel {
   ///
   @override
   ExampleModel.fromJson(Map<String, dynamic> map)
-      : text = map['text'],
+      : decimal = Decimal(
+            initialValue: int.tryParse(map['decimal']) ?? 0, precision: 2),
+        text = map['text'],
         email = map['email'],
         password = map['password'],
         cpf = map['cpf'],
@@ -64,6 +68,7 @@ class ExampleModel extends AbstractModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
+    if (decimal != null) map['decimal'] = decimal.integer;
     if (text != null) map['text'] = text;
     if (email != null) map['email'] = email;
     if (password != null) map['password'] = password;
@@ -96,6 +101,7 @@ class ExampleModel extends AbstractModel {
     ExampleModel model = ExampleModel();
     model.id = ms;
     model.updatedAt = now.millisecondsSinceEpoch;
+    model.decimal = Decimal(initialValue: ms, precision: 2);
     model.text = 'Exemplo$ms';
     model.email = 'exemplo$ms@exemplo.com.br';
     model.password = '123456$ms';

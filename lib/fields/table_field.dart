@@ -167,15 +167,9 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                     ),
 
                     /// Botão Adicionar
-
                     AddButton(
-                      text: Text(
-                        'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
-                        style: Theme.of(field.context)
-                            .textTheme
-                            .subtitle1
-                            .copyWith(color: Colors.white),
-                      ),
+                      label: 'Adicionar ${uiBuilder.getSuperSingle()}'
+                          .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
                           bool go = await beforeAdd(field.context);
@@ -198,7 +192,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
 ///
 ///
 class AddButton extends StatelessWidget {
-  final Text text;
+  final String label;
   final VoidCallback onPressed;
 
   ///
@@ -206,7 +200,7 @@ class AddButton extends StatelessWidget {
   ///
   const AddButton({
     Key key,
-    this.text,
+    this.label,
     this.onPressed,
   }) : super(key: key);
 
@@ -230,6 +224,13 @@ class AddButton extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+            Text(
+              label.toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(color: Colors.white),
+            )
           ],
         ),
         onPressed: onPressed,

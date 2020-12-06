@@ -34,7 +34,7 @@ class DecimalField extends FormField<Decimal> {
   }) : super(
           key: key,
           initialValue: controller != null
-              ? controller.decimalValue
+              ? controller.getDecimal()
               : (initialValue ?? Decimal(precision: 2)),
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
@@ -49,6 +49,7 @@ class DecimalField extends FormField<Decimal> {
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
+              counterText: '',
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
@@ -118,6 +119,7 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
     super.initState();
     if (widget.controller == null) {
       _controller = DecimalEditingController(widget.initialValue);
+      _controller.addListener(_handleControllerChanged);
     } else {
       widget.controller.addListener(_handleControllerChanged);
     }
@@ -145,12 +147,12 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
 
       if (oldWidget.controller != null && widget.controller == null) {
         _controller = DecimalEditingController(
-          oldWidget.controller.decimalValue,
+          oldWidget.controller.getDecimal(),
         );
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.decimalValue);
+        setValue(widget.controller.getDecimal());
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -179,9 +181,8 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   @override
   void didChange(Decimal decimal) {
     super.didChange(decimal);
-
-    if (_effectiveController.decimalValue.value != decimal.value) {
-      _effectiveController.updateValue(decimal);
+    if (_effectiveController.getDecimal().value != decimal.value) {
+      _effectiveController.setDecimal(decimal);
     }
   }
 
@@ -191,15 +192,15 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   @override
   void reset() {
     super.reset();
-    setState(() => _effectiveController.updateValue(widget.initialValue));
+    setState(() => _effectiveController.setDecimal(widget.initialValue));
   }
 
   ///
   ///
   ///
   void _handleControllerChanged() {
-    if (_effectiveController.decimalValue.value != value.value) {
-      didChange(widget.controller.decimalValue);
+    if (_effectiveController.getDecimal().value != value.value) {
+      didChange(_effectiveController.getDecimal());
     }
   }
 
@@ -225,35 +226,49 @@ class DecimalEditingController extends TextEditingController {
   final String leftSymbol;
   final int precision;
 
-  double _lastValue = 0.0;
-
   ///
   ///
   ///
-  DecimalEditingController(
-    Decimal decimal, {
-    this.decimalSeparator = ',',
-    this.thousandSeparator = '.',
-    this.rightSymbol = '',
-    this.leftSymbol = '',
-  }) : precision = decimal.precision {
-    _validateConfig();
-
-    addListener(() => updateValue(decimalValue));
-
-    updateValue(decimal);
+  @override
+  void dispose() {
+    removeListener(_changeListener);
+    super.dispose();
   }
 
   ///
   ///
   ///
-  void updateValue(Decimal decimal) {
-    double valueToUse = decimal.value;
+  void _changeListener() => setDecimal(getDecimal());
 
-    if (decimal.value.toStringAsFixed(0).length > 12) {
+  ///
+  ///
+  ///
+  DecimalEditingController(
+    Decimal dec, {
+    this.decimalSeparator = ',',
+    this.thousandSeparator = '.',
+    this.rightSymbol = '',
+    this.leftSymbol = '',
+  }) : precision = dec.precision {
+    if (_strip(rightSymbol).isNotEmpty) {
+      throw ArgumentError('rightSymbol must not have numbers.');
+    }
+    addListener(_changeListener);
+    setDecimal(dec);
+  }
+
+  double _lastValue = 0.0;
+
+  ///
+  ///
+  ///
+  void setDecimal(Decimal dec) {
+    double valueToUse = dec.value;
+
+    if (dec.value.toStringAsFixed(0).length > 12) {
       valueToUse = _lastValue;
     } else {
-      _lastValue = decimal.value;
+      _lastValue = dec.value;
     }
 
     String masked = _applyMask(valueToUse);
@@ -267,11 +282,13 @@ class DecimalEditingController extends TextEditingController {
     }
 
     if (masked != text) {
-      text = masked;
+      super.text = masked;
 
       int cursorPosition = super.text.length - rightSymbol.length;
-      selection = TextSelection.fromPosition(
-        TextPosition(offset: cursorPosition),
+      super.selection = TextSelection.fromPosition(
+        TextPosition(
+          offset: cursorPosition,
+        ),
       );
     }
   }
@@ -279,7 +296,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  Decimal get decimalValue {
+  Decimal getDecimal() {
     bool hasNoValue = text.isEmpty ||
         (text.length <= (rightSymbol.length + leftSymbol.length));
 
@@ -289,7 +306,7 @@ class DecimalEditingController extends TextEditingController {
       return decimal;
     }
 
-    List<String> parts = _getOnlyNumbers(text).split('').toList(growable: true);
+    List<String> parts = _strip(text).split('').toList(growable: true);
 
     for (int i = parts.length; i <= precision; i++) {
       parts.insert(0, '0');
@@ -305,26 +322,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  void _validateConfig() {
-    bool rightSymbolHasNumbers = _getOnlyNumbers(rightSymbol).isNotEmpty;
-
-    if (rightSymbolHasNumbers) {
-      throw ArgumentError('rightSymbol must not have numbers.');
-    }
-  }
-
-  ///
-  ///
-  ///
-  String _getOnlyNumbers(String text) {
-    String cleanedText = text;
-
-    RegExp onlyNumbersRegex = RegExp(r'[^\d]');
-
-    cleanedText = cleanedText.replaceAll(onlyNumbersRegex, '');
-
-    return cleanedText;
-  }
+  String _strip(String value) => (value ?? '').replaceAll(RegExp(r'[^\d]'), '');
 
   ///
   ///
@@ -339,7 +337,7 @@ class DecimalEditingController extends TextEditingController {
 
     textRepresentation.insert(precision, decimalSeparator);
 
-    for (int i = precision + 4; true; i = i + 4) {
+    for (int i = precision + 4; true; i += 4) {
       if (textRepresentation.length > i) {
         textRepresentation.insert(i, thousandSeparator);
       } else {

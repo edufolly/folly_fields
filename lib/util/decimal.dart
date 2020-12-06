@@ -23,4 +23,10 @@ class Decimal {
   ///
   ///
   int get integer => (value * pow(10, precision)).toInt();
+
+  ///
+  ///
+  /// TODO - Formatar corretamente.
+  @override
+  String toString() => value.toStringAsFixed(precision);
 }

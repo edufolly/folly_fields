@@ -5,6 +5,7 @@ import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
+import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
@@ -14,6 +15,7 @@ import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/widgets/my_dialogs.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
@@ -113,6 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline4,
                 ),
+              ),
+
+              /// Decimal
+              DecimalField(
+                prefix: prefix,
+                label: 'Decimal*',
+                enabled: edit,
+                initialValue: model.decimal,
+                onSaved: (Decimal value) => model.decimal = value,
               ),
 
               /// Texto

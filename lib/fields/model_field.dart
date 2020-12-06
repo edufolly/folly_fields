@@ -49,11 +49,16 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
                   ? label
                   : '${prefix} - ${label}',
               counterText: '',
-              suffixIcon: enabled && routeBuilder != null
-                  ? FaIcon(FontAwesomeIcons.search)
-                  : tapToVisualize != null
-                      ? FaIcon(FontAwesomeIcons.chevronRight)
-                      : null,
+              suffixIcon: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  enabled && routeBuilder != null
+                      ? FaIcon(FontAwesomeIcons.search)
+                      : tapToVisualize != null
+                          ? FaIcon(FontAwesomeIcons.chevronRight)
+                          : Container(),
+                ],
+              ),
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
@@ -236,7 +241,7 @@ class ModelEditingController<T extends AbstractModel>
   ///
   ModelEditingController({T model})
       : _model = model,
-        super(text: model.toString());
+        super(text: (model ?? '').toString());
 
   ///
   ///
@@ -248,7 +253,7 @@ class ModelEditingController<T extends AbstractModel>
   ///
   set model(T model) {
     value = TextEditingValue(
-      text: model.toString(),
+      text: (model ?? '').toString(),
     );
     _model = model;
   }
@@ -256,5 +261,6 @@ class ModelEditingController<T extends AbstractModel>
   ///
   ///
   ///
-  String get Text => _model.toString();
+  @override
+  String get text => (_model ?? '').toString();
 }
