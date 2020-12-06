@@ -5,13 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ModelFormField<T extends AbstractModel> extends FormField<T> {
+class ModelField<T extends AbstractModel> extends FormField<T> {
   final ModelEditingController<T> controller;
 
   ///
   ///
   ///
-  ModelFormField({
+  ModelField({
     Key key,
     String prefix,
     String label,
@@ -136,7 +136,7 @@ class _ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
   ///
   ///
   @override
-  ModelFormField<T> get widget => super.widget as ModelFormField<T>;
+  ModelField<T> get widget => super.widget as ModelField<T>;
 
   ///
   ///
@@ -161,7 +161,7 @@ class _ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
   ///
   ///
   @override
-  void didUpdateWidget(ModelFormField<T> oldWidget) {
+  void didUpdateWidget(ModelField<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);

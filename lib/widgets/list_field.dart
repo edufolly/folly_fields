@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
+class ListField<T extends AbstractModel> extends FormField<List<T>> {
   final AbstractUIBuilder<T> uiBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>) routeAddBuilder;
   final Widget Function(BuildContext, AbstractUIBuilder<T>, T) routeEditBuilder;
@@ -18,7 +18,7 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
   ///
   ///
   ///
-  ListFormField({
+  ListField({
     Key key,
     @required List<T> list,
     @required this.uiBuilder,
@@ -35,7 +35,7 @@ class ListFormField<T extends AbstractModel> extends FormField<List<T>> {
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
-          // TODO - User o builder no lugar do estado.
+          // TODO - Usar o builder no lugar do estado.
           builder: (FormFieldState<List<T>> field) => null,
         );
 

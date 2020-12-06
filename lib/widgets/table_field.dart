@@ -8,11 +8,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 /// TODO - Testar com DataTable.
-class TableFormField<T extends AbstractModel> extends FormField<List<T>> {
+class TableField<T extends AbstractModel> extends FormField<List<T>> {
   ///
   ///
   ///
-  TableFormField({
+  TableField({
     Key key,
     @required List<T> initialValue,
     @required AbstractUIBuilder<T> uiBuilder,
