@@ -370,6 +370,44 @@ class _TextMatcher {
 ///
 ///
 ///
+class UppercaseMask extends MaskTextInputFormatter {
+  ///
+  ///
+  ///
+  UppercaseMask({
+    @required String mask,
+    Map<String, RegExp> filter,
+    String initialText,
+  })  : assert(mask != null),
+        super(
+          mask: mask,
+          filter: filter,
+          initialText: initialText,
+        );
+
+  ///
+  ///
+  ///
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    if (newValue != null && newValue.text.isNotEmpty) {
+      newValue = TextEditingValue(
+        text: newValue.text.toUpperCase(),
+        selection: newValue.selection,
+        composing: newValue.composing,
+      );
+    }
+
+    return super.formatEditUpdate(oldValue, newValue);
+  }
+}
+
+///
+///
+///
 class ChangeMask extends MaskTextInputFormatter {
   final String firstMask;
   final String secondMask;

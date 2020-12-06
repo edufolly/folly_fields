@@ -55,6 +55,7 @@ class DateField extends FormField<DateTime> {
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
+              counterText: '',
               suffixIcon: IconButton(
                 icon: Icon(FontAwesomeIcons.calendarDay),
                 onPressed: () async {

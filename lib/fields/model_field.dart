@@ -48,6 +48,7 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
+              counterText: '',
               suffixIcon: enabled && routeBuilder != null
                   ? FaIcon(FontAwesomeIcons.search)
                   : tapToVisualize != null

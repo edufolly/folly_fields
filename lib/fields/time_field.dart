@@ -52,6 +52,7 @@ class TimeField extends FormField<TimeOfDay> {
               labelText: prefix == null || prefix.isEmpty
                   ? label
                   : '${prefix} - ${label}',
+              counterText: '',
               suffixIcon: IconButton(
                 icon: Icon(FontAwesomeIcons.clock),
                 onPressed: () async {

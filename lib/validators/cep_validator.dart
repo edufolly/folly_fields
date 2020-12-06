@@ -20,7 +20,7 @@ class CepValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
-        r'^(\d{2})(\d{3})(\d{3})$',
+        RegExp(r'^(\d{2})(\d{3})(\d{3})$'),
         (Match m) => '${m[1]}.${m[2]}-${m[3]}',
       );
 

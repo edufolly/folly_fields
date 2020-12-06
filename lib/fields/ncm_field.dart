@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/validators/mac_address_validator.dart';
+import 'package:folly_fields/validators/ncm_validator.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 
 ///
 ///
 ///
-class MacAddressField extends ValidatorField {
+class NcmField extends ValidatorField {
   ///
   ///
   ///
-  MacAddressField({
+  NcmField({
     Key key,
-    String validatorMessage = 'Informe o MAC Address.',
+    String validatorMessage = 'Informe o NCM.',
     String prefix,
     String label,
     TextEditingController controller,
@@ -29,13 +29,13 @@ class MacAddressField extends ValidatorField {
     bool filled = false,
   }) : super(
           key: key,
-          abstractValidator: MacAddressValidator(),
+          abstractValidator: NcmValidator(),
           validatorMessage: validatorMessage,
           prefix: prefix,
           label: label,
           controller: controller,
           textAlign: textAlign,
-          maxLength: 17,
+          maxLength: 10,
           onSaved: onSaved,
           initialValue: initialValue,
           enabled: enabled,
@@ -46,7 +46,7 @@ class MacAddressField extends ValidatorField {
           onFieldSubmitted: onFieldSubmitted,
           autocorrect: false,
           enableSuggestions: false,
-          textCapitalization: TextCapitalization.characters,
+          textCapitalization: TextCapitalization.none,
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,

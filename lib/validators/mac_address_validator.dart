@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
@@ -10,7 +12,7 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   MacAddressValidator()
       : super(
-          MaskTextInputFormatter(
+          UppercaseMask(
             mask: '##:##:##:##:##:##',
             filter: <String, RegExp>{
               '#': RegExp(r'[a-fA-F0-9]'),
@@ -53,4 +55,14 @@ class MacAddressValidator extends AbstractValidator<String> {
 
     return true;
   }
+
+  static final Random _random = Random();
+
+  ///
+  ///
+  ///
+  static String generate() =>
+      List<String>.generate(12, (_) => _random.nextInt(16).toRadixString(16))
+          .join()
+          .toUpperCase();
 }

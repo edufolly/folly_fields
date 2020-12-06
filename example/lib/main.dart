@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
+import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
@@ -84,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool edit = true;
 
   /// Modelo padrão para o exemplo.
-  ExampleModel model = ExampleModel();
+  ExampleModel model = ExampleModel.generate();
 
   ///
   ///
@@ -206,6 +209,33 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabled: edit,
                 initialValue: model.time ?? TimeOfDay.now(),
                 onSaved: (TimeOfDay value) => model.time = value,
+              ),
+
+              /// Mac Address
+              MacAddressField(
+                prefix: prefix,
+                label: 'Mac Address*',
+                enabled: edit,
+                initialValue: model.macAddress,
+                onSaved: (String value) => model.macAddress = value,
+              ),
+
+              /// Ncm
+              NcmField(
+                prefix: prefix,
+                label: 'NCM*',
+                enabled: edit,
+                initialValue: model.ncm,
+                onSaved: (String value) => model.ncm = value,
+              ),
+
+              /// CEP
+              CepField(
+                prefix: prefix,
+                label: 'CEP*',
+                enabled: edit,
+                initialValue: model.cep,
+                onSaved: (String value) => model.cep = value,
               ),
 
               /// Botão Enviar

@@ -28,4 +28,10 @@ class CnpjValidator extends AbstractValidator<String> {
   @override
   bool isValid(String value, {bool stripBeforeValidation = true}) =>
       CNPJValidator.isValid(value, stripBeforeValidation);
+
+  ///
+  ///
+  ///
+  static String generate({bool format = false}) =>
+      CNPJValidator.generate(format);
 }

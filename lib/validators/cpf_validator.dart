@@ -28,4 +28,10 @@ class CpfValidator extends AbstractValidator<String> {
   @override
   bool isValid(String value, {bool stripBeforeValidation = true}) =>
       CPFValidator.isValid(value, stripBeforeValidation);
+
+  ///
+  ///
+  ///
+  static String generate({bool format = false}) =>
+      CPFValidator.generate(format);
 }

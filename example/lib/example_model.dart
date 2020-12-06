@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/validators/cnpj_validator.dart';
+import 'package:folly_fields/validators/cpf_validator.dart';
+import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/time_validator.dart';
 
 ///
@@ -18,6 +21,9 @@ class ExampleModel extends AbstractModel {
   String localPhone;
   DateTime date;
   TimeOfDay time;
+  String macAddress;
+  String ncm;
+  String cep;
 
   ///
   ///
@@ -41,6 +47,9 @@ class ExampleModel extends AbstractModel {
             ? null
             : DateTime.fromMillisecondsSinceEpoch(map['date']),
         time = map['date'] == null ? null : timeValidator.parse(map['time']),
+        macAddress = map['macAddress'],
+        ncm = map['ncm'],
+        cep = map['cep'],
         super.fromJson(map);
 
   ///
@@ -65,6 +74,9 @@ class ExampleModel extends AbstractModel {
     if (localPhone != null) map['localPhone'] = localPhone;
     if (date != null) map['date'] = date.millisecondsSinceEpoch;
     if (time != null) map['time'] = timeValidator.format(time);
+    if (macAddress != null) map['macAddress'] = macAddress;
+    if (ncm != null) map['ncm'] = ncm;
+    if (cep != null) map['cep'] = cep;
     return map;
   }
 
@@ -73,4 +85,32 @@ class ExampleModel extends AbstractModel {
   ///
   @override
   String get searchTerm => text;
+
+  ///
+  ///
+  /// Método exclusivo para geração aleatória de objetos.
+  static ExampleModel generate() {
+    DateTime now = DateTime.now();
+    int ms = now.millisecond;
+
+    ExampleModel model = ExampleModel();
+    model.id = ms;
+    model.updatedAt = now.millisecondsSinceEpoch;
+    model.text = 'Exemplo$ms';
+    model.email = 'exemplo$ms@exemplo.com.br';
+    model.password = '123456$ms';
+    model.cpf = CpfValidator.generate();
+    model.cnpj = CnpjValidator.generate();
+    model.document =
+        ms % 2 == 0 ? CpfValidator.generate() : CnpjValidator.generate();
+    model.phone = '88987654$ms';
+    model.localPhone = '912345$ms';
+    model.date = now;
+    model.time = TimeOfDay.now();
+    model.macAddress = MacAddressValidator.generate();
+    model.ncm = '99998$ms';
+    model.cep = '22333$ms';
+
+    return model;
+  }
 }
