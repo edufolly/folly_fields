@@ -1,6 +1,6 @@
 # folly_fields
 
-Basic form fields and utilities.
+Basic form fields and utilities. Maybe a humble boilerplate.
 
 ## How to use
 
@@ -44,6 +44,24 @@ void main() {
 
   runApp(MyApp());
 }
+```
+
+### MaterialApp
+```dart
+MaterialApp(
+  title: 'Folly Fields Example',
+  theme: ThemeData(
+    primarySwatch: Colors.deepOrange,
+  ),
+  home: MyHomePage(),
+  localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ],
+  supportedLocales: <Locale>[
+    Locale('pt', 'BR'),
+  ],
+);
 ```
 
 ## Docs
