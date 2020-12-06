@@ -6,6 +6,12 @@ Basic form fields and utilities.
 
 ### pubspec.yaml
 ``` yaml
+flutter_localizations:
+  sdk: flutter
+
+# https://pub.dev/packages/intl
+intl: 0.16.1
+
 # https://github.com/edufolly/folly_fields
 folly_fields:
   git:

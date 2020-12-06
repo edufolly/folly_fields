@@ -1,0 +1,30 @@
+name: folly_fields_example
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 0.0.1+1
+
+environment:
+  sdk: ">=2.8.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # https://github.com/edufolly/folly_fields
+  folly_fields:
+    path: ../
+
+  # https://pub.dev/packages/intl
+  intl: 0.16.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
