@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
-import 'package:folly_fields/validators/cpf_validator.dart';
+import 'package:folly_fields/validators/cnpj_validator.dart';
 
 ///
 ///
 ///
-class CpfField extends ValidatorField {
-  CpfField({
+class CnpjField extends ValidatorField {
+  ///
+  ///
+  ///
+  CnpjField({
     Key key,
-    String validatorMessage = 'Informe o CPF.',
+    String validatorMessage = 'Informe o CNPJ.',
     String prefix,
     String label,
     TextEditingController controller,
@@ -26,13 +29,13 @@ class CpfField extends ValidatorField {
     bool filled = false,
   }) : super(
           key: key,
-          abstractValidator: CpfValidator(),
+          abstractValidator: CnpjValidator(),
           validatorMessage: validatorMessage,
           prefix: prefix,
           label: label,
           controller: controller,
           textAlign: textAlign,
-          maxLength: 14,
+          maxLength: 18,
           onSaved: onSaved,
           initialValue: initialValue,
           enabled: enabled,
