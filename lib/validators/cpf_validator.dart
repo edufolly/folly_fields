@@ -1,5 +1,5 @@
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
-import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
 ///

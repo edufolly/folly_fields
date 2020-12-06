@@ -1,4 +1,4 @@
-import 'package:folly_fields/util/abstract_validator.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:email_validator/email_validator.dart' as ev;
 
 ///

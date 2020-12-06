@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/util/email_validator.dart';
-import 'package:folly_fields/widgets/validator_field.dart';
+import 'package:flutter/services.dart';
+import 'package:folly_fields/fields/string_field.dart';
 
 ///
 ///
 ///
-class EmailField extends ValidatorField {
+class PasswordField extends StringField {
   ///
   ///
   ///
-  EmailField({
+  PasswordField({
     Key key,
-    String validatorMessage = 'Informe o e-mail.',
     String prefix,
     String label,
     TextEditingController controller,
+    TextInputType keyboard = TextInputType.text,
+    FormFieldValidator<String> validator,
+    List<TextInputFormatter> inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int maxLength,
     FormFieldSetter<String> onSaved,
@@ -25,16 +27,23 @@ class EmailField extends ValidatorField {
     FocusNode focusNode,
     TextInputAction textInputAction,
     ValueChanged<String> onFieldSubmitted,
+    bool autocorrect = false,
+    bool enableSuggestions = false,
+    TextCapitalization textCapitalization = TextCapitalization.none,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
   }) : super(
           key: key,
-          abstractValidator: EmailValidator(),
-          validatorMessage: validatorMessage,
           prefix: prefix,
           label: label,
           controller: controller,
+          keyboard: keyboard,
+          validator: validator,
+          minLines: 1,
+          maxLines: 1,
+          obscureText: true,
+          inputFormatter: inputFormatter,
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: onSaved,
@@ -45,9 +54,9 @@ class EmailField extends ValidatorField {
           focusNode: focusNode,
           textInputAction: textInputAction,
           onFieldSubmitted: onFieldSubmitted,
-          autocorrect: false,
-          enableSuggestions: false,
-          textCapitalization: TextCapitalization.none,
+          autocorrect: autocorrect,
+          enableSuggestions: enableSuggestions,
+          textCapitalization: textCapitalization,
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,

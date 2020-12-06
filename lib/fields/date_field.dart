@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/util/time_validator.dart';
+import 'package:folly_fields/validators/date_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-/// TODO - Usar time_validator
+/// TODO - Usar date_validator.
 /// TODO - Implementar a validação padrão.
-class TimeField extends FormField<TimeOfDay> {
-  final TimeEditingController controller;
+class DateField extends FormField<DateTime> {
+  final DateEditingController controller;
   final FocusNode focusNode;
 
   ///
   ///
   ///
-  TimeField({
+  DateField({
     Key key,
     String prefix,
     String label,
     this.controller,
-    FormFieldValidator<TimeOfDay> validator,
+    FormFieldValidator<DateTime> validator,
     TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<TimeOfDay> onSaved,
-    TimeOfDay initialValue,
+    FormFieldSetter<DateTime> onSaved,
+    DateTime initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO - onChanged
@@ -31,18 +31,21 @@ class TimeField extends FormField<TimeOfDay> {
     ValueChanged<String> onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
+    DateTime firstDate,
+    DateTime lastDate,
     bool filled = false,
   }) : super(
           key: key,
+          // TODO - Tirar o DateTime.now()
           initialValue: controller != null
-              ? controller.time
-              : (initialValue ?? TimeOfDay.now()),
+              ? controller.date
+              : (initialValue ?? DateTime.now()),
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
           enabled: enabled,
           autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<TimeOfDay> field) {
-            final _TimeFieldState state = field as _TimeFieldState;
+          builder: (FormFieldState<DateTime> field) {
+            final _DateFieldState state = field as _DateFieldState;
 
             Color rootColor = Theme.of(state.context).primaryColor;
 
@@ -53,12 +56,14 @@ class TimeField extends FormField<TimeOfDay> {
                   ? label
                   : '${prefix} - ${label}',
               suffixIcon: IconButton(
-                icon: Icon(FontAwesomeIcons.clock),
+                icon: Icon(FontAwesomeIcons.calendarDay),
                 onPressed: () async {
                   try {
-                    TimeOfDay selectedTime = await showTimePicker(
+                    DateTime selectedDate = await showDatePicker(
                       context: state.context,
-                      initialTime: state.value ?? TimeOfDay.now(),
+                      initialDate: state.value ?? DateTime.now(),
+                      firstDate: firstDate ?? DateTime(1900),
+                      lastDate: lastDate ?? DateTime(2100),
                       builder: (BuildContext context, Widget child) {
                         return Theme(
                           data: ThemeData.light().copyWith(
@@ -71,8 +76,8 @@ class TimeField extends FormField<TimeOfDay> {
                       },
                     );
 
-                    if (selectedTime != null) {
-                      state.didChange(selectedTime);
+                    if (selectedDate != null) {
+                      state.didChange(selectedDate);
                     }
                   } catch (e, s) {
                     print(e);
@@ -94,7 +99,7 @@ class TimeField extends FormField<TimeOfDay> {
                 minLines: 1,
                 maxLines: 1,
                 obscureText: false,
-                inputFormatters: <TextInputFormatter>[TimeValidator().mask],
+                inputFormatters: <TextInputFormatter>[DateValidator().mask],
                 textAlign: textAlign,
                 enabled: enabled,
                 textInputAction: textInputAction,
@@ -105,12 +110,6 @@ class TimeField extends FormField<TimeOfDay> {
                 scrollPadding: scrollPadding,
                 enableInteractiveSelection: enableInteractiveSelection,
                 style: enabled ? null : TextStyle(color: Colors.black26),
-                // onChanged: (String value) {
-                //   field.didChange(value);
-                //   if (onChanged != null) {
-                //     onChanged(value);
-                //   }
-                // },
               ),
             );
           },
@@ -120,26 +119,26 @@ class TimeField extends FormField<TimeOfDay> {
   ///
   ///
   @override
-  _TimeFieldState createState() => _TimeFieldState();
+  _DateFieldState createState() => _DateFieldState();
 }
 
 ///
 ///
 ///
-class _TimeFieldState extends FormFieldState<TimeOfDay> {
-  TimeEditingController _controller;
+class _DateFieldState extends FormFieldState<DateTime> {
+  DateEditingController _controller;
   FocusNode _focusNode;
 
   ///
   ///
   ///
   @override
-  TimeField get widget => super.widget as TimeField;
+  DateField get widget => super.widget as DateField;
 
   ///
   ///
   ///
-  TimeEditingController get _effectiveController =>
+  DateEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
   ///
@@ -154,7 +153,7 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = TimeEditingController(time: widget.initialValue);
+      _controller = DateEditingController(date: widget.initialValue);
     } else {
       widget.controller.addListener(_handleControllerChanged);
     }
@@ -171,7 +170,7 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   @override
-  void didUpdateWidget(TimeField oldWidget) {
+  void didUpdateWidget(DateField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -181,13 +180,13 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
       widget.focusNode?.addListener(_handleFocusChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = TimeEditingController.fromValue(
+        _controller = DateEditingController.fromValue(
           oldWidget.controller.value,
         );
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.time);
+        setValue(widget.controller.date);
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -214,11 +213,11 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   @override
-  void didChange(TimeOfDay value) {
+  void didChange(DateTime value) {
     super.didChange(value);
 
-    if (_effectiveController.time != value) {
-      _effectiveController.time = value;
+    if (_effectiveController.date != value) {
+      _effectiveController.date = value;
     }
   }
 
@@ -228,17 +227,15 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   @override
   void reset() {
     super.reset();
-    setState(() {
-      _effectiveController.time = widget.initialValue;
-    });
+    setState(() => _effectiveController.date = widget.initialValue);
   }
 
   ///
   ///
   ///
   void _handleControllerChanged() {
-    if (_effectiveController.time != value) {
-      didChange(_effectiveController.time);
+    if (_effectiveController.date != value) {
+      didChange(_effectiveController.date);
     }
   }
 
@@ -257,28 +254,28 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
 ///
 ///
 ///
-class TimeEditingController extends TextEditingController {
-  static final TimeValidator TIME_VALIDATOR = TimeValidator();
+class DateEditingController extends TextEditingController {
+  static final DateValidator DATE_VALIDATOR = DateValidator();
 
   ///
   ///
   ///
-  TimeEditingController({TimeOfDay time})
-      : super(text: TIME_VALIDATOR.format(time ?? TimeOfDay.now()));
+  DateEditingController({DateTime date})
+      : super(text: DATE_VALIDATOR.format(date ?? DateTime.now()));
 
   ///
   ///
   ///
-  TimeEditingController.fromValue(TextEditingValue value)
+  DateEditingController.fromValue(TextEditingValue value)
       : super.fromValue(value);
 
   ///
   ///
   ///
-  TimeOfDay get time => TIME_VALIDATOR.parse(text);
+  DateTime get date => DATE_VALIDATOR.parse(text);
 
   ///
   ///
   ///
-  set time(TimeOfDay time) => text = TIME_VALIDATOR.format(time);
+  set date(DateTime date) => text = DATE_VALIDATOR.format(date);
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/util/abstract_validator.dart';
-import 'package:folly_fields/widgets/string_field.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
+import 'package:folly_fields/fields/string_field.dart';
 
 ///
 ///

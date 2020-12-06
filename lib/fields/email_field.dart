@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:folly_fields/widgets/string_field.dart';
+import 'package:folly_fields/validators/email_validator.dart';
+import 'package:folly_fields/fields/validator_field.dart';
 
 ///
 ///
 ///
-class PasswordField extends StringField {
+class EmailField extends ValidatorField {
   ///
   ///
   ///
-  PasswordField({
+  EmailField({
     Key key,
+    String validatorMessage = 'Informe o e-mail.',
     String prefix,
     String label,
     TextEditingController controller,
-    TextInputType keyboard = TextInputType.text,
-    FormFieldValidator<String> validator,
-    List<TextInputFormatter> inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int maxLength,
     FormFieldSetter<String> onSaved,
@@ -27,23 +25,16 @@ class PasswordField extends StringField {
     FocusNode focusNode,
     TextInputAction textInputAction,
     ValueChanged<String> onFieldSubmitted,
-    bool autocorrect = false,
-    bool enableSuggestions = false,
-    TextCapitalization textCapitalization = TextCapitalization.none,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
   }) : super(
           key: key,
+          abstractValidator: EmailValidator(),
+          validatorMessage: validatorMessage,
           prefix: prefix,
           label: label,
           controller: controller,
-          keyboard: keyboard,
-          validator: validator,
-          minLines: 1,
-          maxLines: 1,
-          obscureText: true,
-          inputFormatter: inputFormatter,
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: onSaved,
@@ -54,9 +45,9 @@ class PasswordField extends StringField {
           focusNode: focusNode,
           textInputAction: textInputAction,
           onFieldSubmitted: onFieldSubmitted,
-          autocorrect: autocorrect,
-          enableSuggestions: enableSuggestions,
-          textCapitalization: textCapitalization,
+          autocorrect: false,
+          enableSuggestions: false,
+          textCapitalization: TextCapitalization.none,
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
