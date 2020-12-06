@@ -93,6 +93,7 @@ class TimeField extends FormField<TimeOfDay> {
                 keyboardType: TextInputType.datetime,
                 minLines: 1,
                 maxLines: 1,
+                maxLength: 5,
                 obscureText: false,
                 inputFormatters: <TextInputFormatter>[TimeValidator().mask],
                 textAlign: textAlign,

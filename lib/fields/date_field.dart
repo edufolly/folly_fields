@@ -98,6 +98,7 @@ class DateField extends FormField<DateTime> {
                 keyboardType: TextInputType.datetime,
                 minLines: 1,
                 maxLines: 1,
+                maxLength: 10,
                 obscureText: false,
                 inputFormatters: <TextInputFormatter>[DateValidator().mask],
                 textAlign: textAlign,

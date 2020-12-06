@@ -31,7 +31,6 @@ class Config extends AbstractConfig {
 
   /// Content...
 }
-
 ```
 
 ### main.dart
