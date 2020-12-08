@@ -58,7 +58,7 @@ MaterialApp(
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
   ],
-  supportedLocales: <Locale>[
+  supportedLocales: const <Locale>[
     Locale('pt', 'BR'),
   ],
 );

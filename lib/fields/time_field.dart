@@ -5,118 +5,45 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-/// TODO - Usar time_validator
-/// TODO - Implementar a validação padrão.
-class TimeField extends FormField<TimeOfDay> {
+///
+class TimeField extends StatefulWidget {
+  final String prefix;
+  final String label;
   final TimeEditingController controller;
+  final FormFieldValidator<TimeOfDay> validator;
+  final TextAlign textAlign;
+  final FormFieldSetter<TimeOfDay> onSaved;
+  final TimeOfDay initialValue;
+  final bool enabled;
+  final AutovalidateMode autoValidateMode;
   final FocusNode focusNode;
+  final TextInputAction textInputAction;
+  final ValueChanged<String> onFieldSubmitted;
+  final EdgeInsets scrollPadding;
+  final bool enableInteractiveSelection;
+  final bool filled;
 
   ///
   ///
   ///
   TimeField({
     Key key,
-    String prefix,
-    String label,
+    this.prefix,
+    this.label,
     this.controller,
-    FormFieldValidator<TimeOfDay> validator,
-    TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<TimeOfDay> onSaved,
-    TimeOfDay initialValue,
-    bool enabled = true,
-    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO - onChanged
+    this.validator,
+    this.textAlign = TextAlign.start,
+    this.onSaved,
+    this.initialValue,
+    this.enabled = true,
+    this.autoValidateMode = AutovalidateMode.disabled,
     this.focusNode,
-    TextInputAction textInputAction,
-    ValueChanged<String> onFieldSubmitted,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    bool enableInteractiveSelection = true,
-    bool filled = false,
-  }) : super(
-          key: key,
-          initialValue: controller != null
-              ? controller.time
-              : (initialValue ?? TimeOfDay.now()),
-          onSaved: onSaved,
-          validator: enabled ? validator : (_) => null,
-          enabled: enabled,
-          autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<TimeOfDay> field) {
-            final _TimeFieldState state = field as _TimeFieldState;
-
-            Color rootColor = Theme.of(state.context).primaryColor;
-
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              labelText: prefix == null || prefix.isEmpty
-                  ? label
-                  : '${prefix} - ${label}',
-              counterText: '',
-              suffixIcon: IconButton(
-                icon: Icon(FontAwesomeIcons.clock),
-                onPressed: () async {
-                  try {
-                    TimeOfDay selectedTime = await showTimePicker(
-                      context: state.context,
-                      initialTime: state.value ?? TimeOfDay.now(),
-                      builder: (BuildContext context, Widget child) {
-                        return Theme(
-                          data: ThemeData.light().copyWith(
-                            primaryColor: rootColor,
-                            accentColor: rootColor,
-                            colorScheme: ColorScheme.light(primary: rootColor),
-                          ),
-                          child: child,
-                        );
-                      },
-                    );
-
-                    if (selectedTime != null) {
-                      state.didChange(selectedTime);
-                    }
-                  } catch (e, s) {
-                    print(e);
-                    print(s);
-                  }
-                },
-              ),
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: state._effectiveController,
-                focusNode: state._effectiveFocusNode,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: enabled ? field.errorText : null,
-                ),
-                keyboardType: TextInputType.datetime,
-                minLines: 1,
-                maxLines: 1,
-                maxLength: 5,
-                obscureText: false,
-                inputFormatters: <TextInputFormatter>[TimeValidator().mask],
-                textAlign: textAlign,
-                enabled: enabled,
-                textInputAction: textInputAction,
-                onSubmitted: onFieldSubmitted,
-                autocorrect: false,
-                enableSuggestions: false,
-                textCapitalization: TextCapitalization.none,
-                scrollPadding: scrollPadding,
-                enableInteractiveSelection: enableInteractiveSelection,
-                style: enabled ? null : TextStyle(color: Colors.black26),
-                // onChanged: (String value) {
-                //   field.didChange(value);
-                //   if (onChanged != null) {
-                //     onChanged(value);
-                //   }
-                // },
-              ),
-            );
-          },
-        );
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.enableInteractiveSelection = true,
+    this.filled = false,
+  }) : super(key: key);
 
   ///
   ///
@@ -128,15 +55,10 @@ class TimeField extends FormField<TimeOfDay> {
 ///
 ///
 ///
-class _TimeFieldState extends FormFieldState<TimeOfDay> {
-  TimeEditingController _controller;
-  FocusNode _focusNode;
+class _TimeFieldState extends State<TimeField> {
+  final TimeValidator TIME_VALIDATOR = TimeValidator();
 
-  ///
-  ///
-  ///
-  @override
-  TimeField get widget => super.widget as TimeField;
+  TimeEditingController _controller;
 
   ///
   ///
@@ -147,58 +69,11 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   ///
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
-
-  ///
-  ///
-  ///
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = TimeEditingController(time: widget.initialValue);
-    } else {
-      widget.controller.addListener(_handleControllerChanged);
-    }
-
-    if (widget.focusNode == null) {
-      _focusNode = FocusNode();
-      _focusNode.addListener(_handleFocusChanged);
-    } else {
-      widget.focusNode.addListener(_handleFocusChanged);
-    }
-  }
-
-  ///
-  ///
-  ///
-  @override
-  void didUpdateWidget(TimeField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
-      oldWidget.controller?.removeListener(_handleControllerChanged);
-      oldWidget.focusNode?.removeListener(_handleFocusChanged);
-
-      widget.controller?.addListener(_handleControllerChanged);
-      widget.focusNode?.addListener(_handleFocusChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
-        _controller = TimeEditingController.fromValue(
-          oldWidget.controller.value,
-        );
-      }
-
-      if (widget.controller != null) {
-        setValue(widget.controller.time);
-
-        if (oldWidget.controller == null) {
-          _controller = null;
-        }
-
-        if (oldWidget.focusNode == null) {
-          _focusNode = null;
-        }
-      }
     }
   }
 
@@ -207,8 +82,7 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   @override
   void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    widget.focusNode?.removeListener(_handleFocusChanged);
+    if (_controller != null) _controller.dispose();
     super.dispose();
   }
 
@@ -216,42 +90,84 @@ class _TimeFieldState extends FormFieldState<TimeOfDay> {
   ///
   ///
   @override
-  void didChange(TimeOfDay value) {
-    super.didChange(value);
+  Widget build(BuildContext context) {
+    Color rootColor = Theme.of(context).primaryColor;
 
-    if (_effectiveController.time != value) {
-      _effectiveController.time = value;
-    }
-  }
+    final InputDecoration effectiveDecoration = InputDecoration(
+      border: OutlineInputBorder(),
+      filled: widget.filled,
+      labelText: widget.prefix == null || widget.prefix.isEmpty
+          ? widget.label
+          : '${widget.prefix} - ${widget.label}',
+      counterText: '',
+      suffixIcon: IconButton(
+        icon: Icon(FontAwesomeIcons.clock),
+        onPressed: () async {
+          try {
+            TimeOfDay selectedTime = await showTimePicker(
+              context: context,
+              initialTime: _effectiveController.time ?? TimeOfDay.now(),
+              builder: (BuildContext context, Widget child) {
+                return Theme(
+                  data: ThemeData.light().copyWith(
+                    primaryColor: rootColor,
+                    accentColor: rootColor,
+                    colorScheme: ColorScheme.light(primary: rootColor),
+                  ),
+                  child: child,
+                );
+              },
+            );
 
-  ///
-  ///
-  ///
-  @override
-  void reset() {
-    super.reset();
-    setState(() {
-      _effectiveController.time = widget.initialValue;
-    });
-  }
+            if (selectedTime != null) {
+              _effectiveController.time = selectedTime;
+            }
+          } catch (e, s) {
+            print(e);
+            print(s);
+          }
+        },
+      ),
+    ).applyDefaults(Theme.of(context).inputDecorationTheme);
 
-  ///
-  ///
-  ///
-  void _handleControllerChanged() {
-    if (_effectiveController.time != value) {
-      didChange(_effectiveController.time);
-    }
-  }
-
-  ///
-  ///
-  ///
-  void _handleFocusChanged() {
-    _effectiveController.selection = TextSelection(
-      baseOffset: 0,
-      extentOffset:
-          _effectiveFocusNode.hasFocus ? _effectiveController.text.length : 0,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: _effectiveController,
+        decoration: effectiveDecoration,
+        validator: widget.enabled
+            ? (String value) => widget.validator != null
+            ? widget.validator(TIME_VALIDATOR.parse(value))
+            : null
+            : (_) => null,
+        keyboardType: TextInputType.datetime,
+        minLines: 1,
+        maxLines: 1,
+        obscureText: false,
+        inputFormatters: <TextInputFormatter>[TIME_VALIDATOR.mask],
+        textAlign: widget.textAlign,
+        maxLength: 10,
+        onSaved: widget.enabled
+            ? (String value) => widget.onSaved != null
+                ? widget.onSaved(TIME_VALIDATOR.parse(value))
+                : null
+            : null,
+        enabled: widget.enabled,
+        autovalidateMode: widget.autoValidateMode,
+        focusNode: widget.focusNode,
+        textInputAction: widget.textInputAction,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        autocorrect: false,
+        enableSuggestions: false,
+        textCapitalization: TextCapitalization.none,
+        scrollPadding: widget.scrollPadding,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        style: widget.enabled
+            ? null
+            : Theme.of(context).textTheme.subtitle1.copyWith(
+                  color: Theme.of(context).disabledColor,
+                ),
+      ),
     );
   }
 }

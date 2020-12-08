@@ -253,7 +253,7 @@ class DeleteButton extends StatelessWidget {
   const DeleteButton({
     Key key,
     @required this.onPressed,
-    this.color = Colors.black54,
+    this.color = Colors.black45,
     this.top = 12.0,
   }) : super(key: key);
 
@@ -264,15 +264,17 @@ class DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Flexible(
       flex: 0,
-      child: IconButton(
+      child: Padding(
         padding: EdgeInsets.only(
           top: top,
         ),
-        icon: FaIcon(
-          FontAwesomeIcons.trashAlt,
-          color: color,
+        child: IconButton(
+          icon: FaIcon(
+            FontAwesomeIcons.trashAlt,
+            color: color,
+          ),
+          onPressed: onPressed,
         ),
-        onPressed: onPressed,
       ),
     );
   }

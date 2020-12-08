@@ -25,7 +25,8 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  String format(DateTime value) => DateFormat.yMd(locale).format(value);
+  String format(DateTime value) =>
+      value == null ? '' : DateFormat.yMd(locale).format(value);
 
   ///
   ///
@@ -50,13 +51,8 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  DateTime parse(String text) {
-    try {
-      return DateFormat.yMd(locale).parse(text);
-    } catch (e) {
-      return null;
-    }
-  }
+  DateTime parse(String text) =>
+      isValid(text) ? DateFormat.yMd(locale).parse(text) : null;
 
   ///
   ///

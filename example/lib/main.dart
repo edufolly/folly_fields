@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: <Locale>[
+      supportedLocales: const <Locale>[
         Locale('pt', 'BR'),
       ],
     );
@@ -209,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 prefix: prefix,
                 label: 'Data*',
                 enabled: edit,
-                initialValue: model.date ?? DateTime.now(),
+                initialValue: model.date,
                 onSaved: (DateTime value) => model.date = value,
               ),
 
@@ -218,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 prefix: prefix,
                 label: 'Hora*',
                 enabled: edit,
-                initialValue: model.time ?? TimeOfDay.now(),
+                initialValue: model.time,
                 onSaved: (TimeOfDay value) => model.time = value,
               ),
 

@@ -84,7 +84,7 @@ abstract class AbstractModel {
   ///
   ///
   @override
-  bool operator ==(dynamic other) => id ?? -1 == other.id ?? -2;
+  bool operator ==(dynamic other) => (id ?? -1) == (other.id ?? -2);
 
   ///
   ///
