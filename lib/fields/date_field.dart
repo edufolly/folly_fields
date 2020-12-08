@@ -57,7 +57,7 @@ class DateField extends StatefulWidget {
 ///
 ///
 class _DateFieldState extends State<DateField> {
-  final DateValidator DATE_VALIDATOR = DateValidator();
+  final DateValidator validator = DateValidator();
 
   DateEditingController _controller;
 
@@ -140,19 +140,19 @@ class _DateFieldState extends State<DateField> {
         decoration: effectiveDecoration,
         validator: widget.enabled
             ? (String value) => widget.validator != null
-                ? widget.validator(DATE_VALIDATOR.parse(value))
+                ? widget.validator(validator.parse(value))
                 : null
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
         maxLines: 1,
         obscureText: false,
-        inputFormatters: <TextInputFormatter>[DATE_VALIDATOR.mask],
+        inputFormatters: validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: 10,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
-                ? widget.onSaved(DATE_VALIDATOR.parse(value))
+                ? widget.onSaved(validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,
@@ -179,13 +179,11 @@ class _DateFieldState extends State<DateField> {
 ///
 ///
 class DateEditingController extends TextEditingController {
-  static final DateValidator DATE_VALIDATOR = DateValidator();
-
   ///
   ///
   ///
   DateEditingController({DateTime date})
-      : super(text: date == null ? '' : DATE_VALIDATOR.format(date));
+      : super(text: date == null ? '' : DateValidator().format(date));
 
   ///
   ///
@@ -196,10 +194,10 @@ class DateEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateTime get date => DATE_VALIDATOR.parse(text);
+  DateTime get date => DateValidator().parse(text);
 
   ///
   ///
   ///
-  set date(DateTime dateTime) => text = DATE_VALIDATOR.format(dateTime);
+  set date(DateTime dateTime) => text = DateValidator().format(dateTime);
 }

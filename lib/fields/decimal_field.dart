@@ -1,84 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/validators/decimal_validator.dart';
 
 ///
 ///
 ///
-class DecimalField extends FormField<Decimal> {
+class DecimalField extends StatefulWidget {
+  final String prefix;
+  final String label;
   final DecimalEditingController controller;
+  final FormFieldValidator<Decimal> validator;
+  final TextAlign textAlign;
+  final int maxLength;
+  final FormFieldSetter<Decimal> onSaved;
+  final Decimal initialValue;
+  final bool enabled;
+  final AutovalidateMode autoValidateMode;
   final FocusNode focusNode;
+  final TextInputAction textInputAction;
+  final ValueChanged<String> onFieldSubmitted;
+  final EdgeInsets scrollPadding;
+  final bool enableInteractiveSelection;
+  final bool filled;
 
   ///
   ///
   ///
   DecimalField({
     Key key,
-    String prefix,
-    String label,
+    this.prefix,
+    this.label,
     this.controller,
-    FormFieldValidator<Decimal> validator,
-    TextAlign textAlign = TextAlign.end,
-    int maxLength,
-    FormFieldSetter<Decimal> onSaved,
-    Decimal initialValue,
-    bool enabled = true,
-    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO - onChanged
+    this.validator,
+    this.textAlign = TextAlign.end,
+    this.maxLength,
+    this.onSaved,
+    this.initialValue,
+    this.enabled = true,
+    this.autoValidateMode = AutovalidateMode.disabled,
     this.focusNode,
-    TextInputAction textInputAction,
-    ValueChanged<String> onFieldSubmitted,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
-    bool enableInteractiveSelection = true,
-    bool filled = false,
-  }) : super(
-          key: key,
-          initialValue: controller != null
-              ? controller.getDecimal()
-              : (initialValue ?? Decimal(precision: 2)),
-          onSaved: onSaved,
-          validator: enabled ? validator : (_) => null,
-          enabled: enabled,
-          autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<Decimal> field) {
-            final _DecimalFieldState state = field as _DecimalFieldState;
-
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              labelText: prefix == null || prefix.isEmpty
-                  ? label
-                  : '${prefix} - ${label}',
-              counterText: '',
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: state._effectiveController,
-                focusNode: state._effectiveFocusNode,
-                decoration: effectiveDecoration.copyWith(
-                  errorText: enabled ? field.errorText : null,
-                ),
-                keyboardType: TextInputType.number,
-                minLines: 1,
-                maxLines: 1,
-                obscureText: false,
-                textAlign: textAlign,
-                maxLength: maxLength,
-                enabled: enabled,
-                textInputAction: textInputAction,
-                onSubmitted: onFieldSubmitted,
-                autocorrect: false,
-                enableSuggestions: false,
-                textCapitalization: TextCapitalization.none,
-                scrollPadding: scrollPadding,
-                enableInteractiveSelection: enableInteractiveSelection,
-                style: enabled ? null : TextStyle(color: Colors.black26),
-              ),
-            );
-          },
-        );
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.enableInteractiveSelection = true,
+    this.filled = false,
+  }) : super(key: key);
 
   ///
   ///
@@ -90,15 +57,8 @@ class DecimalField extends FormField<Decimal> {
 ///
 ///
 ///
-class _DecimalFieldState extends FormFieldState<Decimal> {
+class _DecimalFieldState extends State<DecimalField> {
   DecimalEditingController _controller;
-  FocusNode _focusNode;
-
-  ///
-  ///
-  ///
-  @override
-  DecimalField get widget => super.widget as DecimalField;
 
   ///
   ///
@@ -109,59 +69,11 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   ///
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
-
-  ///
-  ///
-  ///
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = DecimalEditingController(widget.initialValue);
-      _controller.addListener(_handleControllerChanged);
-    } else {
-      widget.controller.addListener(_handleControllerChanged);
-    }
-
-    if (widget.focusNode == null) {
-      _focusNode = FocusNode();
-      _focusNode.addListener(_handleFocusChanged);
-    } else {
-      widget.focusNode.addListener(_handleFocusChanged);
-    }
-  }
-
-  ///
-  ///
-  ///
-  @override
-  void didUpdateWidget(DecimalField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
-      oldWidget.controller?.removeListener(_handleControllerChanged);
-      oldWidget.focusNode?.removeListener(_handleFocusChanged);
-
-      widget.controller?.addListener(_handleControllerChanged);
-      widget.focusNode?.addListener(_handleFocusChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
-        _controller = DecimalEditingController(
-          oldWidget.controller.getDecimal(),
-        );
-      }
-
-      if (widget.controller != null) {
-        setValue(widget.controller.getDecimal());
-
-        if (oldWidget.controller == null) {
-          _controller = null;
-        }
-
-        if (oldWidget.focusNode == null) {
-          _focusNode = null;
-        }
-      }
     }
   }
 
@@ -170,8 +82,7 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   @override
   void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    widget.focusNode?.removeListener(_handleFocusChanged);
+    if (_controller != null) _controller.dispose();
     super.dispose();
   }
 
@@ -179,39 +90,56 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
   ///
   ///
   @override
-  void didChange(Decimal decimal) {
-    super.didChange(decimal);
-    if (_effectiveController.getDecimal().value != decimal.value) {
-      _effectiveController.setDecimal(decimal);
-    }
-  }
+  Widget build(BuildContext context) {
+    final InputDecoration effectiveDecoration = InputDecoration(
+      border: OutlineInputBorder(),
+      filled: widget.filled,
+      labelText: widget.prefix == null || widget.prefix.isEmpty
+          ? widget.label
+          : '${widget.prefix} - ${widget.label}',
+      counterText: '',
+    ).applyDefaults(Theme.of(context).inputDecorationTheme);
 
-  ///
-  ///
-  ///
-  @override
-  void reset() {
-    super.reset();
-    setState(() => _effectiveController.setDecimal(widget.initialValue));
-  }
-
-  ///
-  ///
-  ///
-  void _handleControllerChanged() {
-    if (_effectiveController.getDecimal().value != value.value) {
-      didChange(_effectiveController.getDecimal());
-    }
-  }
-
-  ///
-  ///
-  ///
-  void _handleFocusChanged() {
-    _effectiveController.selection = TextSelection(
-      baseOffset: 0,
-      extentOffset:
-          _effectiveFocusNode.hasFocus ? _effectiveController.text.length : 0,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: _effectiveController,
+        decoration: effectiveDecoration,
+        validator: widget.enabled
+            ? (String value) => widget.validator != null
+                ? widget.validator(
+                    _effectiveController.validator.parse(value),
+                  )
+                : null
+            : (_) => null,
+        keyboardType: _effectiveController.validator.keyboard,
+        minLines: 1,
+        maxLines: 1,
+        obscureText: false,
+        inputFormatters: _effectiveController.validator.inputFormatters,
+        textAlign: widget.textAlign,
+        maxLength: widget.maxLength,
+        onSaved: widget.enabled
+            ? (String value) => widget.onSaved != null
+                ? widget.onSaved(_effectiveController.validator.parse(value))
+                : null
+            : null,
+        enabled: widget.enabled,
+        autovalidateMode: widget.autoValidateMode,
+        focusNode: widget.focusNode,
+        textInputAction: widget.textInputAction,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        autocorrect: false,
+        enableSuggestions: false,
+        textCapitalization: TextCapitalization.none,
+        scrollPadding: widget.scrollPadding,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        style: widget.enabled
+            ? null
+            : Theme.of(context).textTheme.subtitle1.copyWith(
+                  color: Theme.of(context).disabledColor,
+                ),
+      ),
     );
   }
 }
@@ -220,71 +148,36 @@ class _DecimalFieldState extends FormFieldState<Decimal> {
 ///
 ///
 class DecimalEditingController extends TextEditingController {
-  final String decimalSeparator;
-  final String thousandSeparator;
-  final String rightSymbol;
-  final String leftSymbol;
-  final int precision;
-
-  ///
-  ///
-  ///
-  @override
-  void dispose() {
-    removeListener(_changeListener);
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  void _changeListener() => setDecimal(getDecimal());
-
-  ///
-  ///
-  ///
-  DecimalEditingController(
-    Decimal dec, {
-    this.decimalSeparator = ',',
-    this.thousandSeparator = '.',
-    this.rightSymbol = '',
-    this.leftSymbol = '',
-  }) : precision = dec.precision {
-    if (_strip(rightSymbol).isNotEmpty) {
-      throw ArgumentError('rightSymbol must not have numbers.');
-    }
-    addListener(_changeListener);
-    setDecimal(dec);
-  }
+  final DecimalValidator validator;
 
   double _lastValue = 0.0;
 
   ///
   ///
   ///
-  void setDecimal(Decimal dec) {
-    double valueToUse = dec.value;
+  DecimalEditingController(Decimal dec)
+      : validator = DecimalValidator(dec.precision) {
+    addListener(_changeListener);
+    setDecimal(dec);
+  }
 
+  ///
+  ///
+  ///
+  void setDecimal(Decimal dec) {
+    /// TODO - Remover esse limitador?
     if (dec.value.toStringAsFixed(0).length > 12) {
-      valueToUse = _lastValue;
+      dec.value = _lastValue;
     } else {
       _lastValue = dec.value;
     }
 
-    String masked = _applyMask(valueToUse);
+    String masked = validator.format(dec);
 
-    if (rightSymbol.isNotEmpty) {
-      masked += rightSymbol;
-    }
-
-    if (leftSymbol.isNotEmpty) {
-      masked = leftSymbol + masked;
-    }
-
-    if (masked != text) {
+    if (masked != super.text) {
       super.text = masked;
 
-      int cursorPosition = super.text.length - rightSymbol.length;
+      int cursorPosition = super.text.length - validator.rightSymbol.length;
       super.selection = TextSelection.fromPosition(
         TextPosition(
           offset: cursorPosition,
@@ -296,55 +189,19 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  Decimal getDecimal() {
-    bool hasNoValue = text.isEmpty ||
-        (text.length <= (rightSymbol.length + leftSymbol.length));
-
-    Decimal decimal = Decimal(precision: precision);
-
-    if (hasNoValue) {
-      return decimal;
-    }
-
-    List<String> parts = _strip(text).split('').toList(growable: true);
-
-    for (int i = parts.length; i <= precision; i++) {
-      parts.insert(0, '0');
-    }
-
-    parts.insert(parts.length - precision, '.');
-
-    decimal.value = double.parse(parts.join());
-
-    return decimal;
-  }
+  Decimal getDecimal() => validator.parse(text);
 
   ///
   ///
   ///
-  String _strip(String value) => (value ?? '').replaceAll(RegExp(r'[^\d]'), '');
+  void _changeListener() => setDecimal(getDecimal());
 
   ///
   ///
   ///
-  String _applyMask(double value) {
-    List<String> textRepresentation = value
-        .toStringAsFixed(precision)
-        .replaceAll('.', '')
-        .split('')
-        .reversed
-        .toList(growable: true);
-
-    textRepresentation.insert(precision, decimalSeparator);
-
-    for (int i = precision + 4; true; i += 4) {
-      if (textRepresentation.length > i) {
-        textRepresentation.insert(i, thousandSeparator);
-      } else {
-        break;
-      }
-    }
-
-    return textRepresentation.reversed.join('');
+  @override
+  void dispose() {
+    removeListener(_changeListener);
+    super.dispose();
   }
 }

@@ -38,10 +38,14 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
+  bool get returnLog => false;
+
+  ///
+  ///
+  ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context, {
     List<String> paths,
-    bool returnLog = false,
   });
 
   ///
@@ -51,7 +55,6 @@ abstract class AbstractConsumer<T extends AbstractModel> {
     BuildContext context, {
     bool forceOffline = false,
     Map<String, String> qsParam,
-    bool returnLog = false,
   });
 
   ///
@@ -74,27 +77,24 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   Future<T> delete(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  });
+    T model,
+  );
 
   ///
   ///
   ///
   Future<T> getById(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  });
+    T model,
+  );
 
   ///
   ///
   ///
   Future<bool> saveOrUpdate(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  });
+    T model,
+  );
 }
 
 ///

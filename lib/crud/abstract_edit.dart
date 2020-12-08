@@ -54,7 +54,6 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
     @required bool edit,
     @required Map<String, dynamic> stateInjection,
     @required String prefix,
-    // @required bool remap,
   });
 
   ///
@@ -68,7 +67,6 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
       edit: edit,
       stateInjection: <String, dynamic>{},
       prefix: uiBuilder.prefix,
-      // remap: true,
     );
   }
 

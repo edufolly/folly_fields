@@ -49,12 +49,10 @@ class ValidatorField extends StringField {
           minLines: 1,
           maxLines: 1,
           obscureText: false,
-          inputFormatter: abstractValidator.mask != null
-              ? <TextInputFormatter>[
-                  abstractValidator.mask,
-                  ...inputFormatter ?? <TextInputFormatter>[]
-                ]
-              : inputFormatter,
+          inputFormatter: <TextInputFormatter>[
+            ...abstractValidator.inputFormatters ?? <TextInputFormatter>[],
+            ...inputFormatter ?? <TextInputFormatter>[]
+          ],
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: (String value) {

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
@@ -10,9 +11,11 @@ class NcmValidator extends AbstractValidator<String> {
   ///
   NcmValidator()
       : super(
-          MaskTextInputFormatter(
-            mask: '####.##.##',
-          ),
+          <TextInputFormatter>[
+            MaskTextInputFormatter(
+              mask: '####.##.##',
+            ),
+          ],
         );
 
   ///

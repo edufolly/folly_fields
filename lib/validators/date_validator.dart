@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +8,7 @@ import 'package:intl/intl.dart';
 ///
 ///
 class DateValidator extends AbstractValidator<DateTime>
-    implements AbstractTimeParser<DateTime> {
+    implements AbstractParser<DateTime> {
   final dynamic locale;
 
   ///
@@ -16,9 +17,11 @@ class DateValidator extends AbstractValidator<DateTime>
   DateValidator({
     this.locale = 'pt_br',
   }) : super(
-          MaskTextInputFormatter(
-            mask: '##/##/####',
-          ),
+          <TextInputFormatter>[
+            MaskTextInputFormatter(
+              mask: '##/##/####',
+            ),
+          ],
         );
 
   ///

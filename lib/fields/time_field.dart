@@ -56,7 +56,7 @@ class TimeField extends StatefulWidget {
 ///
 ///
 class _TimeFieldState extends State<TimeField> {
-  final TimeValidator TIME_VALIDATOR = TimeValidator();
+  final TimeValidator validator = TimeValidator();
 
   TimeEditingController _controller;
 
@@ -137,19 +137,19 @@ class _TimeFieldState extends State<TimeField> {
         decoration: effectiveDecoration,
         validator: widget.enabled
             ? (String value) => widget.validator != null
-            ? widget.validator(TIME_VALIDATOR.parse(value))
-            : null
+                ? widget.validator(validator.parse(value))
+                : null
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
         maxLines: 1,
         obscureText: false,
-        inputFormatters: <TextInputFormatter>[TIME_VALIDATOR.mask],
+        inputFormatters: validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: 10,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
-                ? widget.onSaved(TIME_VALIDATOR.parse(value))
+                ? widget.onSaved(validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,
@@ -176,13 +176,11 @@ class _TimeFieldState extends State<TimeField> {
 ///
 ///
 class TimeEditingController extends TextEditingController {
-  static final TimeValidator TIME_VALIDATOR = TimeValidator();
-
   ///
   ///
   ///
   TimeEditingController({TimeOfDay time})
-      : super(text: TIME_VALIDATOR.format(time ?? TimeOfDay.now()));
+      : super(text: TimeValidator().format(time ?? TimeOfDay.now()));
 
   ///
   ///
@@ -193,10 +191,10 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  TimeOfDay get time => TIME_VALIDATOR.parse(text);
+  TimeOfDay get time => TimeValidator().parse(text);
 
   ///
   ///
   ///
-  set time(TimeOfDay time) => text = TIME_VALIDATOR.format(time);
+  set time(TimeOfDay time) => text = TimeValidator().format(time);
 }

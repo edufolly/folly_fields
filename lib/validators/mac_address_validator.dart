@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
@@ -12,12 +13,14 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   MacAddressValidator()
       : super(
-          UppercaseMask(
-            mask: '##:##:##:##:##:##',
-            filter: <String, RegExp>{
-              '#': RegExp(r'[a-fA-F0-9]'),
-            },
-          ),
+          <TextInputFormatter>[
+            UppercaseMask(
+              mask: '##:##:##:##:##:##',
+              filter: <String, RegExp>{
+                '#': RegExp(r'[a-fA-F0-9]'),
+              },
+            ),
+          ],
         );
 
   ///

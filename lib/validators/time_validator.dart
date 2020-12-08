@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 
@@ -6,20 +7,22 @@ import 'package:folly_fields/util/mask_text_input_formatter.dart';
 ///
 ///
 class TimeValidator extends AbstractValidator<TimeOfDay>
-    implements AbstractTimeParser<TimeOfDay> {
+    implements AbstractParser<TimeOfDay> {
   ///
   ///
   ///
   TimeValidator()
       : super(
-          MaskTextInputFormatter(
-            mask: 'AB:CB',
-            filter: <String, RegExp>{
-              'A': RegExp(r'[0-2]'),
-              'B': RegExp(r'[0-9]'),
-              'C': RegExp(r'[0-5]'),
-            },
-          ),
+          <TextInputFormatter>[
+            MaskTextInputFormatter(
+              mask: 'AB:CB',
+              filter: <String, RegExp>{
+                'A': RegExp(r'[0-2]'),
+                'B': RegExp(r'[0-9]'),
+                'C': RegExp(r'[0-5]'),
+              },
+            ),
+          ],
         );
 
   ///

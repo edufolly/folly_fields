@@ -22,7 +22,7 @@ class Decimal {
   ///
   ///
   ///
-  int get integer => (value * pow(10, precision)).toInt();
+  int get integer => int.parse((value * pow(10, precision)).toStringAsFixed(0));
 
   ///
   ///

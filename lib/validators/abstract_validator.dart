@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:flutter/services.dart';
 
 
 
@@ -7,12 +7,12 @@ import 'package:folly_fields/util/mask_text_input_formatter.dart';
 ///
 ///
 abstract class AbstractValidator<T> {
-  final MaskTextInputFormatter mask;
+  final List<TextInputFormatter> inputFormatters;
 
   ///
   ///
   ///
-  AbstractValidator(this.mask);
+  AbstractValidator(this.inputFormatters);
 
   ///
   ///
@@ -38,7 +38,7 @@ abstract class AbstractValidator<T> {
 ///
 ///
 ///
-abstract class AbstractTimeParser<T> {
+abstract class AbstractParser<T> {
   ///
   ///
   ///
