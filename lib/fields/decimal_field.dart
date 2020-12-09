@@ -73,7 +73,7 @@ class _DecimalFieldState extends State<DecimalField> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DecimalEditingController(widget.initialValue);
+      _controller = DecimalEditingController(decimal: widget.initialValue);
     }
   }
 
@@ -155,10 +155,10 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  DecimalEditingController(Decimal dec)
-      : validator = DecimalValidator(dec.precision) {
+  DecimalEditingController({Decimal decimal})
+      : validator = DecimalValidator(decimal.precision) {
     addListener(_changeListener);
-    setDecimal(dec);
+    setDecimal(decimal);
   }
 
   ///

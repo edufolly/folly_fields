@@ -119,11 +119,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
 
     parts.insert(parts.length - precision, '.');
 
-    print('String: $parts');
-
     double d = double.parse(parts.join());
-
-    print('Double: $d');
 
     decimal.value = d;
 
