@@ -11,10 +11,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
+abstract class AbstractEdit<
+    T extends AbstractModel,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends StatefulWidget {
   final T model;
-  final AbstractUIBuilder<T> uiBuilder;
-  final AbstractConsumer<T> consumer;
+  final UI uiBuilder;
+  final C consumer;
   final bool edit;
 
   ///
@@ -32,7 +35,7 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
   ///
   ///
   @override
-  _AbstractEditState<T> createState() => _AbstractEditState<T>();
+  _AbstractEditState<T, UI, C> createState() => _AbstractEditState<T, UI, C>();
 
   ///
   ///
@@ -82,8 +85,10 @@ abstract class AbstractEdit<T extends AbstractModel> extends StatefulWidget {
 ///
 ///
 ///
-class _AbstractEditState<T extends AbstractModel>
-    extends State<AbstractEdit<T>> {
+class _AbstractEditState<
+    T extends AbstractModel,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends State<AbstractEdit<T, UI, C>> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   StreamController<bool> _controller;

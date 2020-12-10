@@ -15,21 +15,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
+abstract class AbstractList<
+    T extends AbstractModel,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends StatefulWidget {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
   final bool forceOffline;
-  final AbstractConsumer<T> consumer;
-  final AbstractUIBuilder<T> uiBuilder;
+  final C consumer;
+  final UI uiBuilder;
   final Widget Function(
-    AbstractConsumer<T> consumer,
-    AbstractUIBuilder<T> uiBuilder,
+    C consumer,
+    UI uiBuilder,
   ) onAdd;
   final Widget Function(
     T model,
-    AbstractConsumer<T> consumer,
-    AbstractUIBuilder<T> uiBuilder,
+    C consumer,
+    UI uiBuilder,
   ) onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
@@ -76,14 +79,16 @@ abstract class AbstractList<T extends AbstractModel> extends StatefulWidget {
   ///
   ///
   @override
-  _AbstractListState<T> createState() => _AbstractListState<T>();
+  _AbstractListState<T, UI, C> createState() => _AbstractListState<T, UI, C>();
 }
 
 ///
 ///
 ///
-class _AbstractListState<T extends AbstractModel>
-    extends State<AbstractList<T>> {
+class _AbstractListState<
+    T extends AbstractModel,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -275,14 +280,17 @@ class _AbstractListState<T extends AbstractModel>
                 onPressed: () {
                   showSearch<T>(
                     context: context,
-                    delegate: InternalSearch<T>(
-                      abstractListModel: widget,
+                    delegate: InternalSearch<T, UI, C>(
                       buildResultItem: _buildResultItem,
                       canDelete: (T model) =>
                           _delete &&
                           FollyFields().isWeb &&
                           widget.canDelete(model),
                       qsParam: widget.qsParam,
+                      forceOffline: widget.forceOffline,
+                      itemsPerPage: widget.itemsPerPage,
+                      uiBuilder: widget.uiBuilder,
+                      consumer: widget.consumer,
                     ),
                   ).then((T entity) {
                     if (entity != null) {
@@ -606,8 +614,10 @@ class _AbstractListState<T extends AbstractModel>
 ///
 ///
 ///
-class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
-  final AbstractList<W> abstractListModel;
+class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
+    C extends AbstractConsumer<W>> extends SearchDelegate<W> {
+  final UI uiBuilder;
+  final C consumer;
 
   final Widget Function({
     @required W model,
@@ -618,8 +628,9 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
   }) buildResultItem;
 
   final bool Function(W) canDelete;
-
   final Map<String, String> qsParam;
+  final bool forceOffline;
+  final int itemsPerPage;
 
   String _lastQuery;
   Widget _lastWidget;
@@ -628,10 +639,13 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
   ///
   ///
   InternalSearch({
-    @required this.abstractListModel,
+    @required this.uiBuilder,
+    @required this.consumer,
     @required this.buildResultItem,
     @required this.canDelete,
     @required this.qsParam,
+    @required this.forceOffline,
+    @required this.itemsPerPage,
   });
 
   ///
@@ -688,9 +702,9 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
       param['t'] = query.toLowerCase();
 
       return FutureBuilder<List<W>>(
-        future: abstractListModel.consumer.list(
+        future: consumer.list(
           context,
-          forceOffline: abstractListModel.forceOffline,
+          forceOffline: forceOffline,
           qsParam: param,
         ),
         builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
@@ -750,12 +764,12 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
 
         param['t'] = query.replaceAll('%', '').toLowerCase();
 
-        param['q'] = abstractListModel.itemsPerPage.toString();
+        param['q'] = itemsPerPage.toString();
 
         _lastWidget = FutureBuilder<List<W>>(
-          future: abstractListModel.consumer.list(
+          future: consumer.list(
             context,
-            forceOffline: abstractListModel.forceOffline,
+            forceOffline: forceOffline,
             qsParam: param,
           ),
           builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
@@ -780,10 +794,8 @@ class InternalSearch<W extends AbstractModel> extends SearchDelegate<W> {
                           W model = snapshot.data[index];
 
                           return ListTile(
-                            title: abstractListModel.uiBuilder
-                                .getSuggestionTitle(model),
-                            subtitle: abstractListModel.uiBuilder
-                                .getSuggestionSubtitle(model),
+                            title: uiBuilder.getSuggestionTitle(model),
+                            subtitle: uiBuilder.getSuggestionSubtitle(model),
                             onTap: () {
                               _lastQuery = model.searchTerm;
                               query = _lastQuery;
