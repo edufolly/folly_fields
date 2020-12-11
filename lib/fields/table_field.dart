@@ -19,13 +19,18 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
     @required AbstractConsumer<T> consumer,
     @required List<String> columns,
     List<int> columnsFlex = const <int>[],
-    @required List<Widget> Function(T row, int index, List<T> data) buildRow,
-    Future<bool> Function(BuildContext context) beforeAdd,
-    void Function(T row, int index, List<T> data) removeRow,
+    @required
+        List<Widget> Function(
+                BuildContext context, T row, int index, List<T> data)
+            buildRow,
+    Future<bool> Function(BuildContext context, List<T> data) beforeAdd,
+    void Function(BuildContext context, T row, int index, List<T> data)
+        removeRow,
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
     AutovalidateMode autoValidateMode,
+    Widget Function(BuildContext context, List<T> data) buildFooter,
   })  : assert(columnsFlex == null || columnsFlex.length == columns.length),
         super(
           key: key,
@@ -93,11 +98,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                     .toList(),
 
                                 /// Coluna vazia para o botão excluir
-                                DeleteButton(
-                                  onPressed: null,
-                                  color: Colors.transparent,
-                                  top: 0.0,
-                                ),
+                                EmptyButton(),
                               ],
                             ),
 
@@ -118,6 +119,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                         children: <Widget>[
                                           /// Células
                                           ...buildRow(
+                                            field.context,
                                             entry.value,
                                             entry.key,
                                             field.value,
@@ -143,6 +145,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                             onPressed: () {
                                               if (removeRow != null) {
                                                 removeRow(
+                                                  field.context,
                                                   entry.value,
                                                   entry.key,
                                                   field.value,
@@ -157,6 +160,10 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                     ],
                                   ),
                                 ),
+
+                            /// Rodapé
+                            if (buildFooter != null)
+                              buildFooter(field.context, field.value),
                           ],
                         ),
                       ),
@@ -172,7 +179,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                           .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
-                          bool go = await beforeAdd(field.context);
+                          bool go = await beforeAdd(field.context, field.value);
                           if (!go) return;
                         }
 
@@ -237,6 +244,21 @@ class AddButton extends StatelessWidget {
       ),
     );
   }
+}
+
+///
+///
+///
+class EmptyButton extends DeleteButton {
+  ///
+  ///
+  ///
+  EmptyButton()
+      : super(
+          onPressed: null,
+          color: Colors.transparent,
+          top: 0.0,
+        );
 }
 
 ///

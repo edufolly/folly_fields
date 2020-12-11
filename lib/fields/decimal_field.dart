@@ -23,6 +23,7 @@ class DecimalField extends StatefulWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final void Function(Decimal) lostFocus;
 
   ///
   ///
@@ -45,6 +46,7 @@ class DecimalField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.lostFocus,
   }) : super(key: key);
 
   ///
@@ -59,6 +61,7 @@ class DecimalField extends StatefulWidget {
 ///
 class _DecimalFieldState extends State<DecimalField> {
   DecimalEditingController _controller;
+  FocusNode _focusNode;
 
   ///
   ///
@@ -69,11 +72,38 @@ class _DecimalFieldState extends State<DecimalField> {
   ///
   ///
   ///
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+
+  ///
+  ///
+  ///
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = DecimalEditingController(decimal: widget.initialValue);
+    }
+
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
+
+    _effectiveFocusNode.addListener(_handleFocus);
+  }
+
+  ///
+  ///
+  ///
+  void _handleFocus() {
+    if (_effectiveFocusNode.hasFocus) {
+      _effectiveController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _effectiveController.text.length,
+      );
+    }
+
+    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+      widget.lostFocus(_effectiveController.getDecimal());
     }
   }
 
@@ -82,7 +112,11 @@ class _DecimalFieldState extends State<DecimalField> {
   ///
   @override
   void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
     if (_controller != null) _controller.dispose();
+    if (_focusNode != null) _focusNode.dispose();
+
     super.dispose();
   }
 
@@ -126,7 +160,7 @@ class _DecimalFieldState extends State<DecimalField> {
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
-        focusNode: widget.focusNode,
+        focusNode: _effectiveFocusNode,
         textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,
@@ -155,7 +189,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  DecimalEditingController({Decimal decimal})
+  DecimalEditingController({@required Decimal decimal})
       : validator = DecimalValidator(decimal.precision) {
     addListener(_changeListener);
     setDecimal(decimal);

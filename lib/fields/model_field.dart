@@ -31,7 +31,8 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
     Future<bool> Function(BuildContext, T) beforeRoute,
     Future<bool> Function(T model) acceptChange,
     Function(T model) tapToVisualize,
-  }) : super(
+  })  : assert(initialValue == null || controller == null),
+        super(
           key: key,
           initialValue: controller != null ? controller.model : initialValue,
           onSaved: onSaved,
@@ -106,7 +107,10 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
                             accept = await acceptChange(selected);
                           }
 
-                          if (accept) state.didChange(selected);
+                          if (accept) {
+                            state._effectiveController.model = selected;
+                            state.didChange(selected);
+                          }
                         } catch (e, s) {
                           print(e);
                           print(s);
@@ -256,6 +260,7 @@ class ModelEditingController<T extends AbstractModel>
       text: (model ?? '').toString(),
     );
     _model = model;
+    notifyListeners();
   }
 
   ///

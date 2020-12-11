@@ -24,6 +24,7 @@ class DateField extends StatefulWidget {
   final DateTime firstDate;
   final DateTime lastDate;
   final bool filled;
+  final void Function(DateTime) lostFocus;
 
   ///
   ///
@@ -47,8 +48,12 @@ class DateField extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.filled = false,
+    this.lostFocus,
   }) : super(key: key);
 
+  ///
+  ///
+  ///
   @override
   _DateFieldState createState() => _DateFieldState();
 }
@@ -60,6 +65,7 @@ class _DateFieldState extends State<DateField> {
   final DateValidator validator = DateValidator();
 
   DateEditingController _controller;
+  FocusNode _focusNode;
 
   ///
   ///
@@ -70,11 +76,38 @@ class _DateFieldState extends State<DateField> {
   ///
   ///
   ///
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+
+  ///
+  ///
+  ///
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = DateEditingController(date: widget.initialValue);
+    }
+
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
+
+    _effectiveFocusNode.addListener(_handleFocus);
+  }
+
+  ///
+  ///
+  ///
+  void _handleFocus() {
+    if (_effectiveFocusNode.hasFocus) {
+      _effectiveController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _effectiveController.text.length,
+      );
+    }
+
+    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+      widget.lostFocus(_effectiveController.date);
     }
   }
 
@@ -83,7 +116,11 @@ class _DateFieldState extends State<DateField> {
   ///
   @override
   void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
     if (_controller != null) _controller.dispose();
+    if (_focusNode != null) _focusNode.dispose();
+
     super.dispose();
   }
 
@@ -157,7 +194,7 @@ class _DateFieldState extends State<DateField> {
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
-        focusNode: widget.focusNode,
+        focusNode: _effectiveFocusNode,
         textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,

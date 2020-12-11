@@ -22,6 +22,7 @@ class TimeField extends StatefulWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final void Function(TimeOfDay) lostFocus;
 
   ///
   ///
@@ -43,6 +44,7 @@ class TimeField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.lostFocus,
   }) : super(key: key);
 
   ///
@@ -59,6 +61,7 @@ class _TimeFieldState extends State<TimeField> {
   final TimeValidator validator = TimeValidator();
 
   TimeEditingController _controller;
+  FocusNode _focusNode;
 
   ///
   ///
@@ -69,11 +72,38 @@ class _TimeFieldState extends State<TimeField> {
   ///
   ///
   ///
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+
+  ///
+  ///
+  ///
   @override
   void initState() {
     super.initState();
     if (widget.controller == null) {
       _controller = TimeEditingController(time: widget.initialValue);
+    }
+
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
+
+    _effectiveFocusNode.addListener(_handleFocus);
+  }
+
+  ///
+  ///
+  ///
+  void _handleFocus() {
+    if (_effectiveFocusNode.hasFocus) {
+      _effectiveController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _effectiveController.text.length,
+      );
+    }
+
+    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+      widget.lostFocus(_effectiveController.time);
     }
   }
 
@@ -82,7 +112,11 @@ class _TimeFieldState extends State<TimeField> {
   ///
   @override
   void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
     if (_controller != null) _controller.dispose();
+    if (_focusNode != null) _focusNode.dispose();
+
     super.dispose();
   }
 
@@ -154,7 +188,7 @@ class _TimeFieldState extends State<TimeField> {
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
-        focusNode: widget.focusNode,
+        focusNode: _effectiveFocusNode,
         textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,
@@ -180,7 +214,7 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   TimeEditingController({TimeOfDay time})
-      : super(text: TimeValidator().format(time ?? TimeOfDay.now()));
+      : super(text: time == null ? '' : TimeValidator().format(time));
 
   ///
   ///

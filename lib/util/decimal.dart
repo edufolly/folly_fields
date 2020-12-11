@@ -15,8 +15,11 @@ class Decimal {
   Decimal({
     @required this.precision,
     int initialValue,
+    double doubleValue,
   }) : assert(precision >= 0) {
-    value = (initialValue ?? 0).toDouble() / pow(10, precision);
+    value = initialValue != null
+        ? initialValue.toDouble() / pow(10, precision)
+        : doubleValue ?? 0.0;
   }
 
   ///
