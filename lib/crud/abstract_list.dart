@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
@@ -18,7 +19,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 abstract class AbstractList<
     T extends AbstractModel,
     UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends StatefulWidget {
+    C extends AbstractConsumer<T>> extends AbstractRoute {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
@@ -37,7 +38,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<List<String>> actionRoutes;
+  final List<AbstractRoute> actionRoutes;
 
   ///
   ///
@@ -62,12 +63,13 @@ abstract class AbstractList<
     this.qsParam,
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.actionRoutes = const <List<String>>[],
+    this.actionRoutes = const <AbstractRoute>[],
   }) : super(key: key);
 
   ///
   ///
   ///
+  @override
   List<String> get routeName => consumer.routeName;
 
   ///
@@ -320,12 +322,12 @@ class _AbstractListState<
           } else {
             /// Action Routes
             widget.actionRoutes.forEach(
-              (List<String> action) {
+              (AbstractRoute route) {
                 _actions.add(
                   FutureBuilder<ConsumerPermission>(
                     future: widget.consumer.checkPermission(
                       context,
-                      paths: action,
+                      paths: route.routeName,
                     ),
                     builder: (
                       BuildContext context,
@@ -339,8 +341,8 @@ class _AbstractListState<
                           icon: FaIcon(
                             IconHelper.data[permission.iconName],
                           ),
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed('/${action.join('/')}'),
+                          onPressed: () =>
+                              Navigator.of(context).pushNamed(route.path),
                         );
                       }
 

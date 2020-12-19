@@ -15,7 +15,7 @@ class IntegerField extends StringField {
     String label,
     TextEditingController controller,
     FormFieldValidator<int> validator,
-    TextAlign textAlign = TextAlign.start,
+    TextAlign textAlign = TextAlign.end,
     int maxLength,
     FormFieldSetter<int> onSaved,
     int initialValue,

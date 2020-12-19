@@ -4,6 +4,8 @@
 abstract class AbstractModel {
   int id;
   int updatedAt;
+  int deletedAt;
+  bool selected = false;
 
   ///
   ///
@@ -15,7 +17,8 @@ abstract class AbstractModel {
   ///
   AbstractModel.fromJson(Map<String, dynamic> map)
       : id = map['id'],
-        updatedAt = map['updatedAt'];
+        updatedAt = map['updatedAt'],
+        deletedAt = map['deletedAt'];
 
   ///
   ///
