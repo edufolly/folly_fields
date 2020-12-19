@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 /// Atenção com as quebras de linha.
 ///
-/// Gerado para: font_awesome_flutter: 8.10.0
+/// Gerado para: font_awesome_flutter: 8.11.0
 ///
 class IconHelper {
   static final Map<String, IconData> data = <String, IconData>{
