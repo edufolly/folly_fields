@@ -6,8 +6,8 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
-import 'package:folly_fields/widgets/my_dialogs.dart';
-import 'package:folly_fields/widgets/my_divider.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/folly_divider.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -444,7 +444,7 @@ class _AbstractListState<
                             );
                           }
                         },
-                        separatorBuilder: (_, __) => MyDivider(),
+                        separatorBuilder: (_, __) => FollyDivider(),
                         itemCount: itemCount,
                       ),
               ),
@@ -554,7 +554,7 @@ class _AbstractListState<
         return ask;
       }
     } catch (e) {
-      await MyDialogs.dialogMessage(
+      await FollyDialogs.dialogMessage(
         context: context,
         message: 'Ocorreu um erro ao tentar excluir:\n$e',
       );
@@ -565,7 +565,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  Future<bool> _askDelete() => MyDialogs.yesNoDialog(
+  Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
         title: 'Atenção',
         message: 'Deseja excluir?',
@@ -720,7 +720,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
                     afterDeleteRefresh: () async => query += '%',
                   );
                 },
-                separatorBuilder: (_, __) => MyDivider(),
+                separatorBuilder: (_, __) => FollyDivider(),
                 itemCount: snapshot.data.length,
               );
             } else {

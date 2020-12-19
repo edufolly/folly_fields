@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-class MyDivider extends StatelessWidget {
+class FollyDivider extends StatelessWidget {
   final double height;
   final Color color;
 
   ///
   ///
   ///
-  const MyDivider({
+  const FollyDivider({
     Key key,
     this.height = 1.0,
     this.color = Colors.black38,

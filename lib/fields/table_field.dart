@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/widgets/my_divider.dart';
+import 'package:folly_fields/widgets/folly_divider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -107,7 +107,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                   (MapEntry<int, T> entry) => Column(
                                     children: <Widget>[
                                       /// Divisor
-                                      MyDivider(
+                                      FollyDivider(
                                         color: Colors.black12,
                                       ),
 
@@ -169,7 +169,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                       ),
 
                     /// Divisor
-                    MyDivider(
+                    FollyDivider(
                       color: Colors.black12,
                     ),
 

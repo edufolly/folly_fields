@@ -35,17 +35,28 @@ class ValidatorField extends StringField {
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
+    bool required = true,
   }) : super(
           key: key,
           prefix: prefix,
           label: label,
           controller: controller,
           keyboard: abstractValidator.keyboard ?? TextInputType.text,
-          validator: (String value) => !abstractValidator.isValid(value)
-              ? validatorMessage
-              : validator != null
-                  ? validator(value)
-                  : null,
+          validator: (String value) {
+            if (!required && (value == null || value.isEmpty)) {
+              return null;
+            }
+
+            if (!abstractValidator.isValid(value)) {
+              return validatorMessage;
+            }
+
+            if (validator != null) {
+              return validator(value);
+            }
+
+            return null;
+          },
           minLines: 1,
           maxLines: 1,
           obscureText: false,
@@ -59,6 +70,9 @@ class ValidatorField extends StringField {
             if (onSaved != null) {
               if (abstractValidator.strip != null) {
                 value = abstractValidator.strip(value);
+              }
+              if (!required && value.isEmpty) {
+                value = null;
               }
               onSaved(value);
             }

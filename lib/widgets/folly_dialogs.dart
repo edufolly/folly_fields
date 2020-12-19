@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-class MyDialogs {
+class FollyDialogs {
   ///
   ///
   ///

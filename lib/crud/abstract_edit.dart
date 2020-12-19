@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/widgets/my_dialogs.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -147,7 +147,7 @@ class _AbstractEditState<
 
         bool go = true;
         if (_initialHash != currentHash) {
-          go = await MyDialogs.yesNoDialog(
+          go = await FollyDialogs.yesNoDialog(
             context: context,
             title: 'Atenção',
             message: 'Modificações foram realizadas.\n\n'
@@ -243,7 +243,7 @@ class _AbstractEditState<
     } catch (e, s) {
       print(e);
       print(s);
-      await MyDialogs.dialogMessage(
+      await FollyDialogs.dialogMessage(
         context: context,
         message: 'Ocorreu um erro ao tentar salvar:\n$e',
       );

@@ -28,6 +28,7 @@ class EmailField extends ValidatorField {
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
+    bool required = true,
   }) : super(
           key: key,
           abstractValidator: EmailValidator(),
@@ -51,5 +52,6 @@ class EmailField extends ValidatorField {
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
+          required: required,
         );
 }

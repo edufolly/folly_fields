@@ -3,7 +3,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/fields/table_field.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/widgets/my_dialogs.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -242,7 +242,7 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   ///
   ///
-  Future<bool> _askDelete(BuildContext context) => MyDialogs.yesNoDialog(
+  Future<bool> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
         title: 'Atenção',
         message: 'Deseja remover ${uiBuilder.getSuperSingle()}?',

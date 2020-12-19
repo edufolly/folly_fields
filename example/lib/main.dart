@@ -16,7 +16,7 @@ import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/widgets/my_dialogs.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
 
@@ -271,7 +271,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       print(model.toMap());
 
-      MyDialogs.dialogMessage(
+      FollyDialogs.dialogMessage(
         context: context,
         message: model.toMap().toString(),
       );
