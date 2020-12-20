@@ -1,0 +1,32 @@
+name: folly_fields
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Build Web
+    env:
+      my_secret: ${{secrets.commit_secret}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'beta'
+      - run: flutter config --enable-web
+      - run: cd example
+      - run: flutter pub get
+      - run: flutter build web
+      - run: |
+          cd build/web
+          sed -i "s/main.dart.js/main.dart.js?v=$GITHUB_RUN_NUMBER/g" index.html
+          git init
+          git config --global user.email edufolly@gmail.com
+          git config --global user.name "Eduardo Folly"
+          git status
+          git remote add origin https://${{secrets.commit_secret}}@github.com/edufolly/folly_fields.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "Publishing the static page."
+          git push origin gh-pages -f
