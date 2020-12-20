@@ -15,11 +15,12 @@ jobs:
         with:
           channel: 'beta'
       - run: flutter config --enable-web
-      - run: cd example
       - run: flutter pub get
-      - run: flutter build web
       - run: |
-          cd build/web
+          cd example
+          flutter build web
+      - run: |
+          cd example/build/web
           sed -i "s/main.dart.js/main.dart.js?v=$GITHUB_RUN_NUMBER/g" index.html
           git init
           git config --global user.email edufolly@gmail.com
