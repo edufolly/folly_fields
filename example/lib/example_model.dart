@@ -13,6 +13,7 @@ class ExampleModel extends AbstractModel {
   static final TimeValidator timeValidator = TimeValidator();
 
   Decimal decimal;
+  int integer;
   String text;
   String email;
   String password;
@@ -39,6 +40,7 @@ class ExampleModel extends AbstractModel {
   ExampleModel.fromJson(Map<String, dynamic> map)
       : decimal = Decimal(
             initialValue: int.tryParse(map['decimal']) ?? 0, precision: 2),
+        integer = map['integer'],
         text = map['text'],
         email = map['email'],
         password = map['password'],
@@ -69,6 +71,7 @@ class ExampleModel extends AbstractModel {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
     if (decimal != null) map['decimal'] = decimal.integer;
+    if (integer != null) map['integer'] = integer;
     if (text != null) map['text'] = text;
     if (email != null) map['email'] = email;
     if (password != null) map['password'] = password;
@@ -102,6 +105,7 @@ class ExampleModel extends AbstractModel {
     model.id = ms;
     model.updatedAt = now.millisecondsSinceEpoch;
     model.decimal = Decimal(initialValue: ms, precision: 2);
+    model.integer = ms;
     model.text = 'Exemplo$ms';
     model.email = 'exemplo$ms@exemplo.com.br';
     model.password = '123456$ms';

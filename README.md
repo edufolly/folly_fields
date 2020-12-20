@@ -5,6 +5,7 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 ## How to use
 
 ### pubspec.yaml
+
 ``` yaml
 flutter_localizations:
   sdk: flutter
@@ -19,6 +20,7 @@ folly_fields:
 ```
 
 ### config.dart
+
 ```dart
 class Config extends AbstractConfig {
   static final Config _singleton = Config._internal();
@@ -29,16 +31,19 @@ class Config extends AbstractConfig {
     return _singleton;
   }
 
-  /// Content...
+/// Content...
 }
 ```
 
 ### main.dart
+
 ```dart
 void main() {
   bool debug = false;
 
   assert(debug = true);
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   FollyFields.start(Config(), debug: debug);
 
@@ -47,21 +52,28 @@ void main() {
 ```
 
 ### MaterialApp
+https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
 ```dart
-MaterialApp(
-  title: 'Folly Fields Example',
-  theme: ThemeData(
-    primarySwatch: Colors.deepOrange,
-  ),
-  home: MyHomePage(),
-  localizationsDelegates: <LocalizationsDelegate<dynamic>>[
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ],
-  supportedLocales: const <Locale>[
-    Locale('pt', 'BR'),
-  ],
-);
+class MyApp extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Folly Fields Example',
+      theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
+      ),
+      home: MyHomePage(),
+      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('pt', 'BR'),
+      ],
+    );
+  }
+}
 ```
 
 ## Docs

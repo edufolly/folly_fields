@@ -7,6 +7,7 @@ import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
+import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
@@ -27,6 +28,8 @@ void main() {
   bool debug = false;
 
   assert(debug = true);
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   FollyFields.start(Config(), debug: debug);
 
@@ -124,6 +127,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabled: edit,
                 initialValue: model.decimal,
                 onSaved: (Decimal value) => model.decimal = value,
+              ),
+
+              /// Integer
+              IntegerField(
+                prefix: prefix,
+                label: 'Integer*',
+                enabled: edit,
+                initialValue: model.integer,
+                onSaved: (int value) => model.integer = value,
               ),
 
               /// Texto

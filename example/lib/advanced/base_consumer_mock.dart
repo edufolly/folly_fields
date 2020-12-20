@@ -19,9 +19,12 @@ abstract class BaseConsumerMock<T extends AbstractModel>
       Future<ConsumerPermission>.value(
         ConsumerPermission(
           name: 'mock',
+          iconName: 'question',
+          view: true,
           insert: true,
           update: true,
           delete: true,
+          menu: true,
         ),
       );
 

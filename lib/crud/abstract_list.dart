@@ -336,14 +336,17 @@ class _AbstractListState<
                       if (snapshot.hasData) {
                         ConsumerPermission permission = snapshot.data;
 
-                        return IconButton(
-                          tooltip: permission.name,
-                          icon: FaIcon(
-                            IconHelper.data[permission.iconName],
-                          ),
-                          onPressed: () =>
-                              Navigator.of(context).pushNamed(route.path),
-                        );
+                        return permission.view
+                            ? IconButton(
+                                tooltip: permission.name,
+                                icon: FaIcon(
+                                  IconHelper
+                                      .data[permission.iconName ?? 'question'],
+                                ),
+                                onPressed: () =>
+                                    Navigator.of(context).pushNamed(route.path),
+                              )
+                            : Container();
                       }
 
                       return Container();
@@ -418,7 +421,7 @@ class _AbstractListState<
                               background: Container(
                                 color: Colors.red,
                                 alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsets.only(right: 16.0),
                                 child: const FaIcon(
                                   FontAwesomeIcons.trashAlt,
                                   color: Colors.white,

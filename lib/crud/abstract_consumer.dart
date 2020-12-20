@@ -102,9 +102,27 @@ abstract class AbstractConsumer<T extends AbstractModel> {
 ///
 @immutable
 class ConsumerPermission {
+  /// ret.put("menu", false);
+  final bool menu;
+
+  /// ret.put("get", false);
+  final bool view;
+
+  /// ret.put("post", false);
   final bool insert;
+
+  /// ret.put("put", false);
   final bool update;
+
+  /// ret.put("delete", false);
   final bool delete;
+
+  /*
+  ret.put("patch", false);
+  ret.put("copy", false);
+  ret.put("head", false);
+  */
+
   final String iconName;
   final String name;
 
@@ -112,6 +130,8 @@ class ConsumerPermission {
   ///
   ///
   const ConsumerPermission({
+    this.menu = false,
+    this.view = false,
     this.insert = false,
     this.update = false,
     this.delete = false,
