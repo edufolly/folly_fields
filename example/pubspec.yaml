@@ -19,7 +19,7 @@ dependencies:
     path: ../
 
   # https://pub.dev/packages/intl
-  intl: 0.16.1
+  # intl: 0.16.1
 
 dev_dependencies:
   flutter_test:
