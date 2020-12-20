@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
+        brightness: Brightness.dark,
       ),
       home: MyHomePage(),
       localizationsDelegates: <LocalizationsDelegate<dynamic>>[
@@ -286,6 +287,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       FollyDialogs.dialogMessage(
         context: context,
+        title: 'Resultado do método toMap()',
         message: model.toMap().toString(),
       );
     }

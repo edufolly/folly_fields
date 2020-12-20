@@ -22,7 +22,6 @@ jobs:
       - run: |
           cd example/build/web
           sed -i 's#<base href="/">#<base href="/folly_fields/">#g' index.html
-          sed -i "s/main.dart.js/main.dart.js?v=$GITHUB_RUN_NUMBER/g" index.html
           git init
           git config --global user.email edufolly@gmail.com
           git config --global user.name "Eduardo Folly"
