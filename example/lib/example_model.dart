@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
@@ -11,8 +13,9 @@ import 'package:folly_fields/validators/time_validator.dart';
 ///
 class ExampleModel extends AbstractModel {
   static final TimeValidator timeValidator = TimeValidator();
+  static final Random rnd = Random();
 
-  Decimal decimal;
+  Decimal decimal = Decimal(precision: 2);
   int integer;
   String text;
   String email;
@@ -38,8 +41,7 @@ class ExampleModel extends AbstractModel {
   ///
   @override
   ExampleModel.fromJson(Map<String, dynamic> map)
-      : decimal = Decimal(
-            initialValue: int.tryParse(map['decimal']) ?? 0, precision: 2),
+      : decimal = Decimal(initialValue: map['decimal'], precision: 2),
         integer = map['integer'],
         text = map['text'],
         email = map['email'],
@@ -94,33 +96,46 @@ class ExampleModel extends AbstractModel {
   @override
   String get searchTerm => text;
 
+  // ///
+  // ///
+  // /// Para fazer debug da geração do hash.
+  // @override
+  // int get hashCode => super.hashIterable(toMap().values, 1, true);
+
   ///
   ///
   /// Método exclusivo para geração aleatória de objetos.
-  static ExampleModel generate() {
+  static ExampleModel generate({int seed = 1}) {
     DateTime now = DateTime.now();
-    int ms = now.millisecond;
+
+    int ms = seed * 1000 + now.millisecond;
 
     ExampleModel model = ExampleModel();
     model.id = ms;
     model.updatedAt = now.millisecondsSinceEpoch;
     model.decimal = Decimal(initialValue: ms, precision: 2);
     model.integer = ms;
-    model.text = 'Exemplo$ms';
+    model.text = 'Exemplo $ms';
     model.email = 'exemplo$ms@exemplo.com.br';
     model.password = '123456$ms';
     model.cpf = CpfValidator.generate();
     model.cnpj = CnpjValidator.generate();
     model.document =
         ms % 2 == 0 ? CpfValidator.generate() : CnpjValidator.generate();
-    model.phone = '88987654$ms';
-    model.localPhone = '912345$ms';
-    model.date = now;
-    model.time = TimeOfDay.now();
+    model.phone = '889' + complete(8);
+    model.localPhone = '9' + complete(8);
+    model.date = DateTime(now.year, now.month, now.day);
+    model.time = TimeOfDay(hour: now.hour, minute: now.minute);
     model.macAddress = MacAddressValidator.generate();
-    model.ncm = '99998$ms';
-    model.cep = '22333$ms';
+    model.ncm = complete(8);
+    model.cep = complete(8);
 
     return model;
   }
+
+  ///
+  ///
+  ///
+  static String complete(int length) =>
+      List<String>.generate(length, (_) => rnd.nextInt(9).toString()).join();
 }

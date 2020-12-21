@@ -19,8 +19,10 @@ import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
+        accentColor: Colors.deepOrange,
         brightness: Brightness.dark,
       ),
       home: MyHomePage(),
@@ -104,6 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Folly Fields Example'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(FontAwesomeIcons.list),
+            onPressed: _showList,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -120,24 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline4,
                 ),
-              ),
-
-              /// Decimal
-              DecimalField(
-                prefix: prefix,
-                label: 'Decimal*',
-                enabled: edit,
-                initialValue: model.decimal,
-                onSaved: (Decimal value) => model.decimal = value,
-              ),
-
-              /// Integer
-              IntegerField(
-                prefix: prefix,
-                label: 'Integer*',
-                enabled: edit,
-                initialValue: model.integer,
-                onSaved: (int value) => model.integer = value,
               ),
 
               /// Texto
@@ -171,6 +162,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     ? 'O campo senha precisa ser informado.'
                     : null,
                 onSaved: (String value) => model.password = value,
+              ),
+
+              /// Decimal
+              DecimalField(
+                prefix: prefix,
+                label: 'Decimal*',
+                enabled: edit,
+                initialValue: model.decimal,
+                onSaved: (Decimal value) => model.decimal = value,
+              ),
+
+              /// Integer
+              IntegerField(
+                prefix: prefix,
+                label: 'Integer*',
+                enabled: edit,
+                initialValue: model.integer,
+                onSaved: (int value) => model.integer = value,
               ),
 
               /// CPF
@@ -264,10 +273,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
               /// Botão Enviar
-              RaisedButton.icon(
-                icon: Icon(Icons.send),
-                label: Text('ENVIAR'),
-                onPressed: send,
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: RaisedButton.icon(
+                  icon: Icon(Icons.send),
+                  label: Text('ENVIAR'),
+                  onPressed: _send,
+                ),
               ),
             ],
           ),
@@ -279,7 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ///
   ///
   ///
-  void send() {
+  void _send() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
@@ -292,4 +304,10 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
   }
+
+  ///
+  ///
+  ///
+  void _showList() => Navigator.of(context)
+      .push(MaterialPageRoute<dynamic>(builder: (_) => ExampleList()));
 }

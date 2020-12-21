@@ -1,11 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:folly_fields/util/hashable.dart';
 
 ///
 ///
 ///
-class Decimal {
+class Decimal with Hashable {
   final int precision;
   double value;
 
@@ -32,4 +33,17 @@ class Decimal {
   /// TODO - Formatar corretamente.
   @override
   String toString() => value.toStringAsFixed(precision);
+
+  ///
+  ///
+  ///
+  @override
+  int get hashCode => finish(combine(precision, integer));
+
+  ///
+  ///
+  ///
+  @override
+  bool operator ==(dynamic other) =>
+      precision == other.precision && value == other.value;
 }

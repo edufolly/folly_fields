@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -115,7 +116,6 @@ class _AbstractEditState<
       if (widget.model.id == null || widget.consumer == null) {
         Map<String, dynamic> copy = widget.model.toMap();
         _model = widget.model.fromJson(copy);
-        exists = false;
       } else {
         _model = await widget.consumer.getById(context, widget.model);
       }
@@ -141,9 +141,6 @@ class _AbstractEditState<
 
         _formKey.currentState.save();
         int currentHash = _model.hashCode;
-
-        print('Initial Hash: $_initialHash');
-        print('Current Hash: $currentHash');
 
         bool go = true;
         if (_initialHash != currentHash) {
@@ -201,8 +198,12 @@ class _AbstractEditState<
                   );
                 }
 
-                // TODO - Melhorar visualização do erro.
                 if (snapshot.hasError) {
+                  if (FollyFields().isDebug) {
+                    print(snapshot.error);
+                    print(snapshot.stackTrace);
+                  }
+
                   return Center(
                     child: Text(
                       'Ocorreu um erro:\n'

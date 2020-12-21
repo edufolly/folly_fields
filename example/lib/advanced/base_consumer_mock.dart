@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields_example/example_model.dart';
 
 ///
 ///
@@ -37,8 +38,19 @@ abstract class BaseConsumerMock<T extends AbstractModel>
     bool forceOffline = false,
     Map<String, String> qsParam,
     bool returnLog = false,
-  }) async =>
-      null;
+  }) async {
+    print('mock list: $qsParam');
+
+    int first = int.tryParse(qsParam['f'] ?? '0');
+    int qtd = int.tryParse(qsParam['q'] ?? '50');
+
+    return Future<List<T>>.value(
+      List<T>.generate(
+        qtd,
+        (int index) => (ExampleModel.generate(seed: first + index) as T),
+      ),
+    );
+  }
 
   ///
   ///
@@ -59,7 +71,7 @@ abstract class BaseConsumerMock<T extends AbstractModel>
     T model, {
     bool returnLog = false,
   }) async =>
-      null;
+      Future<T>.value(model);
 
   ///
   ///
@@ -81,5 +93,5 @@ abstract class BaseConsumerMock<T extends AbstractModel>
     T model, {
     bool returnLog = false,
   }) async =>
-      null;
+      Future<T>.value(model);
 }

@@ -1,7 +1,9 @@
+import 'package:folly_fields/util/hashable.dart';
+
 ///
 ///
 ///
-abstract class AbstractModel {
+abstract class AbstractModel with Hashable {
   int id;
   int updatedAt;
   int deletedAt;
@@ -43,45 +45,7 @@ abstract class AbstractModel {
   ///
   ///
   @override
-  int get hashCode => _hashIterable(toMap().values);
-
-  ///
-  ///
-  ///
-  int _hashIterable(Iterable<dynamic> iterable) => _finish(
-        iterable.fold(
-          0,
-          (int h, dynamic i) {
-            int hash;
-            if (i is List) {
-              hash = _hashIterable(i);
-            } else if (i is Map) {
-              hash = _hashIterable(i.values);
-            } else {
-              hash = i.hashCode;
-            }
-            return _combine(h, hash);
-          },
-        ),
-      );
-
-  ///
-  ///
-  ///
-  int _combine(int hash, int value) {
-    hash = 0x1fffffff & (hash + value);
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
-  }
-
-  ///
-  ///
-  ///
-  int _finish(int hash) {
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
-  }
+  int get hashCode => hashIterable(toMap().values);
 
   ///
   ///
