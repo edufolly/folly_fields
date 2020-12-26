@@ -40,8 +40,8 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T> field) {
-            final _ModelFormFieldState<T> state =
-                field as _ModelFormFieldState<T>;
+            final _ModelFieldState<T> state =
+                field as _ModelFieldState<T>;
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
@@ -133,13 +133,13 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
   ///
   ///
   @override
-  _ModelFormFieldState<T> createState() => _ModelFormFieldState<T>();
+  _ModelFieldState<T> createState() => _ModelFieldState<T>();
 }
 
 ///
 ///
 ///
-class _ModelFormFieldState<T extends AbstractModel> extends FormFieldState<T> {
+class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
   ModelEditingController<T> _controller;
 
   ///

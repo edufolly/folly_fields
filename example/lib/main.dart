@@ -7,6 +7,7 @@ import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
+import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
@@ -270,6 +271,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabled: edit,
                 initialValue: model.cep,
                 onSaved: (String value) => model.cep = value,
+              ),
+
+              /// Dropdown
+              DropdownField<Color>(
+                prefix: prefix,
+                label: 'Cor',
+                enabled: edit,
+                items: ExampleModel.colors,
+                initialValue: model.color,
+                validator: (Color value) =>
+                    value == null ? 'Selecione uma cor.' : null,
+                onSaved: (Color value) => model.color = value,
               ),
 
               /// Botão Enviar

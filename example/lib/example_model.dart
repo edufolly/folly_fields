@@ -30,6 +30,7 @@ class ExampleModel extends AbstractModel {
   String macAddress;
   String ncm;
   String cep;
+  Color color;
 
   ///
   ///
@@ -58,6 +59,7 @@ class ExampleModel extends AbstractModel {
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cep = map['cep'],
+        color = Color(int.tryParse(map['color'], radix: 16)),
         super.fromJson(map);
 
   ///
@@ -87,6 +89,7 @@ class ExampleModel extends AbstractModel {
     if (macAddress != null) map['macAddress'] = macAddress;
     if (ncm != null) map['ncm'] = ncm;
     if (cep != null) map['cep'] = cep;
+    if (color != null) map['color'] = color.value.toRadixString(16);
     return map;
   }
 
@@ -129,7 +132,7 @@ class ExampleModel extends AbstractModel {
     model.macAddress = MacAddressValidator.generate();
     model.ncm = complete(8);
     model.cep = complete(8);
-
+    model.color = randomColor;
     return model;
   }
 
@@ -137,5 +140,20 @@ class ExampleModel extends AbstractModel {
   ///
   ///
   static String complete(int length) =>
-      List<String>.generate(length, (_) => rnd.nextInt(9).toString()).join();
+      List<String>.generate(length, (_) => rnd.nextInt(10).toString()).join();
+
+  ///
+  ///
+  ///
+  static final Map<Color, String> colors = <Color, String>{
+    Colors.red: 'Vermelho',
+    Colors.green: 'Verde',
+    Colors.blue: 'Azul',
+  };
+
+  ///
+  ///
+  ///
+  static Color get randomColor =>
+      colors.keys.elementAt(rnd.nextInt(colors.length));
 }
