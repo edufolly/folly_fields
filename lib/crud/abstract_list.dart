@@ -163,7 +163,7 @@ class _AbstractListState<
     try {
       if (!widget.selection) {
         ConsumerPermission permission =
-            await widget.consumer.checkPermission(context);
+            await widget.consumer.checkPermission(context, null);
 
         _insert = permission.insert && widget.onAdd != null;
         _update = permission.update && widget.onUpdate != null;
@@ -176,8 +176,8 @@ class _AbstractListState<
 
       List<T> result = await widget.consumer.list(
         context,
-        forceOffline: widget.forceOffline,
-        qsParam: _qsParam,
+        _qsParam,
+        widget.forceOffline,
       );
 
       if (result.isEmpty) {
@@ -327,7 +327,7 @@ class _AbstractListState<
                   FutureBuilder<ConsumerPermission>(
                     future: widget.consumer.checkPermission(
                       context,
-                      paths: route.routeName,
+                      route.routeName,
                     ),
                     builder: (
                       BuildContext context,
@@ -707,11 +707,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
       param['t'] = query.toLowerCase();
 
       return FutureBuilder<List<W>>(
-        future: consumer.list(
-          context,
-          forceOffline: forceOffline,
-          qsParam: param,
-        ),
+        future: consumer.list(context, param, forceOffline),
         builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.isNotEmpty) {
@@ -772,11 +768,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
         param['q'] = itemsPerPage.toString();
 
         _lastWidget = FutureBuilder<List<W>>(
-          future: consumer.list(
-            context,
-            forceOffline: forceOffline,
-            qsParam: param,
-          ),
+          future: consumer.list(context, param, forceOffline),
           builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.isNotEmpty) {

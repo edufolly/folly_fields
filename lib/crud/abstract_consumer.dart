@@ -44,38 +44,34 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   Future<ConsumerPermission> checkPermission(
-    BuildContext context, {
+    BuildContext context,
     List<String> paths,
-  });
+  );
 
   ///
   ///
   ///
   Future<List<T>> list(
-    BuildContext context, {
-    bool forceOffline = false,
+    BuildContext context,
     Map<String, String> qsParam,
-  });
+    bool forceOffline,
+  );
 
   ///
   ///
   ///
   Future<Map<T, String>> dropdownMap(
-    BuildContext context, {
+    BuildContext context,
     Map<String, String> qsParam,
-  }) async {
-    List<T> _list = await list(
-      context,
-      forceOffline: false,
-      qsParam: qsParam,
-    );
+  ) async {
+    List<T> _list = await list(context, qsParam, false);
     return <T, String>{for (T e in _list) e: e.toString()};
   }
 
   ///
   ///
   ///
-  Future<T> delete(
+  Future<bool> delete(
     BuildContext context,
     T model,
   );

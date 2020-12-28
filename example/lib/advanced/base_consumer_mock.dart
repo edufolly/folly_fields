@@ -13,10 +13,9 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   ///
   @override
   Future<ConsumerPermission> checkPermission(
-    BuildContext context, {
+    BuildContext context,
     List<String> paths,
-    bool returnLog = false,
-  }) =>
+  ) =>
       Future<ConsumerPermission>.value(
         ConsumerPermission(
           name: 'mock',
@@ -34,11 +33,10 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   ///
   @override
   Future<List<T>> list(
-    BuildContext context, {
-    bool forceOffline = false,
+    BuildContext context,
     Map<String, String> qsParam,
-    bool returnLog = false,
-  }) async {
+    bool forceOffline,
+  ) async {
     print('mock list: $qsParam');
 
     int first = int.tryParse(qsParam['f'] ?? '0');
@@ -57,9 +55,9 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   ///
   @override
   Future<Map<T, String>> dropdownMap(
-    BuildContext context, {
+    BuildContext context,
     Map<String, String> qsParam,
-  }) async =>
+  ) async =>
       null;
 
   ///
@@ -68,9 +66,8 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   @override
   Future<T> getById(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  }) async =>
+    T model,
+  ) async =>
       Future<T>.value(model);
 
   ///
@@ -79,19 +76,17 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   @override
   Future<bool> saveOrUpdate(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  }) =>
+    T model,
+  ) =>
       Future<bool>.value(true);
 
   ///
   ///
   ///
   @override
-  Future<T> delete(
+  Future<bool> delete(
     BuildContext context,
-    T model, {
-    bool returnLog = false,
-  }) async =>
-      Future<T>.value(model);
+    T model,
+  ) async =>
+      Future<bool>.value(true);
 }
