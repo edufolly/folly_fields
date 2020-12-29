@@ -688,6 +688,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
         child: Text(
           'Começe a sua pesquisa.\n'
           'Digite ao menos 3 caracteres.',
+          textAlign: TextAlign.center,
         ),
       );
     } else {
@@ -709,6 +710,8 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
           if (snapshot.hasData) {
             if (snapshot.data.isNotEmpty) {
               return ListView.separated(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.all(16.0),
                 itemBuilder: (BuildContext context, int index) {
                   return buildResultItem(
                     model: snapshot.data[index],
@@ -746,6 +749,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
         child: Text(
           'Começe a sua pesquisa.\n'
           'Digite ao menos 3 caracteres.',
+          textAlign: TextAlign.center,
         ),
       );
     } else {

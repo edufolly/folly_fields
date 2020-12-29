@@ -51,26 +51,24 @@ abstract class AbstractEdit<
   ///
   ///
   ///
-  List<Widget> formContent({
-    @required BuildContext context,
-    @required T model,
-    @required Function(bool) refresh,
-    @required bool edit,
-    @required Map<String, dynamic> stateInjection,
-    @required String prefix,
-  });
+  List<Widget> formContent(
+    BuildContext context,
+    T model,
+    bool edit,
+    Map<String, dynamic> stateInjection,
+    String prefix,
+  );
 
   ///
   ///
   ///
   List<Widget> getFormContent(BuildContext context) {
     return formContent(
-      context: context,
-      model: model,
-      refresh: null,
-      edit: edit,
-      stateInjection: <String, dynamic>{},
-      prefix: uiBuilder.prefix,
+      context,
+      model,
+      edit,
+      <String, dynamic>{},
+      uiBuilder.prefix,
     );
   }
 
@@ -187,12 +185,11 @@ class _AbstractEditState<
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
                       children: widget.formContent(
-                        context: context,
-                        model: _model,
-                        refresh: (bool value) => _controller.add(value),
-                        edit: widget.edit,
-                        stateInjection: _stateInjection,
-                        prefix: widget.uiBuilder.prefix,
+                        context,
+                        _model,
+                        widget.edit,
+                        _stateInjection,
+                        widget.uiBuilder.prefix,
                       ),
                     ),
                   );
