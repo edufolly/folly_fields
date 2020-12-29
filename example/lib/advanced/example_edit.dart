@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
+import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
+import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
@@ -47,14 +49,13 @@ class ExampleEdit
   ///
   ///
   @override
-  List<Widget> formContent({
+  List<Widget> formContent(
     BuildContext context,
     ExampleModel model,
-    Function(bool) refresh,
     bool edit,
     Map<String, dynamic> stateInjection,
     String prefix,
-  }) {
+  ) {
     return <Widget>[
       /// Texto
       StringField(
@@ -195,6 +196,29 @@ class ExampleEdit
         enabled: edit,
         initialValue: model.cep,
         onSaved: (String value) => model.cep = value,
+      ),
+
+      /// Bool
+      BoolField(
+        prefix: prefix,
+        label: 'Campo Boleano',
+        enabled: edit,
+        initialValue: model.active,
+        validator: (bool value) => !value
+            ? 'Para testes, este campo deve ser sempre verdadeiro.'
+            : null,
+        onSaved: (bool value) => model.active = value,
+      ),
+
+      /// Dropdown
+      DropdownField<Color>(
+        prefix: prefix,
+        label: 'Cor',
+        enabled: edit,
+        items: ExampleModel.colors,
+        initialValue: model.color,
+        validator: (Color value) => value == null ? 'Selecione uma cor.' : null,
+        onSaved: (Color value) => model.color = value,
       ),
     ];
   }
