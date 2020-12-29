@@ -339,10 +339,7 @@ class _AbstractListState<
                         return permission.view
                             ? IconButton(
                                 tooltip: permission.name,
-                                icon: FaIcon(
-                                  IconHelper
-                                      .data[permission.iconName ?? 'question'],
-                                ),
+                                icon: IconHelper.faIcon(permission.iconName),
                                 onPressed: () =>
                                     Navigator.of(context).pushNamed(route.path),
                               )

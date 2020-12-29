@@ -12,7 +12,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 /// Gerado para: font_awesome_flutter: 8.11.0
 ///
 class IconHelper {
-  static final Map<String, IconData> data = <String, IconData>{
+  ///
+  ///
+  ///
+  static FaIcon faIcon(String iconName) => FaIcon(iconData(iconName));
+
+  ///
+  ///
+  ///
+  static IconData iconData(String iconName) =>
+      _data[iconName] ?? FontAwesomeIcons.solidCircle;
+
+  ///
+  ///
+  ///
+  static final Map<String, IconData> _data = <String, IconData>{
     'fiveHundredPx': FontAwesomeIcons.fiveHundredPx,
     'accessibleIcon': FontAwesomeIcons.accessibleIcon,
     'accusoft': FontAwesomeIcons.accusoft,
