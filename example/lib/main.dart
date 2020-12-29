@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
@@ -271,6 +272,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabled: edit,
                 initialValue: model.cep,
                 onSaved: (String value) => model.cep = value,
+              ),
+
+              /// Bool
+              BoolField(
+                prefix: prefix,
+                label: 'Campo Boleano',
+                enabled: edit,
+                initialValue: model.active,
+                validator: (bool value) => !value
+                    ? 'Para testes, este campo deve ser sempre verdadeiro.'
+                    : null,
+                onSaved: (bool value) => model.active = value,
               ),
 
               /// Dropdown

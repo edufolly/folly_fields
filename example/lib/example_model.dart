@@ -31,6 +31,7 @@ class ExampleModel extends AbstractModel {
   String ncm;
   String cep;
   Color color;
+  bool active = true;
 
   ///
   ///
@@ -60,6 +61,7 @@ class ExampleModel extends AbstractModel {
         ncm = map['ncm'],
         cep = map['cep'],
         color = Color(int.tryParse(map['color'], radix: 16)),
+        active = map['active'] ?? true,
         super.fromJson(map);
 
   ///
@@ -90,6 +92,7 @@ class ExampleModel extends AbstractModel {
     if (ncm != null) map['ncm'] = ncm;
     if (cep != null) map['cep'] = cep;
     if (color != null) map['color'] = color.value.toRadixString(16);
+    map['active'] = active ?? true;
     return map;
   }
 
@@ -133,6 +136,7 @@ class ExampleModel extends AbstractModel {
     model.ncm = complete(8);
     model.cep = complete(8);
     model.color = randomColor;
+    model.active = ms.isEven;
     return model;
   }
 

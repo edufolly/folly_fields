@@ -137,13 +137,6 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
   DropdownEditingController<T> get _effectiveController =>
       widget.controller ?? _controller;
 
-  // @override
-  // @protected
-  // void setValue(T value) {
-  //   super.setValue(value);
-  //   _effectiveController.value = value;
-  // }
-
   ///
   ///
   ///
