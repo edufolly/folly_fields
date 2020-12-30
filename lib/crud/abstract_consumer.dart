@@ -98,27 +98,11 @@ abstract class AbstractConsumer<T extends AbstractModel> {
 ///
 @immutable
 class ConsumerPermission {
-  /// ret.put("menu", false);
   final bool menu;
-
-  /// ret.put("get", false);
   final bool view;
-
-  /// ret.put("post", false);
   final bool insert;
-
-  /// ret.put("put", false);
   final bool update;
-
-  /// ret.put("delete", false);
   final bool delete;
-
-  /*
-  ret.put("patch", false);
-  ret.put("copy", false);
-  ret.put("head", false);
-  */
-
   final String iconName;
   final String name;
 
@@ -134,4 +118,31 @@ class ConsumerPermission {
     this.iconName = 'solidCircle',
     this.name,
   });
+
+  ///
+  ///
+  ///
+  ConsumerPermission.fromJson(Map<String, dynamic> map)
+      : menu = map['menu'] ?? false,
+        view = map['view'] ?? false,
+        insert = map['insert'] ?? false,
+        update = map['update'] ?? false,
+        delete = map['delete'] ?? false,
+        iconName = map['iconName'] ?? 'solidCircle',
+        name = map['name'];
+
+  ///
+  ///
+  ///
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'menu': menu,
+      'view': view,
+      'insert': insert,
+      'update': update,
+      'delete': delete,
+      'iconName': iconName,
+      'name': name,
+    };
+  }
 }
