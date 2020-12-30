@@ -34,6 +34,7 @@ abstract class AbstractList<
     T model,
     C consumer,
     UI uiBuilder,
+    bool edit,
   ) onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
@@ -590,7 +591,7 @@ class _AbstractListState<
       } else {
         Navigator.of(context).pop(model);
       }
-    } else if (_update) {
+    } else {
       Navigator.of(context)
           .push(
             MaterialPageRoute<dynamic>(
@@ -598,6 +599,7 @@ class _AbstractListState<
                 model,
                 widget.consumer,
                 widget.uiBuilder,
+                _update,
               ),
             ),
           )
@@ -607,8 +609,6 @@ class _AbstractListState<
               clear: true,
             ),
           );
-    } else {
-      return null;
     }
   }
 }

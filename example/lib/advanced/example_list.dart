@@ -38,11 +38,13 @@ class ExampleList
             ExampleModel model,
             ExampleConsumer consumer,
             ExampleBuilder uiBuilder,
+            bool edit,
           ) =>
               ExampleEdit(
             model: model,
             consumer: consumer,
             uiBuilder: uiBuilder,
+            edit: edit,
           ),
         );
 }
