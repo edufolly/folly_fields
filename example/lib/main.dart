@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:folly_fields/animations/future_animated_opacity.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
@@ -123,13 +124,39 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              FutureDisappear(
+                delay: Duration(seconds: 10),
+                animationDuration: Duration(milliseconds: 600),
+                child: Chip(
+                  label: Text(
+                    'Seja bem vindo à página de exemplos do Folly Fields.',
+                  ),
+                  backgroundColor:
+                      Theme.of(context).accentColor.withOpacity(0.8),
+                ),
+              ),
+
               /// Título
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Formulário Básico',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline4,
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureAppear(
+                  delay: Duration(seconds: 30),
+                  animationDuration: Duration(milliseconds: 800),
+                  child: Chip(
+                    label: Text(
+                      'Dificuldades em usar o Folly Fields? Entre em contato...',
+                    ),
+                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.8),
+                  ),
                 ),
               ),
 
