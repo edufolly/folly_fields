@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
@@ -32,6 +33,7 @@ class ExampleModel extends AbstractModel {
   String cep;
   Color color;
   bool active = true;
+  IconData icon;
 
   ///
   ///
@@ -62,6 +64,7 @@ class ExampleModel extends AbstractModel {
         cep = map['cep'],
         color = Color(int.tryParse(map['color'], radix: 16)),
         active = map['active'] ?? true,
+        icon = IconHelper.iconData(map['icon']),
         super.fromJson(map);
 
   ///
@@ -93,6 +96,7 @@ class ExampleModel extends AbstractModel {
     if (cep != null) map['cep'] = cep;
     if (color != null) map['color'] = color.value.toRadixString(16);
     map['active'] = active ?? true;
+    if (icon != null) map['icon'] = IconHelper.iconName(icon);
     return map;
   }
 
@@ -137,6 +141,11 @@ class ExampleModel extends AbstractModel {
     model.cep = complete(8);
     model.color = randomColor;
     model.active = ms.isEven;
+
+    int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
+    String iconName = IconHelper.data.keys.elementAt(iconNumber);
+    model.icon = IconHelper.iconData(iconName);
+
     return model;
   }
 

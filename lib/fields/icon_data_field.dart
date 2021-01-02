@@ -19,6 +19,11 @@ class IconDataField extends FormField<IconData> {
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     bool filled = false,
     double iconSize = 32.0,
+    double maxCrossAxisExtent = 40.0,
+    double mainAxisSpacing = 6.0,
+    double crossAxisSpacing = 6.0,
+    double height = 128.0,
+    double spaceBetween = 16.0,
   }) : super(
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
@@ -88,23 +93,23 @@ class IconDataField extends FormField<IconData> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
+                      padding: EdgeInsets.only(top: spaceBetween),
                       child: SizedBox(
-                        height: 128,
+                        height: height,
                         child: Scrollbar(
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 40.0,
-                              mainAxisSpacing: 4.0,
-                              crossAxisSpacing: 4.0,
+                              maxCrossAxisExtent: maxCrossAxisExtent,
+                              mainAxisSpacing: mainAxisSpacing,
+                              crossAxisSpacing: crossAxisSpacing,
                               childAspectRatio: 1.0,
                             ),
                             itemCount: keys.length,
                             itemBuilder: (BuildContext context, int index) {
                               String key = keys[index];
                               IconData iconData = controllerIcons[key];
-                              return InkWell(
+                              return GestureDetector(
                                 onTap: () => state.didChange(iconData),
                                 child: Align(
                                   alignment: Alignment.center,

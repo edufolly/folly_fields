@@ -26,6 +26,12 @@ class IconHelper {
   ///
   ///
   ///
+  static String iconName(IconData iconData) =>
+      data.keys.firstWhere((String key) => data[key] == iconData);
+
+  ///
+  ///
+  ///
   static final Map<String, IconData> data = <String, IconData>{
     'fiveHundredPx': FontAwesomeIcons.fiveHundredPx,
     'accessibleIcon': FontAwesomeIcons.accessibleIcon,

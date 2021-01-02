@@ -316,6 +316,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 onSaved: (bool value) => model.active = value,
               ),
 
+              /// Ícone
+              IconDataField(
+                prefix: prefix,
+                label: 'Ícone*',
+                enabled: edit,
+                icons: IconHelper.data,
+                initialValue: model.icon,
+                validator: (IconData iconData) =>
+                    iconData == null ? 'Selecione um ícone' : null,
+                onSaved: (IconData iconData) => model.icon = iconData,
+              ),
+
               /// Dropdown
               DropdownField<Color>(
                 prefix: prefix,
@@ -326,14 +338,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 validator: (Color value) =>
                     value == null ? 'Selecione uma cor.' : null,
                 onSaved: (Color value) => model.color = value,
-              ),
-
-              /// Ícone
-              IconDataField(
-                prefix: prefix,
-                label: 'Ícone*',
-                enabled: edit,
-                icons: IconHelper.data,
               ),
 
               /// Botão Enviar
