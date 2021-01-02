@@ -11,6 +11,7 @@ import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
+import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
@@ -21,6 +22,7 @@ import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/config.dart';
@@ -155,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text(
                       'Dificuldades em usar o Folly Fields? Entre em contato...',
                     ),
-                    backgroundColor: Theme.of(context).accentColor.withOpacity(0.8),
+                    backgroundColor:
+                        Theme.of(context).accentColor.withOpacity(0.8),
                   ),
                 ),
               ),
@@ -323,6 +326,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 validator: (Color value) =>
                     value == null ? 'Selecione uma cor.' : null,
                 onSaved: (Color value) => model.color = value,
+              ),
+
+              /// Ícone
+              IconDataField(
+                prefix: prefix,
+                label: 'Ícone*',
+                enabled: edit,
+                icons: IconHelper.data,
               ),
 
               /// Botão Enviar

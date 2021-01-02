@@ -21,12 +21,12 @@ class IconHelper {
   ///
   ///
   static IconData iconData(String iconName) =>
-      _data[iconName] ?? FontAwesomeIcons.solidCircle;
+      data[iconName] ?? FontAwesomeIcons.solidCircle;
 
   ///
   ///
   ///
-  static final Map<String, IconData> _data = <String, IconData>{
+  static final Map<String, IconData> data = <String, IconData>{
     'fiveHundredPx': FontAwesomeIcons.fiveHundredPx,
     'accessibleIcon': FontAwesomeIcons.accessibleIcon,
     'accusoft': FontAwesomeIcons.accusoft,
