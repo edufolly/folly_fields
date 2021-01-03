@@ -71,8 +71,15 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
-  Future<bool> beforeDelete(BuildContext context, T model) =>
-      Future<bool>.value(true);
+  Future<T> getById(
+    BuildContext context,
+    T model,
+  );
+
+  ///
+  ///
+  ///
+  Future<bool> beforeDelete(BuildContext context, T model) async => true;
 
   ///
   ///
@@ -85,16 +92,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
-  Future<T> getById(
-    BuildContext context,
-    T model,
-  );
-
-  ///
-  ///
-  ///
-  Future<bool> beforeSaveOrUpdate(BuildContext context, T model) =>
-      Future<bool>.value(true);
+  Future<bool> beforeSaveOrUpdate(BuildContext context, T model) async => true;
 
   ///
   ///
