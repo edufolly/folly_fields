@@ -5,6 +5,7 @@ import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -223,6 +224,7 @@ class _AbstractEditState<
   ///
   ///
   void _save() async {
+    CircularWaiting wait = CircularWaiting(context);
     try {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
@@ -230,7 +232,12 @@ class _AbstractEditState<
         bool ok = true;
 
         if (widget.consumer != null) {
-          ok = await widget.consumer.saveOrUpdate(context, _model);
+          ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
+          if (ok) {
+            wait.show();
+            ok = await widget.consumer.saveOrUpdate(context, _model);
+            wait.close();
+          }
         }
 
         if (ok) {
@@ -239,6 +246,7 @@ class _AbstractEditState<
         }
       }
     } catch (e, s) {
+      wait.close();
       print(e);
       print(s);
       await FollyDialogs.dialogMessage(

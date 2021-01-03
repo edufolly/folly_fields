@@ -71,6 +71,12 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
+  Future<bool> beforeDelete(BuildContext context, T model) =>
+      Future<bool>.value(true);
+
+  ///
+  ///
+  ///
   Future<bool> delete(
     BuildContext context,
     T model,
@@ -83,6 +89,12 @@ abstract class AbstractConsumer<T extends AbstractModel> {
     BuildContext context,
     T model,
   );
+
+  ///
+  ///
+  ///
+  Future<bool> beforeSaveOrUpdate(BuildContext context, T model) =>
+      Future<bool>.value(true);
 
   ///
   ///

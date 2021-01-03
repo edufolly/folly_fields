@@ -7,6 +7,7 @@ import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
 import 'package:folly_fields/widgets/text_message.dart';
@@ -540,6 +541,7 @@ class _AbstractListState<
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
     // FIXME - Possível bug em erros na web.
+    CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
 
@@ -548,7 +550,13 @@ class _AbstractListState<
       }
 
       if (del) {
+        del = await widget.consumer.beforeDelete(context, model);
+      }
+
+      if (del) {
+        wait.show();
         await widget.consumer.delete(context, model);
+        wait.close();
 
         if (ask) {
           await _loadData(context);
@@ -556,7 +564,10 @@ class _AbstractListState<
 
         return ask;
       }
-    } catch (e) {
+    } catch (e, s) {
+      wait.close();
+      print(e);
+      print(s);
       await FollyDialogs.dialogMessage(
         context: context,
         message: 'Ocorreu um erro ao tentar excluir:\n$e',

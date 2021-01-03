@@ -11,6 +11,7 @@ class CircularWaiting {
   double value;
   bool closeable;
   StreamController<Map<String, dynamic>> _streamController;
+  bool _show = false;
 
   ///
   ///
@@ -32,7 +33,7 @@ class CircularWaiting {
   ///
   void show() async {
     if (context == null) return;
-
+    _show = true;
     await showDialog(
       context: context,
       barrierDismissible: false,
@@ -85,8 +86,11 @@ class CircularWaiting {
   ///
   ///
   void close() {
-    closeable = true;
-    if (context != null) Navigator.of(context).pop();
+    if (_show) {
+      _show = false;
+      closeable = true;
+      if (context != null) Navigator.of(context).pop();
+    }
   }
 
   ///
