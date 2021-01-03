@@ -26,25 +26,16 @@ class ExampleList
           consumer: ExampleConsumer(),
           uiBuilder: ExampleBuilder(prefix),
           onAdd: (
-            ExampleConsumer consumer,
             ExampleBuilder uiBuilder,
+            ExampleConsumer consumer,
           ) =>
-              ExampleEdit(
-            model: ExampleModel(),
-            consumer: consumer,
-            uiBuilder: uiBuilder,
-          ),
+              ExampleEdit(ExampleModel(), uiBuilder, consumer, true),
           onUpdate: (
             ExampleModel model,
-            ExampleConsumer consumer,
             ExampleBuilder uiBuilder,
+            ExampleConsumer consumer,
             bool edit,
           ) =>
-              ExampleEdit(
-            model: model,
-            consumer: consumer,
-            uiBuilder: uiBuilder,
-            edit: edit,
-          ),
+              ExampleEdit(model, uiBuilder, consumer, edit),
         );
 }

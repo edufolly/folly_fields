@@ -28,13 +28,13 @@ abstract class AbstractList<
   final C consumer;
   final UI uiBuilder;
   final Widget Function(
-    C consumer,
     UI uiBuilder,
+    C consumer,
   ) onAdd;
   final Widget Function(
     T model,
-    C consumer,
     UI uiBuilder,
+    C consumer,
     bool edit,
   ) onUpdate;
   final Map<String, String> qsParam;
@@ -526,10 +526,7 @@ class _AbstractListState<
   void _addEntity() async {
     await Navigator.of(context).push(
       MaterialPageRoute<dynamic>(
-        builder: (_) => widget.onAdd(
-          widget.consumer,
-          widget.uiBuilder,
-        ),
+        builder: (_) => widget.onAdd(widget.uiBuilder, widget.consumer),
       ),
     );
 
@@ -608,8 +605,8 @@ class _AbstractListState<
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => widget.onUpdate(
                 model,
-                widget.consumer,
                 widget.uiBuilder,
+                widget.consumer,
                 _update,
               ),
             ),

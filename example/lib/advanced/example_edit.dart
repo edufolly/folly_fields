@@ -31,19 +31,13 @@ class ExampleEdit
   ///
   ///
   ///
-  const ExampleEdit({
-    Key key,
-    @required ExampleModel model,
-    @required ExampleBuilder uiBuilder,
+  const ExampleEdit(
+    ExampleModel model,
+    ExampleBuilder uiBuilder,
     ExampleConsumer consumer,
-    bool edit = true,
-  }) : super(
-          key: key,
-          model: model,
-          uiBuilder: uiBuilder,
-          consumer: consumer,
-          edit: edit,
-        );
+    bool edit, {
+    Key key,
+  }) : super(model, uiBuilder, consumer, edit, key: key);
 
   ///
   ///

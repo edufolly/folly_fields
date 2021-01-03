@@ -25,12 +25,12 @@ abstract class AbstractEdit<
   ///
   ///
   ///
-  const AbstractEdit({
-    Key key,
-    @required this.model,
-    @required this.uiBuilder,
+  const AbstractEdit(
+    this.model,
+    this.uiBuilder,
     this.consumer,
-    @required this.edit,
+    this.edit, {
+    Key key,
   }) : super(key: key);
 
   ///
