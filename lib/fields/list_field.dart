@@ -18,14 +18,16 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
     Key key,
     @required List<T> initialValue,
     @required UI uiBuilder,
-    @required Widget Function(BuildContext, UI) routeAddBuilder,
-    Function(BuildContext, UI, T) routeEditBuilder,
+    @required
+        Widget Function(BuildContext context, UI uiBuilder) routeAddBuilder,
+    Function(BuildContext context, T model, UI uiBuilder, bool edit)
+        routeEditBuilder,
     FormFieldSetter<List<T>> onSaved,
     FormFieldValidator<List<T>> validator,
     bool enabled = true,
     AutovalidateMode autoValidateMode,
-    Future<bool> Function(BuildContext) beforeAdd,
-    Future<bool> Function(BuildContext, int, T) beforeEdit,
+    Future<bool> Function(BuildContext context) beforeAdd,
+    Future<bool> Function(BuildContext context, int index, T model) beforeEdit,
   }) : super(
           key: key,
           initialValue: initialValue ?? <T>[],
@@ -84,8 +86,9 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                     builder: (BuildContext context) =>
                                         routeEditBuilder(
                                       context,
-                                      uiBuilder,
                                       model,
+                                      uiBuilder,
+                                      enabled,
                                     ),
                                   ),
                                 );
