@@ -53,12 +53,12 @@ abstract class AbstractEdit<
   ///
   ///
   List<Widget> formContent(
-    BuildContext context,
-    T model,
-    bool edit,
-    Map<String, dynamic> stateInjection,
-    String prefix,
-  );
+      BuildContext context,
+      T model,
+      bool edit,
+      Map<String, dynamic> stateInjection,
+      String prefix,
+      Function(bool refresh) refresh);
 
   ///
   ///
@@ -70,6 +70,7 @@ abstract class AbstractEdit<
       edit,
       <String, dynamic>{},
       uiBuilder.prefix,
+      (bool refresh) {}, // Era null
     );
   }
 
@@ -191,6 +192,7 @@ class _AbstractEditState<
                         widget.edit,
                         _stateInjection,
                         widget.uiBuilder.prefix,
+                        _controller.add,
                       ),
                     ),
                   );

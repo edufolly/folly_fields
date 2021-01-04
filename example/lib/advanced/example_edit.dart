@@ -49,6 +49,7 @@ class ExampleEdit
     bool edit,
     Map<String, dynamic> stateInjection,
     String prefix,
+    Function(bool refresh) refresh,
   ) {
     return <Widget>[
       /// Texto

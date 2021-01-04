@@ -48,10 +48,11 @@ abstract class AbstractModel with Hashable {
   int get hashCode => hashIterable(toMap().values);
 
   ///
-  ///
-  ///
-  @override
-  bool operator ==(dynamic other) => (id ?? -1) == (other.id ?? -2);
+  /// Teste de exclusão de quando as entidades ainda não possuem id.
+  /// Anteriormente o cálculo do hash estava com uma divergência, mas agora
+  /// faremos novos testes para não precisar desse operador.
+  // @override
+  // bool operator ==(dynamic other) => (id ?? -1) == (other.id ?? -1);
 
   ///
   ///

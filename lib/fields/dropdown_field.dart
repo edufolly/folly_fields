@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 ///
-/// TODO - Implementar herança do FormField.
 ///
-
+///
 class DropdownField<T> extends FormField<T> {
   final DropdownEditingController<T> controller;
   final Map<T, String> items;
@@ -19,10 +18,9 @@ class DropdownField<T> extends FormField<T> {
     this.items,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO - onChanged
+    Function(T value) onChanged,
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
-//
     DropdownButtonBuilder selectedItemBuilder,
     Widget hint,
     Widget disabledHint,
@@ -77,6 +75,7 @@ class DropdownField<T> extends FormField<T> {
                     return InputDecorator(
                       decoration: effectiveDecoration.copyWith(
                         errorText: enabled ? field.errorText : null,
+                        enabled: enabled,
                       ),
                       isEmpty: state.value == null,
                       isFocused: Focus.of(context).hasFocus,
@@ -87,7 +86,14 @@ class DropdownField<T> extends FormField<T> {
                           value: state._effectiveController.value,
                           hint: hint,
                           disabledHint: disabledHint,
-                          onChanged: state.didChange,
+                          onChanged: enabled
+                              ? (T value) {
+                                  state.didChange(value);
+                                  if (onChanged != null && state.isValid) {
+                                    onChanged(value);
+                                  }
+                                }
+                              : null,
                           // onTap: onTap,
                           elevation: elevation,
                           style: style,
@@ -259,7 +265,7 @@ class DropdownEditingController<T> extends ValueNotifier<T> {
       .map(
         (T key) => DropdownMenuItem<T>(
           value: key,
-          child: Text(items[key]),
+          child: Text(_items[key]),
         ),
       )
       .toList();
