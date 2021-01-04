@@ -30,6 +30,11 @@ abstract class AbstractModel with Hashable {
   ///
   ///
   ///
+  AbstractModel fromMulti(Map<String, dynamic> map);
+
+  ///
+  ///
+  ///
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) map['id'] = id;
@@ -40,17 +45,6 @@ abstract class AbstractModel with Hashable {
   ///
   ///
   Map<String, dynamic> toSave() => toMap();
-
-  ///
-  ///
-  ///
-  AbstractModel fromMultiMap(Map<String, dynamic> map) {
-    Map<String, dynamic> newMap = <String, dynamic>{};
-    for (MapEntry<String, dynamic> entry in map.entries) {
-      _multiMapEntry(entry, newMap);
-    }
-    return fromJson(newMap);
-  }
 
   ///
   ///
@@ -69,6 +63,14 @@ abstract class AbstractModel with Hashable {
   ///
   ///
   String get searchTerm;
+
+  static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
+    Map<String, dynamic> newMap = <String, dynamic>{};
+    for (MapEntry<String, dynamic> entry in map.entries) {
+      _multiMapEntry(entry, newMap);
+    }
+    return newMap;
+  }
 
   ///
   ///
