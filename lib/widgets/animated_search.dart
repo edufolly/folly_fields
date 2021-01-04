@@ -30,6 +30,9 @@ class AnimatedSearch extends StatefulWidget {
 class _AnimatedSearchState extends State<AnimatedSearch> {
   bool expanded = false;
 
+  ///
+  ///
+  ///
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(

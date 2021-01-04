@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+///
+///
+///
 class IconDataField extends FormField<IconData> {
   final IconFieldController controller;
   final Map<String, IconData> icons;
 
+  ///
+  ///
+  ///
   IconDataField({
     Key key,
     String prefix,
@@ -66,7 +72,8 @@ class IconDataField extends FormField<IconData> {
                             child: state.value == null
                                 ? Container()
                                 : Padding(
-                                    padding: const EdgeInsets.only(left:8.0, right: 16.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 16.0),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

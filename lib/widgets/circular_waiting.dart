@@ -125,9 +125,7 @@ class CircularWaiting {
   ///
   ///
   Future<bool> _onWillPop() async {
-    if (closeable) {
-      await _streamController.close();
-    }
+    if (closeable) await _streamController.close();
     return closeable;
   }
 }

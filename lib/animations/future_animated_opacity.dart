@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 ///
 ///
 class FutureAppear extends FutureAnimatedOpacity {
+  ///
+  ///
+  ///
   const FutureAppear({
     Key key,
     @required Duration delay,
@@ -29,6 +32,9 @@ class FutureAppear extends FutureAnimatedOpacity {
 ///
 ///
 class FutureDisappear extends FutureAnimatedOpacity {
+  ///
+  ///
+  ///
   const FutureDisappear({
     Key key,
     @required Duration delay,
