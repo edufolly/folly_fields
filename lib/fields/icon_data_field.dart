@@ -66,7 +66,7 @@ class IconDataField extends FormField<IconData> {
                             child: state.value == null
                                 ? Container()
                                 : Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
+                                    padding: const EdgeInsets.only(left:8.0, right: 16.0),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
