@@ -29,5 +29,5 @@ jobs:
           git remote add origin https://${{secrets.commit_secret}}@github.com/edufolly/folly_fields.git
           git checkout -b gh-pages
           git add --all
-          git commit -m "Publishing the static page ($GITHUB_RUN_NUMBER)."
+          git commit -m "Publishing web project ($GITHUB_RUN_NUMBER)."
           git push origin gh-pages -f
