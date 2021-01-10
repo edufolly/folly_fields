@@ -65,8 +65,8 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                           child: Text(
                             sprintf(
                               emptyListText,
-                              uiBuilder.getSuperPlural(),
-                            ),
+                              <dynamic>[uiBuilder.getSuperPlural()],
+                            ).toString(),
                           ),
                         ),
                       )
@@ -117,7 +117,8 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
 
                     /// Botão Adicionar
                     AddButton(
-                      label: sprintf(addText, uiBuilder.getSuperSingle())
+                      label: sprintf(
+                              addText, <dynamic>[uiBuilder.getSuperSingle()])
                           .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
@@ -258,6 +259,6 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   Future<bool> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        message: sprintf(removeText, uiBuilder.getSuperSingle()),
+        message: sprintf(removeText, <dynamic>[uiBuilder.getSuperSingle()]),
       );
 }
