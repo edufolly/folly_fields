@@ -11,8 +11,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
 
   # https://github.com/edufolly/folly_fields
   folly_fields:
@@ -21,6 +19,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # https://pub.dev/packages/pedantic
+  pedantic: ^1.9.0
 
 flutter:
   uses-material-design: true
