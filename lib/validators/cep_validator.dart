@@ -31,19 +31,13 @@ class CepValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String cep, {bool stripBeforeValidation = true}) {
-    if (stripBeforeValidation) {
-      cep = strip(cep);
-    }
+  bool isValid(String cep) {
+    cep = strip(cep);
 
     if (cep == null || cep.isEmpty) {
       return false;
     }
 
-    if (cep.length != 8) {
-      return false;
-    }
-
-    return true;
+    return (cep.length == 8);
   }
 }

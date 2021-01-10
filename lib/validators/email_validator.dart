@@ -20,8 +20,7 @@ class EmailValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) =>
-      ev.EmailValidator.validate(value);
+  bool isValid(String value) => ev.EmailValidator.validate(value);
 
   ///
   ///

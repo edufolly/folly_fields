@@ -31,19 +31,13 @@ class NcmValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String ncm, {bool stripBeforeValidation = true}) {
-    if (stripBeforeValidation) {
-      ncm = strip(ncm);
-    }
+  bool isValid(String ncm) {
+    ncm = strip(ncm);
 
     if (ncm == null || ncm.isEmpty) {
       return false;
     }
 
-    if (ncm.length != 8) {
-      return false;
-    }
-
-    return true;
+    return ncm.length == 8;
   }
 }

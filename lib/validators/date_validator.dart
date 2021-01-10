@@ -41,8 +41,7 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) =>
-      valid(value) == null;
+  bool isValid(String value) => valid(value) == null;
 
   ///
   ///

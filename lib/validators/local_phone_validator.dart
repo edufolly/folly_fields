@@ -32,10 +32,8 @@ class LocalPhoneValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String phone, {bool stripBeforeValidation = true}) {
-    if (stripBeforeValidation) {
-      phone = strip(phone);
-    }
+  bool isValid(String phone) {
+    phone = strip(phone);
 
     /// phone must be defined
     if (phone == null || phone.isEmpty) return false;

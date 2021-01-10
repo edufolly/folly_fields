@@ -37,10 +37,8 @@ class CpfCnpjValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) {
-    if (stripBeforeValidation) {
-      value = strip(value);
-    }
+  bool isValid(String value) {
+    value = strip(value);
 
     if (value == null || value.isEmpty) {
       return false;

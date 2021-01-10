@@ -45,8 +45,7 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) =>
-      valid(value) == null;
+  bool isValid(String value) => valid(value) == null;
 
   ///
   ///
@@ -98,7 +97,6 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   ///
-  String formatDateTime(DateTime dateTime) {
-    return format(TimeOfDay.fromDateTime(dateTime));
-  }
+  String formatDateTime(DateTime dateTime) =>
+      format(TimeOfDay.fromDateTime(dateTime));
 }

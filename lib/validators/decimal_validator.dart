@@ -88,8 +88,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) =>
-      valid(value) == null;
+  bool isValid(String value) => valid(value) == null;
 
   ///
   ///

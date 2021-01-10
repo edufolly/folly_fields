@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-
 ///
 ///
 ///
@@ -27,7 +25,7 @@ abstract class AbstractValidator<T> {
   ///
   ///
   ///
-  bool isValid(String value, {bool stripBeforeValidation = true});
+  bool isValid(String value);
 
   ///
   ///

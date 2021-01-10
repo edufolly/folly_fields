@@ -25,5 +25,5 @@ class EmptyValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String value, {bool stripBeforeValidation = true}) => false;
+  bool isValid(String value) => false;
 }
