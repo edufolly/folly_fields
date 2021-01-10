@@ -47,10 +47,11 @@ void main() {
     'aa:bb:cc:dd:ee:ff': '',
     'AABBCCDDEEFF': 'AA:BB:CC:DD:EE:FF',
     'AA:BB:CC:DD:EE:FF': 'AA:BB:CC:DD:EE:FF',
-    // 'AA:BB:CC:DD:EE:FZ': false,
-    // 'ZA:BB:CC:DD:EE:FF': false,
-    // 'GH:IJ:KL:MN:OP:QR': false,
-    // '01:23:45:67:89:AB': true,
+    'AA:BB:CC:DD:EE:FZ': 'AABBCCDDEEF',
+    'ZA:BB:CC:DD:EE:FF': 'ABBCCDDEEFF',
+    'GH:IJ:KL:MN:OP:QR': '',
+    '0123456789AB': '01:23:45:67:89:AB',
+    '01:23:45:67:89:AB': '01:23:45:67:89:AB',
   };
 
   group('MacAddressValidator format', () {
