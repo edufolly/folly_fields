@@ -118,7 +118,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.8+8"
+    version: "0.0.9+9"
   font_awesome_flutter:
     dependency: transitive
     description:
@@ -187,6 +187,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0-nullsafety.4"
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   stack_trace:
     dependency: transitive
     description:

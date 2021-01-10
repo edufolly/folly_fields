@@ -5,6 +5,7 @@ import 'package:folly_fields/fields/table_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 /// TODO - Create controller.
@@ -28,8 +29,9 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
     AutovalidateMode autoValidateMode,
     Future<bool> Function(BuildContext context) beforeAdd,
     Future<bool> Function(BuildContext context, int index, T model) beforeEdit,
-    String addButtonPrefix = 'Adicionar',
-    String removeTextPrefix = 'Deseja remover',
+    String addText = 'Adicionar %s',
+    String removeText = 'Deseja remover %s?',
+    String emptyListText = 'Sem %s até o momento.',
   }) : super(
           key: key,
           initialValue: initialValue ?? <T>[],
@@ -60,8 +62,12 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                       Container(
                         height: 75.0,
                         child: Center(
-                          child: Text('Sem ${uiBuilder.getSuperPlural()} '
-                              'até o momento.'),
+                          child: Text(
+                            sprintf(
+                              emptyListText,
+                              uiBuilder.getSuperPlural(),
+                            ),
+                          ),
                         ),
                       )
                     else
@@ -104,14 +110,14 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                 field.value.remove(model);
                                 field.didChange(field.value);
                               },
-                              removeTextPrefix: removeTextPrefix,
+                              removeText: removeText,
                             ),
                           )
                           .toList(),
 
                     /// Botão Adicionar
                     AddButton(
-                      label: '$addButtonPrefix ${uiBuilder.getSuperSingle()}'
+                      label: sprintf(addText, uiBuilder.getSuperSingle())
                           .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
@@ -171,19 +177,19 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   final UI uiBuilder;
   final void Function(int, T) onEdit;
   final void Function(T) onDelete;
-  final String removeTextPrefix;
+  final String removeText;
 
   ///
   ///
   ///
   const _MyListTile({
     Key key,
-    this.index,
-    this.model,
-    this.uiBuilder,
-    this.onEdit,
-    this.onDelete,
-    @required this.removeTextPrefix,
+    @required this.index,
+    @required this.model,
+    @required this.uiBuilder,
+    @required this.onEdit,
+    @required this.onDelete,
+    @required this.removeText,
   }) : super(key: key);
 
   ///
@@ -252,6 +258,6 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   Future<bool> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        message: '$removeTextPrefix ${uiBuilder.getSuperSingle()}?',
+        message: sprintf(removeText, uiBuilder.getSuperSingle()),
       );
 }
