@@ -7,9 +7,6 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 ### pubspec.yaml
 
 ``` yaml
-flutter_localizations:
-  sdk: flutter
-
 # https://github.com/edufolly/folly_fields
 folly_fields:
   git:

@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.0.9+9
+version: 0.0.10+10
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -13,8 +13,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # https://pub.dev/packages/intl
-  intl: ">=0.16.0 <=0.18.0"
   # https://pub.dev/packages/font_awesome_flutter
   font_awesome_flutter: ^8.11.0
   # https://pub.dev/packages/connectivity
