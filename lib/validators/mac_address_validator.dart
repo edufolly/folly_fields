@@ -49,14 +49,11 @@ class MacAddressValidator extends AbstractValidator<String> {
       value = strip(value);
     }
 
-    // mac address must be defined
     if (value == null || value.isEmpty || value.length > 12) {
       return false;
     }
 
-    // TODO - Validar as letras.
-
-    return true;
+    return !value.contains(RegExp(r'[^A-F0-9]'));
   }
 
   static final Random _random = Random();
@@ -65,7 +62,7 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   static String generate() =>
-      List<String>.generate(12, (_) => _random.nextInt(16).toRadixString(16))
+      List<String>.generate(12, (_) => _random.nextInt(17).toRadixString(16))
           .join()
           .toUpperCase();
 }
