@@ -28,6 +28,8 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
     AutovalidateMode autoValidateMode,
     Future<bool> Function(BuildContext context) beforeAdd,
     Future<bool> Function(BuildContext context, int index, T model) beforeEdit,
+    String addButtonPrefix = 'Adicionar',
+    String removeTextPrefix = 'Deseja remover',
   }) : super(
           key: key,
           initialValue: initialValue ?? <T>[],
@@ -102,13 +104,14 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                 field.value.remove(model);
                                 field.didChange(field.value);
                               },
+                              removeTextPrefix: removeTextPrefix,
                             ),
                           )
                           .toList(),
 
                     /// Botão Adicionar
                     AddButton(
-                      label: 'Adicionar ${uiBuilder.getSuperSingle()}'
+                      label: '$addButtonPrefix ${uiBuilder.getSuperSingle()}'
                           .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
@@ -168,6 +171,7 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   final UI uiBuilder;
   final void Function(int, T) onEdit;
   final void Function(T) onDelete;
+  final String removeTextPrefix;
 
   ///
   ///
@@ -179,6 +183,7 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
     this.uiBuilder,
     this.onEdit,
     this.onDelete,
+    @required this.removeTextPrefix,
   }) : super(key: key);
 
   ///
@@ -247,7 +252,6 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   Future<bool> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        title: 'Atenção',
-        message: 'Deseja remover ${uiBuilder.getSuperSingle()}?',
+        message: '$removeTextPrefix ${uiBuilder.getSuperSingle()}?',
       );
 }
