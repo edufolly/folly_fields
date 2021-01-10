@@ -6,6 +6,7 @@ import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/date_validator.dart';
 import 'package:folly_fields/validators/email_validator.dart';
 import 'package:folly_fields/validators/empty_validator.dart';
+import 'package:folly_fields/validators/local_phone_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/ncm_validator.dart';
 import 'package:folly_fields/validators/phone_validator.dart';
@@ -30,6 +31,8 @@ class ValidatorFactory {
         return EmailValidator();
       case 'phone':
         return PhoneValidator();
+      case 'local_phone':
+        return LocalPhoneValidator();
       case 'cep':
         return CepValidator();
       case 'date':
