@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/decimal.dart';
 
 ///
-/// flutter test test/decimal_test.dart
+///
 ///
 void main() {
   test('Verificação de valores decimais.', () {

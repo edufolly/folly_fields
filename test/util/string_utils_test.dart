@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/string_utils.dart';
 
 ///
-/// flutter test test/string_utils_test.dart
+///
 ///
 void main() {
   List<_StringUtilsTest> tests = <_StringUtilsTest>[

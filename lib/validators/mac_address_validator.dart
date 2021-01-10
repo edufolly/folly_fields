@@ -45,11 +45,11 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
+    if (value == null || value.isEmpty || value.length != 17) return false;
+
     value = strip(value);
 
-    if (value == null || value.isEmpty || value.length > 12) {
-      return false;
-    }
+    if (value == null || value.isEmpty || value.length != 12) return false;
 
     return !value.contains(RegExp(r'[^A-F0-9]'));
   }
@@ -59,8 +59,9 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   ///
-  static String generate() =>
-      List<String>.generate(12, (_) => _random.nextInt(17).toRadixString(16))
-          .join()
-          .toUpperCase();
+  static String generate() => List<String>.generate(
+        17,
+        (int index) =>
+            (index + 1) % 3 == 0 ? ':' : _random.nextInt(16).toRadixString(16),
+      ).join().toUpperCase();
 }
