@@ -38,25 +38,15 @@ class PhoneValidator extends AbstractValidator<String> {
     }
 
     /// phone must be defined
-    if (phone == null || phone.isEmpty) {
-      return false;
-    }
+    if (phone == null || phone.isEmpty) return false;
 
     /// phone must have 10 or 11 chars
-    if (phone.length < 10 || phone.length > 11) {
-      return false;
-    }
+    if (phone.length < 10 || phone.length > 11) return false;
 
     /// Não existe DDD com zero.
-    if (phone[0] == '0' || phone[1] == '0') {
-      return false;
-    }
+    if (phone[0] == '0' || phone[1] == '0') return false;
 
     /// Números de 9 dígitos sempre iniciam com 9.
-    if (phone.length == 11 && phone[2] != '9') {
-      return false;
-    }
-
-    return true;
+    return !(phone.length == 11 && phone[2] != '9');
   }
 }
