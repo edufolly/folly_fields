@@ -56,8 +56,10 @@ abstract class AbstractModel with Hashable {
   /// Teste de exclusão de quando as entidades ainda não possuem id.
   /// Anteriormente o cálculo do hash estava com uma divergência, mas agora
   /// faremos novos testes para não precisar desse operador.
-  // @override
-  // bool operator ==(dynamic other) => (id ?? -1) == (other.id ?? -1);
+  ///
+  /// Ocorreu um novo problema com a comparação dos objetos do menu.
+  @override
+  bool operator ==(dynamic other) => hashCode == other.hashCode;
 
   ///
   ///
