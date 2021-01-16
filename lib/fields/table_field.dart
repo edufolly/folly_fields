@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 /// TODO - Test layout with DataTable.
-///
+/// TODO - Customize messages.
 /// TODO - Create controller??
 ///
 class TableField<T extends AbstractModel> extends FormField<List<T>> {
@@ -227,19 +227,26 @@ class AddButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FaIcon(
-                FontAwesomeIcons.plus,
-                color: Colors.white,
+            Flexible(
+              flex: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FaIcon(
+                  FontAwesomeIcons.plus,
+                  color: Colors.white,
+                ),
               ),
             ),
-            Text(
-              label.toUpperCase(),
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .copyWith(color: Colors.white),
+            Flexible(
+              flex: 1,
+              child: Text(
+                label.toUpperCase(),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1
+                    .copyWith(color: Colors.white),
+                overflow: TextOverflow.ellipsis,
+              ),
             )
           ],
         ),
