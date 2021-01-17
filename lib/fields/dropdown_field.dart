@@ -154,8 +154,8 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
     super.initState();
     if (widget.controller == null) {
       _controller = DropdownEditingController<T>(
-        widget.initialValue,
-        widget.items,
+        value: widget.initialValue,
+        items: widget.items,
       );
     } else {
       widget.controller.addListener(_handleControllerChanged);
@@ -244,7 +244,7 @@ class DropdownEditingController<T> extends ValueNotifier<T> {
   ///
   ///
   ///
-  DropdownEditingController(T value, Map<T, String> items)
+  DropdownEditingController({T value, Map<T, String> items})
       : _items = items,
         super(value);
 
