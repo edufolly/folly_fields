@@ -171,11 +171,6 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                         ),
                       ),
 
-                    /// Divisor
-                    FollyDivider(
-                      color: Colors.black12,
-                    ),
-
                     /// Botão Adicionar
                     AddButton(
                       label: 'Adicionar ${uiBuilder.getSuperSingle()}'
