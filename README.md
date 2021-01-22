@@ -2,6 +2,14 @@
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
+## Example
+
+### Demo
+https://edufolly.github.io/folly_fields/
+
+### Code
+https://github.com/edufolly/folly_fields/tree/main/example/lib
+
 ## How to use
 
 ### pubspec.yaml
@@ -14,7 +22,7 @@ folly_fields:
 ```
 
 ### config.dart
-
+https://github.com/edufolly/folly_fields/blob/main/example/lib/config.dart
 ```dart
 class Config extends AbstractConfig {
   static final Config _singleton = Config._internal();
@@ -30,7 +38,7 @@ class Config extends AbstractConfig {
 ```
 
 ### main.dart
-
+https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
 ```dart
 void main() {
   bool debug = false;
