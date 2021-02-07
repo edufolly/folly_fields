@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.0.14+14
+version: 0.0.15+15
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,6 +15,9 @@ dependencies:
   # https://github.com/edufolly/folly_fields
   folly_fields:
     path: ../
+
+  # https://pub.dev/packages/url_launcher
+  url_launcher: ^5.7.10
 
 dev_dependencies:
   flutter_test:

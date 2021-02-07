@@ -1,7 +1,6 @@
 // @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:folly_fields/animations/future_animated_opacity.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
@@ -28,6 +27,7 @@ import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 ///
 ///
@@ -114,6 +114,20 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Folly Fields Example'),
         actions: <Widget>[
           IconButton(
+            icon: Icon(FontAwesomeIcons.github),
+            onPressed: () async {
+              const String url = 'https://github.com/edufolly/folly_fields';
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                await FollyDialogs.dialogMessage(
+                  context: context,
+                  message: 'Não foi possível abrir $url',
+                );
+              }
+            },
+          ),
+          IconButton(
             icon: Icon(FontAwesomeIcons.list),
             onPressed: _showList,
           ),
@@ -125,18 +139,19 @@ class _MyHomePageState extends State<MyHomePage> {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              FutureDisappear(
-                delay: Duration(seconds: 10),
-                animationDuration: Duration(milliseconds: 600),
-                child: Chip(
-                  label: Text(
-                    'Seja bem vindo à página de exemplos do Folly Fields.',
-                  ),
-                  backgroundColor:
-                      Theme.of(context).accentColor.withOpacity(0.8),
-                ),
-              ),
+              // FutureDisappear(
+              //   delay: Duration(seconds: 10),
+              //   animationDuration: Duration(milliseconds: 600),
+              //   child: Chip(
+              //     label: Text(
+              //       'Seja bem vindo à página de exemplos do Folly Fields.',
+              //     ),
+              //     backgroundColor:
+              //         Theme.of(context).accentColor.withOpacity(0.8),
+              //   ),
+              // ),
 
               /// Título
               Padding(
@@ -148,20 +163,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
 
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FutureAppear(
-                  delay: Duration(seconds: 30),
-                  animationDuration: Duration(milliseconds: 800),
-                  child: Chip(
-                    label: Text(
-                      'Dificuldades em usar o Folly Fields? Entre em contato...',
-                    ),
-                    backgroundColor:
-                        Theme.of(context).accentColor.withOpacity(0.8),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: FutureAppear(
+              //     delay: Duration(seconds: 30),
+              //     animationDuration: Duration(milliseconds: 800),
+              //     child: Chip(
+              //       label: Text(
+              //         'Dificuldades em usar o Folly Fields? Entre em contato...',
+              //       ),
+              //       backgroundColor:
+              //           Theme.of(context).accentColor.withOpacity(0.8),
+              //     ),
+              //   ),
+              // ),
 
               /// Texto
               StringField(
@@ -342,8 +357,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
               /// Botão Enviar
               Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: RaisedButton.icon(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 8.0,
+                ),
+                child: ElevatedButton.icon(
                   icon: Icon(Icons.send),
                   label: Text('ENVIAR'),
                   onPressed: _send,

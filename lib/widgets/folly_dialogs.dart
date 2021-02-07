@@ -23,7 +23,7 @@ class FollyDialogs {
           title: Text(title),
           content: Text(message),
           actions: <Widget>[
-            RaisedButton(
+            ElevatedButton(
               child: Text(
                 buttonText,
               ),
@@ -87,11 +87,11 @@ class FollyDialogs {
             ],
           ),
           actions: <Widget>[
-            RaisedButton(
+            ElevatedButton(
               child: Text(cancelLabel),
               onPressed: () => Navigator.of(context).pop(null),
             ),
-            FlatButton(
+            TextButton(
               child: Text(confirmLabel),
               onPressed: () => Navigator.of(context).pop(_controller.text),
             ),
@@ -116,44 +116,35 @@ class FollyDialogs {
     Widget neg;
 
     if (marked) {
-      aff = RaisedButton(
-        onPressed: () => Navigator.of(context).pop(true),
-        child: Text(
-          affirmative,
-          style: const TextStyle(color: Colors.white),
-        ),
-        color: Theme.of(context).accentColor,
-      );
-
-      neg = FlatButton(
-        onPressed: () => Navigator.of(context).pop(false),
-        child: Text(negative),
-      );
-    } else {
-      aff = FlatButton(
+      aff = ElevatedButton(
         onPressed: () => Navigator.of(context).pop(true),
         child: Text(affirmative),
       );
 
-      neg = RaisedButton(
+      neg = TextButton(
         onPressed: () => Navigator.of(context).pop(false),
-        child: Text(
-          negative,
-          style: const TextStyle(color: Colors.white),
-        ),
-        color: Theme.of(context).accentColor,
+        child: Text(negative),
+      );
+    } else {
+      aff = TextButton(
+        onPressed: () => Navigator.of(context).pop(true),
+        child: Text(affirmative),
+      );
+
+      neg = ElevatedButton(
+        onPressed: () => Navigator.of(context).pop(false),
+        child: Text(negative),
       );
     }
 
     return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: <Widget>[neg, aff],
-          ),
-        ) ??
-        false;
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[neg, aff],
+      ),
+    );
   }
 }

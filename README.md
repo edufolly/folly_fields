@@ -2,6 +2,14 @@
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
+## Attention - flutter: ^1.26.0-0
+
+Flutter did a breaking change for RaisedButton and FlatButton.
+
+http://flutter.dev/go/material-button-migration-guide
+
+So we set the Flutter minimal version. Use beta channel for it.
+
 ## Example
 
 ### Demo
@@ -78,6 +86,6 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## Docs
+## More Docs
 
 https://docs.google.com/spreadsheets/d/1fg7yhz-Mum2Z-cQ8KHpkuTEQzgjYI3905Wcr49nmIIY/edit#gid=0

@@ -216,8 +216,7 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
-      child: FlatButton(
-        color: Colors.grey,
+      child: TextButton(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
