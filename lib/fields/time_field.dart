@@ -172,7 +172,7 @@ class _TimeFieldState extends State<TimeField> {
         validator: widget.enabled
             ? (String value) => widget.validator != null
                 ? widget.validator(validator.parse(value))
-                : null
+                : validator.valid(value)
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
@@ -180,7 +180,7 @@ class _TimeFieldState extends State<TimeField> {
         obscureText: false,
         inputFormatters: validator.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: 10,
+        maxLength: 5,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
                 ? widget.onSaved(validator.parse(value))

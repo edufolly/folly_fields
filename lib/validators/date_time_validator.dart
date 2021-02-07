@@ -3,24 +3,28 @@ import 'package:flutter/services.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:intl/intl.dart';
 
 ///
 ///
 ///
-class TimeValidator extends AbstractValidator<TimeOfDay>
-    implements AbstractParser<TimeOfDay> {
+class DateTimeValidator extends AbstractValidator<DateTime>
+    implements AbstractParser<DateTime> {
+  final DateFormat pattern;
+
   ///
   ///
   ///
-  TimeValidator()
-      : super(
+  DateTimeValidator({String format})
+      : pattern = DateFormat(format ?? 'dd/MM/yyyy HH:mm'),
+        super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
-              mask: 'AB:CB',
+              mask: '##/##/#### A#:C#',
               filter: <String, RegExp>{
                 'A': RegExp(r'[0-2]'),
-                'B': RegExp(r'[0-9]'),
                 'C': RegExp(r'[0-5]'),
+                '#': RegExp(r'[0-9]'),
               },
             ),
           ],
@@ -30,11 +34,7 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  String format(TimeOfDay time) => time == null
-      ? ''
-      : time.hour.toString().padLeft(2, '0') +
-          ':' +
-          time.minute.toString().padLeft(2, '0');
+  String format(DateTime value) => value == null ? '' : pattern.format(value);
 
   ///
   ///
@@ -58,26 +58,14 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  TimeOfDay parse(String value) {
-    if (isValid(value)) {
-      List<String> parts = value.split(':');
-      return TimeOfDay(
-        hour: int.tryParse(parts[0]),
-        minute: int.tryParse(parts[1]),
-      );
-    }
-    return null;
-  }
+  DateTime parse(String text) => isValid(text) ? pattern.parse(text) : null;
 
   ///
   ///
   ///
   @override
-  String valid(String value) => FollyUtils.validTime(value);
-
-  ///
-  ///
-  ///
-  String formatDateTime(DateTime dateTime) =>
-      format(TimeOfDay.fromDateTime(dateTime));
+  String valid(String value) {
+    List<String> p = value.split(' ');
+    return FollyUtils.validDate(p.first) ?? FollyUtils.validTime(p.last);
+  }
 }

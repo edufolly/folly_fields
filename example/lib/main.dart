@@ -7,6 +7,7 @@ import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
+import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
@@ -272,6 +273,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 enabled: edit,
                 initialValue: model.localPhone,
                 onSaved: (String value) => model.localPhone = value,
+              ),
+
+              /// Data e Hora
+              DateTimeField(
+                prefix: prefix,
+                label: 'Data e Hora*',
+                enabled: edit,
+                initialValue: model.dateTime,
+                onSaved: (DateTime value) => model.dateTime = value,
               ),
 
               /// Data

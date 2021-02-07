@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
@@ -26,6 +27,7 @@ class ExampleModel extends AbstractModel {
   String document;
   String phone;
   String localPhone;
+  DateTime dateTime;
   DateTime date;
   TimeOfDay time;
   String macAddress;
@@ -55,6 +57,9 @@ class ExampleModel extends AbstractModel {
         document = map['document'],
         phone = map['phone'],
         localPhone = map['localPhone'],
+        dateTime = map['dateTime'] == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(map['dateTime']),
         date = map['date'] == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(map['date']),
@@ -96,6 +101,7 @@ class ExampleModel extends AbstractModel {
     if (document != null) map['document'] = document;
     if (phone != null) map['phone'] = phone;
     if (localPhone != null) map['localPhone'] = localPhone;
+    if (dateTime != null) map['dateTime'] = dateTime.millisecondsSinceEpoch;
     if (date != null) map['date'] = date.millisecondsSinceEpoch;
     if (time != null) map['time'] = timeValidator.format(time);
     if (macAddress != null) map['macAddress'] = macAddress;
@@ -143,6 +149,8 @@ class ExampleModel extends AbstractModel {
     model.localPhone = '9' + complete(8);
     model.date = DateTime(now.year, now.month, now.day);
     model.time = TimeOfDay(hour: now.hour, minute: now.minute);
+    model.dateTime =
+        FollyUtils.dateMergeStart(date: model.date, time: model.time);
     model.macAddress = MacAddressValidator.generate();
     model.ncm = complete(8);
     model.cep = complete(8);

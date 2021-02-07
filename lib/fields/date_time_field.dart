@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/date_validator.dart';
+import 'package:folly_fields/util/folly_utils.dart';
+import 'package:folly_fields/validators/date_time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class DateField extends StatefulWidget {
+class DateTimeField extends StatefulWidget {
   final String prefix;
   final String label;
-  final DateEditingController controller;
+  final DateTimeEditingController controller;
   final FormFieldValidator<DateTime> validator;
   final TextAlign textAlign;
   final FormFieldSetter<DateTime> onSaved;
@@ -29,7 +30,7 @@ class DateField extends StatefulWidget {
   ///
   ///
   ///
-  DateField({
+  DateTimeField({
     Key key,
     this.prefix,
     this.label,
@@ -55,22 +56,22 @@ class DateField extends StatefulWidget {
   ///
   ///
   @override
-  _DateFieldState createState() => _DateFieldState();
+  _DateTimeFieldState createState() => _DateTimeFieldState();
 }
 
 ///
 ///
 ///
-class _DateFieldState extends State<DateField> {
-  final DateValidator validator = DateValidator();
+class _DateTimeFieldState extends State<DateTimeField> {
+  final DateTimeValidator validator = DateTimeValidator();
 
-  DateEditingController _controller;
+  DateTimeEditingController _controller;
   FocusNode _focusNode;
 
   ///
   ///
   ///
-  DateEditingController get _effectiveController =>
+  DateTimeEditingController get _effectiveController =>
       widget.controller ?? _controller;
 
   ///
@@ -85,7 +86,7 @@ class _DateFieldState extends State<DateField> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DateEditingController(date: widget.initialValue);
+      _controller = DateTimeEditingController(date: widget.initialValue);
     }
 
     if (widget.focusNode == null) {
@@ -139,7 +140,7 @@ class _DateFieldState extends State<DateField> {
           : '${widget.prefix} - ${widget.label}',
       counterText: '',
       suffixIcon: IconButton(
-        icon: Icon(FontAwesomeIcons.solidCalendarAlt),
+        icon: Icon(FontAwesomeIcons.calendarDay),
         onPressed: () async {
           try {
             DateTime selectedDate = await showDatePicker(
@@ -160,7 +161,33 @@ class _DateFieldState extends State<DateField> {
             );
 
             if (selectedDate != null) {
-              _effectiveController.date = selectedDate;
+              TimeOfDay initialTime = TimeOfDay.now();
+
+              try {
+                initialTime = TimeOfDay.fromDateTime(_effectiveController.date);
+              } catch (e) {
+                // Do nothing.
+              }
+
+              TimeOfDay selectedTime = await showTimePicker(
+                context: context,
+                initialTime: initialTime,
+                builder: (BuildContext context, Widget child) {
+                  return Theme(
+                    data: ThemeData.light().copyWith(
+                      primaryColor: rootColor,
+                      accentColor: rootColor,
+                      colorScheme: ColorScheme.light(primary: rootColor),
+                    ),
+                    child: child,
+                  );
+                },
+              );
+
+              if (selectedTime != null) {
+                _effectiveController.date = FollyUtils.dateMergeStart(
+                    date: selectedDate, time: selectedTime);
+              }
             }
           } catch (e, s) {
             print(e);
@@ -186,7 +213,7 @@ class _DateFieldState extends State<DateField> {
         obscureText: false,
         inputFormatters: validator.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: 10,
+        maxLength: 16,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
                 ? widget.onSaved(validator.parse(value))
@@ -215,26 +242,26 @@ class _DateFieldState extends State<DateField> {
 ///
 ///
 ///
-class DateEditingController extends TextEditingController {
+class DateTimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateEditingController({DateTime date})
-      : super(text: date == null ? '' : DateValidator().format(date));
+  DateTimeEditingController({DateTime date})
+      : super(text: date == null ? '' : DateTimeValidator().format(date));
 
   ///
   ///
   ///
-  DateEditingController.fromValue(TextEditingValue value)
+  DateTimeEditingController.fromValue(TextEditingValue value)
       : super.fromValue(value);
 
   ///
   ///
   ///
-  DateTime get date => DateValidator().parse(text);
+  DateTime get date => DateTimeValidator().parse(text);
 
   ///
   ///
   ///
-  set date(DateTime dateTime) => text = DateValidator().format(dateTime);
+  set date(DateTime dateTime) => text = DateTimeValidator().format(dateTime);
 }
