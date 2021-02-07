@@ -139,8 +139,6 @@ class _DateTimeFieldState extends State<DateTimeField> {
   ///
   @override
   Widget build(BuildContext context) {
-    Color rootColor = Theme.of(context).primaryColor;
-
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
@@ -157,16 +155,6 @@ class _DateTimeFieldState extends State<DateTimeField> {
               initialDate: _effectiveController.date ?? DateTime.now(),
               firstDate: widget.firstDate ?? DateTime(1900),
               lastDate: widget.lastDate ?? DateTime(2100),
-              builder: (BuildContext context, Widget child) {
-                return Theme(
-                  data: ThemeData.light().copyWith(
-                    primaryColor: rootColor,
-                    accentColor: rootColor,
-                    colorScheme: ColorScheme.light(primary: rootColor),
-                  ),
-                  child: child,
-                );
-              },
             );
 
             if (selectedDate != null) {
@@ -181,16 +169,6 @@ class _DateTimeFieldState extends State<DateTimeField> {
               TimeOfDay selectedTime = await showTimePicker(
                 context: context,
                 initialTime: initialTime,
-                builder: (BuildContext context, Widget child) {
-                  return Theme(
-                    data: ThemeData.light().copyWith(
-                      primaryColor: rootColor,
-                      accentColor: rootColor,
-                      colorScheme: ColorScheme.light(primary: rootColor),
-                    ),
-                    child: child,
-                  );
-                },
               );
 
               if (selectedTime != null) {

@@ -125,8 +125,6 @@ class _TimeFieldState extends State<TimeField> {
   ///
   @override
   Widget build(BuildContext context) {
-    Color rootColor = Theme.of(context).primaryColor;
-
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
@@ -141,16 +139,6 @@ class _TimeFieldState extends State<TimeField> {
             TimeOfDay selectedTime = await showTimePicker(
               context: context,
               initialTime: _effectiveController.time ?? TimeOfDay.now(),
-              builder: (BuildContext context, Widget child) {
-                return Theme(
-                  data: ThemeData.light().copyWith(
-                    primaryColor: rootColor,
-                    accentColor: rootColor,
-                    colorScheme: ColorScheme.light(primary: rootColor),
-                  ),
-                  child: child,
-                );
-              },
             );
 
             if (selectedTime != null) {

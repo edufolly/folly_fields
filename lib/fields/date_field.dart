@@ -129,8 +129,6 @@ class _DateFieldState extends State<DateField> {
   ///
   @override
   Widget build(BuildContext context) {
-    Color rootColor = Theme.of(context).primaryColor;
-
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
@@ -147,16 +145,6 @@ class _DateFieldState extends State<DateField> {
               initialDate: _effectiveController.date ?? DateTime.now(),
               firstDate: widget.firstDate ?? DateTime(1900),
               lastDate: widget.lastDate ?? DateTime(2100),
-              builder: (BuildContext context, Widget child) {
-                return Theme(
-                  data: ThemeData.light().copyWith(
-                    primaryColor: rootColor,
-                    accentColor: rootColor,
-                    colorScheme: ColorScheme.light(primary: rootColor),
-                  ),
-                  child: child,
-                );
-              },
             );
 
             if (selectedDate != null) {
