@@ -26,6 +26,8 @@ class DateTimeField extends StatefulWidget {
   final DateTime lastDate;
   final bool filled;
   final void Function(DateTime) lostFocus;
+  final String format;
+  final String mask;
 
   ///
   ///
@@ -50,6 +52,8 @@ class DateTimeField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.lostFocus,
+    this.format = 'dd/MM/yyyy HH:mm',
+    this.mask = '##/##/#### A#:C#',
   }) : super(key: key);
 
   ///
@@ -63,8 +67,7 @@ class DateTimeField extends StatefulWidget {
 ///
 ///
 class _DateTimeFieldState extends State<DateTimeField> {
-  final DateTimeValidator validator = DateTimeValidator();
-
+  DateTimeValidator _validator;
   DateTimeEditingController _controller;
   FocusNode _focusNode;
 
@@ -85,6 +88,12 @@ class _DateTimeFieldState extends State<DateTimeField> {
   @override
   void initState() {
     super.initState();
+
+    _validator = DateTimeValidator(
+      format: widget.format,
+      mask: widget.mask,
+    );
+
     if (widget.controller == null) {
       _controller = DateTimeEditingController(date: widget.initialValue);
     }
@@ -204,19 +213,19 @@ class _DateTimeFieldState extends State<DateTimeField> {
         decoration: effectiveDecoration,
         validator: widget.enabled
             ? (String value) => widget.validator != null
-                ? widget.validator(validator.parse(value))
-                : validator.valid(value)
+                ? widget.validator(_validator.parse(value))
+                : _validator.valid(value)
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
         maxLines: 1,
         obscureText: false,
-        inputFormatters: validator.inputFormatters,
+        inputFormatters: _validator.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: 16,
+        maxLength: widget.format.length,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
-                ? widget.onSaved(validator.parse(value))
+                ? widget.onSaved(_validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,

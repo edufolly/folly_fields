@@ -46,12 +46,6 @@ class FollyUtils {
   ///
   ///
   ///
-  static String fullFormat(DateTime dateTime) =>
-      DateFormat('dd/MM/yyyy HH:mm:ss').format(dateTime);
-
-  ///
-  ///
-  ///
   static String validDate(String value) {
     if (value.isEmpty) return 'Data vazia.';
 

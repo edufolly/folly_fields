@@ -15,12 +15,12 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   ///
   ///
-  DateTimeValidator({String format})
+  DateTimeValidator({String format, String mask})
       : pattern = DateFormat(format ?? 'dd/MM/yyyy HH:mm'),
         super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
-              mask: '##/##/#### A#:C#',
+              mask: mask ?? '##/##/#### A#:C#',
               filter: <String, RegExp>{
                 'A': RegExp(r'[0-2]'),
                 'C': RegExp(r'[0-5]'),
