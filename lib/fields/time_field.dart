@@ -23,6 +23,7 @@ class TimeField extends StatefulWidget {
   final bool enableInteractiveSelection;
   final bool filled;
   final void Function(TimeOfDay) lostFocus;
+  final bool required;
 
   ///
   ///
@@ -45,6 +46,7 @@ class TimeField extends StatefulWidget {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.lostFocus,
+    this.required = true,
   }) : super(key: key);
 
   ///
@@ -158,9 +160,21 @@ class _TimeFieldState extends State<TimeField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) => widget.validator != null
-                ? widget.validator(validator.parse(value))
-                : validator.valid(value)
+            ? (String value) {
+                if (!widget.required && (value == null || value.isEmpty)) {
+                  return null;
+                }
+
+                String message = validator.valid(value);
+
+                if (message != null) return message;
+
+                if (widget.validator != null) {
+                  return widget.validator(validator.parse(value));
+                }
+
+                return null;
+              }
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,

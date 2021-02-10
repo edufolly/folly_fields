@@ -15,8 +15,10 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   ///
   ///
-  DateTimeValidator({String format, String mask})
-      : pattern = DateFormat(format ?? 'dd/MM/yyyy HH:mm'),
+  DateTimeValidator({
+    String format,
+    String mask,
+  })  : pattern = DateFormat(format ?? 'dd/MM/yyyy HH:mm'),
         super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
@@ -65,7 +67,12 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   @override
   String valid(String value) {
+    if (value == null || value.isEmpty) return 'Data e Hora inválidas.';
+
     List<String> p = value.split(' ');
+
+    if (p.length != 2) return 'Partes da Data e Hora inválidas.';
+
     return FollyUtils.validDate(p.first) ?? FollyUtils.validTime(p.last);
   }
 }

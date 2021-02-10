@@ -27,7 +27,9 @@ https://github.com/edufolly/folly_fields/tree/main/example/lib
 folly_fields:
   git:
     url: git://github.com/edufolly/folly_fields.git
+    rev: # lastest release
 ```
+Use **ref** to avoid breaking changes. Check [latest release](https://github.com/edufolly/folly_fields/releases).
 
 ### config.dart
 https://github.com/edufolly/folly_fields/blob/main/example/lib/config.dart

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
+/// TODO - Herdar de DateTimeField. Mudar locale por format.
 ///
 class DateField extends StatefulWidget {
   final String prefix;
@@ -25,6 +26,9 @@ class DateField extends StatefulWidget {
   final DateTime lastDate;
   final bool filled;
   final void Function(DateTime) lostFocus;
+  final dynamic locale;
+  final String mask;
+  final bool required;
 
   ///
   ///
@@ -49,6 +53,9 @@ class DateField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.lostFocus,
+    this.locale = 'pt_br',
+    this.mask = '##/##/####',
+    this.required = true,
   }) : super(key: key);
 
   ///
@@ -62,8 +69,7 @@ class DateField extends StatefulWidget {
 ///
 ///
 class _DateFieldState extends State<DateField> {
-  final DateValidator validator = DateValidator();
-
+  DateValidator _validator;
   DateEditingController _controller;
   FocusNode _focusNode;
 
@@ -84,6 +90,12 @@ class _DateFieldState extends State<DateField> {
   @override
   void initState() {
     super.initState();
+
+    _validator = DateValidator(
+      locale: widget.locale,
+      mask: widget.mask,
+    );
+
     if (widget.controller == null) {
       _controller = DateEditingController(date: widget.initialValue);
     }
@@ -164,20 +176,32 @@ class _DateFieldState extends State<DateField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) => widget.validator != null
-                ? widget.validator(validator.parse(value))
-                : validator.valid(value)
+            ? (String value) {
+                if (!widget.required && (value == null || value.isEmpty)) {
+                  return null;
+                }
+
+                String message = _validator.valid(value);
+
+                if (message != null) return message;
+
+                if (widget.validator != null) {
+                  return widget.validator(_validator.parse(value));
+                }
+
+                return null;
+              }
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
         maxLines: 1,
         obscureText: false,
-        inputFormatters: validator.inputFormatters,
+        inputFormatters: _validator.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: 10,
+        maxLength: widget.mask.length,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
-                ? widget.onSaved(validator.parse(value))
+                ? widget.onSaved(_validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,

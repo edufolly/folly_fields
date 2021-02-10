@@ -169,12 +169,10 @@ class _AbstractEditState<
             )
           ],
         ),
-        bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
-          context: context,
-        ),
+        bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
         body: widget.uiBuilder.buildBackgroundContainer(
-          context: context,
-          child: Form(
+          context,
+          Form(
             key: _formKey,
             child: StreamBuilder<bool>(
               stream: _controller.stream,

@@ -28,6 +28,7 @@ class DateTimeField extends StatefulWidget {
   final void Function(DateTime) lostFocus;
   final String format;
   final String mask;
+  final bool required;
 
   ///
   ///
@@ -54,6 +55,7 @@ class DateTimeField extends StatefulWidget {
     this.lostFocus,
     this.format = 'dd/MM/yyyy HH:mm',
     this.mask = '##/##/#### A#:C#',
+    this.required = true,
   }) : super(key: key);
 
   ///
@@ -171,10 +173,12 @@ class _DateTimeFieldState extends State<DateTimeField> {
                 initialTime: initialTime,
               );
 
-              if (selectedTime != null) {
-                _effectiveController.date = FollyUtils.dateMergeStart(
-                    date: selectedDate, time: selectedTime);
-              }
+              selectedTime ??= TimeOfDay(hour: 0, minute: 0);
+
+              _effectiveController.date = FollyUtils.dateMergeStart(
+                date: selectedDate,
+                time: selectedTime,
+              );
             }
           } catch (e, s) {
             print(e);
@@ -190,9 +194,21 @@ class _DateTimeFieldState extends State<DateTimeField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) => widget.validator != null
-                ? widget.validator(_validator.parse(value))
-                : _validator.valid(value)
+            ? (String value) {
+                if (!widget.required && (value == null || value.isEmpty)) {
+                  return null;
+                }
+
+                String message = _validator.valid(value);
+
+                if (message != null) return message;
+
+                if (widget.validator != null) {
+                  return widget.validator(_validator.parse(value));
+                }
+
+                return null;
+              }
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
@@ -200,7 +216,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
         obscureText: false,
         inputFormatters: _validator.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: widget.format.length,
+        maxLength: widget.mask.length,
         onSaved: widget.enabled
             ? (String value) => widget.onSaved != null
                 ? widget.onSaved(_validator.parse(value))

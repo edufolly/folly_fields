@@ -17,10 +17,11 @@ class DateValidator extends AbstractValidator<DateTime>
   ///
   DateValidator({
     this.locale = 'pt_br',
+    String mask,
   }) : super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
-              mask: '##/##/####',
+              mask: mask ?? '##/##/####',
             ),
           ],
         );

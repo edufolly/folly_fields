@@ -222,12 +222,11 @@ class _AbstractListState<
             appBar: AppBar(
               title: _getScaffoldTitle(),
             ),
-            bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
-              context: context,
-            ),
+            bottomNavigationBar:
+                widget.uiBuilder.buildBottomNavigationBar(context),
             body: widget.uiBuilder.buildBackgroundContainer(
-              context: context,
-              child: Column(
+              context,
+              Column(
                 children: <Widget>[
                   Scrollbar(
                     child: RefreshIndicator(
@@ -380,12 +379,11 @@ class _AbstractListState<
               title: _getScaffoldTitle(),
               actions: _actions,
             ),
-            bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
-              context: context,
-            ),
+            bottomNavigationBar:
+                widget.uiBuilder.buildBottomNavigationBar(context),
             body: widget.uiBuilder.buildBackgroundContainer(
-              context: context,
-              child: RefreshIndicator(
+              context,
+              RefreshIndicator(
                 key: _refreshIndicatorKey,
                 onRefresh: () => _loadData(context),
                 child: _globalItems.isEmpty
@@ -461,12 +459,11 @@ class _AbstractListState<
           appBar: AppBar(
             title: _getScaffoldTitle(),
           ),
-          bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(
-            context: context,
-          ),
+          bottomNavigationBar:
+              widget.uiBuilder.buildBottomNavigationBar(context),
           body: widget.uiBuilder.buildBackgroundContainer(
-            context: context,
-            child: WaitingMessage(message: 'Consultando...'),
+            context,
+            WaitingMessage(message: 'Consultando...'),
           ),
         );
       },
@@ -690,13 +687,23 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
   ///
   ///
   @override
+  PreferredSizeWidget buildBottom(BuildContext context) =>
+      uiBuilder.buildBottomNavigationBar(context);
+
+  ///
+  ///
+  ///
+  @override
   Widget buildResults(BuildContext context) {
     if (query.length < 3) {
-      return Center(
-        child: Text(
-          'Começe a sua pesquisa.\n'
-          'Digite ao menos 3 caracteres.',
-          textAlign: TextAlign.center,
+      return uiBuilder.buildBackgroundContainer(
+        context,
+        Center(
+          child: Text(
+            'Começe a sua pesquisa.\n'
+            'Digite ao menos 3 caracteres.',
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     } else {
@@ -712,37 +719,40 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
 
       param['t'] = query.toLowerCase();
 
-      return FutureBuilder<List<W>>(
-        future: consumer.list(context, param, forceOffline),
-        builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.isNotEmpty) {
-              return ListView.separated(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.all(16.0),
-                itemBuilder: (BuildContext context, int index) {
-                  return buildResultItem(
-                    model: snapshot.data[index],
-                    selection: false,
-                    canDelete: canDelete(snapshot.data[index]),
-                    onTap: (W entity) => close(context, entity),
-                    afterDeleteRefresh: () async => query += '%',
-                  );
-                },
-                separatorBuilder: (_, __) => FollyDivider(),
-                itemCount: snapshot.data.length,
-              );
-            } else {
-              return Center(
-                child: Text('Nenhum documento.'),
-              );
+      return uiBuilder.buildBackgroundContainer(
+        context,
+        FutureBuilder<List<W>>(
+          future: consumer.list(context, param, forceOffline),
+          builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data.isNotEmpty) {
+                return ListView.separated(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.all(16.0),
+                  itemBuilder: (BuildContext context, int index) {
+                    return buildResultItem(
+                      model: snapshot.data[index],
+                      selection: false,
+                      canDelete: canDelete(snapshot.data[index]),
+                      onTap: (W entity) => close(context, entity),
+                      afterDeleteRefresh: () async => query += '%',
+                    );
+                  },
+                  separatorBuilder: (_, __) => FollyDivider(),
+                  itemCount: snapshot.data.length,
+                );
+              } else {
+                return Center(
+                  child: Text('Nenhum documento.'),
+                );
+              }
             }
-          }
 
-          // TODO - Tratar erro.
+            // TODO - Tratar erro.
 
-          return WaitingMessage(message: 'Consultando...');
-        },
+            return WaitingMessage(message: 'Consultando...');
+          },
+        ),
       );
     }
   }
@@ -753,11 +763,14 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.length < 3) {
-      return Center(
-        child: Text(
-          'Começe a sua pesquisa.\n'
-          'Digite ao menos 3 caracteres.',
-          textAlign: TextAlign.center,
+      return uiBuilder.buildBackgroundContainer(
+        context,
+        Center(
+          child: Text(
+            'Começe a sua pesquisa.\n'
+            'Digite ao menos 3 caracteres.',
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     } else {
@@ -776,55 +789,58 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
 
         param['q'] = itemsPerPage.toString();
 
-        _lastWidget = FutureBuilder<List<W>>(
-          future: consumer.list(context, param, forceOffline),
-          builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.isNotEmpty) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Sugestões:',
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: Theme.of(context).accentColor,
+        _lastWidget = uiBuilder.buildBackgroundContainer(
+          context,
+          FutureBuilder<List<W>>(
+            future: consumer.list(context, param, forceOffline),
+            builder: (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.isNotEmpty) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Sugestões:',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: Theme.of(context).accentColor,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (BuildContext context, int index) {
-                          W model = snapshot.data[index];
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (BuildContext context, int index) {
+                            W model = snapshot.data[index];
 
-                          return ListTile(
-                            title: uiBuilder.getSuggestionTitle(model),
-                            subtitle: uiBuilder.getSuggestionSubtitle(model),
-                            onTap: () {
-                              _lastQuery = model.searchTerm;
-                              query = _lastQuery;
-                              showResults(context);
-                            },
-                          );
-                        },
-                        itemCount: snapshot.data.length,
+                            return ListTile(
+                              title: uiBuilder.getSuggestionTitle(model),
+                              subtitle: uiBuilder.getSuggestionSubtitle(model),
+                              onTap: () {
+                                _lastQuery = model.searchTerm;
+                                query = _lastQuery;
+                                showResults(context);
+                              },
+                            );
+                          },
+                          itemCount: snapshot.data.length,
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              } else {
-                return Center(
-                  child: Text('Nenhum documento.'),
-                );
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: Text('Nenhum documento.'),
+                  );
+                }
               }
-            }
 
-            // TODO - Tratar erro.
+              // TODO - Tratar erro.
 
-            return WaitingMessage(message: 'Consultando...');
-          },
+              return WaitingMessage(message: 'Consultando...');
+            },
+          ),
         );
 
         return _lastWidget;

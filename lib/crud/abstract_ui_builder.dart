@@ -65,19 +65,11 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   ///
-  Widget buildBackgroundContainer({
-    @required BuildContext context,
-    @required Widget child,
-  }) =>
-      Container(
-        child: child,
-      );
+  Widget buildBackgroundContainer(BuildContext context, Widget child) =>
+      Container(child: child);
 
   ///
   ///
   ///
-  Widget buildBottomNavigationBar({
-    @required BuildContext context,
-  }) =>
-      null;
+  Widget buildBottomNavigationBar(BuildContext context) => null;
 }

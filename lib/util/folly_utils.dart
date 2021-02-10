@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 ///
 ///
@@ -47,7 +46,7 @@ class FollyUtils {
   ///
   ///
   static String validDate(String value) {
-    if (value.isEmpty) return 'Data vazia.';
+    if (value.isEmpty) return 'Informe uma data.';
 
     List<String> parts = value.split('/');
 
@@ -86,22 +85,22 @@ class FollyUtils {
   ///
   ///
   static String validTime(String value) {
-    if (value.isEmpty) return 'Hora vazia';
+    if (value.isEmpty) return 'Informe uma hora.';
 
     List<String> parts = value.split(':');
 
-    if (parts.length != 2) return 'Hora inválida';
+    if (parts.length != 2) return 'Hora inválida.';
 
     int hour = int.tryParse(parts[0]);
 
     if (hour == null || hour < 0 || hour > 23) {
-      return 'Horas inválidas';
+      return 'Horas inválidas.';
     }
 
     int minute = int.tryParse(parts[1]);
 
     if (minute == null || minute < 0 || minute > 59) {
-      return 'Minutos inválidos';
+      return 'Minutos inválidos.';
     }
 
     return null;

@@ -179,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
               //   ),
               // ),
 
-              /// Texto
+              // [StringField]
               StringField(
                 prefix: prefix,
                 label: 'Texto*',
@@ -190,8 +190,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     : null,
                 onSaved: (String value) => model.text = value,
               ),
+              // [/StringField]
 
-              /// E-mail
+              // [EmailField]
               EmailField(
                 prefix: prefix,
                 label: 'E-mail*',
@@ -199,8 +200,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.email,
                 onSaved: (String value) => model.email = value,
               ),
+              // [/EmailField]
 
-              /// Senha
+              // [PasswordField]
               PasswordField(
                 prefix: prefix,
                 label: 'Senha*',
@@ -211,8 +213,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     : null,
                 onSaved: (String value) => model.password = value,
               ),
+              // [/PasswordField]
 
-              /// Decimal
+              // [DecimalField]
               DecimalField(
                 prefix: prefix,
                 label: 'Decimal*',
@@ -220,8 +223,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.decimal,
                 onSaved: (Decimal value) => model.decimal = value,
               ),
+              // [/DecimalField]
 
-              /// Integer
+              // [IntegerField]
               IntegerField(
                 prefix: prefix,
                 label: 'Integer*',
@@ -229,8 +233,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.integer,
                 onSaved: (int value) => model.integer = value,
               ),
+              // [/IntegerField]
 
-              /// CPF
+              // [CpfField]
               CpfField(
                 prefix: prefix,
                 label: 'CPF*',
@@ -238,8 +243,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.cpf,
                 onSaved: (String value) => model.cpf = value,
               ),
+              // [/CpfField]
 
-              /// CNPJ
+              // [CnpjField]
               CnpjField(
                 prefix: prefix,
                 label: 'CNPJ*',
@@ -247,8 +253,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.cnpj,
                 onSaved: (String value) => model.cnpj = value,
               ),
+              // [/CnpjField]
 
-              /// CPF ou CNPJ
+              // [CpfCnpjField]
               CpfCnpjField(
                 prefix: prefix,
                 label: 'CPF ou CNPJ*',
@@ -256,8 +263,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.document,
                 onSaved: (String value) => model.document = value,
               ),
+              // [/CpfCnpjField]
 
-              /// Telefone
+              // [PhoneField]
               PhoneField(
                 prefix: prefix,
                 label: 'Telefone*',
@@ -265,8 +273,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.phone,
                 onSaved: (String value) => model.phone = value,
               ),
+              // [/PhoneField]
 
-              /// Telefone sem DDD
+              // [LocalPhoneField]
               LocalPhoneField(
                 prefix: prefix,
                 label: 'Telefone sem DDD*',
@@ -274,8 +283,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.localPhone,
                 onSaved: (String value) => model.localPhone = value,
               ),
+              // [/LocalPhoneField]
 
-              /// Data e Hora
+              // [DateTimeField]
               DateTimeField(
                 prefix: prefix,
                 label: 'Data e Hora*',
@@ -283,8 +293,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.dateTime,
                 onSaved: (DateTime value) => model.dateTime = value,
               ),
+              // [/DateTimeField]
 
-              /// Data
+              // [DateField]
               DateField(
                 prefix: prefix,
                 label: 'Data*',
@@ -292,8 +303,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.date,
                 onSaved: (DateTime value) => model.date = value,
               ),
+              // [/DateField]
 
-              /// Hora
+              // [TimeField]
               TimeField(
                 prefix: prefix,
                 label: 'Hora*',
@@ -301,8 +313,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.time,
                 onSaved: (TimeOfDay value) => model.time = value,
               ),
+              // [/TimeField]
 
-              /// Mac Address
+              // [MacAddressField]
               MacAddressField(
                 prefix: prefix,
                 label: 'Mac Address*',
@@ -310,8 +323,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.macAddress,
                 onSaved: (String value) => model.macAddress = value,
               ),
+              // [/MacAddressField]
 
-              /// Ncm
+              // [NcmField]
               NcmField(
                 prefix: prefix,
                 label: 'NCM*',
@@ -319,8 +333,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.ncm,
                 onSaved: (String value) => model.ncm = value,
               ),
+              // [/NcmField]
 
-              /// CEP
+              // [CepField]
               CepField(
                 prefix: prefix,
                 label: 'CEP*',
@@ -328,8 +343,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 initialValue: model.cep,
                 onSaved: (String value) => model.cep = value,
               ),
+              // [/CepField]
 
-              /// Bool
+              // [BoolField]
               BoolField(
                 prefix: prefix,
                 label: 'Campo Boleano',
@@ -340,8 +356,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     : null,
                 onSaved: (bool value) => model.active = value,
               ),
+              // [/BoolField]
 
-              /// Ícone
+              // [IconDataField]
               IconDataField(
                 prefix: prefix,
                 label: 'Ícone*',
@@ -352,8 +369,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     iconData == null ? 'Selecione um ícone' : null,
                 onSaved: (IconData iconData) => model.icon = iconData,
               ),
+              // [/IconDataField]
 
-              /// Dropdown
+              // [DropdownField]
               DropdownField<Color>(
                 prefix: prefix,
                 label: 'Cor',
@@ -364,6 +382,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     value == null ? 'Selecione uma cor.' : null,
                 onSaved: (Color value) => model.color = value,
               ),
+              // [/DropdownField]
 
               /// Botão Enviar
               Padding(
@@ -407,3 +426,5 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showList() => Navigator.of(context)
       .push(MaterialPageRoute<dynamic>(builder: (_) => ExampleList()));
 }
+
+// https://raw.githubusercontent.com/edufolly/folly_fields/main/example/lib/main.dart
