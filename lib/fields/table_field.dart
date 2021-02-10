@@ -216,33 +216,13 @@ class AddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
-      child: TextButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              flex: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FaIcon(
-                  FontAwesomeIcons.plus,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Text(
-                label.toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1
-                    .copyWith(color: Colors.white),
-                overflow: TextOverflow.ellipsis,
-              ),
-            )
-          ],
+      child: ElevatedButton.icon(
+        icon: FaIcon(
+          FontAwesomeIcons.plus,
+        ),
+        label: Text(
+          label.toUpperCase(),
+          overflow: TextOverflow.ellipsis,
         ),
         onPressed: onPressed,
       ),
