@@ -24,10 +24,13 @@ import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
+import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///
@@ -134,271 +137,310 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              // FutureDisappear(
-              //   delay: Duration(seconds: 10),
-              //   animationDuration: Duration(milliseconds: 600),
-              //   child: Chip(
-              //     label: Text(
-              //       'Seja bem vindo à página de exemplos do Folly Fields.',
-              //     ),
-              //     backgroundColor:
-              //         Theme.of(context).accentColor.withOpacity(0.8),
-              //   ),
-              // ),
+      body: FutureBuilder<Response>(
+        future: get('https://raw.githubusercontent.com/edufolly/folly_fields'
+            '/main/example/lib/main.dart'),
+        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+          if (snapshot.hasData) {
+            // TODO - Test status code.
 
-              /// Título
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Formulário Básico',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline4,
+            String code = snapshot.data.body;
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    // FutureDisappear(
+                    //   delay: Duration(seconds: 10),
+                    //   animationDuration: Duration(milliseconds: 600),
+                    //   child: Chip(
+                    //     label: Text(
+                    //       'Seja bem vindo à página de exemplos do Folly Fields.',
+                    //     ),
+                    //     backgroundColor:
+                    //         Theme.of(context).accentColor.withOpacity(0.8),
+                    //   ),
+                    // ),
+
+                    /// Título
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Formulário Básico',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: FutureAppear(
+                    //     delay: Duration(seconds: 30),
+                    //     animationDuration: Duration(milliseconds: 800),
+                    //     child: Chip(
+                    //       label: Text(
+                    //         'Dificuldades em usar o Folly Fields? Entre em contato...',
+                    //       ),
+                    //       backgroundColor:
+                    //           Theme.of(context).accentColor.withOpacity(0.8),
+                    //     ),
+                    //   ),
+                    // ),
+
+                    // [RootCode]
+                    CodeLink(
+                      code: code,
+                      tag: 'StringField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/string_field.dart',
+                      child:
+                          // [StringField]
+                          StringField(
+                        prefix: prefix,
+                        label: 'Texto*',
+                        enabled: edit,
+                        initialValue: model.text,
+                        validator: (String value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo texto precisa ser informado.'
+                                : null,
+                        onSaved: (String value) => model.text = value,
+                      ),
+                      // [/StringField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'EmailField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/email_field.dart',
+                      child:
+                          // [EmailField]
+                          EmailField(
+                        prefix: prefix,
+                        label: 'E-mail*',
+                        enabled: edit,
+                        initialValue: model.email,
+                        onSaved: (String value) => model.email = value,
+                      ),
+                      // [/EmailField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'PasswordField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/password_field.dart',
+                      child:
+                          // [PasswordField]
+                          PasswordField(
+                        prefix: prefix,
+                        label: 'Senha*',
+                        enabled: edit,
+                        initialValue: model.password,
+                        validator: (String value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo senha precisa ser informado.'
+                                : null,
+                        onSaved: (String value) => model.password = value,
+                      ),
+                      // [/PasswordField]
+                    ),
+
+                    // [DecimalField]
+                    DecimalField(
+                      prefix: prefix,
+                      label: 'Decimal*',
+                      enabled: edit,
+                      initialValue: model.decimal,
+                      onSaved: (Decimal value) => model.decimal = value,
+                    ),
+                    // [/DecimalField]
+
+                    // [IntegerField]
+                    IntegerField(
+                      prefix: prefix,
+                      label: 'Integer*',
+                      enabled: edit,
+                      initialValue: model.integer,
+                      onSaved: (int value) => model.integer = value,
+                    ),
+                    // [/IntegerField]
+
+                    // [CpfField]
+                    CpfField(
+                      prefix: prefix,
+                      label: 'CPF*',
+                      enabled: edit,
+                      initialValue: model.cpf,
+                      onSaved: (String value) => model.cpf = value,
+                    ),
+                    // [/CpfField]
+
+                    // [CnpjField]
+                    CnpjField(
+                      prefix: prefix,
+                      label: 'CNPJ*',
+                      enabled: edit,
+                      initialValue: model.cnpj,
+                      onSaved: (String value) => model.cnpj = value,
+                    ),
+                    // [/CnpjField]
+
+                    // [CpfCnpjField]
+                    CpfCnpjField(
+                      prefix: prefix,
+                      label: 'CPF ou CNPJ*',
+                      enabled: edit,
+                      initialValue: model.document,
+                      onSaved: (String value) => model.document = value,
+                    ),
+                    // [/CpfCnpjField]
+
+                    // [PhoneField]
+                    PhoneField(
+                      prefix: prefix,
+                      label: 'Telefone*',
+                      enabled: edit,
+                      initialValue: model.phone,
+                      onSaved: (String value) => model.phone = value,
+                    ),
+                    // [/PhoneField]
+
+                    // [LocalPhoneField]
+                    LocalPhoneField(
+                      prefix: prefix,
+                      label: 'Telefone sem DDD*',
+                      enabled: edit,
+                      initialValue: model.localPhone,
+                      onSaved: (String value) => model.localPhone = value,
+                    ),
+                    // [/LocalPhoneField]
+
+                    // [DateTimeField]
+                    DateTimeField(
+                      prefix: prefix,
+                      label: 'Data e Hora*',
+                      enabled: edit,
+                      initialValue: model.dateTime,
+                      onSaved: (DateTime value) => model.dateTime = value,
+                    ),
+                    // [/DateTimeField]
+
+                    // [DateField]
+                    DateField(
+                      prefix: prefix,
+                      label: 'Data*',
+                      enabled: edit,
+                      initialValue: model.date,
+                      onSaved: (DateTime value) => model.date = value,
+                    ),
+                    // [/DateField]
+
+                    // [TimeField]
+                    TimeField(
+                      prefix: prefix,
+                      label: 'Hora*',
+                      enabled: edit,
+                      initialValue: model.time,
+                      onSaved: (TimeOfDay value) => model.time = value,
+                    ),
+                    // [/TimeField]
+
+                    // [MacAddressField]
+                    MacAddressField(
+                      prefix: prefix,
+                      label: 'Mac Address*',
+                      enabled: edit,
+                      initialValue: model.macAddress,
+                      onSaved: (String value) => model.macAddress = value,
+                    ),
+                    // [/MacAddressField]
+
+                    // [NcmField]
+                    NcmField(
+                      prefix: prefix,
+                      label: 'NCM*',
+                      enabled: edit,
+                      initialValue: model.ncm,
+                      onSaved: (String value) => model.ncm = value,
+                    ),
+                    // [/NcmField]
+
+                    // [CepField]
+                    CepField(
+                      prefix: prefix,
+                      label: 'CEP*',
+                      enabled: edit,
+                      initialValue: model.cep,
+                      onSaved: (String value) => model.cep = value,
+                    ),
+                    // [/CepField]
+
+                    // [BoolField]
+                    BoolField(
+                      prefix: prefix,
+                      label: 'Campo Boleano',
+                      enabled: edit,
+                      initialValue: model.active,
+                      validator: (bool value) => !value
+                          ? 'Para testes, este campo deve ser sempre verdadeiro.'
+                          : null,
+                      onSaved: (bool value) => model.active = value,
+                    ),
+                    // [/BoolField]
+
+                    // [IconDataField]
+                    IconDataField(
+                      prefix: prefix,
+                      label: 'Ícone*',
+                      enabled: edit,
+                      icons: IconHelper.data,
+                      initialValue: model.icon,
+                      validator: (IconData iconData) =>
+                          iconData == null ? 'Selecione um ícone' : null,
+                      onSaved: (IconData iconData) => model.icon = iconData,
+                    ),
+                    // [/IconDataField]
+
+                    // [DropdownField]
+                    DropdownField<Color>(
+                      prefix: prefix,
+                      label: 'Cor',
+                      enabled: edit,
+                      items: ExampleModel.colors,
+                      initialValue: model.color,
+                      validator: (Color value) =>
+                          value == null ? 'Selecione uma cor.' : null,
+                      onSaved: (Color value) => model.color = value,
+                    ),
+                    // [/DropdownField]
+                    // [/RootCode]
+
+                    /// Botão Enviar
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: 8.0,
+                      ),
+                      child: ElevatedButton.icon(
+                        icon: Icon(Icons.send),
+                        label: Text('ENVIAR'),
+                        onPressed: _send,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            );
+          }
 
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: FutureAppear(
-              //     delay: Duration(seconds: 30),
-              //     animationDuration: Duration(milliseconds: 800),
-              //     child: Chip(
-              //       label: Text(
-              //         'Dificuldades em usar o Folly Fields? Entre em contato...',
-              //       ),
-              //       backgroundColor:
-              //           Theme.of(context).accentColor.withOpacity(0.8),
-              //     ),
-              //   ),
-              // ),
-
-              // [StringField]
-              StringField(
-                prefix: prefix,
-                label: 'Texto*',
-                enabled: edit,
-                initialValue: model.text,
-                validator: (String value) => value == null || value.isEmpty
-                    ? 'O campo texto precisa ser informado.'
-                    : null,
-                onSaved: (String value) => model.text = value,
-              ),
-              // [/StringField]
-
-              // [EmailField]
-              EmailField(
-                prefix: prefix,
-                label: 'E-mail*',
-                enabled: edit,
-                initialValue: model.email,
-                onSaved: (String value) => model.email = value,
-              ),
-              // [/EmailField]
-
-              // [PasswordField]
-              PasswordField(
-                prefix: prefix,
-                label: 'Senha*',
-                enabled: edit,
-                initialValue: model.password,
-                validator: (String value) => value == null || value.isEmpty
-                    ? 'O campo senha precisa ser informado.'
-                    : null,
-                onSaved: (String value) => model.password = value,
-              ),
-              // [/PasswordField]
-
-              // [DecimalField]
-              DecimalField(
-                prefix: prefix,
-                label: 'Decimal*',
-                enabled: edit,
-                initialValue: model.decimal,
-                onSaved: (Decimal value) => model.decimal = value,
-              ),
-              // [/DecimalField]
-
-              // [IntegerField]
-              IntegerField(
-                prefix: prefix,
-                label: 'Integer*',
-                enabled: edit,
-                initialValue: model.integer,
-                onSaved: (int value) => model.integer = value,
-              ),
-              // [/IntegerField]
-
-              // [CpfField]
-              CpfField(
-                prefix: prefix,
-                label: 'CPF*',
-                enabled: edit,
-                initialValue: model.cpf,
-                onSaved: (String value) => model.cpf = value,
-              ),
-              // [/CpfField]
-
-              // [CnpjField]
-              CnpjField(
-                prefix: prefix,
-                label: 'CNPJ*',
-                enabled: edit,
-                initialValue: model.cnpj,
-                onSaved: (String value) => model.cnpj = value,
-              ),
-              // [/CnpjField]
-
-              // [CpfCnpjField]
-              CpfCnpjField(
-                prefix: prefix,
-                label: 'CPF ou CNPJ*',
-                enabled: edit,
-                initialValue: model.document,
-                onSaved: (String value) => model.document = value,
-              ),
-              // [/CpfCnpjField]
-
-              // [PhoneField]
-              PhoneField(
-                prefix: prefix,
-                label: 'Telefone*',
-                enabled: edit,
-                initialValue: model.phone,
-                onSaved: (String value) => model.phone = value,
-              ),
-              // [/PhoneField]
-
-              // [LocalPhoneField]
-              LocalPhoneField(
-                prefix: prefix,
-                label: 'Telefone sem DDD*',
-                enabled: edit,
-                initialValue: model.localPhone,
-                onSaved: (String value) => model.localPhone = value,
-              ),
-              // [/LocalPhoneField]
-
-              // [DateTimeField]
-              DateTimeField(
-                prefix: prefix,
-                label: 'Data e Hora*',
-                enabled: edit,
-                initialValue: model.dateTime,
-                onSaved: (DateTime value) => model.dateTime = value,
-              ),
-              // [/DateTimeField]
-
-              // [DateField]
-              DateField(
-                prefix: prefix,
-                label: 'Data*',
-                enabled: edit,
-                initialValue: model.date,
-                onSaved: (DateTime value) => model.date = value,
-              ),
-              // [/DateField]
-
-              // [TimeField]
-              TimeField(
-                prefix: prefix,
-                label: 'Hora*',
-                enabled: edit,
-                initialValue: model.time,
-                onSaved: (TimeOfDay value) => model.time = value,
-              ),
-              // [/TimeField]
-
-              // [MacAddressField]
-              MacAddressField(
-                prefix: prefix,
-                label: 'Mac Address*',
-                enabled: edit,
-                initialValue: model.macAddress,
-                onSaved: (String value) => model.macAddress = value,
-              ),
-              // [/MacAddressField]
-
-              // [NcmField]
-              NcmField(
-                prefix: prefix,
-                label: 'NCM*',
-                enabled: edit,
-                initialValue: model.ncm,
-                onSaved: (String value) => model.ncm = value,
-              ),
-              // [/NcmField]
-
-              // [CepField]
-              CepField(
-                prefix: prefix,
-                label: 'CEP*',
-                enabled: edit,
-                initialValue: model.cep,
-                onSaved: (String value) => model.cep = value,
-              ),
-              // [/CepField]
-
-              // [BoolField]
-              BoolField(
-                prefix: prefix,
-                label: 'Campo Boleano',
-                enabled: edit,
-                initialValue: model.active,
-                validator: (bool value) => !value
-                    ? 'Para testes, este campo deve ser sempre verdadeiro.'
-                    : null,
-                onSaved: (bool value) => model.active = value,
-              ),
-              // [/BoolField]
-
-              // [IconDataField]
-              IconDataField(
-                prefix: prefix,
-                label: 'Ícone*',
-                enabled: edit,
-                icons: IconHelper.data,
-                initialValue: model.icon,
-                validator: (IconData iconData) =>
-                    iconData == null ? 'Selecione um ícone' : null,
-                onSaved: (IconData iconData) => model.icon = iconData,
-              ),
-              // [/IconDataField]
-
-              // [DropdownField]
-              DropdownField<Color>(
-                prefix: prefix,
-                label: 'Cor',
-                enabled: edit,
-                items: ExampleModel.colors,
-                initialValue: model.color,
-                validator: (Color value) =>
-                    value == null ? 'Selecione uma cor.' : null,
-                onSaved: (Color value) => model.color = value,
-              ),
-              // [/DropdownField]
-
-              /// Botão Enviar
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                  horizontal: 8.0,
-                ),
-                child: ElevatedButton.icon(
-                  icon: Icon(Icons.send),
-                  label: Text('ENVIAR'),
-                  onPressed: _send,
-                ),
-              ),
-            ],
-          ),
-        ),
+          return WaitingMessage();
+        },
       ),
     );
   }
@@ -426,5 +468,3 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showList() => Navigator.of(context)
       .push(MaterialPageRoute<dynamic>(builder: (_) => ExampleList()));
 }
-
-// https://raw.githubusercontent.com/edufolly/folly_fields/main/example/lib/main.dart

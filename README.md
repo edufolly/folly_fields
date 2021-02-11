@@ -2,6 +2,8 @@
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
+:star: to support the project.
+
 ## Attention - flutter: ^1.26.0-0
 
 Flutter did a breaking change for RaisedButton and FlatButton.
@@ -13,9 +15,11 @@ So we set the Flutter minimal version. Use beta channel for it.
 ## Example
 
 ### Demo
+
 https://edufolly.github.io/folly_fields/
 
 ### Code
+
 https://github.com/edufolly/folly_fields/tree/main/example/lib
 
 ## How to use
@@ -29,10 +33,14 @@ folly_fields:
     url: git://github.com/edufolly/folly_fields.git
     rev: # lastest release
 ```
-Use **ref** to avoid breaking changes. Check [latest release](https://github.com/edufolly/folly_fields/releases).
+
+Use **ref** to avoid breaking changes.
+Check [latest release](https://github.com/edufolly/folly_fields/releases).
 
 ### config.dart
+
 https://github.com/edufolly/folly_fields/blob/main/example/lib/config.dart
+
 ```dart
 class Config extends AbstractConfig {
   static final Config _singleton = Config._internal();
@@ -48,7 +56,9 @@ class Config extends AbstractConfig {
 ```
 
 ### main.dart
+
 https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
+
 ```dart
 void main() {
   bool debug = false;
@@ -64,7 +74,9 @@ void main() {
 ```
 
 ### MaterialApp
+
 https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
+
 ```dart
 class MyApp extends StatelessWidget {
 

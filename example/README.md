@@ -1,6 +1,8 @@
 # folly_fields_example
 
+:star: to support the project.
+
 ## Example Web App
 https://edufolly.github.io/folly_fields/
 
-:star: to support the project.
+Powered by: [FollyFields](https://github.com/edufolly/folly_fields/)
