@@ -81,7 +81,7 @@ class _DecimalFieldState extends State<DecimalField> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DecimalEditingController(decimal: widget.initialValue);
+      _controller = DecimalEditingController(value: widget.initialValue);
     }
 
     if (widget.focusNode == null) {
@@ -103,7 +103,7 @@ class _DecimalFieldState extends State<DecimalField> {
     }
 
     if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus(_effectiveController.getDecimal());
+      widget.lostFocus(_effectiveController.decimal);
     }
   }
 
@@ -189,16 +189,16 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  DecimalEditingController({@required Decimal decimal})
-      : validator = DecimalValidator(decimal.precision) {
+  DecimalEditingController({@required Decimal value})
+      : validator = DecimalValidator(value.precision) {
     addListener(_changeListener);
-    setDecimal(decimal);
+    decimal = value;
   }
 
   ///
   ///
   ///
-  void setDecimal(Decimal dec) {
+  set decimal(Decimal dec) {
     /// TODO - Remover esse limitador?
     if (dec.value.toStringAsFixed(0).length > 12) {
       dec.value = _lastValue;
@@ -223,12 +223,12 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  Decimal getDecimal() => validator.parse(text);
+  Decimal get decimal => validator.parse(text);
 
   ///
   ///
   ///
-  void _changeListener() => setDecimal(getDecimal());
+  void _changeListener() => decimal = decimal;
 
   ///
   ///
