@@ -61,6 +61,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
               child: InputDecorator(
                 decoration: effectiveDecoration,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     if (field.value.isEmpty)
 

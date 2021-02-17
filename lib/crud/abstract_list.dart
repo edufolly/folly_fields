@@ -41,6 +41,12 @@ abstract class AbstractList<
   final int itemsPerPage;
   final int qtdSuggestions;
   final List<AbstractRoute> actionRoutes;
+  final Widget Function(
+    T model,
+    UI uiBuilder,
+    C consumer,
+    bool edit,
+  ) onLongPress;
 
   ///
   ///
@@ -66,6 +72,7 @@ abstract class AbstractList<
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
     this.actionRoutes = const <AbstractRoute>[],
+    this.onLongPress,
   }) : super(key: key);
 
   ///
@@ -513,6 +520,25 @@ class _AbstractListState<
           : () => _internalRoute(
                 model,
                 !(selection ?? false),
+              ),
+      onLongPress: widget.onLongPress == null
+          ? null
+          : () => Navigator.of(context)
+              .push(
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) => widget.onLongPress(
+                    model,
+                    widget.uiBuilder,
+                    widget.consumer,
+                    _update,
+                  ),
+                ),
+              )
+              .then(
+                (dynamic value) => _loadData(
+                  context,
+                  clear: true,
+                ),
               ),
     );
   }

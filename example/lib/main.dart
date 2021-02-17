@@ -13,6 +13,7 @@ import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
@@ -25,6 +26,7 @@ import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
+import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
@@ -107,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// Modelo padrão para o exemplo.
   ExampleModel model = ExampleModel.generate();
+
+  /// Para o campo de lista.
+  List<ExampleModel> list = <ExampleModel>[];
 
   ///
   ///
@@ -251,65 +256,107 @@ class _MyHomePageState extends State<MyHomePage> {
                       // [/PasswordField]
                     ),
 
-                    // [DecimalField]
-                    DecimalField(
-                      prefix: prefix,
-                      label: 'Decimal*',
-                      enabled: edit,
-                      initialValue: model.decimal,
-                      onSaved: (Decimal value) => model.decimal = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'DecimalField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/decimal_field.dart',
+                      child:
+                          // [DecimalField]
+                          DecimalField(
+                        prefix: prefix,
+                        label: 'Decimal*',
+                        enabled: edit,
+                        initialValue: model.decimal,
+                        onSaved: (Decimal value) => model.decimal = value,
+                      ),
+                      // [/DecimalField]
                     ),
-                    // [/DecimalField]
 
-                    // [IntegerField]
-                    IntegerField(
-                      prefix: prefix,
-                      label: 'Integer*',
-                      enabled: edit,
-                      initialValue: model.integer,
-                      onSaved: (int value) => model.integer = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'IntegerField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/integer_field.dart',
+                      child:
+                          // [IntegerField]
+                          IntegerField(
+                        prefix: prefix,
+                        label: 'Integer*',
+                        enabled: edit,
+                        initialValue: model.integer,
+                        onSaved: (int value) => model.integer = value,
+                      ),
+                      // [/IntegerField]
                     ),
-                    // [/IntegerField]
 
-                    // [CpfField]
-                    CpfField(
-                      prefix: prefix,
-                      label: 'CPF*',
-                      enabled: edit,
-                      initialValue: model.cpf,
-                      onSaved: (String value) => model.cpf = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'CpfField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/cpf_field.dart',
+                      child:
+                          // [CpfField]
+                          CpfField(
+                        prefix: prefix,
+                        label: 'CPF*',
+                        enabled: edit,
+                        initialValue: model.cpf,
+                        onSaved: (String value) => model.cpf = value,
+                      ),
+                      // [/CpfField]
                     ),
-                    // [/CpfField]
 
-                    // [CnpjField]
-                    CnpjField(
-                      prefix: prefix,
-                      label: 'CNPJ*',
-                      enabled: edit,
-                      initialValue: model.cnpj,
-                      onSaved: (String value) => model.cnpj = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'CnpjField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/cnpj_field.dart',
+                      child:
+                          // [CnpjField]
+                          CnpjField(
+                        prefix: prefix,
+                        label: 'CNPJ*',
+                        enabled: edit,
+                        initialValue: model.cnpj,
+                        onSaved: (String value) => model.cnpj = value,
+                      ),
+                      // [/CnpjField]
                     ),
-                    // [/CnpjField]
 
-                    // [CpfCnpjField]
-                    CpfCnpjField(
-                      prefix: prefix,
-                      label: 'CPF ou CNPJ*',
-                      enabled: edit,
-                      initialValue: model.document,
-                      onSaved: (String value) => model.document = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'CpfCnpjField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/cpf_cnpj_field.dart',
+                      child:
+                          // [CpfCnpjField]
+                          CpfCnpjField(
+                        prefix: prefix,
+                        label: 'CPF ou CNPJ*',
+                        enabled: edit,
+                        initialValue: model.document,
+                        onSaved: (String value) => model.document = value,
+                      ),
+                      // [/CpfCnpjField]
                     ),
-                    // [/CpfCnpjField]
 
-                    // [PhoneField]
-                    PhoneField(
-                      prefix: prefix,
-                      label: 'Telefone*',
-                      enabled: edit,
-                      initialValue: model.phone,
-                      onSaved: (String value) => model.phone = value,
+                    CodeLink(
+                      code: code,
+                      tag: 'PhoneField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/phone_field.dart',
+                      child:
+                          // [PhoneField]
+                          PhoneField(
+                        prefix: prefix,
+                        label: 'Telefone*',
+                        enabled: edit,
+                        initialValue: model.phone,
+                        onSaved: (String value) => model.phone = value,
+                      ),
+                      // [/PhoneField]
                     ),
-                    // [/PhoneField]
 
                     // [LocalPhoneField]
                     LocalPhoneField(
@@ -419,6 +466,22 @@ class _MyHomePageState extends State<MyHomePage> {
                       onSaved: (Color value) => model.color = value,
                     ),
                     // [/DropdownField]
+
+                    // [ListField]
+                    ListField<ExampleModel, ExampleBuilder>(
+                      enabled: edit,
+                      initialValue: list,
+                      uiBuilder: ExampleBuilder(prefix),
+                      routeAddBuilder:
+                          (BuildContext context, ExampleBuilder uiBuilder) =>
+                              ExampleList(
+                        prefix: prefix,
+                        selection: true,
+                        multipleSelection: true,
+                      ),
+                    ),
+                    // [/ListField]
+
                     // [/RootCode]
 
                     /// Botão Enviar

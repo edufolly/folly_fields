@@ -55,6 +55,7 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
               child: InputDecorator(
                 decoration: effectiveDecoration,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     if (field.value.isEmpty)
 

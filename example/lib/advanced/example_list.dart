@@ -37,5 +37,12 @@ class ExampleList
             bool edit,
           ) =>
               ExampleEdit(model, uiBuilder, consumer, edit),
+          onLongPress: (
+            ExampleModel model,
+            ExampleBuilder uiBuilder,
+            ExampleConsumer consumer,
+            bool edit,
+          ) =>
+              ExampleEdit(model, uiBuilder, consumer, edit),
         );
 }
