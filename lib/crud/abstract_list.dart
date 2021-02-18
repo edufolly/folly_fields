@@ -28,10 +28,12 @@ abstract class AbstractList<
   final C consumer;
   final UI uiBuilder;
   final Future<Widget> Function(
+    BuildContext context,
     UI uiBuilder,
     C consumer,
   ) onAdd;
   final Future<Widget> Function(
+    BuildContext context,
     T model,
     UI uiBuilder,
     C consumer,
@@ -42,6 +44,7 @@ abstract class AbstractList<
   final int qtdSuggestions;
   final List<AbstractRoute> actionRoutes;
   final Future<Widget> Function(
+    BuildContext context,
     T model,
     UI uiBuilder,
     C consumer,
@@ -528,6 +531,7 @@ class _AbstractListState<
   ///
   void _internalLongPress(T model) async =>
       await _push(await widget.onLongPress(
+        context,
         model,
         widget.uiBuilder,
         widget.consumer,
@@ -537,8 +541,11 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _addEntity() async =>
-      await _push(await widget.onAdd(widget.uiBuilder, widget.consumer));
+  void _addEntity() async => await _push(await widget.onAdd(
+        context,
+        widget.uiBuilder,
+        widget.consumer,
+      ));
 
   ///
   ///
@@ -559,6 +566,7 @@ class _AbstractListState<
       }
     } else {
       Widget next = await widget.onUpdate(
+        context,
         model,
         widget.uiBuilder,
         widget.consumer,

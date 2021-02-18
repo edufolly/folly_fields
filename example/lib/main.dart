@@ -142,368 +142,370 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: FutureBuilder<Response>(
-        future: get('https://raw.githubusercontent.com/edufolly/folly_fields'
-            '/main/example/lib/main.dart'),
-        builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
-          if (snapshot.hasData) {
-            // TODO - Test status code.
+      body: SafeArea(
+        child: FutureBuilder<Response>(
+          future: get('https://raw.githubusercontent.com/edufolly/folly_fields'
+              '/main/example/lib/main.dart'),
+          builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
+            if (snapshot.hasData) {
+              // TODO - Test status code.
 
-            String code = snapshot.data.body;
+              String code = snapshot.data.body;
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    // FutureDisappear(
-                    //   delay: Duration(seconds: 10),
-                    //   animationDuration: Duration(milliseconds: 600),
-                    //   child: Chip(
-                    //     label: Text(
-                    //       'Seja bem vindo à página de exemplos do Folly Fields.',
-                    //     ),
-                    //     backgroundColor:
-                    //         Theme.of(context).accentColor.withOpacity(0.8),
-                    //   ),
-                    // ),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // FutureDisappear(
+                      //   delay: Duration(seconds: 10),
+                      //   animationDuration: Duration(milliseconds: 600),
+                      //   child: Chip(
+                      //     label: Text(
+                      //       'Seja bem vindo à página de exemplos do Folly Fields.',
+                      //     ),
+                      //     backgroundColor:
+                      //         Theme.of(context).accentColor.withOpacity(0.8),
+                      //   ),
+                      // ),
 
-                    /// Título
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Formulário Básico',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline4,
+                      /// Título
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Formulário Básico',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
                       ),
-                    ),
 
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: FutureAppear(
-                    //     delay: Duration(seconds: 30),
-                    //     animationDuration: Duration(milliseconds: 800),
-                    //     child: Chip(
-                    //       label: Text(
-                    //         'Dificuldades em usar o Folly Fields? Entre em contato...',
-                    //       ),
-                    //       backgroundColor:
-                    //           Theme.of(context).accentColor.withOpacity(0.8),
-                    //     ),
-                    //   ),
-                    // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: FutureAppear(
+                      //     delay: Duration(seconds: 30),
+                      //     animationDuration: Duration(milliseconds: 800),
+                      //     child: Chip(
+                      //       label: Text(
+                      //         'Dificuldades em usar o Folly Fields? Entre em contato...',
+                      //       ),
+                      //       backgroundColor:
+                      //           Theme.of(context).accentColor.withOpacity(0.8),
+                      //     ),
+                      //   ),
+                      // ),
 
-                    // [RootCode]
-                    CodeLink(
-                      code: code,
-                      tag: 'StringField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/string_field.dart',
-                      child:
-                          // [StringField]
-                          StringField(
+                      // [RootCode]
+                      CodeLink(
+                        code: code,
+                        tag: 'StringField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/string_field.dart',
+                        child:
+                            // [StringField]
+                            StringField(
+                          prefix: prefix,
+                          label: 'Texto*',
+                          enabled: edit,
+                          initialValue: model.text,
+                          validator: (String value) =>
+                              value == null || value.isEmpty
+                                  ? 'O campo texto precisa ser informado.'
+                                  : null,
+                          onSaved: (String value) => model.text = value,
+                        ),
+                        // [/StringField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'EmailField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/email_field.dart',
+                        child:
+                            // [EmailField]
+                            EmailField(
+                          prefix: prefix,
+                          label: 'E-mail*',
+                          enabled: edit,
+                          initialValue: model.email,
+                          onSaved: (String value) => model.email = value,
+                        ),
+                        // [/EmailField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'PasswordField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/password_field.dart',
+                        child:
+                            // [PasswordField]
+                            PasswordField(
+                          prefix: prefix,
+                          label: 'Senha*',
+                          enabled: edit,
+                          initialValue: model.password,
+                          validator: (String value) =>
+                              value == null || value.isEmpty
+                                  ? 'O campo senha precisa ser informado.'
+                                  : null,
+                          onSaved: (String value) => model.password = value,
+                        ),
+                        // [/PasswordField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'DecimalField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/decimal_field.dart',
+                        child:
+                            // [DecimalField]
+                            DecimalField(
+                          prefix: prefix,
+                          label: 'Decimal*',
+                          enabled: edit,
+                          initialValue: model.decimal,
+                          onSaved: (Decimal value) => model.decimal = value,
+                        ),
+                        // [/DecimalField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'IntegerField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/integer_field.dart',
+                        child:
+                            // [IntegerField]
+                            IntegerField(
+                          prefix: prefix,
+                          label: 'Integer*',
+                          enabled: edit,
+                          initialValue: model.integer,
+                          onSaved: (int value) => model.integer = value,
+                        ),
+                        // [/IntegerField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CpfField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cpf_field.dart',
+                        child:
+                            // [CpfField]
+                            CpfField(
+                          prefix: prefix,
+                          label: 'CPF*',
+                          enabled: edit,
+                          initialValue: model.cpf,
+                          onSaved: (String value) => model.cpf = value,
+                        ),
+                        // [/CpfField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CnpjField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cnpj_field.dart',
+                        child:
+                            // [CnpjField]
+                            CnpjField(
+                          prefix: prefix,
+                          label: 'CNPJ*',
+                          enabled: edit,
+                          initialValue: model.cnpj,
+                          onSaved: (String value) => model.cnpj = value,
+                        ),
+                        // [/CnpjField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CpfCnpjField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cpf_cnpj_field.dart',
+                        child:
+                            // [CpfCnpjField]
+                            CpfCnpjField(
+                          prefix: prefix,
+                          label: 'CPF ou CNPJ*',
+                          enabled: edit,
+                          initialValue: model.document,
+                          onSaved: (String value) => model.document = value,
+                        ),
+                        // [/CpfCnpjField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'PhoneField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/phone_field.dart',
+                        child:
+                            // [PhoneField]
+                            PhoneField(
+                          prefix: prefix,
+                          label: 'Telefone*',
+                          enabled: edit,
+                          initialValue: model.phone,
+                          onSaved: (String value) => model.phone = value,
+                        ),
+                        // [/PhoneField]
+                      ),
+
+                      // [LocalPhoneField]
+                      LocalPhoneField(
                         prefix: prefix,
-                        label: 'Texto*',
+                        label: 'Telefone sem DDD*',
                         enabled: edit,
-                        initialValue: model.text,
-                        validator: (String value) =>
-                            value == null || value.isEmpty
-                                ? 'O campo texto precisa ser informado.'
-                                : null,
-                        onSaved: (String value) => model.text = value,
+                        initialValue: model.localPhone,
+                        onSaved: (String value) => model.localPhone = value,
                       ),
-                      // [/StringField]
-                    ),
+                      // [/LocalPhoneField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'EmailField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/email_field.dart',
-                      child:
-                          // [EmailField]
-                          EmailField(
+                      // [DateTimeField]
+                      DateTimeField(
                         prefix: prefix,
-                        label: 'E-mail*',
+                        label: 'Data e Hora*',
                         enabled: edit,
-                        initialValue: model.email,
-                        onSaved: (String value) => model.email = value,
+                        initialValue: model.dateTime,
+                        onSaved: (DateTime value) => model.dateTime = value,
                       ),
-                      // [/EmailField]
-                    ),
+                      // [/DateTimeField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'PasswordField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/password_field.dart',
-                      child:
-                          // [PasswordField]
-                          PasswordField(
+                      // [DateField]
+                      DateField(
                         prefix: prefix,
-                        label: 'Senha*',
+                        label: 'Data*',
                         enabled: edit,
-                        initialValue: model.password,
-                        validator: (String value) =>
-                            value == null || value.isEmpty
-                                ? 'O campo senha precisa ser informado.'
-                                : null,
-                        onSaved: (String value) => model.password = value,
+                        initialValue: model.date,
+                        onSaved: (DateTime value) => model.date = value,
                       ),
-                      // [/PasswordField]
-                    ),
+                      // [/DateField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'DecimalField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/decimal_field.dart',
-                      child:
-                          // [DecimalField]
-                          DecimalField(
+                      // [TimeField]
+                      TimeField(
                         prefix: prefix,
-                        label: 'Decimal*',
+                        label: 'Hora*',
                         enabled: edit,
-                        initialValue: model.decimal,
-                        onSaved: (Decimal value) => model.decimal = value,
+                        initialValue: model.time,
+                        onSaved: (TimeOfDay value) => model.time = value,
                       ),
-                      // [/DecimalField]
-                    ),
+                      // [/TimeField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'IntegerField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/integer_field.dart',
-                      child:
-                          // [IntegerField]
-                          IntegerField(
+                      // [MacAddressField]
+                      MacAddressField(
                         prefix: prefix,
-                        label: 'Integer*',
+                        label: 'Mac Address*',
                         enabled: edit,
-                        initialValue: model.integer,
-                        onSaved: (int value) => model.integer = value,
+                        initialValue: model.macAddress,
+                        onSaved: (String value) => model.macAddress = value,
                       ),
-                      // [/IntegerField]
-                    ),
+                      // [/MacAddressField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'CpfField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/cpf_field.dart',
-                      child:
-                          // [CpfField]
-                          CpfField(
+                      // [NcmField]
+                      NcmField(
                         prefix: prefix,
-                        label: 'CPF*',
+                        label: 'NCM*',
                         enabled: edit,
-                        initialValue: model.cpf,
-                        onSaved: (String value) => model.cpf = value,
+                        initialValue: model.ncm,
+                        onSaved: (String value) => model.ncm = value,
                       ),
-                      // [/CpfField]
-                    ),
+                      // [/NcmField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'CnpjField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/cnpj_field.dart',
-                      child:
-                          // [CnpjField]
-                          CnpjField(
+                      // [CepField]
+                      CepField(
                         prefix: prefix,
-                        label: 'CNPJ*',
+                        label: 'CEP*',
                         enabled: edit,
-                        initialValue: model.cnpj,
-                        onSaved: (String value) => model.cnpj = value,
+                        initialValue: model.cep,
+                        onSaved: (String value) => model.cep = value,
                       ),
-                      // [/CnpjField]
-                    ),
+                      // [/CepField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'CpfCnpjField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/cpf_cnpj_field.dart',
-                      child:
-                          // [CpfCnpjField]
-                          CpfCnpjField(
+                      // [BoolField]
+                      BoolField(
                         prefix: prefix,
-                        label: 'CPF ou CNPJ*',
+                        label: 'Campo Boleano',
                         enabled: edit,
-                        initialValue: model.document,
-                        onSaved: (String value) => model.document = value,
+                        initialValue: model.active,
+                        validator: (bool value) => !value
+                            ? 'Para testes, este campo deve ser sempre verdadeiro.'
+                            : null,
+                        onSaved: (bool value) => model.active = value,
                       ),
-                      // [/CpfCnpjField]
-                    ),
+                      // [/BoolField]
 
-                    CodeLink(
-                      code: code,
-                      tag: 'PhoneField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/phone_field.dart',
-                      child:
-                          // [PhoneField]
-                          PhoneField(
+                      // [IconDataField]
+                      IconDataField(
                         prefix: prefix,
-                        label: 'Telefone*',
+                        label: 'Ícone*',
                         enabled: edit,
-                        initialValue: model.phone,
-                        onSaved: (String value) => model.phone = value,
+                        icons: IconHelper.data,
+                        initialValue: model.icon,
+                        validator: (IconData iconData) =>
+                            iconData == null ? 'Selecione um ícone' : null,
+                        onSaved: (IconData iconData) => model.icon = iconData,
                       ),
-                      // [/PhoneField]
-                    ),
+                      // [/IconDataField]
 
-                    // [LocalPhoneField]
-                    LocalPhoneField(
-                      prefix: prefix,
-                      label: 'Telefone sem DDD*',
-                      enabled: edit,
-                      initialValue: model.localPhone,
-                      onSaved: (String value) => model.localPhone = value,
-                    ),
-                    // [/LocalPhoneField]
-
-                    // [DateTimeField]
-                    DateTimeField(
-                      prefix: prefix,
-                      label: 'Data e Hora*',
-                      enabled: edit,
-                      initialValue: model.dateTime,
-                      onSaved: (DateTime value) => model.dateTime = value,
-                    ),
-                    // [/DateTimeField]
-
-                    // [DateField]
-                    DateField(
-                      prefix: prefix,
-                      label: 'Data*',
-                      enabled: edit,
-                      initialValue: model.date,
-                      onSaved: (DateTime value) => model.date = value,
-                    ),
-                    // [/DateField]
-
-                    // [TimeField]
-                    TimeField(
-                      prefix: prefix,
-                      label: 'Hora*',
-                      enabled: edit,
-                      initialValue: model.time,
-                      onSaved: (TimeOfDay value) => model.time = value,
-                    ),
-                    // [/TimeField]
-
-                    // [MacAddressField]
-                    MacAddressField(
-                      prefix: prefix,
-                      label: 'Mac Address*',
-                      enabled: edit,
-                      initialValue: model.macAddress,
-                      onSaved: (String value) => model.macAddress = value,
-                    ),
-                    // [/MacAddressField]
-
-                    // [NcmField]
-                    NcmField(
-                      prefix: prefix,
-                      label: 'NCM*',
-                      enabled: edit,
-                      initialValue: model.ncm,
-                      onSaved: (String value) => model.ncm = value,
-                    ),
-                    // [/NcmField]
-
-                    // [CepField]
-                    CepField(
-                      prefix: prefix,
-                      label: 'CEP*',
-                      enabled: edit,
-                      initialValue: model.cep,
-                      onSaved: (String value) => model.cep = value,
-                    ),
-                    // [/CepField]
-
-                    // [BoolField]
-                    BoolField(
-                      prefix: prefix,
-                      label: 'Campo Boleano',
-                      enabled: edit,
-                      initialValue: model.active,
-                      validator: (bool value) => !value
-                          ? 'Para testes, este campo deve ser sempre verdadeiro.'
-                          : null,
-                      onSaved: (bool value) => model.active = value,
-                    ),
-                    // [/BoolField]
-
-                    // [IconDataField]
-                    IconDataField(
-                      prefix: prefix,
-                      label: 'Ícone*',
-                      enabled: edit,
-                      icons: IconHelper.data,
-                      initialValue: model.icon,
-                      validator: (IconData iconData) =>
-                          iconData == null ? 'Selecione um ícone' : null,
-                      onSaved: (IconData iconData) => model.icon = iconData,
-                    ),
-                    // [/IconDataField]
-
-                    // [DropdownField]
-                    DropdownField<Color>(
-                      prefix: prefix,
-                      label: 'Cor',
-                      enabled: edit,
-                      items: ExampleModel.colors,
-                      initialValue: model.color,
-                      validator: (Color value) =>
-                          value == null ? 'Selecione uma cor.' : null,
-                      onSaved: (Color value) => model.color = value,
-                    ),
-                    // [/DropdownField]
-
-                    // [ListField]
-                    ListField<ExampleModel, ExampleBuilder>(
-                      enabled: edit,
-                      initialValue: list,
-                      uiBuilder: ExampleBuilder(prefix),
-                      routeAddBuilder:
-                          (BuildContext context, ExampleBuilder uiBuilder) =>
-                              ExampleList(
+                      // [DropdownField]
+                      DropdownField<Color>(
                         prefix: prefix,
-                        selection: true,
-                        multipleSelection: true,
+                        label: 'Cor',
+                        enabled: edit,
+                        items: ExampleModel.colors,
+                        initialValue: model.color,
+                        validator: (Color value) =>
+                            value == null ? 'Selecione uma cor.' : null,
+                        onSaved: (Color value) => model.color = value,
                       ),
-                    ),
-                    // [/ListField]
+                      // [/DropdownField]
 
-                    // [/RootCode]
+                      // [ListField]
+                      ListField<ExampleModel, ExampleBuilder>(
+                        enabled: edit,
+                        initialValue: list,
+                        uiBuilder: ExampleBuilder(prefix),
+                        routeAddBuilder:
+                            (BuildContext context, ExampleBuilder uiBuilder) =>
+                                ExampleList(
+                          prefix: prefix,
+                          selection: true,
+                          multipleSelection: true,
+                        ),
+                      ),
+                      // [/ListField]
 
-                    /// Botão Enviar
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 8.0,
+                      // [/RootCode]
+
+                      /// Botão Enviar
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 16.0,
+                          horizontal: 8.0,
+                        ),
+                        child: ElevatedButton.icon(
+                          icon: Icon(Icons.send),
+                          label: Text('ENVIAR'),
+                          onPressed: _send,
+                        ),
                       ),
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.send),
-                        label: Text('ENVIAR'),
-                        onPressed: _send,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
+              );
+            }
 
-          return WaitingMessage();
-        },
+            return WaitingMessage();
+          },
+        ),
       ),
     );
   }

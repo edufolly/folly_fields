@@ -26,11 +26,13 @@ class ExampleList
           consumer: ExampleConsumer(),
           uiBuilder: ExampleBuilder(prefix),
           onAdd: (
+            BuildContext context,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
           ) async =>
               ExampleEdit(ExampleModel(), uiBuilder, consumer, true),
           onUpdate: (
+            BuildContext context,
             ExampleModel model,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
@@ -38,6 +40,7 @@ class ExampleList
           ) async =>
               ExampleEdit(model, uiBuilder, consumer, edit),
           onLongPress: (
+            BuildContext context,
             ExampleModel model,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
