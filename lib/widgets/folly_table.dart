@@ -222,6 +222,74 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   ///
+  FollyCell.integer(
+    num number, {
+    this.align = Alignment.centerRight,
+    this.color = Colors.transparent,
+    TextAlign textAlign = TextAlign.end,
+    TextStyle style,
+    String locale = 'pt_br',
+    String pattern = '#,##0',
+  }) : child = Text(
+          NumberFormat(pattern, locale).format(number),
+          textAlign: textAlign,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
+  FollyCell.date(
+    DateTime date, {
+    this.align = Alignment.center,
+    this.color = Colors.transparent,
+    TextAlign textAlign = TextAlign.center,
+    TextStyle style,
+    String locale = 'pt_br',
+    String pattern = 'dd/MM/yyyy',
+  }) : child = Text(
+          DateFormat(pattern, locale).format(date),
+          textAlign: textAlign,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
+  FollyCell.time(
+    DateTime date, {
+    this.align = Alignment.center,
+    this.color = Colors.transparent,
+    TextAlign textAlign = TextAlign.center,
+    TextStyle style,
+    String locale = 'pt_br',
+    String pattern = 'HH:mm',
+  }) : child = Text(
+          DateFormat(pattern, locale).format(date),
+          textAlign: textAlign,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
+  FollyCell.dateTime(
+    DateTime date, {
+    this.align = Alignment.center,
+    this.color = Colors.transparent,
+    TextAlign textAlign = TextAlign.center,
+    TextStyle style,
+    String locale = 'pt_br',
+    String pattern = 'dd/MM/yyyy HH:mm',
+  }) : child = Text(
+          DateFormat(pattern, locale).format(date),
+          textAlign: textAlign,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
   FollyCell.iconButton(
     IconData iconData, {
     Function onPressed,
