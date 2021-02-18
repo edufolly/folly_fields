@@ -67,9 +67,11 @@ class ExampleModel extends AbstractModel {
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cep = map['cep'],
-        color = Color(int.tryParse(map['color'], radix: 16)),
+        color = map['color'] == null
+            ? null
+            : Color(int.tryParse(map['color'], radix: 16)),
         active = map['active'] ?? true,
-        icon = IconHelper.iconData(map['icon']),
+        icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         super.fromJson(map);
 
   ///

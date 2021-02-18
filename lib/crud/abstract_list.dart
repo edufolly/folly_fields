@@ -27,11 +27,11 @@ abstract class AbstractList<
   final bool forceOffline;
   final C consumer;
   final UI uiBuilder;
-  final Widget Function(
+  final Future<Widget> Function(
     UI uiBuilder,
     C consumer,
   ) onAdd;
-  final Widget Function(
+  final Future<Widget> Function(
     T model,
     UI uiBuilder,
     C consumer,
@@ -41,7 +41,7 @@ abstract class AbstractList<
   final int itemsPerPage;
   final int qtdSuggestions;
   final List<AbstractRoute> actionRoutes;
-  final Widget Function(
+  final Future<Widget> Function(
     T model,
     UI uiBuilder,
     C consumer,
@@ -517,43 +517,67 @@ class _AbstractListState<
           : Container(width: 1, height: 1),
       onTap: onTap != null
           ? () => onTap(model)
-          : () => _internalRoute(
-                model,
-                !(selection ?? false),
-              ),
-      onLongPress: widget.onLongPress == null
-          ? null
-          : () => Navigator.of(context)
-              .push(
-                MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) => widget.onLongPress(
-                    model,
-                    widget.uiBuilder,
-                    widget.consumer,
-                    _update,
-                  ),
-                ),
-              )
-              .then(
-                (dynamic value) => _loadData(
-                  context,
-                  clear: true,
-                ),
-              ),
+          : () => _internalRoute(model, !(selection ?? false)),
+      onLongPress:
+          widget.onLongPress == null ? null : () => _internalLongPress(model),
     );
   }
 
   ///
   ///
   ///
-  void _addEntity() async {
+  void _internalLongPress(T model) async =>
+      await _push(await widget.onLongPress(
+        model,
+        widget.uiBuilder,
+        widget.consumer,
+        _update,
+      ));
+
+  ///
+  ///
+  ///
+  void _addEntity() async =>
+      await _push(await widget.onAdd(widget.uiBuilder, widget.consumer));
+
+  ///
+  ///
+  ///
+  void _internalRoute(T model, bool selected) async {
+    if (widget.selection) {
+      if (widget.multipleSelection) {
+        if (selected) {
+          selections[model.id] = model;
+        } else {
+          selections.remove(model.id);
+        }
+        if (mounted) {
+          setState(() {});
+        }
+      } else {
+        Navigator.of(context).pop(model);
+      }
+    } else {
+      Widget next = await widget.onUpdate(
+        model,
+        widget.uiBuilder,
+        widget.consumer,
+        _update,
+      );
+
+      await _push(next);
+    }
+  }
+
+  ///
+  ///
+  ///
+  void _push(Widget push, [bool clear = true]) async {
     await Navigator.of(context).push(
-      MaterialPageRoute<dynamic>(
-        builder: (_) => widget.onAdd(widget.uiBuilder, widget.consumer),
-      ),
+      MaterialPageRoute<T>(builder: (_) => push),
     );
 
-    await _loadData(context, clear: true);
+    await _loadData(context, clear: clear);
   }
 
   ///
@@ -604,44 +628,6 @@ class _AbstractListState<
         title: 'Atenção',
         message: 'Deseja excluir?',
       );
-
-  ///
-  ///
-  ///
-  void _internalRoute(T model, bool selected) {
-    if (widget.selection) {
-      if (widget.multipleSelection) {
-        if (selected) {
-          selections[model.id] = model;
-        } else {
-          selections.remove(model.id);
-        }
-        if (mounted) {
-          setState(() {});
-        }
-      } else {
-        Navigator.of(context).pop(model);
-      }
-    } else {
-      Navigator.of(context)
-          .push(
-            MaterialPageRoute<dynamic>(
-              builder: (BuildContext context) => widget.onUpdate(
-                model,
-                widget.uiBuilder,
-                widget.consumer,
-                _update,
-              ),
-            ),
-          )
-          .then(
-            (dynamic value) => _loadData(
-              context,
-              clear: true,
-            ),
-          );
-    }
-  }
 }
 
 ///

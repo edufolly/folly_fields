@@ -71,5 +71,8 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   ///
-  Widget buildBottomNavigationBar(BuildContext context) => null;
+  Widget buildBottomNavigationBar(BuildContext context) => Container(
+        height: 0,
+        width: 0,
+      );
 }

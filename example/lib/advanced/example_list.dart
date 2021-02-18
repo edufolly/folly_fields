@@ -28,21 +28,21 @@ class ExampleList
           onAdd: (
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
-          ) =>
+          ) async =>
               ExampleEdit(ExampleModel(), uiBuilder, consumer, true),
           onUpdate: (
             ExampleModel model,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
             bool edit,
-          ) =>
+          ) async =>
               ExampleEdit(model, uiBuilder, consumer, edit),
           onLongPress: (
             ExampleModel model,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
             bool edit,
-          ) =>
+          ) async =>
               ExampleEdit(model, uiBuilder, consumer, edit),
         );
 }
