@@ -153,7 +153,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.20+20"
+    version: "0.0.21+21"
   font_awesome_flutter:
     dependency: transitive
     description:

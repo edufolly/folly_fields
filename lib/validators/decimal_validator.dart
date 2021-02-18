@@ -22,7 +22,8 @@ class DecimalValidator extends AbstractValidator<Decimal>
     this.thousandSeparator = '.',
     this.rightSymbol = '',
     this.leftSymbol = '',
-  }) : super(
+  })  : assert(precision >= 0),
+        super(
           <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly,
           ],
@@ -50,14 +51,15 @@ class DecimalValidator extends AbstractValidator<Decimal>
         .reversed
         .toList(growable: true);
 
-    textRepresentation.insert(precision, decimalSeparator);
+    int start = precision + 4;
+    if (precision > 0) {
+      textRepresentation.insert(precision, decimalSeparator);
+    } else {
+      start = 3;
+    }
 
-    for (int i = precision + 4; true; i += 4) {
-      if (textRepresentation.length > i) {
-        textRepresentation.insert(i, thousandSeparator);
-      } else {
-        break;
-      }
+    for (int i = start; textRepresentation.length > i; i += 4) {
+      textRepresentation.insert(i, thousandSeparator);
     }
 
     String masked = textRepresentation.reversed.join('');
@@ -116,7 +118,9 @@ class DecimalValidator extends AbstractValidator<Decimal>
       parts.insert(0, '0');
     }
 
-    parts.insert(parts.length - precision, '.');
+    if (precision > 0) {
+      parts.insert(parts.length - precision, '.');
+    }
 
     double d = double.parse(parts.join());
 
