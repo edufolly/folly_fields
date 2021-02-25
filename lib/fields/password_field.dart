@@ -32,6 +32,7 @@ class PasswordField extends StringField {
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
+    Iterable<String> autofillHints = const <String>[],
   }) : super(
           key: key,
           prefix: prefix,
@@ -59,5 +60,6 @@ class PasswordField extends StringField {
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
+          autofillHints: autofillHints,
         );
 }

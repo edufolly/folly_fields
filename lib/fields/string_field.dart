@@ -30,6 +30,7 @@ class StringField extends StatelessWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final Iterable<String> autofillHints;
 
   ///
   ///
@@ -61,6 +62,7 @@ class StringField extends StatelessWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.autofillHints = const <String>[],
   }) : super(key: key);
 
   ///
@@ -101,6 +103,7 @@ class StringField extends StatelessWidget {
         textCapitalization: textCapitalization,
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
+        autofillHints: autofillHints,
         style: enabled
             ? null
             : Theme.of(context).textTheme.subtitle1.copyWith(

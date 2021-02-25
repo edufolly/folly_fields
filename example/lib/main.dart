@@ -359,45 +359,73 @@ class _MyHomePageState extends State<MyHomePage> {
                         // [/PhoneField]
                       ),
 
-                      // [LocalPhoneField]
-                      LocalPhoneField(
-                        prefix: prefix,
-                        label: 'Telefone sem DDD*',
-                        enabled: edit,
-                        initialValue: model.localPhone,
-                        onSaved: (String value) => model.localPhone = value,
+                      CodeLink(
+                        code: code,
+                        tag: 'LocalPhoneField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/local_phone_field.dart',
+                        child:
+                            // [LocalPhoneField]
+                            LocalPhoneField(
+                          prefix: prefix,
+                          label: 'Telefone sem DDD*',
+                          enabled: edit,
+                          initialValue: model.localPhone,
+                          onSaved: (String value) => model.localPhone = value,
+                        ),
+                        // [/LocalPhoneField]
                       ),
-                      // [/LocalPhoneField]
 
-                      // [DateTimeField]
-                      DateTimeField(
-                        prefix: prefix,
-                        label: 'Data e Hora*',
-                        enabled: edit,
-                        initialValue: model.dateTime,
-                        onSaved: (DateTime value) => model.dateTime = value,
+                      CodeLink(
+                        code: code,
+                        tag: 'DateTimeField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/date_time_field.dart',
+                        child:
+                            // [DateTimeField]
+                            DateTimeField(
+                          prefix: prefix,
+                          label: 'Data e Hora*',
+                          enabled: edit,
+                          initialValue: model.dateTime,
+                          onSaved: (DateTime value) => model.dateTime = value,
+                        ),
+                        // [/DateTimeField]
                       ),
-                      // [/DateTimeField]
 
-                      // [DateField]
-                      DateField(
-                        prefix: prefix,
-                        label: 'Data*',
-                        enabled: edit,
-                        initialValue: model.date,
-                        onSaved: (DateTime value) => model.date = value,
+                      CodeLink(
+                        code: code,
+                        tag: 'DateField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/date_field.dart',
+                        child:
+                            // [DateField]
+                            DateField(
+                          prefix: prefix,
+                          label: 'Data*',
+                          enabled: edit,
+                          initialValue: model.date,
+                          onSaved: (DateTime value) => model.date = value,
+                        ),
+                        // [/DateField]
                       ),
-                      // [/DateField]
 
-                      // [TimeField]
-                      TimeField(
-                        prefix: prefix,
-                        label: 'Hora*',
-                        enabled: edit,
-                        initialValue: model.time,
-                        onSaved: (TimeOfDay value) => model.time = value,
+                      CodeLink(
+                        code: code,
+                        tag: 'TimeField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/time_field.dart',
+                        child:
+                            // [TimeField]
+                            TimeField(
+                          prefix: prefix,
+                          label: 'Hora*',
+                          enabled: edit,
+                          initialValue: model.time,
+                          onSaved: (TimeOfDay value) => model.time = value,
+                        ),
+                        // [/TimeField]
                       ),
-                      // [/TimeField]
 
                       // [MacAddressField]
                       MacAddressField(
