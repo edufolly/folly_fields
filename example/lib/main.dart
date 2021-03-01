@@ -31,6 +31,7 @@ import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
+import 'package:folly_fields_example/example_table.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,7 +67,12 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.deepOrange,
         brightness: Brightness.dark,
       ),
-      home: MyHomePage(),
+      // home: MyHomePage(),
+      routes: <String, WidgetBuilder>{
+        '/': (_) => MyHomePage(),
+        '/table': (_) => ExampleTable(),
+        '/list': (_) => ExampleList(),
+      },
       localizationsDelegates: <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -122,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Folly Fields Example'),
         actions: <Widget>[
+          /// Github
           IconButton(
             icon: Icon(FontAwesomeIcons.github),
             onPressed: () async {
@@ -135,10 +142,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               }
             },
+            tooltip: 'Github',
           ),
+
+          /// Table
+          IconButton(
+            icon: Icon(FontAwesomeIcons.table),
+            onPressed: () => Navigator.of(context).pushNamed('/table'),
+            tooltip: 'Tabela',
+          ),
+
+          /// AbstractList
           IconButton(
             icon: Icon(FontAwesomeIcons.list),
-            onPressed: _showList,
+            onPressed: () => Navigator.of(context).pushNamed('/list'),
+            tooltip: 'Lista',
           ),
         ],
       ),
@@ -427,90 +445,138 @@ class _MyHomePageState extends State<MyHomePage> {
                         // [/TimeField]
                       ),
 
-                      // [MacAddressField]
-                      MacAddressField(
-                        prefix: prefix,
-                        label: 'Mac Address*',
-                        enabled: edit,
-                        initialValue: model.macAddress,
-                        onSaved: (String value) => model.macAddress = value,
-                      ),
-                      // [/MacAddressField]
-
-                      // [NcmField]
-                      NcmField(
-                        prefix: prefix,
-                        label: 'NCM*',
-                        enabled: edit,
-                        initialValue: model.ncm,
-                        onSaved: (String value) => model.ncm = value,
-                      ),
-                      // [/NcmField]
-
-                      // [CepField]
-                      CepField(
-                        prefix: prefix,
-                        label: 'CEP*',
-                        enabled: edit,
-                        initialValue: model.cep,
-                        onSaved: (String value) => model.cep = value,
-                      ),
-                      // [/CepField]
-
-                      // [BoolField]
-                      BoolField(
-                        prefix: prefix,
-                        label: 'Campo Boleano',
-                        enabled: edit,
-                        initialValue: model.active,
-                        validator: (bool value) => !value
-                            ? 'Para testes, este campo deve ser sempre verdadeiro.'
-                            : null,
-                        onSaved: (bool value) => model.active = value,
-                      ),
-                      // [/BoolField]
-
-                      // [IconDataField]
-                      IconDataField(
-                        prefix: prefix,
-                        label: 'Ícone*',
-                        enabled: edit,
-                        icons: IconHelper.data,
-                        initialValue: model.icon,
-                        validator: (IconData iconData) =>
-                            iconData == null ? 'Selecione um ícone' : null,
-                        onSaved: (IconData iconData) => model.icon = iconData,
-                      ),
-                      // [/IconDataField]
-
-                      // [DropdownField]
-                      DropdownField<Color>(
-                        prefix: prefix,
-                        label: 'Cor',
-                        enabled: edit,
-                        items: ExampleModel.colors,
-                        initialValue: model.color,
-                        validator: (Color value) =>
-                            value == null ? 'Selecione uma cor.' : null,
-                        onSaved: (Color value) => model.color = value,
-                      ),
-                      // [/DropdownField]
-
-                      // [ListField]
-                      ListField<ExampleModel, ExampleBuilder>(
-                        enabled: edit,
-                        initialValue: list,
-                        uiBuilder: ExampleBuilder(prefix),
-                        routeAddBuilder:
-                            (BuildContext context, ExampleBuilder uiBuilder) =>
-                                ExampleList(
+                      CodeLink(
+                        code: code,
+                        tag: 'MacAddressField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/mac_address_field.dart',
+                        child:
+                            // [MacAddressField]
+                            MacAddressField(
                           prefix: prefix,
-                          selection: true,
-                          multipleSelection: true,
+                          label: 'Mac Address*',
+                          enabled: edit,
+                          initialValue: model.macAddress,
+                          onSaved: (String value) => model.macAddress = value,
                         ),
+                        // [/MacAddressField]
                       ),
-                      // [/ListField]
 
+                      CodeLink(
+                        code: code,
+                        tag: 'NcmField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/ncm_field.dart',
+                        child:
+                            // [NcmField]
+                            NcmField(
+                          prefix: prefix,
+                          label: 'NCM*',
+                          enabled: edit,
+                          initialValue: model.ncm,
+                          onSaved: (String value) => model.ncm = value,
+                        ),
+                        // [/NcmField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CepField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cep_field.dart',
+                        child:
+                            // [CepField]
+                            CepField(
+                          prefix: prefix,
+                          label: 'CEP*',
+                          enabled: edit,
+                          initialValue: model.cep,
+                          onSaved: (String value) => model.cep = value,
+                        ),
+                        // [/CepField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'BoolField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/bool_field.dart',
+                        child:
+                            // [BoolField]
+                            BoolField(
+                          prefix: prefix,
+                          label: 'Campo Boleano',
+                          enabled: edit,
+                          initialValue: model.active,
+                          validator: (bool value) => !value
+                              ? 'Para testes, este campo deve ser sempre verdadeiro.'
+                              : null,
+                          onSaved: (bool value) => model.active = value,
+                        ),
+                        // [/BoolField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'IconDataField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/icon_data_field.dart',
+                        child:
+                            // [IconDataField]
+                            IconDataField(
+                          prefix: prefix,
+                          label: 'Ícone*',
+                          enabled: edit,
+                          icons: IconHelper.data,
+                          initialValue: model.icon,
+                          validator: (IconData iconData) =>
+                              iconData == null ? 'Selecione um ícone' : null,
+                          onSaved: (IconData iconData) => model.icon = iconData,
+                        ),
+                        // [/IconDataField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'DropdownField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/dropdown_field.dart',
+                        child:
+                            // [DropdownField]
+                            DropdownField<Color>(
+                          prefix: prefix,
+                          label: 'Cor',
+                          enabled: edit,
+                          items: ExampleModel.colors,
+                          initialValue: model.color,
+                          validator: (Color value) =>
+                              value == null ? 'Selecione uma cor.' : null,
+                          onSaved: (Color value) => model.color = value,
+                        ),
+                        // [/DropdownField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'ListField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/list_field.dart',
+                        child:
+                            // [ListField]
+                            ListField<ExampleModel, ExampleBuilder>(
+                          enabled: edit,
+                          initialValue: list,
+                          uiBuilder: ExampleBuilder(prefix),
+                          routeAddBuilder: (BuildContext context,
+                                  ExampleBuilder uiBuilder) =>
+                              ExampleList(
+                            prefix: prefix,
+                            selection: true,
+                            multipleSelection: true,
+                          ),
+                        ),
+                        // [/ListField]
+                      ),
                       // [/RootCode]
 
                       /// Botão Enviar
@@ -554,10 +620,4 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
   }
-
-  ///
-  ///
-  ///
-  void _showList() => Navigator.of(context)
-      .push(MaterialPageRoute<dynamic>(builder: (_) => ExampleList()));
 }

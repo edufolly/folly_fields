@@ -13,17 +13,18 @@ class FollyDivider extends StatelessWidget {
   const FollyDivider({
     Key key,
     this.height = 1.0,
-    this.color = Colors.black38,
+    this.color,
   }) : super(key: key);
 
   ///
   ///
   ///
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      color: color,
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        height: height,
+        color: color ??
+            (Theme.of(context).brightness == Brightness.light
+                ? Colors.black38
+                : Colors.white38),
+      );
 }

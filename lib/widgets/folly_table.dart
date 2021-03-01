@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 ///
 ///
 ///
-class FollyTable extends StatelessWidget {
+class FollyTable extends StatefulWidget {
   final int rowsCount;
   final List<double> columnsSize;
   final List<FollyCell> headerColumns;
@@ -13,6 +13,8 @@ class FollyTable extends StatelessWidget {
   final FollyCell Function(int row, int column) cellBuilder;
   final double rowHeight;
   final void Function(int row) onRowTap;
+  final double dividerHeight;
+  final double scrollBarThickness;
 
   ///
   ///
@@ -26,103 +28,208 @@ class FollyTable extends StatelessWidget {
     @required this.cellBuilder,
     this.rowHeight = 16.0,
     this.onRowTap,
+    this.dividerHeight = 1.0,
+    this.scrollBarThickness = 8.0,
   }) : super(key: key);
 
   ///
   ///
   ///
   @override
+  _FollyTableState createState() => _FollyTableState();
+}
+
+///
+///
+///
+class _FollyTableState extends State<FollyTable> {
+  ScrollController _horizontalController;
+  ScrollController _verticalController;
+  ScrollController _internalController;
+  bool scrollLock = false;
+
+  ///
+  ///
+  ///
+  @override
+  void initState() {
+    super.initState();
+    _horizontalController = ScrollController();
+    _verticalController = ScrollController();
+    _internalController = ScrollController();
+
+    _verticalController.addListener(() {
+      if (!scrollLock) {
+        scrollLock = true;
+        print('vertical: ${_verticalController.offset}');
+        _internalController.jumpTo(_verticalController.offset);
+        Future<void>.delayed(
+          Duration(milliseconds: 10),
+          () => scrollLock = false,
+        );
+      }
+    });
+
+    _internalController.addListener(() {
+      if (!scrollLock) {
+        scrollLock = true;
+        print('internal: ${_internalController.offset}');
+
+        _verticalController.jumpTo(_internalController.offset);
+        Future<void>.delayed(
+          Duration(milliseconds: 10),
+          () => scrollLock = false,
+        );
+      }
+    });
+  }
+
+  ///
+  ///
+  ///
+  @override
   Widget build(BuildContext context) {
-    double width = columnsSize.fold<double>(
+    double width = widget.columnsSize.fold<double>(
       0.0,
       (double p, double e) => p + e + 4.0,
     );
 
-    return Scrollbar(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: columnsSize
-                  .asMap()
-                  .map(
-                    (int column, double width) {
-                      FollyCell cell = headerColumns[column];
-                      return MapEntry<int, Widget>(
-                        column,
-                        Container(
-                          color: cell.color,
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 4.0),
-                            child: SizedBox(
-                              height: headerHeight,
-                              width: width,
-                              child: cell,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                  .values
-                  .toList(),
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Scrollbar(
+            controller: _horizontalController,
+            isAlwaysShown: true,
+            thickness: widget.scrollBarThickness,
+            child: SingleChildScrollView(
+              controller: _horizontalController,
+              scrollDirection: Axis.horizontal,
+              // primary: true,
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: widget.columnsSize
+                        .asMap()
+                        .map(
+                          (int column, double width) {
+                            FollyCell cell = widget.headerColumns[column];
+                            return MapEntry<int, Widget>(
+                              column,
+                              Container(
+                                color: cell.color,
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      2.0, 0.0, 2.0, 4.0),
+                                  child: SizedBox(
+                                    height: widget.headerHeight,
+                                    width: width,
+                                    child: cell,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                        .values
+                        .toList(),
+                  ),
+                  Container(
+                    width: width,
+                    child: FollyDivider(
+                      height: widget.dividerHeight,
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: width,
+                      child: ListView.builder(
+                        controller: _internalController,
+                        itemCount: widget.rowsCount ?? 0,
+                        itemBuilder: (BuildContext context, int row) {
+                          return Column(
+                            children: <Widget>[
+                              InkWell(
+                                child: Row(
+                                  children: widget.columnsSize
+                                      .asMap()
+                                      .map(
+                                        (int column, double width) {
+                                          FollyCell cell =
+                                              widget.cellBuilder(row, column);
+                                          return MapEntry<int, Widget>(
+                                            column,
+                                            Container(
+                                              color: cell.color,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(2.0),
+                                                child: SizedBox(
+                                                  height: widget.rowHeight,
+                                                  width: width,
+                                                  child: cell,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      )
+                                      .values
+                                      .toList(),
+                                ),
+                                onTap: () => widget.onRowTap != null
+                                    ? widget.onRowTap(row)
+                                    : () {},
+                              ),
+                              FollyDivider(
+                                height: widget.dividerHeight,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ),
+        ),
+        Column(
+          children: <Widget>[
             Container(
-              width: width,
-              child: FollyDivider(),
+              width: widget.scrollBarThickness,
+              height: widget.headerHeight + widget.dividerHeight + 4.0,
             ),
             Expanded(
-              child: SizedBox(
-                width: width,
-                child: Scrollbar(
-                  child: ListView.builder(
-                    itemCount: rowsCount ?? 0,
-                    itemBuilder: (BuildContext context, int row) {
-                      return Column(
-                        children: <Widget>[
-                          InkWell(
-                            child: Row(
-                              children: columnsSize
-                                  .asMap()
-                                  .map(
-                                    (int column, double width) {
-                                      FollyCell cell = cellBuilder(row, column);
-                                      return MapEntry<int, Widget>(
-                                        column,
-                                        Container(
-                                          color: cell.color,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
-                                            child: SizedBox(
-                                              height: rowHeight,
-                                              width: width,
-                                              child: cell,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                  .values
-                                  .toList(),
-                            ),
-                            onTap: () =>
-                                onRowTap != null ? onRowTap(row) : () {},
-                          ),
-                          FollyDivider(),
-                        ],
-                      );
-                    },
+              child: Scrollbar(
+                controller: _verticalController,
+                isAlwaysShown: true,
+                thickness: widget.scrollBarThickness,
+                child: SingleChildScrollView(
+                  controller: _verticalController,
+                  child: Container(
+                    width: widget.scrollBarThickness,
+                    height: (widget.rowHeight + widget.dividerHeight + 4.0) *
+                        widget.rowsCount,
                   ),
                 ),
               ),
             ),
           ],
         ),
-      ),
+      ],
     );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _horizontalController.dispose();
+    _verticalController.dispose();
+    _internalController.dispose();
+    super.dispose();
   }
 }
 
