@@ -15,6 +15,9 @@ class FollyTable extends StatefulWidget {
   final void Function(int row) onRowTap;
   final double dividerHeight;
   final double scrollBarThickness;
+  final int scrollTimeout;
+  final bool verticalScrollAlwaysVisible;
+  final bool horizontalScrollAlwaysVisible;
 
   ///
   ///
@@ -30,6 +33,9 @@ class FollyTable extends StatefulWidget {
     this.onRowTap,
     this.dividerHeight = 1.0,
     this.scrollBarThickness = 8.0,
+    this.scrollTimeout = 300,
+    this.verticalScrollAlwaysVisible = true,
+    this.horizontalScrollAlwaysVisible = true,
   }) : super(key: key);
 
   ///
@@ -46,7 +52,9 @@ class _FollyTableState extends State<FollyTable> {
   ScrollController _horizontalController;
   ScrollController _verticalController;
   ScrollController _internalController;
-  bool scrollLock = false;
+
+  int lastCall = 0;
+  String caller = '';
 
   ///
   ///
@@ -59,27 +67,28 @@ class _FollyTableState extends State<FollyTable> {
     _internalController = ScrollController();
 
     _verticalController.addListener(() {
-      if (!scrollLock) {
-        scrollLock = true;
-        print('vertical: ${_verticalController.offset}');
+      if (caller.isEmpty ||
+          DateTime.now().millisecondsSinceEpoch - lastCall >
+              widget.scrollTimeout) {
+        caller = 'vertical';
+      }
+      lastCall = DateTime.now().millisecondsSinceEpoch;
+
+      if (caller == 'vertical') {
         _internalController.jumpTo(_verticalController.offset);
-        Future<void>.delayed(
-          Duration(milliseconds: 10),
-          () => scrollLock = false,
-        );
       }
     });
 
     _internalController.addListener(() {
-      if (!scrollLock) {
-        scrollLock = true;
-        print('internal: ${_internalController.offset}');
+      if (caller.isEmpty ||
+          DateTime.now().millisecondsSinceEpoch - lastCall >
+              widget.scrollTimeout) {
+        caller = 'internal';
+      }
+      lastCall = DateTime.now().millisecondsSinceEpoch;
 
+      if (caller == 'internal') {
         _verticalController.jumpTo(_internalController.offset);
-        Future<void>.delayed(
-          Duration(milliseconds: 10),
-          () => scrollLock = false,
-        );
       }
     });
   }
@@ -99,7 +108,7 @@ class _FollyTableState extends State<FollyTable> {
         Expanded(
           child: Scrollbar(
             controller: _horizontalController,
-            isAlwaysShown: true,
+            isAlwaysShown: widget.horizontalScrollAlwaysVisible,
             thickness: widget.scrollBarThickness,
             child: SingleChildScrollView(
               controller: _horizontalController,
@@ -203,7 +212,7 @@ class _FollyTableState extends State<FollyTable> {
             Expanded(
               child: Scrollbar(
                 controller: _verticalController,
-                isAlwaysShown: true,
+                isAlwaysShown: widget.verticalScrollAlwaysVisible,
                 thickness: widget.scrollBarThickness,
                 child: SingleChildScrollView(
                   controller: _verticalController,
