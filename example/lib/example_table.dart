@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
+import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/phone_validator.dart';
 import 'package:folly_fields/widgets/folly_table.dart';
+import 'package:folly_fields_example/advanced/example_builder.dart';
+import 'package:folly_fields_example/advanced/example_consumer.dart';
+import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/example_model.dart';
 
 ///
@@ -26,6 +30,7 @@ class _ExampleTableState extends State<ExampleTable> {
   final CpfValidator cpfValidator = CpfValidator();
   final CnpjValidator cnpjValidator = CnpjValidator();
   final PhoneValidator phoneValidator = PhoneValidator();
+  final MacAddressValidator macAddressValidator = MacAddressValidator();
 
   final double rowHeight = 26.0;
 
@@ -42,9 +47,18 @@ class _ExampleTableState extends State<ExampleTable> {
         padding: const EdgeInsets.all(16.0),
         child: FollyTable(
           rowsCount: list.length,
-          headerHeight: rowHeight * 2.1,
+          headerHeight: rowHeight,
           rowHeight: rowHeight,
-          columnsSize: <double>[160.0, 250.0, 150.0, 200.0, 100.0, 150.0],
+          freezeColumns: 2,
+          columnsSize: <double>[
+            160.0,
+            230.0,
+            150.0,
+            200.0,
+            100.0,
+            150.0,
+            150.0,
+          ],
           headerColumns: <FollyCell>[
             FollyCell.textHeaderCenter('Text'),
             FollyCell.textHeaderCenter('E-mail'),
@@ -52,30 +66,62 @@ class _ExampleTableState extends State<ExampleTable> {
             FollyCell.textHeaderCenter('CNPJ'),
             FollyCell.textHeaderCenter('Decimal'),
             FollyCell.textHeaderCenter('Telefone'),
+            FollyCell.textHeaderCenter('MAC Address'),
           ],
           cellBuilder: (int row, int col) {
             ExampleModel model = list[row];
             switch (col) {
               case 0:
                 return FollyCell.text(model.text);
+
               case 1:
                 return FollyCell.text(model.email);
+
               case 2:
-                return FollyCell.text(cpfValidator.format(model.cpf));
+                return FollyCell.text(
+                  cpfValidator.format(model.cpf),
+                  align: Alignment.center,
+                  textAlign: TextAlign.center,
+                );
+
               case 3:
-                return FollyCell.text(cnpjValidator.format(model.cnpj));
+                return FollyCell.text(
+                  cnpjValidator.format(model.cnpj),
+                  align: Alignment.center,
+                  textAlign: TextAlign.center,
+                );
+
               case 4:
                 return FollyCell.number(model.decimal.value);
+
               case 5:
                 return FollyCell.text(
                   phoneValidator.format(model.phone),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
                 );
+
+              case 6:
+                return FollyCell.text(
+                  macAddressValidator.format(model.macAddress),
+                  align: Alignment.center,
+                  textAlign: TextAlign.center,
+                );
+
               default:
                 return FollyCell.text('ERRO: $row - $col');
             }
           },
+          onRowTap: (int row) => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => ExampleEdit(
+                list[row],
+                ExampleBuilder(null),
+                ExampleConsumer(),
+                false,
+              ),
+            ),
+          ),
         ),
       ),
     );

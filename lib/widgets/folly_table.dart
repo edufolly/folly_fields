@@ -18,6 +18,7 @@ class FollyTable extends StatefulWidget {
   final int scrollTimeout;
   final bool verticalScrollAlwaysVisible;
   final bool horizontalScrollAlwaysVisible;
+  final int freezeColumns;
 
   ///
   ///
@@ -36,6 +37,7 @@ class FollyTable extends StatefulWidget {
     this.scrollTimeout = 300,
     this.verticalScrollAlwaysVisible = true,
     this.horizontalScrollAlwaysVisible = true,
+    this.freezeColumns = 0,
   }) : super(key: key);
 
   ///
@@ -52,6 +54,7 @@ class _FollyTableState extends State<FollyTable> {
   ScrollController _horizontalController;
   ScrollController _verticalController;
   ScrollController _internalController;
+  ScrollController _freezeController;
 
   int lastCall = 0;
   String caller = '';
@@ -63,8 +66,10 @@ class _FollyTableState extends State<FollyTable> {
   void initState() {
     super.initState();
     _horizontalController = ScrollController();
+
     _verticalController = ScrollController();
     _internalController = ScrollController();
+    _freezeController = ScrollController();
 
     _verticalController.addListener(() {
       if (caller.isEmpty ||
@@ -76,6 +81,9 @@ class _FollyTableState extends State<FollyTable> {
 
       if (caller == 'vertical') {
         _internalController.jumpTo(_verticalController.offset);
+        if (widget.freezeColumns > 0) {
+          _freezeController.jumpTo(_verticalController.offset);
+        }
       }
     });
 
@@ -89,8 +97,27 @@ class _FollyTableState extends State<FollyTable> {
 
       if (caller == 'internal') {
         _verticalController.jumpTo(_internalController.offset);
+        if (widget.freezeColumns > 0) {
+          _freezeController.jumpTo(_internalController.offset);
+        }
       }
     });
+
+    if (widget.freezeColumns > 0) {
+      _freezeController.addListener(() {
+        if (caller.isEmpty ||
+            DateTime.now().millisecondsSinceEpoch - lastCall >
+                widget.scrollTimeout) {
+          caller = 'freeze';
+        }
+        lastCall = DateTime.now().millisecondsSinceEpoch;
+
+        if (caller == 'freeze') {
+          _verticalController.jumpTo(_freezeController.offset);
+          _internalController.jumpTo(_freezeController.offset);
+        }
+      });
+    }
   }
 
   ///
@@ -98,13 +125,17 @@ class _FollyTableState extends State<FollyTable> {
   ///
   @override
   Widget build(BuildContext context) {
-    double width = widget.columnsSize.fold<double>(
-      0.0,
-      (double p, double e) => p + e + 4.0,
-    );
-
     return Row(
       children: <Widget>[
+        /// Frozen Content
+        if (widget.freezeColumns > 0)
+          _drawColumns(
+            0,
+            widget.freezeColumns,
+            _freezeController,
+          ),
+
+        /// Table Content
         Expanded(
           child: Scrollbar(
             controller: _horizontalController,
@@ -113,96 +144,16 @@ class _FollyTableState extends State<FollyTable> {
             child: SingleChildScrollView(
               controller: _horizontalController,
               scrollDirection: Axis.horizontal,
-              // primary: true,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: widget.columnsSize
-                        .asMap()
-                        .map(
-                          (int column, double width) {
-                            FollyCell cell = widget.headerColumns[column];
-                            return MapEntry<int, Widget>(
-                              column,
-                              Container(
-                                color: cell.color,
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                      2.0, 0.0, 2.0, 4.0),
-                                  child: SizedBox(
-                                    height: widget.headerHeight,
-                                    width: width,
-                                    child: cell,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        )
-                        .values
-                        .toList(),
-                  ),
-                  Container(
-                    width: width,
-                    child: FollyDivider(
-                      height: widget.dividerHeight,
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      width: width,
-                      child: ListView.builder(
-                        controller: _internalController,
-                        itemCount: widget.rowsCount ?? 0,
-                        itemBuilder: (BuildContext context, int row) {
-                          return Column(
-                            children: <Widget>[
-                              InkWell(
-                                child: Row(
-                                  children: widget.columnsSize
-                                      .asMap()
-                                      .map(
-                                        (int column, double width) {
-                                          FollyCell cell =
-                                              widget.cellBuilder(row, column);
-                                          return MapEntry<int, Widget>(
-                                            column,
-                                            Container(
-                                              color: cell.color,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                child: SizedBox(
-                                                  height: widget.rowHeight,
-                                                  width: width,
-                                                  child: cell,
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                      .values
-                                      .toList(),
-                                ),
-                                onTap: () => widget.onRowTap != null
-                                    ? widget.onRowTap(row)
-                                    : () {},
-                              ),
-                              FollyDivider(
-                                height: widget.dividerHeight,
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+              child: _drawColumns(
+                widget.freezeColumns,
+                widget.columnsSize.length,
+                _internalController,
               ),
             ),
           ),
         ),
+
+        /// Vertical Scrollbar
         Column(
           children: <Widget>[
             Container(
@@ -229,6 +180,102 @@ class _FollyTableState extends State<FollyTable> {
       ],
     );
   }
+
+  ///
+  ///
+  ///
+  Column _drawColumns(
+    int start,
+    int end,
+    ScrollController scrollController,
+  ) {
+    List<int> cols = List<int>.generate(
+      end - start,
+      (int index) => start + index,
+    );
+
+    double width = cols.fold(
+      0.0,
+      (double p, int i) => p + widget.columnsSize[i] + 4,
+    );
+
+    return Column(
+      children: <Widget>[
+        Row(
+          children: cols
+              .map(
+                (int col) => _buildCell(
+                  padding: const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 4.0),
+                  cell: widget.headerColumns[col],
+                  width: widget.columnsSize[col],
+                  height: widget.headerHeight,
+                ),
+              )
+              .toList(),
+        ),
+        Container(
+          width: width,
+          child: FollyDivider(
+            height: widget.dividerHeight,
+          ),
+        ),
+        Expanded(
+          child: SizedBox(
+            width: width,
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: widget.rowsCount ?? 0,
+              itemBuilder: (BuildContext context, int row) {
+                return Column(
+                  children: <Widget>[
+                    InkWell(
+                      child: Row(
+                        children: cols
+                            .map(
+                              (int col) => _buildCell(
+                                cell: widget.cellBuilder(row, col),
+                                width: widget.columnsSize[col],
+                                height: widget.rowHeight,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      onTap: () => widget.onRowTap != null
+                          ? widget.onRowTap(row)
+                          : () {},
+                      hoverColor: Colors.transparent,
+                    ),
+                    FollyDivider(
+                      height: widget.dividerHeight,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  ///
+  ///
+  ///
+  Widget _buildCell({
+    @required FollyCell cell,
+    @required double width,
+    @required double height,
+    EdgeInsetsGeometry padding = const EdgeInsets.all(2.0),
+  }) =>
+      Container(
+        color: cell.color,
+        padding: padding,
+        child: SizedBox(
+          child: cell,
+          width: width,
+          height: height,
+        ),
+      );
 
   ///
   ///
