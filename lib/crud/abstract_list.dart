@@ -377,8 +377,8 @@ class _AbstractListState<
               } else {
                 _fabAdd = FloatingActionButton(
                   tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
-                  child: FaIcon(FontAwesomeIcons.plus),
                   onPressed: _addEntity,
+                  child: FaIcon(FontAwesomeIcons.plus),
                 );
               }
             }
@@ -529,8 +529,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _internalLongPress(T model) async =>
-      await _push(await widget.onLongPress(
+  void _internalLongPress(T model) async => _push(await widget.onLongPress(
         context,
         model,
         widget.uiBuilder,
@@ -541,7 +540,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _addEntity() async => await _push(await widget.onAdd(
+  void _addEntity() async => _push(await widget.onAdd(
         context,
         widget.uiBuilder,
         widget.consumer,
@@ -573,7 +572,7 @@ class _AbstractListState<
         _update,
       );
 
-      await _push(next);
+      _push(next);
     }
   }
 

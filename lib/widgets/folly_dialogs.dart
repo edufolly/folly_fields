@@ -24,10 +24,8 @@ class FollyDialogs {
           content: Text(message),
           actions: <Widget>[
             ElevatedButton(
-              child: Text(
-                buttonText,
-              ),
               onPressed: () => Navigator.of(context).pop(true),
+              child: Text(buttonText),
             ),
           ],
         );
@@ -88,12 +86,12 @@ class FollyDialogs {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: Text(cancelLabel),
               onPressed: () => Navigator.of(context).pop(null),
+              child: Text(cancelLabel),
             ),
             TextButton(
-              child: Text(confirmLabel),
               onPressed: () => Navigator.of(context).pop(_controller.text),
+              child: Text(confirmLabel),
             ),
           ],
         );

@@ -83,7 +83,7 @@ class BoolField extends FormField<bool> {
                               child: Text(
                                 prefix == null || prefix.isEmpty
                                     ? label
-                                    : '${prefix} - ${label}',
+                                    : '$prefix - $label',
                                 style: textStyle,
                               ),
                             ),

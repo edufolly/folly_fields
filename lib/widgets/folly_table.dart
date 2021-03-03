@@ -229,6 +229,10 @@ class _FollyTableState extends State<FollyTable> {
                 return Column(
                   children: <Widget>[
                     InkWell(
+                      onTap: () => widget.onRowTap != null
+                          ? widget.onRowTap(row)
+                          : () {},
+                      hoverColor: Colors.transparent,
                       child: Row(
                         children: cols
                             .map(
@@ -240,10 +244,6 @@ class _FollyTableState extends State<FollyTable> {
                             )
                             .toList(),
                       ),
-                      onTap: () => widget.onRowTap != null
-                          ? widget.onRowTap(row)
-                          : () {},
-                      hoverColor: Colors.transparent,
                     ),
                     FollyDivider(
                       height: widget.dividerHeight,
@@ -271,9 +271,9 @@ class _FollyTableState extends State<FollyTable> {
         color: cell.color,
         padding: padding,
         child: SizedBox(
-          child: cell,
           width: width,
           height: height,
+          child: cell,
         ),
       );
 

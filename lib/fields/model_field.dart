@@ -48,7 +48,7 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
               filled: filled,
               labelText: prefix == null || prefix.isEmpty
                   ? label
-                  : '${prefix} - ${label}',
+                  : '$prefix - $label',
               counterText: '',
               suffixIcon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

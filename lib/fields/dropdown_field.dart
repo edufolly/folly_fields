@@ -63,7 +63,7 @@ class DropdownField<T> extends FormField<T> {
               filled: filled,
               labelText: prefix == null || prefix.isEmpty
                   ? label
-                  : '${prefix} - ${label}',
+                  : '$prefix - $label',
               counterText: '',
               focusColor: focusColor,
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);

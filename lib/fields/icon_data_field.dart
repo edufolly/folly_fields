@@ -44,7 +44,7 @@ class IconDataField extends FormField<IconData> {
               filled: filled,
               labelText: prefix == null || prefix.isEmpty
                   ? label
-                  : '${prefix} - ${label}',
+                  : '$prefix - $label',
               counterText: '',
               contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
