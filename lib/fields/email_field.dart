@@ -29,7 +29,7 @@ class EmailField extends ValidatorField {
     bool enableInteractiveSelection = true,
     bool filled = false,
     bool required = true,
-    Iterable<String> autofillHints = const <String>[],
+    Iterable<String> autofillHints,
   }) : super(
           key: key,
           abstractValidator: EmailValidator(),

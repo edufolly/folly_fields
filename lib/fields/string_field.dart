@@ -62,7 +62,7 @@ class StringField extends StatelessWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
-    this.autofillHints = const <String>[],
+    this.autofillHints,
   }) : super(key: key);
 
   ///

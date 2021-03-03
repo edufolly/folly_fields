@@ -36,7 +36,7 @@ class ValidatorField extends StringField {
     bool enableInteractiveSelection = true,
     bool filled = false,
     bool required = true,
-    Iterable<String> autofillHints = const <String>[],
+    Iterable<String> autofillHints,
   }) : super(
           key: key,
           prefix: prefix,
