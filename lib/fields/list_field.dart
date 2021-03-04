@@ -16,29 +16,29 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   ///
   ListField({
-    Key key,
-    @required List<T> initialValue,
-    @required UI uiBuilder,
-    @required
-        Widget Function(BuildContext context, UI uiBuilder) routeAddBuilder,
-    Function(BuildContext context, T model, UI uiBuilder, bool edit)
+    Key? key,
+    required List<T> initialValue,
+    required UI uiBuilder,
+    required Widget Function(BuildContext context, UI uiBuilder)
+        routeAddBuilder,
+    Function(BuildContext context, T model, UI uiBuilder, bool edit)?
         routeEditBuilder,
-    FormFieldSetter<List<T>> onSaved,
-    FormFieldValidator<List<T>> validator,
+    FormFieldSetter<List<T>>? onSaved,
+    FormFieldValidator<List<T>>? validator,
     bool enabled = true,
-    AutovalidateMode autoValidateMode,
-    Future<bool> Function(BuildContext context) beforeAdd,
-    Future<bool> Function(BuildContext context, int index, T model) beforeEdit,
+    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    Future<bool> Function(BuildContext context)? beforeAdd,
+    Future<bool> Function(BuildContext context, int index, T model)? beforeEdit,
     String addText = 'Adicionar %s',
     String removeText = 'Deseja remover %s?',
     String emptyListText = 'Sem %s até o momento.',
   }) : super(
           key: key,
-          initialValue: initialValue ?? <T>[],
+          initialValue: initialValue,
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
-          autovalidateMode: autoValidateMode ?? AutovalidateMode.disabled,
+          autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration inputDecoration = InputDecoration(
               labelText: uiBuilder.getSuperPlural(),
@@ -57,7 +57,7 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    if (field.value.isEmpty)
+                    if (field.value!.isEmpty)
 
                       /// Lista vazia.
                       Container(
@@ -74,7 +74,7 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                     else
 
                       /// Lista
-                      ...field.value
+                      ...field.value!
                           .asMap()
                           .entries
                           .map(
@@ -89,11 +89,11 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                   if (!go) return;
                                 }
 
-                                T returned =
+                                T? returned =
                                     await Navigator.of(field.context).push(
                                   MaterialPageRoute<T>(
                                     builder: (BuildContext context) =>
-                                        routeEditBuilder(
+                                        routeEditBuilder!(
                                       context,
                                       model,
                                       uiBuilder,
@@ -103,12 +103,12 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                 );
 
                                 if (returned != null) {
-                                  field.value[index] = returned;
+                                  field.value![index] = returned;
                                   field.didChange(field.value);
                                 }
                               },
                               onDelete: (T model) {
-                                field.value.remove(model);
+                                field.value!.remove(model);
                                 field.didChange(field.value);
                               },
                               removeText: removeText,
@@ -139,22 +139,21 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                           if (selected is List) {
                             for (T item in selected) {
                               if (item.id == null ||
-                                  !field.value.any(
+                                  !field.value!.any(
                                       (T element) => element.id == item.id)) {
-                                field.value.add(item);
+                                field.value!.add(item);
                               }
                             }
                           } else {
                             if ((selected as AbstractModel).id == null ||
-                                !field.value.any((T element) {
-                                  return element.id ==
-                                      (selected as AbstractModel).id;
+                                !field.value!.any((T element) {
+                                  return element.id == selected.id;
                                 })) {
-                              field.value.add(selected);
+                              field.value!.add((selected as T));
                             }
                           }
 
-                          field.value.sort((T a, T b) =>
+                          field.value!.sort((T a, T b) =>
                               a.toString().compareTo(b.toString()));
 
                           field.didChange(field.value);
@@ -185,13 +184,13 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   ///
   const _MyListTile({
-    Key key,
-    @required this.index,
-    @required this.model,
-    @required this.uiBuilder,
-    @required this.onEdit,
-    @required this.onDelete,
-    @required this.removeText,
+    Key? key,
+    required this.index,
+    required this.model,
+    required this.uiBuilder,
+    required this.onEdit,
+    required this.onDelete,
+    required this.removeText,
   }) : super(key: key);
 
   ///
@@ -251,14 +250,14 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   ///
   void _delete(BuildContext context, T model, {bool ask = false}) async {
     bool del = true;
-    if (ask) del = await _askDelete(context);
+    if (ask) del = (await _askDelete(context)) ?? false;
     if (del) onDelete(model);
   }
 
   ///
   ///
   ///
-  Future<bool> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
+  Future<bool?> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
         message: sprintf(removeText, <dynamic>[uiBuilder.getSuperSingle()]),
       );

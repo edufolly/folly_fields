@@ -16,9 +16,8 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   /// Retorna o nome no singular que é utilizado nas views.
-  String getSuperSingle() => prefix == null || prefix.isEmpty
-      ? getInternalSingle()
-      : '$prefix - ${getInternalSingle()}';
+  String getSuperSingle() =>
+      prefix.isEmpty ? getInternalSingle() : '$prefix - ${getInternalSingle()}';
 
   ///
   ///
@@ -28,9 +27,8 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   /// Retorna o nome no plural que é utilizado nas views.
-  String getSuperPlural() => prefix == null || prefix.isEmpty
-      ? getInternalPlural()
-      : '$prefix - ${getInternalPlural()}';
+  String getSuperPlural() =>
+      prefix.isEmpty ? getInternalPlural() : '$prefix - ${getInternalPlural()}';
 
   ///
   ///
@@ -50,7 +48,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   /// Widget do subtitle do ListTile da lista e da pesquisa.
-  Widget getSubtitle(T model) => null;
+  Widget? getSubtitle(T model) => null;
 
   ///
   ///
@@ -60,7 +58,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel> {
   ///
   ///
   /// Widget do subtitle do ListTile das sugestões.
-  Widget getSuggestionSubtitle(T model) => getSubtitle(model);
+  Widget? getSuggestionSubtitle(T model) => getSubtitle(model);
 
   ///
   ///

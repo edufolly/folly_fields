@@ -9,9 +9,9 @@ class FollyDialogs {
   ///
   ///
   ///
-  static Future<bool> dialogMessage({
-    @required BuildContext context,
-    @required String message,
+  static Future<bool?> dialogMessage({
+    required BuildContext context,
+    required String message,
     String title = 'Atenção',
     String buttonText = 'OK',
   }) {
@@ -36,10 +36,10 @@ class FollyDialogs {
   ///
   ///
   ///
-  static Future<String> dialogText({
-    @required BuildContext context,
-    @required String title,
-    @required String message,
+  static Future<String?> dialogText({
+    required BuildContext context,
+    required String title,
+    required String message,
     String confirmLabel = 'OK',
     String cancelLabel = 'CANCELAR',
     String startString = '',
@@ -102,10 +102,10 @@ class FollyDialogs {
   ///
   ///
   ///
-  static Future<bool> yesNoDialog({
-    @required BuildContext context,
+  static Future<bool?> yesNoDialog({
+    required BuildContext context,
     String title = 'Atenção',
-    @required String message,
+    required String message,
     String affirmative = 'Sim',
     String negative = 'Não',
     bool marked = false,

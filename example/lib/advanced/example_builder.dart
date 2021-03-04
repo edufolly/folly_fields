@@ -11,7 +11,7 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   ///
-  ExampleBuilder(String prefix) : super(prefix);
+  ExampleBuilder([String prefix = '']) : super(prefix);
 
   ///
   ///
@@ -31,18 +31,18 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   @override
   Widget getLeading(ExampleModel model) => Icon(
         FontAwesomeIcons.solidCircle,
-        color: model.integer.isEven ? Colors.red : Colors.green,
+        color: (model.integer ?? 0).isEven ? Colors.red : Colors.green,
       );
 
   ///
   ///
   ///
   @override
-  Widget getTitle(ExampleModel model) => Text(model.text);
+  Widget getTitle(ExampleModel model) => Text(model.text ?? 'Sem Texto');
 
   ///
   ///
   ///
   @override
-  Widget getSubtitle(ExampleModel model) => Text(model.email);
+  Widget getSubtitle(ExampleModel model) => Text(model.email ?? 'Sem E-mail');
 }

@@ -6,21 +6,21 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class IconDataField extends FormField<IconData> {
-  final IconFieldController controller;
+  final IconFieldController? controller;
   final Map<String, IconData> icons;
 
   ///
   ///
   ///
   IconDataField({
-    Key key,
-    String prefix,
-    String label,
+    Key? key,
+    String prefix = '',
+    String label = '',
     this.controller,
-    FormFieldValidator<IconData> validator,
-    FormFieldSetter<IconData> onSaved,
-    IconData initialValue,
-    this.icons,
+    FormFieldValidator<IconData>? validator,
+    FormFieldSetter<IconData>? onSaved,
+    IconData? initialValue,
+    this.icons = const <String, IconData>{},
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     bool filled = false,
@@ -42,9 +42,7 @@ class IconDataField extends FormField<IconData> {
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
-              labelText: prefix == null || prefix.isEmpty
-                  ? label
-                  : '$prefix - $label',
+              labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
@@ -114,8 +112,7 @@ class IconDataField extends FormField<IconData> {
                             ),
                             itemCount: keys.length,
                             itemBuilder: (BuildContext context, int index) {
-                              String key = keys[index];
-                              IconData iconData = controllerIcons[key];
+                              IconData iconData = controllerIcons[keys[index]]!;
                               return GestureDetector(
                                 onTap: () => state.didChange(iconData),
                                 child: Align(
@@ -150,8 +147,8 @@ class IconDataField extends FormField<IconData> {
 ///
 class _IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
-  IconFieldController _controller;
-  List<String> names;
+  IconFieldController? _controller;
+  List<String> names = <String>[];
 
   ///
   ///
@@ -163,7 +160,7 @@ class _IconDataFieldState extends FormFieldState<IconData> {
   ///
   ///
   IconFieldController get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
@@ -177,7 +174,7 @@ class _IconDataFieldState extends FormFieldState<IconData> {
     if (widget.controller == null) {
       _controller = IconFieldController(widget.initialValue, widget.icons);
     } else {
-      widget.controller.addListener(_handleControllerChanged);
+      widget.controller!.addListener(_handleControllerChanged);
     }
 
     names = _effectiveController.icons.keys.toList();
@@ -195,11 +192,11 @@ class _IconDataFieldState extends FormFieldState<IconData> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = IconFieldController.fromValue(oldWidget.controller);
+        _controller = IconFieldController.fromValue(oldWidget.controller!);
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.value);
+        setValue(widget.controller!.value);
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -222,7 +219,7 @@ class _IconDataFieldState extends FormFieldState<IconData> {
   ///
   ///
   @override
-  void didChange(IconData value) {
+  void didChange(IconData? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;
@@ -264,7 +261,7 @@ class _IconDataFieldState extends FormFieldState<IconData> {
 ///
 ///
 ///
-class IconFieldController extends ValueNotifier<IconData> {
+class IconFieldController extends ValueNotifier<IconData?> {
   Map<String, IconData> _icons;
 
   ///
@@ -277,7 +274,7 @@ class IconFieldController extends ValueNotifier<IconData> {
   ///
   ///
   ///
-  IconFieldController(IconData value, Map<String, IconData> icons)
+  IconFieldController(IconData? value, Map<String, IconData> icons)
       : _icons = icons,
         super(value);
 

@@ -14,10 +14,10 @@ class ExampleList
   ///
   ///
   ExampleList({
-    Key key,
+    Key? key,
     bool selection = false,
     bool multipleSelection = false,
-    String prefix,
+    String prefix = '',
   }) : super(
           key: key,
           selection: selection,

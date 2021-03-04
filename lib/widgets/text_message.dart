@@ -11,7 +11,7 @@ class TextMessage extends StatelessWidget {
   ///
   const TextMessage(
     this.message, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   ///

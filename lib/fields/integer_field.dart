@@ -10,21 +10,21 @@ class IntegerField extends StringField {
   ///
   ///
   IntegerField({
-    Key key,
-    String prefix,
-    String label,
-    TextEditingController controller,
-    FormFieldValidator<int> validator,
+    Key? key,
+    String prefix = '',
+    String label = '',
+    TextEditingController? controller,
+    FormFieldValidator<int?>? validator,
     TextAlign textAlign = TextAlign.end,
-    int maxLength,
-    FormFieldSetter<int> onSaved,
-    int initialValue,
+    int? maxLength,
+    FormFieldSetter<int>? onSaved,
+    int? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    ValueChanged<String> onChanged,
-    FocusNode focusNode,
-    TextInputAction textInputAction,
-    ValueChanged<String> onFieldSubmitted,
+    ValueChanged<String>? onChanged,
+    FocusNode? focusNode,
+    TextInputAction? textInputAction,
+    ValueChanged<String>? onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
@@ -34,10 +34,9 @@ class IntegerField extends StringField {
           label: label,
           controller: controller,
           keyboard: TextInputType.number,
-          validator: (String value) {
-            int integer = int.tryParse(value);
+          validator: (String? value) {
             if (validator != null) {
-              return validator(integer);
+              return validator(int.tryParse(value ?? '0'));
             }
             return null;
           },
@@ -49,10 +48,9 @@ class IntegerField extends StringField {
           ],
           textAlign: textAlign,
           maxLength: maxLength,
-          onSaved: (String value) {
-            int integer = int.tryParse(value);
+          onSaved: (String? value) {
             if (onSaved != null) {
-              return onSaved(integer);
+              return onSaved(int.tryParse(value ?? '0'));
             }
           },
           initialValue: initialValue == null ? null : initialValue.toString(),

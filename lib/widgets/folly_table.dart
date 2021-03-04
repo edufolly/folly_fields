@@ -12,7 +12,7 @@ class FollyTable extends StatefulWidget {
   final double headerHeight;
   final FollyCell Function(int row, int column) cellBuilder;
   final double rowHeight;
-  final void Function(int row) onRowTap;
+  final void Function(int row)? onRowTap;
   final double dividerHeight;
   final double scrollBarThickness;
   final int scrollTimeout;
@@ -24,12 +24,12 @@ class FollyTable extends StatefulWidget {
   ///
   ///
   const FollyTable({
-    Key key,
-    @required this.rowsCount,
-    @required this.columnsSize,
-    this.headerColumns,
+    Key? key,
+    required this.rowsCount,
+    required this.columnsSize,
+    this.headerColumns = const <FollyCell>[],
     this.headerHeight = 16.0,
-    @required this.cellBuilder,
+    required this.cellBuilder,
     this.rowHeight = 16.0,
     this.onRowTap,
     this.dividerHeight = 1.0,
@@ -51,10 +51,10 @@ class FollyTable extends StatefulWidget {
 ///
 ///
 class _FollyTableState extends State<FollyTable> {
-  ScrollController _horizontalController;
-  ScrollController _verticalController;
-  ScrollController _internalController;
-  ScrollController _freezeController;
+  final ScrollController _horizontalController = ScrollController();
+  final ScrollController _verticalController = ScrollController();
+  final ScrollController _internalController = ScrollController();
+  final ScrollController _freezeController = ScrollController();
 
   int lastCall = 0;
   String caller = '';
@@ -65,11 +65,11 @@ class _FollyTableState extends State<FollyTable> {
   @override
   void initState() {
     super.initState();
-    _horizontalController = ScrollController();
-
-    _verticalController = ScrollController();
-    _internalController = ScrollController();
-    _freezeController = ScrollController();
+    // _horizontalController = ScrollController();
+    //
+    // _verticalController = ScrollController();
+    // _internalController = ScrollController();
+    // _freezeController = ScrollController();
 
     _verticalController.addListener(() {
       if (caller.isEmpty ||
@@ -224,13 +224,13 @@ class _FollyTableState extends State<FollyTable> {
             width: width,
             child: ListView.builder(
               controller: scrollController,
-              itemCount: widget.rowsCount ?? 0,
+              itemCount: widget.rowsCount,
               itemBuilder: (BuildContext context, int row) {
                 return Column(
                   children: <Widget>[
                     InkWell(
                       onTap: () => widget.onRowTap != null
-                          ? widget.onRowTap(row)
+                          ? widget.onRowTap!(row)
                           : () {},
                       hoverColor: Colors.transparent,
                       child: Row(
@@ -262,9 +262,9 @@ class _FollyTableState extends State<FollyTable> {
   ///
   ///
   Widget _buildCell({
-    @required FollyCell cell,
-    @required double width,
-    @required double height,
+    required FollyCell cell,
+    required double width,
+    required double height,
     EdgeInsetsGeometry padding = const EdgeInsets.all(2.0),
   }) =>
       Container(
@@ -301,10 +301,10 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   const FollyCell({
-    Key key,
+    Key? key,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   ///
@@ -323,14 +323,13 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.bottomLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
-    TextStyle style,
+    TextStyle style = const TextStyle(
+      fontWeight: FontWeight.bold,
+    ),
   }) : child = Text(
           text,
           textAlign: textAlign,
-          style: style ??
-              TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+          style: style,
         );
 
   ///
@@ -339,15 +338,14 @@ class FollyCell extends StatelessWidget {
   FollyCell.textHeaderCenter(
     String text, {
     this.color = Colors.transparent,
-    TextStyle style,
+    TextStyle style = const TextStyle(
+      fontWeight: FontWeight.bold,
+    ),
   })  : align = Alignment.bottomCenter,
         child = Text(
           text,
           textAlign: TextAlign.center,
-          style: style ??
-              TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+          style: style,
         );
 
   ///
@@ -358,9 +356,9 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
-    TextStyle style,
+    TextStyle? style,
   }) : child = Text(
-          text ?? '',
+          text,
           textAlign: textAlign,
           style: style,
         );
@@ -373,7 +371,7 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
-    TextStyle style,
+    TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0.00',
   }) : child = Text(
@@ -390,7 +388,7 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
-    TextStyle style,
+    TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0',
   }) : child = Text(
@@ -407,7 +405,7 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
-    TextStyle style,
+    TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy',
   }) : child = Text(
@@ -424,7 +422,7 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
-    TextStyle style,
+    TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'HH:mm',
   }) : child = Text(
@@ -441,7 +439,7 @@ class FollyCell extends StatelessWidget {
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
-    TextStyle style,
+    TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy HH:mm',
   }) : child = Text(
@@ -455,7 +453,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.iconButton(
     IconData iconData, {
-    Function onPressed,
+    Function()? onPressed,
     this.align = Alignment.center,
     this.color = Colors.transparent,
   }) : child = FittedBox(

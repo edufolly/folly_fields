@@ -30,11 +30,10 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  String format(TimeOfDay time) => time == null
-      ? ''
-      : time.hour.toString().padLeft(2, '0') +
-          ':' +
-          time.minute.toString().padLeft(2, '0');
+  String format(TimeOfDay time) =>
+      time.hour.toString().padLeft(2, '0') +
+      ':' +
+      time.minute.toString().padLeft(2, '0');
 
   ///
   ///
@@ -58,13 +57,18 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  TimeOfDay parse(String value) {
-    if (isValid(value)) {
+  TimeOfDay? parse(String? value) {
+    if (value != null && isValid(value)) {
       List<String> parts = value.split(':');
-      return TimeOfDay(
-        hour: int.tryParse(parts[0]),
-        minute: int.tryParse(parts[1]),
-      );
+      if (parts.length == 2) {
+        int? hour = int.tryParse(parts[0]);
+        if (hour == null || hour < 0 || hour > 23) return null;
+
+        int? minute = int.tryParse(parts[1]);
+        if (minute == null || minute < 0 || minute > 60) return null;
+
+        return TimeOfDay(hour: hour, minute: minute);
+      }
     }
     return null;
   }
@@ -73,7 +77,7 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  String valid(String value) => FollyUtils.validTime(value);
+  String? valid(String value) => FollyUtils.validTime(value);
 
   ///
   ///

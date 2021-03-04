@@ -8,13 +8,13 @@ class FutureAppear extends FutureAnimatedOpacity {
   ///
   ///
   const FutureAppear({
-    Key key,
-    @required Duration delay,
+    Key? key,
+    required Duration delay,
     Curve curve = Curves.linear,
-    @required Duration animationDuration,
-    VoidCallback onEnd,
+    required Duration animationDuration,
+    VoidCallback? onEnd,
     bool alwaysIncludeSemantics = false,
-    @required Widget child,
+    required Widget child,
   }) : super(
           key: key,
           delay: delay,
@@ -36,13 +36,13 @@ class FutureDisappear extends FutureAnimatedOpacity {
   ///
   ///
   const FutureDisappear({
-    Key key,
-    @required Duration delay,
+    Key? key,
+    required Duration delay,
     Curve curve = Curves.linear,
-    @required Duration animationDuration,
-    VoidCallback onEnd,
+    required Duration animationDuration,
+    VoidCallback? onEnd,
     bool alwaysIncludeSemantics = false,
-    @required Widget child,
+    required Widget child,
   }) : super(
           key: key,
           delay: delay,
@@ -65,7 +65,7 @@ class FutureAnimatedOpacity extends StatelessWidget {
   final double finalOpacity;
   final Curve curve;
   final Duration animationDuration;
-  final VoidCallback onEnd;
+  final VoidCallback? onEnd;
   final bool alwaysIncludeSemantics;
   final Widget child;
 
@@ -73,15 +73,15 @@ class FutureAnimatedOpacity extends StatelessWidget {
   ///
   ///
   const FutureAnimatedOpacity({
-    Key key,
-    @required this.delay,
-    @required this.initialOpacity,
-    @required this.finalOpacity,
+    Key? key,
+    required this.delay,
+    required this.initialOpacity,
+    required this.finalOpacity,
     this.curve = Curves.linear,
-    @required this.animationDuration,
+    required this.animationDuration,
     this.onEnd,
     this.alwaysIncludeSemantics = false,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   ///

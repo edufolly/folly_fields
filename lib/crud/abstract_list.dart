@@ -31,14 +31,14 @@ abstract class AbstractList<
     BuildContext context,
     UI uiBuilder,
     C consumer,
-  ) onAdd;
+  )? onAdd;
   final Future<Widget> Function(
     BuildContext context,
     T model,
     UI uiBuilder,
     C consumer,
     bool edit,
-  ) onUpdate;
+  )? onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
@@ -49,7 +49,7 @@ abstract class AbstractList<
     UI uiBuilder,
     C consumer,
     bool edit,
-  ) onLongPress;
+  )? onLongPress;
 
   ///
   ///
@@ -62,16 +62,16 @@ abstract class AbstractList<
   ///
   ///
   const AbstractList({
-    Key key,
-    @required this.selection,
-    @required this.multipleSelection,
+    Key? key,
+    required this.selection,
+    required this.multipleSelection,
     this.invertSelection = false,
     this.forceOffline = false,
-    @required this.consumer,
-    @required this.uiBuilder,
+    required this.consumer,
+    required this.uiBuilder,
     this.onAdd,
     this.onUpdate,
-    this.qsParam,
+    this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
     this.actionRoutes = const <AbstractRoute>[],
@@ -106,8 +106,8 @@ class _AbstractListState<
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-  ScrollController _scrollController;
-  StreamController<bool> _streamController;
+  final ScrollController _scrollController = ScrollController();
+  final StreamController<bool?> _streamController = StreamController<bool?>();
 
   List<T> _globalItems = <T>[];
   bool _loading = false;
@@ -128,17 +128,14 @@ class _AbstractListState<
   void initState() {
     super.initState();
 
-    if (widget.qsParam != null && widget.qsParam.isNotEmpty) {
+    if (widget.qsParam.isNotEmpty) {
       _qsParam.addAll(widget.qsParam);
     }
 
-    _scrollController = ScrollController();
-    _streamController = StreamController<bool>();
-
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
+      if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
-        if (!_loading && _page != null) {
+        if (!_loading && _page >= 0) {
           _loadData(context, clear: false);
         }
       }
@@ -162,14 +159,14 @@ class _AbstractListState<
       _loading = true;
       _streamController.add(false);
 
-      // ignore: unawaited_futures
-      Future<dynamic>.delayed(Duration(milliseconds: 200)).then((_) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          curve: Curves.easeOut,
-          duration: const Duration(milliseconds: 300),
-        );
-      });
+      // // ignore: unawaited_futures
+      // Future<dynamic>.delayed(Duration(milliseconds: 200)).then((_) {
+      //   _scrollController.animateTo(
+      //     _scrollController.position.maxScrollExtent,
+      //     curve: Curves.easeOut,
+      //     duration: const Duration(milliseconds: 300),
+      //   );
+      // });
     }
 
     try {
@@ -193,7 +190,7 @@ class _AbstractListState<
       );
 
       if (result.isEmpty) {
-        _page = null;
+        _page = -1;
       } else {
         _page++;
         _globalItems.addAll(result);
@@ -224,9 +221,9 @@ class _AbstractListState<
   ///
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
+    return StreamBuilder<bool?>(
       stream: _streamController.stream,
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
         if (snapshot.hasError) {
           return Scaffold(
             appBar: AppBar(
@@ -254,11 +251,11 @@ class _AbstractListState<
         if (snapshot.hasData) {
           /// Mostrar o carregando no final da lista.
           int itemCount = _globalItems.length;
-          if (!snapshot.data) {
+          if (!snapshot.data!) {
             itemCount++;
           }
 
-          Widget _fabAdd;
+          Widget? _fabAdd;
 
           List<Widget> _actions = <Widget>[];
 
@@ -275,7 +272,7 @@ class _AbstractListState<
                     if (selections.containsKey(model.id)) {
                       selections.remove(model.id);
                     } else {
-                      selections[model.id] = model;
+                      selections[model.id!] = model;
                     }
                   }
                   setState(() {});
@@ -291,7 +288,7 @@ class _AbstractListState<
                 tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
                 icon: Icon(Icons.search),
                 onPressed: () {
-                  showSearch<T>(
+                  showSearch<T?>(
                     context: context,
                     delegate: InternalSearch<T, UI, C>(
                       buildResultItem: _buildResultItem,
@@ -305,7 +302,7 @@ class _AbstractListState<
                       uiBuilder: widget.uiBuilder,
                       consumer: widget.consumer,
                     ),
-                  ).then((T entity) {
+                  ).then((T? entity) {
                     if (entity != null) {
                       _internalRoute(
                         entity,
@@ -345,7 +342,7 @@ class _AbstractListState<
                       AsyncSnapshot<ConsumerPermission> snapshot,
                     ) {
                       if (snapshot.hasData) {
-                        ConsumerPermission permission = snapshot.data;
+                        ConsumerPermission permission = snapshot.data!;
 
                         return permission.view
                             ? IconButton(
@@ -402,62 +399,66 @@ class _AbstractListState<
                         '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
                         ' até o momento.',
                       )
-                    : ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.all(16.0),
+                    : Scrollbar(
                         controller: _scrollController,
-                        itemBuilder: (BuildContext context, int index) {
-                          /// Atualizando...
-                          if (index >= _globalItems.length) {
-                            return Container(
-                              height: 80,
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-
-                          T model = _globalItems[index];
-
-                          if (_delete &&
-                              FollyFields().isMobile &&
-                              widget.canDelete(model)) {
-                            return Dismissible(
-                              key: Key('key_${model.id}'),
-                              direction: DismissDirection.endToStart,
-                              background: Container(
-                                color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.only(right: 16.0),
-                                child: const FaIcon(
-                                  FontAwesomeIcons.trashAlt,
-                                  color: Colors.white,
+                        isAlwaysShown: FollyFields().isWeb,
+                        child: ListView.separated(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.all(16.0),
+                          controller: _scrollController,
+                          itemBuilder: (BuildContext context, int index) {
+                            /// Atualizando...
+                            if (index >= _globalItems.length) {
+                              return Container(
+                                height: 80,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
                                 ),
-                              ),
-                              confirmDismiss: (DismissDirection direction) =>
-                                  _askDelete(),
-                              onDismissed: (DismissDirection direction) =>
-                                  _deleteEntity(model),
-                              child: _buildResultItem(
+                              );
+                            }
+
+                            T model = _globalItems[index];
+
+                            if (_delete &&
+                                FollyFields().isMobile &&
+                                widget.canDelete(model)) {
+                              return Dismissible(
+                                key: Key('key_${model.id}'),
+                                direction: DismissDirection.endToStart,
+                                background: Container(
+                                  color: Colors.red,
+                                  alignment: Alignment.centerRight,
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: const FaIcon(
+                                    FontAwesomeIcons.trashAlt,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                confirmDismiss: (DismissDirection direction) =>
+                                    _askDelete(),
+                                onDismissed: (DismissDirection direction) =>
+                                    _deleteEntity(model),
+                                child: _buildResultItem(
+                                  model: model,
+                                  selection: selections.containsKey(model.id),
+                                  canDelete: false,
+                                  onTap: null,
+                                ),
+                              );
+                            } else {
+                              return _buildResultItem(
                                 model: model,
                                 selection: selections.containsKey(model.id),
-                                canDelete: false,
+                                canDelete: _delete &&
+                                    FollyFields().isWeb &&
+                                    widget.canDelete(model),
                                 onTap: null,
-                              ),
-                            );
-                          } else {
-                            return _buildResultItem(
-                              model: model,
-                              selection: selections.containsKey(model.id),
-                              canDelete: _delete &&
-                                  FollyFields().isWeb &&
-                                  widget.canDelete(model),
-                              onTap: null,
-                            );
-                          }
-                        },
-                        separatorBuilder: (_, __) => FollyDivider(),
-                        itemCount: itemCount,
+                              );
+                            }
+                          },
+                          separatorBuilder: (_, __) => FollyDivider(),
+                          itemCount: itemCount,
+                        ),
                       ),
               ),
             ),
@@ -484,11 +485,11 @@ class _AbstractListState<
   ///
   ///
   Widget _buildResultItem({
-    T model,
-    bool selection,
-    bool canDelete,
-    Future<void> Function() afterDeleteRefresh,
-    Function onTap,
+    required T model,
+    required bool selection,
+    required bool canDelete,
+    Future<void> Function()? afterDeleteRefresh,
+    Function? onTap,
   }) {
     return ListTile(
       leading: Column(
@@ -520,7 +521,7 @@ class _AbstractListState<
           : Container(width: 1, height: 1),
       onTap: onTap != null
           ? () => onTap(model)
-          : () => _internalRoute(model, !(selection ?? false)),
+          : () => _internalRoute(model, !selection),
       onLongPress:
           widget.onLongPress == null ? null : () => _internalLongPress(model),
     );
@@ -529,7 +530,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _internalLongPress(T model) async => _push(await widget.onLongPress(
+  void _internalLongPress(T model) async => _push(await widget.onLongPress!(
         context,
         model,
         widget.uiBuilder,
@@ -540,7 +541,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _addEntity() async => _push(await widget.onAdd(
+  void _addEntity() async => _push(await widget.onAdd!(
         context,
         widget.uiBuilder,
         widget.consumer,
@@ -553,7 +554,7 @@ class _AbstractListState<
     if (widget.selection) {
       if (widget.multipleSelection) {
         if (selected) {
-          selections[model.id] = model;
+          selections[model.id!] = model;
         } else {
           selections.remove(model.id);
         }
@@ -564,7 +565,7 @@ class _AbstractListState<
         Navigator.of(context).pop(model);
       }
     } else {
-      Widget next = await widget.onUpdate(
+      Widget next = await widget.onUpdate!(
         context,
         model,
         widget.uiBuilder,
@@ -597,7 +598,7 @@ class _AbstractListState<
       bool del = true;
 
       if (ask) {
-        del = await _askDelete();
+        del = await _askDelete() ?? false;
       }
 
       if (del) {
@@ -630,7 +631,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
+  Future<bool?> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
         title: 'Atenção',
         message: 'Deseja excluir?',
@@ -641,16 +642,16 @@ class _AbstractListState<
 ///
 ///
 class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
-    C extends AbstractConsumer<W>> extends SearchDelegate<W> {
+    C extends AbstractConsumer<W>> extends SearchDelegate<W?> {
   final UI uiBuilder;
   final C consumer;
 
   final Widget Function({
-    @required W model,
-    @required bool selection,
-    @required bool canDelete,
-    @required Future<void> Function() afterDeleteRefresh,
-    @required Function(W model) onTap,
+    required W model,
+    required bool selection,
+    required bool canDelete,
+    Future<void> Function()? afterDeleteRefresh,
+    Function(W model)? onTap,
   }) buildResultItem;
 
   final bool Function(W) canDelete;
@@ -658,20 +659,20 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
   final bool forceOffline;
   final int itemsPerPage;
 
-  String _lastQuery;
-  Widget _lastWidget;
+  String? _lastQuery;
+  Widget? _lastWidget;
 
   ///
   ///
   ///
   InternalSearch({
-    @required this.uiBuilder,
-    @required this.consumer,
-    @required this.buildResultItem,
-    @required this.canDelete,
-    @required this.qsParam,
-    @required this.forceOffline,
-    @required this.itemsPerPage,
+    required this.uiBuilder,
+    required this.consumer,
+    required this.buildResultItem,
+    required this.canDelete,
+    required this.qsParam,
+    required this.forceOffline,
+    required this.itemsPerPage,
   });
 
   ///
@@ -728,7 +729,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
     } else {
       Map<String, String> param = <String, String>{};
 
-      if (qsParam != null && qsParam.isNotEmpty) {
+      if (qsParam.isNotEmpty) {
         param.addAll(qsParam);
       }
 
@@ -748,21 +749,21 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
                 builder:
                     (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isNotEmpty) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.all(16.0),
                         itemBuilder: (BuildContext context, int index) {
                           return buildResultItem(
-                            model: snapshot.data[index],
+                            model: snapshot.data![index],
                             selection: false,
-                            canDelete: canDelete(snapshot.data[index]),
+                            canDelete: canDelete(snapshot.data![index]),
                             onTap: (W entity) => close(context, entity),
                             afterDeleteRefresh: () async => query += '%',
                           );
                         },
                         separatorBuilder: (_, __) => FollyDivider(),
-                        itemCount: snapshot.data.length,
+                        itemCount: snapshot.data!.length,
                       );
                     } else {
                       return Center(
@@ -809,13 +810,13 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
       );
     } else {
       if (_lastQuery == query && _lastWidget != null) {
-        return _lastWidget;
+        return _lastWidget!;
       } else {
         Map<String, String> param = <String, String>{};
 
         _lastQuery = query;
 
-        if (qsParam != null && qsParam.isNotEmpty) {
+        if (qsParam.isNotEmpty) {
           param.addAll(qsParam);
         }
 
@@ -833,7 +834,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
                   builder:
                       (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data.isNotEmpty) {
+                      if (snapshot.data!.isNotEmpty) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -850,7 +851,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
                             Expanded(
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
-                                  W model = snapshot.data[index];
+                                  W model = snapshot.data![index];
 
                                   return ListTile(
                                     title: uiBuilder.getSuggestionTitle(model),
@@ -858,12 +859,12 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
                                         uiBuilder.getSuggestionSubtitle(model),
                                     onTap: () {
                                       _lastQuery = model.searchTerm;
-                                      query = _lastQuery;
+                                      query = _lastQuery!;
                                       showResults(context);
                                     },
                                   );
                                 },
-                                itemCount: snapshot.data.length,
+                                itemCount: snapshot.data!.length,
                               ),
                             ),
                           ],
@@ -886,7 +887,7 @@ class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
           ],
         );
 
-        return _lastWidget;
+        return _lastWidget!;
       }
     }
   }

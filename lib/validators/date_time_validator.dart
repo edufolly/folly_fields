@@ -10,19 +10,20 @@ import 'package:intl/intl.dart';
 ///
 class DateTimeValidator extends AbstractValidator<DateTime>
     implements AbstractParser<DateTime> {
-  final DateFormat pattern;
+  final DateFormat dateFormat;
 
   ///
   ///
   ///
   DateTimeValidator({
-    String format,
-    String mask,
-  })  : pattern = DateFormat(format ?? 'dd/MM/yyyy HH:mm'),
+    String format = 'dd/MM/yyyy HH:mm',
+    String locale = 'pt_br',
+    String mask = '##/##/#### A#:C#',
+  })  : dateFormat = DateFormat(format, locale),
         super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
-              mask: mask ?? '##/##/#### A#:C#',
+              mask: mask,
               filter: <String, RegExp>{
                 'A': RegExp(r'[0-2]'),
                 'C': RegExp(r'[0-5]'),
@@ -36,7 +37,7 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  String format(DateTime value) => value == null ? '' : pattern.format(value);
+  String format(DateTime value) => dateFormat.format(value);
 
   ///
   ///
@@ -60,18 +61,32 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  DateTime parse(String text) => isValid(text) ? pattern.parse(text) : null;
+  DateTime? parse(String? text) {
+    if (text == null || text.isEmpty) {
+      return null;
+    } else {
+      try {
+        return dateFormat.parse(text);
+      } catch (e) {
+        return null;
+      }
+    }
+  }
 
   ///
   ///
   ///
   @override
-  String valid(String value) {
-    if (value == null || value.isEmpty) return 'Data e Hora inválidas.';
+  String? valid(String value) {
+    if (value.isEmpty) {
+      return 'Data e Hora inválidas.';
+    }
 
     List<String> p = value.split(' ');
 
-    if (p.length != 2) return 'Partes da Data e Hora inválidas.';
+    if (p.length != 2) {
+      return 'Partes da Data e Hora inválidas.';
+    }
 
     return FollyUtils.validDate(p.first) ?? FollyUtils.validTime(p.last);
   }

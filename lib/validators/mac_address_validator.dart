@@ -37,19 +37,18 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  String strip(String value) =>
-      (value ?? '').replaceAll(RegExp(r'[^A-F0-9]'), '');
+  String strip(String value) => value.replaceAll(RegExp(r'[^A-F0-9]'), '');
 
   ///
   ///
   ///
   @override
   bool isValid(String value) {
-    if (value == null || value.isEmpty || value.length != 17) return false;
+    if (value.isEmpty || value.length != 17) return false;
 
     value = strip(value);
 
-    if (value == null || value.isEmpty || value.length != 12) return false;
+    if (value.isEmpty || value.length != 12) return false;
 
     return !value.contains(RegExp(r'[^A-F0-9]'));
   }

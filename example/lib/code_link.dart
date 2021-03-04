@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
+// import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///
@@ -17,11 +17,11 @@ class CodeLink extends StatelessWidget {
   ///
   ///
   const CodeLink({
-    Key key,
-    @required this.code,
-    @required this.tag,
-    @required this.source,
-    @required this.child,
+    Key? key,
+    required this.code,
+    required this.tag,
+    required this.source,
+    required this.child,
   }) : super(key: key);
 
   ///
@@ -54,8 +54,8 @@ class CodeLink extends StatelessWidget {
   ///
   void _showCode(BuildContext context) {
     String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
-        .firstMatch(code)
-        .group(1)
+        .firstMatch(code)!
+        .group(1)!
         .replaceAll('              ', '')
         .trim();
 
@@ -71,12 +71,13 @@ class CodeLink extends StatelessWidget {
               padding: EdgeInsets.all(12.0),
               color: Colors.black38,
               child: SingleChildScrollView(
-                child: HighlightView(
-                  example,
-                  language: 'dart',
-                  theme: myTheme,
-                  textStyle: GoogleFonts.firaMono(fontSize: 14.0),
-                ),
+                child: Text(example),
+                // child: HighlightView(
+                //   example,
+                //   language: 'dart',
+                //   theme: myTheme,
+                //   textStyle: GoogleFonts.firaMono(fontSize: 14.0),
+                // ),
               ),
             ),
           ),

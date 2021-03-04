@@ -1,4 +1,3 @@
-// @dart=2.9
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
@@ -91,7 +90,7 @@ class MyHomePage extends StatefulWidget {
   ///
   ///
   ///
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   ///
   ///
@@ -162,13 +161,13 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         child: FutureBuilder<Response>(
-          future: get('https://raw.githubusercontent.com/edufolly/folly_fields'
-              '/main/example/lib/main.dart'),
+          future: get(Uri.parse('https://raw.githubusercontent.com/edufolly'
+              '/folly_fields/main/example/lib/main.dart')),
           builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
             if (snapshot.hasData) {
               // TODO - Test status code.
 
-              String code = snapshot.data.body;
+              String code = snapshot.data!.body;
 
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(24.0),
@@ -228,11 +227,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Texto*',
                           enabled: edit,
                           initialValue: model.text,
-                          validator: (String value) =>
+                          validator: (String? value) =>
                               value == null || value.isEmpty
                                   ? 'O campo texto precisa ser informado.'
                                   : null,
-                          onSaved: (String value) => model.text = value,
+                          onSaved: (String? value) => model.text = value!,
                         ),
                         // [/StringField]
                       ),
@@ -249,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'E-mail*',
                           enabled: edit,
                           initialValue: model.email,
-                          onSaved: (String value) => model.email = value,
+                          onSaved: (String? value) => model.email = value,
                         ),
                         // [/EmailField]
                       ),
@@ -265,12 +264,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           prefix: prefix,
                           label: 'Senha*',
                           enabled: edit,
-                          initialValue: model.password,
-                          validator: (String value) =>
+                          // initialValue: model.password,
+                          validator: (String? value) =>
                               value == null || value.isEmpty
                                   ? 'O campo senha precisa ser informado.'
                                   : null,
-                          onSaved: (String value) => model.password = value,
+                          onSaved: (String? value) => model.password = value,
                         ),
                         // [/PasswordField]
                       ),
@@ -287,7 +286,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Decimal*',
                           enabled: edit,
                           initialValue: model.decimal,
-                          onSaved: (Decimal value) => model.decimal = value,
+                          // TODO - Decimal not null.
+                          onSaved: (Decimal? value) => model.decimal = value,
                         ),
                         // [/DecimalField]
                       ),
@@ -304,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Integer*',
                           enabled: edit,
                           initialValue: model.integer,
-                          onSaved: (int value) => model.integer = value,
+                          onSaved: (int? value) => model.integer = value,
                         ),
                         // [/IntegerField]
                       ),
@@ -321,7 +321,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CPF*',
                           enabled: edit,
                           initialValue: model.cpf,
-                          onSaved: (String value) => model.cpf = value,
+                          required: true,
+                          onSaved: (String? value) => model.cpf = value,
                         ),
                         // [/CpfField]
                       ),
@@ -338,7 +339,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CNPJ*',
                           enabled: edit,
                           initialValue: model.cnpj,
-                          onSaved: (String value) => model.cnpj = value,
+                          required: true,
+                          onSaved: (String? value) => model.cnpj = value,
                         ),
                         // [/CnpjField]
                       ),
@@ -355,7 +357,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CPF ou CNPJ*',
                           enabled: edit,
                           initialValue: model.document,
-                          onSaved: (String value) => model.document = value,
+                          required: true,
+                          onSaved: (String? value) => model.document = value,
                         ),
                         // [/CpfCnpjField]
                       ),
@@ -372,7 +375,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Telefone*',
                           enabled: edit,
                           initialValue: model.phone,
-                          onSaved: (String value) => model.phone = value,
+                          onSaved: (String? value) => model.phone = value,
                         ),
                         // [/PhoneField]
                       ),
@@ -389,7 +392,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Telefone sem DDD*',
                           enabled: edit,
                           initialValue: model.localPhone,
-                          onSaved: (String value) => model.localPhone = value,
+                          required: true,
+                          onSaved: (String? value) => model.localPhone = value,
                         ),
                         // [/LocalPhoneField]
                       ),
@@ -406,7 +410,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Data e Hora*',
                           enabled: edit,
                           initialValue: model.dateTime,
-                          onSaved: (DateTime value) => model.dateTime = value,
+                          required: true,
+                          onSaved: (DateTime? value) => model.dateTime = value,
                         ),
                         // [/DateTimeField]
                       ),
@@ -423,7 +428,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Data*',
                           enabled: edit,
                           initialValue: model.date,
-                          onSaved: (DateTime value) => model.date = value,
+                          required: true,
+                          onSaved: (DateTime? value) => model.date = value,
                         ),
                         // [/DateField]
                       ),
@@ -440,7 +446,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Hora*',
                           enabled: edit,
                           initialValue: model.time,
-                          onSaved: (TimeOfDay value) => model.time = value,
+                          required: true,
+                          onSaved: (TimeOfDay? value) => model.time = value,
                         ),
                         // [/TimeField]
                       ),
@@ -457,7 +464,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Mac Address*',
                           enabled: edit,
                           initialValue: model.macAddress,
-                          onSaved: (String value) => model.macAddress = value,
+                          required: true,
+                          onSaved: (String? value) => model.macAddress = value,
                         ),
                         // [/MacAddressField]
                       ),
@@ -474,7 +482,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'NCM*',
                           enabled: edit,
                           initialValue: model.ncm,
-                          onSaved: (String value) => model.ncm = value,
+                          required: true,
+                          onSaved: (String? value) => model.ncm = value,
                         ),
                         // [/NcmField]
                       ),
@@ -491,7 +500,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CEP*',
                           enabled: edit,
                           initialValue: model.cep,
-                          onSaved: (String value) => model.cep = value,
+                          required: true,
+                          onSaved: (String? value) => model.cep = value,
                         ),
                         // [/CepField]
                       ),
@@ -508,10 +518,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Campo Boleano',
                           enabled: edit,
                           initialValue: model.active,
-                          validator: (bool value) => !value
+                          // TODO - Não ser null.
+                          validator: (bool? value) => !(value ?? false)
                               ? 'Para testes, este campo deve ser sempre verdadeiro.'
                               : null,
-                          onSaved: (bool value) => model.active = value,
+                          onSaved: (bool? value) =>
+                              model.active = value ?? false,
                         ),
                         // [/BoolField]
                       ),
@@ -529,9 +541,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           enabled: edit,
                           icons: IconHelper.data,
                           initialValue: model.icon,
-                          validator: (IconData iconData) =>
+                          validator: (IconData? iconData) =>
                               iconData == null ? 'Selecione um ícone' : null,
-                          onSaved: (IconData iconData) => model.icon = iconData,
+                          onSaved: (IconData? iconData) =>
+                              model.icon = iconData,
                         ),
                         // [/IconDataField]
                       ),
@@ -549,9 +562,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           enabled: edit,
                           items: ExampleModel.colors,
                           initialValue: model.color,
-                          validator: (Color value) =>
+                          validator: (Color? value) =>
                               value == null ? 'Selecione uma cor.' : null,
-                          onSaved: (Color value) => model.color = value,
+                          onSaved: (Color? value) => model.color = value,
                         ),
                         // [/DropdownField]
                       ),
@@ -608,8 +621,8 @@ class _MyHomePageState extends State<MyHomePage> {
   ///
   ///
   void _send() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       print(model.toMap());
 

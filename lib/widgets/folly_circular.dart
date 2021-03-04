@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 ///
 ///
 class FollyCircular extends StatelessWidget {
-  final Color color;
+  final Color? color;
   final double size;
 
   ///
   ///
   ///
   const FollyCircular({
-    Key key,
+    Key? key,
     this.color,
     this.size = 16.0,
   }) : super(key: key);

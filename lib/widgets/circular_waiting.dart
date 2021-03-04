@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 ///
 class CircularWaiting {
   final BuildContext context;
+  final StreamController<Map<String, dynamic>> _streamController =
+      StreamController<Map<String, dynamic>>();
+
   String message;
-  double value;
+  double? value;
   bool closeable;
-  StreamController<Map<String, dynamic>> _streamController;
   bool _show = false;
 
   ///
@@ -21,7 +23,6 @@ class CircularWaiting {
     this.message = 'Aguarde',
     this.closeable = false,
   }) {
-    _streamController = StreamController<Map<String, dynamic>>();
     _streamController.add(<String, dynamic>{
       'message': message,
       'value': value,
@@ -32,7 +33,6 @@ class CircularWaiting {
   ///
   ///
   void show() async {
-    if (context == null) return;
     _show = true;
     await showDialog(
       context: context,
@@ -46,11 +46,11 @@ class CircularWaiting {
               BuildContext context,
               AsyncSnapshot<Map<String, dynamic>> snapshot,
             ) {
-              String msg;
-              double dbl;
+              String msg = message;
+              double? dbl;
               if (snapshot.hasData) {
-                msg = snapshot.data['message'];
-                dbl = snapshot.data['value'];
+                msg = snapshot.data!['message'];
+                dbl = snapshot.data!['value'];
               }
 
               return Padding(
@@ -65,7 +65,7 @@ class CircularWaiting {
                     Padding(
                       padding: EdgeInsets.only(top: 12.0),
                       child: Text(
-                        msg ?? '',
+                        msg,
                         style: TextStyle(
                           fontSize: 20.0,
                           color: Colors.black,
@@ -89,7 +89,7 @@ class CircularWaiting {
     if (_show) {
       _show = false;
       closeable = true;
-      if (context != null) Navigator.of(context).pop();
+      Navigator.of(context).pop();
     }
   }
 

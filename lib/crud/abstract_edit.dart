@@ -1,3 +1,5 @@
+
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -19,7 +21,7 @@ abstract class AbstractEdit<
     C extends AbstractConsumer<T>> extends StatefulWidget {
   final T model;
   final UI uiBuilder;
-  final C consumer;
+  final C? consumer;
   final bool edit;
 
   ///
@@ -30,7 +32,7 @@ abstract class AbstractEdit<
     this.uiBuilder,
     this.consumer,
     this.edit, {
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -92,10 +94,10 @@ class _AbstractEditState<
     C extends AbstractConsumer<T>> extends State<AbstractEdit<T, UI, C>> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  StreamController<bool> _controller;
-  Map<String, dynamic> _stateInjection;
-  T _model;
-  int _initialHash;
+  final StreamController<bool> _controller = StreamController<bool>();
+  Map<String, dynamic> _stateInjection = <String, dynamic>{};
+  T? _model;
+  int? _initialHash;
 
   ///
   ///
@@ -103,7 +105,6 @@ class _AbstractEditState<
   @override
   void initState() {
     super.initState();
-    _controller = StreamController<bool>();
     _loadData();
   }
 
@@ -115,12 +116,12 @@ class _AbstractEditState<
       bool exists = true;
       if (widget.model.id == null || widget.consumer == null) {
         Map<String, dynamic> copy = widget.model.toMap();
-        _model = widget.model.fromJson(copy);
+        _model = (widget.model.fromJson(copy) as T);
       } else {
-        _model = await widget.consumer.getById(context, widget.model);
+        _model = await widget.consumer?.getById(context, widget.model);
       }
 
-      _stateInjection = await widget.stateInjection(context, _model);
+      _stateInjection = await widget.stateInjection(context, _model!);
 
       _controller.add(exists);
 
@@ -139,17 +140,17 @@ class _AbstractEditState<
       onWillPop: () async {
         if (!widget.edit) return true;
 
-        _formKey.currentState.save();
+        _formKey.currentState!.save();
         int currentHash = _model.hashCode;
 
         bool go = true;
         if (_initialHash != currentHash) {
-          go = await FollyDialogs.yesNoDialog(
+          go = (await FollyDialogs.yesNoDialog(
             context: context,
             title: 'Atenção',
             message: 'Modificações foram realizadas.\n\n'
                 'Deseja sair mesmo assim?',
-          );
+          )?? false);
         }
         return go;
       },
@@ -186,7 +187,7 @@ class _AbstractEditState<
                     child: Column(
                       children: widget.formContent(
                         context,
-                        _model,
+                        _model!,
                         widget.edit,
                         _stateInjection,
                         widget.uiBuilder.prefix,
@@ -226,16 +227,16 @@ class _AbstractEditState<
   void _save() async {
     CircularWaiting wait = CircularWaiting(context);
     try {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
 
         bool ok = true;
 
         if (widget.consumer != null) {
-          ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
+          ok = await widget.consumer!.beforeSaveOrUpdate(context, _model!);
           if (ok) {
             wait.show();
-            ok = await widget.consumer.saveOrUpdate(context, _model);
+            ok = await widget.consumer!.saveOrUpdate(context, _model!);
             wait.close();
           }
         }

@@ -14,7 +14,7 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   @override
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
-    List<String> paths,
+    List<String>? paths,
   ) =>
       Future<ConsumerPermission>.value(
         ConsumerPermission(
@@ -39,11 +39,12 @@ abstract class BaseConsumerMock<T extends AbstractModel>
   ) async {
     print('mock list: $qsParam');
 
-    int first = int.tryParse(qsParam['f'] ?? '0');
-    int qtd = int.tryParse(qsParam['q'] ?? '50');
+    int first = int.tryParse(qsParam['f'] ?? '0') ?? 0;
+    int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
 
-    return Future<List<T>>.value(
-      List<T>.generate(
+    return Future<List<T>>.delayed(
+      Duration(seconds: 2),
+      () => List<T>.generate(
         qtd,
         (int index) => (ExampleModel.generate(seed: first + index) as T),
       ),
@@ -58,7 +59,7 @@ abstract class BaseConsumerMock<T extends AbstractModel>
     BuildContext context,
     Map<String, String> qsParam,
   ) async =>
-      null;
+      <T, String>{};
 
   ///
   ///

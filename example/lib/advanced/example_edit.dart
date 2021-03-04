@@ -36,7 +36,7 @@ class ExampleEdit
     ExampleBuilder uiBuilder,
     ExampleConsumer consumer,
     bool edit, {
-    Key key,
+    Key? key,
   }) : super(model, uiBuilder, consumer, edit, key: key);
 
   ///
@@ -58,10 +58,10 @@ class ExampleEdit
         label: 'Texto*',
         enabled: edit,
         initialValue: model.text,
-        validator: (String value) => value == null || value.isEmpty
+        validator: (String? value) => value == null || value.isEmpty
             ? 'O campo texto precisa ser informado.'
             : null,
-        onSaved: (String value) => model.text = value,
+        onSaved: (String? value) => model.text = value,
       ),
 
       /// E-mail
@@ -70,7 +70,7 @@ class ExampleEdit
         label: 'E-mail*',
         enabled: edit,
         initialValue: model.email,
-        onSaved: (String value) => model.email = value,
+        onSaved: (String? value) => model.email = value,
       ),
 
       /// Senha
@@ -78,11 +78,10 @@ class ExampleEdit
         prefix: prefix,
         label: 'Senha*',
         enabled: edit,
-        initialValue: model.password,
-        validator: (String value) => value == null || value.isEmpty
+        validator: (String? value) => value == null || value.isEmpty
             ? 'O campo senha precisa ser informado.'
             : null,
-        onSaved: (String value) => model.password = value,
+        onSaved: (String? value) => model.password = value,
       ),
 
       /// Decimal
@@ -91,7 +90,7 @@ class ExampleEdit
         label: 'Decimal*',
         enabled: edit,
         initialValue: model.decimal,
-        onSaved: (Decimal value) => model.decimal = value,
+        onSaved: (Decimal? value) => model.decimal = value,
       ),
 
       /// Integer
@@ -100,7 +99,7 @@ class ExampleEdit
         label: 'Integer*',
         enabled: edit,
         initialValue: model.integer,
-        onSaved: (int value) => model.integer = value,
+        onSaved: (int? value) => model.integer = value,
       ),
 
       /// CPF
@@ -109,7 +108,7 @@ class ExampleEdit
         label: 'CPF*',
         enabled: edit,
         initialValue: model.cpf,
-        onSaved: (String value) => model.cpf = value,
+        onSaved: (String? value) => model.cpf = value,
       ),
 
       /// CNPJ
@@ -118,7 +117,7 @@ class ExampleEdit
         label: 'CNPJ*',
         enabled: edit,
         initialValue: model.cnpj,
-        onSaved: (String value) => model.cnpj = value,
+        onSaved: (String? value) => model.cnpj = value,
       ),
 
       /// CPF ou CNPJ
@@ -127,7 +126,7 @@ class ExampleEdit
         label: 'CPF ou CNPJ*',
         enabled: edit,
         initialValue: model.document,
-        onSaved: (String value) => model.document = value,
+        onSaved: (String? value) => model.document = value,
       ),
 
       /// Telefone
@@ -136,7 +135,7 @@ class ExampleEdit
         label: 'Telefone*',
         enabled: edit,
         initialValue: model.phone,
-        onSaved: (String value) => model.phone = value,
+        onSaved: (String? value) => model.phone = value,
       ),
 
       /// Telefone sem DDD
@@ -145,7 +144,7 @@ class ExampleEdit
         label: 'Telefone sem DDD*',
         enabled: edit,
         initialValue: model.localPhone,
-        onSaved: (String value) => model.localPhone = value,
+        onSaved: (String? value) => model.localPhone = value,
       ),
 
       /// Data
@@ -154,7 +153,7 @@ class ExampleEdit
         label: 'Data*',
         enabled: edit,
         initialValue: model.date,
-        onSaved: (DateTime value) => model.date = value,
+        onSaved: (DateTime? value) => model.date = value,
       ),
 
       /// Hora
@@ -163,7 +162,7 @@ class ExampleEdit
         label: 'Hora*',
         enabled: edit,
         initialValue: model.time,
-        onSaved: (TimeOfDay value) => model.time = value,
+        onSaved: (TimeOfDay? value) => model.time = value,
       ),
 
       /// Mac Address
@@ -172,7 +171,7 @@ class ExampleEdit
         label: 'Mac Address*',
         enabled: edit,
         initialValue: model.macAddress,
-        onSaved: (String value) => model.macAddress = value,
+        onSaved: (String? value) => model.macAddress = value,
       ),
 
       /// Ncm
@@ -181,7 +180,7 @@ class ExampleEdit
         label: 'NCM*',
         enabled: edit,
         initialValue: model.ncm,
-        onSaved: (String value) => model.ncm = value,
+        onSaved: (String? value) => model.ncm = value,
       ),
 
       /// CEP
@@ -190,7 +189,7 @@ class ExampleEdit
         label: 'CEP*',
         enabled: edit,
         initialValue: model.cep,
-        onSaved: (String value) => model.cep = value,
+        onSaved: (String? value) => model.cep = value,
       ),
 
       /// Bool
@@ -199,10 +198,10 @@ class ExampleEdit
         label: 'Campo Boleano',
         enabled: edit,
         initialValue: model.active,
-        validator: (bool value) => !value
+        validator: (bool? value) => !(value ?? false)
             ? 'Para testes, este campo deve ser sempre verdadeiro.'
             : null,
-        onSaved: (bool value) => model.active = value,
+        onSaved: (bool? value) => model.active = value,
       ),
 
       /// Dropdown
@@ -212,8 +211,9 @@ class ExampleEdit
         enabled: edit,
         items: ExampleModel.colors,
         initialValue: model.color,
-        validator: (Color value) => value == null ? 'Selecione uma cor.' : null,
-        onSaved: (Color value) => model.color = value,
+        validator: (Color? value) =>
+            value == null ? 'Selecione uma cor.' : null,
+        onSaved: (Color? value) => model.color = value,
       ),
     ];
   }

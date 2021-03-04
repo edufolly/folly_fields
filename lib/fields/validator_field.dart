@@ -11,24 +11,24 @@ class ValidatorField extends StringField {
   ///
   ///
   ValidatorField({
-    Key key,
-    @required AbstractValidator<String> abstractValidator,
-    @required String validatorMessage,
-    String prefix,
-    String label,
-    TextEditingController controller,
-    FormFieldValidator<String> validator,
-    List<TextInputFormatter> inputFormatter,
+    Key? key,
+    required AbstractValidator<String> abstractValidator,
+    required String validatorMessage,
+    String prefix = '',
+    String label = '',
+    TextEditingController? controller,
+    FormFieldValidator<String>? validator,
+    List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
-    int maxLength,
-    FormFieldSetter<String> onSaved,
-    String initialValue,
+    int? maxLength,
+    FormFieldSetter<String>? onSaved,
+    String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    ValueChanged<String> onChanged,
-    FocusNode focusNode,
-    TextInputAction textInputAction,
-    ValueChanged<String> onFieldSubmitted,
+    ValueChanged<String>? onChanged,
+    FocusNode? focusNode,
+    TextInputAction? textInputAction,
+    ValueChanged<String>? onFieldSubmitted,
     bool autocorrect = false,
     bool enableSuggestions = false,
     TextCapitalization textCapitalization = TextCapitalization.none,
@@ -36,19 +36,19 @@ class ValidatorField extends StringField {
     bool enableInteractiveSelection = true,
     bool filled = false,
     bool required = true,
-    Iterable<String> autofillHints,
+    Iterable<String>? autofillHints,
   }) : super(
           key: key,
           prefix: prefix,
           label: label,
           controller: controller,
-          keyboard: abstractValidator.keyboard ?? TextInputType.text,
-          validator: (String value) {
+          keyboard: abstractValidator.keyboard,
+          validator: (String? value) {
             if (!required && (value == null || value.isEmpty)) {
               return null;
             }
 
-            if (!abstractValidator.isValid(value)) {
+            if (value == null || !abstractValidator.isValid(value)) {
               return validatorMessage;
             }
 
@@ -67,14 +67,16 @@ class ValidatorField extends StringField {
           ],
           textAlign: textAlign,
           maxLength: maxLength,
-          onSaved: (String value) {
+          onSaved: (String? value) {
             if (onSaved != null) {
-              if (abstractValidator.strip != null) {
+              if (value != null) {
                 value = abstractValidator.strip(value);
               }
-              if (!required && value.isEmpty) {
+
+              if (!required && value != null && value.isEmpty) {
                 value = null;
               }
+
               onSaved(value);
             }
           },

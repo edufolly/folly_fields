@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 
@@ -18,17 +20,17 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
-  String get offlineTableName => null;
+  String? get offlineTableName => null;
 
   ///
   ///
   ///
-  String get offlineWhere => null;
+  String? get offlineWhere => null;
 
   ///
   ///
   ///
-  List<dynamic> get offlineWhereArgs => null;
+  List<dynamic>? get offlineWhereArgs => null;
 
   ///
   ///
@@ -45,7 +47,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
-    List<String> paths,
+    List<String>? paths,
   );
 
   ///
@@ -126,7 +128,7 @@ class ConsumerPermission {
     this.update = false,
     this.delete = false,
     this.iconName = 'solidCircle',
-    this.name,
+    required this.name,
   });
 
   ///

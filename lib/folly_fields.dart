@@ -1,4 +1,3 @@
-// @dart=2.9
 library folly_fields;
 
 import 'dart:io';
@@ -73,7 +72,7 @@ class FollyFields implements _InternalConfig {
   static void start(AbstractConfig holder, {bool debug = false}) =>
       FollyFields()._holder = holder.._start(debug: debug);
 
-  AbstractConfig _holder;
+  AbstractConfig? _holder;
 
   ///
   ///
@@ -91,37 +90,37 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get isDebug => _holder.isDebug;
+  bool get isDebug => _holder!.isDebug;
 
   ///
   ///
   ///
   @override
-  bool get isMobile => _holder.isMobile;
+  bool get isMobile => _holder!.isMobile;
 
   ///
   ///
   ///
   @override
-  bool get isOffline => _holder.isOffline;
+  bool get isOffline => _holder!.isOffline;
 
   ///
   ///
   ///
   @override
-  bool get isOnline => _holder.isOnline;
+  bool get isOnline => _holder!.isOnline;
 
   ///
   ///
   ///
   @override
-  bool get isWeb => _holder.isWeb;
+  bool get isWeb => _holder!.isWeb;
 
   ///
   ///
   ///
   @override
-  String get platform => _holder.platform;
+  String get platform => _holder!.platform;
 }
 
 ///

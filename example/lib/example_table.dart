@@ -72,38 +72,38 @@ class _ExampleTableState extends State<ExampleTable> {
             ExampleModel model = list[row];
             switch (col) {
               case 0:
-                return FollyCell.text(model.text);
+                return FollyCell.text(model.text!);
 
               case 1:
-                return FollyCell.text(model.email);
+                return FollyCell.text(model.email!);
 
               case 2:
                 return FollyCell.text(
-                  cpfValidator.format(model.cpf),
+                  cpfValidator.format(model.cpf!),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
                 );
 
               case 3:
                 return FollyCell.text(
-                  cnpjValidator.format(model.cnpj),
+                  cnpjValidator.format(model.cnpj!),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
                 );
 
               case 4:
-                return FollyCell.number(model.decimal.value);
+                return FollyCell.number(model.decimal!.value);
 
               case 5:
                 return FollyCell.text(
-                  phoneValidator.format(model.phone),
+                  phoneValidator.format(model.phone!),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
                 );
 
               case 6:
                 return FollyCell.text(
-                  macAddressValidator.format(model.macAddress),
+                  macAddressValidator.format(model.macAddress!),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
                 );
@@ -116,7 +116,7 @@ class _ExampleTableState extends State<ExampleTable> {
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(
                 list[row],
-                ExampleBuilder(null),
+                ExampleBuilder(),
                 ExampleConsumer(),
                 false,
               ),

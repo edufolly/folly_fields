@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 ///
 ///
 abstract class AbstractValidator<T> {
-  final List<TextInputFormatter> inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
 
   ///
   ///
   ///
-  AbstractValidator(this.inputFormatters);
+  AbstractValidator([this.inputFormatters]);
 
   ///
   ///
@@ -20,7 +20,7 @@ abstract class AbstractValidator<T> {
   ///
   ///
   ///
-  String strip(String value) => (value ?? '').replaceAll(RegExp(r'[^\d]'), '');
+  String strip(String value) => value.replaceAll(RegExp(r'[^\d]'), '');
 
   ///
   ///
@@ -40,10 +40,10 @@ abstract class AbstractParser<T> {
   ///
   ///
   ///
-  T parse(String value);
+  T? parse(String? value);
 
   ///
   ///
   ///
-  String valid(String value);
+  String? valid(String value);
 }

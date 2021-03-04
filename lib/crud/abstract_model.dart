@@ -1,12 +1,14 @@
+
+
 import 'package:folly_fields/util/hashable.dart';
 
 ///
 ///
 ///
 abstract class AbstractModel with Hashable {
-  int id;
-  int updatedAt;
-  int deletedAt;
+  int? id;
+  int? updatedAt;
+  int? deletedAt;
   bool selected = false;
 
   ///

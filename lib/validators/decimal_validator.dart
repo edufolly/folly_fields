@@ -41,10 +41,8 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   ///
   @override
-  String format(Decimal value) {
-    if (value == null) return '';
-
-    List<String> textRepresentation = value.value
+  String format(Decimal decimal) {
+    List<String> textRepresentation = decimal.value
         .toStringAsFixed(precision)
         .replaceAll('.', '')
         .split('')
@@ -102,8 +100,9 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   ///
   @override
-  Decimal parse(String text) {
-    bool hasNoValue = text.isEmpty ||
+  Decimal? parse(String? text) {
+    bool hasNoValue = text == null ||
+        text.isEmpty ||
         (text.length <= (rightSymbol.length + leftSymbol.length));
 
     Decimal decimal = Decimal(precision: precision);
@@ -133,5 +132,5 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   ///
   @override
-  String valid(String value) => null;
+  String? valid(String value) => null;
 }

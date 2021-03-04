@@ -5,32 +5,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ModelField<T extends AbstractModel> extends FormField<T> {
-  final ModelEditingController<T> controller;
+class ModelField<T extends AbstractModel> extends FormField<T?> {
+  final ModelEditingController<T>? controller;
 
   ///
   ///
   ///
   ModelField({
-    Key key,
-    String prefix,
-    String label,
+    Key? key,
+    String prefix = '',
+    String label = '',
     this.controller,
-    FormFieldValidator<T> validator,
+    FormFieldValidator<T>? validator,
     TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<T> onSaved,
-    T initialValue,
+    FormFieldSetter<T>? onSaved,
+    T? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO - onChanged
-    TextInputAction textInputAction,
-    ValueChanged<String> onFieldSubmitted,
+    TextInputAction? textInputAction,
+    ValueChanged<String>? onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool filled = false,
-    Widget Function(BuildContext context) routeBuilder,
-    Future<bool> Function(BuildContext context, T model) beforeRoute,
-    Future<bool> Function(T model) acceptChange,
-    Function(T model) tapToVisualize,
+    Widget Function(BuildContext context)? routeBuilder,
+    Future<bool> Function(BuildContext context, T? model)? beforeRoute,
+    Future<bool> Function(T? model)? acceptChange,
+    Function(T model)? tapToVisualize,
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -39,16 +39,13 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
           validator: enabled ? validator : (_) => null,
           enabled: enabled,
           autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<T> field) {
-            final _ModelFieldState<T> state =
-                field as _ModelFieldState<T>;
+          builder: (FormFieldState<T?> field) {
+            final _ModelFieldState<T> state = field as _ModelFieldState<T>;
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
-              labelText: prefix == null || prefix.isEmpty
-                  ? label
-                  : '$prefix - $label',
+              labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               suffixIcon: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +92,7 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
                             if (!go) return;
                           }
 
-                          T selected = await Navigator.of(state.context).push(
+                          T? selected = await Navigator.of(state.context).push(
                             MaterialPageRoute<T>(
                               builder: routeBuilder,
                             ),
@@ -120,7 +117,7 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
                         ? () => Navigator.of(state.context).push(
                               MaterialPageRoute<dynamic>(
                                 builder: (BuildContext context) =>
-                                    tapToVisualize(state.value),
+                                    tapToVisualize(state.value!),
                               ),
                             )
                         : null,
@@ -139,8 +136,8 @@ class ModelField<T extends AbstractModel> extends FormField<T> {
 ///
 ///
 ///
-class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
-  ModelEditingController<T> _controller;
+class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
+  ModelEditingController<T>? _controller;
 
   ///
   ///
@@ -152,7 +149,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
   ///
   ///
   ModelEditingController<T> get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
@@ -163,7 +160,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
     if (widget.controller == null) {
       _controller = ModelEditingController<T>(model: widget.initialValue);
     } else {
-      widget.controller.addListener(_handleControllerChanged);
+      widget.controller!.addListener(_handleControllerChanged);
     }
   }
 
@@ -180,12 +177,12 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
 
       if (oldWidget.controller != null && widget.controller == null) {
         _controller = ModelEditingController<T>(
-          model: oldWidget.controller.model,
+          model: oldWidget.controller!.model,
         );
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.model);
+        setValue(widget.controller!.model);
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -207,7 +204,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
   ///
   ///
   @override
-  void didChange(T value) {
+  void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.model != value) {
       _effectiveController.model = value;
@@ -238,24 +235,24 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T> {
 ///
 class ModelEditingController<T extends AbstractModel>
     extends TextEditingController {
-  T _model;
+  T? _model;
 
   ///
   ///
   ///
-  ModelEditingController({T model})
+  ModelEditingController({T? model})
       : _model = model,
         super(text: (model ?? '').toString());
 
   ///
   ///
   ///
-  T get model => _model;
+  T? get model => _model;
 
   ///
   ///
   ///
-  set model(T model) {
+  set model(T? model) {
     value = TextEditingValue(
       text: (model ?? '').toString(),
     );

@@ -9,29 +9,29 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TimeField extends StatefulWidget {
   final String prefix;
   final String label;
-  final TimeEditingController controller;
-  final FormFieldValidator<TimeOfDay> validator;
+  final TimeEditingController? controller;
+  final FormFieldValidator<TimeOfDay>? validator;
   final TextAlign textAlign;
-  final FormFieldSetter<TimeOfDay> onSaved;
-  final TimeOfDay initialValue;
+  final FormFieldSetter<TimeOfDay>? onSaved;
+  final TimeOfDay? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
-  final void Function(TimeOfDay) lostFocus;
+  final void Function(TimeOfDay?)? lostFocus;
   final bool required;
 
   ///
   ///
   ///
   TimeField({
-    Key key,
-    this.prefix,
-    this.label,
+    Key? key,
+    this.prefix = '',
+    this.label = '',
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
@@ -62,19 +62,19 @@ class TimeField extends StatefulWidget {
 class _TimeFieldState extends State<TimeField> {
   final TimeValidator validator = TimeValidator();
 
-  TimeEditingController _controller;
-  FocusNode _focusNode;
+  TimeEditingController? _controller;
+  FocusNode? _focusNode;
 
   ///
   ///
   ///
   TimeEditingController get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
   ///
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
   ///
   ///
@@ -105,7 +105,7 @@ class _TimeFieldState extends State<TimeField> {
     }
 
     if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus(_effectiveController.time);
+      widget.lostFocus!(_effectiveController.time);
     }
   }
 
@@ -116,8 +116,8 @@ class _TimeFieldState extends State<TimeField> {
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
 
-    if (_controller != null) _controller.dispose();
-    if (_focusNode != null) _focusNode.dispose();
+    _controller?.dispose();
+    _focusNode?.dispose();
 
     super.dispose();
   }
@@ -130,7 +130,7 @@ class _TimeFieldState extends State<TimeField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
-      labelText: widget.prefix == null || widget.prefix.isEmpty
+      labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',
       counterText: '',
@@ -138,7 +138,7 @@ class _TimeFieldState extends State<TimeField> {
         icon: Icon(FontAwesomeIcons.clock),
         onPressed: () async {
           try {
-            TimeOfDay selectedTime = await showTimePicker(
+            TimeOfDay? selectedTime = await showTimePicker(
               context: context,
               initialTime: _effectiveController.time ?? TimeOfDay.now(),
             );
@@ -160,17 +160,17 @@ class _TimeFieldState extends State<TimeField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) {
+            ? (String? value) {
                 if (!widget.required && (value == null || value.isEmpty)) {
                   return null;
                 }
 
-                String message = validator.valid(value);
+                String? message = validator.valid(value!);
 
                 if (message != null) return message;
 
                 if (widget.validator != null) {
-                  return widget.validator(validator.parse(value));
+                  return widget.validator!(validator.parse(value));
                 }
 
                 return null;
@@ -184,8 +184,8 @@ class _TimeFieldState extends State<TimeField> {
         textAlign: widget.textAlign,
         maxLength: 5,
         onSaved: widget.enabled
-            ? (String value) => widget.onSaved != null
-                ? widget.onSaved(validator.parse(value))
+            ? (String? value) => widget.onSaved != null
+                ? widget.onSaved!(validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,
@@ -200,7 +200,7 @@ class _TimeFieldState extends State<TimeField> {
         enableInteractiveSelection: widget.enableInteractiveSelection,
         style: widget.enabled
             ? null
-            : Theme.of(context).textTheme.subtitle1.copyWith(
+            : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),
@@ -215,7 +215,7 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  TimeEditingController({TimeOfDay time})
+  TimeEditingController({TimeOfDay? time})
       : super(text: time == null ? '' : TimeValidator().format(time));
 
   ///
@@ -227,10 +227,11 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  TimeOfDay get time => TimeValidator().parse(text);
+  TimeOfDay? get time => TimeValidator().parse(text);
 
   ///
   ///
   ///
-  set time(TimeOfDay time) => text = TimeValidator().format(time);
+  set time(TimeOfDay? time) =>
+      text = (time == null ? '' : TimeValidator().format(time));
 }

@@ -10,22 +10,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class DateTimeField extends StatefulWidget {
   final String prefix;
   final String label;
-  final DateTimeEditingController controller;
-  final FormFieldValidator<DateTime> validator;
+  final DateTimeEditingController? controller;
+  final FormFieldValidator<DateTime>? validator;
   final TextAlign textAlign;
-  final FormFieldSetter<DateTime> onSaved;
-  final DateTime initialValue;
+  final FormFieldSetter<DateTime>? onSaved;
+  final DateTime? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
-  final DateTime firstDate;
-  final DateTime lastDate;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
   final bool filled;
-  final void Function(DateTime) lostFocus;
+  final void Function(DateTime?)? lostFocus;
+  final dynamic locale;
   final String format;
   final String mask;
   final bool required;
@@ -34,9 +35,9 @@ class DateTimeField extends StatefulWidget {
   ///
   ///
   DateTimeField({
-    Key key,
-    this.prefix,
-    this.label,
+    Key? key,
+    this.prefix = '',
+    this.label = '',
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
@@ -53,6 +54,7 @@ class DateTimeField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.lostFocus,
+    this.locale = 'pt_br',
     this.format = 'dd/MM/yyyy HH:mm',
     this.mask = '##/##/#### A#:C#',
     this.required = true,
@@ -69,20 +71,20 @@ class DateTimeField extends StatefulWidget {
 ///
 ///
 class _DateTimeFieldState extends State<DateTimeField> {
-  DateTimeValidator _validator;
-  DateTimeEditingController _controller;
-  FocusNode _focusNode;
+  DateTimeValidator? _validator;
+  DateTimeEditingController? _controller;
+  FocusNode? _focusNode;
 
   ///
   ///
   ///
   DateTimeEditingController get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
   ///
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
   ///
   ///
@@ -92,12 +94,13 @@ class _DateTimeFieldState extends State<DateTimeField> {
     super.initState();
 
     _validator = DateTimeValidator(
+      locale: widget.locale,
       format: widget.format,
       mask: widget.mask,
     );
 
     if (widget.controller == null) {
-      _controller = DateTimeEditingController(date: widget.initialValue);
+      _controller = DateTimeEditingController(dateTime: widget.initialValue);
     }
 
     if (widget.focusNode == null) {
@@ -119,7 +122,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
     }
 
     if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus(_effectiveController.date);
+      widget.lostFocus!(_effectiveController.dateTime);
     }
   }
 
@@ -130,8 +133,8 @@ class _DateTimeFieldState extends State<DateTimeField> {
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
 
-    if (_controller != null) _controller.dispose();
-    if (_focusNode != null) _focusNode.dispose();
+    _controller?.dispose();
+    _focusNode?.dispose();
 
     super.dispose();
   }
@@ -144,7 +147,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
-      labelText: widget.prefix == null || widget.prefix.isEmpty
+      labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',
       counterText: '',
@@ -152,9 +155,9 @@ class _DateTimeFieldState extends State<DateTimeField> {
         icon: Icon(FontAwesomeIcons.calendarDay),
         onPressed: () async {
           try {
-            DateTime selectedDate = await showDatePicker(
+            DateTime? selectedDate = await showDatePicker(
               context: context,
-              initialDate: _effectiveController.date ?? DateTime.now(),
+              initialDate: _effectiveController.dateTime ?? DateTime.now(),
               firstDate: widget.firstDate ?? DateTime(1900),
               lastDate: widget.lastDate ?? DateTime(2100),
             );
@@ -163,19 +166,19 @@ class _DateTimeFieldState extends State<DateTimeField> {
               TimeOfDay initialTime = TimeOfDay.now();
 
               try {
-                initialTime = TimeOfDay.fromDateTime(_effectiveController.date);
+                initialTime = TimeOfDay.fromDateTime(selectedDate);
               } catch (e) {
                 // Do nothing.
               }
 
-              TimeOfDay selectedTime = await showTimePicker(
+              TimeOfDay? selectedTime = await showTimePicker(
                 context: context,
                 initialTime: initialTime,
               );
 
               selectedTime ??= TimeOfDay(hour: 0, minute: 0);
 
-              _effectiveController.date = FollyUtils.dateMergeStart(
+              _effectiveController.dateTime = FollyUtils.dateMergeStart(
                 date: selectedDate,
                 time: selectedTime,
               );
@@ -194,17 +197,17 @@ class _DateTimeFieldState extends State<DateTimeField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) {
+            ? (String? value) {
                 if (!widget.required && (value == null || value.isEmpty)) {
                   return null;
                 }
 
-                String message = _validator.valid(value);
+                String? message = _validator!.valid(value!);
 
                 if (message != null) return message;
 
                 if (widget.validator != null) {
-                  return widget.validator(_validator.parse(value));
+                  return widget.validator!(_validator!.parse(value));
                 }
 
                 return null;
@@ -214,12 +217,12 @@ class _DateTimeFieldState extends State<DateTimeField> {
         minLines: 1,
         maxLines: 1,
         obscureText: false,
-        inputFormatters: _validator.inputFormatters,
+        inputFormatters: _validator!.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.mask.length,
         onSaved: widget.enabled
-            ? (String value) => widget.onSaved != null
-                ? widget.onSaved(_validator.parse(value))
+            ? (String? value) => widget.onSaved != null
+                ? widget.onSaved!(_validator!.parse(value))
                 : null
             : null,
         enabled: widget.enabled,
@@ -234,7 +237,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
         enableInteractiveSelection: widget.enableInteractiveSelection,
         style: widget.enabled
             ? null
-            : Theme.of(context).textTheme.subtitle1.copyWith(
+            : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),
@@ -249,8 +252,8 @@ class DateTimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateTimeEditingController({DateTime date})
-      : super(text: date == null ? '' : DateTimeValidator().format(date));
+  DateTimeEditingController({DateTime? dateTime})
+      : super(text: dateTime == null ? '' : DateTimeValidator().format(dateTime));
 
   ///
   ///
@@ -261,10 +264,11 @@ class DateTimeEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateTime get date => DateTimeValidator().parse(text);
+  DateTime? get dateTime => DateTimeValidator().parse(text);
 
   ///
   ///
   ///
-  set date(DateTime dateTime) => text = DateTimeValidator().format(dateTime);
+  set dateTime(DateTime? dateTime) =>
+      text = (dateTime == null ? '' : DateTimeValidator().format(dateTime));
 }

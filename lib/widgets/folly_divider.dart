@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 ///
 class FollyDivider extends StatelessWidget {
   final double height;
-  final Color color;
+  final Color? color;
 
   ///
   ///
   ///
   const FollyDivider({
-    Key key,
+    Key? key,
     this.height = 1.0,
     this.color,
   }) : super(key: key);

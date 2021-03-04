@@ -6,8 +6,7 @@ class StringUtils {
   ///
   ///
   static bool isPascalCase(String value) =>
-      !(value == null ||
-          value.isEmpty ||
+      !(value.isEmpty ||
           value.contains(RegExp('[^a-zA-Z0-9]+')) ||
           value.startsWith(RegExp('[0-9]+'))) &&
       value[0].toUpperCase() == value[0];
@@ -16,8 +15,7 @@ class StringUtils {
   ///
   ///
   static bool isCamelCase(String value) =>
-      !(value == null ||
-          value.isEmpty ||
+      !(value.isEmpty ||
           value.contains(RegExp('[^a-zA-Z0-9]+')) ||
           value.startsWith(RegExp('[0-9]+'))) &&
       value[0].toLowerCase() == value[0];
@@ -25,8 +23,7 @@ class StringUtils {
   ///
   ///
   ///
-  static bool isSnakeCase(String value) => !(value == null ||
-      value.isEmpty ||
+  static bool isSnakeCase(String value) => !(value.isEmpty ||
       value.contains(RegExp('[^_a-z0-9]+')) ||
       value.startsWith(RegExp('[0-9]+')));
 
@@ -37,7 +34,7 @@ class StringUtils {
       internal || isCamelCase(camel)
           ? camel.splitMapJoin(
               (RegExp(r'[A-Z]')),
-              onMatch: (Match m) => '_${m.group(0).toLowerCase()}',
+              onMatch: (Match m) => '_${m.group(0)!.toLowerCase()}',
               onNonMatch: (String n) => n,
             )
           : '';

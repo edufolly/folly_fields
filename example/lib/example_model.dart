@@ -17,25 +17,25 @@ class ExampleModel extends AbstractModel {
   static final TimeValidator timeValidator = TimeValidator();
   static final Random rnd = Random();
 
-  Decimal decimal = Decimal(precision: 2);
-  int integer;
-  String text;
-  String email;
-  String password;
-  String cpf;
-  String cnpj;
-  String document;
-  String phone;
-  String localPhone;
-  DateTime dateTime;
-  DateTime date;
-  TimeOfDay time;
-  String macAddress;
-  String ncm;
-  String cep;
-  Color color;
-  bool active = true;
-  IconData icon;
+  Decimal? decimal = Decimal(precision: 2);
+  int? integer;
+  String? text;
+  String? email;
+  String? password;
+  String? cpf;
+  String? cnpj;
+  String? document;
+  String? phone;
+  String? localPhone;
+  DateTime? dateTime;
+  DateTime? date;
+  TimeOfDay? time;
+  String? macAddress;
+  String? ncm;
+  String? cep;
+  Color? color;
+  bool? active = true;
+  IconData? icon;
 
   ///
   ///
@@ -69,7 +69,7 @@ class ExampleModel extends AbstractModel {
         cep = map['cep'],
         color = map['color'] == null
             ? null
-            : Color(int.tryParse(map['color'], radix: 16)),
+            : Color(int.parse(map['color'], radix: 16)),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         super.fromJson(map);
@@ -93,7 +93,7 @@ class ExampleModel extends AbstractModel {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    if (decimal != null) map['decimal'] = decimal.integer;
+    if (decimal != null) map['decimal'] = decimal!.integer;
     if (integer != null) map['integer'] = integer;
     if (text != null) map['text'] = text;
     if (email != null) map['email'] = email;
@@ -103,15 +103,15 @@ class ExampleModel extends AbstractModel {
     if (document != null) map['document'] = document;
     if (phone != null) map['phone'] = phone;
     if (localPhone != null) map['localPhone'] = localPhone;
-    if (dateTime != null) map['dateTime'] = dateTime.millisecondsSinceEpoch;
-    if (date != null) map['date'] = date.millisecondsSinceEpoch;
-    if (time != null) map['time'] = timeValidator.format(time);
+    if (dateTime != null) map['dateTime'] = dateTime!.millisecondsSinceEpoch;
+    if (date != null) map['date'] = date!.millisecondsSinceEpoch;
+    if (time != null) map['time'] = timeValidator.format(time!);
     if (macAddress != null) map['macAddress'] = macAddress;
     if (ncm != null) map['ncm'] = ncm;
     if (cep != null) map['cep'] = cep;
-    if (color != null) map['color'] = color.value.toRadixString(16);
+    if (color != null) map['color'] = color!.value.toRadixString(16);
     map['active'] = active ?? true;
-    if (icon != null) map['icon'] = IconHelper.iconName(icon);
+    if (icon != null) map['icon'] = IconHelper.iconName(icon!);
     return map;
   }
 
@@ -119,7 +119,7 @@ class ExampleModel extends AbstractModel {
   ///
   ///
   @override
-  String get searchTerm => text;
+  String get searchTerm => text ?? '';
 
   // ///
   // ///
@@ -152,7 +152,7 @@ class ExampleModel extends AbstractModel {
     model.date = DateTime(now.year, now.month, now.day);
     model.time = TimeOfDay(hour: now.hour, minute: now.minute);
     model.dateTime =
-        FollyUtils.dateMergeStart(date: model.date, time: model.time);
+        FollyUtils.dateMergeStart(date: model.date!, time: model.time!);
     model.macAddress = MacAddressValidator.generate();
     model.ncm = complete(8);
     model.cep = complete(8);

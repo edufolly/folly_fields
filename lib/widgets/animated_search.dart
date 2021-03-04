@@ -12,8 +12,8 @@ class AnimatedSearch extends StatefulWidget {
   ///
   ///
   const AnimatedSearch({
-    Key key,
-    this.controller,
+    Key? key,
+    required this.controller,
     this.maxSize = 200.0,
   }) : super(key: key);
 

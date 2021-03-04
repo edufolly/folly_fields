@@ -11,7 +11,7 @@ class WaitingMessage extends StatelessWidget {
   ///
   const WaitingMessage({
     this.message = 'Aguarde...',
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   ///

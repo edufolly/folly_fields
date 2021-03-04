@@ -7,38 +7,38 @@ import 'package:flutter/services.dart';
 class StringField extends StatelessWidget {
   final String prefix;
   final String label;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboard;
-  final FormFieldValidator<String> validator;
+  final FormFieldValidator<String>? validator;
   final int minLines;
   final int maxLines;
   final bool obscureText;
-  final List<TextInputFormatter> inputFormatter;
+  final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
-  final int maxLength;
-  final FormFieldSetter<String> onSaved;
-  final String initialValue;
+  final int? maxLength;
+  final FormFieldSetter<String>? onSaved;
+  final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final ValueChanged<String> onChanged;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
-  final Iterable<String> autofillHints;
+  final Iterable<String>? autofillHints;
 
   ///
   ///
   ///
   StringField({
-    Key key,
-    this.prefix,
-    this.label,
+    Key? key,
+    this.prefix = '',
+    this.label = '',
     this.controller,
     this.keyboard = TextInputType.text,
     this.validator,
@@ -76,8 +76,7 @@ class StringField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboard,
         decoration: InputDecoration(
-          labelText:
-              prefix == null || prefix.isEmpty ? label : '$prefix - $label',
+          labelText: prefix.isEmpty ? label : '$prefix - $label',
           border: OutlineInputBorder(),
           counterText: '',
           enabled: enabled,
@@ -106,7 +105,7 @@ class StringField extends StatelessWidget {
         autofillHints: autofillHints,
         style: enabled
             ? null
-            : Theme.of(context).textTheme.subtitle1.copyWith(
+            : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),

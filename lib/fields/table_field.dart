@@ -16,34 +16,33 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
   ///
   ///
   TableField({
-    Key key,
-    @required List<T> initialValue,
-    @required AbstractUIBuilder<T> uiBuilder,
-    @required AbstractConsumer<T> consumer,
-    @required List<String> columns,
+    Key? key,
+    required List<T> initialValue,
+    required AbstractUIBuilder<T> uiBuilder,
+    required AbstractConsumer<T> consumer,
+    required List<String> columns,
     List<int> columnsFlex = const <int>[],
-    @required
-        List<Widget> Function(
-                BuildContext context, T row, int index, List<T> data)
-            buildRow,
-    Future<bool> Function(BuildContext context, List<T> data) beforeAdd,
-    void Function(BuildContext context, T row, int index, List<T> data)
+    required List<Widget> Function(
+            BuildContext context, T row, int index, List<T> data)
+        buildRow,
+    Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
+    void Function(BuildContext context, T row, int index, List<T> data)?
         removeRow,
-    FormFieldSetter<List<T>> onSaved,
-    FormFieldValidator<List<T>> validator,
+    FormFieldSetter<List<T>>? onSaved,
+    FormFieldValidator<List<T>>? validator,
     bool enabled = true,
-    AutovalidateMode autoValidateMode,
-    Widget Function(BuildContext context, List<T> data) buildFooter,
-  })  : assert(columnsFlex == null || columnsFlex.length == columns.length),
+    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    Widget Function(BuildContext context, List<T> data)? buildFooter,
+  })  : assert(columnsFlex.length == columns.length),
         super(
           key: key,
-          initialValue: initialValue ?? <T>[],
+          initialValue: initialValue,
           onSaved: onSaved,
           validator: validator,
           enabled: enabled,
-          autovalidateMode: autoValidateMode ?? AutovalidateMode.disabled,
+          autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            final TextStyle columnTheme =
+            final TextStyle? columnTheme =
                 Theme.of(field.context).textTheme.subtitle2;
 
             InputDecoration inputDecoration = InputDecoration(
@@ -63,7 +62,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    if (field.value.isEmpty)
+                    if (field.value!.isEmpty)
 
                       /// Tabela vazia
                       Container(
@@ -107,7 +106,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                             ),
 
                             /// Dados da tabela
-                            ...field.value.asMap().entries.map<Widget>(
+                            ...field.value!.asMap().entries.map<Widget>(
                                   (MapEntry<int, T> entry) => Column(
                                     children: <Widget>[
                                       /// Divisor
@@ -126,16 +125,14 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                             field.context,
                                             entry.value,
                                             entry.key,
-                                            field.value,
+                                            field.value!,
                                           )
                                               .asMap()
                                               .entries
                                               .map<Widget>(
                                                 (MapEntry<int, Widget> entry) =>
                                                     Flexible(
-                                                  flex:
-                                                      columnsFlex[entry.key] ??
-                                                          1,
+                                                  flex: columnsFlex[entry.key],
                                                   child: SizedBox(
                                                     width: double.infinity,
                                                     child: entry.value,
@@ -152,10 +149,10 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                                                   field.context,
                                                   entry.value,
                                                   entry.key,
-                                                  field.value,
+                                                  field.value!,
                                                 );
                                               }
-                                              field.value.removeAt(entry.key);
+                                              field.value!.removeAt(entry.key);
                                               field.didChange(field.value);
                                             },
                                           ),
@@ -167,7 +164,7 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
 
                             /// Rodapé
                             if (buildFooter != null)
-                              buildFooter(field.context, field.value),
+                              buildFooter(field.context, field.value!),
                           ],
                         ),
                       ),
@@ -178,11 +175,12 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
                           .toUpperCase(),
                       onPressed: () async {
                         if (beforeAdd != null) {
-                          bool go = await beforeAdd(field.context, field.value);
+                          bool go =
+                              await beforeAdd(field.context, field.value!);
                           if (!go) return;
                         }
 
-                        field.value.add(consumer.modelInstance);
+                        field.value!.add(consumer.modelInstance);
                         field.didChange(field.value);
                       },
                     ),
@@ -199,14 +197,14 @@ class TableField<T extends AbstractModel> extends FormField<List<T>> {
 ///
 class AddButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   ///
   ///
   ///
   const AddButton({
-    Key key,
-    this.label,
+    Key? key,
+    required this.label,
     this.onPressed,
   }) : super(key: key);
 
@@ -250,7 +248,7 @@ class EmptyButton extends DeleteButton {
 ///
 ///
 class DeleteButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color color;
   final double top;
 
@@ -258,8 +256,8 @@ class DeleteButton extends StatelessWidget {
   ///
   ///
   const DeleteButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    this.onPressed,
     this.color = Colors.black45,
     this.top = 12.0,
   }) : super(key: key);
@@ -298,9 +296,9 @@ class HeaderCell extends StatelessWidget {
   ///
   ///
   const HeaderCell({
-    Key key,
+    Key? key,
     this.flex = 1,
-    @required this.child,
+    required this.child,
   }) : super(key: key);
 
   ///
@@ -309,7 +307,7 @@ class HeaderCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      flex: flex ?? 1,
+      flex: flex,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 12.0,

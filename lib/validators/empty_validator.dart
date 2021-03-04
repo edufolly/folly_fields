@@ -7,7 +7,7 @@ class EmptyValidator extends AbstractValidator<String> {
   ///
   ///
   ///
-  EmptyValidator() : super(null);
+  EmptyValidator() : super();
 
   ///
   ///

@@ -4,49 +4,49 @@ import 'package:flutter/material.dart';
 ///
 ///
 class DropdownField<T> extends FormField<T> {
-  final DropdownEditingController<T> controller;
+  final DropdownEditingController<T>? controller;
   final Map<T, String> items;
 
   ///
   ///
   ///
   DropdownField({
-    Key key,
-    String prefix,
-    String label,
+    Key? key,
+    String prefix = '',
+    String label = '',
     this.controller,
-    FormFieldValidator<T> validator,
-    FormFieldSetter<T> onSaved,
-    T initialValue,
-    this.items,
+    FormFieldValidator<T?>? validator,
+    FormFieldSetter<T?>? onSaved,
+    T? initialValue,
+    required this.items,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    Function(T value) onChanged,
+    Function(T? value)? onChanged,
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
-    DropdownButtonBuilder selectedItemBuilder,
-    Widget hint,
-    Widget disabledHint,
-    Color focusColor,
+    DropdownButtonBuilder? selectedItemBuilder,
+    Widget? hint,
+    Widget? disabledHint,
+    Color? focusColor,
     int elevation = 8,
-    TextStyle style,
-    Widget icon,
-    Color iconDisabledColor,
-    Color iconEnabledColor,
+    TextStyle? style,
+    Widget? icon,
+    Color? iconDisabledColor,
+    Color? iconEnabledColor,
     double iconSize = 24.0,
     bool isDense = true,
     bool isExpanded = false,
-    double itemHeight,
-    FocusNode focusNode,
+    double? itemHeight,
+    FocusNode? focusNode,
     bool autofocus = false,
-    Color dropdownColor,
+    Color? dropdownColor,
   })  : assert(initialValue == null || controller == null),
-        assert(elevation != null),
-        assert(iconSize != null),
-        assert(isDense != null),
-        assert(isExpanded != null),
+        // assert(elevation != null),
+        // assert(iconSize != null),
+        // assert(isDense != null),
+        // assert(isExpanded != null),
         assert(itemHeight == null || itemHeight >= kMinInteractiveDimension),
-        assert(autofocus != null),
+        // assert(autofocus != null),
         super(
           key: key,
           initialValue: controller != null ? controller.value : initialValue,
@@ -54,16 +54,14 @@ class DropdownField<T> extends FormField<T> {
           validator: enabled ? validator : (_) => null,
           enabled: enabled,
           autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<T> field) {
+          builder: (FormFieldState<T?> field) {
             final _DropdownFieldState<T> state =
                 field as _DropdownFieldState<T>;
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
-              labelText: prefix == null || prefix.isEmpty
-                  ? label
-                  : '$prefix - $label',
+              labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               focusColor: focusColor,
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
@@ -90,7 +88,7 @@ class DropdownField<T> extends FormField<T> {
                           hint: hint,
                           disabledHint: disabledHint,
                           onChanged: enabled
-                              ? (T value) {
+                              ? (T? value) {
                                   state.didChange(value);
                                   if (onChanged != null && state.isValid) {
                                     onChanged(value);
@@ -132,7 +130,7 @@ class DropdownField<T> extends FormField<T> {
 ///
 ///
 class _DropdownFieldState<T> extends FormFieldState<T> {
-  DropdownEditingController<T> _controller;
+  DropdownEditingController<T>? _controller;
 
   ///
   ///
@@ -144,7 +142,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   DropdownEditingController<T> get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
@@ -154,11 +152,11 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
     super.initState();
     if (widget.controller == null) {
       _controller = DropdownEditingController<T>(
-        value: widget.initialValue,
-        items: widget.items,
+        widget.initialValue,
+        widget.items,
       );
     } else {
-      widget.controller.addListener(_handleControllerChanged);
+      widget.controller!.addListener(_handleControllerChanged);
     }
   }
 
@@ -175,12 +173,12 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
 
       if (oldWidget.controller != null && widget.controller == null) {
         _controller = DropdownEditingController<T>.fromValue(
-          oldWidget.controller,
+          oldWidget.controller!,
         );
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.value);
+        setValue(widget.controller!.value);
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -202,7 +200,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   @override
-  void didChange(T value) {
+  void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;
@@ -231,7 +229,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
 ///
 ///
 ///
-class DropdownEditingController<T> extends ValueNotifier<T> {
+class DropdownEditingController<T> extends ValueNotifier<T?> {
   Map<T, String> _items;
 
   ///
@@ -244,7 +242,7 @@ class DropdownEditingController<T> extends ValueNotifier<T> {
   ///
   ///
   ///
-  DropdownEditingController({T value, Map<T, String> items})
+  DropdownEditingController(T? value, Map<T, String> items)
       : _items = items,
         super(value);
 
@@ -264,11 +262,11 @@ class DropdownEditingController<T> extends ValueNotifier<T> {
   ///
   ///
   ///
-  List<DropdownMenuItem<T>> getDropdownItems() => _items.keys
+  List<DropdownMenuItem<T>> getDropdownItems() => _items.entries
       .map(
-        (T key) => DropdownMenuItem<T>(
-          value: key,
-          child: Text(_items[key]),
+        (MapEntry<T, String> entry) => DropdownMenuItem<T>(
+          value: entry.key,
+          child: Text(entry.value),
         ),
       )
       .toList();

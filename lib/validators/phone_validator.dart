@@ -36,7 +36,7 @@ class PhoneValidator extends AbstractValidator<String> {
     phone = strip(phone);
 
     /// phone must be defined
-    if (phone == null || phone.isEmpty) return false;
+    if (phone.isEmpty) return false;
 
     /// phone must have 10 or 11 chars
     if (phone.length < 10 || phone.length > 11) return false;

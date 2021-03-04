@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:folly_fields/util/hashable.dart';
 
 ///
@@ -14,14 +13,13 @@ class Decimal with Hashable {
   ///
   ///
   Decimal({
-    @required this.precision,
-    int initialValue,
-    double doubleValue,
-  }) : assert(precision >= 0) {
-    value = initialValue != null
-        ? initialValue.toDouble() / pow(10, precision)
-        : doubleValue ?? 0.0;
-  }
+    required this.precision,
+    int? initialValue,
+    double? doubleValue,
+  })  : assert(precision >= 0),
+        value = initialValue != null
+            ? initialValue.toDouble() / pow(10, precision)
+            : doubleValue ?? 0.0;
 
   ///
   ///

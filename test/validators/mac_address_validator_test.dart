@@ -6,7 +6,6 @@ import 'package:folly_fields/validators/mac_address_validator.dart';
 ///
 void main() {
   Map<String, bool> isValidTests = <String, bool>{
-    null: false,
     '': false,
     '1': false,
     'aa:bb:cc:dd:ee:ff': false,
@@ -34,7 +33,6 @@ void main() {
   });
 
   Map<String, String> formatTests = <String, String>{
-    null: '',
     '': '',
     ' ': '',
     '1': '1',

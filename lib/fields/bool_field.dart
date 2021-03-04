@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 ///
 ///
 class BoolField extends FormField<bool> {
-  final BoolEditingController controller;
+  final BoolEditingController? controller;
 
   ///
   ///
   ///
   BoolField({
-    Key key,
-    String prefix,
-    String label,
+    Key? key,
+    String prefix = '',
+    String label = '',
     this.controller,
-    FormFieldValidator<bool> validator,
-    FormFieldSetter<bool> onSaved,
-    bool initialValue,
+    FormFieldValidator<bool>? validator,
+    FormFieldSetter<bool>? onSaved,
+    bool? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO - onChanged
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
     bool adaptive = false,
-    Color activeColor,
+    Color? activeColor,
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -46,11 +46,12 @@ class BoolField extends FormField<bool> {
               ),
             ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            Color textColor = Theme.of(field.context).textTheme.subtitle1.color;
+            Color? textColor =
+                Theme.of(field.context).textTheme.subtitle1!.color;
 
             TextStyle textStyle =
-                Theme.of(field.context).textTheme.subtitle1.copyWith(
-                      color: textColor.withOpacity(enabled ? 1 : 0.4),
+                Theme.of(field.context).textTheme.subtitle1!.copyWith(
+                      color: textColor!.withOpacity(enabled ? 1 : 0.4),
                     );
 
             Color accentColor =
@@ -64,8 +65,9 @@ class BoolField extends FormField<bool> {
                 child: Builder(
                   builder: (BuildContext context) {
                     return InkWell(
-                      onTap:
-                          enabled ? () => state.didChange(!state.value) : null,
+                      onTap: enabled
+                          ? () => state.didChange(!(state.value ?? false))
+                          : null,
                       child: InputDecorator(
                         decoration: effectiveDecoration.copyWith(
                           errorText: enabled ? field.errorText : null,
@@ -81,21 +83,21 @@ class BoolField extends FormField<bool> {
                                 horizontal: 4.0,
                               ),
                               child: Text(
-                                prefix == null || prefix.isEmpty
-                                    ? label
-                                    : '$prefix - $label',
+                                prefix.isEmpty ? label : '$prefix - $label',
                                 style: textStyle,
                               ),
                             ),
                             if (adaptive)
                               Switch.adaptive(
-                                value: state._effectiveController.value,
+                                value:
+                                    state._effectiveController.value ?? false,
                                 onChanged: enabled ? state.didChange : null,
                                 activeColor: accentColor,
                               )
                             else
                               Switch(
-                                value: state._effectiveController.value,
+                                value:
+                                    state._effectiveController.value ?? false,
                                 onChanged: enabled ? state.didChange : null,
                                 activeColor: accentColor,
                               ),
@@ -121,7 +123,7 @@ class BoolField extends FormField<bool> {
 ///
 ///
 class _BoolFieldState extends FormFieldState<bool> {
-  BoolEditingController _controller;
+  BoolEditingController? _controller;
 
   ///
   ///
@@ -133,7 +135,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   ///
   ///
   BoolEditingController get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
@@ -146,7 +148,7 @@ class _BoolFieldState extends FormFieldState<bool> {
         widget.initialValue,
       );
     } else {
-      widget.controller.addListener(_handleControllerChanged);
+      widget.controller?.addListener(_handleControllerChanged);
     }
   }
 
@@ -163,12 +165,12 @@ class _BoolFieldState extends FormFieldState<bool> {
 
       if (oldWidget.controller != null && widget.controller == null) {
         _controller = BoolEditingController(
-          oldWidget.controller.value,
+          oldWidget.controller!.value,
         );
       }
 
       if (widget.controller != null) {
-        setValue(widget.controller.value);
+        setValue(widget.controller!.value);
 
         if (oldWidget.controller == null) {
           _controller = null;
@@ -190,7 +192,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   ///
   ///
   @override
-  void didChange(bool value) {
+  void didChange(bool? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;
@@ -219,6 +221,6 @@ class _BoolFieldState extends FormFieldState<bool> {
 ///
 ///
 ///
-class BoolEditingController extends ValueNotifier<bool> {
-  BoolEditingController(bool value) : super(value);
+class BoolEditingController extends ValueNotifier<bool?> {
+  BoolEditingController(bool? value) : super(value);
 }

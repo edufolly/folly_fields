@@ -125,10 +125,6 @@ void main() {
       name: '[Line Break]',
       camelCase: 'Name\n',
     ),
-    _StringUtilsTest(
-      name: '[null]',
-      camelCase: null,
-    ),
   ];
 
   for (_StringUtilsTest t in errors) {
@@ -177,9 +173,9 @@ class _StringUtilsTest {
   final String snakeCase;
 
   _StringUtilsTest({
-    this.name,
-    this.camelCase,
-    this.pascalCase,
-    this.snakeCase,
+    this.name = '',
+    this.camelCase = '',
+    this.pascalCase = '',
+    this.snakeCase = '',
   });
 }

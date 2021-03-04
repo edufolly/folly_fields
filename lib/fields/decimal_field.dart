@@ -9,29 +9,29 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 class DecimalField extends StatefulWidget {
   final String prefix;
   final String label;
-  final DecimalEditingController controller;
-  final FormFieldValidator<Decimal> validator;
+  final DecimalEditingController? controller;
+  final FormFieldValidator<Decimal>? validator;
   final TextAlign textAlign;
-  final int maxLength;
-  final FormFieldSetter<Decimal> onSaved;
-  final Decimal initialValue;
+  final int? maxLength;
+  final FormFieldSetter<Decimal>? onSaved;
+  final Decimal? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-  final ValueChanged<String> onFieldSubmitted;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
-  final void Function(Decimal) lostFocus;
+  final void Function(Decimal)? lostFocus;
 
   ///
   ///
   ///
   DecimalField({
-    Key key,
-    this.prefix,
-    this.label,
+    Key? key,
+    this.prefix = '',
+    this.label = '',
     this.controller,
     this.validator,
     this.textAlign = TextAlign.end,
@@ -60,19 +60,19 @@ class DecimalField extends StatefulWidget {
 ///
 ///
 class _DecimalFieldState extends State<DecimalField> {
-  DecimalEditingController _controller;
-  FocusNode _focusNode;
+  DecimalEditingController? _controller;
+  FocusNode? _focusNode;
 
   ///
   ///
   ///
   DecimalEditingController get _effectiveController =>
-      widget.controller ?? _controller;
+      widget.controller ?? _controller!;
 
   ///
   ///
   ///
-  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode;
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
   ///
   ///
@@ -81,7 +81,7 @@ class _DecimalFieldState extends State<DecimalField> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DecimalEditingController(value: widget.initialValue);
+      _controller = DecimalEditingController(widget.initialValue!);
     }
 
     if (widget.focusNode == null) {
@@ -103,7 +103,7 @@ class _DecimalFieldState extends State<DecimalField> {
     }
 
     if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus(_effectiveController.decimal);
+      widget.lostFocus!(_effectiveController.decimal);
     }
   }
 
@@ -114,8 +114,8 @@ class _DecimalFieldState extends State<DecimalField> {
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
 
-    if (_controller != null) _controller.dispose();
-    if (_focusNode != null) _focusNode.dispose();
+    if (_controller != null) _controller!.dispose();
+    if (_focusNode != null) _focusNode!.dispose();
 
     super.dispose();
   }
@@ -128,7 +128,7 @@ class _DecimalFieldState extends State<DecimalField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
-      labelText: widget.prefix == null || widget.prefix.isEmpty
+      labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',
       counterText: '',
@@ -140,8 +140,8 @@ class _DecimalFieldState extends State<DecimalField> {
         controller: _effectiveController,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String value) => widget.validator != null
-                ? widget.validator(
+            ? (String? value) => widget.validator != null
+                ? widget.validator!(
                     _effectiveController.validator.parse(value),
                   )
                 : null
@@ -154,8 +154,8 @@ class _DecimalFieldState extends State<DecimalField> {
         textAlign: widget.textAlign,
         maxLength: widget.maxLength,
         onSaved: widget.enabled
-            ? (String value) => widget.onSaved != null
-                ? widget.onSaved(_effectiveController.validator.parse(value))
+            ? (String? value) => widget.onSaved != null
+                ? widget.onSaved!(_effectiveController.validator.parse(value))
                 : null
             : null,
         enabled: widget.enabled,
@@ -170,7 +170,7 @@ class _DecimalFieldState extends State<DecimalField> {
         enableInteractiveSelection: widget.enableInteractiveSelection,
         style: widget.enabled
             ? null
-            : Theme.of(context).textTheme.subtitle1.copyWith(
+            : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),
@@ -189,7 +189,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  DecimalEditingController({@required Decimal value})
+  DecimalEditingController(Decimal value)
       : validator = DecimalValidator(value.precision) {
     addListener(_changeListener);
     decimal = value;
@@ -223,7 +223,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  Decimal get decimal => validator.parse(text);
+  Decimal get decimal => validator.parse(text)!;
 
   ///
   ///
