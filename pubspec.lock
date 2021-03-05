@@ -169,7 +169,7 @@ packages:
       name: sprintf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0-nullsafety"
+    version: "6.0.0"
   stack_trace:
     dependency: transitive
     description:

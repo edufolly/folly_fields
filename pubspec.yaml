@@ -29,7 +29,7 @@ dependencies:
     git:
       url: git://github.com/edufolly/flutter-cpf-cnpj-validator
   # https://pub.dev/packages/sprintf
-  sprintf: ^6.0.0-nullsafety
+  sprintf: ^6.0.0
 
 dev_dependencies:
   flutter_test:
