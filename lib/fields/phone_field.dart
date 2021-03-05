@@ -13,7 +13,7 @@ class PhoneField extends ValidatorField {
     Key? key,
     String validatorMessage = 'Informe o telefone.',
     String prefix = '',
-    String label ='',
+    String label = '',
     TextEditingController? controller,
     TextAlign textAlign = TextAlign.start,
     FormFieldSetter<String>? onSaved,

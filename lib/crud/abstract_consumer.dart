@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 
@@ -73,7 +71,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
-  Future<T?> getById(
+  Future<T> getById(
     BuildContext context,
     T model,
   );

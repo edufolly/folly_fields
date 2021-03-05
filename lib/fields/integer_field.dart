@@ -35,7 +35,7 @@ class IntegerField extends StringField {
           controller: controller,
           keyboard: TextInputType.number,
           validator: (String? value) {
-            if (validator != null) {
+            if (enabled && validator != null) {
               return validator(int.tryParse(value ?? '0'));
             }
             return null;
@@ -49,7 +49,7 @@ class IntegerField extends StringField {
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: (String? value) {
-            if (onSaved != null) {
+            if (enabled && onSaved != null) {
               return onSaved(int.tryParse(value ?? '0'));
             }
           },

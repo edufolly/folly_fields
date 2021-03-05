@@ -16,7 +16,7 @@ class StringField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
   final int? maxLength;
-  final FormFieldSetter<String>? onSaved;
+  final void Function(String value)? onSaved;
   final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
@@ -91,7 +91,9 @@ class StringField extends StatelessWidget {
         inputFormatters: inputFormatter,
         textAlign: textAlign,
         maxLength: maxLength,
-        onSaved: onSaved,
+        onSaved: enabled && onSaved != null
+            ? (String? value) => onSaved!(value ?? '')
+            : null,
         initialValue: initialValue,
         enabled: enabled,
         autovalidateMode: autoValidateMode,

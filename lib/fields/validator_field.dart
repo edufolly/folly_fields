@@ -43,21 +43,23 @@ class ValidatorField extends StringField {
           label: label,
           controller: controller,
           keyboard: abstractValidator.keyboard,
-          validator: (String? value) {
-            if (!required && (value == null || value.isEmpty)) {
-              return null;
-            }
+          validator: enabled
+              ? (String? value) {
+                  if (!required && (value == null || value.isEmpty)) {
+                    return null;
+                  }
 
-            if (value == null || !abstractValidator.isValid(value)) {
-              return validatorMessage;
-            }
+                  if (value == null || !abstractValidator.isValid(value)) {
+                    return validatorMessage;
+                  }
 
-            if (validator != null) {
-              return validator(value);
-            }
+                  if (validator != null) {
+                    return validator(value);
+                  }
 
-            return null;
-          },
+                  return null;
+                }
+              : null,
           minLines: 1,
           maxLines: 1,
           obscureText: false,
@@ -67,19 +69,21 @@ class ValidatorField extends StringField {
           ],
           textAlign: textAlign,
           maxLength: maxLength,
-          onSaved: (String? value) {
-            if (onSaved != null) {
-              if (value != null) {
-                value = abstractValidator.strip(value);
-              }
+          onSaved: enabled
+              ? (String? value) {
+                  if (onSaved != null) {
+                    if (value != null) {
+                      value = abstractValidator.strip(value);
+                    }
 
-              if (!required && value != null && value.isEmpty) {
-                value = null;
-              }
+                    if (!required && value != null && value.isEmpty) {
+                      value = null;
+                    }
 
-              onSaved(value);
-            }
-          },
+                    onSaved(value);
+                  }
+                }
+              : null,
           initialValue: initialValue != null
               ? abstractValidator.format(initialValue)
               : null,

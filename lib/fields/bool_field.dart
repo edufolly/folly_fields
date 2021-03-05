@@ -14,8 +14,8 @@ class BoolField extends FormField<bool> {
     String prefix = '',
     String label = '',
     this.controller,
-    FormFieldValidator<bool>? validator,
-    FormFieldSetter<bool>? onSaved,
+    String? Function(bool value)? validator,
+    void Function(bool value)? onSaved,
     bool? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -28,8 +28,12 @@ class BoolField extends FormField<bool> {
         super(
           key: key,
           initialValue: controller != null ? controller.value : initialValue,
-          onSaved: onSaved,
-          validator: enabled ? validator : (_) => null,
+          validator: enabled && validator != null
+              ? (bool? value) => validator(value ?? false)
+              : (_) => null,
+          onSaved: enabled && onSaved != null
+              ? (bool? value) => onSaved(value ?? false)
+              : null,
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
@@ -89,15 +93,13 @@ class BoolField extends FormField<bool> {
                             ),
                             if (adaptive)
                               Switch.adaptive(
-                                value:
-                                    state._effectiveController.value ?? false,
+                                value: state._effectiveController.value,
                                 onChanged: enabled ? state.didChange : null,
                                 activeColor: accentColor,
                               )
                             else
                               Switch(
-                                value:
-                                    state._effectiveController.value ?? false,
+                                value: state._effectiveController.value,
                                 onChanged: enabled ? state.didChange : null,
                                 activeColor: accentColor,
                               ),
@@ -145,7 +147,7 @@ class _BoolFieldState extends FormFieldState<bool> {
     super.initState();
     if (widget.controller == null) {
       _controller = BoolEditingController(
-        value: widget.initialValue,
+        value: widget.initialValue ?? false,
       );
     } else {
       widget.controller?.addListener(_handleControllerChanged);
@@ -195,7 +197,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   void didChange(bool? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
-      _effectiveController.value = value;
+      _effectiveController.value = value ?? false;
     }
   }
 
@@ -205,7 +207,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   @override
   void reset() {
     super.reset();
-    setState(() => _effectiveController.value = widget.initialValue);
+    setState(() => _effectiveController.value = widget.initialValue ?? false);
   }
 
   ///
@@ -221,6 +223,6 @@ class _BoolFieldState extends FormFieldState<bool> {
 ///
 ///
 ///
-class BoolEditingController extends ValueNotifier<bool?> {
-  BoolEditingController({bool? value}) : super(value);
+class BoolEditingController extends ValueNotifier<bool> {
+  BoolEditingController({bool value = false}) : super(value);
 }

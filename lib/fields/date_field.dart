@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/validators/date_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class DateField extends StatefulWidget {
   final String prefix;
   final String label;
-  final DateEditingController? controller;
+  final DateTimeEditingController? controller;
   final FormFieldValidator<DateTime>? validator;
   final TextAlign textAlign;
   final FormFieldSetter<DateTime>? onSaved;
@@ -72,13 +73,13 @@ class DateField extends StatefulWidget {
 ///
 class _DateFieldState extends State<DateField> {
   DateValidator? _validator;
-  DateEditingController? _controller;
+  DateTimeEditingController? _controller;
   FocusNode? _focusNode;
 
   ///
   ///
   ///
-  DateEditingController get _effectiveController =>
+  DateTimeEditingController get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -100,7 +101,7 @@ class _DateFieldState extends State<DateField> {
     );
 
     if (widget.controller == null) {
-      _controller = DateEditingController(date: widget.initialValue);
+      _controller = DateTimeEditingController(dateTime: widget.initialValue);
     }
 
     if (widget.focusNode == null) {
@@ -122,7 +123,7 @@ class _DateFieldState extends State<DateField> {
     }
 
     if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus!(_effectiveController.date);
+      widget.lostFocus!(_effectiveController.dateTime);
     }
   }
 
@@ -157,13 +158,13 @@ class _DateFieldState extends State<DateField> {
           try {
             DateTime? selectedDate = await showDatePicker(
               context: context,
-              initialDate: _effectiveController.date ?? DateTime.now(),
+              initialDate: _effectiveController.dateTime ?? DateTime.now(),
               firstDate: widget.firstDate ?? DateTime(1900),
               lastDate: widget.lastDate ?? DateTime(2100),
             );
 
             if (selectedDate != null) {
-              _effectiveController.date = selectedDate;
+              _effectiveController.dateTime = selectedDate;
             }
           } catch (e, s) {
             print(e);
@@ -225,32 +226,4 @@ class _DateFieldState extends State<DateField> {
       ),
     );
   }
-}
-
-///
-///
-///
-class DateEditingController extends TextEditingController {
-  ///
-  ///
-  ///
-  DateEditingController({DateTime? date})
-      : super(text: date == null ? '' : DateValidator().format(date));
-
-  ///
-  ///
-  ///
-  DateEditingController.fromValue(TextEditingValue value)
-      : super.fromValue(value);
-
-  ///
-  ///
-  ///
-  DateTime? get date => DateValidator().parse(text);
-
-  ///
-  ///
-  ///
-  set date(DateTime? date) =>
-      text = (date == null ? '' : DateValidator().format(date));
 }

@@ -4,9 +4,9 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 
 :star: to support the project.
 
-## Attention - flutter: ^1.26.0-0
+## Attention - flutter: ^2.0.0
 
-Flutter did a breaking change for RaisedButton and FlatButton.
+Flutter did a breaking change for RaisedButton and FlatButton (1.26.0-0) and null safety (2.0.0).
 
 http://flutter.dev/go/material-button-migration-guide
 

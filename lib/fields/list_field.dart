@@ -23,8 +23,8 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
         routeAddBuilder,
     Function(BuildContext context, T model, UI uiBuilder, bool edit)?
         routeEditBuilder,
-    FormFieldSetter<List<T>>? onSaved,
-    FormFieldValidator<List<T>>? validator,
+    void Function(List<T> value)? onSaved,
+    String? Function(List<T> value)? validator,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Future<bool> Function(BuildContext context)? beforeAdd,
@@ -35,9 +35,13 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
   }) : super(
           key: key,
           initialValue: initialValue,
-          onSaved: onSaved,
-          validator: validator,
           enabled: enabled,
+          onSaved: enabled && onSaved != null
+              ? (List<T>? value) => onSaved(value!)
+              : null,
+          validator: enabled && validator != null
+              ? (List<T>? value) => validator(value!)
+              : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration inputDecoration = InputDecoration(

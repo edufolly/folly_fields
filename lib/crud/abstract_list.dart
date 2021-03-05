@@ -27,12 +27,12 @@ abstract class AbstractList<
   final bool forceOffline;
   final C consumer;
   final UI uiBuilder;
-  final Future<Widget> Function(
+  final Future<Widget?> Function(
     BuildContext context,
     UI uiBuilder,
     C consumer,
   )? onAdd;
-  final Future<Widget> Function(
+  final Future<Widget?> Function(
     BuildContext context,
     T model,
     UI uiBuilder,
@@ -565,7 +565,7 @@ class _AbstractListState<
         Navigator.of(context).pop(model);
       }
     } else {
-      Widget next = await widget.onUpdate!(
+      Widget? next = await widget.onUpdate!(
         context,
         model,
         widget.uiBuilder,
@@ -580,12 +580,14 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _push(Widget push, [bool clear = true]) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute<T>(builder: (_) => push),
-    );
+  void _push(Widget? widget, [bool clear = true]) async {
+    if (widget != null) {
+      await Navigator.of(context).push(
+        MaterialPageRoute<T>(builder: (_) => widget),
+      );
 
-    await _loadData(context, clear: clear);
+      await _loadData(context, clear: clear);
+    }
   }
 
   ///

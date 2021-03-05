@@ -10,11 +10,11 @@ class DecimalField extends StatefulWidget {
   final String prefix;
   final String label;
   final DecimalEditingController? controller;
-  final FormFieldValidator<Decimal>? validator;
+  final Decimal? initialValue;
+  final String? Function(Decimal value)? validator;
+  final void Function(Decimal value)? onSaved;
   final TextAlign textAlign;
   final int? maxLength;
-  final FormFieldSetter<Decimal>? onSaved;
-  final Decimal? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
   final FocusNode? focusNode;
@@ -139,13 +139,11 @@ class _DecimalFieldState extends State<DecimalField> {
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,
-        validator: widget.enabled
-            ? (String? value) => widget.validator != null
-                ? widget.validator!(
-                    _effectiveController.validator.parse(value),
-                  )
-                : null
-            : (_) => null,
+        validator: (String? value) => widget.enabled && widget.validator != null
+            ? widget.validator!(
+                _effectiveController.parse(value),
+              )
+            : null,
         keyboardType: _effectiveController.validator.keyboard,
         minLines: 1,
         maxLines: 1,
@@ -153,10 +151,8 @@ class _DecimalFieldState extends State<DecimalField> {
         inputFormatters: _effectiveController.validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.maxLength,
-        onSaved: widget.enabled
-            ? (String? value) => widget.onSaved != null
-                ? widget.onSaved!(_effectiveController.validator.parse(value))
-                : null
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+            ? widget.onSaved!(_effectiveController.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -223,12 +219,18 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  Decimal get decimal => validator.parse(text)!;
+  Decimal get decimal => parse(text);
 
   ///
   ///
   ///
   void _changeListener() => decimal = decimal;
+
+  ///
+  ///
+  ///
+  Decimal parse(String? text) =>
+      validator.parse(text) ?? Decimal(precision: validator.precision);
 
   ///
   ///

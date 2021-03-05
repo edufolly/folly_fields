@@ -17,7 +17,7 @@ class EmailField extends ValidatorField {
     TextEditingController? controller,
     TextAlign textAlign = TextAlign.start,
     int? maxLength,
-    FormFieldSetter<String>? onSaved,
+    void Function(String value)? onSaved,
     String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -39,7 +39,8 @@ class EmailField extends ValidatorField {
           controller: controller,
           textAlign: textAlign,
           maxLength: maxLength,
-          onSaved: onSaved,
+          onSaved:
+              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
           initialValue: initialValue,
           enabled: enabled,
           autoValidateMode: autoValidateMode,

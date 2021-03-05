@@ -18,7 +18,7 @@ class PasswordField extends StringField {
     List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int? maxLength,
-    FormFieldSetter<String>? onSaved,
+    void Function(String value)? onSaved,
     // String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
