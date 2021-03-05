@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -145,12 +143,12 @@ class _AbstractEditState<
 
         bool go = true;
         if (_initialHash != currentHash) {
-          go = (await FollyDialogs.yesNoDialog(
+          go = await FollyDialogs.yesNoDialog(
             context: context,
             title: 'Atenção',
             message: 'Modificações foram realizadas.\n\n'
                 'Deseja sair mesmo assim?',
-          )?? false);
+          );
         }
         return go;
       },

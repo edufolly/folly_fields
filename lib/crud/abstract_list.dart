@@ -172,7 +172,7 @@ class _AbstractListState<
     try {
       if (!widget.selection) {
         ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, null);
+            await widget.consumer.checkPermission(context, <String>[]);
 
         _insert = permission.insert && widget.onAdd != null;
         _update = permission.update && widget.onUpdate != null;
@@ -598,7 +598,7 @@ class _AbstractListState<
       bool del = true;
 
       if (ask) {
-        del = await _askDelete() ?? false;
+        del = await _askDelete();
       }
 
       if (del) {
@@ -631,7 +631,7 @@ class _AbstractListState<
   ///
   ///
   ///
-  Future<bool?> _askDelete() => FollyDialogs.yesNoDialog(
+  Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
         title: 'Atenção',
         message: 'Deseja excluir?',

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 ///
 class DropdownField<T> extends FormField<T> {
   final DropdownEditingController<T>? controller;
-  final Map<T, String> items;
+  final Map<T, String>? items;
 
   ///
   ///
@@ -18,7 +18,7 @@ class DropdownField<T> extends FormField<T> {
     FormFieldValidator<T?>? validator,
     FormFieldSetter<T?>? onSaved,
     T? initialValue,
-    required this.items,
+    this.items,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Function(T? value)? onChanged,
@@ -152,8 +152,8 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
     super.initState();
     if (widget.controller == null) {
       _controller = DropdownEditingController<T>(
-        widget.initialValue,
-        widget.items,
+        value: widget.initialValue,
+        items: widget.items,
       );
     } else {
       widget.controller!.addListener(_handleControllerChanged);
@@ -230,7 +230,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
 ///
 ///
 class DropdownEditingController<T> extends ValueNotifier<T?> {
-  Map<T, String> _items;
+  Map<T, String>? _items;
 
   ///
   ///
@@ -242,19 +242,19 @@ class DropdownEditingController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  DropdownEditingController(T? value, Map<T, String> items)
+  DropdownEditingController({T? value, Map<T, String>? items})
       : _items = items,
         super(value);
 
   ///
   ///
   ///
-  Map<T, String> get items => _items;
+  Map<T, String>? get items => _items;
 
   ///
   ///
   ///
-  set items(Map<T, String> items) {
+  set items(Map<T, String>? items) {
     _items = items;
     super.notifyListeners();
   }
@@ -262,12 +262,15 @@ class DropdownEditingController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  List<DropdownMenuItem<T>> getDropdownItems() => _items.entries
-      .map(
-        (MapEntry<T, String> entry) => DropdownMenuItem<T>(
-          value: entry.key,
-          child: Text(entry.value),
-        ),
-      )
-      .toList();
+  List<DropdownMenuItem<T>> getDropdownItems() =>
+      _items == null || _items!.isEmpty
+          ? <DropdownMenuItem<T>>[]
+          : _items!.entries
+              .map(
+                (MapEntry<T, String> entry) => DropdownMenuItem<T>(
+                  value: entry.key,
+                  child: Text(entry.value),
+                ),
+              )
+              .toList();
 }

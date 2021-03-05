@@ -89,22 +89,24 @@ class ListField<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
                                   if (!go) return;
                                 }
 
-                                T? returned =
-                                    await Navigator.of(field.context).push(
-                                  MaterialPageRoute<T>(
-                                    builder: (BuildContext context) =>
-                                        routeEditBuilder!(
-                                      context,
-                                      model,
-                                      uiBuilder,
-                                      enabled,
+                                if (routeEditBuilder != null) {
+                                  T? returned =
+                                      await Navigator.of(field.context).push(
+                                    MaterialPageRoute<T>(
+                                      builder: (BuildContext context) =>
+                                          routeEditBuilder(
+                                        context,
+                                        model,
+                                        uiBuilder,
+                                        enabled,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
 
-                                if (returned != null) {
-                                  field.value![index] = returned;
-                                  field.didChange(field.value);
+                                  if (returned != null) {
+                                    field.value![index] = returned;
+                                    field.didChange(field.value);
+                                  }
                                 }
                               },
                               onDelete: (T model) {
@@ -241,7 +243,7 @@ class _MyListTile<T extends AbstractModel, UI extends AbstractUIBuilder<T>>
           onPressed: () => _delete(context, model, ask: true),
         ),
       ),
-      onTap: onEdit == null ? null : () => onEdit(index, model),
+      onTap: () => onEdit(index, model),
     );
   }
 

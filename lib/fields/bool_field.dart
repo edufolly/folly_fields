@@ -145,7 +145,7 @@ class _BoolFieldState extends FormFieldState<bool> {
     super.initState();
     if (widget.controller == null) {
       _controller = BoolEditingController(
-        widget.initialValue,
+        value: widget.initialValue,
       );
     } else {
       widget.controller?.addListener(_handleControllerChanged);
@@ -165,7 +165,7 @@ class _BoolFieldState extends FormFieldState<bool> {
 
       if (oldWidget.controller != null && widget.controller == null) {
         _controller = BoolEditingController(
-          oldWidget.controller!.value,
+          value: oldWidget.controller!.value,
         );
       }
 
@@ -222,5 +222,5 @@ class _BoolFieldState extends FormFieldState<bool> {
 ///
 ///
 class BoolEditingController extends ValueNotifier<bool?> {
-  BoolEditingController(bool? value) : super(value);
+  BoolEditingController({bool? value}) : super(value);
 }

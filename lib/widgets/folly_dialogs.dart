@@ -9,7 +9,7 @@ class FollyDialogs {
   ///
   ///
   ///
-  static Future<bool?> dialogMessage({
+  static Future<void> dialogMessage({
     required BuildContext context,
     required String message,
     String title = 'Atenção',
@@ -36,7 +36,7 @@ class FollyDialogs {
   ///
   ///
   ///
-  static Future<String?> dialogText({
+  static Future<String> dialogText({
     required BuildContext context,
     required String title,
     required String message,
@@ -44,7 +44,7 @@ class FollyDialogs {
     String cancelLabel = 'CANCELAR',
     String startString = '',
     TextInputType keyboardType = TextInputType.text,
-  }) {
+  }) async {
     final TextEditingController _controller = TextEditingController();
 
     _controller.text = startString;
@@ -54,7 +54,7 @@ class FollyDialogs {
       extentOffset: _controller.text.length,
     );
 
-    return showDialog(
+    String? value = await showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -97,19 +97,21 @@ class FollyDialogs {
         );
       },
     );
+
+    return value ?? '';
   }
 
   ///
   ///
   ///
-  static Future<bool?> yesNoDialog({
+  static Future<bool> yesNoDialog({
     required BuildContext context,
     String title = 'Atenção',
     required String message,
     String affirmative = 'Sim',
     String negative = 'Não',
     bool marked = false,
-  }) {
+  }) async {
     Widget aff;
     Widget neg;
 
@@ -135,7 +137,7 @@ class FollyDialogs {
       );
     }
 
-    return showDialog(
+    bool? value = await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
@@ -144,5 +146,7 @@ class FollyDialogs {
         actions: <Widget>[neg, aff],
       ),
     );
+
+    return value ?? false;
   }
 }

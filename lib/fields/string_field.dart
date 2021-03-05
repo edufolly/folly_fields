@@ -9,7 +9,7 @@ class StringField extends StatelessWidget {
   final String label;
   final TextEditingController? controller;
   final TextInputType keyboard;
-  final FormFieldValidator<String>? validator;
+  final String? Function(String value)? validator;
   final int minLines;
   final int maxLines;
   final bool obscureText;
@@ -82,7 +82,9 @@ class StringField extends StatelessWidget {
           enabled: enabled,
           filled: filled,
         ),
-        validator: enabled ? validator : (_) => null,
+        validator: enabled && validator != null
+            ? (String? value) => validator!(value ?? '')
+            : (_) => null,
         minLines: minLines,
         maxLines: maxLines,
         obscureText: obscureText,

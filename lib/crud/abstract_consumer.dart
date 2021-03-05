@@ -47,7 +47,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
-    List<String>? paths,
+    List<String> paths,
   );
 
   ///
@@ -73,7 +73,7 @@ abstract class AbstractConsumer<T extends AbstractModel> {
   ///
   ///
   ///
-  Future<T> getById(
+  Future<T?> getById(
     BuildContext context,
     T model,
   );

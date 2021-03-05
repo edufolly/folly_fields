@@ -14,7 +14,7 @@ class PasswordField extends StringField {
     String prefix = '',
     String label = '',
     TextEditingController? controller,
-    FormFieldValidator<String>? validator,
+    String? Function(String value)? validator,
     List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int? maxLength,

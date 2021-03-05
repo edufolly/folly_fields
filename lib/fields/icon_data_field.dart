@@ -172,7 +172,10 @@ class _IconDataFieldState extends FormFieldState<IconData> {
     _textController.addListener(_handleSearch);
 
     if (widget.controller == null) {
-      _controller = IconFieldController(widget.initialValue, widget.icons);
+      _controller = IconFieldController(
+        value: widget.initialValue,
+        icons: widget.icons,
+      );
     } else {
       widget.controller!.addListener(_handleControllerChanged);
     }
@@ -267,16 +270,18 @@ class IconFieldController extends ValueNotifier<IconData?> {
   ///
   ///
   ///
-  IconFieldController.fromValue(IconFieldController controller)
-      : _icons = controller.icons,
-        super(controller.value);
+  IconFieldController({
+    IconData? value,
+    Map<String, IconData> icons = const <String, IconData>{},
+  })  : _icons = icons,
+        super(value);
 
   ///
   ///
   ///
-  IconFieldController(IconData? value, Map<String, IconData> icons)
-      : _icons = icons,
-        super(value);
+  IconFieldController.fromValue(IconFieldController controller)
+      : _icons = controller.icons,
+        super(controller.value);
 
   ///
   ///
@@ -285,15 +290,21 @@ class IconFieldController extends ValueNotifier<IconData?> {
 
   ///
   ///
+  ///
   set icons(Map<String, IconData> icons) {
     _icons = icons;
     super.notifyListeners();
   }
 
-  String get name => value == null
-      ? ''
-      : _icons.keys.firstWhere(
-          (String key) => _icons[key] == value,
-          orElse: () => '',
-        );
+  ///
+  ///
+  ///
+  String get name {
+    if (value == null) return '';
+
+    return _icons.keys.firstWhere(
+      (String key) => _icons[key] == value,
+      orElse: () => '',
+    );
+  }
 }
