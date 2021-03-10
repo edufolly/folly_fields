@@ -31,6 +31,7 @@ class StringField extends StatelessWidget {
   final bool enableInteractiveSelection;
   final bool filled;
   final Iterable<String>? autofillHints;
+  final bool readOnly;
 
   ///
   ///
@@ -63,6 +64,7 @@ class StringField extends StatelessWidget {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.autofillHints,
+    this.readOnly = false,
   }) : super(key: key);
 
   ///
@@ -106,7 +108,7 @@ class StringField extends StatelessWidget {
         textCapitalization: textCapitalization,
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
-        autofillHints: autofillHints,
+        autofillHints: readOnly ? null : autofillHints,
         style: enabled
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(

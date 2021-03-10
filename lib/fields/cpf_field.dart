@@ -16,7 +16,7 @@ class CpfField extends ValidatorField {
     String label = '',
     TextEditingController? controller,
     TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<String>? onSaved,
+    void Function(String value)? onSaved,
     String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -37,7 +37,8 @@ class CpfField extends ValidatorField {
           controller: controller,
           textAlign: textAlign,
           maxLength: 14,
-          onSaved: onSaved,
+          onSaved:
+              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
           initialValue: initialValue,
           enabled: enabled,
           autoValidateMode: autoValidateMode,

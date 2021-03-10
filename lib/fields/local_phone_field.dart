@@ -16,7 +16,7 @@ class LocalPhoneField extends ValidatorField {
     String label = '',
     TextEditingController? controller,
     TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<String>? onSaved,
+    void Function(String value)? onSaved,
     String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -37,7 +37,8 @@ class LocalPhoneField extends ValidatorField {
           controller: controller,
           textAlign: textAlign,
           maxLength: 10,
-          onSaved: onSaved,
+          onSaved:
+              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
           initialValue: initialValue,
           enabled: enabled,
           autoValidateMode: autoValidateMode,
