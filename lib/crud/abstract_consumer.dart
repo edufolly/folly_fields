@@ -126,7 +126,7 @@ class ConsumerPermission {
     this.update = false,
     this.delete = false,
     this.iconName = 'solidCircle',
-    required this.name,
+    this.name = '',
   });
 
   ///
@@ -139,7 +139,7 @@ class ConsumerPermission {
         update = map['update'] ?? false,
         delete = map['delete'] ?? false,
         iconName = map['iconName'] ?? 'solidCircle',
-        name = map['name'];
+        name = map['name'] ?? '';
 
   ///
   ///
