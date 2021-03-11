@@ -65,12 +65,6 @@ class _FollyTableState extends State<FollyTable> {
   @override
   void initState() {
     super.initState();
-    // _horizontalController = ScrollController();
-    //
-    // _verticalController = ScrollController();
-    // _internalController = ScrollController();
-    // _freezeController = ScrollController();
-
     _verticalController.addListener(() {
       if (caller.isEmpty ||
           DateTime.now().millisecondsSinceEpoch - lastCall >
@@ -136,46 +130,47 @@ class _FollyTableState extends State<FollyTable> {
           ),
 
         /// Table Content
-        Expanded(
-          child: Scrollbar(
+        Scrollbar(
+          controller: _horizontalController,
+          isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+          thickness: widget.scrollBarThickness,
+          child: SingleChildScrollView(
             controller: _horizontalController,
-            isAlwaysShown: widget.horizontalScrollAlwaysVisible,
-            thickness: widget.scrollBarThickness,
-            child: SingleChildScrollView(
-              controller: _horizontalController,
-              scrollDirection: Axis.horizontal,
-              child: _drawColumns(
-                widget.freezeColumns,
-                widget.columnsSize.length,
-                _internalController,
-              ),
+            scrollDirection: Axis.horizontal,
+            child: _drawColumns(
+              widget.freezeColumns,
+              widget.columnsSize.length,
+              _internalController,
             ),
           ),
         ),
 
         /// Vertical Scrollbar
-        Column(
-          children: <Widget>[
-            Container(
-              width: widget.scrollBarThickness,
-              height: widget.headerHeight + widget.dividerHeight + 4.0,
-            ),
-            Expanded(
-              child: Scrollbar(
-                controller: _verticalController,
-                isAlwaysShown: widget.verticalScrollAlwaysVisible,
-                thickness: widget.scrollBarThickness,
-                child: SingleChildScrollView(
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                width: widget.scrollBarThickness,
+                height: widget.headerHeight + widget.dividerHeight + 4.0,
+              ),
+              Expanded(
+                child: Scrollbar(
                   controller: _verticalController,
-                  child: Container(
-                    width: widget.scrollBarThickness,
-                    height: (widget.rowHeight + widget.dividerHeight + 4.0) *
-                        widget.rowsCount,
+                  isAlwaysShown: widget.verticalScrollAlwaysVisible,
+                  thickness: widget.scrollBarThickness,
+                  child: SingleChildScrollView(
+                    controller: _verticalController,
+                    child: Container(
+                      width: widget.scrollBarThickness,
+                      height: (widget.rowHeight + widget.dividerHeight + 4.0) *
+                          widget.rowsCount,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
