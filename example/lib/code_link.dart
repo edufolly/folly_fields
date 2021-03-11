@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_highlight/flutter_highlight.dart';
+
 import 'package:folly_fields/widgets/folly_dialogs.dart';
-// import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///
@@ -57,6 +57,7 @@ class CodeLink extends StatelessWidget {
         .firstMatch(code)!
         .group(1)!
         .replaceAll('              ', '')
+        .replaceAll('            ', '  ')
         .trim();
 
     showDialog(
@@ -71,13 +72,10 @@ class CodeLink extends StatelessWidget {
               padding: EdgeInsets.all(12.0),
               color: Colors.black38,
               child: SingleChildScrollView(
-                child: Text(example),
-                // child: HighlightView(
-                //   example,
-                //   language: 'dart',
-                //   theme: myTheme,
-                //   textStyle: GoogleFonts.firaMono(fontSize: 14.0),
-                // ),
+                child: SelectableText(
+                  example,
+                  style: GoogleFonts.firaCode(fontSize: 14.0),
+                ),
               ),
             ),
           ),
@@ -107,37 +105,37 @@ class CodeLink extends StatelessWidget {
     );
   }
 
-  ///
-  ///
-  ///
-  static const Map<String, TextStyle> myTheme = <String, TextStyle>{
-    'root': TextStyle(
-      color: Color(0xffa9b7c6),
-      backgroundColor: Color(0x00000000),
-    ),
-    'number': TextStyle(color: Color(0xff6897BB)),
-    'literal': TextStyle(color: Color(0xff6897BB)),
-    'symbol': TextStyle(color: Color(0xff6897BB)),
-    'bullet': TextStyle(color: Color(0xff6897BB)),
-    'keyword': TextStyle(color: Color(0xffcc7832)),
-    'selector-tag': TextStyle(color: Color(0xffcc7832)),
-    'deletion': TextStyle(color: Color(0xffcc7832)),
-    'variable': TextStyle(color: Color(0xff629755)),
-    'template-variable': TextStyle(color: Color(0xff629755)),
-    'link': TextStyle(color: Color(0xff629755)),
-    'comment': TextStyle(color: Color(0xff808080)),
-    'quote': TextStyle(color: Color(0xff808080)),
-    'meta': TextStyle(color: Color(0xffbbb529)),
-    'string': TextStyle(color: Color(0xff6A8759)),
-    'attribute': TextStyle(color: Color(0xff6A8759)),
-    'addition': TextStyle(color: Color(0xff6A8759)),
-    'section': TextStyle(color: Color(0xffffc66d)),
-    'title': TextStyle(color: Color(0xffffc66d)),
-    'type': TextStyle(color: Color(0xffffc66d)),
-    'name': TextStyle(color: Color(0xffe8bf6a)),
-    'selector-id': TextStyle(color: Color(0xffe8bf6a)),
-    'selector-class': TextStyle(color: Color(0xffe8bf6a)),
-    'emphasis': TextStyle(fontStyle: FontStyle.italic),
-    'strong': TextStyle(fontWeight: FontWeight.bold),
-  };
+  // ///
+  // ///
+  // ///
+  // static const Map<String, TextStyle> myTheme = <String, TextStyle>{
+  //   'root': TextStyle(
+  //     color: Color(0xffa9b7c6),
+  //     backgroundColor: Color(0x00000000),
+  //   ),
+  //   'number': TextStyle(color: Color(0xff6897BB)),
+  //   'literal': TextStyle(color: Color(0xff6897BB)),
+  //   'symbol': TextStyle(color: Color(0xff6897BB)),
+  //   'bullet': TextStyle(color: Color(0xff6897BB)),
+  //   'keyword': TextStyle(color: Color(0xffcc7832)),
+  //   'selector-tag': TextStyle(color: Color(0xffcc7832)),
+  //   'deletion': TextStyle(color: Color(0xffcc7832)),
+  //   'variable': TextStyle(color: Color(0xff629755)),
+  //   'template-variable': TextStyle(color: Color(0xff629755)),
+  //   'link': TextStyle(color: Color(0xff629755)),
+  //   'comment': TextStyle(color: Color(0xff808080)),
+  //   'quote': TextStyle(color: Color(0xff808080)),
+  //   'meta': TextStyle(color: Color(0xffbbb529)),
+  //   'string': TextStyle(color: Color(0xff6A8759)),
+  //   'attribute': TextStyle(color: Color(0xff6A8759)),
+  //   'addition': TextStyle(color: Color(0xff6A8759)),
+  //   'section': TextStyle(color: Color(0xffffc66d)),
+  //   'title': TextStyle(color: Color(0xffffc66d)),
+  //   'type': TextStyle(color: Color(0xffffc66d)),
+  //   'name': TextStyle(color: Color(0xffe8bf6a)),
+  //   'selector-id': TextStyle(color: Color(0xffe8bf6a)),
+  //   'selector-class': TextStyle(color: Color(0xffe8bf6a)),
+  //   'emphasis': TextStyle(fontStyle: FontStyle.italic),
+  //   'strong': TextStyle(fontWeight: FontWeight.bold),
+  // };
 }
