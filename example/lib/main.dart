@@ -65,6 +65,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         accentColor: Colors.deepOrange,
         brightness: Brightness.dark,
+        snackBarTheme: ThemeData.dark().snackBarTheme.copyWith(
+              backgroundColor: Colors.deepOrange,
+              contentTextStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+              ),
+            ),
       ),
       // home: MyHomePage(),
       routes: <String, WidgetBuilder>{
@@ -125,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Folly Fields Example'),
+        title: Text('Exemplo - Folly Fields'),
         actions: <Widget>[
           /// Github
           IconButton(
@@ -283,8 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Decimal*',
                           enabled: edit,
                           initialValue: model.decimal,
-                          // TODO - Decimal not null.
-                          onSaved: (Decimal? value) => model.decimal = value,
+                          onSaved: (Decimal value) => model.decimal = value,
                         ),
                         // [/DecimalField]
                       ),

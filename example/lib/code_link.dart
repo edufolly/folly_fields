@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -85,8 +87,22 @@ class CodeLink extends StatelessWidget {
           ),
           actions: <Widget>[
             ElevatedButton.icon(
+              label: Text('Copiar'),
+              icon: Icon(Icons.copy),
+              onPressed: () async {
+                await Clipboard.setData(ClipboardData(text: example));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Código copiado para a área de transferência.',
+                    ),
+                  ),
+                );
+              },
+            ),
+            ElevatedButton.icon(
               label: Text('Código Fonte'),
-              icon: Icon(Icons.code),
+              icon: Icon(FontAwesomeIcons.github),
               onPressed: () async {
                 if (await canLaunch(source)) {
                   await launch(source);
