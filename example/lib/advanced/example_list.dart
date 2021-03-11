@@ -9,7 +9,7 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 class ExampleList
-    extends AbstractList<ExampleModel, ExampleBuilder, ExampleConsumer> {
+    extends AbstractList<int, ExampleModel, ExampleBuilder, ExampleConsumer> {
   ///
   ///
   ///

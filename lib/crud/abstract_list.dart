@@ -18,9 +18,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractList<
-    T extends AbstractModel,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends AbstractRoute {
+    A,
+    T extends AbstractModel<A>,
+    UI extends AbstractUIBuilder<A, T>,
+    C extends AbstractConsumer<A, T>> extends AbstractRoute {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
@@ -93,16 +94,18 @@ abstract class AbstractList<
   ///
   ///
   @override
-  _AbstractListState<T, UI, C> createState() => _AbstractListState<T, UI, C>();
+  _AbstractListState<A, T, UI, C> createState() =>
+      _AbstractListState<A, T, UI, C>();
 }
 
 ///
 ///
 ///
 class _AbstractListState<
-    T extends AbstractModel,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
+    A,
+    T extends AbstractModel<A>,
+    UI extends AbstractUIBuilder<A, T>,
+    C extends AbstractConsumer<A, T>> extends State<AbstractList<A, T, UI, C>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -117,7 +120,7 @@ class _AbstractListState<
   bool _update = false;
   bool _delete = false;
 
-  Map<int, T> selections = <int, T>{};
+  Map<A, T> selections = <A, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
 
@@ -290,7 +293,7 @@ class _AbstractListState<
                 onPressed: () {
                   showSearch<T?>(
                     context: context,
-                    delegate: InternalSearch<T, UI, C>(
+                    delegate: InternalSearch<A, T, UI, C>(
                       buildResultItem: _buildResultItem,
                       canDelete: (T model) =>
                           _delete &&
@@ -643,8 +646,11 @@ class _AbstractListState<
 ///
 ///
 ///
-class InternalSearch<W extends AbstractModel, UI extends AbstractUIBuilder<W>,
-    C extends AbstractConsumer<W>> extends SearchDelegate<W?> {
+class InternalSearch<
+    A,
+    W extends AbstractModel<A>,
+    UI extends AbstractUIBuilder<A, W>,
+    C extends AbstractConsumer<A, W>> extends SearchDelegate<W?> {
   final UI uiBuilder;
   final C consumer;
 

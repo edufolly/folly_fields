@@ -5,8 +5,8 @@ import 'package:folly_fields/util/hashable.dart';
 ///
 ///
 ///
-abstract class AbstractModel with Hashable {
-  int? id;
+abstract class AbstractModel<A> with Hashable {
+  A? id;
   int? updatedAt;
   int? deletedAt;
   bool selected = false;
@@ -27,12 +27,12 @@ abstract class AbstractModel with Hashable {
   ///
   ///
   ///
-  AbstractModel fromJson(Map<String, dynamic> map);
+  AbstractModel<A> fromJson(Map<String, dynamic> map);
 
   ///
   ///
   ///
-  AbstractModel fromMulti(Map<String, dynamic> map);
+  AbstractModel<A> fromMulti(Map<String, dynamic> map);
 
   ///
   ///
@@ -68,6 +68,9 @@ abstract class AbstractModel with Hashable {
   ///
   String get searchTerm;
 
+  ///
+  ///
+  ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
     Map<String, dynamic> newMap = <String, dynamic>{};
     for (MapEntry<String, dynamic> entry in map.entries) {

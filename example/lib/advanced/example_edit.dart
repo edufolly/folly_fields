@@ -7,6 +7,7 @@ import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpj_cnpj_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
+import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
@@ -27,7 +28,7 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 class ExampleEdit
-    extends AbstractEdit<ExampleModel, ExampleBuilder, ExampleConsumer> {
+    extends AbstractEdit<int, ExampleModel, ExampleBuilder, ExampleConsumer> {
   ///
   ///
   ///
@@ -145,6 +146,16 @@ class ExampleEdit
         enabled: edit,
         initialValue: model.localPhone,
         onSaved: (String? value) => model.localPhone = value,
+      ),
+
+      /// Data e Hora
+      DateTimeField(
+        prefix: prefix,
+        label: 'Data e Hora*',
+        enabled: edit,
+        initialValue: model.dateTime,
+        required: true,
+        onSaved: (DateTime? value) => model.dateTime = value,
       ),
 
       /// Data

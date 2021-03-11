@@ -13,7 +13,7 @@ import 'package:folly_fields/validators/time_validator.dart';
 ///
 ///
 ///
-class ExampleModel extends AbstractModel {
+class ExampleModel extends AbstractModel<int> {
   static final TimeValidator timeValidator = TimeValidator();
   static final Random rnd = Random();
 

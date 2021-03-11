@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ModelField<T extends AbstractModel> extends FormField<T?> {
-  final ModelEditingController<T>? controller;
+class ModelField<A, T extends AbstractModel<A>> extends FormField<T?> {
+  final ModelEditingController<A, T>? controller;
 
   ///
   ///
@@ -40,7 +40,7 @@ class ModelField<T extends AbstractModel> extends FormField<T?> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final _ModelFieldState<T> state = field as _ModelFieldState<T>;
+            final _ModelFieldState<A, T> state = field as _ModelFieldState<A, T>;
 
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
@@ -130,25 +130,25 @@ class ModelField<T extends AbstractModel> extends FormField<T?> {
   ///
   ///
   @override
-  _ModelFieldState<T> createState() => _ModelFieldState<T>();
+  _ModelFieldState<A, T> createState() => _ModelFieldState<A, T>();
 }
 
 ///
 ///
 ///
-class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
-  ModelEditingController<T>? _controller;
+class _ModelFieldState<A, T extends AbstractModel<A>> extends FormFieldState<T?> {
+  ModelEditingController<A, T>? _controller;
 
   ///
   ///
   ///
   @override
-  ModelField<T> get widget => super.widget as ModelField<T>;
+  ModelField<A, T> get widget => super.widget as ModelField<A, T>;
 
   ///
   ///
   ///
-  ModelEditingController<T> get _effectiveController =>
+  ModelEditingController<A, T> get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -158,7 +158,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = ModelEditingController<T>(model: widget.initialValue);
+      _controller = ModelEditingController<A, T>(model: widget.initialValue);
     } else {
       widget.controller!.addListener(_handleControllerChanged);
     }
@@ -168,7 +168,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
   ///
   ///
   @override
-  void didUpdateWidget(ModelField<T> oldWidget) {
+  void didUpdateWidget(ModelField<A, T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -176,7 +176,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = ModelEditingController<T>(
+        _controller = ModelEditingController<A, T>(
           model: oldWidget.controller!.model,
         );
       }
@@ -233,7 +233,7 @@ class _ModelFieldState<T extends AbstractModel> extends FormFieldState<T?> {
 ///
 ///
 ///
-class ModelEditingController<T extends AbstractModel>
+class ModelEditingController<A, T extends AbstractModel<A>>
     extends TextEditingController {
   T? _model;
 

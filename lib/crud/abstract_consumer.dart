@@ -4,7 +4,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
-abstract class AbstractConsumer<T extends AbstractModel> {
+abstract class AbstractConsumer<A, T extends AbstractModel<A>> {
   ///
   ///
   ///
