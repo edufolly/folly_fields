@@ -11,15 +11,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 /// TODO - Customize messages.
 /// TODO - Create controller??
 ///
-class TableField<A, T extends AbstractModel<A>> extends FormField<List<T>> {
+class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
   ///
   ///
   ///
   TableField({
     Key? key,
     required List<T> initialValue,
-    required AbstractUIBuilder<A, T> uiBuilder,
-    required AbstractConsumer<A, T> consumer,
+    required AbstractUIBuilder<T> uiBuilder,
+    required AbstractConsumer<T> consumer,
     required List<String> columns,
     List<int> columnsFlex = const <int>[],
     required List<Widget> Function(

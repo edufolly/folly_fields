@@ -4,7 +4,7 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 ///
-class ExampleConsumer extends BaseConsumerMock<int, ExampleModel> {
+class ExampleConsumer extends BaseConsumerMock<ExampleModel> {
   ///
   ///
   ///

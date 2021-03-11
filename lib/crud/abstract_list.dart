@@ -18,10 +18,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractList<
-    A,
-    T extends AbstractModel<A>,
-    UI extends AbstractUIBuilder<A, T>,
-    C extends AbstractConsumer<A, T>> extends AbstractRoute {
+    T extends AbstractModel<Object>,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends AbstractRoute {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
@@ -94,18 +93,16 @@ abstract class AbstractList<
   ///
   ///
   @override
-  _AbstractListState<A, T, UI, C> createState() =>
-      _AbstractListState<A, T, UI, C>();
+  _AbstractListState<T, UI, C> createState() => _AbstractListState<T, UI, C>();
 }
 
 ///
 ///
 ///
 class _AbstractListState<
-    A,
-    T extends AbstractModel<A>,
-    UI extends AbstractUIBuilder<A, T>,
-    C extends AbstractConsumer<A, T>> extends State<AbstractList<A, T, UI, C>> {
+    T extends AbstractModel<Object>,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -120,7 +117,7 @@ class _AbstractListState<
   bool _update = false;
   bool _delete = false;
 
-  Map<A, T> selections = <A, T>{};
+  Map<Object, T> selections = <Object, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
 
@@ -293,7 +290,7 @@ class _AbstractListState<
                 onPressed: () {
                   showSearch<T?>(
                     context: context,
-                    delegate: InternalSearch<A, T, UI, C>(
+                    delegate: InternalSearch<T, UI, C>(
                       buildResultItem: _buildResultItem,
                       canDelete: (T model) =>
                           _delete &&
@@ -647,10 +644,9 @@ class _AbstractListState<
 ///
 ///
 class InternalSearch<
-    A,
-    W extends AbstractModel<A>,
-    UI extends AbstractUIBuilder<A, W>,
-    C extends AbstractConsumer<A, W>> extends SearchDelegate<W?> {
+    W extends AbstractModel<Object>,
+    UI extends AbstractUIBuilder<W>,
+    C extends AbstractConsumer<W>> extends SearchDelegate<W?> {
   final UI uiBuilder;
   final C consumer;
 

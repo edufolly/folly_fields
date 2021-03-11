@@ -28,7 +28,7 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 class ExampleEdit
-    extends AbstractEdit<int, ExampleModel, ExampleBuilder, ExampleConsumer> {
+    extends AbstractEdit<ExampleModel, ExampleBuilder, ExampleConsumer> {
   ///
   ///
   ///

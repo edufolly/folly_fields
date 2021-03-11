@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-abstract class AbstractUIBuilder<A, T extends AbstractModel<A>> {
+abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   final String prefix;
 
   ///
