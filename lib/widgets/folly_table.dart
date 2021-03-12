@@ -15,10 +15,11 @@ class FollyTable extends StatefulWidget {
   final void Function(int row)? onRowTap;
   final double dividerHeight;
   final double scrollBarThickness;
-  final int scrollTimeout;
+  final int scrollTimeout; // FIXME - Fix it!
   final bool verticalScrollAlwaysVisible;
   final bool horizontalScrollAlwaysVisible;
   final int freezeColumns;
+  final double borderWorkaround; // FIXME - Fix it!
 
   ///
   ///
@@ -38,6 +39,7 @@ class FollyTable extends StatefulWidget {
     this.verticalScrollAlwaysVisible = true,
     this.horizontalScrollAlwaysVisible = true,
     this.freezeColumns = 0,
+    this.borderWorkaround = 24.0,
   }) : super(key: key);
 
   ///
@@ -55,6 +57,7 @@ class _FollyTableState extends State<FollyTable> {
   final ScrollController _verticalController = ScrollController();
   final ScrollController _internalController = ScrollController();
   final ScrollController _freezeController = ScrollController();
+  final GlobalKey testKey = GlobalKey();
 
   int lastCall = 0;
   String caller = '';
@@ -65,6 +68,7 @@ class _FollyTableState extends State<FollyTable> {
   @override
   void initState() {
     super.initState();
+
     _verticalController.addListener(() {
       if (caller.isEmpty ||
           DateTime.now().millisecondsSinceEpoch - lastCall >
@@ -119,7 +123,15 @@ class _FollyTableState extends State<FollyTable> {
   ///
   @override
   Widget build(BuildContext context) {
+    double totalWidth = widget.columnsSize
+            .fold<double>(0.0, (double p, double e) => p + e + 4) +
+        widget.scrollBarThickness +
+        widget.borderWorkaround;
+
+    bool tableGtScreen = totalWidth > MediaQuery.of(context).size.width;
+
     return Row(
+      key: testKey,
       children: <Widget>[
         /// Frozen Content
         if (widget.freezeColumns > 0)
@@ -130,25 +142,31 @@ class _FollyTableState extends State<FollyTable> {
           ),
 
         /// Table Content
-        Scrollbar(
-          controller: _horizontalController,
-          isAlwaysShown: widget.horizontalScrollAlwaysVisible,
-          thickness: widget.scrollBarThickness,
-          child: SingleChildScrollView(
+        Expanded(
+          flex: tableGtScreen ? 1 : 0,
+          child: Scrollbar(
             controller: _horizontalController,
-            scrollDirection: Axis.horizontal,
-            child: _drawColumns(
-              widget.freezeColumns,
-              widget.columnsSize.length,
-              _internalController,
+            isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+            thickness: widget.scrollBarThickness,
+            child: SingleChildScrollView(
+              controller: _horizontalController,
+              scrollDirection: Axis.horizontal,
+              child: _drawColumns(
+                widget.freezeColumns,
+                widget.columnsSize.length,
+                _internalController,
+              ),
             ),
           ),
         ),
 
         /// Vertical Scrollbar
         Expanded(
+          flex: tableGtScreen ? 0 : 1,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: tableGtScreen
+                ? CrossAxisAlignment.end
+                : CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
                 width: widget.scrollBarThickness,
