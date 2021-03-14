@@ -79,7 +79,7 @@ packages:
       name: email_validator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0-nullsafety"
+    version: "2.0.1"
   fake_async:
     dependency: transitive
     description:

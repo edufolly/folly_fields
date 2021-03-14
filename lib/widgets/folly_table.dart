@@ -19,7 +19,6 @@ class FollyTable extends StatefulWidget {
   final bool verticalScrollAlwaysVisible;
   final bool horizontalScrollAlwaysVisible;
   final int freezeColumns;
-  final double borderWorkaround; // FIXME - Fix it!
 
   ///
   ///
@@ -39,7 +38,6 @@ class FollyTable extends StatefulWidget {
     this.verticalScrollAlwaysVisible = true,
     this.horizontalScrollAlwaysVisible = true,
     this.freezeColumns = 0,
-    this.borderWorkaround = 24.0,
   }) : super(key: key);
 
   ///
@@ -57,7 +55,6 @@ class _FollyTableState extends State<FollyTable> {
   final ScrollController _verticalController = ScrollController();
   final ScrollController _internalController = ScrollController();
   final ScrollController _freezeController = ScrollController();
-  final GlobalKey testKey = GlobalKey();
 
   int lastCall = 0;
   String caller = '';
@@ -123,15 +120,9 @@ class _FollyTableState extends State<FollyTable> {
   ///
   @override
   Widget build(BuildContext context) {
-    double totalWidth = widget.columnsSize
-            .fold<double>(0.0, (double p, double e) => p + e + 4) +
-        widget.scrollBarThickness +
-        widget.borderWorkaround;
-
-    bool tableGtScreen = totalWidth > MediaQuery.of(context).size.width;
-
     return Row(
-      key: testKey,
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         /// Frozen Content
         if (widget.freezeColumns > 0)
@@ -142,8 +133,8 @@ class _FollyTableState extends State<FollyTable> {
           ),
 
         /// Table Content
-        Expanded(
-          flex: tableGtScreen ? 1 : 0,
+        Flexible(
+          flex: 1,
           child: Scrollbar(
             controller: _horizontalController,
             isAlwaysShown: widget.horizontalScrollAlwaysVisible,
@@ -161,34 +152,28 @@ class _FollyTableState extends State<FollyTable> {
         ),
 
         /// Vertical Scrollbar
-        Expanded(
-          flex: tableGtScreen ? 0 : 1,
-          child: Column(
-            crossAxisAlignment: tableGtScreen
-                ? CrossAxisAlignment.end
-                : CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Container(
-                width: widget.scrollBarThickness,
-                height: widget.headerHeight + widget.dividerHeight + 4.0,
-              ),
-              Expanded(
-                child: Scrollbar(
+        Column(
+          children: <Widget>[
+            Container(
+              width: widget.scrollBarThickness,
+              height: widget.headerHeight + widget.dividerHeight + 4.0,
+            ),
+            Expanded(
+              child: Scrollbar(
+                controller: _verticalController,
+                isAlwaysShown: widget.verticalScrollAlwaysVisible,
+                thickness: widget.scrollBarThickness,
+                child: SingleChildScrollView(
                   controller: _verticalController,
-                  isAlwaysShown: widget.verticalScrollAlwaysVisible,
-                  thickness: widget.scrollBarThickness,
-                  child: SingleChildScrollView(
-                    controller: _verticalController,
-                    child: Container(
-                      width: widget.scrollBarThickness,
-                      height: (widget.rowHeight + widget.dividerHeight + 4.0) *
-                          widget.rowsCount,
-                    ),
+                  child: Container(
+                    width: widget.scrollBarThickness,
+                    height: (widget.rowHeight + widget.dividerHeight + 4.0) *
+                        widget.rowsCount,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

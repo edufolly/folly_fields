@@ -21,6 +21,7 @@ abstract class AbstractEdit<
   final UI uiBuilder;
   final C? consumer;
   final bool edit;
+  final CrossAxisAlignment crossAxisAlignment;
 
   ///
   ///
@@ -31,6 +32,7 @@ abstract class AbstractEdit<
     this.consumer,
     this.edit, {
     Key? key,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
   }) : super(key: key);
 
   ///
@@ -160,9 +162,11 @@ class _AbstractEditState<
               visible: widget.edit,
               child: IconButton(
                 tooltip: 'Salvar',
-                icon: FaIcon(widget.consumer == null
-                    ? FontAwesomeIcons.check
-                    : FontAwesomeIcons.solidSave),
+                icon: FaIcon(
+                  widget.consumer == null
+                      ? FontAwesomeIcons.check
+                      : FontAwesomeIcons.solidSave,
+                ),
                 onPressed: _save,
               ),
             )
@@ -183,6 +187,7 @@ class _AbstractEditState<
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
+                      crossAxisAlignment: widget.crossAxisAlignment,
                       children: widget.formContent(
                         context,
                         _model!,
