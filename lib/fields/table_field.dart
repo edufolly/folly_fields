@@ -216,6 +216,9 @@ class AddButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
       child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(12.0),
+        ),
         icon: FaIcon(
           FontAwesomeIcons.plus,
         ),
