@@ -11,9 +11,10 @@ class FollyDialogs {
   ///
   static Future<void> dialogMessage({
     required BuildContext context,
-    required String message,
+    required String? message,
     String title = 'Atenção',
     String buttonText = 'OK',
+    String defaultMessage = 'Ocorreu um erro.',
   }) {
     return showDialog(
       context: context,
@@ -21,7 +22,7 @@ class FollyDialogs {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Text(message),
+          content: Text(message ?? defaultMessage),
           actions: <Widget>[
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),

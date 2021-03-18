@@ -188,21 +188,14 @@ abstract class AbstractConfig implements _InternalConfig {
         _platform = RunningPlatform.IOS;
       }
 
-      // FIXME - Problem with connectivity plugin on web.
-      if (isWeb) {
-        _online = true;
-      } else {
-        ConnectivityResult result = await Connectivity().checkConnectivity();
+      ConnectivityResult result = await Connectivity().checkConnectivity();
 
+      _online = result != ConnectivityResult.none;
+
+      Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
-
-        Connectivity()
-            .onConnectivityChanged
-            .listen((ConnectivityResult result) {
-          _online = result != ConnectivityResult.none;
-          if (debug) print('Connectivity Changed: $_online');
-        });
-      }
+        if (debug) print('Connectivity Changed: $_online');
+      });
     }
   }
 }

@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
@@ -22,6 +24,7 @@ abstract class AbstractEdit<
   final C? consumer;
   final bool edit;
   final CrossAxisAlignment crossAxisAlignment;
+  final List<AbstractRoute> actionRoutes;
 
   ///
   ///
@@ -33,6 +36,7 @@ abstract class AbstractEdit<
     this.edit, {
     Key? key,
     this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.actionRoutes = const <AbstractRoute>[],
   }) : super(key: key);
 
   ///
@@ -158,9 +162,8 @@ class _AbstractEditState<
         appBar: AppBar(
           title: Text(widget.uiBuilder.getSuperSingle()),
           actions: <Widget>[
-            Visibility(
-              visible: widget.edit,
-              child: IconButton(
+            if (widget.edit)
+              IconButton(
                 tooltip: 'Salvar',
                 icon: FaIcon(
                   widget.consumer == null
@@ -169,7 +172,59 @@ class _AbstractEditState<
                 ),
                 onPressed: _save,
               ),
-            )
+
+            // TODO - Transform to dropdown menu
+            if (widget.actionRoutes.isNotEmpty && widget.consumer != null)
+              ...widget.actionRoutes
+                  .asMap()
+                  .map(
+                    (int index, AbstractRoute route) => MapEntry<int, Widget>(
+                      index,
+                      // TODO - Create an Action Route component.
+                      FutureBuilder<ConsumerPermission>(
+                        future: widget.consumer?.checkPermission(
+                          context,
+                          route.routeName,
+                        ),
+                        builder: (
+                          BuildContext context,
+                          AsyncSnapshot<ConsumerPermission> snapshot,
+                        ) {
+                          if (snapshot.hasData) {
+                            ConsumerPermission permission = snapshot.data!;
+
+                            return permission.view
+                                ? IconButton(
+                                    tooltip: permission.name,
+                                    icon:
+                                        IconHelper.faIcon(permission.iconName),
+                                    onPressed: () async {
+                                      print(route.path);
+
+                                      dynamic close =
+                                          await Navigator.of(context).pushNamed(
+                                        route.path,
+                                        arguments: _model,
+                                      );
+
+                                      if (close is bool) {
+                                        if (close) {
+                                          _initialHash = _model.hashCode;
+                                          Navigator.of(context).pop();
+                                        }
+                                      }
+                                    },
+                                  )
+                                : Container();
+                          }
+
+                          return Container();
+                        },
+                      ),
+                    ),
+                  )
+                  .values
+                  .toList(),
           ],
         ),
         bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
