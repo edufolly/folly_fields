@@ -32,6 +32,7 @@ class StringField extends StatelessWidget {
   final bool filled;
   final Iterable<String>? autofillHints;
   final bool readOnly;
+  final TextStyle? style;
 
   ///
   ///
@@ -65,6 +66,7 @@ class StringField extends StatelessWidget {
     this.filled = false,
     this.autofillHints,
     this.readOnly = false,
+    this.style,
   }) : super(key: key);
 
   ///
@@ -72,6 +74,13 @@ class StringField extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
+    TextStyle? effectiveStyle = style;
+
+    if (!enabled) {
+      effectiveStyle ??= Theme.of(context).textTheme.subtitle1!;
+      effectiveStyle.copyWith(color: Theme.of(context).disabledColor);
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
@@ -109,11 +118,7 @@ class StringField extends StatelessWidget {
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
         autofillHints: readOnly ? null : autofillHints,
-        style: enabled
-            ? null
-            : Theme.of(context).textTheme.subtitle1!.copyWith(
-                  color: Theme.of(context).disabledColor,
-                ),
+        style: effectiveStyle,
       ),
     );
   }

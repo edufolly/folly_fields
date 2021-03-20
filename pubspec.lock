@@ -120,7 +120,7 @@ packages:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.0.0-nullsafety"
+    version: "9.0.0"
   intl:
     dependency: transitive
     description:

@@ -148,14 +148,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.7+34"
+    version: "0.1.8+35"
   font_awesome_flutter:
     dependency: transitive
     description:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.0.0-nullsafety"
+    version: "9.0.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -176,7 +176,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0"
+    version: "0.13.1"
   http_parser:
     dependency: transitive
     description:
