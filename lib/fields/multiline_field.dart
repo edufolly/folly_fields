@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/cpf_cnpj_validator.dart';
-import 'package:folly_fields/fields/validator_field.dart';
+import 'package:folly_fields/fields/string_field.dart';
 
 ///
 ///
 ///
-class CpfCnpjField extends ValidatorField {
+class MultilineField extends StringField {
   ///
   ///
   ///
-  CpfCnpjField({
+  MultilineField({
     Key? key,
-    String validatorMessage = 'Informe o CPF ou CNPJ.',
     String prefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
+    int minLines = 2,
+    int maxLines = 999,
+    int? maxLength,
     List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
     void Function(String value)? onSaved,
@@ -28,26 +29,28 @@ class CpfCnpjField extends ValidatorField {
     TextInputAction? textInputAction,
     ValueChanged<String>? onFieldSubmitted,
     bool autocorrect = false,
-    bool enableSuggestions = true,
+    bool enableSuggestions = false,
+    TextCapitalization textCapitalization = TextCapitalization.none,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
-    bool required = true,
     Iterable<String>? autofillHints,
+    bool readOnly = false,
     TextStyle? style,
   }) : super(
           key: key,
-          abstractValidator: CpfCnpjValidator(),
-          validatorMessage: validatorMessage,
           prefix: prefix,
           label: label,
           controller: controller,
+          keyboard: TextInputType.multiline,
           validator: validator,
+          minLines: minLines,
+          maxLines: maxLines,
+          obscureText: false,
           inputFormatter: inputFormatter,
           textAlign: textAlign,
-          maxLength: 18,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          maxLength: maxLength,
+          onSaved: onSaved,
           initialValue: initialValue,
           enabled: enabled,
           autoValidateMode: autoValidateMode,
@@ -57,12 +60,12 @@ class CpfCnpjField extends ValidatorField {
           onFieldSubmitted: onFieldSubmitted,
           autocorrect: autocorrect,
           enableSuggestions: enableSuggestions,
-          textCapitalization: TextCapitalization.none,
+          textCapitalization: textCapitalization,
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
-          required: required,
           autofillHints: autofillHints,
+          readOnly: readOnly,
           style: style,
         );
 }

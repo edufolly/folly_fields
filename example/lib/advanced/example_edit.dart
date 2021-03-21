@@ -14,6 +14,7 @@ import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
@@ -23,6 +24,7 @@ import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/example_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ///
 ///
@@ -62,7 +64,7 @@ class ExampleEdit
         validator: (String? value) => value == null || value.isEmpty
             ? 'O campo texto precisa ser informado.'
             : null,
-        onSaved: (String? value) => model.text = value,
+        onSaved: (String value) => model.text = value,
       ),
 
       /// E-mail
@@ -71,7 +73,7 @@ class ExampleEdit
         label: 'E-mail*',
         enabled: edit,
         initialValue: model.email,
-        onSaved: (String? value) => model.email = value,
+        onSaved: (String value) => model.email = value,
       ),
 
       /// Senha
@@ -82,7 +84,7 @@ class ExampleEdit
         validator: (String? value) => value == null || value.isEmpty
             ? 'O campo senha precisa ser informado.'
             : null,
-        onSaved: (String? value) => model.password = value,
+        onSaved: (String value) => model.password = value,
       ),
 
       /// Decimal
@@ -91,7 +93,7 @@ class ExampleEdit
         label: 'Decimal*',
         enabled: edit,
         initialValue: model.decimal,
-        onSaved: (Decimal? value) => model.decimal = value,
+        onSaved: (Decimal value) => model.decimal = value,
       ),
 
       /// Integer
@@ -100,7 +102,7 @@ class ExampleEdit
         label: 'Integer*',
         enabled: edit,
         initialValue: model.integer,
-        onSaved: (int? value) => model.integer = value,
+        onSaved: (int? value) => model.integer = value ?? 0,
       ),
 
       /// CPF
@@ -109,7 +111,7 @@ class ExampleEdit
         label: 'CPF*',
         enabled: edit,
         initialValue: model.cpf,
-        onSaved: (String? value) => model.cpf = value,
+        onSaved: (String value) => model.cpf = value,
       ),
 
       /// CNPJ
@@ -118,7 +120,7 @@ class ExampleEdit
         label: 'CNPJ*',
         enabled: edit,
         initialValue: model.cnpj,
-        onSaved: (String? value) => model.cnpj = value,
+        onSaved: (String value) => model.cnpj = value,
       ),
 
       /// CPF ou CNPJ
@@ -127,7 +129,7 @@ class ExampleEdit
         label: 'CPF ou CNPJ*',
         enabled: edit,
         initialValue: model.document,
-        onSaved: (String? value) => model.document = value,
+        onSaved: (String value) => model.document = value,
       ),
 
       /// Telefone
@@ -136,7 +138,7 @@ class ExampleEdit
         label: 'Telefone*',
         enabled: edit,
         initialValue: model.phone,
-        onSaved: (String? value) => model.phone = value,
+        onSaved: (String value) => model.phone = value,
       ),
 
       /// Telefone sem DDD
@@ -145,7 +147,7 @@ class ExampleEdit
         label: 'Telefone sem DDD*',
         enabled: edit,
         initialValue: model.localPhone,
-        onSaved: (String? value) => model.localPhone = value,
+        onSaved: (String value) => model.localPhone = value,
       ),
 
       /// Data e Hora
@@ -212,7 +214,7 @@ class ExampleEdit
         validator: (bool? value) => !(value ?? false)
             ? 'Para testes, este campo deve ser sempre verdadeiro.'
             : null,
-        onSaved: (bool? value) => model.active = value,
+        onSaved: (bool value) => model.active = value,
       ),
 
       /// Dropdown
@@ -225,6 +227,18 @@ class ExampleEdit
         validator: (Color? value) =>
             value == null ? 'Selecione uma cor.' : null,
         onSaved: (Color? value) => model.color = value,
+      ),
+
+      /// Multiline
+      MultilineField(
+        prefix: prefix,
+        label: 'Multiline*',
+        enabled: edit,
+        initialValue: model.multiline,
+        validator: (String value) =>
+            value.isEmpty ? 'O campo multiline precisa ser informado.' : null,
+        onSaved: (String value) => model.multiline = value,
+        style: GoogleFonts.firaMono(),
       ),
     ];
   }

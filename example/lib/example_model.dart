@@ -17,16 +17,16 @@ class ExampleModel extends AbstractModel<int> {
   static final TimeValidator timeValidator = TimeValidator();
   static final Random rnd = Random();
 
-  Decimal? decimal = Decimal(precision: 2);
-  int? integer;
-  String? text;
-  String? email;
-  String? password;
-  String? cpf;
-  String? cnpj;
-  String? document;
-  String? phone;
-  String? localPhone;
+  Decimal decimal = Decimal(precision: 2);
+  int integer = 0;
+  String text = '';
+  String email = '';
+  String password = '';
+  String cpf = '';
+  String cnpj = '';
+  String document = '';
+  String phone = '';
+  String localPhone = '';
   DateTime? dateTime;
   DateTime? date;
   TimeOfDay? time;
@@ -34,8 +34,9 @@ class ExampleModel extends AbstractModel<int> {
   String? ncm;
   String? cep;
   Color? color;
-  bool? active = true;
+  bool active = true;
   IconData? icon;
+  String multiline = '';
 
   ///
   ///
@@ -48,15 +49,15 @@ class ExampleModel extends AbstractModel<int> {
   @override
   ExampleModel.fromJson(Map<String, dynamic> map)
       : decimal = Decimal(initialValue: map['decimal'], precision: 2),
-        integer = map['integer'],
-        text = map['text'],
-        email = map['email'],
-        password = map['password'],
-        cpf = map['cpf'],
-        cnpj = map['cnpj'],
-        document = map['document'],
-        phone = map['phone'],
-        localPhone = map['localPhone'],
+        integer = map['integer'] ?? 0,
+        text = map['text'] ?? '',
+        email = map['email'] ?? '',
+        password = map['password'] ?? '',
+        cpf = map['cpf'] ?? '',
+        cnpj = map['cnpj'] ?? '',
+        document = map['document'] ?? '',
+        phone = map['phone'] ?? '',
+        localPhone = map['localPhone'] ?? '',
         dateTime = map['dateTime'] == null
             ? null
             : DateTime.fromMillisecondsSinceEpoch(map['dateTime']),
@@ -72,6 +73,7 @@ class ExampleModel extends AbstractModel<int> {
             : Color(int.parse(map['color'], radix: 16)),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
+        multiline = map['multiline'] ?? '',
         super.fromJson(map);
 
   ///
@@ -93,16 +95,16 @@ class ExampleModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    if (decimal != null) map['decimal'] = decimal!.integer;
-    if (integer != null) map['integer'] = integer;
-    if (text != null) map['text'] = text;
-    if (email != null) map['email'] = email;
-    if (password != null) map['password'] = password;
-    if (cpf != null) map['cpf'] = cpf;
-    if (cnpj != null) map['cnpj'] = cnpj;
-    if (document != null) map['document'] = document;
-    if (phone != null) map['phone'] = phone;
-    if (localPhone != null) map['localPhone'] = localPhone;
+    map['decimal'] = decimal.integer;
+    map['integer'] = integer;
+    map['text'] = text;
+    map['email'] = email;
+    map['password'] = password;
+    map['cpf'] = cpf;
+    map['cnpj'] = cnpj;
+    map['document'] = document;
+    map['phone'] = phone;
+    map['localPhone'] = localPhone;
     if (dateTime != null) map['dateTime'] = dateTime!.millisecondsSinceEpoch;
     if (date != null) map['date'] = date!.millisecondsSinceEpoch;
     if (time != null) map['time'] = timeValidator.format(time!);
@@ -110,8 +112,9 @@ class ExampleModel extends AbstractModel<int> {
     if (ncm != null) map['ncm'] = ncm;
     if (cep != null) map['cep'] = cep;
     if (color != null) map['color'] = color!.value.toRadixString(16);
-    map['active'] = active ?? true;
+    map['active'] = active;
     if (icon != null) map['icon'] = IconHelper.iconName(icon!);
+    map['multiline'] = multiline;
     return map;
   }
 
@@ -119,7 +122,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  String get searchTerm => text ?? '';
+  String get searchTerm => text;
 
   // ///
   // ///
@@ -162,6 +165,14 @@ class ExampleModel extends AbstractModel<int> {
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
     String iconName = IconHelper.data.keys.elementAt(iconNumber);
     model.icon = IconHelper.iconData(iconName);
+
+    model.multiline = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+        ' Curabitur ullamcorper, nisi nec ultrices congue, ante metus congue '
+        'mi, a congue tortor nisl sed odio. Curabitur lacinia elit ac dolor '
+        'luctus vulputate. Quisque lectus purus, egestas quis augue nec, '
+        'rhoncus consequat nisi. Praesent tempor fringilla leo. Aliquam id '
+        'ipsum eu sapien tincidunt eleifend. Nullam convallis iaculis mattis. '
+        'Sed semper nunc eget dui sagittis commodo.';
 
     return model;
   }

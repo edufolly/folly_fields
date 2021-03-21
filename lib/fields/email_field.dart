@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/email_validator.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 
@@ -15,6 +16,8 @@ class EmailField extends ValidatorField {
     String prefix = '',
     String label = '',
     TextEditingController? controller,
+    String? Function(String value)? validator,
+    List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int? maxLength,
     void Function(String value)? onSaved,
@@ -25,11 +28,14 @@ class EmailField extends ValidatorField {
     FocusNode? focusNode,
     TextInputAction? textInputAction,
     ValueChanged<String>? onFieldSubmitted,
+    bool autocorrect = false,
+    bool enableSuggestions = true,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
     bool required = true,
     Iterable<String>? autofillHints,
+    TextStyle? style,
   }) : super(
           key: key,
           abstractValidator: EmailValidator(),
@@ -37,6 +43,8 @@ class EmailField extends ValidatorField {
           prefix: prefix,
           label: label,
           controller: controller,
+          validator: validator,
+          inputFormatter: inputFormatter,
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved:
@@ -48,13 +56,14 @@ class EmailField extends ValidatorField {
           focusNode: focusNode,
           textInputAction: textInputAction,
           onFieldSubmitted: onFieldSubmitted,
-          autocorrect: false,
-          enableSuggestions: false,
+          autocorrect: autocorrect,
+          enableSuggestions: enableSuggestions,
           textCapitalization: TextCapitalization.none,
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
           required: required,
           autofillHints: autofillHints,
+          style: style,
         );
 }

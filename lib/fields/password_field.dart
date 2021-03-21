@@ -33,6 +33,7 @@ class PasswordField extends StringField {
     bool enableInteractiveSelection = true,
     bool filled = false,
     Iterable<String>? autofillHints,
+    TextStyle? style,
   }) : super(
           key: key,
           prefix: prefix,
@@ -61,5 +62,6 @@ class PasswordField extends StringField {
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
           autofillHints: autofillHints,
+          style: style,
         );
 }

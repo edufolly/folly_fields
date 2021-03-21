@@ -31,18 +31,18 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   @override
   Widget getLeading(ExampleModel model) => Icon(
         FontAwesomeIcons.solidCircle,
-        color: (model.integer ?? 0).isEven ? Colors.red : Colors.green,
+        color: (model.integer).isEven ? Colors.red : Colors.green,
       );
 
   ///
   ///
   ///
   @override
-  Widget getTitle(ExampleModel model) => Text(model.text ?? 'Sem Texto');
+  Widget getTitle(ExampleModel model) => Text(model.text);
 
   ///
   ///
   ///
   @override
-  Widget getSubtitle(ExampleModel model) => Text(model.email ?? 'Sem E-mail');
+  Widget getSubtitle(ExampleModel model) => Text(model.email);
 }

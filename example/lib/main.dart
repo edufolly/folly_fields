@@ -15,6 +15,7 @@ import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
@@ -32,6 +33,7 @@ import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:folly_fields_example/example_table.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -273,7 +275,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           validator: (String value) => value.isEmpty
                               ? 'O campo senha precisa ser informado.'
                               : null,
-                          onSaved: (String? value) => model.password = value,
+                          onSaved: (String value) => model.password = value,
                         ),
                         // [/PasswordField]
                       ),
@@ -307,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Integer*',
                           enabled: edit,
                           initialValue: model.integer,
-                          onSaved: (int? value) => model.integer = value,
+                          onSaved: (int? value) => model.integer = value ?? 0,
                         ),
                         // [/IntegerField]
                       ),
@@ -569,6 +571,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           onSaved: (Color? value) => model.color = value,
                         ),
                         // [/DropdownField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'MultilineField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/multiline_field.dart',
+                        child:
+                            // [MultilineField]
+                            MultilineField(
+                          prefix: prefix,
+                          label: 'Multiline*',
+                          enabled: edit,
+                          initialValue: model.multiline,
+                          validator: (String value) => value.isEmpty
+                              ? 'O campo multiline precisa ser informado.'
+                              : null,
+                          onSaved: (String value) => model.multiline = value,
+                          style: GoogleFonts.firaMono(),
+                        ),
+                        // [/MultilineField]
                       ),
 
                       CodeLink(

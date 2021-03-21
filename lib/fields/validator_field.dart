@@ -21,7 +21,7 @@ class ValidatorField extends StringField {
     List<TextInputFormatter>? inputFormatter,
     TextAlign textAlign = TextAlign.start,
     int? maxLength,
-    FormFieldSetter<String>? onSaved,
+    void Function(String?)? onSaved,
     String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -37,6 +37,7 @@ class ValidatorField extends StringField {
     bool filled = false,
     bool required = true,
     Iterable<String>? autofillHints,
+    TextStyle? style,
   }) : super(
           key: key,
           prefix: prefix,
@@ -100,5 +101,6 @@ class ValidatorField extends StringField {
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
           autofillHints: autofillHints,
+          style: style,
         );
 }
