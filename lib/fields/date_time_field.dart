@@ -25,6 +25,7 @@ class DateTimeField extends StatefulWidget {
   final DateTime? firstDate;
   final DateTime? lastDate;
   final bool filled;
+  final Color? fillColor;
   final void Function(DateTime?)? lostFocus;
   final dynamic locale;
   final String format;
@@ -53,6 +54,7 @@ class DateTimeField extends StatefulWidget {
     this.firstDate,
     this.lastDate,
     this.filled = false,
+    this.fillColor,
     this.lostFocus,
     this.locale = 'pt_br',
     this.format = 'dd/MM/yyyy HH:mm',
@@ -147,6 +149,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
+      fillColor: widget.fillColor,
       labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',
@@ -253,7 +256,8 @@ class DateTimeEditingController extends TextEditingController {
   ///
   ///
   DateTimeEditingController({DateTime? dateTime})
-      : super(text: dateTime == null ? '' : DateTimeValidator().format(dateTime));
+      : super(
+            text: dateTime == null ? '' : DateTimeValidator().format(dateTime));
 
   ///
   ///

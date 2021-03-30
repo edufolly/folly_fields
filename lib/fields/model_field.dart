@@ -27,6 +27,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     ValueChanged<String>? onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool filled = false,
+    Color? fillColor,
     Widget Function(BuildContext context)? routeBuilder,
     Future<bool> Function(BuildContext context, T? model)? beforeRoute,
     Future<bool> Function(T? model)? acceptChange,
@@ -45,6 +46,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
+              fillColor: fillColor,
               labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               suffixIcon: Column(
@@ -136,7 +138,8 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
 ///
 ///
 ///
-class _ModelFieldState<T extends AbstractModel<Object>> extends FormFieldState<T?> {
+class _ModelFieldState<T extends AbstractModel<Object>>
+    extends FormFieldState<T?> {
   ModelEditingController<T>? _controller;
 
   ///

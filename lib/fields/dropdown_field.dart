@@ -24,6 +24,7 @@ class DropdownField<T> extends FormField<T> {
     Function(T? value)? onChanged,
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
+    Color? fillColor,
     DropdownButtonBuilder? selectedItemBuilder,
     Widget? hint,
     Widget? disabledHint,
@@ -61,6 +62,7 @@ class DropdownField<T> extends FormField<T> {
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
+              fillColor: fillColor,
               labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               focusColor: focusColor,

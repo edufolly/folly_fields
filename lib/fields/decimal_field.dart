@@ -23,6 +23,7 @@ class DecimalField extends StatefulWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final Color? fillColor;
   final void Function(Decimal)? lostFocus;
 
   ///
@@ -46,6 +47,7 @@ class DecimalField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.fillColor,
     this.lostFocus,
   }) : super(key: key);
 
@@ -128,6 +130,7 @@ class _DecimalFieldState extends State<DecimalField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
+      fillColor: widget.fillColor,
       labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',

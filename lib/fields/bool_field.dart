@@ -22,6 +22,7 @@ class BoolField extends FormField<bool> {
     // TODO - onChanged
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
+    Color? fillColor,
     bool adaptive = false,
     Color? activeColor,
   })  : assert(initialValue == null || controller == null),
@@ -42,6 +43,7 @@ class BoolField extends FormField<bool> {
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
+              fillColor: fillColor,
               labelText: null,
               counterText: '',
               contentPadding: const EdgeInsets.symmetric(
