@@ -61,7 +61,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   /// Ocorreu um novo problema com a comparação dos objetos do menu.
   @override
-  bool operator ==(dynamic other) => hashCode == other.hashCode;
+  bool operator ==(Object other) => hashCode == other.hashCode;
 
   ///
   ///

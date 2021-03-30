@@ -174,9 +174,11 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   void _start({bool debug = false}) async {
     if (_started) {
+      // ignore: avoid_print
       if (debug) print('Folly Fields already started, ignoring...');
     } else {
       _started = true;
+      // ignore: avoid_print
       if (debug) print('Folly Fields Started.');
       _debug = debug;
 
@@ -194,6 +196,7 @@ abstract class AbstractConfig implements _InternalConfig {
 
       Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
+        // ignore: avoid_print
         if (debug) print('Connectivity Changed: $_online');
       });
     }

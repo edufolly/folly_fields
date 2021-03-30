@@ -12,6 +12,7 @@ abstract class Hashable {
   ]) {
     int it = iterable.fold(
       0,
+      // ignore: avoid_annotating_with_dynamic
       (int h, dynamic i) {
         int hash;
         if (i is List) {
@@ -25,6 +26,7 @@ abstract class Hashable {
         int c = combine(h, hash);
 
         if (debug) {
+          // ignore: avoid_print
           print((' ' * deep * 2) +
               'h: $h => (${i.runtimeType}) $i: $hash => c: $c');
         }
@@ -35,6 +37,7 @@ abstract class Hashable {
 
     int f = finish(it);
 
+    // ignore: avoid_print
     if (debug) print('finish: $f');
 
     return f;

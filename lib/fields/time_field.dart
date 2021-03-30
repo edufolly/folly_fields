@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/validators/time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -150,8 +151,10 @@ class _TimeFieldState extends State<TimeField> {
               _effectiveController.time = selectedTime;
             }
           } catch (e, s) {
-            print(e);
-            print(s);
+            if (FollyFields().isDebug) {
+              // ignore: avoid_print
+              print('$e\n$s');
+            }
           }
         },
       ),

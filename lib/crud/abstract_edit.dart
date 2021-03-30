@@ -199,8 +199,6 @@ class _AbstractEditState<
                                     icon:
                                         IconHelper.faIcon(permission.iconName),
                                     onPressed: () async {
-                                      print(route.path);
-
                                       dynamic close =
                                           await Navigator.of(context).pushNamed(
                                         route.path,
@@ -257,8 +255,8 @@ class _AbstractEditState<
 
                 if (snapshot.hasError) {
                   if (FollyFields().isDebug) {
-                    print(snapshot.error);
-                    print(snapshot.stackTrace);
+                    // ignore: avoid_print
+                    print('${snapshot.error}\n${snapshot.stackTrace}');
                   }
 
                   return Center(
@@ -306,8 +304,12 @@ class _AbstractEditState<
       }
     } catch (e, s) {
       wait.close();
-      print(e);
-      print(s);
+
+      if (FollyFields().isDebug) {
+        // ignore: avoid_print
+        print('$e\n$s');
+      }
+
       await FollyDialogs.dialogMessage(
         context: context,
         message: 'Ocorreu um erro ao tentar salvar:\n$e',

@@ -42,6 +42,7 @@ class Decimal with Hashable {
   ///
   ///
   @override
-  bool operator ==(dynamic other) =>
-      precision == other.precision && value == other.value;
+  bool operator ==(Object other) => other is Decimal
+      ? precision == other.precision && value == other.value
+      : false;
 }

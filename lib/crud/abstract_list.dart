@@ -198,12 +198,12 @@ class _AbstractListState<
 
       _streamController.add(true);
       _loading = false;
-    } catch (exception, stack) {
+    } catch (e, s) {
       if (FollyFields().isDebug) {
-        print(exception);
-        print(stack);
+        // ignore: avoid_print
+        print('$e\n$s');
       }
-      _streamController.addError(exception, stack);
+      _streamController.addError(e, s);
     }
   }
 
@@ -621,8 +621,12 @@ class _AbstractListState<
       }
     } catch (e, s) {
       wait.close();
-      print(e);
-      print(s);
+
+      if (FollyFields().isDebug) {
+        // ignore: avoid_print
+        print('$e\n$s');
+      }
+
       await FollyDialogs.dialogMessage(
         context: context,
         message: 'Ocorreu um erro ao tentar excluir:\n$e',
