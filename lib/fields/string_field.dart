@@ -30,6 +30,7 @@ class StringField extends StatelessWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final Color? fillColor;
   final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
@@ -64,6 +65,7 @@ class StringField extends StatelessWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.fillColor,
     this.autofillHints,
     this.readOnly = false,
     this.style,
@@ -92,6 +94,7 @@ class StringField extends StatelessWidget {
           counterText: '',
           enabled: enabled,
           filled: filled,
+          fillColor: fillColor,
         ),
         validator: enabled && validator != null
             ? (String? value) => validator!(value ?? '')

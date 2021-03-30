@@ -22,6 +22,7 @@ class TimeField extends StatefulWidget {
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
+  final Color? fillColor;
   final void Function(TimeOfDay?)? lostFocus;
   final bool required;
 
@@ -45,6 +46,7 @@ class TimeField extends StatefulWidget {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.enableInteractiveSelection = true,
     this.filled = false,
+    this.fillColor,
     this.lostFocus,
     this.required = true,
   }) : super(key: key);
@@ -130,6 +132,7 @@ class _TimeFieldState extends State<TimeField> {
     final InputDecoration effectiveDecoration = InputDecoration(
       border: OutlineInputBorder(),
       filled: widget.filled,
+      fillColor: widget.fillColor,
       labelText: widget.prefix.isEmpty
           ? widget.label
           : '${widget.prefix} - ${widget.label}',

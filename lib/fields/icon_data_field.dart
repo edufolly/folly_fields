@@ -24,6 +24,7 @@ class IconDataField extends FormField<IconData> {
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     bool filled = false,
+    Color? fillColor,
     double iconSize = 32.0,
     double maxCrossAxisExtent = 40.0,
     double mainAxisSpacing = 6.0,
@@ -42,6 +43,7 @@ class IconDataField extends FormField<IconData> {
             final InputDecoration effectiveDecoration = InputDecoration(
               border: OutlineInputBorder(),
               filled: filled,
+              fillColor: fillColor,
               labelText: prefix.isEmpty ? label : '$prefix - $label',
               counterText: '',
               contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),

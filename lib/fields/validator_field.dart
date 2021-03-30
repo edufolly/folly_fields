@@ -35,6 +35,7 @@ class ValidatorField extends StringField {
     EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
     bool enableInteractiveSelection = true,
     bool filled = false,
+    Color? fillColor,
     bool required = true,
     Iterable<String>? autofillHints,
     TextStyle? style,
@@ -100,6 +101,7 @@ class ValidatorField extends StringField {
           scrollPadding: scrollPadding,
           enableInteractiveSelection: enableInteractiveSelection,
           filled: filled,
+          fillColor: fillColor,
           autofillHints: autofillHints,
           style: style,
         );
