@@ -25,6 +25,7 @@ class BoolField extends FormField<bool> {
     Color? fillColor,
     bool adaptive = false,
     Color? activeColor,
+    InputDecoration? decoration,
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -40,17 +41,19 @@ class BoolField extends FormField<bool> {
           builder: (FormFieldState<bool> field) {
             final _BoolFieldState state = field as _BoolFieldState;
 
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              fillColor: fillColor,
-              labelText: null,
-              counterText: '',
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 8.0,
-              ),
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            final InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: filled,
+                      fillColor: fillColor,
+                      labelText: null,
+                      counterText: '',
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 8.0,
+                      ),
+                    ))
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             Color? textColor =
                 Theme.of(field.context).textTheme.subtitle1!.color;

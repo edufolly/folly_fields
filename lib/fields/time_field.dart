@@ -26,6 +26,7 @@ class TimeField extends StatefulWidget {
   final Color? fillColor;
   final void Function(TimeOfDay?)? lostFocus;
   final bool required;
+  final InputDecoration? decoration;
 
   ///
   ///
@@ -50,6 +51,7 @@ class TimeField extends StatefulWidget {
     this.fillColor,
     this.lostFocus,
     this.required = true,
+    this.decoration,
   }) : super(key: key);
 
   ///
@@ -130,35 +132,39 @@ class _TimeFieldState extends State<TimeField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = InputDecoration(
-      border: OutlineInputBorder(),
-      filled: widget.filled,
-      fillColor: widget.fillColor,
-      labelText: widget.prefix.isEmpty
-          ? widget.label
-          : '${widget.prefix} - ${widget.label}',
-      counterText: '',
-      suffixIcon: IconButton(
-        icon: Icon(FontAwesomeIcons.clock),
-        onPressed: () async {
-          try {
-            TimeOfDay? selectedTime = await showTimePicker(
-              context: context,
-              initialTime: _effectiveController.time ?? TimeOfDay.now(),
-            );
+    final InputDecoration effectiveDecoration = (widget.decoration ??
+            InputDecoration(
+              border: OutlineInputBorder(),
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              labelText: widget.prefix.isEmpty
+                  ? widget.label
+                  : '${widget.prefix} - ${widget.label}',
+              counterText: '',
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme)
+        .copyWith(
+          suffixIcon: IconButton(
+            icon: Icon(FontAwesomeIcons.clock),
+            onPressed: () async {
+              try {
+                TimeOfDay? selectedTime = await showTimePicker(
+                  context: context,
+                  initialTime: _effectiveController.time ?? TimeOfDay.now(),
+                );
 
-            if (selectedTime != null) {
-              _effectiveController.time = selectedTime;
-            }
-          } catch (e, s) {
-            if (FollyFields().isDebug) {
-              // ignore: avoid_print
-              print('$e\n$s');
-            }
-          }
-        },
-      ),
-    ).applyDefaults(Theme.of(context).inputDecorationTheme);
+                if (selectedTime != null) {
+                  _effectiveController.time = selectedTime;
+                }
+              } catch (e, s) {
+                if (FollyFields().isDebug) {
+                  // ignore: avoid_print
+                  print('$e\n$s');
+                }
+              }
+            },
+          ),
+        );
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

@@ -31,6 +31,7 @@ class IconDataField extends FormField<IconData> {
     double crossAxisSpacing = 6.0,
     double height = 128.0,
     double spaceBetween = 16.0,
+    InputDecoration? decoration,
   }) : super(
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
@@ -40,14 +41,16 @@ class IconDataField extends FormField<IconData> {
           builder: (FormFieldState<IconData> field) {
             final _IconDataFieldState state = field as _IconDataFieldState;
 
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              fillColor: fillColor,
-              labelText: prefix.isEmpty ? label : '$prefix - $label',
-              counterText: '',
-              contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            final InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: filled,
+                      fillColor: fillColor,
+                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      counterText: '',
+                      contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),
+                    ))
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             Map<String, IconData> controllerIcons =
                 state._effectiveController.icons;
@@ -73,7 +76,9 @@ class IconDataField extends FormField<IconData> {
                                 ? Container()
                                 : Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 16.0),
+                                      left: 8.0,
+                                      right: 16.0,
+                                    ),
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

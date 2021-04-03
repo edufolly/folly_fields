@@ -33,6 +33,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
+    InputDecoration? decoration,
   })  : assert(columnsFlex.length == columns.length),
         super(
           key: key,
@@ -45,15 +46,14 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
             final TextStyle? columnTheme =
                 Theme.of(field.context).textTheme.subtitle2;
 
-            InputDecoration inputDecoration = InputDecoration(
-              labelText: uiBuilder.getSuperPlural(),
-              border: OutlineInputBorder(),
-              counterText: '',
-              errorText: field.errorText,
-            );
-
-            InputDecoration effectiveDecoration = inputDecoration
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      labelText: uiBuilder.getSuperPlural(),
+                      border: OutlineInputBorder(),
+                      counterText: '',
+                    ))
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme)
+                .copyWith(errorText: field.errorText);
 
             return Padding(
               padding: const EdgeInsets.all(8.0),

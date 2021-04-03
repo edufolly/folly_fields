@@ -33,6 +33,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     Future<bool> Function(BuildContext context, T? model)? beforeRoute,
     Future<bool> Function(T? model)? acceptChange,
     Function(T model)? tapToVisualize,
+    InputDecoration? decoration,
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -44,23 +45,27 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
           builder: (FormFieldState<T?> field) {
             final _ModelFieldState<T> state = field as _ModelFieldState<T>;
 
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              fillColor: fillColor,
-              labelText: prefix.isEmpty ? label : '$prefix - $label',
-              counterText: '',
-              suffixIcon: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  enabled && routeBuilder != null
-                      ? FaIcon(FontAwesomeIcons.search)
-                      : tapToVisualize != null
-                          ? FaIcon(FontAwesomeIcons.chevronRight)
-                          : Container(),
-                ],
-              ),
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            final InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: filled,
+                      fillColor: fillColor,
+                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      counterText: '',
+                    ))
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme)
+                .copyWith(
+                  suffixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      enabled && routeBuilder != null
+                          ? FaIcon(FontAwesomeIcons.search)
+                          : tapToVisualize != null
+                              ? FaIcon(FontAwesomeIcons.chevronRight)
+                              : Container(),
+                    ],
+                  ),
+                );
 
             return Padding(
               padding: const EdgeInsets.all(8.0),

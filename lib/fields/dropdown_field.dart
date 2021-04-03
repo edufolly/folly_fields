@@ -41,6 +41,7 @@ class DropdownField<T> extends FormField<T> {
     FocusNode? focusNode,
     bool autofocus = false,
     Color? dropdownColor,
+    InputDecoration? decoration,
   })  : assert(initialValue == null || controller == null),
         // assert(elevation != null),
         // assert(iconSize != null),
@@ -59,14 +60,16 @@ class DropdownField<T> extends FormField<T> {
             final _DropdownFieldState<T> state =
                 field as _DropdownFieldState<T>;
 
-            final InputDecoration effectiveDecoration = InputDecoration(
-              border: OutlineInputBorder(),
-              filled: filled,
-              fillColor: fillColor,
-              labelText: prefix.isEmpty ? label : '$prefix - $label',
-              counterText: '',
-              focusColor: focusColor,
-            ).applyDefaults(Theme.of(field.context).inputDecorationTheme);
+            final InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: filled,
+                      fillColor: fillColor,
+                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      counterText: '',
+                      focusColor: focusColor,
+                    ))
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
               padding: const EdgeInsets.all(8.0),

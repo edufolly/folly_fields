@@ -35,6 +35,7 @@ class PasswordField extends StringField {
     Color? fillColor,
     Iterable<String>? autofillHints,
     TextStyle? style,
+    InputDecoration? decoration,
   }) : super(
           key: key,
           prefix: prefix,
@@ -65,5 +66,6 @@ class PasswordField extends StringField {
           fillColor: fillColor,
           autofillHints: autofillHints,
           style: style,
+          decoration: decoration,
         );
 }

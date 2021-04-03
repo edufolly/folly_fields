@@ -32,6 +32,7 @@ class ListField<T extends AbstractModel<Object>,
     String addText = 'Adicionar %s',
     String removeText = 'Deseja remover %s?',
     String emptyListText = 'Sem %s até o momento.',
+    InputDecoration? decoration,
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -44,14 +45,13 @@ class ListField<T extends AbstractModel<Object>,
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            InputDecoration inputDecoration = InputDecoration(
-              labelText: uiBuilder.getSuperPlural(),
-              border: OutlineInputBorder(),
-              counterText: '',
-              errorText: field.errorText,
-            );
-
-            InputDecoration effectiveDecoration = inputDecoration
+            InputDecoration effectiveDecoration = (decoration ??
+                    InputDecoration(
+                      labelText: uiBuilder.getSuperPlural(),
+                      border: OutlineInputBorder(),
+                      counterText: '',
+                      errorText: field.errorText,
+                    ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(

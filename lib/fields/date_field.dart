@@ -32,6 +32,7 @@ class DateField extends StatefulWidget {
   final String format;
   final String mask;
   final bool required;
+  final InputDecoration? decoration;
 
   ///
   ///
@@ -61,6 +62,7 @@ class DateField extends StatefulWidget {
     this.format = 'dd/MM/yyyy',
     this.mask = '##/##/####',
     this.required = true,
+    this.decoration,
   }) : super(key: key);
 
   ///
@@ -147,37 +149,41 @@ class _DateFieldState extends State<DateField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = InputDecoration(
-      border: OutlineInputBorder(),
-      filled: widget.filled,
-      fillColor: widget.fillColor,
-      labelText: widget.prefix.isEmpty
-          ? widget.label
-          : '${widget.prefix} - ${widget.label}',
-      counterText: '',
-      suffixIcon: IconButton(
-        icon: Icon(FontAwesomeIcons.solidCalendarAlt),
-        onPressed: () async {
-          try {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: _effectiveController.date ?? DateTime.now(),
-              firstDate: widget.firstDate ?? DateTime(1900),
-              lastDate: widget.lastDate ?? DateTime(2100),
-            );
+    final InputDecoration effectiveDecoration = (widget.decoration ??
+            InputDecoration(
+              border: OutlineInputBorder(),
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              labelText: widget.prefix.isEmpty
+                  ? widget.label
+                  : '${widget.prefix} - ${widget.label}',
+              counterText: '',
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme)
+        .copyWith(
+          suffixIcon: IconButton(
+            icon: Icon(FontAwesomeIcons.solidCalendarAlt),
+            onPressed: () async {
+              try {
+                DateTime? selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: _effectiveController.date ?? DateTime.now(),
+                  firstDate: widget.firstDate ?? DateTime(1900),
+                  lastDate: widget.lastDate ?? DateTime(2100),
+                );
 
-            if (selectedDate != null) {
-              _effectiveController.date = selectedDate;
-            }
-          } catch (e, s) {
-            if (FollyFields().isDebug) {
-              // ignore: avoid_print
-              print('$e\n$s');
-            }
-          }
-        },
-      ),
-    ).applyDefaults(Theme.of(context).inputDecorationTheme);
+                if (selectedDate != null) {
+                  _effectiveController.date = selectedDate;
+                }
+              } catch (e, s) {
+                if (FollyFields().isDebug) {
+                  // ignore: avoid_print
+                  print('$e\n$s');
+                }
+              }
+            },
+          ),
+        );
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

@@ -36,6 +36,7 @@ class CpfCnpjField extends ValidatorField {
     bool required = true,
     Iterable<String>? autofillHints,
     TextStyle? style,
+    InputDecoration? decoration,
   }) : super(
           key: key,
           abstractValidator: CpfCnpjValidator(),
@@ -66,5 +67,6 @@ class CpfCnpjField extends ValidatorField {
           required: required,
           autofillHints: autofillHints,
           style: style,
+          decoration: decoration,
         );
 }

@@ -36,6 +36,7 @@ class MacAddressField extends ValidatorField {
     bool required = true,
     Iterable<String>? autofillHints,
     TextStyle? style,
+    InputDecoration? decoration,
   }) : super(
           key: key,
           abstractValidator: MacAddressValidator(),
@@ -66,5 +67,6 @@ class MacAddressField extends ValidatorField {
           required: required,
           autofillHints: autofillHints,
           style: style,
+          decoration: decoration,
         );
 }

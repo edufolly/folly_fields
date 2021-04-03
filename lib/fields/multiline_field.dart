@@ -38,6 +38,7 @@ class MultilineField extends StringField {
     Iterable<String>? autofillHints,
     bool readOnly = false,
     TextStyle? style,
+    InputDecoration? decoration,
   }) : super(
           key: key,
           prefix: prefix,
@@ -69,5 +70,6 @@ class MultilineField extends StringField {
           autofillHints: autofillHints,
           readOnly: readOnly,
           style: style,
+          decoration: decoration,
         );
 }

@@ -25,6 +25,7 @@ class DecimalField extends StatefulWidget {
   final bool filled;
   final Color? fillColor;
   final void Function(Decimal)? lostFocus;
+  final InputDecoration? decoration;
 
   ///
   ///
@@ -49,6 +50,7 @@ class DecimalField extends StatefulWidget {
     this.filled = false,
     this.fillColor,
     this.lostFocus,
+    this.decoration,
   }) : super(key: key);
 
   ///
@@ -127,15 +129,17 @@ class _DecimalFieldState extends State<DecimalField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = InputDecoration(
-      border: OutlineInputBorder(),
-      filled: widget.filled,
-      fillColor: widget.fillColor,
-      labelText: widget.prefix.isEmpty
-          ? widget.label
-          : '${widget.prefix} - ${widget.label}',
-      counterText: '',
-    ).applyDefaults(Theme.of(context).inputDecorationTheme);
+    final InputDecoration effectiveDecoration = (widget.decoration ??
+            InputDecoration(
+              border: OutlineInputBorder(),
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              labelText: widget.prefix.isEmpty
+                  ? widget.label
+                  : '${widget.prefix} - ${widget.label}',
+              counterText: '',
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),

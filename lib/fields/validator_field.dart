@@ -39,6 +39,7 @@ class ValidatorField extends StringField {
     bool required = true,
     Iterable<String>? autofillHints,
     TextStyle? style,
+    InputDecoration? decoration,
   }) : super(
           key: key,
           prefix: prefix,
@@ -104,5 +105,6 @@ class ValidatorField extends StringField {
           fillColor: fillColor,
           autofillHints: autofillHints,
           style: style,
+          decoration: decoration,
         );
 }

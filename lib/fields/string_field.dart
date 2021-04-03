@@ -34,6 +34,7 @@ class StringField extends StatelessWidget {
   final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
+  final InputDecoration? decoration;
 
   ///
   ///
@@ -69,6 +70,7 @@ class StringField extends StatelessWidget {
     this.autofillHints,
     this.readOnly = false,
     this.style,
+    this.decoration,
   }) : super(key: key);
 
   ///
@@ -83,19 +85,22 @@ class StringField extends StatelessWidget {
       effectiveStyle.copyWith(color: Theme.of(context).disabledColor);
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: keyboard,
-        decoration: InputDecoration(
+    InputDecoration? effectiveDecoration = decoration ??
+        InputDecoration(
           labelText: prefix.isEmpty ? label : '$prefix - $label',
           border: OutlineInputBorder(),
           counterText: '',
           enabled: enabled,
           filled: filled,
           fillColor: fillColor,
-        ),
+        );
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboard,
+        decoration: effectiveDecoration,
         validator: enabled && validator != null
             ? (String? value) => validator!(value ?? '')
             : (_) => null,

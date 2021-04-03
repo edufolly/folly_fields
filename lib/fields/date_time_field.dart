@@ -32,6 +32,7 @@ class DateTimeField extends StatefulWidget {
   final String format;
   final String mask;
   final bool required;
+  final InputDecoration? decoration;
 
   ///
   ///
@@ -61,6 +62,7 @@ class DateTimeField extends StatefulWidget {
     this.format = 'dd/MM/yyyy HH:mm',
     this.mask = '##/##/#### A#:C#',
     this.required = true,
+    this.decoration,
   }) : super(key: key);
 
   ///
@@ -147,55 +149,59 @@ class _DateTimeFieldState extends State<DateTimeField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = InputDecoration(
-      border: OutlineInputBorder(),
-      filled: widget.filled,
-      fillColor: widget.fillColor,
-      labelText: widget.prefix.isEmpty
-          ? widget.label
-          : '${widget.prefix} - ${widget.label}',
-      counterText: '',
-      suffixIcon: IconButton(
-        icon: Icon(FontAwesomeIcons.calendarDay),
-        onPressed: () async {
-          try {
-            DateTime? selectedDate = await showDatePicker(
-              context: context,
-              initialDate: _effectiveController.dateTime ?? DateTime.now(),
-              firstDate: widget.firstDate ?? DateTime(1900),
-              lastDate: widget.lastDate ?? DateTime(2100),
-            );
-
-            if (selectedDate != null) {
-              TimeOfDay initialTime = TimeOfDay.now();
-
+    final InputDecoration effectiveDecoration = (widget.decoration ??
+            InputDecoration(
+              border: OutlineInputBorder(),
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              labelText: widget.prefix.isEmpty
+                  ? widget.label
+                  : '${widget.prefix} - ${widget.label}',
+              counterText: '',
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme)
+        .copyWith(
+          suffixIcon: IconButton(
+            icon: Icon(FontAwesomeIcons.calendarDay),
+            onPressed: () async {
               try {
-                initialTime = TimeOfDay.fromDateTime(selectedDate);
-              } catch (e) {
-                // Do nothing.
+                DateTime? selectedDate = await showDatePicker(
+                  context: context,
+                  initialDate: _effectiveController.dateTime ?? DateTime.now(),
+                  firstDate: widget.firstDate ?? DateTime(1900),
+                  lastDate: widget.lastDate ?? DateTime(2100),
+                );
+
+                if (selectedDate != null) {
+                  TimeOfDay initialTime = TimeOfDay.now();
+
+                  try {
+                    initialTime = TimeOfDay.fromDateTime(selectedDate);
+                  } catch (e) {
+                    // Do nothing.
+                  }
+
+                  TimeOfDay? selectedTime = await showTimePicker(
+                    context: context,
+                    initialTime: initialTime,
+                  );
+
+                  selectedTime ??= TimeOfDay(hour: 0, minute: 0);
+
+                  _effectiveController.dateTime = FollyUtils.dateMergeStart(
+                    date: selectedDate,
+                    time: selectedTime,
+                  );
+                }
+              } catch (e, s) {
+                if (FollyFields().isDebug) {
+                  // ignore: avoid_print
+                  print('$e\n$s');
+                }
               }
-
-              TimeOfDay? selectedTime = await showTimePicker(
-                context: context,
-                initialTime: initialTime,
-              );
-
-              selectedTime ??= TimeOfDay(hour: 0, minute: 0);
-
-              _effectiveController.dateTime = FollyUtils.dateMergeStart(
-                date: selectedDate,
-                time: selectedTime,
-              );
-            }
-          } catch (e, s) {
-            if (FollyFields().isDebug) {
-              // ignore: avoid_print
-              print('$e\n$s');
-            }
-          }
-        },
-      ),
-    ).applyDefaults(Theme.of(context).inputDecorationTheme);
+            },
+          ),
+        );
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
