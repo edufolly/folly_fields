@@ -126,6 +126,7 @@ class StringField extends StatelessWidget {
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
         autofillHints: readOnly ? null : autofillHints,
+        readOnly: readOnly,
         style: effectiveStyle,
       ),
     );

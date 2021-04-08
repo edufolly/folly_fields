@@ -15,6 +15,7 @@ import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
@@ -592,6 +593,27 @@ class _MyHomePageState extends State<MyHomePage> {
                           style: GoogleFonts.firaMono(),
                         ),
                         // [/MultilineField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'ModelField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/model_field.dart',
+                        child:
+                            // [ModelField]
+                            ModelField<ExampleModel>(
+                              prefix: prefix,
+                              label: 'Example Model*',
+                          enabled: edit,
+                          initialValue: ExampleModel.generate(),
+                          routeBuilder: (BuildContext context) => ExampleList(
+                            prefix: prefix,
+                            selection: true,
+                            multipleSelection: false,
+                          ),
+                        ),
+                        // [/ModelField]
                       ),
 
                       CodeLink(

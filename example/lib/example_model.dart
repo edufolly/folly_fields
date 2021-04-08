@@ -124,6 +124,12 @@ class ExampleModel extends AbstractModel<int> {
   @override
   String get searchTerm => text;
 
+  ///
+  ///
+  ///
+  @override
+  String toString() => text;
+
   // ///
   // ///
   // /// Para fazer debug da geração do hash.
