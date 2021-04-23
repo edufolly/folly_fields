@@ -622,8 +622,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         child:
                             // [ModelField]
                             ModelField<ExampleModel>(
-                              prefix: prefix,
-                              label: 'Example Model*',
+                          prefix: prefix,
+                          label: 'Example Model*',
                           enabled: edit,
                           initialValue: ExampleModel.generate(),
                           routeBuilder: (BuildContext context) => ExampleList(
