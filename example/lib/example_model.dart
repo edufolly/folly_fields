@@ -32,6 +32,7 @@ class ExampleModel extends AbstractModel<int> {
   TimeOfDay? time;
   String? macAddress;
   String? ncm;
+  String? cest;
   String? cep;
   Color? color;
   bool active = true;
@@ -67,6 +68,7 @@ class ExampleModel extends AbstractModel<int> {
         time = map['date'] == null ? null : timeValidator.parse(map['time']),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
+        cest = map['cest'],
         cep = map['cep'],
         color = map['color'] == null
             ? null
@@ -110,6 +112,7 @@ class ExampleModel extends AbstractModel<int> {
     if (time != null) map['time'] = timeValidator.format(time!);
     if (macAddress != null) map['macAddress'] = macAddress;
     if (ncm != null) map['ncm'] = ncm;
+    if (cest != null) map['cest'] = cest;
     if (cep != null) map['cep'] = cep;
     if (color != null) map['color'] = color!.value.toRadixString(16);
     map['active'] = active;
@@ -164,6 +167,7 @@ class ExampleModel extends AbstractModel<int> {
         FollyUtils.dateMergeStart(date: model.date!, time: model.time!);
     model.macAddress = MacAddressValidator.generate();
     model.ncm = complete(8);
+    model.cest = complete(7);
     model.cep = complete(8);
     model.color = randomColor;
     model.active = ms.isEven;

@@ -1,5 +1,6 @@
 import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/validators/cep_validator.dart';
+import 'package:folly_fields/validators/cest_validator.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
@@ -37,6 +38,8 @@ class ValidatorFactory {
         return MacAddressValidator();
       case 'ncm':
         return NcmValidator();
+      case 'cest':
+        return CestValidator();
       default:
         return EmptyValidator();
     }
