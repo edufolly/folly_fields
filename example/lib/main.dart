@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
+import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
@@ -493,6 +494,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           onSaved: (String value) => model.ncm = value,
                         ),
                         // [/NcmField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CestField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cest_field.dart',
+                        child:
+                            // [CestField]
+                            CestField(
+                          prefix: prefix,
+                          label: 'CEST*',
+                          enabled: edit,
+                          initialValue: model.cest,
+                          required: true,
+                          onSaved: (String value) => model.cest = value,
+                        ),
+                        // [/CestField]
                       ),
 
                       CodeLink(

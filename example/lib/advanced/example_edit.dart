@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
+import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
@@ -194,6 +195,15 @@ class ExampleEdit
         enabled: edit,
         initialValue: model.ncm,
         onSaved: (String? value) => model.ncm = value,
+      ),
+
+      /// Cest
+      CestField(
+        prefix: prefix,
+        label: 'CEST*',
+        enabled: edit,
+        initialValue: model.cest,
+        onSaved: (String? value) => model.cest = value,
       ),
 
       /// CEP
