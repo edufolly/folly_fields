@@ -33,6 +33,7 @@ class ExampleModel extends AbstractModel<int> {
   String? macAddress;
   String? ncm;
   String? cest;
+  String? cnae;
   String? cep;
   Color? color;
   bool active = true;
@@ -69,6 +70,7 @@ class ExampleModel extends AbstractModel<int> {
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
+        cnae = map['cnae'],
         cep = map['cep'],
         color = map['color'] == null
             ? null
@@ -113,6 +115,7 @@ class ExampleModel extends AbstractModel<int> {
     if (macAddress != null) map['macAddress'] = macAddress;
     if (ncm != null) map['ncm'] = ncm;
     if (cest != null) map['cest'] = cest;
+    if (cnae != null) map['cnae'] = cnae;
     if (cep != null) map['cep'] = cep;
     if (color != null) map['color'] = color!.value.toRadixString(16);
     map['active'] = active;
@@ -168,6 +171,7 @@ class ExampleModel extends AbstractModel<int> {
     model.macAddress = MacAddressValidator.generate();
     model.ncm = complete(8);
     model.cest = complete(7);
+    model.cnae = complete(7);
     model.cep = complete(8);
     model.color = randomColor;
     model.active = ms.isEven;

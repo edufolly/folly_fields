@@ -74,11 +74,9 @@ packages:
   cpf_cnpj_validator:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "180e70558b6dbcb030fc666e4a52a32f51260608"
-      url: "git://github.com/edufolly/flutter-cpf-cnpj-validator"
-    source: git
+      name: cpf_cnpj_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.0.0"
   crypto:
     dependency: transitive
@@ -148,7 +146,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.13+40"
+    version: "0.1.14+41"
   font_awesome_flutter:
     dependency: transitive
     description:
