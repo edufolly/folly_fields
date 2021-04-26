@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
+import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
@@ -512,6 +513,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           onSaved: (String value) => model.cest = value,
                         ),
                         // [/CestField]
+                      ),
+
+                      CodeLink(
+                        code: code,
+                        tag: 'CnaeField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/cnae_field.dart',
+                        child:
+                            // [CnaeField]
+                            CnaeField(
+                          prefix: prefix,
+                          label: 'CNAE*',
+                          enabled: edit,
+                          initialValue: model.cnae,
+                          required: true,
+                          onSaved: (String value) => model.cnae = value,
+                        ),
+                        // [/CnaeField]
                       ),
 
                       CodeLink(

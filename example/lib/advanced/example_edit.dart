@@ -4,6 +4,7 @@ import 'package:folly_fields/crud/abstract_edit.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
+import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
@@ -204,6 +205,15 @@ class ExampleEdit
         enabled: edit,
         initialValue: model.cest,
         onSaved: (String? value) => model.cest = value,
+      ),
+
+      /// Cnae
+      CnaeField(
+        prefix: prefix,
+        label: 'CNAE*',
+        enabled: edit,
+        initialValue: model.cnae,
+        onSaved: (String? value) => model.cnae = value,
       ),
 
       /// CEP
