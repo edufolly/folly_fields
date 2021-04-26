@@ -37,6 +37,7 @@ class CpfField extends ValidatorField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           abstractValidator: CpfValidator(),
@@ -68,5 +69,6 @@ class CpfField extends ValidatorField {
           autofillHints: autofillHints,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }

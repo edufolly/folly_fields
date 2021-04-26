@@ -27,6 +27,7 @@ class TimeField extends StatefulWidget {
   final void Function(TimeOfDay?)? lostFocus;
   final bool required;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -52,6 +53,7 @@ class TimeField extends StatefulWidget {
     this.lostFocus,
     this.required = true,
     this.decoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   ///
@@ -167,7 +169,7 @@ class _TimeFieldState extends State<TimeField> {
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,

@@ -33,6 +33,7 @@ class DateField extends StatefulWidget {
   final String mask;
   final bool required;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -63,6 +64,7 @@ class DateField extends StatefulWidget {
     this.mask = '##/##/####',
     this.required = true,
     this.decoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   ///
@@ -186,7 +188,7 @@ class _DateFieldState extends State<DateField> {
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,

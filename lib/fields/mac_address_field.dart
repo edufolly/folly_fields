@@ -37,6 +37,7 @@ class MacAddressField extends ValidatorField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           abstractValidator: MacAddressValidator(),
@@ -68,5 +69,6 @@ class MacAddressField extends ValidatorField {
           autofillHints: autofillHints,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }

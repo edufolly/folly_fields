@@ -26,6 +26,7 @@ class BoolField extends FormField<bool> {
     bool adaptive = false,
     Color? activeColor,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -67,7 +68,7 @@ class BoolField extends FormField<bool> {
                 activeColor ?? Theme.of(field.context).accentColor;
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: Focus(
                 canRequestFocus: false,
                 skipTraversal: true,

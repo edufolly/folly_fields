@@ -34,6 +34,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     Future<bool> Function(T? model)? acceptChange,
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(initialValue == null || controller == null),
         super(
           key: key,
@@ -68,7 +69,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                 );
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: TextField(
                 controller: state._effectiveController,
                 decoration: effectiveDecoration.copyWith(

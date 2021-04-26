@@ -35,6 +35,7 @@ class StringField extends StatelessWidget {
   final bool readOnly;
   final TextStyle? style;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -71,6 +72,7 @@ class StringField extends StatelessWidget {
     this.readOnly = false,
     this.style,
     this.decoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   ///
@@ -96,7 +98,7 @@ class StringField extends StatelessWidget {
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: TextFormField(
         controller: controller,
         keyboardType: keyboard,

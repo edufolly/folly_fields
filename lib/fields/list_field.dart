@@ -33,6 +33,7 @@ class ListField<T extends AbstractModel<Object>,
     String removeText = 'Deseja remover %s?',
     String emptyListText = 'Sem %s até o momento.',
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -55,7 +56,7 @@ class ListField<T extends AbstractModel<Object>,
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: InputDecorator(
                 decoration: effectiveDecoration,
                 child: Column(

@@ -26,6 +26,7 @@ class DecimalField extends StatefulWidget {
   final Color? fillColor;
   final void Function(Decimal)? lostFocus;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -51,6 +52,7 @@ class DecimalField extends StatefulWidget {
     this.fillColor,
     this.lostFocus,
     this.decoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   ///
@@ -142,7 +144,7 @@ class _DecimalFieldState extends State<DecimalField> {
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,

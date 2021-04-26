@@ -33,6 +33,7 @@ class DateTimeField extends StatefulWidget {
   final String mask;
   final bool required;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -63,6 +64,7 @@ class DateTimeField extends StatefulWidget {
     this.mask = '##/##/#### A#:C#',
     this.required = true,
     this.decoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) : super(key: key);
 
   ///
@@ -204,7 +206,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,

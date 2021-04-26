@@ -34,6 +34,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(columnsFlex.length == columns.length),
         super(
           key: key,
@@ -56,7 +57,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                 .copyWith(errorText: field.errorText);
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: InputDecorator(
                 decoration: effectiveDecoration,
                 child: Column(

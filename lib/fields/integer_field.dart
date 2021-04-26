@@ -33,6 +33,7 @@ class IntegerField extends StringField {
     bool readOnly = false,
     TextStyle? style,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           prefix: prefix,
@@ -76,5 +77,6 @@ class IntegerField extends StringField {
           readOnly: readOnly,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }

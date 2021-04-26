@@ -40,6 +40,7 @@ class ValidatorField extends StringField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           prefix: prefix,
@@ -106,5 +107,6 @@ class ValidatorField extends StringField {
           autofillHints: autofillHints,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }

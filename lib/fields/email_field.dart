@@ -38,6 +38,7 @@ class EmailField extends ValidatorField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   }) : super(
           key: key,
           abstractValidator: EmailValidator(),
@@ -69,5 +70,6 @@ class EmailField extends ValidatorField {
           autofillHints: autofillHints,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }
