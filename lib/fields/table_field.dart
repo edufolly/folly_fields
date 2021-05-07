@@ -65,7 +65,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                   children: <Widget>[
                     if (field.value!.isEmpty)
 
-                      /// Tabela vazia
+                      /// Empty table
                       Container(
                         height: 75.0,
                         child: Center(
@@ -76,16 +76,16 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                       )
                     else
 
-                      /// Tabela
+                      /// Table
                       Container(
                         width: double.infinity,
                         child: Column(
                           children: <Widget>[
-                            /// Cabeçalho
+                            /// Header
                             Row(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                /// Nome das colunas
+                                /// Columns Names
                                 ...columns
                                     .asMap()
                                     .entries
@@ -101,27 +101,25 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                     )
                                     .toList(),
 
-                                /// Coluna vazia para o botão excluir
+                                /// Empty column to delete button
                                 EmptyButton(),
                               ],
                             ),
 
-                            /// Dados da tabela
+                            /// Table data
                             ...field.value!.asMap().entries.map<Widget>(
                                   (MapEntry<int, T> entry) => Column(
                                     children: <Widget>[
-                                      /// Divisor
-                                      FollyDivider(
-                                        color: Colors.black12,
-                                      ),
+                                      /// Divider
+                                      FollyDivider(),
 
-                                      /// Linha
+                                      /// Row
                                       Row(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          /// Células
+                                          /// Cells
                                           ...buildRow(
                                             field.context,
                                             entry.value,
@@ -142,7 +140,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                               )
                                               .toList(),
 
-                                          /// Botão de excluir linha
+                                          /// Delete button
                                           DeleteButton(
                                             onPressed: () {
                                               if (removeRow != null) {
@@ -163,14 +161,14 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                   ),
                                 ),
 
-                            /// Rodapé
+                            /// Footer
                             if (buildFooter != null)
                               buildFooter(field.context, field.value!),
                           ],
                         ),
                       ),
 
-                    /// Botão Adicionar
+                    /// Add button
                     AddButton(
                       label: 'Adicionar ${uiBuilder.getSuperSingle()}'
                           .toUpperCase(),
@@ -236,34 +234,37 @@ class AddButton extends StatelessWidget {
 ///
 ///
 ///
-class EmptyButton extends DeleteButton {
+class EmptyButton extends StatelessWidget {
   ///
   ///
   ///
-  EmptyButton()
-      : super(
-          onPressed: null,
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: 0,
+      child: IconButton(
+        icon: FaIcon(
+          FontAwesomeIcons.trashAlt,
           color: Colors.transparent,
-          top: 0.0,
-        );
+        ),
+        onPressed: null,
+      ),
+    );
+  }
 }
 
 ///
 ///
 ///
 class DeleteButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final Color color;
-  final double top;
+  final VoidCallback onPressed;
 
   ///
   ///
   ///
   const DeleteButton({
     Key? key,
-    this.onPressed,
-    this.color = Colors.black45,
-    this.top = 12.0,
+    required this.onPressed,
   }) : super(key: key);
 
   ///
@@ -275,12 +276,11 @@ class DeleteButton extends StatelessWidget {
       flex: 0,
       child: Padding(
         padding: EdgeInsets.only(
-          top: top,
+          top: 12.0,
         ),
         child: IconButton(
           icon: FaIcon(
             FontAwesomeIcons.trashAlt,
-            color: color,
           ),
           onPressed: onPressed,
         ),

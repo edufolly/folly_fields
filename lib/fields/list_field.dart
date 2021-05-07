@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sprintf/sprintf.dart';
 
 ///
-/// TODO - Create controller.
+/// TODO - Create controller??
 ///
 class ListField<T extends AbstractModel<Object>,
     UI extends AbstractUIBuilder<T>> extends FormField<List<T>> {
@@ -209,7 +209,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     return FollyFields().isWeb
         ? _internalTile(context, index, model)
         : Dismissible(
-            // TODO - Testar.
+            // TODO - Test the key in tests.
             key: Key('key_${index}_${model.id}'),
             direction: DismissDirection.endToStart,
             background: Container(
