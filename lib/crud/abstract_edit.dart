@@ -69,16 +69,25 @@ abstract class AbstractEdit<
   ///
   ///
   ///
-  List<Widget> getFormContent(BuildContext context) {
-    return formContent(
-      context,
-      model,
-      edit,
-      <String, dynamic>{},
-      uiBuilder.prefix,
-      (bool refresh) {}, // Era null
-    );
-  }
+  // List<Widget> getFormContent(BuildContext context) {
+  //   return formContent(
+  //     context,
+  //     model,
+  //     edit,
+  //     <String, dynamic>{},
+  //     uiBuilder.prefix,
+  //     (bool refresh) {},
+  //   );
+  // }
+
+  ///
+  ///
+  ///
+  Future<String?> afterFormValidate(
+    BuildContext context,
+    T model,
+  ) async =>
+      null;
 
   ///
   ///
@@ -285,6 +294,15 @@ class _AbstractEditState<
     try {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+
+        String? message = await widget.afterFormValidate(context, _model!);
+        if (message != null) {
+          await FollyDialogs.dialogMessage(
+            context: context,
+            message: message,
+          );
+          return;
+        }
 
         bool ok = true;
 
