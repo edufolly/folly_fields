@@ -272,7 +272,7 @@ class _AbstractEditState<
         bool ok = true;
 
         ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
-        if (ok) {
+        if (ok && widget.consumer.routeName.isNotEmpty) {
           wait.show();
           ok = await widget.consumer.saveOrUpdate(context, _model);
           wait.close();
