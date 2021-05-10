@@ -13,7 +13,7 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  T get modelInstance;
+  T fromJson(Map<String, dynamic> map);
 
   ///
   ///

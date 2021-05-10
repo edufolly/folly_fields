@@ -1,5 +1,3 @@
-
-
 import 'package:folly_fields/util/hashable.dart';
 
 ///
@@ -23,16 +21,6 @@ abstract class AbstractModel<A> with Hashable {
       : id = map['id'],
         updatedAt = map['updatedAt'],
         deletedAt = map['deletedAt'];
-
-  ///
-  ///
-  ///
-  AbstractModel<A> fromJson(Map<String, dynamic> map);
-
-  ///
-  ///
-  ///
-  AbstractModel<A> fromMulti(Map<String, dynamic> map);
 
   ///
   ///

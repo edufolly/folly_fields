@@ -9,11 +9,11 @@ class ExampleConsumer extends BaseConsumerMock<ExampleModel> {
   ///
   ///
   @override
-  ExampleModel get modelInstance => ExampleModel();
+  ExampleModel fromJson(Map<String, dynamic> map) => ExampleModel.fromJson(map);
 
   ///
   ///
   ///
   @override
-  List<String> get routeName => <String>['example'];
+  List<String> get routeName => <String>[];
 }
