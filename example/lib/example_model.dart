@@ -84,13 +84,6 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  ExampleModel fromMulti(Map<String, dynamic> map) =>
-      ExampleModel.fromJson(AbstractModel.fromMultiMap(map));
-
-  ///
-  ///
-  ///
-  @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
     map['decimal'] = decimal.integer;

@@ -25,11 +25,6 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
-  AbstractModel<A> fromMulti(Map<String, dynamic> map);
-
-  ///
-  ///
-  ///
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) map['id'] = id;
