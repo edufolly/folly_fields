@@ -21,7 +21,7 @@ abstract class AbstractEdit<
     C extends AbstractConsumer<T>> extends StatefulWidget {
   final T model;
   final UI uiBuilder;
-  final C? consumer;
+  final C consumer;
   final bool edit;
   final CrossAxisAlignment crossAxisAlignment;
   final List<AbstractRoute> actionRoutes;
@@ -65,20 +65,6 @@ abstract class AbstractEdit<
       Map<String, dynamic> stateInjection,
       String prefix,
       Function(bool refresh) refresh);
-
-  ///
-  ///
-  ///
-  // List<Widget> getFormContent(BuildContext context) {
-  //   return formContent(
-  //     context,
-  //     model,
-  //     edit,
-  //     <String, dynamic>{},
-  //     uiBuilder.prefix,
-  //     (bool refresh) {},
-  //   );
-  // }
 
   ///
   ///
@@ -127,11 +113,11 @@ class _AbstractEditState<
   Future<void> _loadData() async {
     try {
       bool exists = true;
-      if (widget.model.id == null || widget.consumer == null) {
+      if (widget.model.id == null) {
         Map<String, dynamic> copy = widget.model.toMap();
-        _model = (widget.model.fromJson(copy) as T);
+        _model = widget.consumer.fromJson(copy);
       } else {
-        _model = await widget.consumer?.getById(context, widget.model);
+        _model = await widget.consumer.getById(context, widget.model);
       }
 
       _stateInjection = await widget.stateInjection(context, _model!);
@@ -175,7 +161,7 @@ class _AbstractEditState<
               IconButton(
                 tooltip: 'Salvar',
                 icon: FaIcon(
-                  widget.consumer == null
+                  widget.consumer.routeName.isEmpty
                       ? FontAwesomeIcons.check
                       : FontAwesomeIcons.solidSave,
                 ),
@@ -183,55 +169,53 @@ class _AbstractEditState<
               ),
 
             // TODO - Transform to dropdown menu
-            if (widget.actionRoutes.isNotEmpty && widget.consumer != null)
-              ...widget.actionRoutes
-                  .asMap()
-                  .map(
-                    (int index, AbstractRoute route) => MapEntry<int, Widget>(
-                      index,
-                      // TODO - Create an Action Route component.
-                      FutureBuilder<ConsumerPermission>(
-                        future: widget.consumer?.checkPermission(
-                          context,
-                          route.routeName,
-                        ),
-                        builder: (
-                          BuildContext context,
-                          AsyncSnapshot<ConsumerPermission> snapshot,
-                        ) {
-                          if (snapshot.hasData) {
-                            ConsumerPermission permission = snapshot.data!;
-
-                            return permission.view
-                                ? IconButton(
-                                    tooltip: permission.name,
-                                    icon:
-                                        IconHelper.faIcon(permission.iconName),
-                                    onPressed: () async {
-                                      dynamic close =
-                                          await Navigator.of(context).pushNamed(
-                                        route.path,
-                                        arguments: _model,
-                                      );
-
-                                      if (close is bool) {
-                                        if (close) {
-                                          _initialHash = _model.hashCode;
-                                          Navigator.of(context).pop();
-                                        }
-                                      }
-                                    },
-                                  )
-                                : Container();
-                          }
-
-                          return Container();
-                        },
+            ...widget.actionRoutes
+                .asMap()
+                .map(
+                  (int index, AbstractRoute route) => MapEntry<int, Widget>(
+                    index,
+                    // TODO - Create an Action Route component.
+                    FutureBuilder<ConsumerPermission>(
+                      future: widget.consumer.checkPermission(
+                        context,
+                        route.routeName,
                       ),
+                      builder: (
+                        BuildContext context,
+                        AsyncSnapshot<ConsumerPermission> snapshot,
+                      ) {
+                        if (snapshot.hasData) {
+                          ConsumerPermission permission = snapshot.data!;
+
+                          return permission.view
+                              ? IconButton(
+                                  tooltip: permission.name,
+                                  icon: IconHelper.faIcon(permission.iconName),
+                                  onPressed: () async {
+                                    dynamic close =
+                                        await Navigator.of(context).pushNamed(
+                                      route.path,
+                                      arguments: _model,
+                                    );
+
+                                    if (close is bool) {
+                                      if (close) {
+                                        _initialHash = _model.hashCode;
+                                        Navigator.of(context).pop();
+                                      }
+                                    }
+                                  },
+                                )
+                              : Container();
+                        }
+
+                        return Container();
+                      },
                     ),
-                  )
-                  .values
-                  .toList(),
+                  ),
+                )
+                .values
+                .toList(),
           ],
         ),
         bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
@@ -306,13 +290,11 @@ class _AbstractEditState<
 
         bool ok = true;
 
-        if (widget.consumer != null) {
-          ok = await widget.consumer!.beforeSaveOrUpdate(context, _model!);
-          if (ok) {
-            wait.show();
-            ok = await widget.consumer!.saveOrUpdate(context, _model!);
-            wait.close();
-          }
+        ok = await widget.consumer.beforeSaveOrUpdate(context, _model!);
+        if (ok) {
+          wait.show();
+          ok = await widget.consumer.saveOrUpdate(context, _model!);
+          wait.close();
         }
 
         if (ok) {

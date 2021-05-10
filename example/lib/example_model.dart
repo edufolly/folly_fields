@@ -84,12 +84,6 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  ExampleModel fromJson(Map<String, dynamic> map) => ExampleModel.fromJson(map);
-
-  ///
-  ///
-  ///
-  @override
   ExampleModel fromMulti(Map<String, dynamic> map) =>
       ExampleModel.fromJson(AbstractModel.fromMultiMap(map));
 
