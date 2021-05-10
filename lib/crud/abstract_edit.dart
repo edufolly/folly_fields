@@ -86,8 +86,8 @@ class _AbstractEditState<
 
   final StreamController<bool> _controller = StreamController<bool>();
   Map<String, dynamic> _stateInjection = <String, dynamic>{};
-  T? _model;
-  int? _initialHash;
+  late T _model;
+  int _initialHash = 0;
 
   ///
   ///
@@ -105,13 +105,12 @@ class _AbstractEditState<
     try {
       bool exists = true;
       if (widget.model.id == null) {
-        Map<String, dynamic> copy = widget.model.toMap();
-        _model = widget.consumer.fromJson(copy);
+        _model = widget.consumer.fromJson(widget.model.toMap());
       } else {
         _model = await widget.consumer.getById(context, widget.model);
       }
 
-      _stateInjection = await widget.stateInjection(context, _model!);
+      _stateInjection = await widget.stateInjection(context, _model);
 
       _controller.add(exists);
 
@@ -227,7 +226,7 @@ class _AbstractEditState<
                       crossAxisAlignment: widget.crossAxisAlignment,
                       children: widget.formContent(
                         context,
-                        _model!,
+                        _model,
                         widget.edit,
                         _stateInjection,
                         widget.uiBuilder.prefix,
@@ -272,10 +271,10 @@ class _AbstractEditState<
 
         bool ok = true;
 
-        ok = await widget.consumer.beforeSaveOrUpdate(context, _model!);
+        ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
         if (ok) {
           wait.show();
-          ok = await widget.consumer.saveOrUpdate(context, _model!);
+          ok = await widget.consumer.saveOrUpdate(context, _model);
           wait.close();
         }
 
