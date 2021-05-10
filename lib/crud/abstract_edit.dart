@@ -104,7 +104,7 @@ class _AbstractEditState<
   Future<void> _loadData() async {
     try {
       bool exists = true;
-      if (widget.model.id == null) {
+      if (widget.model.id == null || widget.consumer.routeName.isNotEmpty) {
         _model = widget.consumer.fromJson(widget.model.toMap());
       } else {
         _model = await widget.consumer.getById(context, widget.model);
