@@ -27,6 +27,7 @@ class DateTimeField extends StatefulWidget {
   final DateTime? lastDate;
   final bool filled;
   final Color? fillColor;
+  final bool readOnly;
   final void Function(DateTime?)? lostFocus;
   final dynamic locale;
   final String format;
@@ -58,6 +59,7 @@ class DateTimeField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.fillColor,
+    this.readOnly = false,
     this.lostFocus,
     this.locale = 'pt_br',
     this.format = 'dd/MM/yyyy HH:mm',
@@ -249,7 +251,8 @@ class _DateTimeFieldState extends State<DateTimeField> {
         textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
-        style: widget.enabled
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
