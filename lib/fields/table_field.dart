@@ -273,6 +273,23 @@ class DeleteButton extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final ListTileTheme tileTheme = ListTileTheme.of(context);
+
+    Color? iconColor = Colors.black45;
+    if (tileTheme.iconColor != null) {
+      iconColor = tileTheme.iconColor;
+    } else {
+      switch (theme.brightness) {
+        case Brightness.light:
+          iconColor = Colors.black45;
+          break;
+        case Brightness.dark:
+          iconColor = null;
+          break;
+      }
+    }
+
     return Flexible(
       flex: 0,
       child: Padding(
@@ -282,7 +299,7 @@ class DeleteButton extends StatelessWidget {
         child: IconButton(
           icon: FaIcon(
             FontAwesomeIcons.trashAlt,
-            color: Theme.of(context).colorScheme.primary,
+            color: iconColor,
           ),
           onPressed: onPressed,
         ),
