@@ -367,6 +367,20 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   ///
+  FollyCell.center(
+    String text, {
+    this.color = Colors.transparent,
+    TextStyle? style,
+  })  : align = Alignment.center,
+        child = Text(
+          text,
+          textAlign: TextAlign.center,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
   FollyCell.number(
     num number, {
     this.align = Alignment.centerRight,
