@@ -179,7 +179,8 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                           if (!go) return;
                         }
 
-                        field.value!.add(consumer.fromJson(<String, dynamic>{}));
+                        field.value!
+                            .add(consumer.fromJson(<String, dynamic>{}));
                         field.didChange(field.value);
                       },
                     ),
@@ -281,6 +282,7 @@ class DeleteButton extends StatelessWidget {
         child: IconButton(
           icon: FaIcon(
             FontAwesomeIcons.trashAlt,
+            color: Theme.of(context).colorScheme.primary,
           ),
           onPressed: onPressed,
         ),
