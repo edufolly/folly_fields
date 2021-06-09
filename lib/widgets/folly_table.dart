@@ -220,35 +220,38 @@ class _FollyTableState extends State<FollyTable> {
         Expanded(
           child: SizedBox(
             width: width,
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: widget.rowsCount,
-              itemBuilder: (BuildContext context, int row) {
-                return Column(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () => widget.onRowTap != null
-                          ? widget.onRowTap!(row)
-                          : () {},
-                      hoverColor: Colors.transparent,
-                      child: Row(
-                        children: cols
-                            .map(
-                              (int col) => _buildCell(
-                                cell: widget.cellBuilder(row, col),
-                                width: widget.columnsSize[col],
-                                height: widget.rowHeight,
-                              ),
-                            )
-                            .toList(),
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior().copyWith(scrollbars: false),
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: widget.rowsCount,
+                itemBuilder: (BuildContext context, int row) {
+                  return Column(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () => widget.onRowTap != null
+                            ? widget.onRowTap!(row)
+                            : () {},
+                        hoverColor: Colors.transparent,
+                        child: Row(
+                          children: cols
+                              .map(
+                                (int col) => _buildCell(
+                                  cell: widget.cellBuilder(row, col),
+                                  width: widget.columnsSize[col],
+                                  height: widget.rowHeight,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
-                    ),
-                    FollyDivider(
-                      height: widget.dividerHeight,
-                    ),
-                  ],
-                );
-              },
+                      FollyDivider(
+                        height: widget.dividerHeight,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),
