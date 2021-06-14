@@ -83,6 +83,7 @@ class _DateFieldState extends State<DateField> {
   DateValidator? _validator;
   DateEditingController? _controller;
   FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
@@ -130,7 +131,9 @@ class _DateFieldState extends State<DateField> {
       );
     }
 
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.date);
     }
   }
@@ -169,6 +172,8 @@ class _DateFieldState extends State<DateField> {
             icon: Icon(FontAwesomeIcons.solidCalendarAlt),
             onPressed: () async {
               try {
+                fromButton = true;
+
                 DateTime? selectedDate = await showDatePicker(
                   context: context,
                   initialDate: _effectiveController.date ?? DateTime.now(),
@@ -176,9 +181,9 @@ class _DateFieldState extends State<DateField> {
                   lastDate: widget.lastDate ?? DateTime(2100),
                 );
 
-                if (selectedDate != null) {
-                  _effectiveController.date = selectedDate;
-                }
+                fromButton = false;
+
+                _effectiveController.date = selectedDate;
               } catch (e, s) {
                 if (FollyFields().isDebug) {
                   // ignore: avoid_print

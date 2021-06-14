@@ -83,6 +83,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
   DateTimeValidator? _validator;
   DateTimeEditingController? _controller;
   FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
@@ -130,7 +131,9 @@ class _DateTimeFieldState extends State<DateTimeField> {
       );
     }
 
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.dateTime);
     }
   }
@@ -169,6 +172,8 @@ class _DateTimeFieldState extends State<DateTimeField> {
             icon: Icon(FontAwesomeIcons.calendarDay),
             onPressed: () async {
               try {
+                fromButton = true;
+
                 DateTime? selectedDate = await showDatePicker(
                   context: context,
                   initialDate: _effectiveController.dateTime ?? DateTime.now(),
@@ -176,11 +181,15 @@ class _DateTimeFieldState extends State<DateTimeField> {
                   lastDate: widget.lastDate ?? DateTime(2100),
                 );
 
+                fromButton = false;
+
                 if (selectedDate != null) {
                   TimeOfDay initialTime = TimeOfDay.now();
 
                   try {
-                    initialTime = TimeOfDay.fromDateTime(selectedDate);
+                    initialTime = TimeOfDay.fromDateTime(
+                      _effectiveController.dateTime ?? DateTime.now(),
+                    );
                   } catch (e) {
                     // Do nothing.
                   }
@@ -190,12 +199,16 @@ class _DateTimeFieldState extends State<DateTimeField> {
                     initialTime: initialTime,
                   );
 
-                  selectedTime ??= TimeOfDay(hour: 0, minute: 0);
-
-                  _effectiveController.dateTime = FollyUtils.dateMergeStart(
-                    date: selectedDate,
-                    time: selectedTime,
-                  );
+                  if (selectedTime == null) {
+                    _effectiveController.dateTime = null;
+                  } else {
+                    _effectiveController.dateTime = FollyUtils.dateMergeStart(
+                      date: selectedDate,
+                      time: selectedTime,
+                    );
+                  }
+                } else {
+                  _effectiveController.dateTime = null;
                 }
               } catch (e, s) {
                 if (FollyFields().isDebug) {

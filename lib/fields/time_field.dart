@@ -71,6 +71,7 @@ class _TimeFieldState extends State<TimeField> {
 
   TimeEditingController? _controller;
   FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
@@ -111,7 +112,7 @@ class _TimeFieldState extends State<TimeField> {
       );
     }
 
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton && !_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.time);
     }
   }
@@ -150,14 +151,16 @@ class _TimeFieldState extends State<TimeField> {
             icon: Icon(FontAwesomeIcons.clock),
             onPressed: () async {
               try {
+                fromButton = true;
+
                 TimeOfDay? selectedTime = await showTimePicker(
                   context: context,
                   initialTime: _effectiveController.time ?? TimeOfDay.now(),
                 );
 
-                if (selectedTime != null) {
-                  _effectiveController.time = selectedTime;
-                }
+                fromButton = false;
+
+                _effectiveController.time = selectedTime;
               } catch (e, s) {
                 if (FollyFields().isDebug) {
                   // ignore: avoid_print
