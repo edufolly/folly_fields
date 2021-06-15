@@ -149,7 +149,7 @@ class _TimeFieldState extends State<TimeField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.clock),
-            onPressed: () async {
+            onPressed: widget.enabled ? () async {
               try {
                 fromButton = true;
 
@@ -167,7 +167,7 @@ class _TimeFieldState extends State<TimeField> {
                   print('$e\n$s');
                 }
               }
-            },
+            } : null,
           ),
         );
 

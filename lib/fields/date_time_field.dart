@@ -170,53 +170,57 @@ class _DateTimeFieldState extends State<DateTimeField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.calendarDay),
-            onPressed: () async {
-              try {
-                fromButton = true;
+            onPressed: widget.enabled
+                ? () async {
+                    try {
+                      fromButton = true;
 
-                DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: _effectiveController.dateTime ?? DateTime.now(),
-                  firstDate: widget.firstDate ?? DateTime(1900),
-                  lastDate: widget.lastDate ?? DateTime(2100),
-                );
+                      DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate:
+                            _effectiveController.dateTime ?? DateTime.now(),
+                        firstDate: widget.firstDate ?? DateTime(1900),
+                        lastDate: widget.lastDate ?? DateTime(2100),
+                      );
 
-                fromButton = false;
+                      fromButton = false;
 
-                if (selectedDate != null) {
-                  TimeOfDay initialTime = TimeOfDay.now();
+                      if (selectedDate != null) {
+                        TimeOfDay initialTime = TimeOfDay.now();
 
-                  try {
-                    initialTime = TimeOfDay.fromDateTime(
-                      _effectiveController.dateTime ?? DateTime.now(),
-                    );
-                  } catch (e) {
-                    // Do nothing.
+                        try {
+                          initialTime = TimeOfDay.fromDateTime(
+                            _effectiveController.dateTime ?? DateTime.now(),
+                          );
+                        } catch (e) {
+                          // Do nothing.
+                        }
+
+                        TimeOfDay? selectedTime = await showTimePicker(
+                          context: context,
+                          initialTime: initialTime,
+                        );
+
+                        if (selectedTime == null) {
+                          _effectiveController.dateTime = null;
+                        } else {
+                          _effectiveController.dateTime =
+                              FollyUtils.dateMergeStart(
+                            date: selectedDate,
+                            time: selectedTime,
+                          );
+                        }
+                      } else {
+                        _effectiveController.dateTime = null;
+                      }
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
                   }
-
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    context: context,
-                    initialTime: initialTime,
-                  );
-
-                  if (selectedTime == null) {
-                    _effectiveController.dateTime = null;
-                  } else {
-                    _effectiveController.dateTime = FollyUtils.dateMergeStart(
-                      date: selectedDate,
-                      time: selectedTime,
-                    );
-                  }
-                } else {
-                  _effectiveController.dateTime = null;
-                }
-              } catch (e, s) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
-                  print('$e\n$s');
-                }
-              }
-            },
+                : null,
           ),
         );
 

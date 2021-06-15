@@ -170,27 +170,30 @@ class _DateFieldState extends State<DateField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.solidCalendarAlt),
-            onPressed: () async {
-              try {
-                fromButton = true;
+            onPressed: widget.enabled
+                ? () async {
+                    try {
+                      fromButton = true;
 
-                DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: _effectiveController.date ?? DateTime.now(),
-                  firstDate: widget.firstDate ?? DateTime(1900),
-                  lastDate: widget.lastDate ?? DateTime(2100),
-                );
+                      DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate:
+                            _effectiveController.date ?? DateTime.now(),
+                        firstDate: widget.firstDate ?? DateTime(1900),
+                        lastDate: widget.lastDate ?? DateTime(2100),
+                      );
 
-                fromButton = false;
+                      fromButton = false;
 
-                _effectiveController.date = selectedDate;
-              } catch (e, s) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
-                  print('$e\n$s');
-                }
-              }
-            },
+                      _effectiveController.date = selectedDate;
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
+                  }
+                : null,
           ),
         );
 
