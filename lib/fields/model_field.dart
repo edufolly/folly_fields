@@ -63,7 +63,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                           ? FaIcon(FontAwesomeIcons.search)
                           : tapToVisualize != null
                               ? FaIcon(FontAwesomeIcons.chevronRight)
-                              : Container(),
+                              : Container(width: 0),
                     ],
                   ),
                 );
@@ -88,7 +88,11 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                 textCapitalization: TextCapitalization.none,
                 scrollPadding: scrollPadding,
                 enableInteractiveSelection: true,
-                style: enabled ? null : TextStyle(color: Colors.black26),
+                style: enabled
+                    ? null
+                    : Theme.of(field.context).textTheme.subtitle1!.copyWith(
+                          color: Theme.of(field.context).disabledColor,
+                        ),
                 readOnly: true,
                 onTap: enabled && routeBuilder != null
                     ? () async {

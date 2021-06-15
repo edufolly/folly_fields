@@ -49,14 +49,21 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            final TextStyle? columnTheme =
+            TextStyle? columnTheme =
                 Theme.of(field.context).textTheme.subtitle2;
+
+            Color disabledColor = Theme.of(field.context).disabledColor;
+
+            if (columnTheme != null && !enabled) {
+              columnTheme = columnTheme.copyWith(color: disabledColor);
+            }
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.getSuperPlural(),
                       border: OutlineInputBorder(),
                       counterText: '',
+                      enabled: enabled,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme)
                 .copyWith(errorText: field.errorText);
@@ -116,7 +123,9 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                   (MapEntry<int, T> entry) => Column(
                                     children: <Widget>[
                                       /// Divider
-                                      FollyDivider(),
+                                      FollyDivider(
+                                        color: enabled ? null : disabledColor,
+                                      ),
 
                                       /// Row
                                       Row(
@@ -314,6 +323,8 @@ class DeleteButton extends StatelessWidget {
             color: iconColor,
           ),
           onPressed: enabled ? onPressed : null,
+          mouseCursor:
+              enabled ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
         ),
       ),
     );
