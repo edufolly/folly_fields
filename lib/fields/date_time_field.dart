@@ -170,7 +170,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.calendarDay),
-            onPressed: widget.enabled
+            onPressed: widget.enabled && !widget.readOnly
                 ? () async {
                     try {
                       fromButton = true;

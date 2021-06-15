@@ -24,6 +24,7 @@ class TimeField extends StatefulWidget {
   final bool enableInteractiveSelection;
   final bool filled;
   final Color? fillColor;
+  final bool readOnly;
   final void Function(TimeOfDay?)? lostFocus;
   final bool required;
   final InputDecoration? decoration;
@@ -50,6 +51,7 @@ class TimeField extends StatefulWidget {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
+    this.readOnly = false,
     this.lostFocus,
     this.required = true,
     this.decoration,
@@ -112,7 +114,9 @@ class _TimeFieldState extends State<TimeField> {
       );
     }
 
-    if (!fromButton && !_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.time);
     }
   }
@@ -149,25 +153,28 @@ class _TimeFieldState extends State<TimeField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.clock),
-            onPressed: widget.enabled ? () async {
-              try {
-                fromButton = true;
+            onPressed: widget.enabled && !widget.readOnly
+                ? () async {
+                    try {
+                      fromButton = true;
 
-                TimeOfDay? selectedTime = await showTimePicker(
-                  context: context,
-                  initialTime: _effectiveController.time ?? TimeOfDay.now(),
-                );
+                      TimeOfDay? selectedTime = await showTimePicker(
+                        context: context,
+                        initialTime:
+                            _effectiveController.time ?? TimeOfDay.now(),
+                      );
 
-                fromButton = false;
+                      fromButton = false;
 
-                _effectiveController.time = selectedTime;
-              } catch (e, s) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
-                  print('$e\n$s');
-                }
-              }
-            } : null,
+                      _effectiveController.time = selectedTime;
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
+                  }
+                : null,
           ),
         );
 
@@ -215,7 +222,8 @@ class _TimeFieldState extends State<TimeField> {
         textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
-        style: widget.enabled
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,
