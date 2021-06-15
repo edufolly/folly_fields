@@ -23,7 +23,12 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     required List<String> columns,
     List<int> columnsFlex = const <int>[],
     required List<Widget> Function(
-            BuildContext context, T row, int index, List<T> data)
+      BuildContext context,
+      T row,
+      int index,
+      List<T> data,
+      bool enabled,
+    )
         buildRow,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     void Function(BuildContext context, T row, int index, List<T> data)?
@@ -125,6 +130,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                             entry.value,
                                             entry.key,
                                             field.value!,
+                                            enabled,
                                           )
                                               .asMap()
                                               .entries
@@ -142,6 +148,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                                           /// Delete button
                                           DeleteButton(
+                                            enabled: enabled,
                                             onPressed: () {
                                               if (removeRow != null) {
                                                 removeRow(
@@ -170,6 +177,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                     /// Add button
                     AddButton(
+                      enabled: enabled,
                       label: 'Adicionar ${uiBuilder.getSuperSingle()}'
                           .toUpperCase(),
                       onPressed: () async {
@@ -197,7 +205,8 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 ///
 class AddButton extends StatelessWidget {
   final String label;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
+  final bool enabled;
 
   ///
   ///
@@ -205,7 +214,8 @@ class AddButton extends StatelessWidget {
   const AddButton({
     Key? key,
     required this.label,
-    this.onPressed,
+    required this.onPressed,
+    required this.enabled,
   }) : super(key: key);
 
   ///
@@ -226,7 +236,7 @@ class AddButton extends StatelessWidget {
           label.toUpperCase(),
           overflow: TextOverflow.ellipsis,
         ),
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
       ),
     );
   }
@@ -259,6 +269,7 @@ class EmptyButton extends StatelessWidget {
 ///
 class DeleteButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final bool enabled;
 
   ///
   ///
@@ -266,6 +277,7 @@ class DeleteButton extends StatelessWidget {
   const DeleteButton({
     Key? key,
     required this.onPressed,
+    required this.enabled,
   }) : super(key: key);
 
   ///
@@ -301,7 +313,7 @@ class DeleteButton extends StatelessWidget {
             FontAwesomeIcons.trashAlt,
             color: iconColor,
           ),
-          onPressed: onPressed,
+          onPressed: enabled ? onPressed : null,
         ),
       ),
     );

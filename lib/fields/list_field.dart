@@ -119,12 +119,14 @@ class ListField<T extends AbstractModel<Object>,
                                 field.didChange(field.value);
                               },
                               removeText: removeText,
+                              enabled: enabled,
                             ),
                           )
                           .toList(),
 
                     /// Botão Adicionar
                     AddButton(
+                      enabled: enabled,
                       label: sprintf(
                               addText, <dynamic>[uiBuilder.getSuperSingle()])
                           .toUpperCase(),
@@ -187,6 +189,7 @@ class _MyListTile<T extends AbstractModel<Object>,
   final void Function(int, T) onEdit;
   final void Function(T) onDelete;
   final String removeText;
+  final bool enabled;
 
   ///
   ///
@@ -199,6 +202,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.onEdit,
     required this.onDelete,
     required this.removeText,
+    required this.enabled,
   }) : super(key: key);
 
   ///
@@ -206,7 +210,7 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   @override
   Widget build(BuildContext context) {
-    return FollyFields().isWeb
+    return FollyFields().isWeb || enabled
         ? _internalTile(context, index, model)
         : Dismissible(
             // TODO - Test the key in tests.
@@ -246,7 +250,7 @@ class _MyListTile<T extends AbstractModel<Object>,
         visible: FollyFields().isWeb,
         child: IconButton(
           icon: Icon(FontAwesomeIcons.trashAlt),
-          onPressed: () => _delete(context, model, ask: true),
+          onPressed: enabled ? () => _delete(context, model, ask: true) : null,
         ),
       ),
       onTap: () => onEdit(index, model),
