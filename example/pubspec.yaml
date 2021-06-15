@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.2.1+45
+version: 0.2.8+52
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -17,22 +17,22 @@ dependencies:
     path: ../
 
   # https://pub.dev/packages/http
-  http: ^0.13.3
+  http: 0.13.3
   # https://pub.dev/packages/url_launcher
-  url_launcher: ^6.0.4
+  url_launcher: 6.0.6
   # https://pub.dev/packages/google_fonts
-  google_fonts: ^2.1.0
+  google_fonts: 2.1.0
   # https://pub.dev/packages/flutter_highlight
-  flutter_highlight: ^0.7.0
+  flutter_highlight: 0.7.0
   # https://pub.dev/packages/connectivity
-  connectivity: ^3.0.6
+  connectivity: 3.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # https://pub.dev/packages/pedantic
-  pedantic: ^1.11.0
+  pedantic: 1.11.0
 
 flutter:
   uses-material-design: true

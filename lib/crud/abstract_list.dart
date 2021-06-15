@@ -43,7 +43,7 @@ abstract class AbstractList<
   final int itemsPerPage;
   final int qtdSuggestions;
   final List<AbstractRoute> actionRoutes;
-  final Future<Widget> Function(
+  final Future<Widget?> Function(
     BuildContext context,
     T model,
     UI uiBuilder,
