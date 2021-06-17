@@ -50,6 +50,8 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
+  final Map<AbstractRoute,
+      Future<bool> Function(BuildContext context, T model)>? actionFunctions;
 
   ///
   ///
@@ -76,6 +78,7 @@ abstract class AbstractList<
     this.qtdSuggestions = 15,
     this.actionRoutes = const <AbstractRoute>[],
     this.onLongPress,
+    this.actionFunctions,
   }) : super(key: key);
 
   ///
@@ -121,6 +124,9 @@ class _AbstractListState<
 
   final Map<String, String> _qsParam = <String, String>{};
 
+  final Map<ConsumerPermission, AbstractRoute> permissions =
+      <ConsumerPermission, AbstractRoute>{};
+
   ///
   ///
   ///
@@ -141,7 +147,27 @@ class _AbstractListState<
       }
     });
 
-    _loadData(context);
+    _loadPermissions(context);
+  }
+
+  ///
+  ///
+  ///
+  Future<void> _loadPermissions(BuildContext context) async {
+    if (widget.actionFunctions != null) {
+      for (MapEntry<AbstractRoute,
+              Future<bool> Function(BuildContext context, T model)> entry
+          in widget.actionFunctions!.entries) {
+        AbstractRoute route = entry.key;
+
+        ConsumerPermission permission =
+            await widget.consumer.checkPermission(context, route.routeName);
+
+        if (permission.view) permissions[permission] = route;
+      }
+    }
+
+    await _loadData(context);
   }
 
   ///
@@ -352,10 +378,10 @@ class _AbstractListState<
                                 onPressed: () =>
                                     Navigator.of(context).pushNamed(route.path),
                               )
-                            : Container();
+                            : Container(width: 0, height: 0);
                       }
 
-                      return Container();
+                      return Container(width: 0, height: 0);
                     },
                   ),
                 );
@@ -509,8 +535,42 @@ class _AbstractListState<
       ),
       title: widget.uiBuilder.getTitle(model),
       subtitle: widget.uiBuilder.getSubtitle(model),
-      trailing: canDelete
-          ? IconButton(
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          ...permissions.entries.map(
+            (MapEntry<ConsumerPermission, AbstractRoute> entry) {
+              ConsumerPermission permission = entry.key;
+              // TODO - Create an Action Route component.
+              return FutureBuilder<bool>(
+                initialData: false,
+                future: widget.actionFunctions![entry.value]!(context, model),
+                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                  if (snapshot.hasData && snapshot.data!) {
+                    return IconButton(
+                      tooltip: permission.name,
+                      icon: IconHelper.faIcon(permission.iconName),
+                      onPressed: () async {
+                        dynamic refresh = await Navigator.of(context).pushNamed(
+                          entry.value.path,
+                          arguments: model,
+                        );
+
+                        if (refresh is bool && refresh) {
+                          await _loadData(context, clear: true);
+                        }
+                      },
+                    );
+                  }
+                  return Container(width: 0, height: 0);
+                },
+              );
+            },
+          ),
+          if (canDelete)
+            IconButton(
               icon: Icon(FontAwesomeIcons.trashAlt),
               onPressed: () async {
                 bool refresh = await _deleteEntity(model, ask: true);
@@ -518,8 +578,9 @@ class _AbstractListState<
                   await afterDeleteRefresh();
                 }
               },
-            )
-          : Container(width: 1, height: 1),
+            ),
+        ],
+      ),
       onTap: onTap != null
           ? () => onTap(model)
           : () => _internalRoute(model, !selection),

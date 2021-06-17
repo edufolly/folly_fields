@@ -188,18 +188,16 @@ class _AbstractEditState<
                                       arguments: _model,
                                     );
 
-                                    if (close is bool) {
-                                      if (close) {
-                                        _initialHash = _model.hashCode;
-                                        Navigator.of(context).pop();
-                                      }
+                                    if (close is bool && close) {
+                                      _initialHash = _model.hashCode;
+                                      Navigator.of(context).pop();
                                     }
                                   },
                                 )
-                              : Container();
+                              : Container(width: 0, height: 0);
                         }
 
-                        return Container();
+                        return Container(width: 0, height: 0);
                       },
                     ),
                   ),
