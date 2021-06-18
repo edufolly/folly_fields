@@ -55,7 +55,8 @@ class DecimalField extends StatefulWidget {
     this.readOnly = false,
     this.decoration,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///

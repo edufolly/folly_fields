@@ -73,29 +73,32 @@ class StringField extends StatelessWidget {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///
   ///
   @override
   Widget build(BuildContext context) {
-    TextStyle? effectiveStyle = style;
+    TextStyle effectiveStyle = style ?? Theme.of(context).textTheme.subtitle1!;
 
-    if (!enabled) {
-      effectiveStyle ??= Theme.of(context).textTheme.subtitle1!;
-      effectiveStyle.copyWith(color: Theme.of(context).disabledColor);
+    if (!enabled || readOnly) {
+      effectiveStyle = effectiveStyle.copyWith(
+        color: Theme.of(context).disabledColor,
+      );
     }
 
-    InputDecoration? effectiveDecoration = decoration ??
-        InputDecoration(
-          labelText: prefix.isEmpty ? label : '$prefix - $label',
-          border: OutlineInputBorder(),
-          counterText: '',
-          enabled: enabled,
-          filled: filled,
-          fillColor: fillColor,
-        );
+    InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration(
+              labelText: prefix.isEmpty ? label : '$prefix - $label',
+              border: OutlineInputBorder(),
+              counterText: '',
+              enabled: enabled,
+              filled: filled,
+              fillColor: fillColor,
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     return Padding(
       padding: padding,

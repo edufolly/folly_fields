@@ -41,7 +41,8 @@ class ValidatorField extends StringField {
     TextStyle? style,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8.0),
-  }) : super(
+  })  : assert(initialValue == null || controller == null),
+        super(
           key: key,
           prefix: prefix,
           label: label,

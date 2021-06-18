@@ -38,7 +38,8 @@ class MacAddressField extends ValidatorField {
     TextStyle? style,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8.0),
-  }) : super(
+  })  : assert(initialValue == null || controller == null),
+        super(
           key: key,
           abstractValidator: MacAddressValidator(),
           validatorMessage: validatorMessage,

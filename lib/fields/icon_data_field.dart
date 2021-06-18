@@ -33,7 +33,8 @@ class IconDataField extends FormField<IconData> {
     double spaceBetween = 16.0,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8.0),
-  }) : super(
+  })  : assert(initialValue == null || controller == null),
+        super(
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,

@@ -56,7 +56,8 @@ class TimeField extends StatefulWidget {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///
