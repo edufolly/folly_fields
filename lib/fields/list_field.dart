@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/fields/table_field.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/widgets/add_button.dart';
+import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sprintf/sprintf.dart';
@@ -51,128 +52,124 @@ class ListField<T extends AbstractModel<Object>,
                       labelText: uiBuilder.getSuperPlural(),
                       border: OutlineInputBorder(),
                       counterText: '',
+                      enabled: enabled,
                       errorText: field.errorText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            return Padding(
+            return FieldGroup(
               padding: padding,
-              child: InputDecorator(
-                decoration: effectiveDecoration,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    if (field.value!.isEmpty)
+              decoration: effectiveDecoration,
+              children: <Widget>[
+                if (field.value!.isEmpty)
 
-                      /// Lista vazia.
-                      Container(
-                        height: 75.0,
-                        child: Center(
-                          child: Text(
-                            sprintf(
-                              emptyListText,
-                              <dynamic>[uiBuilder.getSuperPlural()],
-                            ).toString(),
-                          ),
-                        ),
-                      )
-                    else
+                  /// Lista vazia.
+                  Container(
+                    height: 75.0,
+                    child: Center(
+                      child: Text(
+                        sprintf(
+                          emptyListText,
+                          <dynamic>[uiBuilder.getSuperPlural()],
+                        ).toString(),
+                      ),
+                    ),
+                  )
+                else
 
-                      /// Lista
-                      ...field.value!
-                          .asMap()
-                          .entries
-                          .map(
-                            (MapEntry<int, T> entry) => _MyListTile<T, UI>(
-                              index: entry.key,
-                              model: entry.value,
-                              uiBuilder: uiBuilder,
-                              onEdit: (int index, T model) async {
-                                if (beforeEdit != null) {
-                                  bool go = await beforeEdit(
-                                      field.context, index, model);
-                                  if (!go) return;
-                                }
+                  /// Lista
+                  ...field.value!
+                      .asMap()
+                      .entries
+                      .map(
+                        (MapEntry<int, T> entry) => _MyListTile<T, UI>(
+                          index: entry.key,
+                          model: entry.value,
+                          uiBuilder: uiBuilder,
+                          onEdit: (int index, T model) async {
+                            if (beforeEdit != null) {
+                              bool go =
+                                  await beforeEdit(field.context, index, model);
+                              if (!go) return;
+                            }
 
-                                if (routeEditBuilder != null) {
-                                  T? returned =
-                                      await Navigator.of(field.context).push(
-                                    MaterialPageRoute<T>(
-                                      builder: (BuildContext context) =>
-                                          routeEditBuilder(
-                                        context,
-                                        model,
-                                        uiBuilder,
-                                        enabled,
-                                      ),
-                                    ),
-                                  );
+                            if (routeEditBuilder != null) {
+                              T? returned =
+                                  await Navigator.of(field.context).push(
+                                MaterialPageRoute<T>(
+                                  builder: (BuildContext context) =>
+                                      routeEditBuilder(
+                                    context,
+                                    model,
+                                    uiBuilder,
+                                    enabled,
+                                  ),
+                                ),
+                              );
 
-                                  if (returned != null) {
-                                    field.value![index] = returned;
-                                    field.didChange(field.value);
-                                  }
-                                }
-                              },
-                              onDelete: (T model) {
-                                field.value!.remove(model);
+                              if (returned != null) {
+                                field.value![index] = returned;
                                 field.didChange(field.value);
-                              },
-                              removeText: removeText,
-                              enabled: enabled,
-                            ),
-                          )
-                          .toList(),
-
-                    /// Botão Adicionar
-                    AddButton(
-                      enabled: enabled,
-                      label: sprintf(
-                              addText, <dynamic>[uiBuilder.getSuperSingle()])
-                          .toUpperCase(),
-                      onPressed: () async {
-                        if (beforeAdd != null) {
-                          bool go = await beforeAdd(field.context);
-                          if (!go) return;
-                        }
-
-                        final dynamic selected =
-                            await Navigator.of(field.context).push(
-                          MaterialPageRoute<dynamic>(
-                            builder: (BuildContext context) =>
-                                routeAddBuilder(context, uiBuilder),
-                          ),
-                        );
-
-                        if (selected != null) {
-                          if (selected is List) {
-                            for (T item in selected) {
-                              if (item.id == null ||
-                                  !field.value!.any(
-                                      (T element) => element.id == item.id)) {
-                                field.value!.add(item);
                               }
                             }
-                          } else {
-                            if ((selected as AbstractModel<Object>).id ==
-                                    null ||
-                                !field.value!.any((T element) {
-                                  return element.id == selected.id;
-                                })) {
-                              field.value!.add((selected as T));
-                            }
+                          },
+                          onDelete: (T model) {
+                            field.value!.remove(model);
+                            field.didChange(field.value);
+                          },
+                          removeText: removeText,
+                          enabled: enabled,
+                        ),
+                      )
+                      .toList(),
+
+                /// Botão Adicionar
+                AddButton(
+                  enabled: enabled,
+                  label: sprintf(
+                    addText,
+                    <dynamic>[uiBuilder.getSuperSingle()],
+                  ).toUpperCase(),
+                  onPressed: () async {
+                    if (beforeAdd != null) {
+                      bool go = await beforeAdd(field.context);
+                      if (!go) return;
+                    }
+
+                    final dynamic selected =
+                        await Navigator.of(field.context).push(
+                      MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) =>
+                            routeAddBuilder(context, uiBuilder),
+                      ),
+                    );
+
+                    if (selected != null) {
+                      if (selected is List) {
+                        for (T item in selected) {
+                          if (item.id == null ||
+                              !field.value!
+                                  .any((T element) => element.id == item.id)) {
+                            field.value!.add(item);
                           }
-
-                          field.value!.sort((T a, T b) =>
-                              a.toString().compareTo(b.toString()));
-
-                          field.didChange(field.value);
                         }
-                      },
-                    ),
-                  ],
+                      } else {
+                        if ((selected as AbstractModel<Object>).id == null ||
+                            !field.value!.any((T element) {
+                              return element.id == selected.id;
+                            })) {
+                          field.value!.add((selected as T));
+                        }
+                      }
+
+                      field.value!.sort(
+                          (T a, T b) => a.toString().compareTo(b.toString()));
+
+                      field.didChange(field.value);
+                    }
+                  },
                 ),
-              ),
+              ],
             );
           },
         );
