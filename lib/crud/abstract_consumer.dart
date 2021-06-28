@@ -38,6 +38,11 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
+  String? get offlineTerms => null;
+
+  ///
+  ///
+  ///
   bool get returnLog => false;
 
   ///
