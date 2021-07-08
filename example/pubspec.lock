@@ -146,7 +146,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.11+55"
+    version: "0.2.12+56"
   font_awesome_flutter:
     dependency: transitive
     description:
@@ -347,7 +347,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.7"
+    version: "6.0.9"
   url_launcher_linux:
     dependency: transitive
     description:

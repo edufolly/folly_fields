@@ -58,6 +58,26 @@ abstract class _InternalConfig {
   ///
   ///
   String get platform;
+
+  ///
+  ///
+  ///
+  String get modelIdKey;
+
+  ///
+  ///
+  ///
+  String get modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  String get modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  bool get modelParseDates;
 }
 
 ///
@@ -69,8 +89,22 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   ///
-  static void start(AbstractConfig holder, {bool debug = false}) =>
-      FollyFields()._holder = holder.._start(debug: debug);
+  static void start(
+    AbstractConfig holder, {
+    bool debug = false,
+    String modelIdKey = 'id',
+    String modelUpdatedAtKey = 'updatedAt',
+    String modelDeletedAtKey = 'deletedAt',
+    bool modelParseDates = false,
+  }) =>
+      FollyFields()._holder = holder
+        .._start(
+          debug: debug,
+          modelIdKey: modelIdKey,
+          modelUpdatedAtKey: modelUpdatedAtKey,
+          modelDeletedAtKey: modelDeletedAtKey,
+          modelParseDates: modelParseDates,
+        );
 
   AbstractConfig? _holder;
 
@@ -121,6 +155,30 @@ class FollyFields implements _InternalConfig {
   ///
   @override
   String get platform => _holder!.platform;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelIdKey => _holder!.modelIdKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelUpdatedAtKey => _holder!.modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelDeletedAtKey => _holder!.modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  bool get modelParseDates => _holder!.modelParseDates;
 }
 
 ///
@@ -131,6 +189,10 @@ abstract class AbstractConfig implements _InternalConfig {
   bool _debug = false;
   bool _online = false;
   RunningPlatform _platform = RunningPlatform.UNKNOWN;
+  String _modelIdKey = 'id';
+  String _modelUpdatedAtKey = 'updatedAt';
+  String _modelDeletedAtKey = 'deletedAt';
+  bool _modelParseDates = false;
 
   ///
   ///
@@ -172,7 +234,37 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   ///
-  void _start({bool debug = false}) async {
+  @override
+  String get modelIdKey => _modelIdKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelUpdatedAtKey => _modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelDeletedAtKey => _modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  bool get modelParseDates => _modelParseDates;
+
+  ///
+  ///
+  ///
+  void _start({
+    required bool debug,
+    required String modelIdKey,
+    required String modelUpdatedAtKey,
+    required String modelDeletedAtKey,
+    required bool modelParseDates,
+  }) async {
     if (_started) {
       // ignore: avoid_print
       if (debug) print('Folly Fields already started, ignoring...');
@@ -181,6 +273,11 @@ abstract class AbstractConfig implements _InternalConfig {
       // ignore: avoid_print
       if (debug) print('Folly Fields Started.');
       _debug = debug;
+
+      _modelIdKey = modelIdKey;
+      _modelUpdatedAtKey = modelUpdatedAtKey;
+      _modelDeletedAtKey = modelDeletedAtKey;
+      _modelParseDates = modelParseDates;
 
       if (kIsWeb) {
         _platform = RunningPlatform.WEB;
