@@ -27,6 +27,8 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
   # https://pub.dev/packages/sprintf
   sprintf: ^6.0.0
+  # https://pub.dev/packages/expandable
+  expandable: ^5.0.1
 
 dev_dependencies:
   flutter_test:
