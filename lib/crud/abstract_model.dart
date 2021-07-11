@@ -92,7 +92,7 @@ abstract class AbstractModel<A> with Hashable {
     Map<String, dynamic> newMap,
   ) {
     List<String> parts = entry.key.split('_');
-    if (parts.length > 1) {
+    if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
       if (newMap.containsKey(parts[0])) {
         internalMap = newMap[parts[0]];
