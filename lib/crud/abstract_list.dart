@@ -52,6 +52,11 @@ abstract class AbstractList<
   )? onLongPress;
   final Map<AbstractRoute,
       Future<bool> Function(BuildContext context, T model)>? actionFunctions;
+  final String? searchFieldLabel;
+  final TextStyle? searchFieldStyle;
+  final InputDecorationTheme? searchFieldDecorationTheme;
+  final TextInputType? searchKeyboardType;
+  final TextInputAction searchTextInputAction;
 
   ///
   ///
@@ -79,7 +84,13 @@ abstract class AbstractList<
     this.actionRoutes = const <AbstractRoute>[],
     this.onLongPress,
     this.actionFunctions,
-  }) : super(key: key);
+    this.searchFieldLabel,
+    this.searchFieldStyle,
+    this.searchFieldDecorationTheme,
+    this.searchKeyboardType,
+    this.searchTextInputAction = TextInputAction.search,
+  })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null),
+        super(key: key);
 
   ///
   ///
@@ -327,6 +338,12 @@ class _AbstractListState<
                       itemsPerPage: widget.itemsPerPage,
                       uiBuilder: widget.uiBuilder,
                       consumer: widget.consumer,
+                      searchFieldLabel: widget.searchFieldLabel,
+                      searchFieldStyle: widget.searchFieldStyle,
+                      searchFieldDecorationTheme:
+                          widget.searchFieldDecorationTheme,
+                      keyboardType: widget.searchKeyboardType,
+                      textInputAction: widget.searchTextInputAction,
                     ),
                   ).then((T? entity) {
                     if (entity != null) {
@@ -743,7 +760,39 @@ class InternalSearch<
     required this.qsParam,
     required this.forceOffline,
     required this.itemsPerPage,
-  });
+    required String? searchFieldLabel,
+    required TextStyle? searchFieldStyle,
+    required InputDecorationTheme? searchFieldDecorationTheme,
+    required TextInputType? keyboardType,
+    required TextInputAction textInputAction,
+  }) : super(
+          searchFieldLabel: searchFieldLabel,
+          searchFieldStyle: searchFieldStyle,
+          searchFieldDecorationTheme: searchFieldDecorationTheme,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+        );
+
+  ///
+  ///
+  ///
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return theme.copyWith(
+      appBarTheme: AppBarTheme(
+        brightness: theme.colorScheme.brightness,
+        backgroundColor: theme.colorScheme.surface,
+        iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
+        textTheme: theme.textTheme,
+      ),
+      inputDecorationTheme: searchFieldDecorationTheme ??
+          InputDecorationTheme(
+            hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
+            border: InputBorder.none,
+          ),
+    );
+  }
 
   ///
   ///
