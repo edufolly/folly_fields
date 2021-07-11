@@ -65,7 +65,7 @@ class BoolField extends FormField<bool> {
                     );
 
             Color accentColor =
-                activeColor ?? Theme.of(field.context).accentColor;
+                activeColor ?? Theme.of(field.context).colorScheme.secondary;
 
             return Padding(
               padding: padding,

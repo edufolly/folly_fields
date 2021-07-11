@@ -914,7 +914,8 @@ class InternalSearch<
                                 'Sugestões:',
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  color: Theme.of(context).accentColor,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),
