@@ -68,7 +68,6 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
-        accentColor: Colors.deepOrange,
         brightness: Brightness.dark,
         snackBarTheme: ThemeData.dark().snackBarTheme.copyWith(
               backgroundColor: Colors.deepOrange,

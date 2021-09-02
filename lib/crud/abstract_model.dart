@@ -1,11 +1,15 @@
-
-
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/hashable.dart';
 
 ///
 ///
 ///
 abstract class AbstractModel<A> with Hashable {
+  static final String modelIdKey = FollyFields().modelIdKey;
+  static final String modelUpdatedAtKey = FollyFields().modelUpdatedAtKey;
+  static final String modelDeletedAtKey = FollyFields().modelDeletedAtKey;
+  static final bool modelParseDates = FollyFields().modelParseDates;
+
   A? id;
   int? updatedAt;
   int? deletedAt;
@@ -19,27 +23,28 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
-  AbstractModel.fromJson(Map<String, dynamic> map)
-      : id = map['id'],
-        updatedAt = map['updatedAt'],
-        deletedAt = map['deletedAt'];
+  AbstractModel.fromJson(Map<String, dynamic> map) {
+    id = map[modelIdKey];
 
-  ///
-  ///
-  ///
-  AbstractModel<A> fromJson(Map<String, dynamic> map);
+    if (map.containsKey(modelUpdatedAtKey)) {
+      updatedAt = modelParseDates
+          ? DateTime.parse(map[modelUpdatedAtKey]).millisecondsSinceEpoch
+          : map[modelUpdatedAtKey];
+    }
 
-  ///
-  ///
-  ///
-  AbstractModel<A> fromMulti(Map<String, dynamic> map);
+    if (map.containsKey(modelDeletedAtKey)) {
+      deletedAt = modelParseDates
+          ? DateTime.parse(map[modelDeletedAtKey]).millisecondsSinceEpoch
+          : map[modelDeletedAtKey];
+    }
+  }
 
   ///
   ///
   ///
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
-    if (id != null) map['id'] = id;
+    if (id != null) map[modelIdKey] = id;
     return map;
   }
 
@@ -87,7 +92,7 @@ abstract class AbstractModel<A> with Hashable {
     Map<String, dynamic> newMap,
   ) {
     List<String> parts = entry.key.split('_');
-    if (parts.length > 1) {
+    if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
       if (newMap.containsKey(parts[0])) {
         internalMap = newMap[parts[0]];

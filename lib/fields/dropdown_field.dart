@@ -42,6 +42,7 @@ class DropdownField<T> extends FormField<T> {
     bool autofocus = false,
     Color? dropdownColor,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(initialValue == null || controller == null),
         // assert(elevation != null),
         // assert(iconSize != null),
@@ -72,7 +73,7 @@ class DropdownField<T> extends FormField<T> {
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: Focus(
                 canRequestFocus: false,
                 skipTraversal: true,

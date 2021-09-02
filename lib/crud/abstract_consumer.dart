@@ -13,7 +13,7 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  T get modelInstance;
+  T fromJson(Map<String, dynamic> map);
 
   ///
   ///
@@ -34,6 +34,11 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   String get offlineOrderBy => 'id';
+
+  ///
+  ///
+  ///
+  String? get offlineTerms => null;
 
   ///
   ///

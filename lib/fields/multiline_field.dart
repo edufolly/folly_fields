@@ -39,7 +39,9 @@ class MultilineField extends StringField {
     bool readOnly = false,
     TextStyle? style,
     InputDecoration? decoration,
-  }) : super(
+    EdgeInsets padding = const EdgeInsets.all(8.0),
+  })  : assert(initialValue == null || controller == null),
+        super(
           key: key,
           prefix: prefix,
           label: label,
@@ -71,5 +73,6 @@ class MultilineField extends StringField {
           readOnly: readOnly,
           style: style,
           decoration: decoration,
+          padding: padding,
         );
 }

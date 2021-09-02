@@ -27,12 +27,14 @@ class DateField extends StatefulWidget {
   final DateTime? lastDate;
   final bool filled;
   final Color? fillColor;
+  final bool readOnly;
   final void Function(DateTime?)? lostFocus;
   final dynamic locale;
   final String format;
   final String mask;
   final bool required;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -57,13 +59,16 @@ class DateField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.fillColor,
+    this.readOnly = false,
     this.lostFocus,
     this.locale = 'pt_br',
     this.format = 'dd/MM/yyyy',
     this.mask = '##/##/####',
     this.required = true,
     this.decoration,
-  }) : super(key: key);
+    this.padding = const EdgeInsets.all(8.0),
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///
@@ -79,6 +84,7 @@ class _DateFieldState extends State<DateField> {
   DateValidator? _validator;
   DateEditingController? _controller;
   FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
@@ -126,7 +132,9 @@ class _DateFieldState extends State<DateField> {
       );
     }
 
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.date);
     }
   }
@@ -163,30 +171,35 @@ class _DateFieldState extends State<DateField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.solidCalendarAlt),
-            onPressed: () async {
-              try {
-                DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: _effectiveController.date ?? DateTime.now(),
-                  firstDate: widget.firstDate ?? DateTime(1900),
-                  lastDate: widget.lastDate ?? DateTime(2100),
-                );
+            onPressed: widget.enabled && !widget.readOnly
+                ? () async {
+                    try {
+                      fromButton = true;
 
-                if (selectedDate != null) {
-                  _effectiveController.date = selectedDate;
-                }
-              } catch (e, s) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
-                  print('$e\n$s');
-                }
-              }
-            },
+                      DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate:
+                            _effectiveController.date ?? DateTime.now(),
+                        firstDate: widget.firstDate ?? DateTime(1900),
+                        lastDate: widget.lastDate ?? DateTime(2100),
+                      );
+
+                      fromButton = false;
+
+                      _effectiveController.date = selectedDate;
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
+                  }
+                : null,
           ),
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,
@@ -229,7 +242,8 @@ class _DateFieldState extends State<DateField> {
         textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
-        style: widget.enabled
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,

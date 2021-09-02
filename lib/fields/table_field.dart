@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/widgets/add_button.dart';
+import 'package:folly_fields/widgets/delete_button.dart';
+import 'package:folly_fields/widgets/empty_button.dart';
+import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:folly_fields/widgets/header_cell.dart';
 
 ///
 ///
@@ -23,7 +27,12 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     required List<String> columns,
     List<int> columnsFlex = const <int>[],
     required List<Widget> Function(
-            BuildContext context, T row, int index, List<T> data)
+      BuildContext context,
+      T row,
+      int index,
+      List<T> data,
+      bool enabled,
+    )
         buildRow,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     void Function(BuildContext context, T row, int index, List<T> data)?
@@ -34,292 +43,169 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(columnsFlex.length == columns.length),
         super(
           key: key,
           initialValue: initialValue,
-          onSaved: onSaved,
-          validator: validator,
           enabled: enabled,
+          onSaved: enabled && onSaved != null
+              ? (List<T>? value) => onSaved(value!)
+              : null,
+          validator: enabled && validator != null
+              ? (List<T>? value) => validator(value!)
+              : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            final TextStyle? columnTheme =
+            TextStyle? columnHeaderTheme =
                 Theme.of(field.context).textTheme.subtitle2;
+
+            Color disabledColor = Theme.of(field.context).disabledColor;
+
+            if (columnHeaderTheme != null && !enabled) {
+              columnHeaderTheme =
+                  columnHeaderTheme.copyWith(color: disabledColor);
+            }
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.getSuperPlural(),
                       border: OutlineInputBorder(),
                       counterText: '',
+                      enabled: enabled,
+                      errorText: field.errorText,
                     ))
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme)
-                .copyWith(errorText: field.errorText);
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InputDecorator(
-                decoration: effectiveDecoration,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    if (field.value!.isEmpty)
+            return FieldGroup(
+              padding: padding,
+              decoration: effectiveDecoration,
+              children: <Widget>[
+                if (field.value!.isEmpty)
 
-                      /// Tabela vazia
-                      Container(
-                        height: 75.0,
-                        child: Center(
-                          child: Text(
-                            'Sem ${uiBuilder.getSuperPlural()} até o momento.',
-                          ),
-                        ),
-                      )
-                    else
+                  /// Empty table
+                  Container(
+                    height: 75.0,
+                    child: Center(
+                      child: Text(
+                        'Sem ${uiBuilder.getSuperPlural()} até o momento.',
+                      ),
+                    ),
+                  )
+                else
 
-                      /// Tabela
-                      Container(
-                        width: double.infinity,
-                        child: Column(
+                  /// Table
+                  Container(
+                    width: double.infinity,
+                    child: Column(
+                      children: <Widget>[
+                        /// Header
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-                            /// Cabeçalho
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                /// Nome das colunas
-                                ...columns
-                                    .asMap()
-                                    .entries
-                                    .map<Widget>(
-                                      (MapEntry<int, String> entry) =>
-                                          HeaderCell(
-                                        flex: columnsFlex[entry.key],
-                                        child: Text(
-                                          entry.value,
-                                          style: columnTheme,
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                            /// Columns Names
+                            ...columns
+                                .asMap()
+                                .entries
+                                .map<Widget>(
+                                  (MapEntry<int, String> entry) => HeaderCell(
+                                    flex: columnsFlex[entry.key],
+                                    child: Text(
+                                      entry.value,
+                                      style: columnHeaderTheme,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
 
-                                /// Coluna vazia para o botão excluir
-                                EmptyButton(),
-                              ],
-                            ),
+                            /// Empty column to delete button
+                            EmptyButton(),
+                          ],
+                        ),
 
-                            /// Dados da tabela
-                            ...field.value!.asMap().entries.map<Widget>(
-                                  (MapEntry<int, T> entry) => Column(
+                        /// Table data
+                        ...field.value!.asMap().entries.map<Widget>(
+                              (MapEntry<int, T> entry) => Column(
+                                children: <Widget>[
+                                  /// Divider
+                                  FollyDivider(
+                                    color: enabled ? null : disabledColor,
+                                  ),
+
+                                  /// Row
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      /// Divisor
-                                      FollyDivider(
-                                        color: Colors.black12,
-                                      ),
-
-                                      /// Linha
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          /// Células
-                                          ...buildRow(
-                                            field.context,
-                                            entry.value,
-                                            entry.key,
-                                            field.value!,
+                                      /// Cells
+                                      ...buildRow(
+                                        field.context,
+                                        entry.value,
+                                        entry.key,
+                                        field.value!,
+                                        enabled,
+                                      )
+                                          .asMap()
+                                          .entries
+                                          .map<Widget>(
+                                            (MapEntry<int, Widget> entry) =>
+                                                Flexible(
+                                              flex: columnsFlex[entry.key],
+                                              child: SizedBox(
+                                                width: double.infinity,
+                                                child: entry.value,
+                                              ),
+                                            ),
                                           )
-                                              .asMap()
-                                              .entries
-                                              .map<Widget>(
-                                                (MapEntry<int, Widget> entry) =>
-                                                    Flexible(
-                                                  flex: columnsFlex[entry.key],
-                                                  child: SizedBox(
-                                                    width: double.infinity,
-                                                    child: entry.value,
-                                                  ),
-                                                ),
-                                              )
-                                              .toList(),
+                                          .toList(),
 
-                                          /// Botão de excluir linha
-                                          DeleteButton(
-                                            onPressed: () {
-                                              if (removeRow != null) {
-                                                removeRow(
-                                                  field.context,
-                                                  entry.value,
-                                                  entry.key,
-                                                  field.value!,
-                                                );
-                                              }
-                                              field.value!.removeAt(entry.key);
-                                              field.didChange(field.value);
-                                            },
-                                          ),
-                                        ],
+                                      /// Delete button
+                                      DeleteButton(
+                                        enabled: enabled,
+                                        onPressed: () {
+                                          if (removeRow != null) {
+                                            removeRow(
+                                              field.context,
+                                              entry.value,
+                                              entry.key,
+                                              field.value!,
+                                            );
+                                          }
+                                          field.value!.removeAt(entry.key);
+                                          field.didChange(field.value);
+                                        },
                                       ),
                                     ],
                                   ),
-                                ),
+                                ],
+                              ),
+                            ),
 
-                            /// Rodapé
-                            if (buildFooter != null)
-                              buildFooter(field.context, field.value!),
-                          ],
-                        ),
-                      ),
-
-                    /// Botão Adicionar
-                    AddButton(
-                      label: 'Adicionar ${uiBuilder.getSuperSingle()}'
-                          .toUpperCase(),
-                      onPressed: () async {
-                        if (beforeAdd != null) {
-                          bool go =
-                              await beforeAdd(field.context, field.value!);
-                          if (!go) return;
-                        }
-
-                        field.value!.add(consumer.modelInstance);
-                        field.didChange(field.value);
-                      },
+                        /// Footer
+                        if (buildFooter != null)
+                          buildFooter(field.context, field.value!),
+                      ],
                     ),
-                  ],
+                  ),
+
+                /// Add button
+                AddButton(
+                  enabled: enabled,
+                  label:
+                      'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
+                  onPressed: () async {
+                    if (beforeAdd != null) {
+                      bool go = await beforeAdd(field.context, field.value!);
+                      if (!go) return;
+                    }
+
+                    field.value!.add(consumer.fromJson(<String, dynamic>{}));
+                    field.didChange(field.value);
+                  },
                 ),
-              ),
+              ],
             );
           },
         );
-}
-
-///
-///
-///
-class AddButton extends StatelessWidget {
-  final String label;
-  final VoidCallback? onPressed;
-
-  ///
-  ///
-  ///
-  const AddButton({
-    Key? key,
-    required this.label,
-    this.onPressed,
-  }) : super(key: key);
-
-  ///
-  ///
-  ///
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(12.0),
-        ),
-        icon: FaIcon(
-          FontAwesomeIcons.plus,
-        ),
-        label: Text(
-          label.toUpperCase(),
-          overflow: TextOverflow.ellipsis,
-        ),
-        onPressed: onPressed,
-      ),
-    );
-  }
-}
-
-///
-///
-///
-class EmptyButton extends DeleteButton {
-  ///
-  ///
-  ///
-  EmptyButton()
-      : super(
-          onPressed: null,
-          color: Colors.transparent,
-          top: 0.0,
-        );
-}
-
-///
-///
-///
-class DeleteButton extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final Color color;
-  final double top;
-
-  ///
-  ///
-  ///
-  const DeleteButton({
-    Key? key,
-    this.onPressed,
-    this.color = Colors.black45,
-    this.top = 12.0,
-  }) : super(key: key);
-
-  ///
-  ///
-  ///
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      flex: 0,
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: top,
-        ),
-        child: IconButton(
-          icon: FaIcon(
-            FontAwesomeIcons.trashAlt,
-            color: color,
-          ),
-          onPressed: onPressed,
-        ),
-      ),
-    );
-  }
-}
-
-///
-///
-///
-class HeaderCell extends StatelessWidget {
-  final int flex;
-  final Widget child;
-
-  ///
-  ///
-  ///
-  const HeaderCell({
-    Key? key,
-    this.flex = 1,
-    required this.child,
-  }) : super(key: key);
-
-  ///
-  ///
-  ///
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      flex: flex,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          child: child,
-        ),
-      ),
-    );
-  }
 }

@@ -32,7 +32,9 @@ class IconDataField extends FormField<IconData> {
     double height = 128.0,
     double spaceBetween = 16.0,
     InputDecoration? decoration,
-  }) : super(
+    EdgeInsets padding = const EdgeInsets.all(8.0),
+  })  : assert(initialValue == null || controller == null),
+        super(
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
@@ -58,7 +60,7 @@ class IconDataField extends FormField<IconData> {
             List<String> keys = state.names;
 
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: padding,
               child: InputDecorator(
                 decoration: effectiveDecoration.copyWith(
                   errorText: enabled ? field.errorText : null,

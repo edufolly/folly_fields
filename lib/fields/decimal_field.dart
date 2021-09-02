@@ -25,7 +25,9 @@ class DecimalField extends StatefulWidget {
   final bool filled;
   final Color? fillColor;
   final void Function(Decimal)? lostFocus;
+  final bool readOnly;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -50,8 +52,11 @@ class DecimalField extends StatefulWidget {
     this.filled = false,
     this.fillColor,
     this.lostFocus,
+    this.readOnly = false,
     this.decoration,
-  }) : super(key: key);
+    this.padding = const EdgeInsets.all(8.0),
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///
@@ -142,7 +147,7 @@ class _DecimalFieldState extends State<DecimalField> {
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,
@@ -171,7 +176,8 @@ class _DecimalFieldState extends State<DecimalField> {
         textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
-        style: widget.enabled
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,

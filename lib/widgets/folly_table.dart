@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +21,7 @@ class FollyTable extends StatefulWidget {
   final bool verticalScrollAlwaysVisible;
   final bool horizontalScrollAlwaysVisible;
   final int freezeColumns;
+  final Set<PointerDeviceKind>? dragDevices;
 
   ///
   ///
@@ -38,6 +41,7 @@ class FollyTable extends StatefulWidget {
     this.verticalScrollAlwaysVisible = true,
     this.horizontalScrollAlwaysVisible = true,
     this.freezeColumns = 0,
+    this.dragDevices,
   }) : super(key: key);
 
   ///
@@ -135,17 +139,22 @@ class _FollyTableState extends State<FollyTable> {
         /// Table Content
         Flexible(
           flex: 1,
-          child: Scrollbar(
-            controller: _horizontalController,
-            isAlwaysShown: widget.horizontalScrollAlwaysVisible,
-            thickness: widget.scrollBarThickness,
-            child: SingleChildScrollView(
+          child: ScrollConfiguration(
+            behavior: ScrollBehavior().copyWith(
+              dragDevices: widget.dragDevices,
+            ),
+            child: Scrollbar(
               controller: _horizontalController,
-              scrollDirection: Axis.horizontal,
-              child: _drawColumns(
-                widget.freezeColumns,
-                widget.columnsSize.length,
-                _internalController,
+              isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+              thickness: widget.scrollBarThickness,
+              child: SingleChildScrollView(
+                controller: _horizontalController,
+                scrollDirection: Axis.horizontal,
+                child: _drawColumns(
+                  widget.freezeColumns,
+                  widget.columnsSize.length,
+                  _internalController,
+                ),
               ),
             ),
           ),
@@ -220,35 +229,41 @@ class _FollyTableState extends State<FollyTable> {
         Expanded(
           child: SizedBox(
             width: width,
-            child: ListView.builder(
-              controller: scrollController,
-              itemCount: widget.rowsCount,
-              itemBuilder: (BuildContext context, int row) {
-                return Column(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () => widget.onRowTap != null
-                          ? widget.onRowTap!(row)
-                          : () {},
-                      hoverColor: Colors.transparent,
-                      child: Row(
-                        children: cols
-                            .map(
-                              (int col) => _buildCell(
-                                cell: widget.cellBuilder(row, col),
-                                width: widget.columnsSize[col],
-                                height: widget.rowHeight,
-                              ),
-                            )
-                            .toList(),
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior().copyWith(
+                scrollbars: false,
+                dragDevices: widget.dragDevices,
+              ),
+              child: ListView.builder(
+                controller: scrollController,
+                itemCount: widget.rowsCount,
+                itemBuilder: (BuildContext context, int row) {
+                  return Column(
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () => widget.onRowTap != null
+                            ? widget.onRowTap!(row)
+                            : () {},
+                        hoverColor: Colors.transparent,
+                        child: Row(
+                          children: cols
+                              .map(
+                                (int col) => _buildCell(
+                                  cell: widget.cellBuilder(row, col),
+                                  width: widget.columnsSize[col],
+                                  height: widget.rowHeight,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
-                    ),
-                    FollyDivider(
-                      height: widget.dividerHeight,
-                    ),
-                  ],
-                );
-              },
+                      FollyDivider(
+                        height: widget.dividerHeight,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -358,6 +373,20 @@ class FollyCell extends StatelessWidget {
   }) : child = Text(
           text,
           textAlign: textAlign,
+          style: style,
+        );
+
+  ///
+  ///
+  ///
+  FollyCell.center(
+    String text, {
+    this.color = Colors.transparent,
+    TextStyle? style,
+  })  : align = Alignment.center,
+        child = Text(
+          text,
+          textAlign: TextAlign.center,
           style: style,
         );
 

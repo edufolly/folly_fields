@@ -27,12 +27,14 @@ class DateTimeField extends StatefulWidget {
   final DateTime? lastDate;
   final bool filled;
   final Color? fillColor;
+  final bool readOnly;
   final void Function(DateTime?)? lostFocus;
   final dynamic locale;
   final String format;
   final String mask;
   final bool required;
   final InputDecoration? decoration;
+  final EdgeInsets padding;
 
   ///
   ///
@@ -57,13 +59,16 @@ class DateTimeField extends StatefulWidget {
     this.lastDate,
     this.filled = false,
     this.fillColor,
+    this.readOnly = false,
     this.lostFocus,
     this.locale = 'pt_br',
     this.format = 'dd/MM/yyyy HH:mm',
     this.mask = '##/##/#### A#:C#',
     this.required = true,
     this.decoration,
-  }) : super(key: key);
+    this.padding = const EdgeInsets.all(8.0),
+  })  : assert(initialValue == null || controller == null),
+        super(key: key);
 
   ///
   ///
@@ -79,6 +84,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
   DateTimeValidator? _validator;
   DateTimeEditingController? _controller;
   FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
@@ -126,7 +132,9 @@ class _DateTimeFieldState extends State<DateTimeField> {
       );
     }
 
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
       widget.lostFocus!(_effectiveController.dateTime);
     }
   }
@@ -163,48 +171,62 @@ class _DateTimeFieldState extends State<DateTimeField> {
         .copyWith(
           suffixIcon: IconButton(
             icon: Icon(FontAwesomeIcons.calendarDay),
-            onPressed: () async {
-              try {
-                DateTime? selectedDate = await showDatePicker(
-                  context: context,
-                  initialDate: _effectiveController.dateTime ?? DateTime.now(),
-                  firstDate: widget.firstDate ?? DateTime(1900),
-                  lastDate: widget.lastDate ?? DateTime(2100),
-                );
+            onPressed: widget.enabled && !widget.readOnly
+                ? () async {
+                    try {
+                      fromButton = true;
 
-                if (selectedDate != null) {
-                  TimeOfDay initialTime = TimeOfDay.now();
+                      DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate:
+                            _effectiveController.dateTime ?? DateTime.now(),
+                        firstDate: widget.firstDate ?? DateTime(1900),
+                        lastDate: widget.lastDate ?? DateTime(2100),
+                      );
 
-                  try {
-                    initialTime = TimeOfDay.fromDateTime(selectedDate);
-                  } catch (e) {
-                    // Do nothing.
+                      fromButton = false;
+
+                      if (selectedDate != null) {
+                        TimeOfDay initialTime = TimeOfDay.now();
+
+                        try {
+                          initialTime = TimeOfDay.fromDateTime(
+                            _effectiveController.dateTime ?? DateTime.now(),
+                          );
+                        } catch (e) {
+                          // Do nothing.
+                        }
+
+                        TimeOfDay? selectedTime = await showTimePicker(
+                          context: context,
+                          initialTime: initialTime,
+                        );
+
+                        if (selectedTime == null) {
+                          _effectiveController.dateTime = null;
+                        } else {
+                          _effectiveController.dateTime =
+                              FollyUtils.dateMergeStart(
+                            date: selectedDate,
+                            time: selectedTime,
+                          );
+                        }
+                      } else {
+                        _effectiveController.dateTime = null;
+                      }
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
                   }
-
-                  TimeOfDay? selectedTime = await showTimePicker(
-                    context: context,
-                    initialTime: initialTime,
-                  );
-
-                  selectedTime ??= TimeOfDay(hour: 0, minute: 0);
-
-                  _effectiveController.dateTime = FollyUtils.dateMergeStart(
-                    date: selectedDate,
-                    time: selectedTime,
-                  );
-                }
-              } catch (e, s) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
-                  print('$e\n$s');
-                }
-              }
-            },
+                : null,
           ),
         );
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
         decoration: effectiveDecoration,
@@ -247,7 +269,8 @@ class _DateTimeFieldState extends State<DateTimeField> {
         textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
-        style: widget.enabled
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
             ? null
             : Theme.of(context).textTheme.subtitle1!.copyWith(
                   color: Theme.of(context).disabledColor,

@@ -11,7 +11,7 @@ linter:
     always_specify_types: true
     always_use_package_imports: true
     annotate_overrides: true
-    avoid_annotating_with_dynamic: true
+    # avoid_annotating_with_dynamic: true
     avoid_multiple_declarations_per_line: true
     avoid_print: true
     avoid_types_as_parameter_names: true
