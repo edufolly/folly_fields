@@ -40,6 +40,8 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     FormFieldSetter<List<T>>? onSaved,
     FormFieldValidator<List<T>>? validator,
     bool enabled = true,
+    bool addButton = true,
+    bool deleteButton = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
@@ -162,7 +164,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                                       /// Delete button
                                       DeleteButton(
-                                        enabled: enabled,
+                                        enabled: deleteButton,
                                         onPressed: () {
                                           if (removeRow != null) {
                                             removeRow(
@@ -191,7 +193,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                 /// Add button
                 AddButton(
-                  enabled: enabled,
+                  enabled: addButton,
                   label:
                       'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
                   onPressed: () async {
