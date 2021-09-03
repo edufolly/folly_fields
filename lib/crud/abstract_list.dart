@@ -778,19 +778,12 @@ class InternalSearch<
   ///
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final ThemeData theme = super.appBarTheme(context);
+
     return theme.copyWith(
-      appBarTheme: AppBarTheme(
-        brightness: theme.colorScheme.brightness,
+      appBarTheme: theme.appBarTheme.copyWith(
         backgroundColor: theme.colorScheme.surface,
-        iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
-        textTheme: theme.textTheme,
       ),
-      inputDecorationTheme: searchFieldDecorationTheme ??
-          InputDecorationTheme(
-            hintStyle: searchFieldStyle ?? theme.inputDecorationTheme.hintStyle,
-            border: InputBorder.none,
-          ),
     );
   }
 
