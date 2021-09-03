@@ -187,6 +187,10 @@ class _DateFieldState extends State<DateField> {
                       fromButton = false;
 
                       _effectiveController.date = selectedDate;
+
+                      if (_effectiveFocusNode.canRequestFocus) {
+                        _effectiveFocusNode.requestFocus();
+                      }
                     } catch (e, s) {
                       if (FollyFields().isDebug) {
                         // ignore: avoid_print

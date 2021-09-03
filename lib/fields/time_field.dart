@@ -168,6 +168,10 @@ class _TimeFieldState extends State<TimeField> {
                       fromButton = false;
 
                       _effectiveController.time = selectedTime;
+
+                      if (_effectiveFocusNode.canRequestFocus) {
+                        _effectiveFocusNode.requestFocus();
+                      }
                     } catch (e, s) {
                       if (FollyFields().isDebug) {
                         // ignore: avoid_print

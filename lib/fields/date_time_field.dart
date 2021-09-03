@@ -214,6 +214,10 @@ class _DateTimeFieldState extends State<DateTimeField> {
                       } else {
                         _effectiveController.dateTime = null;
                       }
+
+                      if (_effectiveFocusNode.canRequestFocus) {
+                        _effectiveFocusNode.requestFocus();
+                      }
                     } catch (e, s) {
                       if (FollyFields().isDebug) {
                         // ignore: avoid_print
