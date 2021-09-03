@@ -40,8 +40,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     FormFieldSetter<List<T>>? onSaved,
     FormFieldValidator<List<T>>? validator,
     bool enabled = true,
-    bool addButton = true,
-    bool deleteButton = true,
+    bool showAddButton = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
@@ -121,7 +120,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                 .toList(),
 
                             /// Empty column to delete button
-                            EmptyButton(),
+                            if (removeRow != null) EmptyButton(),
                           ],
                         ),
 
@@ -163,21 +162,20 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                           .toList(),
 
                                       /// Delete button
-                                      DeleteButton(
-                                        enabled: deleteButton,
-                                        onPressed: () {
-                                          if (removeRow != null) {
+                                      if (removeRow != null)
+                                        DeleteButton(
+                                          enabled: enabled,
+                                          onPressed: () {
                                             removeRow(
                                               field.context,
                                               entry.value,
                                               entry.key,
                                               field.value!,
                                             );
-                                          }
-                                          field.value!.removeAt(entry.key);
-                                          field.didChange(field.value);
-                                        },
-                                      ),
+                                            field.value!.removeAt(entry.key);
+                                            field.didChange(field.value);
+                                          },
+                                        ),
                                     ],
                                   ),
                                 ],
@@ -192,20 +190,21 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                   ),
 
                 /// Add button
-                AddButton(
-                  enabled: addButton,
-                  label:
-                      'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
-                  onPressed: () async {
-                    if (beforeAdd != null) {
-                      bool go = await beforeAdd(field.context, field.value!);
-                      if (!go) return;
-                    }
+                if (showAddButton)
+                  AddButton(
+                    enabled: enabled,
+                    label:
+                        'Adicionar ${uiBuilder.getSuperSingle()}'.toUpperCase(),
+                    onPressed: () async {
+                      if (beforeAdd != null) {
+                        bool go = await beforeAdd(field.context, field.value!);
+                        if (!go) return;
+                      }
 
-                    field.value!.add(consumer.fromJson(<String, dynamic>{}));
-                    field.didChange(field.value);
-                  },
-                ),
+                      field.value!.add(consumer.fromJson(<String, dynamic>{}));
+                      field.didChange(field.value);
+                    },
+                  ),
               ],
             );
           },
