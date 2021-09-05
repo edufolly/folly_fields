@@ -6,8 +6,14 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 ///
+@immutable
 abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     extends AbstractConsumer<T> {
+  ///
+  ///
+  ///
+  const BaseConsumerMock();
+
   ///
   ///
   ///
@@ -17,7 +23,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     List<String>? paths,
   ) =>
       Future<ConsumerPermission>.value(
-        ConsumerPermission(
+        const ConsumerPermission(
           name: 'mock',
           iconName: 'question',
           view: true,
@@ -43,7 +49,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
 
     return Future<List<T>>.delayed(
-      Duration(seconds: 2),
+      const Duration(seconds: 2),
       () => List<T>.generate(
         qtd,
         (int index) => (ExampleModel.generate(seed: first + index) as T),

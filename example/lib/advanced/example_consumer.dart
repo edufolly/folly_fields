@@ -8,6 +8,11 @@ class ExampleConsumer extends BaseConsumerMock<ExampleModel> {
   ///
   ///
   ///
+  const ExampleConsumer();
+
+  ///
+  ///
+  ///
   @override
   ExampleModel fromJson(Map<String, dynamic> map) => ExampleModel.fromJson(map);
 

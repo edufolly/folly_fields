@@ -33,7 +33,7 @@ class TimeField extends StatefulWidget {
   ///
   ///
   ///
-  TimeField({
+  const TimeField({
     Key? key,
     this.prefix = '',
     this.label = '',
@@ -142,7 +142,7 @@ class _TimeFieldState extends State<TimeField> {
   Widget build(BuildContext context) {
     final InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
               labelText: widget.prefix.isEmpty
@@ -153,7 +153,7 @@ class _TimeFieldState extends State<TimeField> {
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(
           suffixIcon: IconButton(
-            icon: Icon(FontAwesomeIcons.clock),
+            icon: const Icon(FontAwesomeIcons.clock),
             onPressed: widget.enabled && !widget.readOnly
                 ? () async {
                     try {

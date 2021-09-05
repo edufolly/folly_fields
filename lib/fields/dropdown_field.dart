@@ -63,7 +63,7 @@ class DropdownField<T> extends FormField<T> {
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
                       labelText: prefix.isEmpty ? label : '$prefix - $label',

@@ -9,7 +9,7 @@ class PasswordField extends StringField {
   ///
   ///
   ///
-  PasswordField({
+  const PasswordField({
     Key? key,
     String prefix = '',
     String label = '',
@@ -19,7 +19,6 @@ class PasswordField extends StringField {
     TextAlign textAlign = TextAlign.start,
     int? maxLength,
     void Function(String value)? onSaved,
-    // String? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     ValueChanged<String>? onChanged,
@@ -51,7 +50,6 @@ class PasswordField extends StringField {
           textAlign: textAlign,
           maxLength: maxLength,
           onSaved: onSaved,
-          // initialValue: initialValue,
           enabled: enabled,
           autoValidateMode: autoValidateMode,
           onChanged: onChanged,

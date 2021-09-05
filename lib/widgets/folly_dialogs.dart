@@ -72,7 +72,7 @@ class FollyDialogs {
                 ),
                 child: Text(
                   message,
-                  style: TextStyle(fontSize: 18.0),
+                  style: const TextStyle(fontSize: 18.0),
                 ),
               ),
               Padding(

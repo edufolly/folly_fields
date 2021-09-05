@@ -36,7 +36,7 @@ class _AnimatedSearchState extends State<AnimatedSearch> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       width: expanded ? widget.maxSize : 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
@@ -53,7 +53,7 @@ class _AnimatedSearchState extends State<AnimatedSearch> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
                   controller: widget.controller,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
                   autofocus: expanded,

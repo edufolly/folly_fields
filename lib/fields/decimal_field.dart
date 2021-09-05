@@ -32,7 +32,7 @@ class DecimalField extends StatefulWidget {
   ///
   ///
   ///
-  DecimalField({
+  const DecimalField({
     Key? key,
     this.prefix = '',
     this.label = '',
@@ -136,7 +136,7 @@ class _DecimalFieldState extends State<DecimalField> {
   Widget build(BuildContext context) {
     final InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
               labelText: widget.prefix.isEmpty

@@ -9,7 +9,7 @@ class MultilineField extends StringField {
   ///
   ///
   ///
-  MultilineField({
+  const MultilineField({
     Key? key,
     String prefix = '',
     String label = '',

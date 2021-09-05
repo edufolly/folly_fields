@@ -60,7 +60,7 @@ class IntegerField extends StringField {
               return onSaved(int.tryParse(value ?? '0'));
             }
           },
-          initialValue: initialValue == null ? null : initialValue.toString(),
+          initialValue: initialValue?.toString(),
           enabled: enabled,
           autoValidateMode: autoValidateMode,
           onChanged: onChanged,

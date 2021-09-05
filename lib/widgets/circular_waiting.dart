@@ -63,10 +63,10 @@ class CircularWaiting {
                       value: dbl,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 12.0),
+                      padding: const EdgeInsets.only(top: 12.0),
                       child: Text(
                         msg,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20.0,
                         ),
                       ),

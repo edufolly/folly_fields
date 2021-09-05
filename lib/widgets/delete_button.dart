@@ -42,7 +42,7 @@ class DeleteButton extends StatelessWidget {
     return Flexible(
       flex: 0,
       child: Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 12.0,
         ),
         child: IconButton(

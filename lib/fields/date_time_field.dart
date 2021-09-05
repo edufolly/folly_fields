@@ -39,7 +39,7 @@ class DateTimeField extends StatefulWidget {
   ///
   ///
   ///
-  DateTimeField({
+  const DateTimeField({
     Key? key,
     this.prefix = '',
     this.label = '',
@@ -159,7 +159,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
   Widget build(BuildContext context) {
     final InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
               labelText: widget.prefix.isEmpty
@@ -170,7 +170,7 @@ class _DateTimeFieldState extends State<DateTimeField> {
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(
           suffixIcon: IconButton(
-            icon: Icon(FontAwesomeIcons.calendarDay),
+            icon: const Icon(FontAwesomeIcons.calendarDay),
             onPressed: widget.enabled && !widget.readOnly
                 ? () async {
                     try {

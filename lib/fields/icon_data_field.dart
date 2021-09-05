@@ -35,6 +35,7 @@ class IconDataField extends FormField<IconData> {
     EdgeInsets padding = const EdgeInsets.all(8.0),
   })  : assert(initialValue == null || controller == null),
         super(
+          key: key,
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
@@ -45,12 +46,12 @@ class IconDataField extends FormField<IconData> {
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
                       labelText: prefix.isEmpty ? label : '$prefix - $label',
                       counterText: '',
-                      contentPadding: EdgeInsets.fromLTRB(12, 0, 8, 12),
+                      contentPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

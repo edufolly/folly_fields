@@ -44,7 +44,7 @@ class BoolField extends FormField<bool> {
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
                       labelText: null,

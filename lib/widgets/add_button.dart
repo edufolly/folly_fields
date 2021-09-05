@@ -30,7 +30,7 @@ class AddButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(12.0),
         ),
-        icon: FaIcon(
+        icon: const FaIcon(
           FontAwesomeIcons.plus,
         ),
         label: Text(

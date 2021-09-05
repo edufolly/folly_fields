@@ -194,10 +194,10 @@ class _AbstractEditState<
                                     }
                                   },
                                 )
-                              : Container(width: 0, height: 0);
+                              : const SizedBox(width: 0, height: 0);
                         }
 
-                        return Container(width: 0, height: 0);
+                        return const SizedBox(width: 0, height: 0);
                       },
                     ),
                   ),
@@ -249,7 +249,7 @@ class _AbstractEditState<
                   );
                 }
 
-                return WaitingMessage(message: 'Consultando...');
+                return const WaitingMessage(message: 'Consultando...');
               },
             ),
           ),

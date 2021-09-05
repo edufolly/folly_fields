@@ -38,7 +38,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   /// Widget do leading do ListTile da lista e da pesquisa.
-  Widget getLeading(T model) => FaIcon(FontAwesomeIcons.solidCircle);
+  Widget getLeading(T model) => const FaIcon(FontAwesomeIcons.solidCircle);
 
   ///
   ///
@@ -69,8 +69,6 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Widget buildBottomNavigationBar(BuildContext context) => Container(
-        height: 0,
-        width: 0,
-      );
+  Widget buildBottomNavigationBar(BuildContext context) =>
+      const SizedBox(height: 0, width: 0);
 }

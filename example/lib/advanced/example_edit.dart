@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';

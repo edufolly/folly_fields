@@ -23,7 +23,7 @@ class ExampleList
           selection: selection,
           multipleSelection: multipleSelection,
           forceOffline: false,
-          consumer: ExampleConsumer(),
+          consumer: const ExampleConsumer(),
           uiBuilder: ExampleBuilder(prefix),
           onAdd: (
             BuildContext context,

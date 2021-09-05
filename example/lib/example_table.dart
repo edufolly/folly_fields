@@ -19,6 +19,11 @@ class ExampleTable extends StatefulWidget {
   ///
   ///
   ///
+  const ExampleTable({Key? key}) : super(key: key);
+
+  ///
+  ///
+  ///
   @override
   _ExampleTableState createState() => _ExampleTableState();
 }
@@ -44,11 +49,11 @@ class _ExampleTableState extends State<ExampleTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tabela'),
+        title: const Text('Tabela'),
         actions: <Widget>[
           /// Github
           IconButton(
-            icon: Icon(FontAwesomeIcons.github),
+            icon: const Icon(FontAwesomeIcons.github),
             onPressed: () async {
               const String url = 'https://github.com/edufolly/folly_fields/'
                   'blob/main/example/lib/example_table.dart';
@@ -72,7 +77,7 @@ class _ExampleTableState extends State<ExampleTable> {
           headerHeight: rowHeight,
           rowHeight: rowHeight,
           freezeColumns: 2,
-          columnsSize: <double>[
+          columnsSize: const <double>[
             160.0,
             230.0,
             150.0,
@@ -138,8 +143,8 @@ class _ExampleTableState extends State<ExampleTable> {
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(
                 list[row],
-                ExampleBuilder(),
-                ExampleConsumer(),
+                const ExampleBuilder(),
+                const ExampleConsumer(),
                 false,
               ),
             ),

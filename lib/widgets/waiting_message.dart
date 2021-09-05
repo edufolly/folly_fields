@@ -24,8 +24,8 @@ class WaitingMessage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(12.0),
+        const Padding(
+          padding: EdgeInsets.all(12.0),
           child: CircularProgressIndicator(),
         ),
         Center(

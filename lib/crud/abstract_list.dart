@@ -61,7 +61,7 @@ abstract class AbstractList<
   ///
   ///
   ///
-  static final TextStyle SUGGESTION_STYLE = const TextStyle(
+  static const TextStyle suggestionStyle = TextStyle(
     fontStyle: FontStyle.italic,
   );
 
@@ -303,7 +303,7 @@ class _AbstractListState<
             _actions.add(
               IconButton(
                 tooltip: 'Inverter seleção',
-                icon: Icon(Icons.select_all),
+                icon: const Icon(Icons.select_all),
                 onPressed: () {
                   for (T model in _globalItems) {
                     if (selections.containsKey(model.id)) {
@@ -323,7 +323,7 @@ class _AbstractListState<
             _actions.add(
               IconButton(
                 tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: () {
                   showSearch<T?>(
                     context: context,
@@ -364,7 +364,7 @@ class _AbstractListState<
               _actions.add(
                 IconButton(
                   tooltip: 'Selecionar ${widget.uiBuilder.getSuperPlural()}',
-                  icon: FaIcon(FontAwesomeIcons.check),
+                  icon: const FaIcon(FontAwesomeIcons.check),
                   onPressed: () => Navigator.of(context)
                       .pop(List<T>.from(selections.values)),
                 ),
@@ -372,38 +372,36 @@ class _AbstractListState<
             }
           } else {
             /// Action Routes
-            widget.actionRoutes.forEach(
-              (AbstractRoute route) {
-                _actions.add(
-                  // TODO - Create an Action Route component.
-                  FutureBuilder<ConsumerPermission>(
-                    future: widget.consumer.checkPermission(
-                      context,
-                      route.routeName,
-                    ),
-                    builder: (
-                      BuildContext context,
-                      AsyncSnapshot<ConsumerPermission> snapshot,
-                    ) {
-                      if (snapshot.hasData) {
-                        ConsumerPermission permission = snapshot.data!;
-
-                        return permission.view
-                            ? IconButton(
-                                tooltip: permission.name,
-                                icon: IconHelper.faIcon(permission.iconName),
-                                onPressed: () =>
-                                    Navigator.of(context).pushNamed(route.path),
-                              )
-                            : Container(width: 0, height: 0);
-                      }
-
-                      return Container(width: 0, height: 0);
-                    },
+            for (AbstractRoute route in widget.actionRoutes) {
+              _actions.add(
+                // TODO - Create an Action Route component.
+                FutureBuilder<ConsumerPermission>(
+                  future: widget.consumer.checkPermission(
+                    context,
+                    route.routeName,
                   ),
-                );
-              },
-            );
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<ConsumerPermission> snapshot,
+                  ) {
+                    if (snapshot.hasData) {
+                      ConsumerPermission permission = snapshot.data!;
+
+                      return permission.view
+                          ? IconButton(
+                              tooltip: permission.name,
+                              icon: IconHelper.faIcon(permission.iconName),
+                              onPressed: () =>
+                                  Navigator.of(context).pushNamed(route.path),
+                            )
+                          : const SizedBox(width: 0, height: 0);
+                    }
+
+                    return const SizedBox(width: 0, height: 0);
+                  },
+                ),
+              );
+            }
 
             /// Botão Adicionar
             if (_insert) {
@@ -411,7 +409,7 @@ class _AbstractListState<
                 _actions.add(
                   IconButton(
                     tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
-                    icon: FaIcon(FontAwesomeIcons.plus),
+                    icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
                 );
@@ -419,7 +417,7 @@ class _AbstractListState<
                 _fabAdd = FloatingActionButton(
                   tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
                   onPressed: _addEntity,
-                  child: FaIcon(FontAwesomeIcons.plus),
+                  child: const FaIcon(FontAwesomeIcons.plus),
                 );
               }
             }
@@ -448,12 +446,12 @@ class _AbstractListState<
                         isAlwaysShown: FollyFields().isWeb,
                         child: ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          padding: EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16.0),
                           controller: _scrollController,
                           itemBuilder: (BuildContext context, int index) {
                             /// Atualizando...
                             if (index >= _globalItems.length) {
-                              return Container(
+                              return const SizedBox(
                                 height: 80,
                                 child: Center(
                                   child: CircularProgressIndicator(),
@@ -500,7 +498,7 @@ class _AbstractListState<
                               );
                             }
                           },
-                          separatorBuilder: (_, __) => FollyDivider(),
+                          separatorBuilder: (_, __) => const FollyDivider(),
                           itemCount: itemCount,
                         ),
                       ),
@@ -518,7 +516,7 @@ class _AbstractListState<
               widget.uiBuilder.buildBottomNavigationBar(context),
           body: widget.uiBuilder.buildBackgroundContainer(
             context,
-            WaitingMessage(message: 'Consultando...'),
+            const WaitingMessage(message: 'Consultando...'),
           ),
         );
       },
@@ -581,14 +579,14 @@ class _AbstractListState<
                       },
                     );
                   }
-                  return Container(width: 0, height: 0);
+                  return const SizedBox(width: 0, height: 0);
                 },
               );
             },
           ),
           if (canDelete)
             IconButton(
-              icon: Icon(FontAwesomeIcons.trashAlt),
+              icon: const Icon(FontAwesomeIcons.trashAlt),
               onPressed: () async {
                 bool refresh = await _deleteEntity(model, ask: true);
                 if (afterDeleteRefresh != null && refresh) {
@@ -794,7 +792,7 @@ class InternalSearch<
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -808,7 +806,7 @@ class InternalSearch<
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -826,7 +824,7 @@ class InternalSearch<
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              Center(
+              const Center(
                 child: Text(
                   'Começe a sua pesquisa.\n'
                   'Digite ao menos 3 caracteres.',
@@ -864,7 +862,7 @@ class InternalSearch<
                     if (snapshot.data!.isNotEmpty) {
                       return ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         itemBuilder: (BuildContext context, int index) {
                           return buildResultItem(
                             model: snapshot.data![index],
@@ -874,11 +872,11 @@ class InternalSearch<
                             afterDeleteRefresh: () async => query += '%',
                           );
                         },
-                        separatorBuilder: (_, __) => FollyDivider(),
+                        separatorBuilder: (_, __) => const FollyDivider(),
                         itemCount: snapshot.data!.length,
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Text('Nenhum documento.'),
                       );
                     }
@@ -886,7 +884,7 @@ class InternalSearch<
 
                   // TODO - Tratar erro.
 
-                  return WaitingMessage(message: 'Consultando...');
+                  return const WaitingMessage(message: 'Consultando...');
                 },
               ),
             ),
@@ -908,7 +906,7 @@ class InternalSearch<
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              Center(
+              const Center(
                 child: Text(
                   'Começe a sua pesquisa.\n'
                   'Digite ao menos 3 caracteres.',
@@ -983,7 +981,7 @@ class InternalSearch<
                           ],
                         );
                       } else {
-                        return Center(
+                        return const Center(
                           child: Text('Nenhum documento.'),
                         );
                       }
@@ -991,7 +989,7 @@ class InternalSearch<
 
                     // TODO - Tratar erro.
 
-                    return WaitingMessage(message: 'Consultando...');
+                    return const WaitingMessage(message: 'Consultando...');
                   },
                 ),
               ),

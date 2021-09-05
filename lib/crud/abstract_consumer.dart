@@ -4,46 +4,33 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
+@immutable
 abstract class AbstractConsumer<T extends AbstractModel<Object>> {
+  final List<String> routeName;
+  final String? offlineTableName;
+  final String? offlineWhere;
+  final List<dynamic>? offlineWhereArgs;
+  final String offlineOrderBy;
+  final String? offlineTerms;
+  final bool returnLog;
+
   ///
   ///
   ///
-  List<String> get routeName;
+  const AbstractConsumer({
+    this.routeName = const <String>[],
+    this.offlineTableName,
+    this.offlineWhere,
+    this.offlineWhereArgs,
+    this.offlineOrderBy = 'id',
+    this.offlineTerms,
+    this.returnLog = false,
+  });
 
   ///
   ///
   ///
   T fromJson(Map<String, dynamic> map);
-
-  ///
-  ///
-  ///
-  String? get offlineTableName => null;
-
-  ///
-  ///
-  ///
-  String? get offlineWhere => null;
-
-  ///
-  ///
-  ///
-  List<dynamic>? get offlineWhereArgs => null;
-
-  ///
-  ///
-  ///
-  String get offlineOrderBy => 'id';
-
-  ///
-  ///
-  ///
-  String? get offlineTerms => null;
-
-  ///
-  ///
-  ///
-  bool get returnLog => false;
 
   ///
   ///

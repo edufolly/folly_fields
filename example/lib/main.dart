@@ -52,13 +52,19 @@ void main() {
 
   FollyFields.start(Config(), debug: debug);
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 ///
 ///
 ///
 class MyApp extends StatelessWidget {
+
+  ///
+  ///
+  ///
+  const MyApp({Key? key}) : super(key: key);
+
   ///
   ///
   ///
@@ -71,7 +77,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         snackBarTheme: ThemeData.dark().snackBarTheme.copyWith(
               backgroundColor: Colors.deepOrange,
-              contentTextStyle: TextStyle(
+              contentTextStyle: const TextStyle(
                 color: Colors.white,
                 fontSize: 16.0,
               ),
@@ -79,11 +85,11 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(),
       routes: <String, WidgetBuilder>{
-        '/': (_) => MyHomePage(),
-        '/table': (_) => ExampleTable(),
+        '/': (_) => const MyHomePage(),
+        '/table': (_) => const ExampleTable(),
         '/list': (_) => ExampleList(),
       },
-      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -101,7 +107,7 @@ class MyHomePage extends StatefulWidget {
   ///
   ///
   ///
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   ///
   ///
@@ -136,11 +142,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exemplo - Folly Fields'),
+        title: const Text('Exemplo - Folly Fields'),
         actions: <Widget>[
           /// Github
           IconButton(
-            icon: Icon(FontAwesomeIcons.github),
+            icon: const Icon(FontAwesomeIcons.github),
             onPressed: () async {
               const String url = 'https://github.com/edufolly/folly_fields';
               if (await canLaunch(url)) {
@@ -157,14 +163,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
           /// Table
           IconButton(
-            icon: Icon(FontAwesomeIcons.table),
+            icon: const Icon(FontAwesomeIcons.table),
             onPressed: () => Navigator.of(context).pushNamed('/table'),
             tooltip: 'Tabela',
           ),
 
           /// AbstractList
           IconButton(
-            icon: Icon(FontAwesomeIcons.list),
+            icon: const Icon(FontAwesomeIcons.list),
             onPressed: () => Navigator.of(context).pushNamed('/list'),
             tooltip: 'Lista',
           ),
@@ -683,8 +689,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           horizontal: 8.0,
                         ),
                         child: ElevatedButton.icon(
-                          icon: Icon(Icons.send),
-                          label: Text('ENVIAR'),
+                          icon: const Icon(Icons.send),
+                          label: const Text('ENVIAR'),
                           onPressed: _send,
                         ),
                       ),
@@ -694,7 +700,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             }
 
-            return WaitingMessage();
+            return const WaitingMessage();
           },
         ),
       ),

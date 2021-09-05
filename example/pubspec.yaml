@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.2.18+63
+version: 0.2.19+64
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -31,8 +31,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # https://pub.dev/packages/pedantic
-  pedantic: 1.11.1
+  # https://pub.dev/packages/flutter_lints
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true

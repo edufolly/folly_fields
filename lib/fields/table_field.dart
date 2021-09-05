@@ -71,7 +71,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.getSuperPlural(),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
                       errorText: field.errorText,
@@ -85,7 +85,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                 if (field.value!.isEmpty)
 
                   /// Empty table
-                  Container(
+                  SizedBox(
                     height: 75.0,
                     child: Center(
                       child: Text(
@@ -96,7 +96,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                 else
 
                   /// Table
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Column(
                       children: <Widget>[
@@ -120,7 +120,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                 .toList(),
 
                             /// Empty column to delete button
-                            if (removeRow != null) EmptyButton(),
+                            if (removeRow != null) const EmptyButton(),
                           ],
                         ),
 

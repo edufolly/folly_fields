@@ -48,7 +48,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
                       labelText: prefix.isEmpty ? label : '$prefix - $label',
@@ -60,9 +60,9 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       enabled && routeBuilder != null
-                          ? FaIcon(FontAwesomeIcons.search)
+                          ? const FaIcon(FontAwesomeIcons.search)
                           : tapToVisualize != null
-                              ? FaIcon(FontAwesomeIcons.chevronRight)
+                              ? const FaIcon(FontAwesomeIcons.chevronRight)
                               : Container(width: 0),
                     ],
                   ),

@@ -8,9 +8,14 @@ class EmptyButton extends StatelessWidget {
   ///
   ///
   ///
+  const EmptyButton({Key? key}) : super(key: key);
+
+  ///
+  ///
+  ///
   @override
   Widget build(BuildContext context) {
-    return Flexible(
+    return const Flexible(
       flex: 0,
       child: IconButton(
         icon: FaIcon(

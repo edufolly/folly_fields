@@ -50,7 +50,7 @@ class ListField<T extends AbstractModel<Object>,
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.getSuperPlural(),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
                       errorText: field.errorText,
@@ -64,7 +64,7 @@ class ListField<T extends AbstractModel<Object>,
                 if (field.value!.isEmpty)
 
                   /// Lista vazia.
-                  Container(
+                  SizedBox(
                     height: 75.0,
                     child: Center(
                       child: Text(
@@ -246,7 +246,7 @@ class _MyListTile<T extends AbstractModel<Object>,
       trailing: Visibility(
         visible: FollyFields().isWeb,
         child: IconButton(
-          icon: Icon(FontAwesomeIcons.trashAlt),
+          icon: const Icon(FontAwesomeIcons.trashAlt),
           onPressed: enabled ? () => _delete(context, model, ask: true) : null,
         ),
       ),

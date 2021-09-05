@@ -39,7 +39,7 @@ class CodeLink extends StatelessWidget {
           child: child,
         ),
         IconButton(
-          icon: Text(
+          icon: const Text(
             '?',
             style: TextStyle(
               fontSize: 18.0,
@@ -73,7 +73,7 @@ class CodeLink extends StatelessWidget {
           content: ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
             child: Container(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               color: Colors.black38,
               child: SingleChildScrollView(
                 child: HighlightView(
@@ -87,12 +87,12 @@ class CodeLink extends StatelessWidget {
           ),
           actions: <Widget>[
             ElevatedButton.icon(
-              label: Text('Copiar'),
-              icon: Icon(Icons.copy),
+              label: const Text('Copiar'),
+              icon: const Icon(Icons.copy),
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: example));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text(
                       'Código copiado para a área de transferência.',
                     ),
@@ -101,8 +101,8 @@ class CodeLink extends StatelessWidget {
               },
             ),
             ElevatedButton.icon(
-              label: Text('Código Fonte'),
-              icon: Icon(FontAwesomeIcons.github),
+              label: const Text('Código Fonte'),
+              icon: const Icon(FontAwesomeIcons.github),
               onPressed: () async {
                 if (await canLaunch(source)) {
                   await launch(source);
@@ -116,7 +116,7 @@ class CodeLink extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Fechar'),
+              child: const Text('Fechar'),
             ),
           ],
         );

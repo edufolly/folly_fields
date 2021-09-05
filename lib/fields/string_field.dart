@@ -40,7 +40,7 @@ class StringField extends StatelessWidget {
   ///
   ///
   ///
-  StringField({
+  const StringField({
     Key? key,
     this.prefix = '',
     this.label = '',
@@ -92,7 +92,7 @@ class StringField extends StatelessWidget {
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
               labelText: prefix.isEmpty ? label : '$prefix - $label',
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               counterText: '',
               enabled: enabled,
               filled: filled,

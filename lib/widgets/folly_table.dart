@@ -140,7 +140,7 @@ class _FollyTableState extends State<FollyTable> {
         Flexible(
           flex: 1,
           child: ScrollConfiguration(
-            behavior: ScrollBehavior().copyWith(
+            behavior: const ScrollBehavior().copyWith(
               dragDevices: widget.dragDevices,
             ),
             child: Scrollbar(
@@ -163,7 +163,7 @@ class _FollyTableState extends State<FollyTable> {
         /// Vertical Scrollbar
         Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               width: widget.scrollBarThickness,
               height: widget.headerHeight + widget.dividerHeight + 4.0,
             ),
@@ -174,7 +174,7 @@ class _FollyTableState extends State<FollyTable> {
                 thickness: widget.scrollBarThickness,
                 child: SingleChildScrollView(
                   controller: _verticalController,
-                  child: Container(
+                  child: SizedBox(
                     width: widget.scrollBarThickness,
                     height: (widget.rowHeight + widget.dividerHeight + 4.0) *
                         widget.rowsCount,
@@ -220,7 +220,7 @@ class _FollyTableState extends State<FollyTable> {
               )
               .toList(),
         ),
-        Container(
+        SizedBox(
           width: width,
           child: FollyDivider(
             height: widget.dividerHeight,
@@ -230,7 +230,7 @@ class _FollyTableState extends State<FollyTable> {
           child: SizedBox(
             width: width,
             child: ScrollConfiguration(
-              behavior: ScrollBehavior().copyWith(
+              behavior: const ScrollBehavior().copyWith(
                 scrollbars: false,
                 dragDevices: widget.dragDevices,
               ),
@@ -324,32 +324,37 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   FollyCell.empty({
+    Key? key,
     this.color = Colors.transparent,
   })  : align = Alignment.centerLeft,
-        child = Container();
+        child = Container(),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.textHeader(
     String text, {
+    Key? key,
     this.align = Alignment.bottomLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
-  }) : child = Text(
+  })  : child = Text(
           text,
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.textHeaderCenter(
     String text, {
+    Key? key,
     this.color = Colors.transparent,
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
@@ -359,28 +364,32 @@ class FollyCell extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.text(
     String text, {
+    Key? key,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
     TextStyle? style,
-  }) : child = Text(
+  })  : child = Text(
           text,
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.center(
     String text, {
+    Key? key,
     this.color = Colors.transparent,
     TextStyle? style,
   })  : align = Alignment.center,
@@ -388,107 +397,120 @@ class FollyCell extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.number(
     num number, {
+    Key? key,
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0.00',
-  }) : child = Text(
+  })  : child = Text(
           NumberFormat(pattern, locale).format(number),
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.integer(
     num number, {
+    Key? key,
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0',
-  }) : child = Text(
+  })  : child = Text(
           NumberFormat(pattern, locale).format(number),
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.date(
     DateTime date, {
+    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy',
-  }) : child = Text(
+  })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.time(
     DateTime date, {
+    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'HH:mm',
-  }) : child = Text(
+  })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.dateTime(
     DateTime date, {
+    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy HH:mm',
-  }) : child = Text(
+  })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
           style: style,
-        );
+        ),
+        super(key: key);
 
   ///
   ///
   ///
   FollyCell.iconButton(
     IconData iconData, {
+    Key? key,
     Function()? onPressed,
     this.align = Alignment.center,
     this.color = Colors.transparent,
-  }) : child = FittedBox(
+  })  : child = FittedBox(
           child: IconButton(
             icon: Icon(iconData),
             onPressed: onPressed,
           ),
-        );
+        ),
+        super(key: key);
 
   ///
   ///

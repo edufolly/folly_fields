@@ -9,10 +9,10 @@ import 'package:flutter/foundation.dart';
 ///
 ///
 enum RunningPlatform {
-  UNKNOWN,
-  WEB,
-  ANDROID,
-  IOS,
+  unknown,
+  web,
+  android,
+  ios,
 }
 
 ///
@@ -188,7 +188,7 @@ abstract class AbstractConfig implements _InternalConfig {
   bool _started = false;
   bool _debug = false;
   bool _online = false;
-  RunningPlatform _platform = RunningPlatform.UNKNOWN;
+  RunningPlatform _platform = RunningPlatform.unknown;
   String _modelIdKey = 'id';
   String _modelUpdatedAtKey = 'updatedAt';
   String _modelDeletedAtKey = 'deletedAt';
@@ -216,14 +216,14 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
-  bool get isWeb => _platform == RunningPlatform.WEB;
+  bool get isWeb => _platform == RunningPlatform.web;
 
   ///
   ///
   ///
   @override
   bool get isMobile =>
-      _platform == RunningPlatform.ANDROID || _platform == RunningPlatform.IOS;
+      _platform == RunningPlatform.android || _platform == RunningPlatform.ios;
 
   ///
   ///
@@ -280,11 +280,11 @@ abstract class AbstractConfig implements _InternalConfig {
       _modelParseDates = modelParseDates;
 
       if (kIsWeb) {
-        _platform = RunningPlatform.WEB;
+        _platform = RunningPlatform.web;
       } else if (Platform.isAndroid) {
-        _platform = RunningPlatform.ANDROID;
+        _platform = RunningPlatform.android;
       } else if (Platform.isIOS) {
-        _platform = RunningPlatform.IOS;
+        _platform = RunningPlatform.ios;
       }
 
       ConnectivityResult result = await Connectivity().checkConnectivity();

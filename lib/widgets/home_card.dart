@@ -45,7 +45,7 @@ class HomeCard<T, O> extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: const <BoxShadow>[
           BoxShadow(
             color: Colors.black26,
             offset: Offset(1.0, 0.5),
@@ -84,7 +84,7 @@ class HomeCard<T, O> extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: PopupMenuButton<O>(
                       tooltip: tooltip ?? 'Opções do Favorito',
-                      icon: FaIcon(
+                      icon: const FaIcon(
                         FontAwesomeIcons.ellipsisV,
                         color: Colors.black12,
                       ),
