@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
@@ -50,8 +51,7 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
-  final Map<AbstractRoute,
-      Future<bool> Function(BuildContext context, T model)>? actionFunctions;
+  final Map<AbstractRoute, ActionFunction<T>>? actionFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -166,8 +166,7 @@ class _AbstractListState<
   ///
   Future<void> _loadPermissions(BuildContext context) async {
     if (widget.actionFunctions != null) {
-      for (MapEntry<AbstractRoute,
-              Future<bool> Function(BuildContext context, T model)> entry
+      for (MapEntry<AbstractRoute, ActionFunction<T>> entry
           in widget.actionFunctions!.entries) {
         AbstractRoute route = entry.key;
 
@@ -558,24 +557,21 @@ class _AbstractListState<
           ...permissions.entries.map(
             (MapEntry<ConsumerPermission, AbstractRoute> entry) {
               ConsumerPermission permission = entry.key;
+              ActionFunction<T> actionFunction =
+                  widget.actionFunctions![entry.value]!;
               // TODO - Create an Action Route component.
               return FutureBuilder<bool>(
                 initialData: false,
-                future: widget.actionFunctions![entry.value]!(context, model),
+                future: actionFunction.showButton(context, model),
                 builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
                   if (snapshot.hasData && snapshot.data!) {
                     return IconButton(
                       tooltip: permission.name,
                       icon: IconHelper.faIcon(permission.iconName),
                       onPressed: () async {
-                        dynamic refresh = await Navigator.of(context).pushNamed(
-                          entry.value.path,
-                          arguments: model,
-                        );
-
-                        if (refresh is bool && refresh) {
-                          await _loadData(context, clear: true);
-                        }
+                        Widget widget =
+                            await actionFunction.onPressed(context, model);
+                        _push(widget);
                       },
                     );
                   }
