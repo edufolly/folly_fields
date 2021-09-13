@@ -571,7 +571,12 @@ class _AbstractListState<
                       onPressed: () async {
                         Widget widget =
                             await actionFunction.onPressed(context, model);
-                        _push(widget);
+
+                        await Navigator.of(context).push(
+                          MaterialPageRoute<dynamic>(builder: (_) => widget),
+                        );
+
+                        await _loadData(context, clear: true);
                       },
                     );
                   }
