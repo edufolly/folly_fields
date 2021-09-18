@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_edit.dart';
+import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
@@ -30,8 +31,8 @@ import 'package:google_fonts/google_fonts.dart';
 ///
 ///
 ///
-class ExampleEdit
-    extends AbstractEdit<ExampleModel, ExampleBuilder, ExampleConsumer> {
+class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
+    ExampleConsumer, EmptyEditController<ExampleModel>> {
   ///
   ///
   ///
@@ -51,9 +52,9 @@ class ExampleEdit
     BuildContext context,
     ExampleModel model,
     bool edit,
-    Map<String, dynamic> stateInjection,
     String prefix,
     Function(bool refresh) refresh,
+    _,
   ) {
     return <Widget>[
       /// Texto

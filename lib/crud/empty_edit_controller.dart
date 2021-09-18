@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_edit_controller.dart';
+import 'package:folly_fields/crud/abstract_model.dart';
+
+///
+///
+///
+class EmptyEditController<T extends AbstractModel<Object>>
+    extends AbstractEditController<T> {
+  ///
+  ///
+  ///
+  @override
+  Future<void> dispose(BuildContext context) async {}
+
+  ///
+  ///
+  ///
+  @override
+  Future<void> init(BuildContext context, T model) async {}
+}

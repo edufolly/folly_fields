@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
+import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
@@ -18,11 +19,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 abstract class AbstractEdit<
     T extends AbstractModel<Object>,
     UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends StatefulWidget {
+    C extends AbstractConsumer<T>,
+    E extends AbstractEditController<T>> extends StatefulWidget {
   final T model;
   final UI uiBuilder;
   final C consumer;
   final bool edit;
+  final E? editController;
   final CrossAxisAlignment crossAxisAlignment;
   final List<AbstractRoute> actionRoutes;
 
@@ -35,6 +38,7 @@ abstract class AbstractEdit<
     this.consumer,
     this.edit, {
     Key? key,
+    this.editController,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.actionRoutes = const <AbstractRoute>[],
   }) : super(key: key);
@@ -43,49 +47,34 @@ abstract class AbstractEdit<
   ///
   ///
   @override
-  _AbstractEditState<T, UI, C> createState() => _AbstractEditState<T, UI, C>();
-
-  ///
-  ///
-  ///
-  Future<Map<String, dynamic>> stateInjection(
-    BuildContext context,
-    T model,
-  ) async {
-    return <String, dynamic>{};
-  }
+  _AbstractEditState<T, UI, C, E> createState() =>
+      _AbstractEditState<T, UI, C, E>();
 
   ///
   ///
   ///
   List<Widget> formContent(
-      BuildContext context,
-      T model,
-      bool edit,
-      Map<String, dynamic> stateInjection,
-      String prefix,
-      Function(bool refresh) refresh);
-
-  ///
-  ///
-  ///
-  void stateDispose(
     BuildContext context,
-    Map<String, dynamic> stateInjection,
-  ) {}
+    T model,
+    bool edit,
+    String prefix,
+    Function(bool refresh) refresh,
+    E? editController,
+  );
 }
 
 ///
 ///
 ///
 class _AbstractEditState<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends State<AbstractEdit<T, UI, C>> {
+        T extends AbstractModel<Object>,
+        UI extends AbstractUIBuilder<T>,
+        C extends AbstractConsumer<T>,
+        E extends AbstractEditController<T>>
+    extends State<AbstractEdit<T, UI, C, E>> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final StreamController<bool> _controller = StreamController<bool>();
-  Map<String, dynamic> _stateInjection = <String, dynamic>{};
+
   late T _model;
   int _initialHash = 0;
 
@@ -110,7 +99,7 @@ class _AbstractEditState<
         _model = await widget.consumer.getById(context, widget.model);
       }
 
-      _stateInjection = await widget.stateInjection(context, _model);
+      await widget.editController?.init(context, _model);
 
       _controller.add(exists);
 
@@ -226,9 +215,9 @@ class _AbstractEditState<
                         context,
                         _model,
                         widget.edit,
-                        _stateInjection,
                         widget.uiBuilder.prefix,
                         _controller.add,
+                        widget.editController,
                       ),
                     ),
                   );
@@ -301,7 +290,7 @@ class _AbstractEditState<
   ///
   @override
   void dispose() {
-    widget.stateDispose(context, _stateInjection);
+    widget.editController?.dispose(context);
     _controller.close();
     super.dispose();
   }
