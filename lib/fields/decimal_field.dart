@@ -248,6 +248,20 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
+  set intValue(int intValue) {
+    decimal = Decimal(precision: validator.precision, initialValue: intValue);
+  }
+
+  ///
+  ///
+  ///
+  set doubleValue(double doubleValue) {
+    decimal = Decimal(precision: validator.precision, doubleValue: doubleValue);
+  }
+
+  ///
+  ///
+  ///
   @override
   void dispose() {
     removeListener(_changeListener);
