@@ -46,19 +46,29 @@ class FollyUtils {
   ///
   ///
   static String? validDate(String value) {
-    if (value.isEmpty) return 'Informe uma data.';
+    if (value.isEmpty) {
+      return 'Informe uma data.';
+    }
 
     List<String> parts = value.split('/');
 
-    if (parts.length != 3) return 'Data inválida.';
+    if (parts.length != 3) {
+      return 'Data inválida.';
+    }
 
-    if (parts[2].length != 4) return 'Ano inválido.';
+    if (parts[2].length != 4) {
+      return 'Ano inválido.';
+    }
 
     int? year = int.tryParse(parts[2]);
-    if (year == null) return 'Ano inválido.';
+    if (year == null) {
+      return 'Ano inválido.';
+    }
 
     int? month = int.tryParse(parts[1]);
-    if (month == null || month < 1 || month > 12) return 'Mês inválido.';
+    if (month == null || month < 1 || month > 12) {
+      return 'Mês inválido.';
+    }
 
     int? day = int.tryParse(parts[0]);
     if (day == null || day < 1 || day > getDaysInMonth(year, month)) {
@@ -85,11 +95,15 @@ class FollyUtils {
   ///
   ///
   static String? validTime(String value) {
-    if (value.isEmpty) return 'Informe uma hora.';
+    if (value.isEmpty) {
+      return 'Informe uma hora.';
+    }
 
     List<String> parts = value.split(':');
 
-    if (parts.length != 2) return 'Hora inválida.';
+    if (parts.length != 2) {
+      return 'Hora inválida.';
+    }
 
     int? hour = int.tryParse(parts[0]);
 

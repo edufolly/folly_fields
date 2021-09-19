@@ -9,15 +9,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sprintf/sprintf.dart';
 
 ///
-/// TODO - Create controller??
 ///
+///
+// TODO(edufolly): Create controller?
 class ListField<T extends AbstractModel<Object>,
     UI extends AbstractUIBuilder<T>> extends FormField<List<T>> {
   ///
   ///
   ///
   ListField({
-    Key? key,
     required List<T> initialValue,
     required UI uiBuilder,
     required Widget Function(BuildContext context, UI uiBuilder)
@@ -34,7 +34,8 @@ class ListField<T extends AbstractModel<Object>,
     String removeText = 'Deseja remover %s?',
     String emptyListText = 'Sem %s até o momento.',
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Key? key,
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -65,13 +66,13 @@ class ListField<T extends AbstractModel<Object>,
 
                   /// Lista vazia.
                   SizedBox(
-                    height: 75.0,
+                    height: 75,
                     child: Center(
                       child: Text(
                         sprintf(
                           emptyListText,
                           <dynamic>[uiBuilder.getSuperPlural()],
-                        ).toString(),
+                        ),
                       ),
                     ),
                   )
@@ -90,7 +91,9 @@ class ListField<T extends AbstractModel<Object>,
                             if (beforeEdit != null) {
                               bool go =
                                   await beforeEdit(field.context, index, model);
-                              if (!go) return;
+                              if (!go) {
+                                return;
+                              }
                             }
 
                             if (routeEditBuilder != null) {
@@ -133,7 +136,9 @@ class ListField<T extends AbstractModel<Object>,
                   onPressed: () async {
                     if (beforeAdd != null) {
                       bool go = await beforeAdd(field.context);
-                      if (!go) return;
+                      if (!go) {
+                        return;
+                      }
                     }
 
                     final dynamic selected =
@@ -158,7 +163,7 @@ class ListField<T extends AbstractModel<Object>,
                             !field.value!.any((T element) {
                               return element.id == selected.id;
                             })) {
-                          field.value!.add((selected as T));
+                          field.value!.add(selected as T);
                         }
                       }
 
@@ -192,7 +197,6 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   const _MyListTile({
-    Key? key,
     required this.index,
     required this.model,
     required this.uiBuilder,
@@ -200,6 +204,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.onDelete,
     required this.removeText,
     required this.enabled,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -210,13 +215,13 @@ class _MyListTile<T extends AbstractModel<Object>,
     return FollyFields().isWeb || enabled
         ? _internalTile(context, index, model)
         : Dismissible(
-            // TODO - Test the key in tests.
+            // TODO(edufolly): Test the key in tests.
             key: Key('key_${index}_${model.id}'),
             direction: DismissDirection.endToStart,
             background: Container(
               color: Colors.red,
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 8),
               child: const FaIcon(
                 FontAwesomeIcons.trashAlt,
                 color: Colors.white,
@@ -236,7 +241,6 @@ class _MyListTile<T extends AbstractModel<Object>,
     return ListTile(
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           uiBuilder.getLeading(model),
         ],
@@ -257,10 +261,20 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   ///
-  void _delete(BuildContext context, T model, {bool ask = false}) async {
+  Future<void> _delete(
+    BuildContext context,
+    T model, {
+    bool ask = false,
+  }) async {
     bool del = true;
-    if (ask) del = (await _askDelete(context)) ?? false;
-    if (del) onDelete(model);
+
+    if (ask) {
+      del = (await _askDelete(context)) ?? false;
+    }
+
+    if (del) {
+      onDelete(model);
+    }
   }
 
   ///

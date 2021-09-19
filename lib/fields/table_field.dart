@@ -11,21 +11,19 @@ import 'package:folly_fields/widgets/header_cell.dart';
 
 ///
 ///
-/// TODO - Test layout with DataTable.
-/// TODO - Customize messages.
-/// TODO - Create controller??
 ///
+// TODO(edufolly): Test layout with DataTable.
+// TODO(edufolly): Customize messages.
+// TODO(edufolly): Create controller??
 class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
   ///
   ///
   ///
   TableField({
-    Key? key,
     required List<T> initialValue,
     required AbstractUIBuilder<T> uiBuilder,
     required AbstractConsumer<T> consumer,
     required List<String> columns,
-    List<int> columnsFlex = const <int>[],
     required List<Widget> Function(
       BuildContext context,
       T row,
@@ -34,6 +32,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
       bool enabled,
     )
         buildRow,
+    List<int> columnsFlex = const <int>[],
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     void Function(BuildContext context, T row, int index, List<T> data)?
         removeRow,
@@ -44,17 +43,19 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(columnsFlex.length == columns.length),
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Key? key,
+  })  : assert(columnsFlex.length == columns.length,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           initialValue: initialValue,
           enabled: enabled,
           onSaved: enabled && onSaved != null
-              ? (List<T>? value) => onSaved(value!)
+              ? (List<T>? value) => onSaved(value)
               : null,
           validator: enabled && validator != null
-              ? (List<T>? value) => validator(value!)
+              ? (List<T>? value) => validator(value)
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
@@ -86,7 +87,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                   /// Empty table
                   SizedBox(
-                    height: 75.0,
+                    height: 75,
                     child: Center(
                       child: Text(
                         'Sem ${uiBuilder.getSuperPlural()} até o momento.',
@@ -102,7 +103,6 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                       children: <Widget>[
                         /// Header
                         Row(
-                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             /// Columns Names
                             ...columns
@@ -135,7 +135,6 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
 
                                   /// Row
                                   Row(
-                                    mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
@@ -198,7 +197,9 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                     onPressed: () async {
                       if (beforeAdd != null) {
                         bool go = await beforeAdd(field.context, field.value!);
-                        if (!go) return;
+                        if (!go) {
+                          return;
+                        }
                       }
 
                       field.value!.add(consumer.fromJson(<String, dynamic>{}));

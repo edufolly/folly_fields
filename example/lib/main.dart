@@ -5,8 +5,8 @@ import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
-import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
+import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
@@ -46,7 +46,7 @@ import 'package:url_launcher/url_launcher.dart';
 void main() {
   bool debug = false;
 
-  assert(debug = true);
+  assert(debug = true, 'is debug');
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -59,7 +59,6 @@ void main() {
 ///
 ///
 class MyApp extends StatelessWidget {
-
   ///
   ///
   ///
@@ -79,7 +78,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.deepOrange,
               contentTextStyle: const TextStyle(
                 color: Colors.white,
-                fontSize: 16.0,
+                fontSize: 16,
               ),
             ),
       ),
@@ -113,13 +112,13 @@ class MyHomePage extends StatefulWidget {
   ///
   ///
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
 ///
 ///
 ///
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Prefixo utilizado no label dos campos.
@@ -182,54 +181,26 @@ class _MyHomePageState extends State<MyHomePage> {
               '/folly_fields/main/example/lib/main.dart')),
           builder: (BuildContext context, AsyncSnapshot<Response> snapshot) {
             if (snapshot.hasData) {
-              // TODO - Test status code.
+              // TODO(edufolly): Test status code.
 
               String code = snapshot.data!.body;
 
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(24),
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      // FutureDisappear(
-                      //   delay: Duration(seconds: 10),
-                      //   animationDuration: Duration(milliseconds: 600),
-                      //   child: Chip(
-                      //     label: Text(
-                      //       'Seja bem vindo à página de exemplos do Folly Fields.',
-                      //     ),
-                      //     backgroundColor:
-                      //         Theme.of(context).accentColor.withOpacity(0.8),
-                      //   ),
-                      // ),
-
                       /// Título
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           'Formulário Básico',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline4,
                         ),
                       ),
-
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: FutureAppear(
-                      //     delay: Duration(seconds: 30),
-                      //     animationDuration: Duration(milliseconds: 800),
-                      //     child: Chip(
-                      //       label: Text(
-                      //         'Dificuldades em usar o Folly Fields? Entre em contato...',
-                      //       ),
-                      //       backgroundColor:
-                      //           Theme.of(context).accentColor.withOpacity(0.8),
-                      //     ),
-                      //   ),
-                      // ),
 
                       // [RootCode]
                       CodeLink(
@@ -334,7 +305,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CPF*',
                           enabled: edit,
                           initialValue: model.cpf,
-                          required: true,
                           onSaved: (String value) => model.cpf = value,
                         ),
                         // [/CpfField]
@@ -352,7 +322,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CNPJ*',
                           enabled: edit,
                           initialValue: model.cnpj,
-                          required: true,
                           onSaved: (String value) => model.cnpj = value,
                         ),
                         // [/CnpjField]
@@ -370,7 +339,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CPF ou CNPJ*',
                           enabled: edit,
                           initialValue: model.document,
-                          required: true,
                           onSaved: (String value) => model.document = value,
                         ),
                         // [/CpfCnpjField]
@@ -388,7 +356,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Telefone*',
                           enabled: edit,
                           initialValue: model.phone,
-                          required: true,
                           onSaved: (String value) => model.phone = value,
                         ),
                         // [/PhoneField]
@@ -406,7 +373,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Telefone sem DDD*',
                           enabled: edit,
                           initialValue: model.localPhone,
-                          required: true,
                           onSaved: (String value) => model.localPhone = value,
                         ),
                         // [/LocalPhoneField]
@@ -424,7 +390,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Data e Hora*',
                           enabled: edit,
                           initialValue: model.dateTime,
-                          required: true,
                           onSaved: (DateTime? value) => model.dateTime = value,
                         ),
                         // [/DateTimeField]
@@ -442,7 +407,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Data*',
                           enabled: edit,
                           initialValue: model.date,
-                          required: true,
                           onSaved: (DateTime? value) => model.date = value,
                         ),
                         // [/DateField]
@@ -460,7 +424,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Hora*',
                           enabled: edit,
                           initialValue: model.time,
-                          required: true,
                           onSaved: (TimeOfDay? value) => model.time = value,
                         ),
                         // [/TimeField]
@@ -478,7 +441,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'Mac Address*',
                           enabled: edit,
                           initialValue: model.macAddress,
-                          required: true,
                           onSaved: (String value) => model.macAddress = value,
                         ),
                         // [/MacAddressField]
@@ -496,7 +458,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'NCM*',
                           enabled: edit,
                           initialValue: model.ncm,
-                          required: true,
                           onSaved: (String value) => model.ncm = value,
                         ),
                         // [/NcmField]
@@ -514,7 +475,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CEST*',
                           enabled: edit,
                           initialValue: model.cest,
-                          required: true,
                           onSaved: (String value) => model.cest = value,
                         ),
                         // [/CestField]
@@ -532,7 +492,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CNAE*',
                           enabled: edit,
                           initialValue: model.cnae,
-                          required: true,
                           onSaved: (String value) => model.cnae = value,
                         ),
                         // [/CnaeField]
@@ -550,7 +509,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           label: 'CEP*',
                           enabled: edit,
                           initialValue: model.cep,
-                          required: true,
                           onSaved: (String value) => model.cep = value,
                         ),
                         // [/CepField]
@@ -569,7 +527,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           enabled: edit,
                           initialValue: model.active,
                           validator: (bool value) => !value
-                              ? 'Para testes, este campo deve ser sempre verdadeiro.'
+                              ? 'Para testes, este campo deve ser sempre '
+                                  'verdadeiro.'
                               : null,
                           onSaved: (bool value) => model.active = value,
                         ),
@@ -653,7 +612,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           routeBuilder: (BuildContext context) => ExampleList(
                             prefix: prefix,
                             selection: true,
-                            multipleSelection: false,
                           ),
                         ),
                         // [/ModelField]
@@ -685,8 +643,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       /// Botão Enviar
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                          horizontal: 8.0,
+                          vertical: 16,
+                          horizontal: 8,
                         ),
                         child: ElevatedButton.icon(
                           icon: const Icon(Icons.send),
@@ -714,6 +672,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
+      // ignore: avoid_print
       print(model.toMap());
 
       FollyDialogs.dialogMessage(

@@ -64,7 +64,7 @@ class StringField extends StatelessWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.textCapitalization = TextCapitalization.none,
-    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
@@ -72,8 +72,9 @@ class StringField extends StatelessWidget {
     this.readOnly = false,
     this.style,
     this.decoration,
-    this.padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    this.padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(key: key);
 
   ///

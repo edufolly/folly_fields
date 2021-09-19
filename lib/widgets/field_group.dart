@@ -13,11 +13,11 @@ class FieldGroup extends StatelessWidget {
   ///
   ///
   const FieldGroup({
-    Key? key,
-    this.padding = const EdgeInsets.all(8.0),
-    required this.decoration,
-    this.crossAxisAlignment = CrossAxisAlignment.stretch,
     required this.children,
+    required this.decoration,
+    this.padding = const EdgeInsets.all(8),
+    this.crossAxisAlignment = CrossAxisAlignment.stretch,
+    Key? key,
   }) : super(key: key);
 
   ///

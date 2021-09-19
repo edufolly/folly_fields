@@ -42,13 +42,17 @@ class DropdownField<T> extends FormField<T> {
     bool autofocus = false,
     Color? dropdownColor,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         // assert(elevation != null),
         // assert(iconSize != null),
         // assert(isDense != null),
         // assert(isExpanded != null),
-        assert(itemHeight == null || itemHeight >= kMinInteractiveDimension),
+        assert(
+            itemHeight == null || itemHeight >= kMinInteractiveDimension,
+            'itemHeight must be null or equal or greater '
+            'kMinInteractiveDimension.'),
         // assert(autofocus != null),
         super(
           key: key,
@@ -58,8 +62,7 @@ class DropdownField<T> extends FormField<T> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final _DropdownFieldState<T> state =
-                field as _DropdownFieldState<T>;
+            final DropdownFieldState<T> state = field as DropdownFieldState<T>;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -129,13 +132,13 @@ class DropdownField<T> extends FormField<T> {
   ///
   ///
   @override
-  _DropdownFieldState<T> createState() => _DropdownFieldState<T>();
+  DropdownFieldState<T> createState() => DropdownFieldState<T>();
 }
 
 ///
 ///
 ///
-class _DropdownFieldState<T> extends FormFieldState<T> {
+class DropdownFieldState<T> extends FormFieldState<T> {
   DropdownEditingController<T>? _controller;
 
   ///

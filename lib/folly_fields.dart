@@ -258,7 +258,7 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   ///
-  void _start({
+  Future<void> _start({
     required bool debug,
     required String modelIdKey,
     required String modelUpdatedAtKey,
@@ -266,12 +266,16 @@ abstract class AbstractConfig implements _InternalConfig {
     required bool modelParseDates,
   }) async {
     if (_started) {
-      // ignore: avoid_print
-      if (debug) print('Folly Fields already started, ignoring...');
+      if (debug) {
+        // ignore: avoid_print
+        print('Folly Fields already started, ignoring...');
+      }
     } else {
       _started = true;
-      // ignore: avoid_print
-      if (debug) print('Folly Fields Started.');
+      if (debug) {
+        // ignore: avoid_print
+        print('Folly Fields Started.');
+      }
       _debug = debug;
 
       _modelIdKey = modelIdKey;
@@ -293,8 +297,10 @@ abstract class AbstractConfig implements _InternalConfig {
 
       Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
-        // ignore: avoid_print
-        if (debug) print('Connectivity Changed: $_online');
+        if (debug) {
+          // ignore: avoid_print
+          print('Connectivity Changed: $_online');
+        }
       });
     }
   }

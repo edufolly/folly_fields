@@ -13,10 +13,10 @@ class AddButton extends StatelessWidget {
   ///
   ///
   const AddButton({
-    Key? key,
     required this.label,
     required this.onPressed,
     required this.enabled,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -25,10 +25,10 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12),
         ),
         icon: const FaIcon(
           FontAwesomeIcons.plus,

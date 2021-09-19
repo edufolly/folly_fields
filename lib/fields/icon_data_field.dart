@@ -32,8 +32,9 @@ class IconDataField extends FormField<IconData> {
     double height = 128.0,
     double spaceBetween = 16.0,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           initialValue: controller != null ? controller.value : initialValue,
@@ -42,7 +43,7 @@ class IconDataField extends FormField<IconData> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<IconData> field) {
-            final _IconDataFieldState state = field as _IconDataFieldState;
+            final IconDataFieldState state = field as IconDataFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -66,11 +67,10 @@ class IconDataField extends FormField<IconData> {
                 decoration: effectiveDecoration.copyWith(
                   errorText: enabled ? field.errorText : null,
                 ),
-                isEmpty: false,
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: 16),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
@@ -79,12 +79,10 @@ class IconDataField extends FormField<IconData> {
                                 ? Container()
                                 : Padding(
                                     padding: const EdgeInsets.only(
-                                      left: 8.0,
-                                      right: 16.0,
+                                      left: 8,
+                                      right: 16,
                                     ),
                                     child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: <Widget>[
                                         FaIcon(
                                           state.value,
@@ -92,7 +90,7 @@ class IconDataField extends FormField<IconData> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 8.0),
+                                              const EdgeInsets.only(left: 8),
                                           child: Text(
                                             state._effectiveController.name,
                                           ),
@@ -118,7 +116,6 @@ class IconDataField extends FormField<IconData> {
                               maxCrossAxisExtent: maxCrossAxisExtent,
                               mainAxisSpacing: mainAxisSpacing,
                               crossAxisSpacing: crossAxisSpacing,
-                              childAspectRatio: 1.0,
                             ),
                             itemCount: keys.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -126,7 +123,6 @@ class IconDataField extends FormField<IconData> {
                               return GestureDetector(
                                 onTap: () => state.didChange(iconData),
                                 child: Align(
-                                  alignment: Alignment.center,
                                   child: FaIcon(
                                     iconData,
                                     size: iconSize,
@@ -149,13 +145,13 @@ class IconDataField extends FormField<IconData> {
   ///
   ///
   @override
-  _IconDataFieldState createState() => _IconDataFieldState();
+  IconDataFieldState createState() => IconDataFieldState();
 }
 
 ///
 ///
 ///
-class _IconDataFieldState extends FormFieldState<IconData> {
+class IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
   IconFieldController? _controller;
   List<String> names = <String>[];
@@ -310,7 +306,9 @@ class IconFieldController extends ValueNotifier<IconData?> {
   ///
   ///
   String get name {
-    if (value == null) return '';
+    if (value == null) {
+      return '';
+    }
 
     return _icons.keys.firstWhere(
       (String key) => _icons[key] == value,

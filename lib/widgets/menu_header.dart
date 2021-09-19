@@ -20,7 +20,6 @@ class MenuHeader<O> extends StatelessWidget {
   ///
   ///
   const MenuHeader({
-    Key? key,
     required this.name,
     required this.email,
     this.companyName = '',
@@ -29,6 +28,7 @@ class MenuHeader<O> extends StatelessWidget {
     this.background,
     this.menuItems,
     this.onMenuSelect,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -40,7 +40,7 @@ class MenuHeader<O> extends StatelessWidget {
     Color _background = background ?? Theme.of(context).colorScheme.background;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       width: double.infinity,
       color: _background,
       child: SafeArea(
@@ -50,8 +50,8 @@ class MenuHeader<O> extends StatelessWidget {
                   iconColor: _foreground,
                   collapseIcon: FontAwesomeIcons.caretUp,
                   expandIcon: FontAwesomeIcons.caretDown,
-                  iconSize: 16.0,
-                  iconPadding: const EdgeInsets.only(right: 5.0),
+                  iconSize: 16,
+                  iconPadding: const EdgeInsets.only(right: 5),
                 ),
                 child: ExpandableNotifier(
                   child: Column(
@@ -124,26 +124,25 @@ class UserHeader<O> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 0.0, 6.0, 8.0),
+      padding: const EdgeInsets.fromLTRB(16, 0, 6, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               /// Avatar
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                padding: const EdgeInsets.only(top: 8, bottom: 8),
                 child: CircleAvatar(
                   backgroundColor: Colors.black38,
-                  radius: 36.0,
+                  radius: 36,
                   child: Text(
                     _initials(name, email).toUpperCase(),
                     style: TextStyle(
                       color: foreground,
-                      fontSize: 32.0,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -156,7 +155,7 @@ class UserHeader<O> extends StatelessWidget {
                   icon: FaIcon(
                     FontAwesomeIcons.solidEdit,
                     color: foreground,
-                    size: 14.0,
+                    size: 14,
                   ),
                   itemBuilder: (BuildContext context) => menuItems!
                       .map((PopupIconMenuItem<O> item) => item.widget)
@@ -168,17 +167,15 @@ class UserHeader<O> extends StatelessWidget {
 
           /// Name
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(right: 4.0),
+                  padding: const EdgeInsets.only(right: 4),
                   child: Icon(
                     FontAwesomeIcons.solidUser,
                     color: foreground,
-                    size: 14.0,
+                    size: 14,
                   ),
                 ),
                 Expanded(
@@ -194,17 +191,15 @@ class UserHeader<O> extends StatelessWidget {
 
           /// Email
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.0),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(right: 4.0),
+                  padding: const EdgeInsets.only(right: 4),
                   child: Icon(
                     FontAwesomeIcons.solidEnvelope,
                     color: foreground,
-                    size: 14.0,
+                    size: 14,
                   ),
                 ),
                 Expanded(
@@ -216,7 +211,7 @@ class UserHeader<O> extends StatelessWidget {
                 ),
                 if (expandable && companyName.isEmpty)
                   Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
+                    padding: const EdgeInsets.only(right: 10),
                     child: ExpandableIcon(),
                   ),
               ],
@@ -226,17 +221,15 @@ class UserHeader<O> extends StatelessWidget {
           /// Company Name
           if (companyName.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.symmetric(vertical: 2),
               child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
+                    padding: const EdgeInsets.only(right: 4),
                     child: Icon(
                       FontAwesomeIcons.building,
                       color: foreground,
-                      size: 14.0,
+                      size: 14,
                     ),
                   ),
                   Expanded(
@@ -248,7 +241,7 @@ class UserHeader<O> extends StatelessWidget {
                   ),
                   if (expandable)
                     Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.only(right: 10),
                       child: ExpandableIcon(),
                     ),
                 ],

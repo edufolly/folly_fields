@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 
 ///
 ///
@@ -36,13 +36,19 @@ class PhoneValidator extends AbstractValidator<String> {
     phone = strip(phone);
 
     /// phone must be defined
-    if (phone.isEmpty) return false;
+    if (phone.isEmpty) {
+      return false;
+    }
 
     /// phone must have 10 or 11 chars
-    if (phone.length < 10 || phone.length > 11) return false;
+    if (phone.length < 10 || phone.length > 11) {
+      return false;
+    }
 
     /// Não existe DDD com zero.
-    if (phone[0] == '0' || phone[1] == '0') return false;
+    if (phone[0] == '0' || phone[1] == '0') {
+      return false;
+    }
 
     /// Números de 9 dígitos sempre iniciam com 9.
     return !(phone.length == 11 && phone[2] != '9');

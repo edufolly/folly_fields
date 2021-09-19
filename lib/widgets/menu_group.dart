@@ -8,19 +8,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 class MenuGroup extends StatelessWidget {
   final String name;
-  final bool initialExpanded;
   final List<MenuItem> items;
+  final bool initialExpanded;
   final Color? color;
 
   ///
   ///
   ///
   const MenuGroup({
-    Key? key,
     required this.name,
-    this.initialExpanded = false,
     required this.items,
+    this.initialExpanded = false,
     this.color,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -38,8 +38,8 @@ class MenuGroup extends StatelessWidget {
         iconColor: accentColor,
         collapseIcon: FontAwesomeIcons.caretUp,
         expandIcon: FontAwesomeIcons.caretDown,
-        iconSize: 16.0,
-        iconPadding: const EdgeInsets.only(right: 5.0),
+        iconSize: 16,
+        iconPadding: const EdgeInsets.only(right: 5),
       ),
       child: ExpandableNotifier(
         initialExpanded: initialExpanded,
@@ -52,7 +52,7 @@ class MenuGroup extends StatelessWidget {
                   style: TextStyle(
                     color: accentColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
+                    fontSize: 15,
                   ),
                 ),
                 trailing: ExpandableIcon(),
@@ -61,7 +61,7 @@ class MenuGroup extends StatelessWidget {
             Expandable(
               collapsed: Container(),
               expanded: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8),
                 child: Column(
                   children: items,
                 ),

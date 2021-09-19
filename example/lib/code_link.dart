@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -20,11 +19,11 @@ class CodeLink extends StatelessWidget {
   ///
   ///
   const CodeLink({
-    Key? key,
     required this.code,
     required this.tag,
     required this.source,
     required this.child,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -35,14 +34,13 @@ class CodeLink extends StatelessWidget {
     return Row(
       children: <Widget>[
         Flexible(
-          flex: 1,
           child: child,
         ),
         IconButton(
           icon: const Text(
             '?',
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -71,16 +69,16 @@ class CodeLink extends StatelessWidget {
         return AlertDialog(
           title: Text(tag),
           content: ClipRRect(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(12),
             child: Container(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12),
               color: Colors.black38,
               child: SingleChildScrollView(
                 child: HighlightView(
                   example,
                   language: 'dart',
                   theme: myTheme,
-                  textStyle: GoogleFonts.firaCode(fontSize: 14.0),
+                  textStyle: GoogleFonts.firaCode(fontSize: 14),
                 ),
               ),
             ),

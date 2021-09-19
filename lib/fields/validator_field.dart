@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/fields/string_field.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 
 ///
 ///
@@ -11,7 +11,6 @@ class ValidatorField extends StringField {
   ///
   ///
   ValidatorField({
-    Key? key,
     required AbstractValidator<String> abstractValidator,
     required String validatorMessage,
     String prefix = '',
@@ -32,7 +31,7 @@ class ValidatorField extends StringField {
     bool autocorrect = false,
     bool enableSuggestions = false,
     TextCapitalization textCapitalization = TextCapitalization.none,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    EdgeInsets scrollPadding = const EdgeInsets.all(20),
     bool enableInteractiveSelection = true,
     bool filled = false,
     Color? fillColor,
@@ -40,8 +39,10 @@ class ValidatorField extends StringField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Key? key,
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           prefix: prefix,

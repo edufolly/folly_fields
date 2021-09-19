@@ -23,10 +23,10 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     T? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO - onChanged
+    // TODO(edufolly): onChanged
     TextInputAction? textInputAction,
     ValueChanged<String>? onFieldSubmitted,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    EdgeInsets scrollPadding = const EdgeInsets.all(20),
     bool filled = false,
     Color? fillColor,
     Widget Function(BuildContext context)? routeBuilder,
@@ -34,8 +34,9 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     Future<bool> Function(T? model)? acceptChange,
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           initialValue: controller != null ? controller.model : initialValue,
@@ -44,7 +45,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final _ModelFieldState<T> state = field as _ModelFieldState<T>;
+            final ModelFieldState<T> state = field as ModelFieldState<T>;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -77,17 +78,13 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                 ),
                 keyboardType: TextInputType.datetime,
                 minLines: 1,
-                maxLines: 1,
-                obscureText: false,
                 textAlign: textAlign,
                 enabled: enabled,
                 textInputAction: textInputAction,
                 onSubmitted: onFieldSubmitted,
                 autocorrect: false,
                 enableSuggestions: false,
-                textCapitalization: TextCapitalization.none,
                 scrollPadding: scrollPadding,
-                enableInteractiveSelection: true,
                 style: enabled
                     ? null
                     : Theme.of(field.context).textTheme.subtitle1!.copyWith(
@@ -102,7 +99,9 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                               state.context,
                               state.value,
                             );
-                            if (!go) return;
+                            if (!go) {
+                              return;
+                            }
                           }
 
                           T? selected = await Navigator.of(state.context).push(
@@ -145,13 +144,13 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
   ///
   ///
   @override
-  _ModelFieldState<T> createState() => _ModelFieldState<T>();
+  ModelFieldState<T> createState() => ModelFieldState<T>();
 }
 
 ///
 ///
 ///
-class _ModelFieldState<T extends AbstractModel<Object>>
+class ModelFieldState<T extends AbstractModel<Object>>
     extends FormFieldState<T?> {
   ModelEditingController<T>? _controller;
 

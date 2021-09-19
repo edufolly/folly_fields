@@ -44,7 +44,9 @@ abstract class AbstractModel<A> with Hashable {
   ///
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
-    if (id != null) map[modelIdKey] = id;
+    if (id != null) {
+      map[modelIdKey] = id;
+    }
     return map;
   }
 

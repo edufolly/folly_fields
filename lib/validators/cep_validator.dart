@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 
 ///
 ///
@@ -31,5 +31,5 @@ class CepValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String cep) => (strip(cep).length == 8);
+  bool isValid(String cep) => strip(cep).length == 8;
 }

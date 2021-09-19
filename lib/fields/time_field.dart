@@ -47,7 +47,7 @@ class TimeField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onFieldSubmitted,
-    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
@@ -55,21 +55,22 @@ class TimeField extends StatefulWidget {
     this.lostFocus,
     this.required = true,
     this.decoration,
-    this.padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    this.padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(key: key);
 
   ///
   ///
   ///
   @override
-  _TimeFieldState createState() => _TimeFieldState();
+  TimeFieldState createState() => TimeFieldState();
 }
 
 ///
 ///
 ///
-class _TimeFieldState extends State<TimeField> {
+class TimeFieldState extends State<TimeField> {
   final TimeValidator validator = TimeValidator();
 
   TimeEditingController? _controller;
@@ -196,7 +197,9 @@ class _TimeFieldState extends State<TimeField> {
 
                 String? message = validator.valid(value!);
 
-                if (message != null) return message;
+                if (message != null) {
+                  return message;
+                }
 
                 if (widget.validator != null) {
                   return widget.validator!(validator.parse(value));
@@ -207,15 +210,11 @@ class _TimeFieldState extends State<TimeField> {
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
-        maxLines: 1,
-        obscureText: false,
         inputFormatters: validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: 5,
-        onSaved: widget.enabled
-            ? (String? value) => widget.onSaved != null
-                ? widget.onSaved!(validator.parse(value))
-                : null
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+            ? widget.onSaved!(validator.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -224,7 +223,6 @@ class _TimeFieldState extends State<TimeField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,
         enableSuggestions: false,
-        textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
         readOnly: widget.readOnly,
@@ -263,5 +261,5 @@ class TimeEditingController extends TextEditingController {
   ///
   ///
   set time(TimeOfDay? time) =>
-      text = (time == null ? '' : TimeValidator().format(time));
+      text = time == null ? '' : TimeValidator().format(time);
 }

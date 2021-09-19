@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.3.0+67
+version: 0.3.1+68
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -12,6 +12,15 @@ environment:
   flutter: ^2.0.0
 
 dependencies:
+  # https://pub.dev/packages/connectivity
+  connectivity: ^3.0.3
+  # https://pub.dev/packages/cpf_cnpj_validator
+  cpf_cnpj_validator: ^2.0.0
+  # https://pub.dev/packages/email_validator
+  email_validator: ^2.0.1
+  # https://pub.dev/packages/expandable
+  expandable: ^5.0.1
+
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -19,23 +28,15 @@ dependencies:
 
   # https://pub.dev/packages/font_awesome_flutter
   font_awesome_flutter: ^9.0.0
-  # https://pub.dev/packages/connectivity
-  connectivity: ^3.0.3
-  # https://pub.dev/packages/email_validator
-  email_validator: ^2.0.1
-  # https://pub.dev/packages/cpf_cnpj_validator
-  cpf_cnpj_validator: ^2.0.0
   # https://pub.dev/packages/sprintf
   sprintf: ^6.0.0
-  # https://pub.dev/packages/expandable
-  expandable: ^5.0.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   # https://pub.dev/packages/flutter_lints
   flutter_lints: ^1.0.0
+
+  flutter_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true

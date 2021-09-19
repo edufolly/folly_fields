@@ -53,7 +53,7 @@ class DateTimeField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onFieldSubmitted,
-    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
     this.firstDate,
     this.lastDate,
@@ -66,21 +66,22 @@ class DateTimeField extends StatefulWidget {
     this.mask = '##/##/#### A#:C#',
     this.required = true,
     this.decoration,
-    this.padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    this.padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(key: key);
 
   ///
   ///
   ///
   @override
-  _DateTimeFieldState createState() => _DateTimeFieldState();
+  DateTimeFieldState createState() => DateTimeFieldState();
 }
 
 ///
 ///
 ///
-class _DateTimeFieldState extends State<DateTimeField> {
+class DateTimeFieldState extends State<DateTimeField> {
   DateTimeValidator? _validator;
   DateTimeEditingController? _controller;
   FocusNode? _focusNode;
@@ -242,7 +243,9 @@ class _DateTimeFieldState extends State<DateTimeField> {
 
                 String? message = _validator!.valid(value!);
 
-                if (message != null) return message;
+                if (message != null) {
+                  return message;
+                }
 
                 if (widget.validator != null) {
                   return widget.validator!(_validator!.parse(value));
@@ -253,15 +256,11 @@ class _DateTimeFieldState extends State<DateTimeField> {
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
-        maxLines: 1,
-        obscureText: false,
         inputFormatters: _validator!.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.mask.length,
-        onSaved: widget.enabled
-            ? (String? value) => widget.onSaved != null
-                ? widget.onSaved!(_validator!.parse(value))
-                : null
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+            ? widget.onSaved!(_validator!.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -270,7 +269,6 @@ class _DateTimeFieldState extends State<DateTimeField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,
         enableSuggestions: false,
-        textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
         readOnly: widget.readOnly,
@@ -310,5 +308,5 @@ class DateTimeEditingController extends TextEditingController {
   ///
   ///
   set dateTime(DateTime? dateTime) =>
-      text = (dateTime == null ? '' : DateTimeValidator().format(dateTime));
+      text = dateTime == null ? '' : DateTimeValidator().format(dateTime);
 }

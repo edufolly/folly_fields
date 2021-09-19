@@ -19,15 +19,16 @@ class BoolField extends FormField<bool> {
     bool? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO - onChanged
+    // TODO(anyone): onChanged
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
     Color? fillColor,
     bool adaptive = false,
     Color? activeColor,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           initialValue: controller != null ? controller.value : initialValue,
@@ -40,18 +41,17 @@ class BoolField extends FormField<bool> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
-            final _BoolFieldState state = field as _BoolFieldState;
+            final BoolFieldState state = field as BoolFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: null,
                       counterText: '',
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 8.0,
+                        vertical: 10,
+                        horizontal: 8,
                       ),
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
@@ -82,15 +82,13 @@ class BoolField extends FormField<bool> {
                         decoration: effectiveDecoration.copyWith(
                           errorText: enabled ? field.errorText : null,
                         ),
-                        isEmpty: false,
                         isFocused: Focus.of(context).hasFocus,
                         child: Row(
-                          mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 4.0,
+                                horizontal: 4,
                               ),
                               child: Text(
                                 prefix.isEmpty ? label : '$prefix - $label',
@@ -124,13 +122,13 @@ class BoolField extends FormField<bool> {
   ///
   ///
   @override
-  _BoolFieldState createState() => _BoolFieldState();
+  BoolFieldState createState() => BoolFieldState();
 }
 
 ///
 ///
 ///
-class _BoolFieldState extends FormFieldState<bool> {
+class BoolFieldState extends FormFieldState<bool> {
   BoolEditingController? _controller;
 
   ///

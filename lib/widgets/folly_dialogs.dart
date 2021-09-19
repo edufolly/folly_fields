@@ -66,17 +66,17 @@ class FollyDialogs {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 16.0,
-                  left: 8.0,
-                  right: 8.0,
+                  top: 16,
+                  left: 8,
+                  right: 8,
                 ),
                 child: Text(
                   message,
-                  style: const TextStyle(fontSize: 18.0),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: TextField(
                   controller: _controller,
                   keyboardType: keyboardType,
@@ -107,8 +107,8 @@ class FollyDialogs {
   ///
   static Future<bool> yesNoDialog({
     required BuildContext context,
-    String title = 'Atenção',
     required String message,
+    String title = 'Atenção',
     String affirmative = 'Sim',
     String negative = 'Não',
     bool marked = false,

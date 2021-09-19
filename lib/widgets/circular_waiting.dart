@@ -32,6 +32,7 @@ class CircularWaiting {
   ///
   ///
   ///
+  // ignore: avoid_void_async
   void show() async {
     _show = true;
     await showDialog(
@@ -54,7 +55,7 @@ class CircularWaiting {
               }
 
               return Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
@@ -63,11 +64,11 @@ class CircularWaiting {
                       value: dbl,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 12.0),
+                      padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         msg,
                         style: const TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 20,
                         ),
                       ),
                     ),
@@ -124,7 +125,9 @@ class CircularWaiting {
   ///
   ///
   Future<bool> _onWillPop() async {
-    if (closeable) await _streamController.close();
+    if (closeable) {
+      await _streamController.close();
+    }
     return closeable;
   }
 }

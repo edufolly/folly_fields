@@ -111,7 +111,6 @@ void main() {
   List<_StringUtilsTest> errors = <_StringUtilsTest>[
     _StringUtilsTest(
       name: '[Empty]',
-      camelCase: '',
     ),
     _StringUtilsTest(
       name: '9Name',

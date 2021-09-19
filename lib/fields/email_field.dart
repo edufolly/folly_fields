@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/email_validator.dart';
 import 'package:folly_fields/fields/validator_field.dart';
+import 'package:folly_fields/validators/email_validator.dart';
 
 ///
 ///
@@ -30,7 +30,7 @@ class EmailField extends ValidatorField {
     ValueChanged<String>? onFieldSubmitted,
     bool autocorrect = false,
     bool enableSuggestions = true,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20.0),
+    EdgeInsets scrollPadding = const EdgeInsets.all(20),
     bool enableInteractiveSelection = true,
     bool filled = false,
     Color? fillColor,
@@ -38,8 +38,9 @@ class EmailField extends ValidatorField {
     Iterable<String>? autofillHints,
     TextStyle? style,
     InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    EdgeInsets padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(
           key: key,
           abstractValidator: EmailValidator(),

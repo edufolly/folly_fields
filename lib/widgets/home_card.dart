@@ -20,7 +20,6 @@ class HomeCard<T, O> extends StatelessWidget {
   ///
   ///
   const HomeCard({
-    Key? key,
     required this.item,
     required this.name,
     required this.iconData,
@@ -29,6 +28,7 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.onMenuSelect,
     this.backgroundColor,
     this.tooltip,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -44,32 +44,30 @@ class HomeCard<T, O> extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(16.0),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: const <BoxShadow>[
           BoxShadow(
             color: Colors.black26,
-            offset: Offset(1.0, 0.5),
-            blurRadius: 6.0,
+            offset: Offset(1, 0.5),
+            blurRadius: 6,
           ),
         ],
       ),
       child: InkWell(
         onTap: () => onTap(item),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: SizedBox(
-                    height: 42.0,
-                    width: 42.0,
+                    height: 42,
+                    width: 42,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: FaIcon(
@@ -81,7 +79,7 @@ class HomeCard<T, O> extends StatelessWidget {
                 ),
                 if (menuItems.isNotEmpty)
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 8),
                     child: PopupMenuButton<O>(
                       tooltip: tooltip ?? 'Opções do Favorito',
                       icon: const FaIcon(
@@ -98,14 +96,14 @@ class HomeCard<T, O> extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Text(
                 name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
                   color: onSurface,
-                  fontSize: 16.0,
+                  fontSize: 16,
                 ),
               ),
             ),

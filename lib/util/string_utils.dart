@@ -33,7 +33,7 @@ class StringUtils {
   static String camel2Snake(String camel, [bool internal = false]) =>
       internal || isCamelCase(camel)
           ? camel.splitMapJoin(
-              (RegExp(r'[A-Z]')),
+              RegExp('[A-Z]'),
               onMatch: (Match m) => '_${m.group(0)!.toLowerCase()}',
               onNonMatch: (String n) => n,
             )
@@ -71,7 +71,7 @@ class StringUtils {
   static String snake2Pascal(String snake, [bool internal = false]) =>
       internal || isSnakeCase(snake)
           ? snake.toLowerCase().splitMapJoin(
-                (RegExp(r'_')),
+                RegExp('_'),
                 onMatch: (Match m) => '',
                 onNonMatch: (String n) =>
                     n.substring(0, 1).toUpperCase() + n.substring(1),

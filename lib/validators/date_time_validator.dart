@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/folly_utils.dart';
-import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:intl/intl.dart';
 
 ///
@@ -25,9 +25,9 @@ class DateTimeValidator extends AbstractValidator<DateTime>
             MaskTextInputFormatter(
               mask: mask,
               filter: <String, RegExp>{
-                'A': RegExp(r'[0-2]'),
-                'C': RegExp(r'[0-5]'),
-                '#': RegExp(r'[0-9]'),
+                'A': RegExp('[0-2]'),
+                'C': RegExp('[0-5]'),
+                '#': RegExp('[0-9]'),
               },
             ),
           ],

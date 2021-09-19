@@ -37,8 +37,10 @@ abstract class Hashable {
 
     int f = finish(it);
 
-    // ignore: avoid_print
-    if (debug) print('finish: $f');
+    if (debug) {
+      // ignore: avoid_print
+      print('finish: $f');
+    }
 
     return f;
   }

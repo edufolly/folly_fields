@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/services.dart';
-import 'package:folly_fields/validators/abstract_validator.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
+import 'package:folly_fields/validators/abstract_validator.dart';
 
 ///
 ///
@@ -17,7 +17,7 @@ class MacAddressValidator extends AbstractValidator<String> {
             UppercaseMask(
               mask: '##:##:##:##:##:##',
               filter: <String, RegExp>{
-                '#': RegExp(r'[a-fA-F0-9]'),
+                '#': RegExp('[a-fA-F0-9]'),
               },
             ),
           ],
@@ -28,7 +28,7 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String macAddress) => strip(macAddress).replaceAllMapped(
-        RegExp(r'^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
+        RegExp('^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
             r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$'),
         (Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
       );
@@ -37,20 +37,24 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  String strip(String value) => value.replaceAll(RegExp(r'[^A-F0-9]'), '');
+  String strip(String value) => value.replaceAll(RegExp('[^A-F0-9]'), '');
 
   ///
   ///
   ///
   @override
   bool isValid(String value) {
-    if (value.isEmpty || value.length != 17) return false;
+    if (value.isEmpty || value.length != 17) {
+      return false;
+    }
 
     value = strip(value);
 
-    if (value.isEmpty || value.length != 12) return false;
+    if (value.isEmpty || value.length != 12) {
+      return false;
+    }
 
-    return !value.contains(RegExp(r'[^A-F0-9]'));
+    return !value.contains(RegExp('[^A-F0-9]'));
   }
 
   static final Random _random = Random();

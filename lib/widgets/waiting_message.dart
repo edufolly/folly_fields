@@ -20,12 +20,10 @@ class WaitingMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         const Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(12),
           child: CircularProgressIndicator(),
         ),
         Center(

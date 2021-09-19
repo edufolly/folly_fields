@@ -6,8 +6,8 @@ import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
-import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
+import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
@@ -158,7 +158,6 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         label: 'Data e Hora*',
         enabled: edit,
         initialValue: model.dateTime,
-        required: true,
         onSaved: (DateTime? value) => model.dateTime = value,
       ),
 

@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
-/// TODO - Herdar de DateTimeField.
 ///
+// TODO(edufolly): Herdar de DateTimeField?
 class DateField extends StatefulWidget {
   final String prefix;
   final String label;
@@ -53,7 +53,7 @@ class DateField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onFieldSubmitted,
-    this.scrollPadding = const EdgeInsets.all(20.0),
+    this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
     this.firstDate,
     this.lastDate,
@@ -66,21 +66,22 @@ class DateField extends StatefulWidget {
     this.mask = '##/##/####',
     this.required = true,
     this.decoration,
-    this.padding = const EdgeInsets.all(8.0),
-  })  : assert(initialValue == null || controller == null),
+    this.padding = const EdgeInsets.all(8),
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
         super(key: key);
 
   ///
   ///
   ///
   @override
-  _DateFieldState createState() => _DateFieldState();
+  DateFieldState createState() => DateFieldState();
 }
 
 ///
 ///
 ///
-class _DateFieldState extends State<DateField> {
+class DateFieldState extends State<DateField> {
   DateValidator? _validator;
   DateEditingController? _controller;
   FocusNode? _focusNode;
@@ -215,7 +216,9 @@ class _DateFieldState extends State<DateField> {
 
                 String? message = _validator!.valid(value!);
 
-                if (message != null) return message;
+                if (message != null) {
+                  return message;
+                }
 
                 if (widget.validator != null) {
                   return widget.validator!(_validator!.parse(value));
@@ -226,15 +229,11 @@ class _DateFieldState extends State<DateField> {
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
-        maxLines: 1,
-        obscureText: false,
         inputFormatters: _validator!.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.mask.length,
-        onSaved: widget.enabled
-            ? (String? value) => widget.onSaved != null
-                ? widget.onSaved!(_validator!.parse(value))
-                : null
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+            ? widget.onSaved!(_validator?.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -243,7 +242,6 @@ class _DateFieldState extends State<DateField> {
         onFieldSubmitted: widget.onFieldSubmitted,
         autocorrect: false,
         enableSuggestions: false,
-        textCapitalization: TextCapitalization.none,
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
         readOnly: widget.readOnly,
@@ -282,5 +280,5 @@ class DateEditingController extends TextEditingController {
   ///
   ///
   set date(DateTime? date) =>
-      text = (date == null ? '' : DateValidator().format(date));
+      text = date == null ? '' : DateValidator().format(date);
 }

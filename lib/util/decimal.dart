@@ -16,7 +16,7 @@ class Decimal with Hashable {
     required this.precision,
     int? initialValue,
     double? doubleValue,
-  })  : assert(precision >= 0),
+  })  : assert(precision >= 0, 'precision must be positive or zero'),
         value = initialValue != null
             ? initialValue.toDouble() / pow(10, precision)
             : doubleValue ?? 0.0;
@@ -28,7 +28,8 @@ class Decimal with Hashable {
 
   ///
   ///
-  /// TODO - Formatar corretamente.
+  ///
+  // TODO(edufolly): Formatar corretamente.
   @override
   String toString() => value.toStringAsFixed(precision);
 
@@ -42,7 +43,11 @@ class Decimal with Hashable {
   ///
   ///
   @override
-  bool operator ==(Object other) => other is Decimal
-      ? precision == other.precision && value == other.value
-      : false;
+  bool operator ==(Object other) {
+    if (other is Decimal) {
+      return precision == other.precision && value == other.value;
+    }
+
+    return false;
+  }
 }

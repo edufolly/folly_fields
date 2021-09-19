@@ -12,22 +12,22 @@ class AnimatedSearch extends StatefulWidget {
   ///
   ///
   const AnimatedSearch({
-    Key? key,
     required this.controller,
     this.maxSize = 200.0,
+    Key? key,
   }) : super(key: key);
 
   ///
   ///
   ///
   @override
-  _AnimatedSearchState createState() => _AnimatedSearchState();
+  AnimatedSearchState createState() => AnimatedSearchState();
 }
 
 ///
 ///
 ///
-class _AnimatedSearchState extends State<AnimatedSearch> {
+class AnimatedSearchState extends State<AnimatedSearch> {
   bool expanded = false;
 
   ///
@@ -39,18 +39,17 @@ class _AnimatedSearchState extends State<AnimatedSearch> {
       duration: const Duration(milliseconds: 300),
       width: expanded ? widget.maxSize : 40,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(8),
         color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Visibility(
             visible: expanded,
             child: Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: TextField(
                   controller: widget.controller,
                   decoration: const InputDecoration(
@@ -64,7 +63,9 @@ class _AnimatedSearchState extends State<AnimatedSearch> {
           GestureDetector(
             onTap: () => setState(() {
               expanded = !expanded;
-              if (!expanded) widget.controller.clear();
+              if (!expanded) {
+                widget.controller.clear();
+              }
             }),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 8, 12),

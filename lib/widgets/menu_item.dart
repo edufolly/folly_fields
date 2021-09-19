@@ -15,13 +15,13 @@ class MenuItem extends StatelessWidget {
   ///
   ///
   const MenuItem({
-    Key? key,
     required this.label,
     required this.iconData,
     required this.onTap,
     this.onLongPress,
     this.color,
     this.backgroundColor = Colors.transparent,
+    Key? key,
   }) : super(key: key);
 
   ///

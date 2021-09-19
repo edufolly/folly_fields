@@ -27,12 +27,11 @@ class FollyTable extends StatefulWidget {
   ///
   ///
   const FollyTable({
-    Key? key,
     required this.rowsCount,
     required this.columnsSize,
+    required this.cellBuilder,
     this.headerColumns = const <FollyCell>[],
     this.headerHeight = 16.0,
-    required this.cellBuilder,
     this.rowHeight = 16.0,
     this.onRowTap,
     this.dividerHeight = 1.0,
@@ -42,19 +41,20 @@ class FollyTable extends StatefulWidget {
     this.horizontalScrollAlwaysVisible = true,
     this.freezeColumns = 0,
     this.dragDevices,
+    Key? key,
   }) : super(key: key);
 
   ///
   ///
   ///
   @override
-  _FollyTableState createState() => _FollyTableState();
+  FollyTableState createState() => FollyTableState();
 }
 
 ///
 ///
 ///
-class _FollyTableState extends State<FollyTable> {
+class FollyTableState extends State<FollyTable> {
   final ScrollController _horizontalController = ScrollController();
   final ScrollController _verticalController = ScrollController();
   final ScrollController _internalController = ScrollController();
@@ -125,7 +125,6 @@ class _FollyTableState extends State<FollyTable> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         /// Frozen Content
@@ -138,7 +137,6 @@ class _FollyTableState extends State<FollyTable> {
 
         /// Table Content
         Flexible(
-          flex: 1,
           child: ScrollConfiguration(
             behavior: const ScrollBehavior().copyWith(
               dragDevices: widget.dragDevices,
@@ -202,7 +200,7 @@ class _FollyTableState extends State<FollyTable> {
     );
 
     double width = cols.fold(
-      0.0,
+      0,
       (double p, int i) => p + widget.columnsSize[i] + 4,
     );
 
@@ -212,7 +210,7 @@ class _FollyTableState extends State<FollyTable> {
           children: cols
               .map(
                 (int col) => _buildCell(
-                  padding: const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 4.0),
+                  padding: const EdgeInsets.fromLTRB(2, 0, 2, 4),
                   cell: widget.headerColumns[col],
                   width: widget.columnsSize[col],
                   height: widget.headerHeight,
@@ -278,7 +276,7 @@ class _FollyTableState extends State<FollyTable> {
     required FollyCell cell,
     required double width,
     required double height,
-    EdgeInsetsGeometry padding = const EdgeInsets.all(2.0),
+    EdgeInsetsGeometry padding = const EdgeInsets.all(2),
   }) =>
       Container(
         color: cell.color,
@@ -314,18 +312,18 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   const FollyCell({
-    Key? key,
+    required this.child,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
-    required this.child,
+    Key? key,
   }) : super(key: key);
 
   ///
   ///
   ///
   FollyCell.empty({
-    Key? key,
     this.color = Colors.transparent,
+    Key? key,
   })  : align = Alignment.centerLeft,
         child = Container(),
         super(key: key);
@@ -335,13 +333,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.textHeader(
     String text, {
-    Key? key,
     this.align = Alignment.bottomLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
+    Key? key,
   })  : child = Text(
           text,
           textAlign: textAlign,
@@ -354,11 +352,11 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.textHeaderCenter(
     String text, {
-    Key? key,
     this.color = Colors.transparent,
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
+    Key? key,
   })  : align = Alignment.bottomCenter,
         child = Text(
           text,
@@ -372,11 +370,11 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.text(
     String text, {
-    Key? key,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
     TextStyle? style,
+    Key? key,
   })  : child = Text(
           text,
           textAlign: textAlign,
@@ -389,9 +387,9 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.center(
     String text, {
-    Key? key,
     this.color = Colors.transparent,
     TextStyle? style,
+    Key? key,
   })  : align = Alignment.center,
         child = Text(
           text,
@@ -405,13 +403,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.number(
     num number, {
-    Key? key,
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0.00',
+    Key? key,
   })  : child = Text(
           NumberFormat(pattern, locale).format(number),
           textAlign: textAlign,
@@ -424,13 +422,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.integer(
     num number, {
-    Key? key,
     this.align = Alignment.centerRight,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0',
+    Key? key,
   })  : child = Text(
           NumberFormat(pattern, locale).format(number),
           textAlign: textAlign,
@@ -443,13 +441,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.date(
     DateTime date, {
-    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy',
+    Key? key,
   })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
@@ -462,13 +460,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.time(
     DateTime date, {
-    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'HH:mm',
+    Key? key,
   })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
@@ -481,13 +479,13 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.dateTime(
     DateTime date, {
-    Key? key,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy HH:mm',
+    Key? key,
   })  : child = Text(
           DateFormat(pattern, locale).format(date),
           textAlign: textAlign,
@@ -500,10 +498,10 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.iconButton(
     IconData iconData, {
-    Key? key,
     Function()? onPressed,
     this.align = Alignment.center,
     this.color = Colors.transparent,
+    Key? key,
   })  : child = FittedBox(
           child: IconButton(
             icon: Icon(iconData),

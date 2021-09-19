@@ -25,13 +25,13 @@ class ExampleTable extends StatefulWidget {
   ///
   ///
   @override
-  _ExampleTableState createState() => _ExampleTableState();
+  ExampleTableState createState() => ExampleTableState();
 }
 
 ///
 ///
 ///
-class _ExampleTableState extends State<ExampleTable> {
+class ExampleTableState extends State<ExampleTable> {
   final List<ExampleModel> list = List<ExampleModel>.generate(
       50, (int index) => ExampleModel.generate(seed: index));
 
@@ -40,7 +40,7 @@ class _ExampleTableState extends State<ExampleTable> {
   final PhoneValidator phoneValidator = PhoneValidator();
   final MacAddressValidator macAddressValidator = MacAddressValidator();
 
-  final double rowHeight = 26.0;
+  final double rowHeight = 26;
 
   ///
   ///
@@ -71,20 +71,20 @@ class _ExampleTableState extends State<ExampleTable> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: FollyTable(
           rowsCount: list.length,
           headerHeight: rowHeight,
           rowHeight: rowHeight,
           freezeColumns: 2,
           columnsSize: const <double>[
-            160.0,
-            230.0,
-            150.0,
-            200.0,
-            100.0,
-            150.0,
-            150.0,
+            160,
+            230,
+            150,
+            200,
+            100,
+            150,
+            150,
           ],
           headerColumns: <FollyCell>[
             FollyCell.textHeaderCenter('Text'),

@@ -69,13 +69,12 @@ abstract class AbstractList<
   ///
   ///
   const AbstractList({
-    Key? key,
     required this.selection,
     required this.multipleSelection,
-    this.invertSelection = false,
-    this.forceOffline = false,
     required this.consumer,
     required this.uiBuilder,
+    this.invertSelection = false,
+    this.forceOffline = false,
     this.onAdd,
     this.onUpdate,
     this.qsParam = const <String, String>{},
@@ -89,7 +88,9 @@ abstract class AbstractList<
     this.searchFieldDecorationTheme,
     this.searchKeyboardType,
     this.searchTextInputAction = TextInputAction.search,
-  })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null),
+    Key? key,
+  })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
+            'searchFieldStyle or searchFieldDecorationTheme must be null.'),
         super(key: key);
 
   ///
@@ -107,13 +108,13 @@ abstract class AbstractList<
   ///
   ///
   @override
-  _AbstractListState<T, UI, C> createState() => _AbstractListState<T, UI, C>();
+  AbstractListState<T, UI, C> createState() => AbstractListState<T, UI, C>();
 }
 
 ///
 ///
 ///
-class _AbstractListState<
+class AbstractListState<
     T extends AbstractModel<Object>,
     UI extends AbstractUIBuilder<T>,
     C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
@@ -173,7 +174,9 @@ class _AbstractListState<
         ConsumerPermission permission =
             await widget.consumer.checkPermission(context, route.routeName);
 
-        if (permission.view) permissions[permission] = route;
+        if (permission.view) {
+          permissions[permission] = route;
+        }
       }
     }
 
@@ -373,7 +376,7 @@ class _AbstractListState<
             /// Action Routes
             for (AbstractRoute route in widget.actionRoutes) {
               _actions.add(
-                // TODO - Create an Action Route component.
+                // TODO(anyone): Create an Action Route component.
                 FutureBuilder<ConsumerPermission>(
                   future: widget.consumer.checkPermission(
                     context,
@@ -445,7 +448,7 @@ class _AbstractListState<
                         isAlwaysShown: FollyFields().isWeb,
                         child: ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(16),
                           controller: _scrollController,
                           itemBuilder: (BuildContext context, int index) {
                             /// Atualizando...
@@ -469,7 +472,7 @@ class _AbstractListState<
                                 background: Container(
                                   color: Colors.red,
                                   alignment: Alignment.centerRight,
-                                  padding: const EdgeInsets.only(right: 16.0),
+                                  padding: const EdgeInsets.only(right: 16),
                                   child: const FaIcon(
                                     FontAwesomeIcons.trashAlt,
                                     color: Colors.white,
@@ -483,7 +486,6 @@ class _AbstractListState<
                                   model: model,
                                   selection: selections.containsKey(model.id),
                                   canDelete: false,
-                                  onTap: null,
                                 ),
                               );
                             } else {
@@ -493,7 +495,6 @@ class _AbstractListState<
                                 canDelete: _delete &&
                                     FollyFields().isWeb &&
                                     widget.canDelete(model),
-                                onTap: null,
                               );
                             }
                           },
@@ -530,13 +531,11 @@ class _AbstractListState<
     required bool selection,
     required bool canDelete,
     Future<void> Function()? afterDeleteRefresh,
-    Function? onTap,
+    Function(T model)? onTap,
   }) {
     return ListTile(
       leading: Column(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           widget.multipleSelection && onTap == null
               ? FaIcon(
@@ -552,14 +551,13 @@ class _AbstractListState<
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ...permissions.entries.map(
             (MapEntry<ConsumerPermission, AbstractRoute> entry) {
               ConsumerPermission permission = entry.key;
               ActionFunction<T> actionFunction =
                   widget.actionFunctions![entry.value]!;
-              // TODO - Create an Action Route component.
+              // TODO(anyone): Create an Action Route component.
               return FutureBuilder<bool>(
                 initialData: false,
                 future: actionFunction.showButton(context, model),
@@ -576,7 +574,7 @@ class _AbstractListState<
                           MaterialPageRoute<dynamic>(builder: (_) => widget),
                         );
 
-                        await _loadData(context, clear: true);
+                        await _loadData(context);
                       },
                     );
                   }
@@ -608,27 +606,31 @@ class _AbstractListState<
   ///
   ///
   ///
-  void _internalLongPress(T model) async => _push(await widget.onLongPress!(
-        context,
-        model,
-        widget.uiBuilder,
-        widget.consumer,
-        _update,
-      ));
+  Future<void> _internalLongPress(T model) async => _push(
+        await widget.onLongPress!(
+          context,
+          model,
+          widget.uiBuilder,
+          widget.consumer,
+          _update,
+        ),
+      );
 
   ///
   ///
   ///
-  void _addEntity() async => _push(await widget.onAdd!(
-        context,
-        widget.uiBuilder,
-        widget.consumer,
-      ));
+  Future<void> _addEntity() async => _push(
+        await widget.onAdd!(
+          context,
+          widget.uiBuilder,
+          widget.consumer,
+        ),
+      );
 
   ///
   ///
   ///
-  void _internalRoute(T model, bool selected) async {
+  Future<void> _internalRoute(T model, bool selected) async {
     if (widget.selection) {
       if (widget.multipleSelection) {
         if (selected) {
@@ -651,14 +653,14 @@ class _AbstractListState<
         _update,
       );
 
-      _push(next);
+      await _push(next);
     }
   }
 
   ///
   ///
   ///
-  void _push(Widget? widget, [bool clear = true]) async {
+  Future<void> _push(Widget? widget, [bool clear = true]) async {
     if (widget != null) {
       await Navigator.of(context).push(
         MaterialPageRoute<T>(builder: (_) => widget),
@@ -717,7 +719,6 @@ class _AbstractListState<
   ///
   Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
-        title: 'Atenção',
         message: 'Deseja excluir?',
       );
 }
@@ -863,7 +864,7 @@ class InternalSearch<
                     if (snapshot.data!.isNotEmpty) {
                       return ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16),
                         itemBuilder: (BuildContext context, int index) {
                           return buildResultItem(
                             model: snapshot.data![index],
@@ -883,7 +884,7 @@ class InternalSearch<
                     }
                   }
 
-                  // TODO - Tratar erro.
+                  // TODO(anyone): Tratar erro.
 
                   return const WaitingMessage(message: 'Consultando...');
                 },
@@ -950,7 +951,7 @@ class InternalSearch<
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8),
                               child: Text(
                                 'Sugestões:',
                                 style: TextStyle(
@@ -988,7 +989,7 @@ class InternalSearch<
                       }
                     }
 
-                    // TODO - Tratar erro.
+                    // TODO(anyone): Tratar erro.
 
                     return const WaitingMessage(message: 'Consultando...');
                   },

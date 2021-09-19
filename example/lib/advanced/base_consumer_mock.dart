@@ -43,6 +43,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     Map<String, String> qsParam,
     bool forceOffline,
   ) async {
+    // ignore: avoid_print
     print('mock list: $qsParam');
 
     int first = int.tryParse(qsParam['f'] ?? '0') ?? 0;
@@ -52,7 +53,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
       const Duration(seconds: 2),
       () => List<T>.generate(
         qtd,
-        (int index) => (ExampleModel.generate(seed: first + index) as T),
+        (int index) => ExampleModel.generate(seed: first + index) as T,
       ),
     );
   }

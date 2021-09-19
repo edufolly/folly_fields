@@ -96,17 +96,37 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
-    if (dateTime != null) map['dateTime'] = dateTime!.millisecondsSinceEpoch;
-    if (date != null) map['date'] = date!.millisecondsSinceEpoch;
-    if (time != null) map['time'] = timeValidator.format(time!);
-    if (macAddress != null) map['macAddress'] = macAddress;
-    if (ncm != null) map['ncm'] = ncm;
-    if (cest != null) map['cest'] = cest;
-    if (cnae != null) map['cnae'] = cnae;
-    if (cep != null) map['cep'] = cep;
-    if (color != null) map['color'] = color!.value.toRadixString(16);
+    if (dateTime != null) {
+      map['dateTime'] = dateTime!.millisecondsSinceEpoch;
+    }
+    if (date != null) {
+      map['date'] = date!.millisecondsSinceEpoch;
+    }
+    if (time != null) {
+      map['time'] = timeValidator.format(time!);
+    }
+    if (macAddress != null) {
+      map['macAddress'] = macAddress;
+    }
+    if (ncm != null) {
+      map['ncm'] = ncm;
+    }
+    if (cest != null) {
+      map['cest'] = cest;
+    }
+    if (cnae != null) {
+      map['cnae'] = cnae;
+    }
+    if (cep != null) {
+      map['cep'] = cep;
+    }
+    if (color != null) {
+      map['color'] = color!.value.toRadixString(16);
+    }
     map['active'] = active;
-    if (icon != null) map['icon'] = IconHelper.iconName(icon!);
+    if (icon != null) {
+      map['icon'] = IconHelper.iconName(icon!);
+    }
     map['multiline'] = multiline;
     return map;
   }
@@ -132,50 +152,45 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   /// Método exclusivo para geração aleatória de objetos.
-  static ExampleModel generate({int seed = 1}) {
+  ExampleModel.generate({int seed = 1}) {
     DateTime now = DateTime.now();
 
     int ms = seed * 1000 + now.millisecond;
 
-    ExampleModel model = ExampleModel();
-    model.id = ms;
-    model.updatedAt = now.millisecondsSinceEpoch;
-    model.decimal = Decimal(initialValue: ms, precision: 2);
-    model.integer = ms;
-    model.text = 'Exemplo $ms';
-    model.email = 'exemplo$ms@exemplo.com.br';
-    model.password = '123456$ms';
-    model.cpf = CpfValidator.generate();
-    model.cnpj = CnpjValidator.generate();
-    model.document =
-        ms % 2 == 0 ? CpfValidator.generate() : CnpjValidator.generate();
-    model.phone = '889' + complete(8);
-    model.localPhone = '9' + complete(8);
-    model.date = DateTime(now.year, now.month, now.day);
-    model.time = TimeOfDay(hour: now.hour, minute: now.minute);
-    model.dateTime =
-        FollyUtils.dateMergeStart(date: model.date!, time: model.time!);
-    model.macAddress = MacAddressValidator.generate();
-    model.ncm = complete(8);
-    model.cest = complete(7);
-    model.cnae = complete(7);
-    model.cep = complete(8);
-    model.color = randomColor;
-    model.active = ms.isEven;
+    id = ms;
+    updatedAt = now.millisecondsSinceEpoch;
+    decimal = Decimal(initialValue: ms, precision: 2);
+    integer = ms;
+    text = 'Exemplo $ms';
+    email = 'exemplo$ms@exemplo.com.br';
+    password = '123456$ms';
+    cpf = CpfValidator.generate();
+    cnpj = CnpjValidator.generate();
+    document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
+    phone = '889' + complete(8);
+    localPhone = '9' + complete(8);
+    date = DateTime(now.year, now.month, now.day);
+    time = TimeOfDay(hour: now.hour, minute: now.minute);
+    dateTime = FollyUtils.dateMergeStart(date: date!, time: time!);
+    macAddress = MacAddressValidator.generate();
+    ncm = complete(8);
+    cest = complete(7);
+    cnae = complete(7);
+    cep = complete(8);
+    color = randomColor;
+    active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
     String iconName = IconHelper.data.keys.elementAt(iconNumber);
-    model.icon = IconHelper.iconData(iconName);
+    icon = IconHelper.iconData(iconName);
 
-    model.multiline = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+    multiline = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
         ' Curabitur ullamcorper, nisi nec ultrices congue, ante metus congue '
         'mi, a congue tortor nisl sed odio. Curabitur lacinia elit ac dolor '
         'luctus vulputate. Quisque lectus purus, egestas quis augue nec, '
         'rhoncus consequat nisi. Praesent tempor fringilla leo. Aliquam id '
         'ipsum eu sapien tincidunt eleifend. Nullam convallis iaculis mattis. '
         'Sed semper nunc eget dui sagittis commodo.';
-
-    return model;
   }
 
   ///

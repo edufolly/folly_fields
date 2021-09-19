@@ -47,8 +47,8 @@ abstract class AbstractEdit<
   ///
   ///
   @override
-  _AbstractEditState<T, UI, C, E> createState() =>
-      _AbstractEditState<T, UI, C, E>();
+  AbstractEditState<T, UI, C, E> createState() =>
+      AbstractEditState<T, UI, C, E>();
 
   ///
   ///
@@ -66,7 +66,7 @@ abstract class AbstractEdit<
 ///
 ///
 ///
-class _AbstractEditState<
+class AbstractEditState<
         T extends AbstractModel<Object>,
         UI extends AbstractUIBuilder<T>,
         C extends AbstractConsumer<T>,
@@ -116,7 +116,9 @@ class _AbstractEditState<
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        if (!widget.edit) return true;
+        if (!widget.edit) {
+          return true;
+        }
 
         _formKey.currentState!.save();
         int currentHash = _model.hashCode;
@@ -125,7 +127,6 @@ class _AbstractEditState<
         if (_initialHash != currentHash) {
           go = await FollyDialogs.yesNoDialog(
             context: context,
-            title: 'Atenção',
             message: 'Modificações foram realizadas.\n\n'
                 'Deseja sair mesmo assim?',
           );
@@ -147,13 +148,13 @@ class _AbstractEditState<
                 onPressed: _save,
               ),
 
-            // TODO - Transform to dropdown menu
+            // TODO(anyone): Transform to dropdown menu
             ...widget.actionRoutes
                 .asMap()
                 .map(
                   (int index, AbstractRoute route) => MapEntry<int, Widget>(
                     index,
-                    // TODO - Create an Action Route component.
+                    // TODO(anyone): Create an Action Route component.
                     FutureBuilder<ConsumerPermission>(
                       future: widget.consumer.checkPermission(
                         context,
@@ -208,7 +209,7 @@ class _AbstractEditState<
               ) {
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: widget.crossAxisAlignment,
                       children: widget.formContent(
@@ -250,7 +251,7 @@ class _AbstractEditState<
   ///
   ///
   ///
-  void _save() async {
+  Future<void> _save() async {
     CircularWaiting wait = CircularWaiting(context);
     try {
       if (_formKey.currentState!.validate()) {

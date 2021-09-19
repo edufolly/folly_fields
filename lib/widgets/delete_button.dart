@@ -12,9 +12,9 @@ class DeleteButton extends StatelessWidget {
   ///
   ///
   const DeleteButton({
-    Key? key,
     required this.onPressed,
     required this.enabled,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -43,7 +43,7 @@ class DeleteButton extends StatelessWidget {
       flex: 0,
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 12.0,
+          top: 12,
         ),
         child: IconButton(
           icon: FaIcon(

@@ -30,12 +30,13 @@ class MaskTextInputFormatter implements TextInputFormatter {
       mask: mask,
       filter: filter ??
           <String, RegExp>{
-            '#': RegExp(r'[0-9]'),
-            'A': RegExp(r'[^0-9]'),
+            '#': RegExp('[0-9]'),
+            'A': RegExp('[^0-9]'),
           },
     );
 
     formatEditUpdate(
+      // ignore: use_named_constants
       const TextEditingValue(),
       TextEditingValue(text: initialText),
     );
@@ -50,17 +51,26 @@ class MaskTextInputFormatter implements TextInputFormatter {
     bool clear = false,
   }) {
     _mask = mask;
-    if (_mask.isEmpty) clear = true;
-    if (filter != null) _updateFilter(filter);
+
+    if (_mask.isEmpty) {
+      clear = true;
+    }
+
+    if (filter != null) {
+      _updateFilter(filter);
+    }
+
     _calcMaskLength();
+
     final String unmaskedText = clear ? '' : getUnmaskedText();
-    // Clear
+
     _resultTextMasked = '';
     _resultTextArray.clear();
     _lastResValue = null;
     _lastNewValue = null;
 
     return formatEditUpdate(
+      // ignore: use_named_constants
       const TextEditingValue(),
       TextEditingValue(
         text: unmaskedText,
@@ -377,7 +387,7 @@ class UppercaseMask extends MaskTextInputFormatter {
     String mask = '',
     Map<String, RegExp>? filter,
     String initialText = '',
-  })  : assert(mask.isNotEmpty),
+  })  : assert(mask.isNotEmpty, 'mask must be not empty.'),
         super(
           mask: mask,
           filter: filter,
@@ -419,9 +429,10 @@ class ChangeMask extends MaskTextInputFormatter {
     required this.secondMask,
     Map<String, RegExp>? filter,
     String initialText = '',
-  })  : assert(firstMask.isNotEmpty),
-        assert(secondMask.isNotEmpty),
-        assert(firstMask.length < secondMask.length),
+  })  : assert(firstMask.isNotEmpty, 'firstMask must be not empty.'),
+        assert(secondMask.isNotEmpty, 'secondMask must be not empty.'),
+        assert(firstMask.length < secondMask.length,
+            'firstMask length must be lower than secondMask length.'),
         super(
           mask: firstMask,
           filter: filter,
