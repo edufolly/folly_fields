@@ -34,7 +34,7 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
         buildRow,
     List<int> columnsFlex = const <int>[],
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
-    void Function(BuildContext context, T row, int index, List<T> data)?
+    Future<bool> Function(BuildContext context, T row, int index, List<T> data)?
         removeRow,
     FormFieldSetter<List<T>>? onSaved,
     FormFieldValidator<List<T>>? validator,
@@ -164,13 +164,16 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
                                       if (removeRow != null)
                                         DeleteButton(
                                           enabled: enabled,
-                                          onPressed: () {
-                                            removeRow(
+                                          onPressed: () async {
+                                            bool go = await removeRow(
                                               field.context,
                                               entry.value,
                                               entry.key,
                                               field.value!,
                                             );
+                                            if (!go) {
+                                              return;
+                                            }
                                             field.value!.removeAt(entry.key);
                                             field.didChange(field.value);
                                           },
