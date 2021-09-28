@@ -63,9 +63,9 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   @override
   Future<Map<T, String>> dropdownMap(
-    BuildContext context,
-    Map<String, String> qsParam,
-  ) async =>
+    BuildContext context, {
+    Map<String, String> qsParam = const <String, String>{},
+  }) async =>
       <T, String>{};
 
   ///

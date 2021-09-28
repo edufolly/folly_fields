@@ -53,9 +53,9 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   Future<Map<T, String>> dropdownMap(
-    BuildContext context,
-    Map<String, String> qsParam,
-  ) async {
+    BuildContext context, {
+    Map<String, String> qsParam = const <String, String>{},
+  }) async {
     List<T> _list = await list(context, qsParam, false);
     return <T, String>{for (T e in _list) e: e.toString()};
   }
