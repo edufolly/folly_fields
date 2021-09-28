@@ -9,9 +9,13 @@ class ModelUtils {
   ///
   ///
   ///
-  static DateTime toDate(int? timestamp) => timestamp != null && timestamp >= 0
-      ? DateTime.fromMillisecondsSinceEpoch(timestamp)
-      : DateTime.now();
+  static DateTime toDate(
+    int? timestamp, [
+    DateTime? defaultDateTime,
+  ]) =>
+      timestamp != null && timestamp >= 0
+          ? DateTime.fromMillisecondsSinceEpoch(timestamp)
+          : defaultDateTime ?? DateTime.now();
 
   ///
   ///

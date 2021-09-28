@@ -1,7 +1,7 @@
 ///
 ///
 ///
-abstract class AbstractEnumParser<T> {
+abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   ///
@@ -15,8 +15,12 @@ abstract class AbstractEnumParser<T> {
   ///
   ///
   ///
-  T fromJson(String value) => items.keys
-      .firstWhere((T key) => toMap(key) == value, orElse: () => defaultItem);
+  T fromJson(String? value) => value == null
+      ? defaultItem
+      : items.keys.firstWhere(
+          (T key) => toMap(key) == value,
+          orElse: () => defaultItem,
+        );
 
   ///
   ///
