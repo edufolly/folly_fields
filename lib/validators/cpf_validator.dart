@@ -34,6 +34,12 @@ class CpfValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  @override
+  TextInputType get keyboard => TextInputType.number;
+
+  ///
+  ///
+  ///
   static String generate({bool format = false}) =>
       CPFValidator.generate(format);
 }

@@ -48,4 +48,10 @@ class CpfCnpjValidator extends AbstractValidator<String> {
         ? CNPJValidator.isValid(value, false)
         : CPFValidator.isValid(value, false);
   }
+
+  ///
+  ///
+  ///
+  @override
+  TextInputType get keyboard => TextInputType.number;
 }
