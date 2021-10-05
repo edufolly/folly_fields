@@ -34,6 +34,12 @@ class CnpjValidator extends AbstractValidator<String> {
   ///
   ///
   ///
+  @override
+  TextInputType get keyboard => TextInputType.number;
+
+  ///
+  ///
+  ///
   static String generate({bool format = false}) =>
       CNPJValidator.generate(format);
 }
