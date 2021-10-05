@@ -12,8 +12,8 @@ environment:
   flutter: ^2.0.0
 
 dependencies:
-  # https://pub.dev/packages/connectivity
-  connectivity: ^3.0.3
+  # https://pub.dev/packages/connectivity_plus
+  connectivity_plus: ^2.0.0
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
   # https://pub.dev/packages/email_validator
