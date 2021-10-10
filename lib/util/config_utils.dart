@@ -58,6 +58,15 @@ class ConfigUtils {
   ///
   ///
   ///
-  int intOrDefault(String key, int defaultValue) =>
-      int.tryParse(configJson[key]) ?? defaultValue;
+  int intOrDefault(String key, int defaultValue) => configJson.containsKey(key)
+      ? int.tryParse(configJson[key]) ?? defaultValue
+      : defaultValue;
+
+  ///
+  ///
+  ///
+  double doubleOrDefault(String key, double defaultValue) =>
+      configJson.containsKey(key)
+          ? double.tryParse(configJson['logoMin'].toString()) ?? defaultValue
+          : defaultValue;
 }
