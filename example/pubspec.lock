@@ -56,7 +56,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -188,7 +188,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.3.5+72"
+    version: "0.3.6+73"
   font_awesome_flutter:
     dependency: transitive
     description:
