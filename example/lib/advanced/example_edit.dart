@@ -158,7 +158,9 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         label: 'Data e Hora*',
         enabled: edit,
         initialValue: model.dateTime,
-        onSaved: (DateTime? value) => model.dateTime = value,
+        validator: (DateTime? value) =>
+            value == null ? 'Informe uma data' : null,
+        onSaved: (DateTime? value) => model.dateTime = value!,
       ),
 
       /// Data

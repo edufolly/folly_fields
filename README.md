@@ -6,12 +6,6 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 
 ## Attention - flutter: ^2.0.0
 
-Flutter did a breaking change for RaisedButton and FlatButton (1.26.0-0) and null safety (2.0.0).
-
-http://flutter.dev/go/material-button-migration-guide
-
-So we set the Flutter minimal version. Use beta channel for it.
-
 ## Example
 
 ### Demo
@@ -63,7 +57,7 @@ https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
 void main() {
   bool debug = false;
 
-  assert(debug = true);
+  assert(debug = true, 'is debug');
 
   WidgetsFlutterBinding.ensureInitialized();
 
