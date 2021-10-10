@@ -139,6 +139,8 @@ class AbstractListState<
   final Map<ConsumerPermission, AbstractRoute> permissions =
       <ConsumerPermission, AbstractRoute>{};
 
+  FocusNode keyboardFocusNode = FocusNode();
+
   ///
   ///
   ///
@@ -197,15 +199,6 @@ class AbstractListState<
     } else {
       _loading = true;
       _streamController.add(false);
-
-      // // ignore: unawaited_futures
-      // Future<dynamic>.delayed(Duration(milliseconds: 200)).then((_) {
-      //   _scrollController.animateTo(
-      //     _scrollController.position.maxScrollExtent,
-      //     curve: Curves.easeOut,
-      //     duration: const Duration(milliseconds: 300),
-      //   );
-      // });
     }
 
     try {
@@ -249,11 +242,11 @@ class AbstractListState<
   ///
   ///
   ///
-  Widget _getScaffoldTitle() {
-    return Text(widget.selection
-        ? 'Selecionar ${widget.uiBuilder.getSuperSingle()}'
-        : widget.uiBuilder.getSuperPlural());
-  }
+  Widget _getScaffoldTitle() => Text(
+        widget.selection
+            ? 'Selecionar ${widget.uiBuilder.getSuperSingle()}'
+            : widget.uiBuilder.getSuperPlural(),
+      );
 
   ///
   ///
@@ -326,36 +319,7 @@ class AbstractListState<
               IconButton(
                 tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
                 icon: const Icon(Icons.search),
-                onPressed: () {
-                  showSearch<T?>(
-                    context: context,
-                    delegate: InternalSearch<T, UI, C>(
-                      buildResultItem: _buildResultItem,
-                      canDelete: (T model) =>
-                          _delete &&
-                          FollyFields().isWeb &&
-                          widget.canDelete(model),
-                      qsParam: widget.qsParam,
-                      forceOffline: widget.forceOffline,
-                      itemsPerPage: widget.itemsPerPage,
-                      uiBuilder: widget.uiBuilder,
-                      consumer: widget.consumer,
-                      searchFieldLabel: widget.searchFieldLabel,
-                      searchFieldStyle: widget.searchFieldStyle,
-                      searchFieldDecorationTheme:
-                          widget.searchFieldDecorationTheme,
-                      keyboardType: widget.searchKeyboardType,
-                      textInputAction: widget.searchTextInputAction,
-                    ),
-                  ).then((T? entity) {
-                    if (entity != null) {
-                      _internalRoute(
-                        entity,
-                        !selections.containsKey(entity.id),
-                      );
-                    }
-                  });
-                },
+                onPressed: _search,
               ),
             );
           }
@@ -443,63 +407,73 @@ class AbstractListState<
                         '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
                         ' até o momento.',
                       )
-                    : Scrollbar(
-                        controller: _scrollController,
-                        isAlwaysShown: FollyFields().isWeb,
-                        child: ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16),
+                    : RawKeyboardListener(
+                        autofocus: true,
+                        focusNode: keyboardFocusNode,
+                        onKey: (RawKeyEvent event) {
+                          if (event.character != null) {
+                            _search(event.character);
+                          }
+                        },
+                        child: Scrollbar(
                           controller: _scrollController,
-                          itemBuilder: (BuildContext context, int index) {
-                            /// Atualizando...
-                            if (index >= _globalItems.length) {
-                              return const SizedBox(
-                                height: 80,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-
-                            T model = _globalItems[index];
-
-                            if (_delete &&
-                                FollyFields().isMobile &&
-                                widget.canDelete(model)) {
-                              return Dismissible(
-                                key: Key('key_${model.id}'),
-                                direction: DismissDirection.endToStart,
-                                background: Container(
-                                  color: Colors.red,
-                                  alignment: Alignment.centerRight,
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: const FaIcon(
-                                    FontAwesomeIcons.trashAlt,
-                                    color: Colors.white,
+                          isAlwaysShown: FollyFields().isWeb,
+                          child: ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            controller: _scrollController,
+                            itemBuilder: (BuildContext context, int index) {
+                              /// Atualizando...
+                              if (index >= _globalItems.length) {
+                                return const SizedBox(
+                                  height: 80,
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
                                   ),
-                                ),
-                                confirmDismiss: (DismissDirection direction) =>
-                                    _askDelete(),
-                                onDismissed: (DismissDirection direction) =>
-                                    _deleteEntity(model),
-                                child: _buildResultItem(
+                                );
+                              }
+
+                              T model = _globalItems[index];
+
+                              if (_delete &&
+                                  FollyFields().isMobile &&
+                                  widget.canDelete(model)) {
+                                return Dismissible(
+                                  key: Key('key_${model.id}'),
+                                  direction: DismissDirection.endToStart,
+                                  background: Container(
+                                    color: Colors.red,
+                                    alignment: Alignment.centerRight,
+                                    padding: const EdgeInsets.only(right: 16),
+                                    child: const FaIcon(
+                                      FontAwesomeIcons.trashAlt,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  confirmDismiss:
+                                      (DismissDirection direction) =>
+                                          _askDelete(),
+                                  onDismissed: (DismissDirection direction) =>
+                                      _deleteEntity(model),
+                                  child: _buildResultItem(
+                                    model: model,
+                                    selection: selections.containsKey(model.id),
+                                    canDelete: false,
+                                  ),
+                                );
+                              } else {
+                                return _buildResultItem(
                                   model: model,
                                   selection: selections.containsKey(model.id),
-                                  canDelete: false,
-                                ),
-                              );
-                            } else {
-                              return _buildResultItem(
-                                model: model,
-                                selection: selections.containsKey(model.id),
-                                canDelete: _delete &&
-                                    FollyFields().isWeb &&
-                                    widget.canDelete(model),
-                              );
-                            }
-                          },
-                          separatorBuilder: (_, __) => const FollyDivider(),
-                          itemCount: itemCount,
+                                  canDelete: _delete &&
+                                      FollyFields().isWeb &&
+                                      widget.canDelete(model),
+                                );
+                              }
+                            },
+                            separatorBuilder: (_, __) => const FollyDivider(),
+                            itemCount: itemCount,
+                          ),
                         ),
                       ),
               ),
@@ -519,6 +493,40 @@ class AbstractListState<
             const WaitingMessage(message: 'Consultando...'),
           ),
         );
+      },
+    );
+  }
+
+  ///
+  ///
+  ///
+  void _search([String? query]) {
+    showSearch<T?>(
+      context: context,
+      query: query,
+      delegate: InternalSearch<T, UI, C>(
+        buildResultItem: _buildResultItem,
+        canDelete: (T model) =>
+            _delete && FollyFields().isWeb && widget.canDelete(model),
+        qsParam: widget.qsParam,
+        forceOffline: widget.forceOffline,
+        itemsPerPage: widget.itemsPerPage,
+        uiBuilder: widget.uiBuilder,
+        consumer: widget.consumer,
+        searchFieldLabel: widget.searchFieldLabel,
+        searchFieldStyle: widget.searchFieldStyle,
+        searchFieldDecorationTheme: widget.searchFieldDecorationTheme,
+        keyboardType: widget.searchKeyboardType,
+        textInputAction: widget.searchTextInputAction,
+      ),
+    ).then(
+      (T? entity) {
+        if (entity != null) {
+          _internalRoute(
+            entity,
+            !selections.containsKey(entity.id),
+          );
+        }
       },
     );
   }
@@ -721,6 +729,15 @@ class AbstractListState<
         context: context,
         message: 'Deseja excluir?',
       );
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    keyboardFocusNode.dispose();
+    super.dispose();
+  }
 }
 
 ///

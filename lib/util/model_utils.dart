@@ -53,4 +53,16 @@ class ModelUtils {
     int precision = 2,
   ]) =>
       Decimal(precision: precision, initialValue: value ?? 0);
+
+  ///
+  ///
+  ///
+  static void onlyMapId(Map<String, dynamic>? map) =>
+      map?.removeWhere((String key, dynamic value) => key != 'id');
+
+  ///
+  ///
+  ///
+  static void onlyListMapId(List<dynamic>? list) =>
+      list?.map((dynamic e) => onlyMapId(e)).toList();
 }

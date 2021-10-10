@@ -390,7 +390,9 @@ class MyHomePageState extends State<MyHomePage> {
                           label: 'Data e Hora*',
                           enabled: edit,
                           initialValue: model.dateTime,
-                          onSaved: (DateTime? value) => model.dateTime = value,
+                          validator: (DateTime? value) =>
+                              value == null ? 'Informe uma data' : null,
+                          onSaved: (DateTime? value) => model.dateTime = value!,
                         ),
                         // [/DateTimeField]
                       ),

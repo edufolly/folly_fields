@@ -5,6 +5,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
@@ -27,7 +28,7 @@ class ExampleModel extends AbstractModel<int> {
   String document = '';
   String phone = '';
   String localPhone = '';
-  DateTime? dateTime;
+  DateTime dateTime = DateTime.now();
   DateTime? date;
   TimeOfDay? time;
   String? macAddress;
@@ -60,12 +61,8 @@ class ExampleModel extends AbstractModel<int> {
         document = map['document'] ?? '',
         phone = map['phone'] ?? '',
         localPhone = map['localPhone'] ?? '',
-        dateTime = map['dateTime'] == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(map['dateTime']),
-        date = map['date'] == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(map['date']),
+        dateTime = ModelUtils.toDate(map['dateTime']),
+        date = ModelUtils.toNullableDate(map['date']),
         time = map['date'] == null ? null : timeValidator.parse(map['time']),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
@@ -96,30 +93,14 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
-    if (dateTime != null) {
-      map['dateTime'] = dateTime!.millisecondsSinceEpoch;
-    }
-    if (date != null) {
-      map['date'] = date!.millisecondsSinceEpoch;
-    }
-    if (time != null) {
-      map['time'] = timeValidator.format(time!);
-    }
-    if (macAddress != null) {
-      map['macAddress'] = macAddress;
-    }
-    if (ncm != null) {
-      map['ncm'] = ncm;
-    }
-    if (cest != null) {
-      map['cest'] = cest;
-    }
-    if (cnae != null) {
-      map['cnae'] = cnae;
-    }
-    if (cep != null) {
-      map['cep'] = cep;
-    }
+    map['dateTime'] = dateTime.millisecondsSinceEpoch;
+    map['date'] = date?.millisecondsSinceEpoch;
+    map['time'] = timeValidator.format(time!);
+    map['macAddress'] = macAddress;
+    map['ncm'] = ncm;
+    map['cest'] = cest;
+    map['cnae'] = cnae;
+    map['cep'] = cep;
     if (color != null) {
       map['color'] = color!.value.toRadixString(16);
     }
