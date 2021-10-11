@@ -195,4 +195,27 @@ class FollyUtils {
                     n.substring(0, 1).toUpperCase() + n.substring(1),
               )
           : '';
+
+  ///
+  ///
+  ///
+  static MaterialColor fakeMaterialColor(int intColor) {
+    Color color = Color(intColor);
+
+    return MaterialColor(
+      intColor,
+      <int, Color>{
+        50: color,
+        100: color,
+        200: color,
+        300: color,
+        400: color,
+        500: color,
+        600: color,
+        700: color,
+        800: color,
+        900: color,
+      },
+    );
+  }
 }
