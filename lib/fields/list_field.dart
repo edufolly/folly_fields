@@ -35,6 +35,7 @@ class ListField<T extends AbstractModel<Object>,
     String emptyListText = 'Sem %s até o momento.',
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int Function(T a, T b)? listSort,
     Key? key,
   }) : super(
           key: key,
@@ -112,6 +113,11 @@ class ListField<T extends AbstractModel<Object>,
 
                               if (returned != null) {
                                 field.value![index] = returned;
+
+                                field.value!.sort(listSort ??
+                                    (T a, T b) =>
+                                        a.toString().compareTo(b.toString()));
+
                                 field.didChange(field.value);
                               }
                             }
@@ -167,7 +173,7 @@ class ListField<T extends AbstractModel<Object>,
                         }
                       }
 
-                      field.value!.sort(
+                      field.value!.sort(listSort ??
                           (T a, T b) => a.toString().compareTo(b.toString()));
 
                       field.didChange(field.value);
