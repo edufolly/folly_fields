@@ -2,7 +2,8 @@ name: folly_fields
 on:
   push:
     branches:
-      - dev
+      - main
+
 jobs:
   build:
     name: Build Web
@@ -43,20 +44,20 @@ jobs:
           tag: v${{ env.VERSION }}
           token: ${{ secrets.commit_secret }}
 
-#      - name: Flutter build web
-#      - run: |
-#          cd example
-#          flutter build web
-#
-#      - name: Publishing gh-pages
-#        run: |
-#          cd example/build/web
-#          git init
-#          git config --global user.email edufolly@gmail.com
-#          git config --global user.name "Eduardo Folly"
-#          git status
-#          git remote add origin https://${{ secrets.commit_secret }}@github.com/edufolly/folly_fields.git
-#          git checkout -b gh-pages
-#          git add --all
-#          git commit -m "Publishing web project ($GITHUB_RUN_NUMBER)."
-#          git push origin gh-pages -f
+      - name: Flutter build web
+      - run: |
+          cd example
+          flutter build web
+
+      - name: Publishing gh-pages
+        run: |
+          cd example/build/web
+          git init
+          git config --global user.email edufolly@gmail.com
+          git config --global user.name "Eduardo Folly"
+          git status
+          git remote add origin https://${{ secrets.commit_secret }}@github.com/edufolly/folly_fields.git
+          git checkout -b gh-pages
+          git add --all
+          git commit -m "Publishing web project ($GITHUB_RUN_NUMBER)."
+          git push origin gh-pages -f
