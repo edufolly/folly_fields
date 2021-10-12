@@ -45,7 +45,7 @@ jobs:
           token: ${{ secrets.commit_secret }}
 
       - name: Flutter build web
-      - run: |
+        run: |
           cd example
           flutter build web
 
