@@ -10,7 +10,6 @@ class PasswordField extends StringField {
   ///
   ///
   const PasswordField({
-    Key? key,
     String prefix = '',
     String label = '',
     TextEditingController? controller,
@@ -36,8 +35,14 @@ class PasswordField extends StringField {
     TextStyle? style,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   }) : super(
-          key: key,
           prefix: prefix,
           label: label,
           controller: controller,
@@ -67,5 +72,12 @@ class PasswordField extends StringField {
           style: style,
           decoration: decoration,
           padding: padding,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
         );
 }

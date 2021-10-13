@@ -39,4 +39,28 @@ class FollyValidators {
   ///
   static String? notNull(dynamic value) =>
       value == null ? 'O campo não pode ser nulo.' : null;
+
+  ///
+  ///
+  ///
+  static String? intGTEZero(int? value) =>
+      (value ?? -1) >= 0 ? null : 'O valor deve ser igual ou maior que zero.';
+
+  ///
+  ///
+  ///
+  static String? intGTZero(int? value) =>
+      (value ?? -1) > 0 ? null : 'O valor deve ser maior que zero.';
+
+  ///
+  ///
+  ///
+  static String? intLTZero(int? value) =>
+      (value ?? 1) < 0 ? null : 'O valor deve ser menor que zero.';
+
+  ///
+  ///
+  ///
+  static String? intLTEZero(int? value) =>
+      (value ?? 1) <= 0 ? null : 'O valor deve ser igual ou menor que zero.';
 }

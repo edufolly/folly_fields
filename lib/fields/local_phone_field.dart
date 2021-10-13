@@ -11,7 +11,6 @@ class LocalPhoneField extends ValidatorField {
   ///
   ///
   LocalPhoneField({
-    Key? key,
     String validatorMessage = 'Informe o telefone.',
     String prefix = '',
     String label = '',
@@ -38,10 +37,16 @@ class LocalPhoneField extends ValidatorField {
     TextStyle? style,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
-          key: key,
           abstractValidator: LocalPhoneValidator(),
           validatorMessage: validatorMessage,
           prefix: prefix,
@@ -72,5 +77,12 @@ class LocalPhoneField extends ValidatorField {
           style: style,
           decoration: decoration,
           padding: padding,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
         );
 }

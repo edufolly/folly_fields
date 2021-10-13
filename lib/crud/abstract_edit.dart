@@ -7,6 +7,8 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
@@ -26,7 +28,7 @@ abstract class AbstractEdit<
   final C consumer;
   final bool edit;
   final E? editController;
-  final CrossAxisAlignment crossAxisAlignment;
+  final CrossAxisAlignment rowCrossAxisAlignment;
   final List<AbstractRoute> actionRoutes;
 
   ///
@@ -39,7 +41,7 @@ abstract class AbstractEdit<
     this.edit, {
     Key? key,
     this.editController,
-    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.actionRoutes = const <AbstractRoute>[],
   }) : super(key: key);
 
@@ -53,7 +55,7 @@ abstract class AbstractEdit<
   ///
   ///
   ///
-  List<Widget> formContent(
+  List<Responsive> formContent(
     BuildContext context,
     T model,
     bool edit,
@@ -210,8 +212,8 @@ class AbstractEditState<
                 if (snapshot.hasData) {
                   return SingleChildScrollView(
                     padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: widget.crossAxisAlignment,
+                    child: ResponsiveGrid(
+                      rowCrossAxisAlignment: widget.rowCrossAxisAlignment,
                       children: widget.formContent(
                         context,
                         _model,

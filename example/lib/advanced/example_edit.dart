@@ -22,6 +22,7 @@ import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
@@ -48,7 +49,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   ///
   ///
   @override
-  List<Widget> formContent(
+  List<Responsive> formContent(
     BuildContext context,
     ExampleModel model,
     bool edit,
@@ -56,7 +57,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
     Function(bool refresh) refresh,
     _,
   ) {
-    return <Widget>[
+    return <Responsive>[
       /// Texto
       StringField(
         prefix: prefix,
@@ -67,6 +68,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             ? 'O campo texto precisa ser informado.'
             : null,
         onSaved: (String value) => model.text = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// E-mail
@@ -76,6 +81,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.email,
         onSaved: (String value) => model.email = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Senha
@@ -87,6 +96,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             ? 'O campo senha precisa ser informado.'
             : null,
         onSaved: (String value) => model.password = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Decimal
@@ -96,6 +109,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.decimal,
         onSaved: (Decimal value) => model.decimal = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Integer
@@ -105,6 +122,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.integer,
         onSaved: (int? value) => model.integer = value ?? 0,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// CPF
@@ -114,6 +135,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.cpf,
         onSaved: (String value) => model.cpf = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// CNPJ
@@ -123,6 +148,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.cnpj,
         onSaved: (String value) => model.cnpj = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// CPF ou CNPJ
@@ -132,6 +161,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.document,
         onSaved: (String value) => model.document = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Telefone
@@ -141,6 +174,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.phone,
         onSaved: (String value) => model.phone = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Telefone sem DDD
@@ -150,6 +187,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.localPhone,
         onSaved: (String value) => model.localPhone = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Data e Hora
@@ -161,6 +202,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         validator: (DateTime? value) =>
             value == null ? 'Informe uma data' : null,
         onSaved: (DateTime? value) => model.dateTime = value!,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Data
@@ -170,6 +215,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.date,
         onSaved: (DateTime? value) => model.date = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Hora
@@ -179,6 +228,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.time,
         onSaved: (TimeOfDay? value) => model.time = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Mac Address
@@ -188,6 +241,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.macAddress,
         onSaved: (String? value) => model.macAddress = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Ncm
@@ -197,6 +254,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.ncm,
         onSaved: (String? value) => model.ncm = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Cest
@@ -206,6 +267,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.cest,
         onSaved: (String? value) => model.cest = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Cnae
@@ -215,6 +280,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.cnae,
         onSaved: (String? value) => model.cnae = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// CEP
@@ -224,6 +293,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.cep,
         onSaved: (String? value) => model.cep = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Bool
@@ -236,6 +309,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             ? 'Para testes, este campo deve ser sempre verdadeiro.'
             : null,
         onSaved: (bool value) => model.active = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Dropdown
@@ -248,6 +325,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         validator: (Color? value) =>
             value == null ? 'Selecione uma cor.' : null,
         onSaved: (Color? value) => model.color = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
       ),
 
       /// Multiline

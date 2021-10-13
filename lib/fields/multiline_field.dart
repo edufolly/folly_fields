@@ -10,7 +10,6 @@ class MultilineField extends StringField {
   ///
   ///
   const MultilineField({
-    Key? key,
     String prefix = '',
     String label = '',
     TextEditingController? controller,
@@ -40,10 +39,16 @@ class MultilineField extends StringField {
     TextStyle? style,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
-          key: key,
           prefix: prefix,
           label: label,
           controller: controller,
@@ -75,5 +80,12 @@ class MultilineField extends StringField {
           style: style,
           decoration: decoration,
           padding: padding,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
         );
 }

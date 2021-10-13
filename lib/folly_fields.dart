@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
@@ -78,6 +80,11 @@ abstract class _InternalConfig {
   ///
   ///
   bool get modelParseDates;
+
+  ///
+  ///
+  ///
+  List<double> get responsiveSizes;
 }
 
 ///
@@ -96,6 +103,7 @@ class FollyFields implements _InternalConfig {
     String modelUpdatedAtKey = 'updatedAt',
     String modelDeletedAtKey = 'deletedAt',
     bool modelParseDates = false,
+    List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
   }) =>
       FollyFields()._holder = holder
         .._start(
@@ -104,6 +112,7 @@ class FollyFields implements _InternalConfig {
           modelUpdatedAtKey: modelUpdatedAtKey,
           modelDeletedAtKey: modelDeletedAtKey,
           modelParseDates: modelParseDates,
+          responsiveSizes: responsiveSizes,
         );
 
   AbstractConfig? _holder;
@@ -179,6 +188,37 @@ class FollyFields implements _InternalConfig {
   ///
   @override
   bool get modelParseDates => _holder!.modelParseDates;
+
+  ///
+  ///
+  ///
+  @override
+  List<double> get responsiveSizes => _holder!.responsiveSizes;
+
+  ///
+  ///
+  ///
+  ResponsiveSize checkResponsiveSize(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    if (width < responsiveSizes[0]) {
+      return ResponsiveSize.extraSmall;
+    }
+
+    if (width >= responsiveSizes[0] && width < responsiveSizes[1]) {
+      return ResponsiveSize.small;
+    }
+
+    if (width >= responsiveSizes[1] && width < responsiveSizes[2]) {
+      return ResponsiveSize.medium;
+    }
+
+    if (width >= responsiveSizes[2] && width < responsiveSizes[3]) {
+      return ResponsiveSize.large;
+    }
+
+    return ResponsiveSize.extraLarge;
+  }
 }
 
 ///
@@ -193,6 +233,7 @@ abstract class AbstractConfig implements _InternalConfig {
   String _modelUpdatedAtKey = 'updatedAt';
   String _modelDeletedAtKey = 'deletedAt';
   bool _modelParseDates = false;
+  List<double> _responsiveSizes = const <double>[540, 720, 960, 1140];
 
   ///
   ///
@@ -258,12 +299,19 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   ///
+  @override
+  List<double> get responsiveSizes => _responsiveSizes;
+
+  ///
+  ///
+  ///
   Future<void> _start({
     required bool debug,
     required String modelIdKey,
     required String modelUpdatedAtKey,
     required String modelDeletedAtKey,
     required bool modelParseDates,
+    required List<double> responsiveSizes,
   }) async {
     if (_started) {
       if (debug) {
@@ -282,6 +330,8 @@ abstract class AbstractConfig implements _InternalConfig {
       _modelUpdatedAtKey = modelUpdatedAtKey;
       _modelDeletedAtKey = modelDeletedAtKey;
       _modelParseDates = modelParseDates;
+
+      _responsiveSizes = responsiveSizes;
 
       if (kIsWeb) {
         _platform = RunningPlatform.web;

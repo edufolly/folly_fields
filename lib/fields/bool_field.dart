@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
 ///
-class BoolField extends FormField<bool> {
+class BoolField extends FormFieldResponsive<bool> {
   final BoolEditingController? controller;
 
   ///
   ///
   ///
   BoolField({
-    Key? key,
     String prefix = '',
     String label = '',
     this.controller,
@@ -27,10 +27,23 @@ class BoolField extends FormField<bool> {
     Color? activeColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: controller != null ? controller.value : initialValue,
           validator: enabled && validator != null
               ? (bool? value) => validator(value ?? false)

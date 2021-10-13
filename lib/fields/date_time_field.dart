@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/validators/date_time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class DateTimeField extends StatefulWidget {
+class DateTimeField extends StatefulResponsive {
   final String prefix;
   final String label;
   final DateTimeEditingController? controller;
@@ -40,7 +41,6 @@ class DateTimeField extends StatefulWidget {
   ///
   ///
   const DateTimeField({
-    Key? key,
     this.prefix = '',
     this.label = '',
     this.controller,
@@ -67,9 +67,24 @@ class DateTimeField extends StatefulWidget {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
-        super(key: key);
+        super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
 
   ///
   ///

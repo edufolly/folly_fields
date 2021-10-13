@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
 ///
-class StringField extends StatelessWidget {
+class StringField extends StatelessResponsive {
   final String prefix;
   final String label;
   final TextEditingController? controller;
@@ -41,7 +42,6 @@ class StringField extends StatelessWidget {
   ///
   ///
   const StringField({
-    Key? key,
     this.prefix = '',
     this.label = '',
     this.controller,
@@ -73,9 +73,24 @@ class StringField extends StatelessWidget {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
-        super(key: key);
+        super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
 
   ///
   ///
