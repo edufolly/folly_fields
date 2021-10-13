@@ -265,3 +265,38 @@ abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
           key: key,
         );
 }
+
+///
+///
+///
+class ResponsiveDecorator extends StatelessResponsive {
+  final Widget child;
+
+  ///
+  ///
+  ///
+  const ResponsiveDecorator({
+    required this.child,
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
+  }) : super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
+
+  ///
+  ///
+  ///
+  @override
+  Widget build(BuildContext context) => child;
+}
