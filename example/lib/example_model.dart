@@ -184,9 +184,9 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   static final Map<Color, String> colors = <Color, String>{
-    Colors.red: 'Vermelho',
-    Colors.green: 'Verde',
-    Colors.blue: 'Azul',
+    Colors.red.shade500: 'Vermelho',
+    Colors.green.shade500: 'Verde',
+    Colors.blue.shade500: 'Azul',
   };
 
   ///

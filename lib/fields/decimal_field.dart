@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/decimal_validator.dart';
 
 ///
 ///
 ///
-class DecimalField extends StatefulWidget {
+class DecimalField extends StatefulResponsive {
   final String prefix;
   final String label;
   final DecimalEditingController? controller;
@@ -33,7 +34,6 @@ class DecimalField extends StatefulWidget {
   ///
   ///
   const DecimalField({
-    Key? key,
     this.prefix = '',
     this.label = '',
     this.controller,
@@ -55,9 +55,24 @@ class DecimalField extends StatefulWidget {
     this.readOnly = false,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
-        super(key: key);
+        super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
 
   ///
   ///

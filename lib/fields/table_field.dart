@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/widgets/add_button.dart';
 import 'package:folly_fields/widgets/delete_button.dart';
 import 'package:folly_fields/widgets/empty_button.dart';
@@ -15,7 +16,8 @@ import 'package:folly_fields/widgets/header_cell.dart';
 // TODO(edufolly): Test layout with DataTable.
 // TODO(edufolly): Customize messages.
 // TODO(edufolly): Create controller??
-class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
+class TableField<T extends AbstractModel<Object>>
+    extends FormFieldResponsive<List<T>> {
   ///
   ///
   ///
@@ -44,11 +46,23 @@ class TableField<T extends AbstractModel<Object>> extends FormField<List<T>> {
     Widget Function(BuildContext context, List<T> data)? buildFooter,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
     Key? key,
   })  : assert(columnsFlex.length == columns.length,
             'initialValue or controller must be null.'),
         super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: initialValue,
           enabled: enabled,
           onSaved: enabled && onSaved != null

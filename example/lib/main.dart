@@ -30,6 +30,8 @@ import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
+import 'package:folly_fields_example/advanced/example_consumer.dart';
+import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
@@ -87,6 +89,12 @@ class MyApp extends StatelessWidget {
         '/': (_) => const MyHomePage(),
         '/table': (_) => const ExampleTable(),
         '/list': (_) => ExampleList(),
+        '/edit': (_) => ExampleEdit(
+              ExampleModel.generate(),
+              const ExampleBuilder(),
+              const ExampleConsumer(),
+              true,
+            ),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,

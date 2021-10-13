@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/widgets/add_button.dart';
 import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
@@ -13,7 +14,7 @@ import 'package:sprintf/sprintf.dart';
 ///
 // TODO(edufolly): Create controller?
 class ListField<T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>> extends FormField<List<T>> {
+    UI extends AbstractUIBuilder<T>> extends FormFieldResponsive<List<T>> {
   ///
   ///
   ///
@@ -36,9 +37,21 @@ class ListField<T extends AbstractModel<Object>,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     int Function(T a, T b)? listSort,
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
     Key? key,
   }) : super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: initialValue,
           enabled: enabled,
           onSaved: enabled && onSaved != null

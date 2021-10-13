@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
 ///
-class DropdownField<T> extends FormField<T> {
+class DropdownField<T> extends FormFieldResponsive<T> {
   final DropdownEditingController<T>? controller;
   final Map<T, String>? items;
 
@@ -11,7 +12,6 @@ class DropdownField<T> extends FormField<T> {
   ///
   ///
   DropdownField({
-    Key? key,
     String prefix = '',
     String label = '',
     this.controller,
@@ -43,6 +43,13 @@ class DropdownField<T> extends FormField<T> {
     Color? dropdownColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         // assert(elevation != null),
@@ -56,6 +63,12 @@ class DropdownField<T> extends FormField<T> {
         // assert(autofocus != null),
         super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,

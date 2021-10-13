@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
+class ModelField<T extends AbstractModel<Object>>
+    extends FormFieldResponsive<T?> {
   final ModelEditingController<T>? controller;
 
   ///
   ///
   ///
   ModelField({
-    Key? key,
     String prefix = '',
     String label = '',
     this.controller,
@@ -35,10 +36,23 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: controller != null ? controller.model : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,

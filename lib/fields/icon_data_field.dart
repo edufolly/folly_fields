@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class IconDataField extends FormField<IconData> {
+class IconDataField extends FormFieldResponsive<IconData> {
   final IconFieldController? controller;
   final Map<String, IconData> icons;
 
@@ -13,7 +14,6 @@ class IconDataField extends FormField<IconData> {
   ///
   ///
   IconDataField({
-    Key? key,
     String prefix = '',
     String label = '',
     this.controller,
@@ -33,10 +33,23 @@ class IconDataField extends FormField<IconData> {
     double spaceBetween = 16.0,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
           key: key,
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
           initialValue: controller != null ? controller.value : initialValue,
           onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
