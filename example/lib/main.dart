@@ -33,6 +33,11 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
+import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
+import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
+import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
+import 'package:folly_fields_example/brand_new/brand_new_edit_controller.dart';
+import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_model.dart';
@@ -95,6 +100,13 @@ class MyApp extends StatelessWidget {
               const ExampleConsumer(),
               true,
             ),
+        '/brandnew': (_) => BrandNewEdit(
+              BrandNewModel(),
+              const BrandNewBuilder(),
+              BrandNewConsumer(),
+              BrandNewEditController(),
+              true,
+            ),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
@@ -133,7 +145,7 @@ class MyHomePageState extends State<MyHomePage> {
   /// O conteúdo está no arquivo de configurações.
   String prefix = Config().prefix;
 
-  /// habilita ou desabilita os campos.
+  /// Habilita ou desabilita os campos.
   bool edit = true;
 
   /// Modelo padrão para o exemplo.
