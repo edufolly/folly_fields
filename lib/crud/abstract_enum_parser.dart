@@ -25,6 +25,11 @@ abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   ///
+  int get length => items.length;
+
+  ///
+  ///
+  ///
   String toMap(T key) => key.toString().split('.').last;
 
   ///

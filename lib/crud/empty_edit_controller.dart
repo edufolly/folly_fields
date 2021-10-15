@@ -11,11 +11,11 @@ class EmptyEditController<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  Future<void> dispose(BuildContext context) async {}
+  Future<void> init(BuildContext context, T model) async {}
 
   ///
   ///
   ///
   @override
-  Future<void> init(BuildContext context, T model) async {}
+  Future<void> dispose(BuildContext context) async {}
 }

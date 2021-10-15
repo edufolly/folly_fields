@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/hashable.dart';
 
@@ -42,6 +43,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
+  @mustCallSuper
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) {
@@ -53,6 +55,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
+  @mustCallSuper
   Map<String, dynamic> toSave() => toMap();
 
   ///

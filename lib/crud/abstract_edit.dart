@@ -2,12 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
+import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -19,10 +20,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractEdit<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>,
-    E extends AbstractEditController<T>> extends StatefulWidget {
+        T extends AbstractModel<Object>,
+        UI extends AbstractUIBuilder<T>,
+        C extends AbstractConsumer<T>,
+        E extends AbstractEditController<T>> extends StatefulWidget
+    implements AbstractEditContent<T, E> {
   final T model;
   final UI uiBuilder;
   final C consumer;
@@ -51,18 +53,6 @@ abstract class AbstractEdit<
   @override
   AbstractEditState<T, UI, C, E> createState() =>
       AbstractEditState<T, UI, C, E>();
-
-  ///
-  ///
-  ///
-  List<Responsive> formContent(
-    BuildContext context,
-    T model,
-    bool edit,
-    String prefix,
-    Function(bool refresh) refresh,
-    E? editController,
-  );
 }
 
 ///
@@ -73,7 +63,8 @@ class AbstractEditState<
         UI extends AbstractUIBuilder<T>,
         C extends AbstractConsumer<T>,
         E extends AbstractEditController<T>>
-    extends State<AbstractEdit<T, UI, C, E>> {
+    extends State<AbstractEdit<T, UI, C, E>>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
 
@@ -220,7 +211,8 @@ class AbstractEditState<
                         widget.edit,
                         widget.uiBuilder.prefix,
                         _controller.add,
-                        widget.editController,
+                        widget.editController ??
+                            (EmptyEditController<T>() as E),
                       ),
                     ),
                   );

@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-class ResponsiveGrid extends StatelessWidget {
+class ResponsiveGrid extends StatelessResponsive {
   final List<Responsive> children;
   final CrossAxisAlignment rowCrossAxisAlignment;
 
@@ -15,8 +15,22 @@ class ResponsiveGrid extends StatelessWidget {
   const ResponsiveGrid({
     required this.children,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
 
   ///
   ///
@@ -43,7 +57,6 @@ class ResponsiveGrid extends StatelessWidget {
         minHeight = -1;
       }
 
-      // print(child.safeMinHeight);
       if (child.safeMinHeight > minHeight) {
         minHeight = child.safeMinHeight;
       }

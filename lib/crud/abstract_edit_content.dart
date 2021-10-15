@@ -1,0 +1,23 @@
+import 'package:flutter/widgets.dart';
+import 'package:folly_fields/crud/abstract_edit_controller.dart';
+import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/responsive/responsive.dart';
+
+///
+///
+///
+abstract class AbstractEditContent<T extends AbstractModel<Object>,
+    E extends AbstractEditController<T>> {
+
+  ///
+  ///
+  ///
+  List<Responsive> formContent(
+    BuildContext context,
+    T model,
+    bool edit,
+    String prefix,
+    Function(bool refresh) refresh,
+    E editController,
+  );
+}
