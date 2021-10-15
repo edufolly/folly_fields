@@ -36,7 +36,6 @@ import 'package:folly_fields_example/advanced/example_list.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
 import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
-import 'package:folly_fields_example/brand_new/brand_new_edit_controller.dart';
 import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
@@ -104,7 +103,6 @@ class MyApp extends StatelessWidget {
               BrandNewModel(),
               const BrandNewBuilder(),
               BrandNewConsumer(),
-              BrandNewEditController(),
               true,
             ),
       },

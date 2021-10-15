@@ -46,7 +46,7 @@ linter:
     flutter_style_todos: true
     join_return_with_assignment: true
     leading_newlines_in_multiline_strings: true
-    library_private_types_in_public_api: true
+    # library_private_types_in_public_api: true
     lines_longer_than_80_chars: true
     missing_whitespace_between_adjacent_strings: true
     no_runtimeType_toString: true
@@ -75,7 +75,7 @@ linter:
     use_string_buffers: true
 
     # TODO(edufolly): Remove
-    constant_identifier_names: false
+    # constant_identifier_names: false
 
     # Pub
     sort_pub_dependencies: true
