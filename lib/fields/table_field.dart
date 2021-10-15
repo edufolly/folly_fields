@@ -34,7 +34,7 @@ class TableField<T extends AbstractModel<Object>>
       bool enabled,
     )
         buildRow,
-    List<int> columnsFlex = const <int>[],
+    List<int>? columnsFlex,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     Future<bool> Function(BuildContext context, T row, int index, List<T> data)?
         removeRow,
@@ -53,8 +53,10 @@ class TableField<T extends AbstractModel<Object>>
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(columnsFlex.length == columns.length,
-            'initialValue or controller must be null.'),
+  })  : assert(
+            columnsFlex == null || columnsFlex.length == columns.length,
+            'columnsFlex must be null or columnsFlex.length equals to '
+            'columns.length.'),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -124,7 +126,7 @@ class TableField<T extends AbstractModel<Object>>
                                 .entries
                                 .map<Widget>(
                                   (MapEntry<int, String> entry) => HeaderCell(
-                                    flex: columnsFlex[entry.key],
+                                    flex: columnsFlex?[entry.key] ?? 1,
                                     child: Text(
                                       entry.value,
                                       style: columnHeaderTheme,
@@ -165,7 +167,8 @@ class TableField<T extends AbstractModel<Object>>
                                           .map<Widget>(
                                             (MapEntry<int, Widget> entry) =>
                                                 Flexible(
-                                              flex: columnsFlex[entry.key],
+                                              flex:
+                                                  columnsFlex?[entry.key] ?? 1,
                                               child: SizedBox(
                                                 width: double.infinity,
                                                 child: entry.value,
