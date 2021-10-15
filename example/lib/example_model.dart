@@ -164,6 +164,7 @@ class ExampleModel extends AbstractModel<int> {
     cnae = complete(7);
     cep = complete(8);
     color = randomColor;
+    ordinal = _exampleEnumParser.random;
     active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
