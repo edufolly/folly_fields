@@ -5,6 +5,7 @@ import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
+import 'package:folly_fields/fields/color_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
@@ -26,6 +27,7 @@ import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
@@ -39,6 +41,7 @@ import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
 import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/config.dart';
+import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:folly_fields_example/example_table.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -313,6 +316,24 @@ class MyHomePageState extends State<MyHomePage> {
 
                       CodeLink(
                         code: code,
+                        tag: 'ColorField',
+                        source: 'https://github.com/edufolly/folly_fields/'
+                            'blob/main/lib/fields/color_field.dart',
+                        child:
+                            // [ColorField]
+                            ColorField(
+                          prefix: prefix,
+                          label: 'Cor',
+                          enabled: edit,
+                          initialValue: model.color,
+                          validator: FollyValidators.notNull,
+                          onSaved: (Color? value) => model.color = value,
+                        ),
+                        // [/ColorField]
+                      ),
+
+                      CodeLink(
+                        code: code,
                         tag: 'CpfField',
                         source: 'https://github.com/edufolly/folly_fields/'
                             'blob/main/lib/fields/cpf_field.dart',
@@ -568,8 +589,7 @@ class MyHomePageState extends State<MyHomePage> {
                           enabled: edit,
                           icons: IconHelper.data,
                           initialValue: model.icon,
-                          validator: (IconData? iconData) =>
-                              iconData == null ? 'Selecione um ícone' : null,
+                          validator: FollyValidators.notNull,
                           onSaved: (IconData? iconData) =>
                               model.icon = iconData,
                         ),
@@ -583,15 +603,15 @@ class MyHomePageState extends State<MyHomePage> {
                             'blob/main/lib/fields/dropdown_field.dart',
                         child:
                             // [DropdownField]
-                            DropdownField<Color>(
+                            DropdownField<ExampleEnum>(
                           prefix: prefix,
-                          label: 'Cor',
+                          label: 'Ordinal',
                           enabled: edit,
-                          items: ExampleModel.colors,
-                          initialValue: model.color,
-                          validator: (Color? value) =>
-                              value == null ? 'Selecione uma cor.' : null,
-                          onSaved: (Color? value) => model.color = value,
+                          items: ExampleEnumParser().items,
+                          initialValue: model.ordinal,
+                          validator: FollyValidators.notNull,
+                          onSaved: (ExampleEnum? value) =>
+                              model.ordinal = value!,
                         ),
                         // [/DropdownField]
                       ),
@@ -608,9 +628,7 @@ class MyHomePageState extends State<MyHomePage> {
                           label: 'Multiline*',
                           enabled: edit,
                           initialValue: model.multiline,
-                          validator: (String value) => value.isEmpty
-                              ? 'O campo multiline precisa ser informado.'
-                              : null,
+                          validator: FollyValidators.stringNotEmpty,
                           onSaved: (String value) => model.multiline = value,
                           style: GoogleFonts.firaMono(),
                         ),

@@ -6,6 +6,7 @@ import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
+import 'package:folly_fields/fields/color_field.dart';
 import 'package:folly_fields/fields/cpf_cnpj_field.dart';
 import 'package:folly_fields/fields/cpf_field.dart';
 import 'package:folly_fields/fields/date_field.dart';
@@ -24,8 +25,10 @@ import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
+import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -315,20 +318,30 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         sizeExtraLarge: 3,
       ),
 
-      /// Dropdown
-      DropdownField<Color>(
+      /// Color
+      ColorField(
         prefix: prefix,
-        label: 'Cor',
+        label: 'Cor*',
         enabled: edit,
-        items: ExampleModel.colors,
         initialValue: model.color,
-        validator: (Color? value) =>
-            value == null ? 'Selecione uma cor.' : null,
         onSaved: (Color? value) => model.color = value,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
         sizeExtraLarge: 3,
+      ),
+
+      /// Dropdown
+      DropdownField<ExampleEnum>(
+        prefix: prefix,
+        label: 'Ordinal',
+        enabled: edit,
+        items: ExampleEnumParser().items,
+        initialValue: model.ordinal,
+        validator: FollyValidators.notNull,
+        onSaved: (ExampleEnum? value) => model.ordinal = value!,
+        sizeMedium: 12,
+        sizeLarge: 6,
       ),
 
       /// Multiline
@@ -341,6 +354,8 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             value.isEmpty ? 'O campo multiline precisa ser informado.' : null,
         onSaved: (String value) => model.multiline = value,
         style: GoogleFonts.firaMono(),
+        sizeMedium: 12,
+        sizeLarge: 6,
       ),
     ];
   }

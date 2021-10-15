@@ -153,6 +153,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_colorpicker:
+    dependency: transitive
+    description:
+      name: flutter_colorpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   flutter_highlight:
     dependency: "direct main"
     description:
@@ -188,7 +195,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.4.2+79"
+    version: "0.4.3+80"
   font_awesome_flutter:
     dependency: transitive
     description:

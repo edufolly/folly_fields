@@ -1,3 +1,5 @@
+import 'dart:math';
+
 ///
 ///
 ///
@@ -36,4 +38,9 @@ abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   String getText(T key) => items[key]!;
+
+  ///
+  ///
+  ///
+  T get random => items.keys.elementAt(Random().nextInt(length));
 }

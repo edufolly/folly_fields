@@ -7,15 +7,19 @@ import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
+import 'package:folly_fields/validators/color_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/time_validator.dart';
+import 'package:folly_fields_example/example_enum.dart';
 
 ///
 ///
 ///
 class ExampleModel extends AbstractModel<int> {
-  static final TimeValidator timeValidator = TimeValidator();
+  static final TimeValidator _timeValidator = TimeValidator();
+  static final ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
+  static final ColorValidator _colorValidator = ColorValidator();
   static final Random rnd = Random();
 
   Decimal decimal = Decimal(precision: 2);
@@ -36,6 +40,7 @@ class ExampleModel extends AbstractModel<int> {
   String? cest;
   String? cnae;
   String? cep;
+  ExampleEnum ordinal = _exampleEnumParser.defaultItem;
   Color? color;
   bool active = true;
   IconData? icon;
@@ -63,15 +68,14 @@ class ExampleModel extends AbstractModel<int> {
         localPhone = map['localPhone'] ?? '',
         dateTime = ModelUtils.toDate(map['dateTime']),
         date = ModelUtils.toNullableDate(map['date']),
-        time = map['date'] == null ? null : timeValidator.parse(map['time']),
+        time = map['date'] == null ? null : _timeValidator.parse(map['time']),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
         cnae = map['cnae'],
         cep = map['cep'],
-        color = map['color'] == null
-            ? null
-            : Color(int.parse(map['color'], radix: 16)),
+        ordinal = _exampleEnumParser.fromJson(map['ordinal']),
+        color = _colorValidator.parse(map['color']),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
@@ -95,14 +99,15 @@ class ExampleModel extends AbstractModel<int> {
     map['localPhone'] = localPhone;
     map['dateTime'] = dateTime.millisecondsSinceEpoch;
     map['date'] = date?.millisecondsSinceEpoch;
-    map['time'] = timeValidator.format(time!);
+    map['time'] = _timeValidator.format(time!);
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
     map['cest'] = cest;
     map['cnae'] = cnae;
     map['cep'] = cep;
+    map['ordinal'] = _exampleEnumParser.toMap(ordinal);
     if (color != null) {
-      map['color'] = color!.value.toRadixString(16);
+      map['color'] = _colorValidator.format(color!);
     }
     map['active'] = active;
     if (icon != null) {
@@ -159,6 +164,7 @@ class ExampleModel extends AbstractModel<int> {
     cnae = complete(7);
     cep = complete(8);
     color = randomColor;
+    ordinal = _exampleEnumParser.random;
     active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
@@ -183,7 +189,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   ///
-  static final Map<Color, String> colors = <Color, String>{
+  static final Map<Color, String> _colors = <Color, String>{
     Colors.red.shade500: 'Vermelho',
     Colors.green.shade500: 'Verde',
     Colors.blue.shade500: 'Azul',
@@ -193,5 +199,5 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   static Color get randomColor =>
-      colors.keys.elementAt(rnd.nextInt(colors.length));
+      _colors.keys.elementAt(rnd.nextInt(_colors.length));
 }

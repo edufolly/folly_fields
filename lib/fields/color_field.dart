@@ -1,0 +1,326 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/validators/color_validator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+///
+///
+///
+class ColorField extends StatefulResponsive {
+  final String prefix;
+  final String label;
+  final ColorEditingController? controller;
+  final FormFieldValidator<Color?>? validator;
+  final TextAlign textAlign;
+  final FormFieldSetter<Color?>? onSaved;
+  final Color? initialValue;
+  final bool enabled;
+  final AutovalidateMode autoValidateMode;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
+  final EdgeInsets scrollPadding;
+  final bool enableInteractiveSelection;
+  final bool filled;
+  final Color? fillColor;
+  final bool readOnly;
+  final void Function(Color?)? lostFocus;
+  final bool required;
+  final InputDecoration? decoration;
+  final EdgeInsets padding;
+
+  ///
+  ///
+  ///
+  const ColorField({
+    this.prefix = '',
+    this.label = '',
+    this.controller,
+    this.validator,
+    this.textAlign = TextAlign.start,
+    this.onSaved,
+    this.initialValue,
+    this.enabled = true,
+    this.autoValidateMode = AutovalidateMode.disabled,
+    this.focusNode,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.scrollPadding = const EdgeInsets.all(20),
+    this.enableInteractiveSelection = true,
+    this.filled = false,
+    this.fillColor,
+    this.readOnly = false,
+    this.lostFocus,
+    this.required = true,
+    this.decoration,
+    this.padding = const EdgeInsets.all(8),
+    int? sizeExtraSmall,
+    int? sizeSmall,
+    int? sizeMedium,
+    int? sizeLarge,
+    int? sizeExtraLarge,
+    double? minHeight,
+    Key? key,
+  })  : assert(initialValue == null || controller == null,
+            'initialValue or controller must be null.'),
+        super(
+          sizeExtraSmall: sizeExtraSmall,
+          sizeSmall: sizeSmall,
+          sizeMedium: sizeMedium,
+          sizeLarge: sizeLarge,
+          sizeExtraLarge: sizeExtraLarge,
+          minHeight: minHeight,
+          key: key,
+        );
+
+  ///
+  ///
+  ///
+  @override
+  ColorFieldState createState() => ColorFieldState();
+}
+
+///
+///
+///
+class ColorFieldState extends State<ColorField> {
+  final ColorValidator _validator = ColorValidator();
+  ColorEditingController? _controller;
+  FocusNode? _focusNode;
+  bool fromButton = false;
+  ValueNotifier<Color?> notifier = ValueNotifier<Color?>(null);
+  Color pickerColor = Colors.red;
+
+  ///
+  ///
+  ///
+  ColorEditingController get _effectiveController =>
+      widget.controller ?? _controller!;
+
+  ///
+  ///
+  ///
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
+
+  ///
+  ///
+  ///
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.controller == null) {
+      _controller = ColorEditingController(widget.initialValue);
+    }
+
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+    }
+
+    notifier.value = _effectiveController.color;
+
+    _effectiveFocusNode.addListener(_handleFocus);
+  }
+
+  ///
+  ///
+  ///
+  void _handleFocus() {
+    if (_effectiveFocusNode.hasFocus) {
+      _effectiveController.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: _effectiveController.text.length,
+      );
+    }
+
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
+      widget.lostFocus!(_effectiveController.color);
+    }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
+    _controller?.dispose();
+    _focusNode?.dispose();
+
+    super.dispose();
+  }
+
+  ///
+  ///
+  ///
+  @override
+  Widget build(BuildContext context) {
+    final InputDecoration effectiveDecoration = (widget.decoration ??
+            InputDecoration(
+              border: const OutlineInputBorder(),
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              labelText: widget.prefix.isEmpty
+                  ? widget.label
+                  : '${widget.prefix} - ${widget.label}',
+              counterText: '',
+            ))
+        .applyDefaults(Theme.of(context).inputDecorationTheme)
+        .copyWith(
+          prefixIcon: ValueListenableBuilder<Color?>(
+            valueListenable: notifier,
+            builder: (BuildContext context, Color? value, _) => Icon(
+              FontAwesomeIcons.solidCircle,
+              color: value ?? Colors.transparent,
+            ),
+          ),
+          suffixIcon: IconButton(
+            icon: const Icon(FontAwesomeIcons.palette),
+            onPressed: widget.enabled && !widget.readOnly
+                ? () async {
+                    try {
+                      fromButton = true;
+
+                      Color? selectedColor = await showColorPicker(
+                        context: context,
+                        initialColor: _effectiveController.color,
+                      );
+
+                      fromButton = false;
+
+                      _effectiveController.color = selectedColor;
+                      notifier.value = _effectiveController.color;
+
+                      if (_effectiveFocusNode.canRequestFocus) {
+                        _effectiveFocusNode.requestFocus();
+                      }
+                    } catch (e, s) {
+                      if (FollyFields().isDebug) {
+                        // ignore: avoid_print
+                        print('$e\n$s');
+                      }
+                    }
+                  }
+                : null,
+          ),
+        );
+
+    return Padding(
+      padding: widget.padding,
+      child: TextFormField(
+        controller: _effectiveController,
+        decoration: effectiveDecoration,
+        validator: widget.enabled
+            ? (String? value) {
+                if (!widget.required && (value == null || value.isEmpty)) {
+                  return null;
+                }
+
+                String? message = _validator.valid(value);
+
+                if (message != null) {
+                  return message;
+                }
+
+                if (widget.validator != null) {
+                  return widget.validator!(_validator.parse(value));
+                }
+
+                return null;
+              }
+            : (_) => null,
+        keyboardType: _validator.keyboard,
+        minLines: 1,
+        inputFormatters: _validator.inputFormatters,
+        textAlign: widget.textAlign,
+        maxLength: 8,
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+            ? widget.onSaved!(_validator.parse(value))
+            : null,
+        enabled: widget.enabled,
+        autovalidateMode: widget.autoValidateMode,
+        focusNode: _effectiveFocusNode,
+        textInputAction: widget.textInputAction,
+        onFieldSubmitted: widget.onFieldSubmitted,
+        autocorrect: false,
+        enableSuggestions: false,
+        scrollPadding: widget.scrollPadding,
+        enableInteractiveSelection: widget.enableInteractiveSelection,
+        readOnly: widget.readOnly,
+        style: widget.enabled && !widget.readOnly
+            ? null
+            : Theme.of(context).textTheme.subtitle1!.copyWith(
+                  color: Theme.of(context).disabledColor,
+                ),
+        onChanged: (String value) {
+          Color? typedColor = _validator.parse(value);
+          if (typedColor != null) {
+            notifier.value = typedColor;
+          }
+        },
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  Future<Color?> showColorPicker({
+    required BuildContext context,
+    Color? initialColor,
+  }) {
+    return showDialog<Color?>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: ColorPicker(
+            pickerColor: initialColor ?? pickerColor,
+            onColorChanged: (Color value) =>
+                setState(() => pickerColor = value),
+            portraitOnly: true,
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(pickerColor),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+///
+///
+///
+class ColorEditingController extends TextEditingController {
+  ///
+  ///
+  ///
+  ColorEditingController(Color? color)
+      : super(text: color == null ? '' : ColorValidator().format(color));
+
+  ///
+  ///
+  ///
+  ColorEditingController.fromValue(TextEditingValue value)
+      : super.fromValue(value);
+
+  ///
+  ///
+  ///
+  Color? get color => ColorValidator().parse(text);
+
+  ///
+  ///
+  ///
+  set color(Color? color) =>
+      text = color == null ? '' : ColorValidator().format(color);
+}
