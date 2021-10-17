@@ -31,6 +31,7 @@ class ColorField extends StatefulResponsive {
   final bool required;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final IconData colorIcon;
 
   ///
   ///
@@ -57,6 +58,7 @@ class ColorField extends StatefulResponsive {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.colorIcon = FontAwesomeIcons.solidCircle,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -121,6 +123,7 @@ class ColorFieldState extends State<ColorField> {
     }
 
     notifier.value = _effectiveController.color;
+    pickerColor = _effectiveController.color ?? pickerColor;
 
     _effectiveFocusNode.addListener(_handleFocus);
   }
@@ -176,7 +179,7 @@ class ColorFieldState extends State<ColorField> {
           prefixIcon: ValueListenableBuilder<Color?>(
             valueListenable: notifier,
             builder: (BuildContext context, Color? value, _) => Icon(
-              FontAwesomeIcons.solidCircle,
+              widget.colorIcon,
               color: value ?? Colors.transparent,
             ),
           ),
