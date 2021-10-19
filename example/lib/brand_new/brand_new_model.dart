@@ -46,11 +46,5 @@ class BrandNewModel extends AbstractModel<int> {
   ///
   ///
   @override
-  String get searchTerm => name;
-
-  ///
-  ///
-  ///
-  @override
   String toString() => name;
 }
