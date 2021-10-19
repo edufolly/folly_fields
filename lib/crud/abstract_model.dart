@@ -64,18 +64,15 @@ abstract class AbstractModel<A> with Hashable {
   int get hashCode => hashIterable(toMap().values);
 
   ///
-  /// Teste de exclusão de quando as entidades ainda não possuem id.
-  /// Anteriormente o cálculo do hash estava com uma divergência, mas agora
-  /// faremos novos testes para não precisar desse operador.
   ///
-  /// Ocorreu um novo problema com a comparação dos objetos do menu.
+  ///
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   ///
   ///
   ///
-  String get searchTerm;
+  String get listSearchTerm => toString();
 
   ///
   ///

@@ -65,4 +65,20 @@ class ModelUtils {
   ///
   static void onlyListMapId(List<dynamic>? list) =>
       list?.map((dynamic e) => onlyMapId(e)).toList();
+
+  ///
+  ///
+  ///
+  static List<Map<String, dynamic>> toMapList<T extends AbstractModel<Object>>(
+    List<T> list,
+  ) =>
+      list.map((T e) => e.toMap()).toList();
+
+  ///
+  ///
+  ///
+  static List<Map<String, dynamic>> toSaveList<T extends AbstractModel<Object>>(
+    List<T> list,
+  ) =>
+      list.map((T e) => e.toSave()).toList();
 }

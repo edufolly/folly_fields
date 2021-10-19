@@ -976,7 +976,7 @@ class InternalSearch<
                                     subtitle:
                                         uiBuilder.getSuggestionSubtitle(model),
                                     onTap: () {
-                                      _lastQuery = model.searchTerm;
+                                      _lastQuery = model.listSearchTerm;
                                       query = _lastQuery!;
                                       showResults(context);
                                     },
