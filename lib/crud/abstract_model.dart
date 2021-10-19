@@ -55,7 +55,6 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
-  @mustCallSuper
   Map<String, dynamic> toSave() => toMap();
 
   ///
