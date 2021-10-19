@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 ///
 ///
 class WaitingMessage extends StatelessWidget {
-  final String message;
+  final String? message;
 
   ///
   ///
   ///
   const WaitingMessage({
-    this.message = 'Aguarde...',
+    this.message,
     Key? key,
   }) : super(key: key);
 
@@ -27,7 +27,7 @@ class WaitingMessage extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
         Center(
-          child: Text(message),
+          child: Text(message ?? 'Aguarde...'),
         ),
       ],
     );
