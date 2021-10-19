@@ -353,7 +353,9 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         validator: (String value) =>
             value.isEmpty ? 'O campo multiline precisa ser informado.' : null,
         onSaved: (String value) => model.multiline = value,
-        style: GoogleFonts.firaMono(),
+        style: GoogleFonts.firaMono(
+          textStyle: Theme.of(context).textTheme.bodyText2,
+        ),
         sizeMedium: 12,
         sizeLarge: 6,
       ),

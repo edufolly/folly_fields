@@ -8,6 +8,7 @@ import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/util/safe_future_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
@@ -341,30 +342,27 @@ class AbstractListState<
             for (AbstractRoute route in widget.actionRoutes) {
               _actions.add(
                 // TODO(anyone): Create an Action Route component.
-                FutureBuilder<ConsumerPermission>(
+                SafeFutureBuilder<ConsumerPermission>(
                   future: widget.consumer.checkPermission(
                     context,
                     route.routeName,
                   ),
+                  onWait: (ConnectionState connectionState) =>
+                      const SizedBox(width: 0, height: 0),
+                  onError: (Object? error, StackTrace? stackTrace) =>
+                      const SizedBox(width: 0, height: 0),
                   builder: (
                     BuildContext context,
-                    AsyncSnapshot<ConsumerPermission> snapshot,
-                  ) {
-                    if (snapshot.hasData) {
-                      ConsumerPermission permission = snapshot.data!;
-
-                      return permission.view
+                    ConsumerPermission permission,
+                  ) =>
+                      permission.view
                           ? IconButton(
                               tooltip: permission.name,
                               icon: IconHelper.faIcon(permission.iconName),
                               onPressed: () =>
                                   Navigator.of(context).pushNamed(route.path),
                             )
-                          : const SizedBox(width: 0, height: 0);
-                    }
-
-                    return const SizedBox(width: 0, height: 0);
-                  },
+                          : const SizedBox(width: 0, height: 0),
                 ),
               );
             }
@@ -569,25 +567,27 @@ class AbstractListState<
               return FutureBuilder<bool>(
                 initialData: false,
                 future: actionFunction.showButton(context, model),
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  if (snapshot.hasData && snapshot.data!) {
-                    return IconButton(
-                      tooltip: permission.name,
-                      icon: IconHelper.faIcon(permission.iconName),
-                      onPressed: () async {
-                        Widget widget =
-                            await actionFunction.onPressed(context, model);
+                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) =>
+                    snapshot.hasData && snapshot.data!
+                        ? IconButton(
+                            tooltip: permission.name,
+                            icon: IconHelper.faIcon(permission.iconName),
+                            onPressed: () async {
+                              Widget widget = await actionFunction.onPressed(
+                                context,
+                                model,
+                              );
 
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<dynamic>(builder: (_) => widget),
-                        );
+                              await Navigator.of(context).push(
+                                MaterialPageRoute<dynamic>(
+                                  builder: (_) => widget,
+                                ),
+                              );
 
-                        await _loadData(context);
-                      },
-                    );
-                  }
-                  return const SizedBox(width: 0, height: 0);
-                },
+                              await _loadData(context);
+                            },
+                          )
+                        : const SizedBox(width: 0, height: 0),
               );
             },
           ),
@@ -873,38 +873,27 @@ class InternalSearch<
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              FutureBuilder<List<W>>(
+              SafeFutureBuilder<List<W>>(
                 future: consumer.list(context, param, forceOffline),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isNotEmpty) {
-                      return ListView.separated(
+                waitingMessage: 'Consultando...',
+                builder: (BuildContext context, List<W> data) => data.isNotEmpty
+                    ? ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(16),
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildResultItem(
-                            model: snapshot.data![index],
-                            selection: false,
-                            canDelete: canDelete(snapshot.data![index]),
-                            onTap: (W entity) => close(context, entity),
-                            afterDeleteRefresh: () async => query += '%',
-                          );
-                        },
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildResultItem(
+                          model: data[index],
+                          selection: false,
+                          canDelete: canDelete(data[index]),
+                          onTap: (W entity) => close(context, entity),
+                          afterDeleteRefresh: () async => query += '%',
+                        ),
                         separatorBuilder: (_, __) => const FollyDivider(),
-                        itemCount: snapshot.data!.length,
-                      );
-                    } else {
-                      return const Center(
+                        itemCount: data.length,
+                      )
+                    : const Center(
                         child: Text('Nenhum documento.'),
-                      );
-                    }
-                  }
-
-                  // TODO(anyone): Tratar erro.
-
-                  return const WaitingMessage(message: 'Consultando...');
-                },
+                      ),
               ),
             ),
           ),
@@ -958,13 +947,12 @@ class InternalSearch<
             Expanded(
               child: uiBuilder.buildBackgroundContainer(
                 context,
-                FutureBuilder<List<W>>(
+                SafeFutureBuilder<List<W>>(
                   future: consumer.list(context, param, forceOffline),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.isNotEmpty) {
-                        return Column(
+                  waitingMessage: 'Consultando...',
+                  builder: (BuildContext context, List<W> data) => data
+                          .isNotEmpty
+                      ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
@@ -981,7 +969,7 @@ class InternalSearch<
                             Expanded(
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
-                                  W model = snapshot.data![index];
+                                  W model = data[index];
 
                                   return ListTile(
                                     title: uiBuilder.getSuggestionTitle(model),
@@ -994,22 +982,14 @@ class InternalSearch<
                                     },
                                   );
                                 },
-                                itemCount: snapshot.data!.length,
+                                itemCount: data.length,
                               ),
                             ),
                           ],
-                        );
-                      } else {
-                        return const Center(
+                        )
+                      : const Center(
                           child: Text('Nenhum documento.'),
-                        );
-                      }
-                    }
-
-                    // TODO(anyone): Tratar erro.
-
-                    return const WaitingMessage(message: 'Consultando...');
-                  },
+                        ),
                 ),
               ),
             ),

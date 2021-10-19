@@ -11,6 +11,7 @@ import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/util/safe_future_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
@@ -148,19 +149,20 @@ class AbstractEditState<
                   (int index, AbstractRoute route) => MapEntry<int, Widget>(
                     index,
                     // TODO(anyone): Create an Action Route component.
-                    FutureBuilder<ConsumerPermission>(
+                    SafeFutureBuilder<ConsumerPermission>(
                       future: widget.consumer.checkPermission(
                         context,
                         route.routeName,
                       ),
+                      onWait: (ConnectionState connectionState) =>
+                          const SizedBox(width: 0, height: 0),
+                      onError: (Object? error, StackTrace? stackTrace) =>
+                          const SizedBox(width: 0, height: 0),
                       builder: (
                         BuildContext context,
-                        AsyncSnapshot<ConsumerPermission> snapshot,
-                      ) {
-                        if (snapshot.hasData) {
-                          ConsumerPermission permission = snapshot.data!;
-
-                          return permission.view
+                        ConsumerPermission permission,
+                      ) =>
+                          permission.view
                               ? IconButton(
                                   tooltip: permission.name,
                                   icon: IconHelper.faIcon(permission.iconName),
@@ -177,11 +179,7 @@ class AbstractEditState<
                                     }
                                   },
                                 )
-                              : const SizedBox(width: 0, height: 0);
-                        }
-
-                        return const SizedBox(width: 0, height: 0);
-                      },
+                              : const SizedBox(width: 0, height: 0),
                     ),
                   ),
                 )

@@ -6,6 +6,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 class BoolField extends FormFieldResponsive<bool> {
   final BoolEditingController? controller;
+  final Function(bool)? onChanged;
 
   ///
   ///
@@ -19,8 +20,7 @@ class BoolField extends FormFieldResponsive<bool> {
     bool? initialValue,
     bool enabled = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO(anyone): onChanged
-    // ValueChanged<String> onFieldSubmitted,
+    this.onChanged,
     bool filled = false,
     Color? fillColor,
     bool adaptive = false,
@@ -77,55 +77,48 @@ class BoolField extends FormFieldResponsive<bool> {
                       color: textColor!.withOpacity(enabled ? 1 : 0.4),
                     );
 
-            Color accentColor =
-                activeColor ?? Theme.of(field.context).colorScheme.secondary;
-
             return Padding(
               padding: padding,
-              child: Focus(
-                canRequestFocus: false,
-                skipTraversal: true,
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return InkWell(
-                      onTap: enabled
-                          ? () => state.didChange(!(state.value ?? false))
-                          : null,
-                      child: InputDecorator(
-                        decoration: effectiveDecoration.copyWith(
-                          errorText: enabled ? field.errorText : null,
-                        ),
-                        isFocused: Focus.of(context).hasFocus,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                              ),
-                              child: Text(
-                                prefix.isEmpty ? label : '$prefix - $label',
-                                style: textStyle,
-                              ),
-                            ),
-                            if (adaptive)
-                              Switch.adaptive(
-                                value: state._effectiveController.value,
-                                onChanged: enabled ? state.didChange : null,
-                                activeColor: accentColor,
-                              )
-                            else
-                              Switch(
-                                value: state._effectiveController.value,
-                                onChanged: enabled ? state.didChange : null,
-                                activeColor: accentColor,
-                              ),
-                          ],
-                        ),
+              child: Builder(
+                builder: (BuildContext context) {
+                  return InkWell(
+                    canRequestFocus: false,
+                    onTap: enabled
+                        ? () => state.didChange(!(state.value ?? false))
+                        : null,
+                    child: InputDecorator(
+                      decoration: effectiveDecoration.copyWith(
+                        errorText: enabled ? field.errorText : null,
                       ),
-                    );
-                  },
-                ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                            ),
+                            child: Text(
+                              prefix.isEmpty ? label : '$prefix - $label',
+                              style: textStyle,
+                            ),
+                          ),
+                          if (adaptive)
+                            Switch.adaptive(
+                              value: state._effectiveController.value,
+                              onChanged: enabled ? state.didChange : null,
+                              activeColor: activeColor,
+                            )
+                          else
+                            Switch(
+                              value: state._effectiveController.value,
+                              onChanged: enabled ? state.didChange : null,
+                              activeColor: activeColor,
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             );
           },
@@ -215,6 +208,7 @@ class BoolFieldState extends FormFieldState<bool> {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value ?? false;
+      widget.onChanged?.call(value ?? false);
     }
   }
 
@@ -241,5 +235,8 @@ class BoolFieldState extends FormFieldState<bool> {
 ///
 ///
 class BoolEditingController extends ValueNotifier<bool> {
+  ///
+  ///
+  ///
   BoolEditingController({bool value = false}) : super(value);
 }
