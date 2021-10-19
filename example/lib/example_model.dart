@@ -121,12 +121,6 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  String get searchTerm => text;
-
-  ///
-  ///
-  ///
-  @override
   String toString() => text;
 
   // ///
