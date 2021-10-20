@@ -125,6 +125,16 @@ class ModelUtils {
   ///
   ///
   ///
+  static int toMapDate(DateTime dateTime) => dateTime.millisecondsSinceEpoch;
+
+  ///
+  ///
+  ///
+  static int toMapDecimal(Decimal decimal) => decimal.integer;
+
+  ///
+  ///
+  ///
   static String toMapColor(Color color) => ColorValidator().format(color);
 
   ///
