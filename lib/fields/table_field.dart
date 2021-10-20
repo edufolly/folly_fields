@@ -47,7 +47,12 @@ class TableField<T extends AbstractModel<Object>>
     bool enabled = true,
     bool showAddButton = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    Widget Function(BuildContext context, List<T> data)? buildFooter,
+    Widget Function(
+      BuildContext context,
+      List<T> data,
+      bool isCard,
+    )?
+        buildFooter,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     int? sizeExtraSmall,
@@ -124,52 +129,58 @@ class TableField<T extends AbstractModel<Object>>
                       BuildContext context,
                       ResponsiveSize responsiveSize,
                     ) {
+                      bool isCard = false;
                       List<Widget> columnData = <Widget>[];
 
                       if (changeToCard != null &&
                           responsiveSize <= changeToCard) {
+                        isCard = true;
+
                         /// Table data
                         for (MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
                           columnData.add(
-                            Card(
-                              elevation: elevation,
-                              child: ResponsiveGrid(
-                                margin: const EdgeInsets.all(4),
-                                children: <Responsive>[
-                                  /// Fields
-                                  ...buildRow(
-                                    field.context,
-                                    entry.value,
-                                    entry.key,
-                                    field.value!,
-                                    enabled,
-                                    columns,
-                                  ),
-
-                                  /// Delete button
-                                  if (removeRow != null)
-                                    TableButton(
-                                      enabled: enabled,
-                                      iconData: FontAwesomeIcons.trashAlt,
-                                      padding: const EdgeInsets.all(8),
-                                      label: 'REMOVER ITEM',
-                                      onPressed: () async {
-                                        bool go = await removeRow(
-                                          field.context,
-                                          entry.value,
-                                          entry.key,
-                                          field.value!,
-                                        );
-                                        if (!go) {
-                                          return;
-                                        }
-                                        field.value!.removeAt(entry.key);
-                                        field.didChange(field.value);
-                                      },
-                                      sizeMedium: 12,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Card(
+                                elevation: elevation,
+                                child: ResponsiveGrid(
+                                  margin: const EdgeInsets.all(4),
+                                  children: <Responsive>[
+                                    /// Fields
+                                    ...buildRow(
+                                      field.context,
+                                      entry.value,
+                                      entry.key,
+                                      field.value!,
+                                      enabled,
+                                      columns,
                                     ),
-                                ],
+
+                                    /// Delete button
+                                    if (removeRow != null)
+                                      TableButton(
+                                        enabled: enabled,
+                                        iconData: FontAwesomeIcons.trashAlt,
+                                        padding: const EdgeInsets.all(8),
+                                        label: 'REMOVER ITEM',
+                                        onPressed: () async {
+                                          bool go = await removeRow(
+                                            field.context,
+                                            entry.value,
+                                            entry.key,
+                                            field.value!,
+                                          );
+                                          if (!go) {
+                                            return;
+                                          }
+                                          field.value!.removeAt(entry.key);
+                                          field.didChange(field.value);
+                                        },
+                                        sizeMedium: 12,
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -268,6 +279,7 @@ class TableField<T extends AbstractModel<Object>>
                           buildFooter(
                             field.context,
                             field.value!,
+                            isCard,
                           ),
                         );
                       }
