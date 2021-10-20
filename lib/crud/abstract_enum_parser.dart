@@ -7,6 +7,11 @@ abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   ///
+  const AbstractEnumParser();
+
+  ///
+  ///
+  ///
   T get defaultItem;
 
   ///

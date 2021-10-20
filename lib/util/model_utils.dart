@@ -1,15 +1,19 @@
+import 'package:flutter/painting.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/validators/color_validator.dart';
 
 ///
 ///
 ///
 class ModelUtils {
+  static final ColorValidator _colorValidator = ColorValidator();
+
   ///
   ///
   ///
-  static DateTime toDate(
+  static DateTime fromJsonDate(
     int? timestamp, [
     DateTime? defaultDateTime,
   ]) =>
@@ -20,7 +24,17 @@ class ModelUtils {
   ///
   ///
   ///
-  static DateTime? toNullableDate(int? timestamp) =>
+  @Deprecated('Use fromJsonDate.')
+  static DateTime toDate(
+    int? timestamp, [
+    DateTime? defaultDateTime,
+  ]) =>
+      fromJsonDate(timestamp, defaultDateTime);
+
+  ///
+  ///
+  ///
+  static DateTime? fromJsonNullableDate(int? timestamp) =>
       timestamp != null && timestamp >= 0
           ? DateTime.fromMillisecondsSinceEpoch(timestamp)
           : null;
@@ -28,7 +42,14 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<T> toList<T extends AbstractModel<Object>>(
+  @Deprecated('Use fromJsonNullableDate.')
+  static DateTime? toNullableDate(int? timestamp) =>
+      fromJsonNullableDate(timestamp);
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonList<T extends AbstractModel<Object>>(
     List<dynamic>? value,
     AbstractConsumer<T> consumer,
   ) =>
@@ -39,7 +60,17 @@ class ModelUtils {
   ///
   ///
   ///
-  static T? toModel<T extends AbstractModel<Object>>(
+  @Deprecated('Use fromJsonList.')
+  static List<T> toList<T extends AbstractModel<Object>>(
+    List<dynamic>? value,
+    AbstractConsumer<T> consumer,
+  ) =>
+      fromJsonList<T>(value, consumer);
+
+  ///
+  ///
+  ///
+  static T? fromJsonModel<T extends AbstractModel<Object>>(
     Map<String, dynamic>? map,
     AbstractConsumer<T> consumer,
   ) =>
@@ -48,7 +79,17 @@ class ModelUtils {
   ///
   ///
   ///
-  static Decimal toDecimal(
+  @Deprecated('Use fromJsonModel.')
+  static T? toModel<T extends AbstractModel<Object>>(
+    Map<String, dynamic>? map,
+    AbstractConsumer<T> consumer,
+  ) =>
+      fromJsonModel(map, consumer);
+
+  ///
+  ///
+  ///
+  static Decimal fromJsonDecimal(
     int? value, [
     int precision = 2,
   ]) =>
@@ -57,14 +98,21 @@ class ModelUtils {
   ///
   ///
   ///
-  static void onlyMapId(Map<String, dynamic>? map) =>
-      map?.removeWhere((String key, dynamic value) => key != 'id');
+  @Deprecated('Use fromJsonDecimal.')
+  static Decimal toDecimal(
+    int? value, [
+    int precision = 2,
+  ]) =>
+      fromJsonDecimal(value, precision);
 
   ///
   ///
   ///
-  static void onlyListMapId(List<dynamic>? list) =>
-      list?.map((dynamic e) => onlyMapId(e)).toList();
+  static Color fromJsonColor(
+    String? value, [
+    int defaultColor = 0x00000000,
+  ]) =>
+      _colorValidator.parse(value, defaultColor)!;
 
   ///
   ///
@@ -73,6 +121,35 @@ class ModelUtils {
     List<T> list,
   ) =>
       list.map((T e) => e.toMap()).toList();
+
+  ///
+  ///
+  ///
+  static String toMapColor(Color color) => ColorValidator().format(color);
+
+  ///
+  ///
+  ///
+  static void toSaveMapId(Map<String, dynamic>? map) =>
+      map?.removeWhere((String key, dynamic value) => key != 'id');
+
+  ///
+  ///
+  ///
+  @Deprecated('Use toSaveMapId.')
+  static void onlyMapId(Map<String, dynamic>? map) => toSaveMapId(map);
+
+  ///
+  ///
+  ///
+  static void toSaveListMapId(List<dynamic>? list) =>
+      list?.map((dynamic e) => toSaveMapId(e)).toList();
+
+  ///
+  ///
+  ///
+  @Deprecated('Use toSaveListMapId.')
+  static void onlyListMapId(List<dynamic>? list) => toSaveListMapId(list);
 
   ///
   ///
