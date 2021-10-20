@@ -3,9 +3,9 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:folly_fields/widgets/add_button.dart';
 import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/table_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -146,8 +146,9 @@ class ListField<T extends AbstractModel<Object>,
                       .toList(),
 
                 /// Botão Adicionar
-                AddButton(
+                TableButton(
                   enabled: enabled,
+                  iconData: FontAwesomeIcons.plus,
                   label: sprintf(
                     addText,
                     <dynamic>[uiBuilder.getSuperSingle()],

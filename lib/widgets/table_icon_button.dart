@@ -4,16 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class DeleteButton extends StatelessWidget {
+class TableIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool enabled;
+  final IconData iconData;
 
   ///
   ///
   ///
-  const DeleteButton({
+  const TableIconButton({
     required this.onPressed,
     required this.enabled,
+    required this.iconData ,
     Key? key,
   }) : super(key: key);
 
@@ -47,7 +49,7 @@ class DeleteButton extends StatelessWidget {
         ),
         child: IconButton(
           icon: FaIcon(
-            FontAwesomeIcons.trashAlt,
+            iconData,
             color: iconColor,
           ),
           onPressed: enabled ? onPressed : null,

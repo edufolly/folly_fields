@@ -51,9 +51,9 @@ class ColorValidator extends AbstractValidator<Color>
   ///
   ///
   @override
-  Color? parse(String? text) {
+  Color? parse(String? text, [int? defaultColor]) {
     if (text == null || text.isEmpty) {
-      return null;
+      return defaultColor == null ? null : Color(defaultColor);
     } else {
       text = text.replaceAll('#', '').trim().toUpperCase();
       if (text.length == 6) {
@@ -62,7 +62,7 @@ class ColorValidator extends AbstractValidator<Color>
       try {
         return Color(int.parse('0x$text'));
       } catch (e) {
-        return null;
+        return defaultColor == null ? null : Color(defaultColor);
       }
     }
   }

@@ -57,32 +57,32 @@ class ResponsiveGrid extends StatelessResponsive {
         for (Responsive child in children) {
           int size = child.responsiveSize(responsiveSize);
 
-          if (total + size > 12) {
-            columnChildren.add(_createRow(rowChildren, minHeight));
-            rowChildren = <Widget>[];
-            total = 0;
-            minHeight = -1;
-          }
+          if (size > 0) {
+            if (total + size > 12) {
+              columnChildren.add(_createRow(rowChildren, minHeight));
+              rowChildren = <Widget>[];
+              total = 0;
+              minHeight = -1;
+            }
 
-          if (child.safeMinHeight > minHeight) {
-            minHeight = child.safeMinHeight;
-          }
+            if (child.safeMinHeight > minHeight) {
+              minHeight = child.safeMinHeight;
+            }
 
-          total += size;
+            total += size;
 
-          Widget current = Flexible(
-            flex: size,
-            child: child,
-          );
-
-          if (padding != null) {
-            current = Padding(
-              padding: padding!,
-              child: current,
+            rowChildren.add(
+              Flexible(
+                flex: size,
+                child: padding != null
+                    ? Padding(
+                        padding: padding!,
+                        child: child,
+                      )
+                    : child,
+              ),
             );
           }
-
-          rowChildren.add(current);
         }
 
         if (rowChildren.isNotEmpty) {
