@@ -14,6 +14,54 @@ enum ResponsiveSize {
 ///
 ///
 ///
+extension ResponsiveSizeExtension on ResponsiveSize {
+  ///
+  ///
+  ///
+  int get value {
+    switch (this) {
+      case ResponsiveSize.extraSmall:
+        return 1;
+      case ResponsiveSize.small:
+        return 2;
+      case ResponsiveSize.medium:
+        return 3;
+      case ResponsiveSize.large:
+        return 4;
+      case ResponsiveSize.extraLarge:
+        return 5;
+    }
+  }
+
+  ///
+  ///
+  ///
+  bool operator >(ResponsiveSize other) => value > other.value;
+
+  ///
+  ///
+  ///
+  bool operator >=(ResponsiveSize other) => value >= other.value;
+
+  ///
+  ///
+  ///
+  bool operator <(ResponsiveSize other) => value < other.value;
+
+  ///
+  ///
+  ///
+  bool operator <=(ResponsiveSize other) => value <= other.value;
+
+  ///
+  ///
+  ///
+  bool equals(ResponsiveSize other) => value == other.value;
+}
+
+///
+///
+///
 mixin Responsive on Widget {
   ///
   ///
