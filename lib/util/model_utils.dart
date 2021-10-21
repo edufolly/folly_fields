@@ -90,10 +90,10 @@ class ModelUtils {
   ///
   ///
   static Decimal fromJsonDecimal(
-    int? value, [
-    int precision = 2,
-  ]) =>
-      Decimal(precision: precision, initialValue: value ?? 0);
+    int? value,
+    int? precision,
+  ) =>
+      Decimal(initialValue: value ?? 0, precision: precision ?? 2);
 
   ///
   ///
@@ -117,6 +117,14 @@ class ModelUtils {
   ///
   ///
   ///
+  static Map<String, dynamic>? toMapModel<T extends AbstractModel<Object>>(
+    T? model,
+  ) =>
+      model?.toMap();
+
+  ///
+  ///
+  ///
   static List<Map<String, dynamic>> toMapList<T extends AbstractModel<Object>>(
     List<T> list,
   ) =>
@@ -126,6 +134,12 @@ class ModelUtils {
   ///
   ///
   static int toMapDate(DateTime dateTime) => dateTime.millisecondsSinceEpoch;
+
+  ///
+  ///
+  ///
+  static int? toMapNullableDate(DateTime? dateTime) =>
+      dateTime?.millisecondsSinceEpoch;
 
   ///
   ///
