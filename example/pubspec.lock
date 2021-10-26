@@ -28,7 +28,7 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
@@ -195,14 +195,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.4.7+84"
+    version: "0.4.8+85"
   font_awesome_flutter:
     dependency: transitive
     description:
       name: font_awesome_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.1.0"
+    version: "9.2.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -459,7 +459,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   win32:
     dependency: transitive
     description:
