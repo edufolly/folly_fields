@@ -39,7 +39,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
           if (onError != null) {
-            onError!(snapshot.error, snapshot.stackTrace);
+            return onError!(snapshot.error, snapshot.stackTrace);
           } else {
             return ErrorMessage(
               error: snapshot.error,
