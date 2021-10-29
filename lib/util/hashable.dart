@@ -12,13 +12,14 @@ abstract class Hashable {
   ]) {
     int it = iterable.fold(
       0,
-      // ignore: avoid_annotating_with_dynamic
       (int h, dynamic i) {
         int hash;
         if (i is List) {
           hash = hashIterable(i, deep + 1, debug);
         } else if (i is Map) {
           hash = hashIterable(i.values, deep + 1, debug);
+        } else if (i == null) {
+          hash = 0;
         } else {
           hash = i.hashCode;
         }

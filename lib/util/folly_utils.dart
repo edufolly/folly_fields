@@ -7,40 +7,90 @@ class FollyUtils {
   ///
   ///
   ///
-  static DateTime dateMergeStart({
-    required DateTime date,
-    TimeOfDay time = const TimeOfDay(hour: 0, minute: 0),
+  static TimeOfDay? getTime(DateTime? dateTime) =>
+      dateTime == null ? null : TimeOfDay.fromDateTime(dateTime);
+
+  ///
+  ///
+  ///
+  static DateTime? dateTimeMergeStart({
+    required DateTime? date,
     int second = 0,
     int millisecond = 0,
   }) =>
-      DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-        second,
-        millisecond,
+      dateMergeStart(
+        date: date,
+        time: getTime(date),
+        second: second,
+        millisecond: millisecond,
       );
 
   ///
   ///
   ///
-  static DateTime dateMergeEnd({
-    required DateTime date,
-    TimeOfDay time = const TimeOfDay(hour: 23, minute: 59),
+  static DateTime? dateMergeStart({
+    required DateTime? date,
+    TimeOfDay? time,
+    int second = 0,
+    int millisecond = 0,
+  }) {
+    if (date == null) {
+      return null;
+    }
+
+    time ??= const TimeOfDay(hour: 0, minute: 0);
+
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+      second,
+      millisecond,
+    );
+  }
+
+  ///
+  ///
+  ///
+  static DateTime? dateTimeMergeEnd({
+    required DateTime? date,
     int second = 59,
     int millisecond = 999,
   }) =>
-      DateTime(
-        date.year,
-        date.month,
-        date.day,
-        time.hour,
-        time.minute,
-        second,
-        millisecond,
+      dateMergeEnd(
+        date: date,
+        time: getTime(date),
+        second: second,
+        millisecond: millisecond,
       );
+
+  ///
+  ///
+  ///
+  static DateTime? dateMergeEnd({
+    required DateTime? date,
+    TimeOfDay? time,
+    int second = 59,
+    int millisecond = 999,
+  }) {
+    if (date == null) {
+      return null;
+    }
+
+    time ??= const TimeOfDay(hour: 23, minute: 59);
+
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+      second,
+      millisecond,
+    );
+  }
 
   ///
   ///
