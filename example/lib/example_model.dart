@@ -56,7 +56,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   @override
   ExampleModel.fromJson(Map<String, dynamic> map)
-      : decimal = Decimal(initialValue: map['decimal'], precision: 2),
+      : decimal = ModelUtils.fromJsonDecimal(map['decimal'], 2),
         integer = map['integer'] ?? 0,
         text = map['text'] ?? '',
         email = map['email'] ?? '',
@@ -68,7 +68,7 @@ class ExampleModel extends AbstractModel<int> {
         localPhone = map['localPhone'] ?? '',
         dateTime = ModelUtils.fromJsonDate(map['dateTime']),
         date = ModelUtils.fromJsonNullableDate(map['date']),
-        time = map['date'] == null ? null : _timeValidator.parse(map['time']),
+        time = map['time'] == null ? null : _timeValidator.parse(map['time']),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
@@ -87,7 +87,7 @@ class ExampleModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    map['decimal'] = decimal.integer;
+    map['decimal'] = ModelUtils.toMapDecimal(decimal);
     map['integer'] = integer;
     map['text'] = text;
     map['email'] = email;
@@ -97,8 +97,8 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
-    map['dateTime'] = dateTime.millisecondsSinceEpoch;
-    map['date'] = date?.millisecondsSinceEpoch;
+    map['dateTime'] = ModelUtils.toMapDate(dateTime);
+    map['date'] = ModelUtils.toMapNullableDate(date);
     map['time'] = _timeValidator.format(time!);
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
@@ -151,7 +151,8 @@ class ExampleModel extends AbstractModel<int> {
     localPhone = '9' + complete(8);
     date = DateTime(now.year, now.month, now.day);
     time = TimeOfDay(hour: now.hour, minute: now.minute);
-    dateTime = FollyUtils.dateMergeStart(date: date!, time: time!);
+    dateTime =
+        FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
     macAddress = MacAddressValidator.generate();
     ncm = complete(8);
     cest = complete(7);

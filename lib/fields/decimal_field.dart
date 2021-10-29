@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/decimal_validator.dart';
