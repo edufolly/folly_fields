@@ -15,6 +15,7 @@ class FollyDialogs {
     String title = 'Atenção',
     String buttonText = 'OK',
     String defaultMessage = 'Ocorreu um erro.',
+    bool scrollable = false,
   }) {
     return showDialog(
       context: context,
@@ -23,6 +24,7 @@ class FollyDialogs {
         return AlertDialog(
           title: Text(title),
           content: Text(message ?? defaultMessage),
+          scrollable: scrollable,
           actions: <Widget>[
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
@@ -45,6 +47,7 @@ class FollyDialogs {
     String cancelLabel = 'CANCELAR',
     String startString = '',
     TextInputType keyboardType = TextInputType.text,
+    bool scrollable = false,
   }) async {
     final TextEditingController _controller = TextEditingController();
 
@@ -61,6 +64,7 @@ class FollyDialogs {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
+          scrollable: scrollable,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -112,6 +116,7 @@ class FollyDialogs {
     String affirmative = 'Sim',
     String negative = 'Não',
     bool marked = false,
+    bool scrollable = false,
   }) async {
     Widget aff;
     Widget neg;
@@ -144,6 +149,7 @@ class FollyDialogs {
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
         content: Text(message),
+        scrollable: scrollable,
         actions: <Widget>[neg, aff],
       ),
     );
