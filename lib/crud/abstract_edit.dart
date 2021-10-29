@@ -108,132 +108,129 @@ class AbstractEditState<
   ///
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (!widget.edit) {
-          return true;
-        }
-
-        _formKey.currentState!.save();
-        int currentHash = _model.hashCode;
-
-        bool go = true;
-        if (_initialHash != currentHash) {
-          go = await FollyDialogs.yesNoDialog(
-            context: context,
-            message: 'Modificações foram realizadas.\n\n'
-                'Deseja sair mesmo assim?',
-          );
-        }
-        return go;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.uiBuilder.getSuperSingle()),
-          actions: <Widget>[
-            if (widget.edit)
-              IconButton(
-                tooltip: 'Salvar',
-                icon: FaIcon(
-                  widget.consumer.routeName.isEmpty
-                      ? FontAwesomeIcons.check
-                      : FontAwesomeIcons.solidSave,
-                ),
-                onPressed: _save,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.uiBuilder.getSuperSingle()),
+        actions: <Widget>[
+          if (widget.edit)
+            IconButton(
+              tooltip: 'Salvar',
+              icon: FaIcon(
+                widget.consumer.routeName.isEmpty
+                    ? FontAwesomeIcons.check
+                    : FontAwesomeIcons.solidSave,
               ),
+              onPressed: _save,
+            ),
 
-            // TODO(anyone): Transform to dropdown menu
-            ...widget.actionRoutes
-                .asMap()
-                .map(
-                  (int index, AbstractRoute route) => MapEntry<int, Widget>(
-                    index,
-                    // TODO(anyone): Create an Action Route component.
-                    SafeFutureBuilder<ConsumerPermission>(
-                      future: widget.consumer.checkPermission(
-                        context,
-                        route.routeName,
-                      ),
-                      onWait: (ConnectionState connectionState) =>
-                          const SizedBox(width: 0, height: 0),
-                      onError: (Object? error, StackTrace? stackTrace) =>
-                          const SizedBox(width: 0, height: 0),
-                      builder: (
-                        BuildContext context,
-                        ConsumerPermission permission,
-                      ) =>
-                          permission.view
-                              ? IconButton(
-                                  tooltip: permission.name,
-                                  icon: IconHelper.faIcon(permission.iconName),
-                                  onPressed: () async {
-                                    dynamic close =
-                                        await Navigator.of(context).pushNamed(
-                                      route.path,
-                                      arguments: _model,
-                                    );
+          // TODO(anyone): Transform to dropdown menu
+          ...widget.actionRoutes
+              .asMap()
+              .map(
+                (int index, AbstractRoute route) => MapEntry<int, Widget>(
+                  index,
+                  // TODO(anyone): Create an Action Route component.
+                  SafeFutureBuilder<ConsumerPermission>(
+                    future: widget.consumer.checkPermission(
+                      context,
+                      route.routeName,
+                    ),
+                    onWait: (ConnectionState connectionState) =>
+                        const SizedBox(width: 0, height: 0),
+                    onError: (Object? error, StackTrace? stackTrace) =>
+                        const SizedBox(width: 0, height: 0),
+                    builder: (
+                      BuildContext context,
+                      ConsumerPermission permission,
+                    ) =>
+                        permission.view
+                            ? IconButton(
+                                tooltip: permission.name,
+                                icon: IconHelper.faIcon(permission.iconName),
+                                onPressed: () async {
+                                  dynamic close =
+                                      await Navigator.of(context).pushNamed(
+                                    route.path,
+                                    arguments: _model,
+                                  );
 
-                                    if (close is bool && close) {
-                                      _initialHash = _model.hashCode;
-                                      Navigator.of(context).pop();
-                                    }
-                                  },
-                                )
-                              : const SizedBox(width: 0, height: 0),
+                                  if (close is bool && close) {
+                                    _initialHash = _model.hashCode;
+                                    Navigator.of(context).pop();
+                                  }
+                                },
+                              )
+                            : const SizedBox(width: 0, height: 0),
+                  ),
+                ),
+              )
+              .values
+              .toList(),
+        ],
+      ),
+      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
+      body: widget.uiBuilder.buildBackgroundContainer(
+        context,
+        Form(
+          key: _formKey,
+          onWillPop: () async {
+            if (!widget.edit) {
+              return true;
+            }
+
+            _formKey.currentState!.save();
+            int currentHash = _model.hashCode;
+
+            bool go = true;
+            if (_initialHash != currentHash) {
+              go = await FollyDialogs.yesNoDialog(
+                context: context,
+                message: 'Modificações foram realizadas.\n\n'
+                    'Deseja sair mesmo assim?',
+              );
+            }
+            return go;
+          },
+          child: StreamBuilder<bool>(
+            stream: _controller.stream,
+            builder: (
+              BuildContext context,
+              AsyncSnapshot<bool> snapshot,
+            ) {
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: ResponsiveGrid(
+                    rowCrossAxisAlignment: widget.rowCrossAxisAlignment,
+                    children: widget.formContent(
+                      context,
+                      _model,
+                      widget.edit,
+                      widget.uiBuilder.prefix,
+                      _controller.add,
+                      widget.editController ?? (EmptyEditController<T>() as E),
                     ),
                   ),
-                )
-                .values
-                .toList(),
-          ],
-        ),
-        bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-        body: widget.uiBuilder.buildBackgroundContainer(
-          context,
-          Form(
-            key: _formKey,
-            child: StreamBuilder<bool>(
-              stream: _controller.stream,
-              builder: (
-                BuildContext context,
-                AsyncSnapshot<bool> snapshot,
-              ) {
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(24),
-                    child: ResponsiveGrid(
-                      rowCrossAxisAlignment: widget.rowCrossAxisAlignment,
-                      children: widget.formContent(
-                        context,
-                        _model,
-                        widget.edit,
-                        widget.uiBuilder.prefix,
-                        _controller.add,
-                        widget.editController ??
-                            (EmptyEditController<T>() as E),
-                      ),
-                    ),
-                  );
+                );
+              }
+
+              if (snapshot.hasError) {
+                if (FollyFields().isDebug) {
+                  // ignore: avoid_print
+                  print('${snapshot.error}\n${snapshot.stackTrace}');
                 }
 
-                if (snapshot.hasError) {
-                  if (FollyFields().isDebug) {
-                    // ignore: avoid_print
-                    print('${snapshot.error}\n${snapshot.stackTrace}');
-                  }
+                return Center(
+                  child: Text(
+                    'Ocorreu um erro:\n'
+                    '${snapshot.error}',
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              }
 
-                  return Center(
-                    child: Text(
-                      'Ocorreu um erro:\n'
-                      '${snapshot.error}',
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }
-
-                return const WaitingMessage(message: 'Consultando...');
-              },
-            ),
+              return const WaitingMessage(message: 'Consultando...');
+            },
           ),
         ),
       ),
@@ -245,23 +242,39 @@ class AbstractEditState<
   ///
   Future<void> _save() async {
     CircularWaiting wait = CircularWaiting(context);
+
     try {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState!.save();
+      wait.show();
 
-        bool ok = true;
+      _formKey.currentState!.save();
 
-        ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
-        if (ok && widget.consumer.routeName.isNotEmpty) {
-          wait.show();
-          ok = await widget.consumer.saveOrUpdate(context, _model);
+      if (widget.editController != null) {
+        bool validated = await widget.editController!.validate(context, _model);
+        if (!validated) {
           wait.close();
+          return;
         }
+      }
+
+      if (_formKey.currentState!.validate()) {
+        bool ok = false;
+
+        if (widget.consumer.routeName.isNotEmpty) {
+          ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
+        }
+
+        if (ok) {
+          ok = await widget.consumer.saveOrUpdate(context, _model);
+        }
+
+        wait.close();
 
         if (ok) {
           _initialHash = _model.hashCode;
           Navigator.of(context).pop(_model);
         }
+      } else {
+        wait.close();
       }
     } catch (e, s) {
       wait.close();
