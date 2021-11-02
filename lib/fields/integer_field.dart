@@ -12,7 +12,7 @@ class IntegerField extends StringField {
   IntegerField({
     String prefix = '',
     String label = '',
-    TextEditingController? controller,
+    IntegerEditingController? controller,
     FormFieldValidator<int?>? validator,
     TextAlign textAlign = TextAlign.end,
     int? maxLength,
@@ -93,4 +93,19 @@ class IntegerField extends StringField {
           minHeight: minHeight,
           key: key,
         );
+}
+
+///
+///
+///
+class IntegerEditingController extends TextEditingController {
+  ///
+  ///
+  ///
+  int? get integer => int.tryParse(text);
+
+  ///
+  ///
+  ///
+  set integer(int? integer) => text = integer.toString();
 }
