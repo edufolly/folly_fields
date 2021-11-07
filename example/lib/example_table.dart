@@ -119,7 +119,7 @@ class ExampleTableState extends State<ExampleTable> {
                 );
 
               case 4:
-                return FollyCell.number(model.decimal.value);
+                return FollyCell.number(model.decimal.doubleValue);
 
               case 5:
                 return FollyCell.text(

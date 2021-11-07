@@ -93,7 +93,7 @@ class ModelUtils {
     int? value,
     int? precision,
   ) =>
-      Decimal(initialValue: value ?? 0, precision: precision ?? 2);
+      Decimal(intValue: value ?? 0, precision: precision ?? 2);
 
   ///
   ///
@@ -144,7 +144,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static int toMapDecimal(Decimal decimal) => decimal.integer;
+  static int toMapDecimal(Decimal decimal) => decimal.intValue;
 
   ///
   ///
