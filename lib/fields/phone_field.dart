@@ -12,7 +12,7 @@ class PhoneField extends ValidatorField {
   ///
   PhoneField({
     String validatorMessage = 'Informe o telefone.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class PhoneField extends ValidatorField {
         super(
           abstractValidator: PhoneValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

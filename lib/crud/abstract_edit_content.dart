@@ -8,7 +8,6 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 abstract class AbstractEditContent<T extends AbstractModel<Object>,
     E extends AbstractEditController<T>> {
-
   ///
   ///
   ///
@@ -16,7 +15,7 @@ abstract class AbstractEditContent<T extends AbstractModel<Object>,
     BuildContext context,
     T model,
     bool edit,
-    String prefix,
+    String labelPrefix,
     Function(bool refresh) refresh,
     E editController,
   );

@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class ColorField extends StatefulResponsive {
-  final String prefix;
+  final String labelPrefix;
   final String label;
   final ColorEditingController? controller;
   final FormFieldValidator<Color?>? validator;
@@ -36,7 +36,7 @@ class ColorField extends StatefulResponsive {
   ///
   ///
   const ColorField({
-    this.prefix = '',
+    this.labelPrefix = '',
     this.label = '',
     this.controller,
     this.validator,
@@ -168,9 +168,9 @@ class ColorFieldState extends State<ColorField> {
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)

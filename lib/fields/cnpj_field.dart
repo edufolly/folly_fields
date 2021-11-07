@@ -12,7 +12,7 @@ class CnpjField extends ValidatorField {
   ///
   CnpjField({
     String validatorMessage = 'Informe o CNPJ.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class CnpjField extends ValidatorField {
         super(
           abstractValidator: CnpjValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

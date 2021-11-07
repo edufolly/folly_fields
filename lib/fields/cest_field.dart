@@ -12,7 +12,7 @@ class CestField extends ValidatorField {
   ///
   CestField({
     String validatorMessage = 'Informe o CEST.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class CestField extends ValidatorField {
         super(
           abstractValidator: CestValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

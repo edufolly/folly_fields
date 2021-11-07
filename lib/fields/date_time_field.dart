@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class DateTimeField extends StatefulResponsive {
-  final String prefix;
+  final String labelPrefix;
   final String label;
   final DateTimeEditingController? controller;
   final FormFieldValidator<DateTime>? validator;
@@ -40,7 +40,7 @@ class DateTimeField extends StatefulResponsive {
   ///
   ///
   const DateTimeField({
-    this.prefix = '',
+    this.labelPrefix = '',
     this.label = '',
     this.controller,
     this.validator,
@@ -177,9 +177,9 @@ class DateTimeFieldState extends State<DateTimeField> {
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)

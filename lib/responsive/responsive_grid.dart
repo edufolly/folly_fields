@@ -7,6 +7,7 @@ import 'package:folly_fields/responsive/responsive_builder.dart';
 ///
 class ResponsiveGrid extends StatelessResponsive {
   final List<Responsive> children;
+  final int maxColumns;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
@@ -16,6 +17,7 @@ class ResponsiveGrid extends StatelessResponsive {
   ///
   const ResponsiveGrid({
     required this.children,
+    this.maxColumns = 12,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.margin,
     this.padding,
@@ -58,7 +60,7 @@ class ResponsiveGrid extends StatelessResponsive {
           int size = child.responsiveSize(responsiveSize);
 
           if (size > 0) {
-            if (total + size > 12) {
+            if (total + size > maxColumns) {
               columnChildren.add(_createRow(rowChildren, minHeight));
               rowChildren = <Widget>[];
               total = 0;

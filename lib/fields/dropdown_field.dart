@@ -12,7 +12,7 @@ class DropdownField<T> extends FormFieldResponsive<T> {
   ///
   ///
   DropdownField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     this.controller,
     FormFieldValidator<T?>? validator,
@@ -82,7 +82,8 @@ class DropdownField<T> extends FormFieldResponsive<T> {
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      labelText:
+                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
                     ))

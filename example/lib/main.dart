@@ -146,7 +146,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   /// Prefixo utilizado no label dos campos.
   /// O conteúdo está no arquivo de configurações.
-  String prefix = Config().prefix;
+  String labelPrefix = Config().labelPrefix;
 
   /// Habilita ou desabilita os campos.
   bool edit = true;
@@ -236,7 +236,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [StringField]
                           StringField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Texto*',
                         enabled: edit,
                         initialValue: model.text,
@@ -256,7 +256,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [EmailField]
                           EmailField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'E-mail*',
                         enabled: edit,
                         initialValue: model.email,
@@ -273,7 +273,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [PasswordField]
                           PasswordField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Senha*',
                         enabled: edit,
                         validator: (String value) => value.isEmpty
@@ -292,7 +292,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DecimalField]
                           DecimalField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Decimal*',
                         enabled: edit,
                         initialValue: model.decimal,
@@ -309,7 +309,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [IntegerField]
                           IntegerField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Integer*',
                         enabled: edit,
                         initialValue: model.integer,
@@ -326,7 +326,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [ColorField]
                           ColorField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Cor',
                         enabled: edit,
                         initialValue: model.color,
@@ -344,7 +344,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CpfField]
                           CpfField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CPF*',
                         enabled: edit,
                         initialValue: model.cpf,
@@ -361,7 +361,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CnpjField]
                           CnpjField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CNPJ*',
                         enabled: edit,
                         initialValue: model.cnpj,
@@ -378,7 +378,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CpfCnpjField]
                           CpfCnpjField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CPF ou CNPJ*',
                         enabled: edit,
                         initialValue: model.document,
@@ -395,7 +395,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [PhoneField]
                           PhoneField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Telefone*',
                         enabled: edit,
                         initialValue: model.phone,
@@ -412,7 +412,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [LocalPhoneField]
                           LocalPhoneField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Telefone sem DDD*',
                         enabled: edit,
                         initialValue: model.localPhone,
@@ -429,7 +429,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DateTimeField]
                           DateTimeField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Data e Hora*',
                         enabled: edit,
                         initialValue: model.dateTime,
@@ -448,7 +448,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DateField]
                           DateField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Data*',
                         enabled: edit,
                         initialValue: model.date,
@@ -465,7 +465,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [TimeField]
                           TimeField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Hora*',
                         enabled: edit,
                         initialValue: model.time,
@@ -482,7 +482,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [MacAddressField]
                           MacAddressField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Mac Address*',
                         enabled: edit,
                         initialValue: model.macAddress,
@@ -499,7 +499,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [NcmField]
                           NcmField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'NCM*',
                         enabled: edit,
                         initialValue: model.ncm,
@@ -516,7 +516,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CestField]
                           CestField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CEST*',
                         enabled: edit,
                         initialValue: model.cest,
@@ -533,7 +533,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CnaeField]
                           CnaeField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CNAE*',
                         enabled: edit,
                         initialValue: model.cnae,
@@ -550,7 +550,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CepField]
                           CepField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'CEP*',
                         enabled: edit,
                         initialValue: model.cep,
@@ -567,7 +567,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [BoolField]
                           BoolField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Campo Boleano',
                         enabled: edit,
                         initialValue: model.active,
@@ -588,7 +588,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [IconDataField]
                           IconDataField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Ícone*',
                         enabled: edit,
                         icons: IconHelper.data,
@@ -607,7 +607,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DropdownField]
                           DropdownField<ExampleEnum>(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Ordinal',
                         enabled: edit,
                         items: ExampleEnumParser().items,
@@ -626,7 +626,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [MultilineField]
                           MultilineField(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Multiline*',
                         enabled: edit,
                         initialValue: model.multiline,
@@ -647,12 +647,12 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [ModelField]
                           ModelField<ExampleModel>(
-                        prefix: prefix,
+                        labelPrefix: labelPrefix,
                         label: 'Example Model*',
                         enabled: edit,
                         initialValue: ExampleModel.generate(),
                         routeBuilder: (BuildContext context) => ExampleList(
-                          prefix: prefix,
+                          labelPrefix: labelPrefix,
                           selection: true,
                         ),
                       ),
@@ -669,11 +669,11 @@ class MyHomePageState extends State<MyHomePage> {
                           ListField<ExampleModel, ExampleBuilder>(
                         enabled: edit,
                         initialValue: list,
-                        uiBuilder: ExampleBuilder(prefix),
+                        uiBuilder: ExampleBuilder(labelPrefix),
                         routeAddBuilder:
                             (BuildContext context, ExampleBuilder uiBuilder) =>
                                 ExampleList(
-                          prefix: prefix,
+                          labelPrefix: labelPrefix,
                           selection: true,
                           multipleSelection: true,
                         ),

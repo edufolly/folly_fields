@@ -6,18 +6,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
-  final String prefix;
+  final String labelPrefix;
 
   ///
   ///
   ///
-  const AbstractUIBuilder(this.prefix);
+  const AbstractUIBuilder(this.labelPrefix);
 
   ///
   ///
   /// Retorna o nome no singular que é utilizado nas views.
-  String getSuperSingle() =>
-      prefix.isEmpty ? getInternalSingle() : '$prefix - ${getInternalSingle()}';
+  String getSuperSingle() => labelPrefix.isEmpty
+      ? getInternalSingle()
+      : '$labelPrefix - ${getInternalSingle()}';
 
   ///
   ///
@@ -27,8 +28,9 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   /// Retorna o nome no plural que é utilizado nas views.
-  String getSuperPlural() =>
-      prefix.isEmpty ? getInternalPlural() : '$prefix - ${getInternalPlural()}';
+  String getSuperPlural() => labelPrefix.isEmpty
+      ? getInternalPlural()
+      : '$labelPrefix - ${getInternalPlural()}';
 
   ///
   ///

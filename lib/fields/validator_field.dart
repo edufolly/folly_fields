@@ -13,7 +13,7 @@ class ValidatorField extends StringField {
   ValidatorField({
     required AbstractValidator<String> abstractValidator,
     required String validatorMessage,
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -57,7 +57,7 @@ class ValidatorField extends StringField {
           sizeLarge: sizeLarge,
           sizeExtraLarge: sizeExtraLarge,
           minHeight: minHeight,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           keyboard: abstractValidator.keyboard,

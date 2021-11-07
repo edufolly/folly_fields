@@ -18,7 +18,7 @@ class BrandNewEditPanel1 extends AbstractEditContent<BrandNewModel,
     BuildContext context,
     BrandNewModel model,
     bool edit,
-    String prefix,
+    String labelPrefix,
     Function(bool refresh) refresh,
     _,
   ) {
@@ -35,7 +35,7 @@ class BrandNewEditPanel1 extends AbstractEditContent<BrandNewModel,
       ///
       StringField(
         key: const Key('Test1'),
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Nome*',
         enabled: edit,
         initialValue: model.specific1 ?? model.type.toString(),

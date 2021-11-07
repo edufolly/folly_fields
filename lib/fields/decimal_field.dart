@@ -7,7 +7,7 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 ///
 class DecimalField extends StatefulResponsive {
-  final String prefix;
+  final String labelPrefix;
   final String label;
   final DecimalEditingController? controller;
   final Decimal? initialValue;
@@ -33,7 +33,7 @@ class DecimalField extends StatefulResponsive {
   ///
   ///
   const DecimalField({
-    this.prefix = '',
+    this.labelPrefix = '',
     this.label = '',
     this.controller,
     this.validator,
@@ -159,9 +159,9 @@ class DecimalFieldState extends State<DecimalField> {
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);

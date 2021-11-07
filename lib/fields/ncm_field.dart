@@ -12,7 +12,7 @@ class NcmField extends ValidatorField {
   ///
   NcmField({
     String validatorMessage = 'Informe o NCM.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class NcmField extends ValidatorField {
         super(
           abstractValidator: NcmValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

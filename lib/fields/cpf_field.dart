@@ -12,7 +12,7 @@ class CpfField extends ValidatorField {
   ///
   CpfField({
     String validatorMessage = 'Informe o CPF.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class CpfField extends ValidatorField {
         super(
           abstractValidator: CpfValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

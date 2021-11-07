@@ -10,7 +10,7 @@ class PasswordField extends StringField {
   ///
   ///
   const PasswordField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -43,7 +43,7 @@ class PasswordField extends StringField {
     double? minHeight,
     Key? key,
   }) : super(
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           keyboard: TextInputType.visiblePassword,
