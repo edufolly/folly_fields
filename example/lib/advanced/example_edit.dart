@@ -56,14 +56,14 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
     BuildContext context,
     ExampleModel model,
     bool edit,
-    String prefix,
+    String labelPrefix,
     Function(bool refresh) refresh,
     _,
   ) {
     return <Responsive>[
       /// Texto
       StringField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Texto*',
         enabled: edit,
         initialValue: model.text,
@@ -79,7 +79,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// E-mail
       EmailField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'E-mail*',
         enabled: edit,
         initialValue: model.email,
@@ -92,7 +92,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Senha
       PasswordField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Senha*',
         enabled: edit,
         validator: (String? value) => value == null || value.isEmpty
@@ -107,7 +107,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Decimal
       DecimalField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Decimal*',
         enabled: edit,
         initialValue: model.decimal,
@@ -120,7 +120,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Integer
       IntegerField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Integer*',
         enabled: edit,
         initialValue: model.integer,
@@ -133,7 +133,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF
       CpfField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CPF*',
         enabled: edit,
         initialValue: model.cpf,
@@ -146,7 +146,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CNPJ
       CnpjField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CNPJ*',
         enabled: edit,
         initialValue: model.cnpj,
@@ -159,7 +159,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF ou CNPJ
       CpfCnpjField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CPF ou CNPJ*',
         enabled: edit,
         initialValue: model.document,
@@ -172,7 +172,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone
       PhoneField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Telefone*',
         enabled: edit,
         initialValue: model.phone,
@@ -185,7 +185,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone sem DDD
       LocalPhoneField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Telefone sem DDD*',
         enabled: edit,
         initialValue: model.localPhone,
@@ -198,7 +198,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data e Hora
       DateTimeField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Data e Hora*',
         enabled: edit,
         initialValue: model.dateTime,
@@ -213,7 +213,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data
       DateField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Data*',
         enabled: edit,
         initialValue: model.date,
@@ -226,7 +226,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Hora
       TimeField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Hora*',
         enabled: edit,
         initialValue: model.time,
@@ -239,7 +239,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Mac Address
       MacAddressField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Mac Address*',
         enabled: edit,
         initialValue: model.macAddress,
@@ -252,7 +252,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Ncm
       NcmField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'NCM*',
         enabled: edit,
         initialValue: model.ncm,
@@ -265,7 +265,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cest
       CestField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CEST*',
         enabled: edit,
         initialValue: model.cest,
@@ -278,7 +278,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cnae
       CnaeField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CNAE*',
         enabled: edit,
         initialValue: model.cnae,
@@ -291,7 +291,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CEP
       CepField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'CEP*',
         enabled: edit,
         initialValue: model.cep,
@@ -304,7 +304,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Bool
       BoolField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Campo Boleano',
         enabled: edit,
         initialValue: model.active,
@@ -320,7 +320,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Color
       ColorField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Cor*',
         enabled: edit,
         initialValue: model.color,
@@ -333,7 +333,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Dropdown
       DropdownField<ExampleEnum>(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Ordinal',
         enabled: edit,
         items: ExampleEnumParser().items,
@@ -346,7 +346,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Multiline
       MultilineField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Multiline*',
         enabled: edit,
         initialValue: model.multiline,

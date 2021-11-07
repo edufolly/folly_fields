@@ -17,14 +17,14 @@ class ExampleList
     Key? key,
     bool selection = false,
     bool multipleSelection = false,
-    String prefix = '',
+    String labelPrefix = '',
   }) : super(
           key: key,
           selection: selection,
           multipleSelection: multipleSelection,
           forceOffline: false,
           consumer: const ExampleConsumer(),
-          uiBuilder: ExampleBuilder(prefix),
+          uiBuilder: ExampleBuilder(labelPrefix),
           onAdd: (
             BuildContext context,
             ExampleBuilder uiBuilder,

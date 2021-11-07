@@ -12,7 +12,7 @@ class BoolField extends FormFieldResponsive<bool> {
   ///
   ///
   BoolField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     this.controller,
     String? Function(bool value)? validator,
@@ -98,7 +98,9 @@ class BoolField extends FormFieldResponsive<bool> {
                               horizontal: 4,
                             ),
                             child: Text(
-                              prefix.isEmpty ? label : '$prefix - $label',
+                              labelPrefix.isEmpty
+                                  ? label
+                                  : '$labelPrefix - $label',
                               style: textStyle,
                             ),
                           ),

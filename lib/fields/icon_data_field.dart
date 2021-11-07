@@ -14,7 +14,7 @@ class IconDataField extends FormFieldResponsive<IconData> {
   ///
   ///
   IconDataField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     this.controller,
     FormFieldValidator<IconData>? validator,
@@ -63,7 +63,8 @@ class IconDataField extends FormFieldResponsive<IconData> {
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      labelText:
+                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       contentPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
                     ))

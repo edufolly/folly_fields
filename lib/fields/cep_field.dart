@@ -12,7 +12,7 @@ class CepField extends ValidatorField {
   ///
   CepField({
     String validatorMessage = 'Informe o CEP.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class CepField extends ValidatorField {
         super(
           abstractValidator: CepValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

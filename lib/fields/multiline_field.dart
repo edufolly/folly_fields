@@ -10,7 +10,7 @@ class MultilineField extends StringField {
   ///
   ///
   const MultilineField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class MultilineField extends StringField {
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           keyboard: TextInputType.multiline,

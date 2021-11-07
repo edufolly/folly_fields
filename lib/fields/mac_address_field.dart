@@ -12,7 +12,7 @@ class MacAddressField extends ValidatorField {
   ///
   MacAddressField({
     String validatorMessage = 'Informe o MAC Address.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -49,7 +49,7 @@ class MacAddressField extends ValidatorField {
         super(
           abstractValidator: MacAddressValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,

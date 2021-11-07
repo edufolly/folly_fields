@@ -206,7 +206,7 @@ class AbstractEditState<
                       context,
                       _model,
                       widget.edit,
-                      widget.uiBuilder.prefix,
+                      widget.uiBuilder.labelPrefix,
                       _controller.add,
                       widget.editController ?? (EmptyEditController<T>() as E),
                     ),

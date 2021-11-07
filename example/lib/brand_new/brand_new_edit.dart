@@ -45,14 +45,14 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BuildContext context,
     BrandNewModel model,
     bool edit,
-    String prefix,
+    String labelPrefix,
     Function(bool refresh) refresh,
     EmptyEditController<BrandNewModel> editController,
   ) {
     return <Responsive>[
       /// Name
       StringField(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Nome*',
         enabled: edit,
         initialValue: model.name,
@@ -62,7 +62,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
 
       /// Type
       DropdownField<BrandNewEnum>(
-        prefix: prefix,
+        labelPrefix: labelPrefix,
         label: 'Tipo*',
         enabled: edit,
         items: _brandNewParser.items,
@@ -76,7 +76,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
       ),
 
       /// Panel
-      ...complement(context, model, edit, prefix, refresh, editController),
+      ...complement(context, model, edit, labelPrefix, refresh, editController),
     ];
   }
 
@@ -87,7 +87,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BuildContext context,
     BrandNewModel model,
     bool edit,
-    String prefix,
+    String labelPrefix,
     Function(bool refresh) refresh,
     EmptyEditController<BrandNewModel> editController,
   ) {
@@ -97,7 +97,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           context,
           model,
           edit,
-          prefix,
+          labelPrefix,
           refresh,
           editController,
         );
@@ -106,7 +106,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           context,
           model,
           edit,
-          prefix,
+          labelPrefix,
           refresh,
           editController,
         );
@@ -115,12 +115,10 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           context,
           model,
           edit,
-          prefix,
+          labelPrefix,
           refresh,
           editController,
         );
     }
   }
-
-
 }

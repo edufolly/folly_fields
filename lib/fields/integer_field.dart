@@ -10,7 +10,7 @@ class IntegerField extends StringField {
   ///
   ///
   IntegerField({
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     IntegerEditingController? controller,
     FormFieldValidator<int?>? validator,
@@ -43,7 +43,7 @@ class IntegerField extends StringField {
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
         super(
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           keyboard: TextInputType.number,

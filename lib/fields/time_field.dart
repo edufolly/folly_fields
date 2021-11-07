@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class TimeField extends StatefulResponsive {
-  final String prefix;
+  final String labelPrefix;
   final String label;
   final TimeEditingController? controller;
   final FormFieldValidator<TimeOfDay>? validator;
@@ -34,7 +34,7 @@ class TimeField extends StatefulResponsive {
   ///
   ///
   const TimeField({
-    this.prefix = '',
+    this.labelPrefix = '',
     this.label = '',
     this.controller,
     this.validator,
@@ -160,9 +160,9 @@ class TimeFieldState extends State<TimeField> {
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)

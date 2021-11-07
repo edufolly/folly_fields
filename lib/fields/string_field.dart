@@ -6,7 +6,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 class StringField extends StatelessResponsive {
-  final String prefix;
+  final String labelPrefix;
   final String label;
   final TextEditingController? controller;
   final TextInputType keyboard;
@@ -42,7 +42,7 @@ class StringField extends StatelessResponsive {
   ///
   ///
   const StringField({
-    this.prefix = '',
+    this.labelPrefix = '',
     this.label = '',
     this.controller,
     this.keyboard = TextInputType.text,
@@ -107,7 +107,7 @@ class StringField extends StatelessResponsive {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
-              labelText: prefix.isEmpty ? label : '$prefix - $label',
+              labelText: labelPrefix.isEmpty ? label : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
               counterText: '',
               enabled: enabled,

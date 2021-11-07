@@ -12,7 +12,7 @@ class EmailField extends ValidatorField {
   ///
   EmailField({
     String validatorMessage = 'Informe o e-mail.',
-    String prefix = '',
+    String labelPrefix = '',
     String label = '',
     TextEditingController? controller,
     String? Function(String value)? validator,
@@ -50,7 +50,7 @@ class EmailField extends ValidatorField {
         super(
           abstractValidator: EmailValidator(),
           validatorMessage: validatorMessage,
-          prefix: prefix,
+          labelPrefix: labelPrefix,
           label: label,
           controller: controller,
           validator: validator,
