@@ -866,7 +866,7 @@ class InternalSearch<
         query = query.replaceAll('%', '');
       }
 
-      param['t'] = query.toLowerCase();
+      param['t'] = query;
 
       return Column(
         children: <Widget>[
@@ -938,7 +938,7 @@ class InternalSearch<
           param.addAll(qsParam);
         }
 
-        param['t'] = query.replaceAll('%', '').toLowerCase();
+        param['t'] = query.replaceAll('%', '');
 
         param['q'] = itemsPerPage.toString();
 
