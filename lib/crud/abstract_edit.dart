@@ -135,9 +135,8 @@ class AbstractEditState<
                       context,
                       route.routeName,
                     ),
-                    onWait: (ConnectionState connectionState) =>
-                        const SizedBox(width: 0, height: 0),
-                    onError: (Object? error, StackTrace? stackTrace) =>
+                    onWait: (_, __) => const SizedBox(width: 0, height: 0),
+                    onError: (_, __, ___) =>
                         const SizedBox(width: 0, height: 0),
                     builder: (
                       BuildContext context,

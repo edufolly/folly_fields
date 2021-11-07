@@ -347,10 +347,8 @@ class AbstractListState<
                     context,
                     route.routeName,
                   ),
-                  onWait: (ConnectionState connectionState) =>
-                      const SizedBox(width: 0, height: 0),
-                  onError: (Object? error, StackTrace? stackTrace) =>
-                      const SizedBox(width: 0, height: 0),
+                  onWait: (_, __) => const SizedBox(width: 0, height: 0),
+                  onError: (_, __, ___) => const SizedBox(width: 0, height: 0),
                   builder: (
                     BuildContext context,
                     ConsumerPermission permission,
@@ -866,7 +864,7 @@ class InternalSearch<
         query = query.replaceAll('%', '');
       }
 
-      param['t'] = query.toLowerCase();
+      param['t'] = query;
 
       return Column(
         children: <Widget>[
@@ -938,7 +936,7 @@ class InternalSearch<
           param.addAll(qsParam);
         }
 
-        param['t'] = query.replaceAll('%', '').toLowerCase();
+        param['t'] = query.replaceAll('%', '');
 
         param['q'] = itemsPerPage.toString();
 
