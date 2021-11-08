@@ -226,10 +226,10 @@ class DecimalEditingController extends TextEditingController {
   ///
   set decimal(Decimal dec) {
     // TODO(edufolly): Remover esse limitador?
-    if (dec.value.toStringAsFixed(0).length > 12) {
-      dec.value = _lastValue;
+    if (dec.doubleValue.toStringAsFixed(0).length > 12) {
+      dec.doubleValue = _lastValue;
     } else {
-      _lastValue = dec.value;
+      _lastValue = dec.doubleValue;
     }
 
     String masked = validator.format(dec);
@@ -266,13 +266,13 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   set intValue(int intValue) {
-    decimal = Decimal(precision: validator.precision, initialValue: intValue);
+    decimal = Decimal(precision: validator.precision, intValue: intValue);
   }
 
   ///
   ///
   ///
-  int get intValue => decimal.integer;
+  int get intValue => decimal.intValue;
 
   ///
   ///
@@ -284,7 +284,7 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  double get doubleValue => decimal.value;
+  double get doubleValue => decimal.doubleValue;
 
   ///
   ///

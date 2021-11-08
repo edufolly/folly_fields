@@ -42,7 +42,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   @override
   String format(Decimal decimal) {
-    List<String> textRepresentation = decimal.value
+    List<String> textRepresentation = decimal.doubleValue
         .toStringAsFixed(precision)
         .replaceAll('.', '')
         .split('')
@@ -123,7 +123,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
 
     double d = double.parse(parts.join());
 
-    decimal.value = d;
+    decimal.doubleValue = d;
 
     return decimal;
   }

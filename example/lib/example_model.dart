@@ -139,7 +139,7 @@ class ExampleModel extends AbstractModel<int> {
 
     id = ms;
     updatedAt = now.millisecondsSinceEpoch;
-    decimal = Decimal(initialValue: ms, precision: 2);
+    decimal = Decimal(intValue: ms, precision: 2);
     integer = ms;
     text = 'Exemplo $ms';
     email = 'exemplo$ms@exemplo.com.br';
