@@ -18,7 +18,7 @@ import 'package:folly_fields_example/example_enum.dart';
 ///
 class ExampleModel extends AbstractModel<int> {
   static final TimeValidator _timeValidator = TimeValidator();
-  static final ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
+  static const ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
   static final ColorValidator _colorValidator = ColorValidator();
   static final Random rnd = Random();
 

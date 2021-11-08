@@ -16,8 +16,7 @@ class BrandNewParser extends AbstractEnumParser<BrandNewEnum> {
   ///
   ///
   ///
-  @override
-  BrandNewEnum get defaultItem => BrandNewEnum.panel1;
+  const BrandNewParser() : super(defaultItem: BrandNewEnum.panel1);
 
   ///
   ///

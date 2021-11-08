@@ -17,8 +17,7 @@ class ExampleEnumParser extends AbstractEnumParser<ExampleEnum> {
   ///
   ///
   ///
-  @override
-  ExampleEnum get defaultItem => ExampleEnum.other;
+  const ExampleEnumParser(): super(defaultItem: ExampleEnum.other);
 
   ///
   ///

@@ -5,7 +5,7 @@ import 'package:folly_fields_example/brand_new/brand_new_enum.dart';
 ///
 ///
 class BrandNewModel extends AbstractModel<int> {
-  static final BrandNewParser _brandNewParser = BrandNewParser();
+  static const BrandNewParser _brandNewParser = BrandNewParser();
   String name = '';
   BrandNewEnum type = _brandNewParser.defaultItem;
   String? specific1;

@@ -1,18 +1,20 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+
 ///
 ///
 ///
 abstract class AbstractEnumParser<T extends Enum> {
-  ///
-  ///
-  ///
-  const AbstractEnumParser();
+  final T defaultItem;
 
   ///
   ///
   ///
-  T get defaultItem;
+  @mustCallSuper
+  const AbstractEnumParser({
+    required this.defaultItem,
+  });
 
   ///
   ///
