@@ -18,7 +18,7 @@ import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 ///
 class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BrandNewConsumer, EmptyEditController<BrandNewModel>> {
-  static final BrandNewParser _brandNewParser = BrandNewParser();
+  static const BrandNewParser _brandNewParser = BrandNewParser();
 
   ///
   ///
