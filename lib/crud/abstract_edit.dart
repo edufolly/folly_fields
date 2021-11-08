@@ -256,14 +256,13 @@ class AbstractEditState<
       }
 
       if (_formKey.currentState!.validate()) {
-        bool ok = false;
+        bool ok = true;
 
         if (widget.consumer.routeName.isNotEmpty) {
           ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
-        }
-
-        if (ok) {
-          ok = await widget.consumer.saveOrUpdate(context, _model);
+          if (ok) {
+            ok = await widget.consumer.saveOrUpdate(context, _model);
+          }
         }
 
         wait.close();
