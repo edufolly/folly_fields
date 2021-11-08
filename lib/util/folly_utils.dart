@@ -249,6 +249,25 @@ class FollyUtils {
   ///
   ///
   ///
+  static Color textColorByLuminance(
+    Color color, {
+    Color darkColor = Colors.black,
+    Color lightColor = Colors.white,
+    double redFactor = 0.299,
+    double greenFactor = 0.587,
+    double blueFactor = 0.114,
+    double threshold = 186,
+  }) =>
+      color.red * redFactor +
+                  color.green * greenFactor +
+                  color.blue * blueFactor >
+              threshold
+          ? darkColor
+          : lightColor;
+
+  ///
+  ///
+  ///
   static MaterialColor fakeMaterialColor(int intColor) {
     Color color = Color(intColor);
 
