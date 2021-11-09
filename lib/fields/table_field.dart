@@ -98,7 +98,7 @@ class TableField<T extends AbstractModel<Object>>
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.getSuperPlural(),
+                      labelText: uiBuilder.superPlural,
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -117,7 +117,7 @@ class TableField<T extends AbstractModel<Object>>
                     height: 75,
                     child: Center(
                       child: Text(
-                        'Sem ${uiBuilder.getSuperPlural()} até o momento.',
+                        'Sem ${uiBuilder.superPlural} até o momento.',
                       ),
                     ),
                   )
@@ -293,7 +293,7 @@ class TableField<T extends AbstractModel<Object>>
                   TableButton(
                     enabled: enabled,
                     iconData: FontAwesomeIcons.plus,
-                    label: 'Adicionar ${uiBuilder.getSuperSingle()}',
+                    label: 'Adicionar ${uiBuilder.superSingle}',
                     onPressed: () async {
                       if (beforeAdd != null) {
                         bool go = await beforeAdd(field.context, field.value!);

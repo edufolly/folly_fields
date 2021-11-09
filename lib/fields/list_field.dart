@@ -64,7 +64,7 @@ class ListField<T extends AbstractModel<Object>,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.getSuperPlural(),
+                      labelText: uiBuilder.superPlural,
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -85,7 +85,7 @@ class ListField<T extends AbstractModel<Object>,
                       child: Text(
                         sprintf(
                           emptyListText,
-                          <dynamic>[uiBuilder.getSuperPlural()],
+                          <dynamic>[uiBuilder.superPlural],
                         ),
                       ),
                     ),
@@ -151,7 +151,7 @@ class ListField<T extends AbstractModel<Object>,
                   iconData: FontAwesomeIcons.plus,
                   label: sprintf(
                     addText,
-                    <dynamic>[uiBuilder.getSuperSingle()],
+                    <dynamic>[uiBuilder.superSingle],
                   ).toUpperCase(),
                   onPressed: () async {
                     if (beforeAdd != null) {
@@ -302,6 +302,6 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   Future<bool?> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        message: sprintf(removeText, <dynamic>[uiBuilder.getSuperSingle()]),
+        message: sprintf(removeText, <dynamic>[uiBuilder.superSingle]),
       );
 }

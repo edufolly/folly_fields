@@ -245,8 +245,8 @@ class AbstractListState<
   ///
   Widget _getScaffoldTitle() => Text(
         widget.selection
-            ? 'Selecionar ${widget.uiBuilder.getSuperSingle()}'
-            : widget.uiBuilder.getSuperPlural(),
+            ? 'Selecionar ${widget.uiBuilder.superSingle}'
+            : widget.uiBuilder.superPlural,
       );
 
   ///
@@ -318,7 +318,7 @@ class AbstractListState<
           if (FollyFields().isOnline) {
             _actions.add(
               IconButton(
-                tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
+                tooltip: 'Pesquisar ${widget.uiBuilder.superSingle}',
                 icon: const Icon(Icons.search),
                 onPressed: _search,
               ),
@@ -330,7 +330,7 @@ class AbstractListState<
             if (widget.multipleSelection) {
               _actions.add(
                 IconButton(
-                  tooltip: 'Selecionar ${widget.uiBuilder.getSuperPlural()}',
+                  tooltip: 'Selecionar ${widget.uiBuilder.superPlural}',
                   icon: const FaIcon(FontAwesomeIcons.check),
                   onPressed: () => Navigator.of(context)
                       .pop(List<T>.from(selections.values)),
@@ -370,14 +370,14 @@ class AbstractListState<
               if (FollyFields().isWeb) {
                 _actions.add(
                   IconButton(
-                    tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
+                    tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
                     icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
                 );
               } else {
                 _fabAdd = FloatingActionButton(
-                  tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
+                  tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
                   onPressed: _addEntity,
                   child: const FaIcon(FontAwesomeIcons.plus),
                 );
@@ -400,7 +400,7 @@ class AbstractListState<
                 child: _globalItems.isEmpty
                     ? TextMessage(
                         'Sem '
-                        '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
+                        '${widget.uiBuilder.superPlural.toLowerCase()}'
                         ' até o momento.',
                       )
                     : RawKeyboardListener(

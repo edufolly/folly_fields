@@ -16,13 +16,13 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   @override
-  String getInternalSingle() => 'Exemplo';
+  String get single => 'Exemplo';
 
   ///
   ///
   ///
   @override
-  String getInternalPlural() => 'Exemplos';
+  String get plural => 'Exemplos';
 
   ///
   ///

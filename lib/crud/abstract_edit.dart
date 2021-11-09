@@ -110,7 +110,7 @@ class AbstractEditState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.uiBuilder.getSuperSingle()),
+        title: Text(widget.uiBuilder.superSingle),
         actions: <Widget>[
           if (widget.edit)
             IconButton(

@@ -15,12 +15,12 @@ class BrandNewBuilder extends AbstractUIBuilder<BrandNewModel> {
   ///
   ///
   @override
-  String getInternalPlural() => 'Brand New';
+  String get single => 'Brand New';
 
   ///
   ///
   @override
-  String getInternalSingle() => 'Brand News';
+  String get plural => 'Brand News';
 
   ///
   ///
