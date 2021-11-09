@@ -35,6 +35,10 @@ class DateTimeField extends StatefulResponsive {
   final bool required;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final DatePickerEntryMode initialDateEntryMode;
+  final DatePickerMode initialDatePickerMode;
+  final TimePickerEntryMode initialTimeEntryMode;
+
 
   ///
   ///
@@ -66,6 +70,9 @@ class DateTimeField extends StatefulResponsive {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.initialDateEntryMode = DatePickerEntryMode.calendar,
+    this.initialDatePickerMode = DatePickerMode.day,
+    this.initialTimeEntryMode = TimePickerEntryMode.dial,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -197,6 +204,8 @@ class DateTimeFieldState extends State<DateTimeField> {
                             _effectiveController.dateTime ?? DateTime.now(),
                         firstDate: widget.firstDate ?? DateTime(1900),
                         lastDate: widget.lastDate ?? DateTime(2100),
+                        initialEntryMode: widget.initialDateEntryMode,
+                        initialDatePickerMode: widget.initialDatePickerMode,
                       );
 
                       fromButton = false;
@@ -215,6 +224,7 @@ class DateTimeFieldState extends State<DateTimeField> {
                         TimeOfDay? selectedTime = await showTimePicker(
                           context: context,
                           initialTime: initialTime,
+                          initialEntryMode: widget.initialTimeEntryMode,
                         );
 
                         if (selectedTime == null) {

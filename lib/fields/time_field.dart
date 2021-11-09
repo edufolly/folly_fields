@@ -29,6 +29,7 @@ class TimeField extends StatefulResponsive {
   final bool required;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final TimePickerEntryMode initialEntryMode;
 
   ///
   ///
@@ -55,6 +56,7 @@ class TimeField extends StatefulResponsive {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.initialEntryMode = TimePickerEntryMode.dial,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -178,6 +180,7 @@ class TimeFieldState extends State<TimeField> {
                         context: context,
                         initialTime:
                             _effectiveController.time ?? TimeOfDay.now(),
+                        initialEntryMode: widget.initialEntryMode,
                       );
 
                       fromButton = false;
