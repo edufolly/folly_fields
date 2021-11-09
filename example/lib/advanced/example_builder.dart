@@ -16,13 +16,13 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   @override
-  String getInternalSingle() => 'Exemplo';
+  String get single => 'Exemplo';
 
   ///
   ///
   ///
   @override
-  String getInternalPlural() => 'Exemplos';
+  String get plural => 'Exemplos';
 
   ///
   ///
@@ -44,4 +44,13 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   @override
   Widget getSubtitle(ExampleModel model) => Text(model.email);
+
+  ///
+  ///
+  ///
+  @override
+  Map<String, Color> get listLegend => const <String, Color>{
+        'Par': Colors.red,
+        'Impar': Colors.green,
+      };
 }

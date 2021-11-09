@@ -245,8 +245,8 @@ class AbstractListState<
   ///
   Widget _getScaffoldTitle() => Text(
         widget.selection
-            ? 'Selecionar ${widget.uiBuilder.getSuperSingle()}'
-            : widget.uiBuilder.getSuperPlural(),
+            ? 'Selecionar ${widget.uiBuilder.superSingle}'
+            : widget.uiBuilder.superPlural,
       );
 
   ///
@@ -318,7 +318,7 @@ class AbstractListState<
           if (FollyFields().isOnline) {
             _actions.add(
               IconButton(
-                tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
+                tooltip: 'Pesquisar ${widget.uiBuilder.superSingle}',
                 icon: const Icon(Icons.search),
                 onPressed: _search,
               ),
@@ -330,7 +330,7 @@ class AbstractListState<
             if (widget.multipleSelection) {
               _actions.add(
                 IconButton(
-                  tooltip: 'Selecionar ${widget.uiBuilder.getSuperPlural()}',
+                  tooltip: 'Selecionar ${widget.uiBuilder.superPlural}',
                   icon: const FaIcon(FontAwesomeIcons.check),
                   onPressed: () => Navigator.of(context)
                       .pop(List<T>.from(selections.values)),
@@ -370,18 +370,27 @@ class AbstractListState<
               if (FollyFields().isWeb) {
                 _actions.add(
                   IconButton(
-                    tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
+                    tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
                     icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
                 );
               } else {
                 _fabAdd = FloatingActionButton(
-                  tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
+                  tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
                   onPressed: _addEntity,
                   child: const FaIcon(FontAwesomeIcons.plus),
                 );
               }
+            }
+
+            /// Botão da Legenda
+            if (widget.uiBuilder.listLegend.isNotEmpty) {
+              _actions.add(IconButton(
+                tooltip: widget.uiBuilder.listLegendTitle,
+                icon: FaIcon(widget.uiBuilder.listLegendIcon),
+                onPressed: _showListLegend,
+              ));
             }
           }
 
@@ -400,7 +409,7 @@ class AbstractListState<
                 child: _globalItems.isEmpty
                     ? TextMessage(
                         'Sem '
-                        '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
+                        '${widget.uiBuilder.superPlural.toLowerCase()}'
                         ' até o momento.',
                       )
                     : RawKeyboardListener(
@@ -680,7 +689,6 @@ class AbstractListState<
   ///
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
-    // FIXME - Possível bug em erros na web.
     CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
@@ -727,6 +735,45 @@ class AbstractListState<
         context: context,
         message: 'Deseja excluir?',
       );
+
+  ///
+  ///
+  ///
+  void _showListLegend() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Row(
+          children: <Widget>[
+            FaIcon(widget.uiBuilder.listLegendIcon),
+            const SizedBox(width: 8,),
+            Text(widget.uiBuilder.listLegendTitle),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: widget.uiBuilder.listLegend.keys
+                .map(
+                  (String key) => ListTile(
+                    leading: FaIcon(
+                      FontAwesomeIcons.solidCircle,
+                      color: widget.uiBuilder.listLegend[key],
+                    ),
+                    title: Text(key),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(widget.uiBuilder.listLegendButtonText),
+          ),
+        ],
+      ),
+    );
+  }
 
   ///
   ///
