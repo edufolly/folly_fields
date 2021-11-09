@@ -99,5 +99,20 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Map<String, Color>? get listLegend => null;
+  Map<String, Color> get listLegend => const <String, Color>{};
+
+  ///
+  ///
+  ///
+  IconData get listLegendIcon => FontAwesomeIcons.infoCircle;
+
+  ///
+  ///
+  ///
+  String get listLegendTitle => 'Informações';
+
+  ///
+  ///
+  ///
+  String get listLegendButtonText => 'Fechar';
 }

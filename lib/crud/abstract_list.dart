@@ -383,6 +383,15 @@ class AbstractListState<
                 );
               }
             }
+
+            /// Botão da Legenda
+            if (widget.uiBuilder.listLegend.isNotEmpty) {
+              _actions.add(IconButton(
+                tooltip: widget.uiBuilder.listLegendTitle,
+                icon: FaIcon(widget.uiBuilder.listLegendIcon),
+                onPressed: _showListLegend,
+              ));
+            }
           }
 
           return Scaffold(
@@ -680,7 +689,6 @@ class AbstractListState<
   ///
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
-    // FIXME - Possível bug em erros na web.
     CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
@@ -727,6 +735,45 @@ class AbstractListState<
         context: context,
         message: 'Deseja excluir?',
       );
+
+  ///
+  ///
+  ///
+  void _showListLegend() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Row(
+          children: <Widget>[
+            FaIcon(widget.uiBuilder.listLegendIcon),
+            const SizedBox(width: 8,),
+            Text(widget.uiBuilder.listLegendTitle),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: widget.uiBuilder.listLegend.keys
+                .map(
+                  (String key) => ListTile(
+                    leading: FaIcon(
+                      FontAwesomeIcons.solidCircle,
+                      color: widget.uiBuilder.listLegend[key],
+                    ),
+                    title: Text(key),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(widget.uiBuilder.listLegendButtonText),
+          ),
+        ],
+      ),
+    );
+  }
 
   ///
   ///
