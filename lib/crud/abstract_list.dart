@@ -357,8 +357,10 @@ class AbstractListState<
                           ? IconButton(
                               tooltip: permission.name,
                               icon: IconHelper.faIcon(permission.iconName),
-                              onPressed: () =>
-                                  Navigator.of(context).pushNamed(route.path),
+                              onPressed: () => Navigator.of(context).pushNamed(
+                                route.path,
+                                arguments: widget.qsParam,
+                              ),
                             )
                           : const SizedBox(width: 0, height: 0),
                 ),
@@ -386,11 +388,13 @@ class AbstractListState<
 
             /// Botão da Legenda
             if (widget.uiBuilder.listLegend.isNotEmpty) {
-              _actions.add(IconButton(
-                tooltip: widget.uiBuilder.listLegendTitle,
-                icon: FaIcon(widget.uiBuilder.listLegendIcon),
-                onPressed: _showListLegend,
-              ));
+              _actions.add(
+                IconButton(
+                  tooltip: widget.uiBuilder.listLegendTitle,
+                  icon: FaIcon(widget.uiBuilder.listLegendIcon),
+                  onPressed: _showListLegend,
+                ),
+              );
             }
           }
 
@@ -746,7 +750,9 @@ class AbstractListState<
         title: Row(
           children: <Widget>[
             FaIcon(widget.uiBuilder.listLegendIcon),
-            const SizedBox(width: 8,),
+            const SizedBox(
+              width: 8,
+            ),
             Text(widget.uiBuilder.listLegendTitle),
           ],
         ),
