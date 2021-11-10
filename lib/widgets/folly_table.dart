@@ -239,9 +239,9 @@ class FollyTableState extends State<FollyTable> {
                   return Column(
                     children: <Widget>[
                       InkWell(
-                        onTap: () => widget.onRowTap != null
-                            ? widget.onRowTap!(row)
-                            : () {},
+                        onTap: widget.onRowTap == null
+                            ? null
+                            : () => widget.onRowTap!(row),
                         hoverColor: Colors.transparent,
                         child: Row(
                           children: cols
