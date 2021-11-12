@@ -9,30 +9,29 @@ import 'package:folly_fields/widgets/waiting_message.dart';
 ///
 ///
 ///
-class SafeBuilder {
-
+class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
   ///
   ///
   ///
-  static Widget Function(
-    Object? error,
-    StackTrace? stackTrace,
-    Widget child,
-  ) noError = (Object? error, StackTrace? stackTrace, _) {
-    if (FollyFields().isDebug) {
-      print(error);
-      print(stackTrace);
-    }
-    return FollyUtils.nothing;
-  };
-
-  ///
-  ///
-  ///
-  static Widget Function(
-    ConnectionState connectionState,
-    Widget child,
-  ) noWait = (_, __) => FollyUtils.nothing;
+  SilentFutureBuilder({
+    required Widget Function(BuildContext context, T data) builder,
+    Future<T>? future,
+    T? initialData,
+    Key? key,
+  }) : super(
+          builder: builder,
+          future: future,
+          initialData: initialData,
+          onWait: (_, __) => FollyUtils.nothing,
+          onError: (Object? error, StackTrace? stackTrace, _) {
+            if (FollyFields().isDebug) {
+              print(error);
+              print(stackTrace);
+            }
+            return FollyUtils.nothing;
+          },
+          key: key,
+        );
 }
 
 ///
@@ -104,6 +103,34 @@ class SafeFutureBuilder<T> extends StatelessWidget {
       },
     );
   }
+}
+
+///
+///
+///
+class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
+  ///
+  ///
+  ///
+  SilentStreamBuilder({
+    required Widget Function(BuildContext context, T data) builder,
+    Stream<T>? stream,
+    T? initialData,
+    Key? key,
+  }) : super(
+          builder: builder,
+          stream: stream,
+          initialData: initialData,
+          onWait: (_, __) => FollyUtils.nothing,
+          onError: (Object? error, StackTrace? stackTrace, _) {
+            if (FollyFields().isDebug) {
+              print(error);
+              print(stackTrace);
+            }
+            return FollyUtils.nothing;
+          },
+          key: key,
+        );
 }
 
 ///

@@ -338,13 +338,11 @@ class AbstractListState<
             for (AbstractRoute route in widget.actionRoutes.keys) {
               _actions.add(
                 // TODO(anyone): Create an Action Route component.
-                SafeFutureBuilder<ConsumerPermission>(
+                SilentFutureBuilder<ConsumerPermission>(
                   future: widget.consumer.checkPermission(
                     context,
                     route.routeName,
                   ),
-                  onWait: SafeBuilder.noWait,
-                  onError: SafeBuilder.noError,
                   builder: (
                     BuildContext context,
                     ConsumerPermission permission,
@@ -357,10 +355,8 @@ class AbstractListState<
                         widget.actionRoutes[route];
 
                     if (actionFunction != null) {
-                      return SafeFutureBuilder<bool>(
+                      return SilentFutureBuilder<bool>(
                         future: actionFunction.showButton(context, _qsParam),
-                        onWait: SafeBuilder.noWait,
-                        onError: SafeBuilder.noError,
                         builder: (BuildContext context, bool data) {
                           if (!data) {
                             return FollyUtils.nothing;

@@ -10,6 +10,7 @@ import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -130,14 +131,11 @@ class AbstractEditState<
                 (int index, AbstractRoute route) => MapEntry<int, Widget>(
                   index,
                   // TODO(anyone): Create an Action Route component.
-                  SafeFutureBuilder<ConsumerPermission>(
+                  SilentFutureBuilder<ConsumerPermission>(
                     future: widget.consumer.checkPermission(
                       context,
                       route.routeName,
                     ),
-                    onWait: (_, __) => const SizedBox(width: 0, height: 0),
-                    onError: (_, __, ___) =>
-                        const SizedBox(width: 0, height: 0),
                     builder: (
                       BuildContext context,
                       ConsumerPermission permission,
@@ -159,7 +157,7 @@ class AbstractEditState<
                                   }
                                 },
                               )
-                            : const SizedBox(width: 0, height: 0),
+                            : FollyUtils.nothing,
                   ),
                 ),
               )
