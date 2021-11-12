@@ -29,7 +29,7 @@ import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/util/icon_helper.dart';
-import 'package:folly_fields/util/safe_future_builder.dart';
+import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';

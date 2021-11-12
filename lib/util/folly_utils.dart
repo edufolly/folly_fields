@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 ///
 ///
 class FollyUtils {
+  static const Widget nothing = SizedBox(width: 0, height: 0);
+
   ///
   ///
   ///

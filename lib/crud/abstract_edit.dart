@@ -11,7 +11,7 @@ import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/icon_helper.dart';
-import 'package:folly_fields/util/safe_future_builder.dart';
+import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';

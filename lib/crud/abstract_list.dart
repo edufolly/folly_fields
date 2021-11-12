@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/crud/action_function.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
-import 'package:folly_fields/util/safe_future_builder.dart';
+import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
@@ -44,7 +45,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<AbstractRoute> actionRoutes;
+  final Map<AbstractRoute, ActionFunction<Object?>?> actionRoutes;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -52,7 +53,7 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
-  final Map<AbstractRoute, ActionFunction<T>>? actionFunctions;
+  final Map<AbstractRoute, ActionFunction<T>> actionFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -81,9 +82,9 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.actionRoutes = const <AbstractRoute>[],
+    this.actionRoutes = const <AbstractRoute, ActionFunction<Object?>?>{},
     this.onLongPress,
-    this.actionFunctions,
+    this.actionFunctions = const <AbstractRoute, ActionFunction<T>>{},
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -169,17 +170,12 @@ class AbstractListState<
   ///
   ///
   Future<void> _loadPermissions(BuildContext context) async {
-    if (widget.actionFunctions != null) {
-      for (MapEntry<AbstractRoute, ActionFunction<T>> entry
-          in widget.actionFunctions!.entries) {
-        AbstractRoute route = entry.key;
+    for (AbstractRoute route in widget.actionFunctions.keys) {
+      ConsumerPermission permission =
+          await widget.consumer.checkPermission(context, route.routeName);
 
-        ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, route.routeName);
-
-        if (permission.view) {
-          permissions[permission] = route;
-        }
+      if (permission.view) {
+        permissions[permission] = route;
       }
     }
 
@@ -339,7 +335,7 @@ class AbstractListState<
             }
           } else {
             /// Action Routes
-            for (AbstractRoute route in widget.actionRoutes) {
+            for (AbstractRoute route in widget.actionRoutes.keys) {
               _actions.add(
                 // TODO(anyone): Create an Action Route component.
                 SafeFutureBuilder<ConsumerPermission>(
@@ -347,22 +343,64 @@ class AbstractListState<
                     context,
                     route.routeName,
                   ),
-                  onWait: (_, __) => const SizedBox(width: 0, height: 0),
-                  onError: (_, __, ___) => const SizedBox(width: 0, height: 0),
+                  onWait: SafeBuilder.noWait,
+                  onError: SafeBuilder.noError,
                   builder: (
                     BuildContext context,
                     ConsumerPermission permission,
-                  ) =>
-                      permission.view
-                          ? IconButton(
-                              tooltip: permission.name,
-                              icon: IconHelper.faIcon(permission.iconName),
-                              onPressed: () => Navigator.of(context).pushNamed(
-                                route.path,
-                                arguments: widget.qsParam,
-                              ),
-                            )
-                          : const SizedBox(width: 0, height: 0),
+                  ) {
+                    if (!permission.view) {
+                      return FollyUtils.nothing;
+                    }
+
+                    ActionFunction<Object?>? actionFunction =
+                        widget.actionRoutes[route];
+
+                    if (actionFunction != null) {
+                      return SafeFutureBuilder<bool>(
+                        future: actionFunction.showButton(context, _qsParam),
+                        onWait: SafeBuilder.noWait,
+                        onError: SafeBuilder.noError,
+                        builder: (BuildContext context, bool data) {
+                          if (!data) {
+                            return FollyUtils.nothing;
+                          }
+
+                          return IconButton(
+                            tooltip: permission.name,
+                            icon: IconHelper.faIcon(permission.iconName),
+                            onPressed: () async {
+                              Widget widget = await actionFunction.onPressed(
+                                context,
+                                _qsParam,
+                              );
+
+                              Map<String, String>? map =
+                                  await Navigator.of(context).push(
+                                MaterialPageRoute<Map<String, String>>(
+                                  builder: (_) => widget,
+                                ),
+                              );
+
+                              if (map != null) {
+                                _qsParam.addAll(map);
+                                await _loadData(context);
+                              }
+                            },
+                          );
+                        },
+                      );
+                    } else {
+                      return IconButton(
+                        tooltip: permission.name,
+                        icon: IconHelper.faIcon(permission.iconName),
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          route.path,
+                          arguments: widget.qsParam,
+                        ),
+                      );
+                    }
+                  },
                 ),
               );
             }
@@ -573,7 +611,7 @@ class AbstractListState<
             (MapEntry<ConsumerPermission, AbstractRoute> entry) {
               ConsumerPermission permission = entry.key;
               ActionFunction<T> actionFunction =
-                  widget.actionFunctions![entry.value]!;
+                  widget.actionFunctions[entry.value]!;
               // TODO(anyone): Create an Action Route component.
               return FutureBuilder<bool>(
                 initialData: false,
@@ -598,7 +636,7 @@ class AbstractListState<
                               await _loadData(context);
                             },
                           )
-                        : const SizedBox(width: 0, height: 0),
+                        : FollyUtils.nothing,
               );
             },
           ),
