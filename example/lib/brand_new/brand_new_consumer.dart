@@ -10,6 +10,11 @@ class BrandNewConsumer extends BaseConsumerMock<BrandNewModel> {
   ///
   ///
   ///
+  BrandNewConsumer() : super(<String>[]);
+
+  ///
+  ///
+  ///
   @override
   BrandNewModel fromJson(Map<String, dynamic> map) =>
       BrandNewModel.fromJson(map);

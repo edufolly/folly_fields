@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/crud/action_function.dart';
 import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
-import 'package:folly_fields/util/safe_future_builder.dart';
+import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
@@ -44,7 +45,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<AbstractRoute> actionRoutes;
+  final List<AbstractHeaderFunction>? headerFunctions;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -52,7 +53,7 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
-  final Map<AbstractRoute, ActionFunction<T>>? actionFunctions;
+  final List<AbstractRowFunction<T>>? rowFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -81,9 +82,9 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.actionRoutes = const <AbstractRoute>[],
+    this.headerFunctions,
     this.onLongPress,
-    this.actionFunctions,
+    this.rowFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -137,8 +138,11 @@ class AbstractListState<
 
   final Map<String, String> _qsParam = <String, String>{};
 
-  final Map<ConsumerPermission, AbstractRoute> permissions =
-      <ConsumerPermission, AbstractRoute>{};
+  final Map<ConsumerPermission, AbstractHeaderFunction>
+      effectiveHeaderFunctions = <ConsumerPermission, AbstractHeaderFunction>{};
+
+  final Map<ConsumerPermission, AbstractRowFunction<T>> effectiveRowFunctions =
+      <ConsumerPermission, AbstractRowFunction<T>>{};
 
   FocusNode keyboardFocusNode = FocusNode();
 
@@ -169,16 +173,24 @@ class AbstractListState<
   ///
   ///
   Future<void> _loadPermissions(BuildContext context) async {
-    if (widget.actionFunctions != null) {
-      for (MapEntry<AbstractRoute, ActionFunction<T>> entry
-          in widget.actionFunctions!.entries) {
-        AbstractRoute route = entry.key;
-
-        ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, route.routeName);
+    if (widget.headerFunctions != null) {
+      for (AbstractHeaderFunction headerFunction in widget.headerFunctions!) {
+        ConsumerPermission permission = await widget.consumer
+            .checkPermission(context, headerFunction.routeName);
 
         if (permission.view) {
-          permissions[permission] = route;
+          effectiveHeaderFunctions[permission] = headerFunction;
+        }
+      }
+    }
+
+    if (widget.rowFunctions != null) {
+      for (AbstractRowFunction<T> rowFunction in widget.rowFunctions!) {
+        ConsumerPermission permission = await widget.consumer
+            .checkPermission(context, rowFunction.routeName);
+
+        if (permission.view) {
+          effectiveRowFunctions[permission] = rowFunction;
         }
       }
     }
@@ -339,30 +351,50 @@ class AbstractListState<
             }
           } else {
             /// Action Routes
-            for (AbstractRoute route in widget.actionRoutes) {
+            for (MapEntry<ConsumerPermission, AbstractHeaderFunction> entry
+                in effectiveHeaderFunctions.entries) {
+              ConsumerPermission permission = entry.key;
+              AbstractHeaderFunction headerFunction = entry.value;
+
               _actions.add(
-                // TODO(anyone): Create an Action Route component.
-                SafeFutureBuilder<ConsumerPermission>(
-                  future: widget.consumer.checkPermission(
-                    context,
-                    route.routeName,
-                  ),
-                  onWait: (_, __) => const SizedBox(width: 0, height: 0),
-                  onError: (_, __, ___) => const SizedBox(width: 0, height: 0),
-                  builder: (
-                    BuildContext context,
-                    ConsumerPermission permission,
-                  ) =>
-                      permission.view
-                          ? IconButton(
-                              tooltip: permission.name,
-                              icon: IconHelper.faIcon(permission.iconName),
-                              onPressed: () => Navigator.of(context).pushNamed(
-                                route.path,
-                                arguments: widget.qsParam,
-                              ),
-                            )
-                          : const SizedBox(width: 0, height: 0),
+                // TODO(edufolly): Create a component.
+                SilentFutureBuilder<bool>(
+                  future: headerFunction.showButton(context, _qsParam),
+                  builder: (BuildContext context, bool data) {
+                    if (!data) {
+                      return FollyUtils.nothing;
+                    }
+
+                    return IconButton(
+                      tooltip: permission.name,
+                      icon: IconHelper.faIcon(permission.iconName),
+                      onPressed: () async {
+                        Widget? widget = await headerFunction.onPressed(
+                          context,
+                          _qsParam,
+                        );
+
+                        if (widget != null) {
+                          Map<String, String>? map =
+                              await Navigator.of(context).push(
+                            MaterialPageRoute<Map<String, String>>(
+                              builder: (_) => widget,
+                            ),
+                          );
+
+                          if (map != null) {
+                            _qsParam.addAll(map);
+                            await _loadData(context);
+                          }
+                        } else {
+                          await Navigator.of(context).pushNamed(
+                            headerFunction.path,
+                            arguments: _qsParam,
+                          );
+                        }
+                      },
+                    );
+                  },
                 ),
               );
             }
@@ -569,36 +601,52 @@ class AbstractListState<
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          ...permissions.entries.map(
-            (MapEntry<ConsumerPermission, AbstractRoute> entry) {
+          ...effectiveRowFunctions.entries.map(
+            (MapEntry<ConsumerPermission, AbstractRowFunction<T>> entry) {
               ConsumerPermission permission = entry.key;
-              ActionFunction<T> actionFunction =
-                  widget.actionFunctions![entry.value]!;
-              // TODO(anyone): Create an Action Route component.
-              return FutureBuilder<bool>(
-                initialData: false,
-                future: actionFunction.showButton(context, model),
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) =>
-                    snapshot.hasData && snapshot.data!
-                        ? IconButton(
-                            tooltip: permission.name,
-                            icon: IconHelper.faIcon(permission.iconName),
-                            onPressed: () async {
-                              Widget widget = await actionFunction.onPressed(
-                                context,
-                                model,
-                              );
+              AbstractRowFunction<T> rowFunction = entry.value;
 
-                              await Navigator.of(context).push(
-                                MaterialPageRoute<dynamic>(
-                                  builder: (_) => widget,
-                                ),
-                              );
+              // TODO(edufolly): Create a component.
+              return SilentFutureBuilder<bool>(
+                future: rowFunction.showButton(context, model),
+                builder: (BuildContext context, bool data) {
+                  if (!data) {
+                    return FollyUtils.nothing;
+                  }
 
-                              await _loadData(context);
-                            },
-                          )
-                        : const SizedBox(width: 0, height: 0),
+                  return IconButton(
+                    tooltip: permission.name,
+                    icon: IconHelper.faIcon(permission.iconName),
+                    onPressed: () async {
+                      Widget? widget = await rowFunction.onPressed(
+                        context,
+                        model,
+                      );
+
+                      if (widget != null) {
+                        // Map<String, String>? map =
+                        await Navigator.of(context).push(
+                          MaterialPageRoute<Map<String, String>>(
+                            builder: (_) => widget,
+                          ),
+                        );
+
+                        // if (map != null) {
+                        //   _qsParam.addAll(map);
+                        //   await _loadData(context);
+                        // }
+                      } else {
+                        await Navigator.of(context).pushNamed(
+                          rowFunction.path,
+                          arguments: <String, dynamic>{
+                            'qsParam': _qsParam,
+                            'model': model,
+                          },
+                        );
+                      }
+                    },
+                  );
+                },
               );
             },
           ),

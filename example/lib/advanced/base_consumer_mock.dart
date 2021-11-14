@@ -12,7 +12,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   ///
   ///
-  const BaseConsumerMock();
+  const BaseConsumerMock(List<String> routeName) : super(routeName);
 
   ///
   ///

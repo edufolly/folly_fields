@@ -11,6 +11,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
+  @mustCallSuper
   const AbstractUIBuilder(this.labelPrefix);
 
   ///
