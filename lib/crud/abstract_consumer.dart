@@ -17,8 +17,9 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  const AbstractConsumer({
-    this.routeName = const <String>[],
+  @mustCallSuper
+  const AbstractConsumer(
+    this.routeName, {
     this.offlineTableName,
     this.offlineWhere,
     this.offlineWhereArgs,
