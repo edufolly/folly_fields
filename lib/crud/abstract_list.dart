@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/crud/action_function.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
@@ -359,7 +359,11 @@ class AbstractListState<
               _actions.add(
                 // TODO(edufolly): Create a component.
                 SilentFutureBuilder<bool>(
-                  future: headerFunction.showButton(context, _qsParam),
+                  future: headerFunction.showButton(
+                    context,
+                    widget.selection,
+                    _qsParam,
+                  ),
                   builder: (BuildContext context, bool data) {
                     if (!data) {
                       return FollyUtils.nothing;
@@ -369,16 +373,17 @@ class AbstractListState<
                       tooltip: permission.name,
                       icon: IconHelper.faIcon(permission.iconName),
                       onPressed: () async {
-                        Widget? widget = await headerFunction.onPressed(
+                        Widget? w = await headerFunction.onPressed(
                           context,
+                          widget.selection,
                           _qsParam,
                         );
 
-                        if (widget != null) {
+                        if (w != null) {
                           Map<String, String>? map =
                               await Navigator.of(context).push(
                             MaterialPageRoute<Map<String, String>>(
-                              builder: (_) => widget,
+                              builder: (_) => w,
                             ),
                           );
 
@@ -608,7 +613,11 @@ class AbstractListState<
 
               // TODO(edufolly): Create a component.
               return SilentFutureBuilder<bool>(
-                future: rowFunction.showButton(context, model),
+                future: rowFunction.showButton(
+                  context,
+                  widget.selection,
+                  model,
+                ),
                 builder: (BuildContext context, bool data) {
                   if (!data) {
                     return FollyUtils.nothing;
@@ -618,23 +627,18 @@ class AbstractListState<
                     tooltip: permission.name,
                     icon: IconHelper.faIcon(permission.iconName),
                     onPressed: () async {
-                      Widget? widget = await rowFunction.onPressed(
+                      Widget? w = await rowFunction.onPressed(
                         context,
+                        widget.selection,
                         model,
                       );
 
-                      if (widget != null) {
-                        // Map<String, String>? map =
+                      if (w != null) {
                         await Navigator.of(context).push(
                           MaterialPageRoute<Map<String, String>>(
-                            builder: (_) => widget,
+                            builder: (_) => w,
                           ),
                         );
-
-                        // if (map != null) {
-                        //   _qsParam.addAll(map);
-                        //   await _loadData(context);
-                        // }
                       } else {
                         await Navigator.of(context).pushNamed(
                           rowFunction.path,

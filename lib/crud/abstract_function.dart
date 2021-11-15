@@ -19,12 +19,12 @@ abstract class AbstractFunctionInterface<T> {
   ///
   ///
   ///
-  Future<bool> showButton(BuildContext context, T object);
+  Future<bool> showButton(BuildContext context, bool selection, T object);
 
   ///
   ///
   ///
-  Future<Widget?> onPressed(BuildContext context, T object);
+  Future<Widget?> onPressed(BuildContext context, bool selection, T object);
 }
 
 ///
@@ -37,7 +37,8 @@ abstract class AbstractHeaderFunction
 ///
 ///
 abstract class AbstractRowFunction<T extends AbstractModel<Object>>
-    extends AbstractFunctionInterface<T> {}
+    extends AbstractFunctionInterface<T> {
+}
 
 ///
 ///
@@ -55,13 +56,23 @@ abstract class AbstractFunction<T> extends AbstractRoute
   ///
   ///
   @override
-  Future<bool> showButton(BuildContext context, T object) async => true;
+  Future<bool> showButton(
+    BuildContext context,
+    bool selection,
+    T object,
+  ) async =>
+      true;
 
   ///
   ///
   ///
   @override
-  Future<Widget?> onPressed(BuildContext context, T object) async => null;
+  Future<Widget?> onPressed(
+    BuildContext context,
+    bool selection,
+    T object,
+  ) async =>
+      null;
 }
 
 ///
