@@ -25,7 +25,7 @@ abstract class AbstractEdit<
         T extends AbstractModel<Object>,
         UI extends AbstractUIBuilder<T>,
         C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>> extends StatefulWidget
+        E extends AbstractEditController<T>> extends AbstractRoute
     implements AbstractEditContent<T, E> {
   final T model;
   final UI uiBuilder;
@@ -48,6 +48,12 @@ abstract class AbstractEdit<
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.actionRoutes = const <AbstractRoute>[],
   }) : super(key: key);
+
+  ///
+  ///
+  ///
+  @override
+  List<String> get routeName => consumer.routeName;
 
   ///
   ///
