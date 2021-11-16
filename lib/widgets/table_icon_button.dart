@@ -15,7 +15,7 @@ class TableIconButton extends StatelessWidget {
   const TableIconButton({
     required this.onPressed,
     required this.enabled,
-    required this.iconData ,
+    required this.iconData,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +25,10 @@ class TableIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final ListTileTheme tileTheme = ListTileTheme.of(context);
+    // TODO(edufolly): Flutter 2.7.0 the return type is ListTileTheme, but in
+    //  Flutter 2.8.0 the return type is ListTileThemeData.
+    // ignore: always_specify_types
+    final tileTheme = ListTileTheme.of(context);
 
     Color? iconColor = Colors.black45;
     if (tileTheme.iconColor != null) {
