@@ -633,20 +633,25 @@ class AbstractListState<
                         model,
                       );
 
+                      Object? o;
                       if (w != null) {
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<Map<String, String>>(
+                        o = await Navigator.of(context).push(
+                          MaterialPageRoute<Object>(
                             builder: (_) => w,
                           ),
                         );
                       } else {
-                        await Navigator.of(context).pushNamed(
+                        o = await Navigator.of(context).pushNamed(
                           rowFunction.path,
                           arguments: <String, dynamic>{
                             'qsParam': _qsParam,
                             'model': model,
                           },
                         );
+                      }
+
+                      if (o != null) {
+                        await _loadData(context);
                       }
                     },
                   );
