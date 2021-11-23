@@ -16,7 +16,6 @@ jobs:
         run: |
           export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-#          printf "%s" "$VERSION+$GITHUB_RUN_NUMBER" > assets/version.txt
 
       - name: Flutter web build
         uses: subosito/flutter-action@v1
@@ -47,7 +46,7 @@ jobs:
       - name: Flutter build web
         run: |
           cd example
-          flutter build web
+          flutter build web --base-href /folly_fields/
 
       - name: Publishing gh-pages
         run: |
