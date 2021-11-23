@@ -7,12 +7,12 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/util/folly_utils.dart';
-import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
+import 'package:folly_fields/widgets/map_function_button.dart';
+import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,7 +45,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<AbstractHeaderFunction>? headerFunctions;
+  final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -53,7 +53,7 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
-  final List<AbstractRowFunction<T>>? rowFunctions;
+  final List<AbstractModelFunction<T>>? modelFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -82,9 +82,9 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.headerFunctions,
+    this.mapFunctions,
     this.onLongPress,
-    this.rowFunctions,
+    this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -138,11 +138,12 @@ class AbstractListState<
 
   final Map<String, String> _qsParam = <String, String>{};
 
-  final Map<ConsumerPermission, AbstractHeaderFunction>
-      effectiveHeaderFunctions = <ConsumerPermission, AbstractHeaderFunction>{};
+  final Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
+      <ConsumerPermission, AbstractMapFunction>{};
 
-  final Map<ConsumerPermission, AbstractRowFunction<T>> effectiveRowFunctions =
-      <ConsumerPermission, AbstractRowFunction<T>>{};
+  final Map<ConsumerPermission, AbstractModelFunction<T>>
+      effectiveModelFunctions =
+      <ConsumerPermission, AbstractModelFunction<T>>{};
 
   FocusNode keyboardFocusNode = FocusNode();
 
@@ -173,24 +174,24 @@ class AbstractListState<
   ///
   ///
   Future<void> _loadPermissions(BuildContext context) async {
-    if (widget.headerFunctions != null) {
-      for (AbstractHeaderFunction headerFunction in widget.headerFunctions!) {
+    if (widget.mapFunctions != null) {
+      for (AbstractMapFunction headerFunction in widget.mapFunctions!) {
         ConsumerPermission permission = await widget.consumer
             .checkPermission(context, headerFunction.routeName);
 
         if (permission.view) {
-          effectiveHeaderFunctions[permission] = headerFunction;
+          effectiveMapFunctions[permission] = headerFunction;
         }
       }
     }
 
-    if (widget.rowFunctions != null) {
-      for (AbstractRowFunction<T> rowFunction in widget.rowFunctions!) {
+    if (widget.modelFunctions != null) {
+      for (AbstractModelFunction<T> rowFunction in widget.modelFunctions!) {
         ConsumerPermission permission = await widget.consumer
             .checkPermission(context, rowFunction.routeName);
 
         if (permission.view) {
-          effectiveRowFunctions[permission] = rowFunction;
+          effectiveModelFunctions[permission] = rowFunction;
         }
       }
     }
@@ -351,54 +352,17 @@ class AbstractListState<
             }
           } else {
             /// Action Routes
-            for (MapEntry<ConsumerPermission, AbstractHeaderFunction> entry
-                in effectiveHeaderFunctions.entries) {
-              ConsumerPermission permission = entry.key;
-              AbstractHeaderFunction headerFunction = entry.value;
-
+            for (MapEntry<ConsumerPermission, AbstractMapFunction> entry
+                in effectiveMapFunctions.entries) {
               _actions.add(
-                // TODO(edufolly): Create a component.
-                SilentFutureBuilder<bool>(
-                  future: headerFunction.showButton(
-                    context,
-                    widget.selection,
-                    _qsParam,
-                  ),
-                  builder: (BuildContext context, bool data) {
-                    if (!data) {
-                      return FollyUtils.nothing;
-                    }
-
-                    return IconButton(
-                      tooltip: permission.name,
-                      icon: IconHelper.faIcon(permission.iconName),
-                      onPressed: () async {
-                        Widget? w = await headerFunction.onPressed(
-                          context,
-                          widget.selection,
-                          _qsParam,
-                        );
-
-                        if (w != null) {
-                          Map<String, String>? map =
-                              await Navigator.of(context).push(
-                            MaterialPageRoute<Map<String, String>>(
-                              builder: (_) => w,
-                            ),
-                          );
-
-                          if (map != null) {
-                            _qsParam.addAll(map);
-                            await _loadData(context);
-                          }
-                        } else {
-                          await Navigator.of(context).pushNamed(
-                            headerFunction.path,
-                            arguments: _qsParam,
-                          );
-                        }
-                      },
-                    );
+                MapFunctionButton(
+                  mapFunction: entry.value,
+                  permission: entry.key,
+                  qsParam: _qsParam,
+                  selection: widget.selection,
+                  callback: (Map<String, String> map) {
+                    _qsParam.addAll(map);
+                    _loadData(context);
                   },
                 ),
               );
@@ -606,58 +570,18 @@ class AbstractListState<
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          ...effectiveRowFunctions.entries.map(
-            (MapEntry<ConsumerPermission, AbstractRowFunction<T>> entry) {
-              ConsumerPermission permission = entry.key;
-              AbstractRowFunction<T> rowFunction = entry.value;
-
-              // TODO(edufolly): Create a component.
-              return SilentFutureBuilder<bool>(
-                future: rowFunction.showButton(
-                  context,
-                  widget.selection,
-                  model,
-                ),
-                builder: (BuildContext context, bool data) {
-                  if (!data) {
-                    return FollyUtils.nothing;
-                  }
-
-                  return IconButton(
-                    tooltip: permission.name,
-                    icon: IconHelper.faIcon(permission.iconName),
-                    onPressed: () async {
-                      Widget? w = await rowFunction.onPressed(
-                        context,
-                        widget.selection,
-                        model,
-                      );
-
-                      Object? o;
-                      if (w != null) {
-                        o = await Navigator.of(context).push(
-                          MaterialPageRoute<Object>(
-                            builder: (_) => w,
-                          ),
-                        );
-                      } else {
-                        o = await Navigator.of(context).pushNamed(
-                          rowFunction.path,
-                          arguments: <String, dynamic>{
-                            'qsParam': _qsParam,
-                            'model': model,
-                          },
-                        );
-                      }
-
-                      if (o != null) {
-                        await _loadData(context);
-                      }
-                    },
-                  );
-                },
-              );
-            },
+          ...effectiveModelFunctions.entries.map(
+            (
+              MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
+            ) =>
+                ModelFunctionButton<T>(
+              rowFunction: entry.value,
+              permission: entry.key,
+              model: model,
+              selection: widget.selection,
+              qsParam: _qsParam,
+              callback: (Object? object) => _loadData(context),
+            ),
           ),
           if (canDelete)
             IconButton(

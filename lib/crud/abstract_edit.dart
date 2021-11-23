@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
@@ -11,10 +12,10 @@ import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/folly_utils.dart';
-import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -33,7 +34,7 @@ abstract class AbstractEdit<
   final bool edit;
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
-  final List<AbstractRoute> actionRoutes;
+  final List<AbstractModelFunction<T>>? modelFunctions;
 
   ///
   ///
@@ -46,7 +47,7 @@ abstract class AbstractEdit<
     Key? key,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
-    this.actionRoutes = const <AbstractRoute>[],
+    this.modelFunctions,
   }) : super(key: key);
 
   ///
@@ -129,46 +130,44 @@ class AbstractEditState<
               ),
               onPressed: _save,
             ),
-
-          // TODO(anyone): Transform to dropdown menu
-          ...widget.actionRoutes
-              .asMap()
-              .map(
-                (int index, AbstractRoute route) => MapEntry<int, Widget>(
-                  index,
-                  // TODO(anyone): Create an Action Route component.
-                  SilentFutureBuilder<ConsumerPermission>(
-                    future: widget.consumer.checkPermission(
-                      context,
-                      route.routeName,
-                    ),
-                    builder: (
-                      BuildContext context,
-                      ConsumerPermission permission,
+          ...widget.modelFunctions != null
+              ? widget.modelFunctions!
+                  .asMap()
+                  .map(
+                    (
+                      int index,
+                      AbstractModelFunction<T> editFunction,
                     ) =>
-                        permission.view
-                            ? IconButton(
-                                tooltip: permission.name,
-                                icon: IconHelper.faIcon(permission.iconName),
-                                onPressed: () async {
-                                  dynamic close =
-                                      await Navigator.of(context).pushNamed(
-                                    route.path,
-                                    arguments: _model,
-                                  );
+                        MapEntry<int, Widget>(
+                      index,
+                      SilentFutureBuilder<ConsumerPermission>(
+                        future: widget.consumer.checkPermission(
+                          context,
+                          editFunction.routeName,
+                        ),
+                        builder: (
+                          BuildContext context,
+                          ConsumerPermission permission,
+                        ) {
+                          if (permission.view) {
+                            _formKey.currentState!.save();
 
-                                  if (close is bool && close) {
-                                    _initialHash = _model.hashCode;
-                                    Navigator.of(context).pop();
-                                  }
-                                },
-                              )
-                            : FollyUtils.nothing,
-                  ),
-                ),
-              )
-              .values
-              .toList(),
+                            return ModelFunctionButton<T>(
+                              rowFunction: editFunction,
+                              permission: permission,
+                              model: _model,
+                              callback: (Object? object) =>
+                                  _controller.add(true),
+                            );
+                          }
+                          return FollyUtils.nothing;
+                        },
+                      ),
+                    ),
+                  )
+                  .values
+                  .toList()
+              : <Widget>[],
         ],
       ),
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),

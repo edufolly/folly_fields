@@ -30,13 +30,13 @@ abstract class AbstractFunctionInterface<T> {
 ///
 ///
 ///
-abstract class AbstractHeaderFunction
+abstract class AbstractMapFunction
     extends AbstractFunctionInterface<Map<String, String>> {}
 
 ///
 ///
 ///
-abstract class AbstractRowFunction<T extends AbstractModel<Object>>
+abstract class AbstractModelFunction<T extends AbstractModel<Object>>
     extends AbstractFunctionInterface<T> {
 }
 
@@ -78,21 +78,21 @@ abstract class AbstractFunction<T> extends AbstractRoute
 ///
 ///
 ///
-abstract class HeaderFunction extends AbstractFunction<Map<String, String>>
-    implements AbstractHeaderFunction {
+abstract class MapFunction extends AbstractFunction<Map<String, String>>
+    implements AbstractMapFunction {
   ///
   ///
   ///
-  const HeaderFunction({Key? key}) : super(key: key);
+  const MapFunction({Key? key}) : super(key: key);
 }
 
 ///
 ///
 ///
-abstract class RowFunction<T extends AbstractModel<Object>>
-    extends AbstractFunction<T> implements AbstractRowFunction<T> {
+abstract class ModelFunction<T extends AbstractModel<Object>>
+    extends AbstractFunction<T> implements AbstractModelFunction<T> {
   ///
   ///
   ///
-  const RowFunction({Key? key}) : super(key: key);
+  const ModelFunction({Key? key}) : super(key: key);
 }
