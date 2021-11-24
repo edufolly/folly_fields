@@ -59,7 +59,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
                           builder: (_) => w,
                         ),
                       )
-                    : await Navigator.of(context).pushNamed(
+                    : await Navigator.of(context).pushNamed<Object>(
                         rowFunction.path,
                         arguments: <String, dynamic>{
                           'qsParam': qsParam,

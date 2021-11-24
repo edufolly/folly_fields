@@ -62,7 +62,7 @@ class MapFunctionButton extends StatelessWidget {
                 ),
               );
             } else {
-              map = await Navigator.of(context).pushNamed(
+              map = await Navigator.of(context).pushNamed<Map<String, String>>(
                 mapFunction.path,
                 arguments: qsParam,
               );
