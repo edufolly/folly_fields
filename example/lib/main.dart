@@ -36,6 +36,7 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
+import 'package:folly_fields_example/advanced/example_map_function_route.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
 import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
@@ -111,6 +112,8 @@ class MyApp extends StatelessWidget {
               BrandNewConsumer(),
               true,
             ),
+        const ExampleMapFunctionRoute().path: (_) =>
+            const ExampleMapFunctionRoute(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,

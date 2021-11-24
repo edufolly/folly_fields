@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_list.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
+import 'package:folly_fields_example/advanced/example_map_function_route.dart';
 import 'package:folly_fields_example/example_model.dart';
 
 ///
@@ -47,5 +49,8 @@ class ExampleList
             bool edit,
           ) async =>
               ExampleEdit(model, uiBuilder, consumer, edit),
+          mapFunctions: <AbstractMapFunction>[
+            const ExampleMapFunctionRoute(),
+          ],
         );
 }
