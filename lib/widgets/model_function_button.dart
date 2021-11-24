@@ -16,7 +16,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
   final T model;
   final bool selection;
   final Map<String, String> qsParam;
-  final Function(Object? object)? callback;
+  final Function(dynamic object)? callback;
 
   ///
   ///
@@ -53,7 +53,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
                   model,
                 );
 
-                Object? object = w != null
+                dynamic object = w != null
                     ? await Navigator.of(context).push(
                         MaterialPageRoute<Object>(
                           builder: (_) => w,

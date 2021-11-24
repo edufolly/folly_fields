@@ -21,11 +21,12 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String>? paths,
-  ) =>
-      Future<ConsumerPermission>.value(
+  ) {
+    if (paths?.join('/').contains('example_map_function_route') ?? false) {
+      return Future<ConsumerPermission>.value(
         const ConsumerPermission(
-          name: 'mock',
-          iconName: 'question',
+          name: 'Example Map Func. Route',
+          iconName: 'cube',
           view: true,
           insert: true,
           update: true,
@@ -33,6 +34,20 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
           menu: true,
         ),
       );
+    }
+
+    return Future<ConsumerPermission>.value(
+      const ConsumerPermission(
+        name: 'mock',
+        iconName: 'question',
+        view: true,
+        insert: true,
+        update: true,
+        delete: true,
+        menu: true,
+      ),
+    );
+  }
 
   ///
   ///

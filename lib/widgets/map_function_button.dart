@@ -62,10 +62,15 @@ class MapFunctionButton extends StatelessWidget {
                 ),
               );
             } else {
-              map = await Navigator.of(context).pushNamed<Map<String, String>>(
+              // Navigator always create a Route<dynamic>.
+              dynamic returnValue = await Navigator.of(context).pushNamed(
                 mapFunction.path,
                 arguments: qsParam,
               );
+
+              if(returnValue is Map<String, String>) {
+                map = returnValue;
+              }
             }
 
             if (map != null) {
