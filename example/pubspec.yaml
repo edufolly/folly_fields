@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 2.0.3
+  connectivity_plus: 2.1.0
 
   flutter:
     sdk: flutter
@@ -29,7 +29,7 @@ dependencies:
   http: 0.13.4
 
   # https://pub.dev/packages/url_launcher
-  url_launcher: 6.0.15
+  url_launcher: 6.0.17
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
