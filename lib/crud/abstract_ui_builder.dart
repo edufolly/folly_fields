@@ -23,19 +23,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  @Deprecated('Use superSingle instead getSuperSingle()')
-  String getSuperSingle() => superSingle;
-
-  ///
-  ///
-  ///
   String get single;
-
-  ///
-  ///
-  ///
-  @Deprecated('Use single instead getInternalSingle()')
-  String getInternalSingle() => '';
 
   ///
   ///
@@ -46,19 +34,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  @Deprecated('Use superPlural instead getSuperPlural()')
-  String getSuperPlural() => superPlural;
-
-  ///
-  ///
-  ///
   String get plural;
-
-  ///
-  ///
-  ///
-  @Deprecated('Use plural instead getInternalPlural()')
-  String getInternalPlural() => '';
 
   ///
   ///
