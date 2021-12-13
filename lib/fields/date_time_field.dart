@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/validators/date_time_validator.dart';
@@ -38,7 +38,6 @@ class DateTimeField extends StatefulResponsive {
   final DatePickerEntryMode initialDateEntryMode;
   final DatePickerMode initialDatePickerMode;
   final TimePickerEntryMode initialTimeEntryMode;
-
 
   ///
   ///
@@ -244,8 +243,7 @@ class DateTimeFieldState extends State<DateTimeField> {
                         _effectiveFocusNode.requestFocus();
                       }
                     } catch (e, s) {
-                      if (FollyFields().isDebug) {
-                        // ignore: avoid_print
+                      if (kDebugMode) {
                         print('$e\n$s');
                       }
                     }

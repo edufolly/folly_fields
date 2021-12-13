@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -25,10 +25,8 @@ class ErrorMessage extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    if (FollyFields().isDebug) {
-      // ignore: avoid_print
+    if (kDebugMode) {
       print(error);
-      // ignore: avoid_print
       print(stackTrace);
     }
 

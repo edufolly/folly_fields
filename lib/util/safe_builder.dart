@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_function_declarations_over_variables, avoid_print
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
@@ -24,7 +22,7 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
           initialData: initialData,
           onWait: (_, __) => FollyUtils.nothing,
           onError: (Object? error, StackTrace? stackTrace, _) {
-            if (FollyFields().isDebug) {
+            if (kDebugMode) {
               print(error);
               print(stackTrace);
             }
@@ -123,7 +121,7 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
           initialData: initialData,
           onWait: (_, __) => FollyUtils.nothing,
           onError: (Object? error, StackTrace? stackTrace, _) {
-            if (FollyFields().isDebug) {
+            if (kDebugMode) {
               print(error);
               print(stackTrace);
             }

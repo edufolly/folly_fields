@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_edit_content.dart';
@@ -9,7 +10,6 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/crud/empty_edit_controller.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/safe_builder.dart';
@@ -217,8 +217,7 @@ class AbstractEditState<
               }
 
               if (snapshot.hasError) {
-                if (FollyFields().isDebug) {
-                  // ignore: avoid_print
+                if (kDebugMode) {
                   print('${snapshot.error}\n${snapshot.stackTrace}');
                 }
 
@@ -280,8 +279,7 @@ class AbstractEditState<
     } catch (e, s) {
       wait.close();
 
-      if (FollyFields().isDebug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('$e\n$s');
       }
 

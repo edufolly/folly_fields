@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 ///
 ///
 ///
@@ -27,11 +29,11 @@ abstract class Hashable {
         int c = combine(h, hash);
 
         if (debug) {
-          // ignore: avoid_print
-          print((' ' * deep * 2) +
-              'h: $h => (${i.runtimeType}) $i: $hash => c: $c');
+          if (kDebugMode) {
+            print((' ' * deep * 2) +
+                'h: $h => (${i.runtimeType}) $i: $hash => c: $c');
+          }
         }
-
         return c;
       },
     );
@@ -39,8 +41,9 @@ abstract class Hashable {
     int f = finish(it);
 
     if (debug) {
-      // ignore: avoid_print
-      print('finish: $f');
+      if (kDebugMode) {
+        print('finish: $f');
+      }
     }
 
     return f;

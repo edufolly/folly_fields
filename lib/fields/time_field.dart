@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/validators/time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -191,8 +191,7 @@ class TimeFieldState extends State<TimeField> {
                         _effectiveFocusNode.requestFocus();
                       }
                     } catch (e, s) {
-                      if (FollyFields().isDebug) {
-                        // ignore: avoid_print
+                      if (kDebugMode) {
                         print('$e\n$s');
                       }
                     }

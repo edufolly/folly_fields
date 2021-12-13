@@ -34,11 +34,6 @@ abstract class _InternalConfig {
   ///
   ///
   ///
-  bool get isDebug;
-
-  ///
-  ///
-  ///
   bool get isOnline;
 
   ///
@@ -98,7 +93,6 @@ class FollyFields implements _InternalConfig {
   ///
   static void start(
     AbstractConfig holder, {
-    bool debug = false,
     String modelIdKey = 'id',
     String modelUpdatedAtKey = 'updatedAt',
     String modelDeletedAtKey = 'deletedAt',
@@ -107,7 +101,6 @@ class FollyFields implements _InternalConfig {
   }) =>
       FollyFields()._holder = holder
         .._start(
-          debug: debug,
           modelIdKey: modelIdKey,
           modelUpdatedAtKey: modelUpdatedAtKey,
           modelDeletedAtKey: modelDeletedAtKey,
@@ -128,12 +121,6 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   FollyFields._internal();
-
-  ///
-  ///
-  ///
-  @override
-  bool get isDebug => _holder!.isDebug;
 
   ///
   ///
@@ -226,7 +213,6 @@ class FollyFields implements _InternalConfig {
 ///
 abstract class AbstractConfig implements _InternalConfig {
   bool _started = false;
-  bool _debug = false;
   bool _online = false;
   RunningPlatform _platform = RunningPlatform.unknown;
   String _modelIdKey = 'id';
@@ -234,12 +220,6 @@ abstract class AbstractConfig implements _InternalConfig {
   String _modelDeletedAtKey = 'deletedAt';
   bool _modelParseDates = false;
   List<double> _responsiveSizes = const <double>[540, 720, 960, 1140];
-
-  ///
-  ///
-  ///
-  @override
-  bool get isDebug => _debug;
 
   ///
   ///
@@ -306,7 +286,6 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   Future<void> _start({
-    required bool debug,
     required String modelIdKey,
     required String modelUpdatedAtKey,
     required String modelDeletedAtKey,
@@ -314,17 +293,14 @@ abstract class AbstractConfig implements _InternalConfig {
     required List<double> responsiveSizes,
   }) async {
     if (_started) {
-      if (debug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('Folly Fields already started, ignoring...');
       }
     } else {
       _started = true;
-      if (debug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('Folly Fields Started.');
       }
-      _debug = debug;
 
       _modelIdKey = modelIdKey;
       _modelUpdatedAtKey = modelUpdatedAtKey;
@@ -347,8 +323,7 @@ abstract class AbstractConfig implements _InternalConfig {
 
       Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
-        if (debug) {
-          // ignore: avoid_print
+        if (kDebugMode) {
           print('Connectivity Changed: $_online');
         }
       });

@@ -24,16 +24,6 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonDate.')
-  static DateTime toDate(
-    int? timestamp, [
-    DateTime? defaultDateTime,
-  ]) =>
-      fromJsonDate(timestamp, defaultDateTime);
-
-  ///
-  ///
-  ///
   static DateTime? fromJsonNullableDate(int? timestamp) =>
       timestamp != null && timestamp >= 0
           ? DateTime.fromMillisecondsSinceEpoch(timestamp)
@@ -42,30 +32,20 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonNullableDate.')
-  static DateTime? toNullableDate(int? timestamp) =>
-      fromJsonNullableDate(timestamp);
-
-  ///
-  ///
-  ///
   static List<T> fromJsonList<T extends AbstractModel<Object>>(
     List<dynamic>? value,
     AbstractConsumer<T> consumer,
   ) =>
-      value != null
-          ? value.map<T>((dynamic map) => consumer.fromJson(map)).toList()
-          : <T>[];
+      value?.map<T>((dynamic map) => consumer.fromJson(map)).toList() ?? <T>[];
 
   ///
   ///
   ///
-  @Deprecated('Use fromJsonList.')
-  static List<T> toList<T extends AbstractModel<Object>>(
+  static List<T> fromJsonListPrimary<T>(
     List<dynamic>? value,
-    AbstractConsumer<T> consumer,
+    T Function(dynamic e) consumer,
   ) =>
-      fromJsonList<T>(value, consumer);
+      value?.map<T>(consumer).toList() ?? <T>[];
 
   ///
   ///
@@ -79,31 +59,11 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonModel.')
-  static T? toModel<T extends AbstractModel<Object>>(
-    Map<String, dynamic>? map,
-    AbstractConsumer<T> consumer,
-  ) =>
-      fromJsonModel(map, consumer);
-
-  ///
-  ///
-  ///
   static Decimal fromJsonDecimal(
     int? value,
     int? precision,
   ) =>
       Decimal(intValue: value ?? 0, precision: precision ?? 2);
-
-  ///
-  ///
-  ///
-  @Deprecated('Use fromJsonDecimal.')
-  static Decimal toDecimal(
-    int? value, [
-    int precision = 2,
-  ]) =>
-      fromJsonDecimal(value, precision);
 
   ///
   ///
@@ -160,20 +120,8 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use toSaveMapId.')
-  static void onlyMapId(Map<String, dynamic>? map) => toSaveMapId(map);
-
-  ///
-  ///
-  ///
   static void toSaveListMapId(List<dynamic>? list) =>
       list?.map((dynamic e) => toSaveMapId(e)).toList();
-
-  ///
-  ///
-  ///
-  @Deprecated('Use toSaveListMapId.')
-  static void onlyListMapId(List<dynamic>? list) => toSaveListMapId(list);
 
   ///
   ///

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
@@ -58,8 +59,9 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     Map<String, String> qsParam,
     bool forceOffline,
   ) async {
-    // ignore: avoid_print
-    print('mock list: $qsParam');
+    if (kDebugMode) {
+      print('mock list: $qsParam');
+    }
 
     int first = int.tryParse(qsParam['f'] ?? '0') ?? 0;
     int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
