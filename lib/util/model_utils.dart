@@ -36,9 +36,16 @@ class ModelUtils {
     List<dynamic>? value,
     AbstractConsumer<T> consumer,
   ) =>
-      value != null
-          ? value.map<T>((dynamic map) => consumer.fromJson(map)).toList()
-          : <T>[];
+      value?.map<T>((dynamic map) => consumer.fromJson(map)).toList() ?? <T>[];
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonListPrimary<T>(
+    List<dynamic>? value,
+    T Function(dynamic e) consumer,
+  ) =>
+      value?.map<T>(consumer).toList() ?? <T>[];
 
   ///
   ///
