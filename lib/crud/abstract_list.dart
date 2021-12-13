@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
@@ -245,8 +246,7 @@ class AbstractListState<
       _streamController.add(true);
       _loading = false;
     } catch (e, s) {
-      if (FollyFields().isDebug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('$e\n$s');
       }
       _streamController.addError(e, s);
@@ -700,8 +700,7 @@ class AbstractListState<
     } catch (e, s) {
       wait.close();
 
-      if (FollyFields().isDebug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('$e\n$s');
       }
 

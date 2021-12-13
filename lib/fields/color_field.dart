@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/validators/color_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -203,8 +203,7 @@ class ColorFieldState extends State<ColorField> {
                         _effectiveFocusNode.requestFocus();
                       }
                     } catch (e, s) {
-                      if (FollyFields().isDebug) {
-                        // ignore: avoid_print
+                      if (kDebugMode) {
                         print('$e\n$s');
                       }
                     }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
@@ -56,13 +57,9 @@ import 'package:url_launcher/url_launcher.dart';
 ///
 ///
 void main() {
-  bool debug = false;
-
-  assert(debug = true, 'is debug');
-
   WidgetsFlutterBinding.ensureInitialized();
 
-  FollyFields.start(Config(), debug: debug);
+  FollyFields.start(Config());
 
   runApp(const MyApp());
 }
@@ -723,8 +720,9 @@ class MyHomePageState extends State<MyHomePage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // ignore: avoid_print
-      print(model.toMap());
+      if (kDebugMode) {
+        print(model.toMap());
+      }
 
       FollyDialogs.dialogMessage(
         context: context,
