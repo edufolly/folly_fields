@@ -62,6 +62,7 @@ class BoolField extends FormFieldResponsive<bool> {
                       filled: filled,
                       fillColor: fillColor,
                       counterText: '',
+                      enabled: enabled,
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 10,
                         horizontal: 8,
