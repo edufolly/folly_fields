@@ -33,6 +33,7 @@ class BoolField extends FormFieldResponsive<bool> {
     int? sizeLarge,
     int? sizeExtraLarge,
     double? minHeight,
+    TextOverflow textOverflow = TextOverflow.ellipsis,
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
@@ -62,6 +63,7 @@ class BoolField extends FormFieldResponsive<bool> {
                       filled: filled,
                       fillColor: fillColor,
                       counterText: '',
+                      enabled: enabled,
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 10,
                         horizontal: 8,
@@ -75,6 +77,7 @@ class BoolField extends FormFieldResponsive<bool> {
             TextStyle textStyle =
                 Theme.of(field.context).textTheme.subtitle1!.copyWith(
                       color: textColor!.withOpacity(enabled ? 1 : 0.4),
+                      overflow: textOverflow,
                     );
 
             return Padding(
@@ -93,15 +96,17 @@ class BoolField extends FormFieldResponsive<bool> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                            ),
-                            child: Text(
-                              labelPrefix.isEmpty
-                                  ? label
-                                  : '$labelPrefix - $label',
-                              style: textStyle,
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                              ),
+                              child: Text(
+                                labelPrefix.isEmpty
+                                    ? label
+                                    : '$labelPrefix - $label',
+                                style: textStyle,
+                              ),
                             ),
                           ),
                           if (adaptive)
