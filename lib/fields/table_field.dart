@@ -216,9 +216,7 @@ class TableField<T extends AbstractModel<Object>>
                             in field.value!.asMap().entries) {
                           /// Divider
                           columnData.add(
-                            FollyDivider(
-                              color: enabled ? null : disabledColor,
-                            ),
+                            FollyDivider(enabled: enabled),
                           );
 
                           /// Row
