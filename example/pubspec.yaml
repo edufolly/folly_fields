@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.7.0+106
+version: 0.7.1+107
 
 environment:
   sdk: ">=2.14.0 <3.0.0"
@@ -23,7 +23,7 @@ dependencies:
     path: ../
 
   # https://pub.dev/packages/google_fonts
-  google_fonts: 2.1.0
+  google_fonts: 2.1.1
 
   # https://pub.dev/packages/http
   http: 0.13.4

@@ -19,7 +19,12 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
-  AbstractModel();
+  AbstractModel({
+    this.id,
+    this.updatedAt,
+    this.deletedAt,
+    this.selected = false,
+  });
 
   ///
   ///
