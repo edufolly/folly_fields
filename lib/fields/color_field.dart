@@ -177,10 +177,18 @@ class ColorFieldState extends State<ColorField> {
         .copyWith(
           prefixIcon: ValueListenableBuilder<Color?>(
             valueListenable: notifier,
-            builder: (BuildContext context, Color? value, _) => Icon(
-              widget.colorIcon,
-              color: value ?? Colors.transparent,
-            ),
+            builder: (BuildContext context, Color? value, _) {
+              value ??= Colors.transparent;
+
+              if (!widget.enabled) {
+                value = value.withOpacity(0.12);
+              }
+
+              return Icon(
+                widget.colorIcon,
+                color: value,
+              );
+            },
           ),
           suffixIcon: IconButton(
             icon: const Icon(FontAwesomeIcons.palette),
