@@ -16,7 +16,6 @@ import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/model_function_button.dart';
-import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -76,6 +75,8 @@ class AbstractEditState<
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
+  final StreamController<bool> _controllerModelFunctions =
+      StreamController<bool>();
 
   late T _model;
   int _initialHash = 0;
@@ -94,16 +95,19 @@ class AbstractEditState<
   ///
   Future<void> _loadData() async {
     try {
-      bool exists = true;
       if (widget.model.id == null || widget.consumer.routeName.isEmpty) {
         _model = widget.consumer.fromJson(widget.model.toMap());
       } else {
         _model = await widget.consumer.getById(context, widget.model);
       }
 
+      if (widget.modelFunctions != null) {
+        _controllerModelFunctions.add(true);
+      }
+
       await widget.editController?.init(context, _model);
 
-      _controller.add(exists);
+      _controller.add(true);
 
       _initialHash = _model.hashCode;
     } catch (error, stack) {
@@ -130,44 +134,51 @@ class AbstractEditState<
               ),
               onPressed: _save,
             ),
-          ...widget.modelFunctions != null
-              ? widget.modelFunctions!
-                  .asMap()
-                  .map(
-                    (
-                      int index,
-                      AbstractModelFunction<T> editFunction,
-                    ) =>
-                        MapEntry<int, Widget>(
-                      index,
-                      SilentFutureBuilder<ConsumerPermission>(
-                        future: widget.consumer.checkPermission(
-                          context,
-                          editFunction.routeName,
-                        ),
-                        builder: (
-                          BuildContext context,
-                          ConsumerPermission permission,
-                        ) {
-                          if (permission.view) {
-                            _formKey.currentState!.save();
+          SilentStreamBuilder<bool>(
+            stream: _controllerModelFunctions.stream,
+            initialData: false,
+            builder: (BuildContext context, bool data) => data
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: widget.modelFunctions!
+                        .asMap()
+                        .map(
+                          (
+                            int index,
+                            AbstractModelFunction<T> editFunction,
+                          ) =>
+                              MapEntry<int, Widget>(
+                            index,
+                            SilentFutureBuilder<ConsumerPermission>(
+                              future: widget.consumer.checkPermission(
+                                context,
+                                editFunction.routeName,
+                              ),
+                              builder: (
+                                BuildContext context,
+                                ConsumerPermission permission,
+                              ) {
+                                if (permission.view) {
+                                  _formKey.currentState!.save();
 
-                            return ModelFunctionButton<T>(
-                              rowFunction: editFunction,
-                              permission: permission,
-                              model: _model,
-                              callback: (Object? object) =>
-                                  _controller.add(true),
-                            );
-                          }
-                          return FollyUtils.nothing;
-                        },
-                      ),
-                    ),
+                                  return ModelFunctionButton<T>(
+                                    rowFunction: editFunction,
+                                    permission: permission,
+                                    model: _model,
+                                    callback: (Object? object) =>
+                                        _controller.add(true),
+                                  );
+                                }
+                                return FollyUtils.nothing;
+                              },
+                            ),
+                          ),
+                        )
+                        .values
+                        .toList(),
                   )
-                  .values
-                  .toList()
-              : <Widget>[],
+                : FollyUtils.nothing,
+          )
         ],
       ),
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
@@ -193,45 +204,27 @@ class AbstractEditState<
             }
             return go;
           },
-          child: StreamBuilder<bool>(
+          child: SafeStreamBuilder<bool>(
             stream: _controller.stream,
+            waitingMessage: 'Consultando...',
             builder: (
               BuildContext context,
-              AsyncSnapshot<bool> snapshot,
-            ) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
-                  child: ResponsiveGrid(
-                    rowCrossAxisAlignment: widget.rowCrossAxisAlignment,
-                    children: widget.formContent(
-                      context,
-                      _model,
-                      widget.edit,
-                      widget.uiBuilder.labelPrefix,
-                      _controller.add,
-                      widget.editController ?? (EmptyEditController<T>() as E),
-                    ),
-                  ),
-                );
-              }
-
-              if (snapshot.hasError) {
-                if (kDebugMode) {
-                  print('${snapshot.error}\n${snapshot.stackTrace}');
-                }
-
-                return Center(
-                  child: Text(
-                    'Ocorreu um erro:\n'
-                    '${snapshot.error}',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-
-              return const WaitingMessage(message: 'Consultando...');
-            },
+              bool data,
+            ) =>
+                SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: ResponsiveGrid(
+                rowCrossAxisAlignment: widget.rowCrossAxisAlignment,
+                children: widget.formContent(
+                  context,
+                  _model,
+                  widget.edit,
+                  widget.uiBuilder.labelPrefix,
+                  _controller.add,
+                  widget.editController ?? (EmptyEditController<T>() as E),
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -297,6 +290,7 @@ class AbstractEditState<
   void dispose() {
     widget.editController?.dispose(context);
     _controller.close();
+    _controllerModelFunctions.close();
     super.dispose();
   }
 }

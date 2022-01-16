@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -32,7 +33,7 @@ class ModelField<T extends AbstractModel<Object>>
     Color? fillColor,
     Widget Function(BuildContext context)? routeBuilder,
     Future<bool> Function(BuildContext context, T? model)? beforeRoute,
-    Future<bool> Function(T? model)? acceptChange,
+    Future<T?> Function(T? model)? acceptChange,
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
@@ -125,15 +126,18 @@ class ModelField<T extends AbstractModel<Object>>
                             ),
                           );
 
-                          bool accept = true;
+                          try {
+                            if (acceptChange != null) {
+                              selected = await acceptChange(selected);
+                            }
 
-                          if (acceptChange != null) {
-                            accept = await acceptChange(selected);
-                          }
-
-                          if (accept) {
                             state._effectiveController.model = selected;
                             state.didChange(selected);
+                          } catch (ex) {
+                            await FollyDialogs.dialogMessage(
+                              context: state.context,
+                              message: ex.toString(),
+                            );
                           }
                         } catch (e, s) {
                           if (kDebugMode) {
