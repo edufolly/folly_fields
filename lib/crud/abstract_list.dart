@@ -60,6 +60,8 @@ abstract class AbstractList<
   final InputDecorationTheme? searchFieldDecorationTheme;
   final TextInputType? searchKeyboardType;
   final TextInputAction searchTextInputAction;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
 
   ///
   ///
@@ -91,6 +93,8 @@ abstract class AbstractList<
     this.searchFieldDecorationTheme,
     this.searchKeyboardType,
     this.searchTextInputAction = TextInputAction.search,
+    this.selectedIcon = FontAwesomeIcons.solidCheckCircle,
+    this.unselectedIcon = FontAwesomeIcons.circle,
     Key? key,
   })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
             'searchFieldStyle or searchFieldDecorationTheme must be null.'),
@@ -327,7 +331,7 @@ class AbstractListState<
             );
           }
 
-          /// Botão Pesquisar
+          /// Search Button
           if (FollyFields().isOnline) {
             _actions.add(
               IconButton(
@@ -338,7 +342,7 @@ class AbstractListState<
             );
           }
 
-          /// Botão Confirmar Seleção
+          /// Selection Confirm Button
           if (widget.selection) {
             if (widget.multipleSelection) {
               _actions.add(
@@ -368,7 +372,7 @@ class AbstractListState<
               );
             }
 
-            /// Botão Adicionar
+            /// Add Button
             if (_insert) {
               if (FollyFields().isWeb) {
                 _actions.add(
@@ -387,7 +391,7 @@ class AbstractListState<
               }
             }
 
-            /// Botão da Legenda
+            /// Legend Button
             if (widget.uiBuilder.listLegend.isNotEmpty) {
               _actions.add(
                 IconButton(
@@ -433,7 +437,7 @@ class AbstractListState<
                             padding: const EdgeInsets.all(16),
                             controller: _scrollController,
                             itemBuilder: (BuildContext context, int index) {
-                              /// Atualizando...
+                              /// Updating...
                               if (index >= _globalItems.length) {
                                 return const SizedBox(
                                   height: 80,
@@ -556,11 +560,7 @@ class AbstractListState<
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.multipleSelection && onTap == null
-              ? FaIcon(
-                  selection
-                      ? FontAwesomeIcons.checkCircle
-                      : FontAwesomeIcons.circle,
-                )
+              ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
               : widget.uiBuilder.getLeading(model),
         ],
       ),
@@ -570,6 +570,7 @@ class AbstractListState<
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          /// Item Buttons
           ...effectiveModelFunctions.entries.map(
             (
               MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
@@ -583,6 +584,8 @@ class AbstractListState<
               callback: (Object? object) => _loadData(context),
             ),
           ),
+
+          /// Delete Button
           if (canDelete)
             IconButton(
               icon: const Icon(FontAwesomeIcons.trashAlt),
