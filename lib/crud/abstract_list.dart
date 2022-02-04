@@ -62,6 +62,7 @@ abstract class AbstractList<
   final TextInputAction searchTextInputAction;
   final IconData selectedIcon;
   final IconData unselectedIcon;
+  final int minLengthToSearch;
 
   ///
   ///
@@ -95,6 +96,7 @@ abstract class AbstractList<
     this.searchTextInputAction = TextInputAction.search,
     this.selectedIcon = FontAwesomeIcons.solidCheckCircle,
     this.unselectedIcon = FontAwesomeIcons.circle,
+    this.minLengthToSearch = 3,
     Key? key,
   })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
             'searchFieldStyle or searchFieldDecorationTheme must be null.'),
@@ -532,6 +534,7 @@ class AbstractListState<
         searchFieldDecorationTheme: widget.searchFieldDecorationTheme,
         keyboardType: widget.searchKeyboardType,
         textInputAction: widget.searchTextInputAction,
+        minLengthToSearch: widget.minLengthToSearch,
       ),
     ).then(
       (T? entity) {
@@ -796,6 +799,7 @@ class InternalSearch<
   final Map<String, String> qsParam;
   final bool forceOffline;
   final int itemsPerPage;
+  final int minLengthToSearch;
 
   String? _lastQuery;
   Widget? _lastWidget;
@@ -811,6 +815,7 @@ class InternalSearch<
     required this.qsParam,
     required this.forceOffline,
     required this.itemsPerPage,
+    required this.minLengthToSearch,
     required String? searchFieldLabel,
     required TextStyle? searchFieldStyle,
     required InputDecorationTheme? searchFieldDecorationTheme,
@@ -871,16 +876,16 @@ class InternalSearch<
   ///
   @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 3) {
+    if (query.length < minLengthToSearch) {
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              const Center(
+              Center(
                 child: Text(
                   'Começe a sua pesquisa.\n'
-                  'Digite ao menos 3 caracteres.',
+                  'Digite ao menos $minLengthToSearch caracteres.',
                   textAlign: TextAlign.center,
                 ),
               ),
