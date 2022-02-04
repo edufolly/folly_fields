@@ -17,6 +17,7 @@ import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 ///
@@ -60,6 +61,20 @@ abstract class AbstractList<
   final InputDecorationTheme? searchFieldDecorationTheme;
   final TextInputType? searchKeyboardType;
   final TextInputAction searchTextInputAction;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
+  final int minLengthToSearch;
+  final String hintText;
+  final String selectionText;
+  final String startSearchText;
+  final String deleteText;
+  final String invertSelectionText;
+  final String waitingText;
+  final String deleteErrorText;
+  final String searchListEmpty;
+  final String addText;
+  final String searchText;
+  final String listEmpty;
 
   ///
   ///
@@ -91,6 +106,21 @@ abstract class AbstractList<
     this.searchFieldDecorationTheme,
     this.searchKeyboardType,
     this.searchTextInputAction = TextInputAction.search,
+    this.selectedIcon = FontAwesomeIcons.solidCheckCircle,
+    this.unselectedIcon = FontAwesomeIcons.circle,
+    this.minLengthToSearch = 3,
+    this.hintText = 'Sugestões:',
+    this.selectionText = 'Selecionar %s',
+    this.startSearchText = 'Começe a sua pesquisa.\n'
+        'Digite ao menos %s caracteres.',
+    this.deleteText = 'Deseja excluir?',
+    this.invertSelectionText = 'Inverter seleção',
+    this.waitingText = 'Consultando...',
+    this.deleteErrorText = 'Ocorreu um erro ao tentar excluir:\n%s',
+    this.searchListEmpty = 'Nenhum documento.',
+    this.addText = 'Adicionar %s',
+    this.searchText = 'Pesquisar %s',
+    this.listEmpty = 'Sem %s até o momento.',
     Key? key,
   })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
             'searchFieldStyle or searchFieldDecorationTheme must be null.'),
@@ -258,7 +288,10 @@ class AbstractListState<
   ///
   Widget _getScaffoldTitle() => Text(
         widget.selection
-            ? 'Selecionar ${widget.uiBuilder.superSingle}'
+            ? sprintf(
+                widget.selectionText,
+                <dynamic>[widget.uiBuilder.superSingle],
+              )
             : widget.uiBuilder.superPlural,
       );
 
@@ -295,7 +328,7 @@ class AbstractListState<
         }
 
         if (snapshot.hasData) {
-          /// Mostrar o carregando no final da lista.
+          /// CircularProgressIndicator at list final.
           int itemCount = _globalItems.length;
           if (!snapshot.data!) {
             itemCount++;
@@ -311,7 +344,7 @@ class AbstractListState<
               widget.invertSelection == true) {
             _actions.add(
               IconButton(
-                tooltip: 'Inverter seleção',
+                tooltip: widget.invertSelectionText,
                 icon: const Icon(Icons.select_all),
                 onPressed: () {
                   for (T model in _globalItems) {
@@ -327,23 +360,29 @@ class AbstractListState<
             );
           }
 
-          /// Botão Pesquisar
+          /// Search Button
           if (FollyFields().isOnline) {
             _actions.add(
               IconButton(
-                tooltip: 'Pesquisar ${widget.uiBuilder.superSingle}',
+                tooltip: sprintf(
+                  widget.searchText,
+                  <dynamic>[widget.uiBuilder.superSingle],
+                ),
                 icon: const Icon(Icons.search),
                 onPressed: _search,
               ),
             );
           }
 
-          /// Botão Confirmar Seleção
+          /// Selection Confirm Button
           if (widget.selection) {
             if (widget.multipleSelection) {
               _actions.add(
                 IconButton(
-                  tooltip: 'Selecionar ${widget.uiBuilder.superPlural}',
+                  tooltip: sprintf(
+                    widget.selectionText,
+                    <dynamic>[widget.uiBuilder.superPlural],
+                  ),
                   icon: const FaIcon(FontAwesomeIcons.check),
                   onPressed: () => Navigator.of(context)
                       .pop(List<T>.from(selections.values)),
@@ -368,26 +407,32 @@ class AbstractListState<
               );
             }
 
-            /// Botão Adicionar
+            /// Add Button
             if (_insert) {
               if (FollyFields().isWeb) {
                 _actions.add(
                   IconButton(
-                    tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
+                    tooltip: sprintf(
+                      widget.addText,
+                      <dynamic>[widget.uiBuilder.superSingle],
+                    ),
                     icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
                 );
               } else {
                 _fabAdd = FloatingActionButton(
-                  tooltip: 'Adicionar ${widget.uiBuilder.superSingle}',
+                  tooltip: sprintf(
+                    widget.addText,
+                    <dynamic>[widget.uiBuilder.superSingle],
+                  ),
                   onPressed: _addEntity,
                   child: const FaIcon(FontAwesomeIcons.plus),
                 );
               }
             }
 
-            /// Botão da Legenda
+            /// Legend Button
             if (widget.uiBuilder.listLegend.isNotEmpty) {
               _actions.add(
                 IconButton(
@@ -413,9 +458,10 @@ class AbstractListState<
                 onRefresh: () => _loadData(context),
                 child: _globalItems.isEmpty
                     ? TextMessage(
-                        'Sem '
-                        '${widget.uiBuilder.superPlural.toLowerCase()}'
-                        ' até o momento.',
+                        sprintf(
+                          widget.listEmpty,
+                          <dynamic>[widget.uiBuilder.superPlural.toLowerCase()],
+                        ),
                       )
                     : RawKeyboardListener(
                         autofocus: true,
@@ -433,7 +479,7 @@ class AbstractListState<
                             padding: const EdgeInsets.all(16),
                             controller: _scrollController,
                             itemBuilder: (BuildContext context, int index) {
-                              /// Atualizando...
+                              /// Updating...
                               if (index >= _globalItems.length) {
                                 return const SizedBox(
                                   height: 80,
@@ -500,7 +546,7 @@ class AbstractListState<
               widget.uiBuilder.buildBottomNavigationBar(context),
           body: widget.uiBuilder.buildBackgroundContainer(
             context,
-            const WaitingMessage(message: 'Consultando...'),
+            WaitingMessage(message: widget.waitingText),
           ),
         );
       },
@@ -528,6 +574,11 @@ class AbstractListState<
         searchFieldDecorationTheme: widget.searchFieldDecorationTheme,
         keyboardType: widget.searchKeyboardType,
         textInputAction: widget.searchTextInputAction,
+        minLengthToSearch: widget.minLengthToSearch,
+        hintText: widget.hintText,
+        startSearchText: widget.startSearchText,
+        waitingText: widget.waitingText,
+        searchListEmpty: widget.searchListEmpty,
       ),
     ).then(
       (T? entity) {
@@ -556,11 +607,7 @@ class AbstractListState<
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.multipleSelection && onTap == null
-              ? FaIcon(
-                  selection
-                      ? FontAwesomeIcons.checkCircle
-                      : FontAwesomeIcons.circle,
-                )
+              ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
               : widget.uiBuilder.getLeading(model),
         ],
       ),
@@ -570,6 +617,7 @@ class AbstractListState<
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
+          /// Item Buttons
           ...effectiveModelFunctions.entries.map(
             (
               MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
@@ -583,6 +631,8 @@ class AbstractListState<
               callback: (Object? object) => _loadData(context),
             ),
           ),
+
+          /// Delete Button
           if (canDelete)
             IconButton(
               icon: const Icon(FontAwesomeIcons.trashAlt),
@@ -706,7 +756,7 @@ class AbstractListState<
 
       await FollyDialogs.dialogMessage(
         context: context,
-        message: 'Ocorreu um erro ao tentar excluir:\n$e',
+        message: sprintf(widget.deleteErrorText, <dynamic>[e.toString()]),
       );
     }
     return !ask;
@@ -717,7 +767,7 @@ class AbstractListState<
   ///
   Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
-        message: 'Deseja excluir?',
+        message: widget.deleteText,
       );
 
   ///
@@ -793,6 +843,11 @@ class InternalSearch<
   final Map<String, String> qsParam;
   final bool forceOffline;
   final int itemsPerPage;
+  final int minLengthToSearch;
+  final String hintText;
+  final String startSearchText;
+  final String waitingText;
+  final String searchListEmpty;
 
   String? _lastQuery;
   Widget? _lastWidget;
@@ -808,6 +863,11 @@ class InternalSearch<
     required this.qsParam,
     required this.forceOffline,
     required this.itemsPerPage,
+    required this.minLengthToSearch,
+    required this.hintText,
+    required this.startSearchText,
+    required this.waitingText,
+    required this.searchListEmpty,
     required String? searchFieldLabel,
     required TextStyle? searchFieldStyle,
     required InputDecorationTheme? searchFieldDecorationTheme,
@@ -868,16 +928,15 @@ class InternalSearch<
   ///
   @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 3) {
+    if (query.length < minLengthToSearch) {
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              const Center(
+              Center(
                 child: Text(
-                  'Começe a sua pesquisa.\n'
-                  'Digite ao menos 3 caracteres.',
+                  sprintf(startSearchText, <dynamic>[minLengthToSearch]),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -906,7 +965,7 @@ class InternalSearch<
               context,
               SafeFutureBuilder<List<W>>(
                 future: consumer.list(context, param, forceOffline),
-                waitingMessage: 'Consultando...',
+                waitingMessage: waitingText,
                 builder: (BuildContext context, List<W> data) => data.isNotEmpty
                     ? ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
@@ -922,9 +981,7 @@ class InternalSearch<
                         separatorBuilder: (_, __) => const FollyDivider(),
                         itemCount: data.length,
                       )
-                    : const Center(
-                        child: Text('Nenhum documento.'),
-                      ),
+                    : Center(child: Text(searchListEmpty)),
               ),
             ),
           ),
@@ -939,16 +996,15 @@ class InternalSearch<
   ///
   @override
   Widget buildSuggestions(BuildContext context) {
-    if (query.length < 3) {
+    if (query.length < minLengthToSearch) {
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              const Center(
+              Center(
                 child: Text(
-                  'Começe a sua pesquisa.\n'
-                  'Digite ao menos 3 caracteres.',
+                  sprintf(startSearchText, <dynamic>[minLengthToSearch]),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -980,7 +1036,7 @@ class InternalSearch<
                 context,
                 SafeFutureBuilder<List<W>>(
                   future: consumer.list(context, param, forceOffline),
-                  waitingMessage: 'Consultando...',
+                  waitingMessage: waitingText,
                   builder: (BuildContext context, List<W> data) => data
                           .isNotEmpty
                       ? Column(
@@ -989,7 +1045,7 @@ class InternalSearch<
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                'Sugestões:',
+                                hintText,
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color:
@@ -1018,9 +1074,7 @@ class InternalSearch<
                             ),
                           ],
                         )
-                      : const Center(
-                          child: Text('Nenhum documento.'),
-                        ),
+                      : Center(child: Text(searchListEmpty)),
                 ),
               ),
             ),

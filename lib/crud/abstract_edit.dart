@@ -124,16 +124,6 @@ class AbstractEditState<
       appBar: AppBar(
         title: Text(widget.uiBuilder.superSingle),
         actions: <Widget>[
-          if (widget.edit)
-            IconButton(
-              tooltip: 'Salvar',
-              icon: FaIcon(
-                widget.consumer.routeName.isEmpty
-                    ? FontAwesomeIcons.check
-                    : FontAwesomeIcons.solidSave,
-              ),
-              onPressed: _save,
-            ),
           SilentStreamBuilder<bool>(
             stream: _controllerModelFunctions.stream,
             initialData: false,
@@ -178,7 +168,19 @@ class AbstractEditState<
                         .toList(),
                   )
                 : FollyUtils.nothing,
-          )
+          ),
+
+          /// Save Button
+          if (widget.edit)
+            IconButton(
+              tooltip: 'Salvar',
+              icon: FaIcon(
+                widget.consumer.routeName.isEmpty
+                    ? FontAwesomeIcons.check
+                    : FontAwesomeIcons.solidSave,
+              ),
+              onPressed: _save,
+            ),
         ],
       ),
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
