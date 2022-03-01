@@ -37,6 +37,7 @@ class DateField extends StatefulResponsive {
   final EdgeInsets padding;
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
+  final bool clearOnCancel;
 
   ///
   ///
@@ -70,6 +71,7 @@ class DateField extends StatefulResponsive {
     this.padding = const EdgeInsets.all(8),
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
+    this.clearOnCancel = true,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -207,7 +209,10 @@ class DateFieldState extends State<DateField> {
 
                       fromButton = false;
 
-                      _effectiveController.date = selectedDate;
+                      if (selectedDate != null ||
+                          (selectedDate == null && widget.clearOnCancel)) {
+                        _effectiveController.date = selectedDate;
+                      }
 
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();

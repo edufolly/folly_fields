@@ -30,6 +30,7 @@ class TimeField extends StatefulResponsive {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final TimePickerEntryMode initialEntryMode;
+  final bool clearOnCancel;
 
   ///
   ///
@@ -57,6 +58,7 @@ class TimeField extends StatefulResponsive {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.initialEntryMode = TimePickerEntryMode.dial,
+    this.clearOnCancel = true,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -185,8 +187,10 @@ class TimeFieldState extends State<TimeField> {
 
                       fromButton = false;
 
-                      _effectiveController.time = selectedTime;
-
+                      if (selectedTime != null ||
+                          (selectedTime == null && widget.clearOnCancel)) {
+                        _effectiveController.time = selectedTime;
+                      }
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
