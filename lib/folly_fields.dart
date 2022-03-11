@@ -98,6 +98,7 @@ class FollyFields implements _InternalConfig {
     String modelDeletedAtKey = 'deletedAt',
     bool modelParseDates = false,
     List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
+    Connectivity? connectivity,
   }) =>
       FollyFields()._holder = holder
         .._start(
@@ -106,6 +107,7 @@ class FollyFields implements _InternalConfig {
           modelDeletedAtKey: modelDeletedAtKey,
           modelParseDates: modelParseDates,
           responsiveSizes: responsiveSizes,
+          connectivity: connectivity,
         );
 
   AbstractConfig? _holder;
@@ -291,6 +293,7 @@ abstract class AbstractConfig implements _InternalConfig {
     required String modelDeletedAtKey,
     required bool modelParseDates,
     required List<double> responsiveSizes,
+    Connectivity? connectivity,
   }) async {
     if (_started) {
       if (kDebugMode) {
@@ -317,11 +320,13 @@ abstract class AbstractConfig implements _InternalConfig {
         _platform = RunningPlatform.ios;
       }
 
-      ConnectivityResult result = await Connectivity().checkConnectivity();
+      connectivity ??= Connectivity();
+
+      ConnectivityResult result = await connectivity.checkConnectivity();
 
       _online = result != ConnectivityResult.none;
 
-      Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
         if (kDebugMode) {
           print('Connectivity Changed: $_online');
