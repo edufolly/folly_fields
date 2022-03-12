@@ -38,6 +38,7 @@ class DateTimeField extends StatefulResponsive {
   final DatePickerEntryMode initialDateEntryMode;
   final DatePickerMode initialDatePickerMode;
   final TimePickerEntryMode initialTimeEntryMode;
+  final bool clearOnCancel;
 
   ///
   ///
@@ -72,6 +73,7 @@ class DateTimeField extends StatefulResponsive {
     this.initialDateEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
     this.initialTimeEntryMode = TimePickerEntryMode.dial,
+    this.clearOnCancel = true,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -227,7 +229,9 @@ class DateTimeFieldState extends State<DateTimeField> {
                         );
 
                         if (selectedTime == null) {
-                          _effectiveController.dateTime = null;
+                          if (widget.clearOnCancel) {
+                            _effectiveController.dateTime = null;
+                          }
                         } else {
                           _effectiveController.dateTime =
                               FollyUtils.dateMergeStart(
@@ -236,7 +240,9 @@ class DateTimeFieldState extends State<DateTimeField> {
                           );
                         }
                       } else {
-                        _effectiveController.dateTime = null;
+                        if (widget.clearOnCancel) {
+                          _effectiveController.dateTime = null;
+                        }
                       }
 
                       if (_effectiveFocusNode.canRequestFocus) {

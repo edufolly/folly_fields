@@ -1,8 +1,8 @@
-# folly_fields
+# FollyFields
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
-:star: to support the project.
+Please :star: to support the project.
 
 ## Example
 

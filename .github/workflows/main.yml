@@ -1,4 +1,4 @@
-name: folly_fields
+name: Site Deploy
 on:
   push:
     branches:
@@ -6,10 +6,12 @@ on:
 
 jobs:
   build:
-    name: Build Web
+    name: Flutter Web Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Repo Checkout
+      - name: Checkout the code
         uses: actions/checkout@v2
 
       - name: Get pubspec version
@@ -17,8 +19,8 @@ jobs:
           export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Flutter web build
-        uses: subosito/flutter-action@v1
+      - name: Flutter web environment
+        uses: subosito/flutter-action@v2
         with:
           channel: 'beta'
 
@@ -32,16 +34,16 @@ jobs:
         run: flutter test
 
       - name: Creating a GitHub Tag
-        uses: mathieudutour/github-tag-action@v5.6
+        uses: mathieudutour/github-tag-action@v6.0
         with:
           custom_tag: ${{ env.VERSION }}
-          github_token: ${{ secrets.commit_secret }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: v${{ env.VERSION }}
-          token: ${{ secrets.commit_secret }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Flutter build web
         run: |
@@ -49,14 +51,7 @@ jobs:
           flutter build web --base-href /folly_fields/
 
       - name: Publishing gh-pages
-        run: |
-          cd example/build/web
-          git init
-          git config --global user.email edufolly@gmail.com
-          git config --global user.name "Eduardo Folly"
-          git status
-          git remote add origin https://${{ secrets.commit_secret }}@github.com/edufolly/folly_fields.git
-          git checkout -b gh-pages
-          git add --all
-          git commit -m "Publishing web project ($GITHUB_RUN_NUMBER)."
-          git push origin gh-pages -f
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./build/web
+          github_token: ${{ secrets.GITHUB_TOKEN }}
