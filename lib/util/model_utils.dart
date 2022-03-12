@@ -13,20 +13,56 @@ class ModelUtils {
   ///
   ///
   ///
+  @Deprecated('Use fromJsonDateMillis or fromJsonDateSecs.')
   static DateTime fromJsonDate(
     int? timestamp, [
     DateTime? defaultDateTime,
   ]) =>
-      timestamp != null && timestamp >= 0
-          ? DateTime.fromMillisecondsSinceEpoch(timestamp)
+      fromJsonDateMillis(timestamp, defaultDateTime);
+
+  ///
+  ///
+  ///
+  static DateTime fromJsonDateMillis(
+    int? millis, [
+    DateTime? defaultDateTime,
+  ]) =>
+      millis != null && millis >= 0
+          ? DateTime.fromMillisecondsSinceEpoch(millis)
           : defaultDateTime ?? DateTime.now();
 
   ///
   ///
   ///
+  static DateTime fromJsonDateSecs(
+    int? secs, [
+    DateTime? defaultDateTime,
+  ]) =>
+      secs != null && secs >= 0
+          ? DateTime.fromMillisecondsSinceEpoch(secs * 1000)
+          : defaultDateTime ?? DateTime.now();
+
+  ///
+  ///
+  ///
+  @Deprecated('Use fromJsonNullableDateMillis or fromJsonNullableDateSecs.')
   static DateTime? fromJsonNullableDate(int? timestamp) =>
-      timestamp != null && timestamp >= 0
-          ? DateTime.fromMillisecondsSinceEpoch(timestamp)
+      fromJsonNullableDateMillis(timestamp);
+
+  ///
+  ///
+  ///
+  static DateTime? fromJsonNullableDateMillis(int? millis) =>
+      millis != null && millis >= 0
+          ? DateTime.fromMillisecondsSinceEpoch(millis)
+          : null;
+
+  ///
+  ///
+  ///
+  static DateTime? fromJsonNullableDateSecs(int? secs) =>
+      secs != null && secs >= 0
+          ? DateTime.fromMillisecondsSinceEpoch(secs * 1000)
           : null;
 
   ///
@@ -93,13 +129,39 @@ class ModelUtils {
   ///
   ///
   ///
-  static int toMapDate(DateTime dateTime) => dateTime.millisecondsSinceEpoch;
+  @Deprecated('Use toMapDateMillis or toMapDateSecs.')
+  static int toMapDate(DateTime dateTime) => toMapDateMillis(dateTime);
 
   ///
   ///
   ///
+  static int toMapDateMillis(DateTime dateTime) =>
+      dateTime.millisecondsSinceEpoch;
+
+  ///
+  ///
+  ///
+  static int toMapDateSecs(DateTime dateTime) =>
+      dateTime.millisecondsSinceEpoch ~/ 1000;
+
+  ///
+  ///
+  ///
+  @Deprecated('Use toMapNullableDateMillis or toMapNullableDateSecs.')
   static int? toMapNullableDate(DateTime? dateTime) =>
+      toMapNullableDateMillis(dateTime);
+
+  ///
+  ///
+  ///
+  static int? toMapNullableDateMillis(DateTime? dateTime) =>
       dateTime?.millisecondsSinceEpoch;
+
+  ///
+  ///
+  ///
+  static int? toMapNullableDateSecs(DateTime? dateTime) =>
+      dateTime == null ? null : dateTime.millisecondsSinceEpoch ~/ 1000;
 
   ///
   ///
