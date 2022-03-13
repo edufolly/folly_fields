@@ -115,7 +115,7 @@ class MyApp extends StatelessWidget {
             const ExampleMapFunctionRoute(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        GlobalMaterialLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const <Locale>[

@@ -473,8 +473,8 @@ class AbstractListState<
                         },
                         child: Scrollbar(
                           controller: _scrollController,
-                          // isAlwaysShown: FollyFields().isWeb,
-                          thumbVisibility: true,
+                          isAlwaysShown: FollyFields().isWeb,
+                          // thumbVisibility: true,
                           child: ListView.separated(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(16),

@@ -66,8 +66,8 @@ class ExampleModel extends AbstractModel<int> {
         document = map['document'] ?? '',
         phone = map['phone'] ?? '',
         localPhone = map['localPhone'] ?? '',
-        dateTime = ModelUtils.fromJsonDate(map['dateTime']),
-        date = ModelUtils.fromJsonNullableDate(map['date']),
+        dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
+        date = ModelUtils.fromJsonNullableDateMillis(map['date']),
         time = map['time'] == null ? null : _timeValidator.parse(map['time']),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
@@ -97,8 +97,8 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
-    map['dateTime'] = ModelUtils.toMapDate(dateTime);
-    map['date'] = ModelUtils.toMapNullableDate(date);
+    map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
+    map['date'] = ModelUtils.toMapNullableDateMillis(date);
     map['time'] = _timeValidator.format(time!);
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
