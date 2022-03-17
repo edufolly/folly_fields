@@ -11,6 +11,7 @@ class CircularWaiting {
       StreamController<Map<String, dynamic>>();
 
   String message;
+  String? subtitle;
   double? value;
   bool closeable;
   bool _show = false;
@@ -21,10 +22,12 @@ class CircularWaiting {
   CircularWaiting(
     this.context, {
     this.message = 'Aguarde',
+    this.subtitle,
     this.closeable = false,
   }) {
     _streamController.add(<String, dynamic>{
       'message': message,
+      'subtitle': subtitle,
       'value': value,
     });
   }
@@ -48,11 +51,20 @@ class CircularWaiting {
               AsyncSnapshot<Map<String, dynamic>> snapshot,
             ) {
               String msg = message;
+              String? sub = subtitle;
               double? dbl;
               if (snapshot.hasData) {
                 msg = snapshot.data!['message'];
+                sub = snapshot.data!['subtitle'];
                 dbl = snapshot.data!['value'];
               }
+
+              Text title = Text(
+                msg,
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+              );
 
               return Padding(
                 padding: const EdgeInsets.all(30),
@@ -65,12 +77,19 @@ class CircularWaiting {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
-                      child: Text(
-                        msg,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
+                      child: sub == null
+                          ? title
+                          : Column(
+                              children: <Widget>[
+                                title,
+                                Text(
+                                  sub,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
+                            ),
                     ),
                   ],
                 ),
