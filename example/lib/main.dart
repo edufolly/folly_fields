@@ -31,6 +31,7 @@ import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
+import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
@@ -186,6 +187,27 @@ class MyHomePageState extends State<MyHomePage> {
             tooltip: 'Github',
           ),
 
+          /// Circular Waiting
+          IconButton(
+            icon: const Icon(FontAwesomeIcons.spinner),
+            onPressed: () {
+              CircularWaiting wait = CircularWaiting(
+                context,
+                message: 'This is the main message.',
+                subtitle: 'Wait 3 seconds...',
+              );
+
+              wait.show();
+
+              Future<void>.delayed(
+                const Duration(seconds: 3),
+                () => wait.close(),
+              );
+            },
+            tooltip: 'Circular Waiting',
+          ),
+
+          /// Four Images
           IconButton(
             icon: const Icon(FontAwesomeIcons.image),
             onPressed: () => Navigator.of(context).pushNamed('/four_images'),

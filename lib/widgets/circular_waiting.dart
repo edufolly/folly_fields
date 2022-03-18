@@ -7,13 +7,15 @@ import 'package:flutter/material.dart';
 ///
 class CircularWaiting {
   final BuildContext context;
+  final bool barrierDismissible;
   final StreamController<Map<String, dynamic>> _streamController =
       StreamController<Map<String, dynamic>>();
 
   String message;
   String? subtitle;
   double? value;
-  bool closeable;
+
+  bool _closeable = false;
   bool _show = false;
 
   ///
@@ -21,10 +23,11 @@ class CircularWaiting {
   ///
   CircularWaiting(
     this.context, {
+    this.barrierDismissible = false,
     this.message = 'Aguarde',
     this.subtitle,
-    this.closeable = false,
   }) {
+    _closeable = barrierDismissible;
     _streamController.add(<String, dynamic>{
       'message': message,
       'subtitle': subtitle,
@@ -35,12 +38,11 @@ class CircularWaiting {
   ///
   ///
   ///
-  // ignore: avoid_void_async
-  void show() async {
+  Future<void> show() async {
     _show = true;
     await showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => WillPopScope(
         onWillPop: _onWillPop,
         child: Dialog(
@@ -53,18 +55,12 @@ class CircularWaiting {
               String msg = message;
               String? sub = subtitle;
               double? dbl;
+
               if (snapshot.hasData) {
                 msg = snapshot.data!['message'];
                 sub = snapshot.data!['subtitle'];
                 dbl = snapshot.data!['value'];
               }
-
-              Text title = Text(
-                msg,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              );
 
               return Padding(
                 padding: const EdgeInsets.all(30),
@@ -77,19 +73,26 @@ class CircularWaiting {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
-                      child: sub == null
-                          ? title
-                          : Column(
-                              children: <Widget>[
-                                title,
-                                Text(
-                                  sub,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                )
-                              ],
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            msg,
+                            style: const TextStyle(
+                              fontSize: 20,
                             ),
+                          ),
+                          if (sub != null && sub.isNotEmpty)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: Text(
+                                sub,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -107,7 +110,7 @@ class CircularWaiting {
   void close() {
     if (_show) {
       _show = false;
-      closeable = true;
+      _closeable = true;
       Navigator.of(context).pop();
     }
   }
@@ -144,9 +147,9 @@ class CircularWaiting {
   ///
   ///
   Future<bool> _onWillPop() async {
-    if (closeable) {
+    if (_closeable) {
       await _streamController.close();
     }
-    return closeable;
+    return _closeable;
   }
 }

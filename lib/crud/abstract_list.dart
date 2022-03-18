@@ -738,6 +738,7 @@ class AbstractListState<
       }
 
       if (del) {
+        // ignore: unawaited_futures
         wait.show();
         await widget.consumer.delete(context, model);
         wait.close();
