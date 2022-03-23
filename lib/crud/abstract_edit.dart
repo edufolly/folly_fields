@@ -240,6 +240,7 @@ class AbstractEditState<
     CircularWaiting wait = CircularWaiting(context);
 
     try {
+      // ignore: unawaited_futures
       wait.show();
 
       _formKey.currentState!.save();

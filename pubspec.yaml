@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.7.7+113
+version: 0.7.8+114
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -28,7 +28,6 @@ dependencies:
     sdk: flutter
 
   # https://pub.dev/packages/flutter_colorpicker
-  # flutter_colorpicker: ^0.6.0
   flutter_colorpicker: ^1.0.2
 
   # https://flutter.dev/
