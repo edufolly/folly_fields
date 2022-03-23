@@ -37,6 +37,7 @@ class StringField extends StatelessResponsive {
   final TextStyle? style;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final bool trimOnSaved;
 
   ///
   ///
@@ -73,6 +74,7 @@ class StringField extends StatelessResponsive {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.trimOnSaved = true,
     int? sizeExtraSmall,
     int? sizeSmall,
     int? sizeMedium,
@@ -131,9 +133,7 @@ class StringField extends StatelessResponsive {
         inputFormatters: inputFormatter,
         textAlign: textAlign,
         maxLength: maxLength,
-        onSaved: enabled && onSaved != null
-            ? (String? value) => onSaved!(value ?? '')
-            : null,
+        onSaved: enabled && onSaved != null ? _internalSave : null,
         initialValue: initialValue,
         enabled: enabled,
         autovalidateMode: autoValidateMode,
@@ -151,5 +151,18 @@ class StringField extends StatelessResponsive {
         style: effectiveStyle,
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  void _internalSave(String? value) {
+    String val = value ?? '';
+
+    if (trimOnSaved) {
+      val = val.trim();
+    }
+
+    onSaved?.call(val);
   }
 }
