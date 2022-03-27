@@ -124,8 +124,10 @@ class DecimalFieldState extends State<DecimalField> {
         baseOffset: 0,
         extentOffset: _effectiveController.text.length,
       );
-    } else {
-      widget.lostFocus?.call(_effectiveController.decimal);
+    }
+
+    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
+      widget.lostFocus!(_effectiveController.decimal);
     }
   }
 
@@ -231,12 +233,14 @@ class DecimalEditingController extends TextEditingController {
 
     String masked = validator.format(dec);
 
-    if (masked != text) {
-      text = masked;
+    if (masked != super.text) {
+      super.text = masked;
 
-      selection = TextSelection.fromPosition(
+      int cursorPosition = super.text.length;
+
+      super.selection = TextSelection.fromPosition(
         TextPosition(
-          offset: text.length,
+          offset: cursorPosition,
         ),
       );
     }
