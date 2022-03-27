@@ -191,7 +191,7 @@ class DateFieldState extends State<DateField> {
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(
           suffixIcon: IconButton(
-            icon: const Icon(FontAwesomeIcons.solidCalendarAlt),
+            icon: const Icon(FontAwesomeIcons.solidCalendarDays),
             onPressed: widget.enabled && !widget.readOnly
                 ? () async {
                     try {

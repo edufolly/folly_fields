@@ -19,7 +19,7 @@ class EmptyButton extends StatelessWidget {
       flex: 0,
       child: IconButton(
         icon: FaIcon(
-          FontAwesomeIcons.trashAlt,
+          FontAwesomeIcons.trashCan,
           color: Colors.transparent,
         ),
         onPressed: null,

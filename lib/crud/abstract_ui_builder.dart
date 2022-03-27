@@ -91,7 +91,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  IconData get listLegendIcon => FontAwesomeIcons.infoCircle;
+  IconData get listLegendIcon => FontAwesomeIcons.circleInfo;
 
   ///
   ///

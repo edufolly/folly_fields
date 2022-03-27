@@ -53,5 +53,5 @@ jobs:
       - name: Publishing gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./build/web
+          publish_dir: ./example/build/web
           github_token: ${{ secrets.GITHUB_TOKEN }}

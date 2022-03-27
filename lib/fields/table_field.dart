@@ -161,7 +161,7 @@ class TableField<T extends AbstractModel<Object>>
                                     if (removeRow != null)
                                       TableButton(
                                         enabled: enabled,
-                                        iconData: FontAwesomeIcons.trashAlt,
+                                        iconData: FontAwesomeIcons.trashCan,
                                         padding: const EdgeInsets.all(8),
                                         label: 'REMOVER ITEM',
                                         onPressed: () async {
@@ -250,7 +250,7 @@ class TableField<T extends AbstractModel<Object>>
                                 if (removeRow != null)
                                   TableIconButton(
                                     enabled: enabled,
-                                    iconData: FontAwesomeIcons.trashAlt,
+                                    iconData: FontAwesomeIcons.trashCan,
                                     onPressed: () async {
                                       bool go = await removeRow(
                                         field.context,

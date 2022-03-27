@@ -77,7 +77,7 @@ class ModelField<T extends AbstractModel<Object>>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       enabled && routeBuilder != null
-                          ? const FaIcon(FontAwesomeIcons.search)
+                          ? const FaIcon(FontAwesomeIcons.magnifyingGlass)
                           : tapToVisualize != null
                               ? const FaIcon(FontAwesomeIcons.chevronRight)
                               : Container(width: 0),

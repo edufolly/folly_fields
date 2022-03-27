@@ -153,7 +153,7 @@ class UserHeader<O> extends StatelessWidget {
               if (menuItems != null && onMenuSelect != null)
                 PopupMenuButton<O>(
                   icon: FaIcon(
-                    FontAwesomeIcons.solidEdit,
+                    FontAwesomeIcons.solidPenToSquare,
                     color: foreground,
                     size: 14,
                   ),

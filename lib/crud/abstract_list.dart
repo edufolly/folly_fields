@@ -106,7 +106,7 @@ abstract class AbstractList<
     this.searchFieldDecorationTheme,
     this.searchKeyboardType,
     this.searchTextInputAction = TextInputAction.search,
-    this.selectedIcon = FontAwesomeIcons.solidCheckCircle,
+    this.selectedIcon = FontAwesomeIcons.solidCircleCheck,
     this.unselectedIcon = FontAwesomeIcons.circle,
     this.minLengthToSearch = 3,
     this.hintText = 'Sugestões:',
@@ -503,7 +503,7 @@ class AbstractListState<
                                     alignment: Alignment.centerRight,
                                     padding: const EdgeInsets.only(right: 16),
                                     child: const FaIcon(
-                                      FontAwesomeIcons.trashAlt,
+                                      FontAwesomeIcons.trashCan,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -636,7 +636,7 @@ class AbstractListState<
           /// Delete Button
           if (canDelete)
             IconButton(
-              icon: const Icon(FontAwesomeIcons.trashAlt),
+              icon: const Icon(FontAwesomeIcons.trashCan),
               onPressed: () async {
                 bool refresh = await _deleteEntity(model, ask: true);
                 if (afterDeleteRefresh != null && refresh) {
