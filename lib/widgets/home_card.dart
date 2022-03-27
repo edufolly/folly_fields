@@ -82,7 +82,7 @@ class HomeCard<T, O> extends StatelessWidget {
                     child: PopupMenuButton<O>(
                       tooltip: tooltip ?? 'Opções do Favorito',
                       icon: const FaIcon(
-                        FontAwesomeIcons.ellipsisV,
+                        FontAwesomeIcons.ellipsisVertical,
                         color: Colors.black12,
                       ),
                       itemBuilder: (BuildContext context) => menuItems

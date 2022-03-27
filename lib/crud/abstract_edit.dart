@@ -177,7 +177,7 @@ class AbstractEditState<
               icon: FaIcon(
                 widget.consumer.routeName.isEmpty
                     ? FontAwesomeIcons.check
-                    : FontAwesomeIcons.solidSave,
+                    : FontAwesomeIcons.solidFloppyDisk,
               ),
               onPressed: _save,
             ),

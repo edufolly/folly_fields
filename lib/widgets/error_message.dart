@@ -16,7 +16,7 @@ class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     this.error = 'Ocorreu um erro.',
     this.stackTrace,
-    this.icon = FontAwesomeIcons.exclamationTriangle,
+    this.icon = FontAwesomeIcons.triangleExclamation,
     Key? key,
   }) : super(key: key);
 

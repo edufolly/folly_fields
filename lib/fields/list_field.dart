@@ -243,7 +243,7 @@ class _MyListTile<T extends AbstractModel<Object>,
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 8),
               child: const FaIcon(
-                FontAwesomeIcons.trashAlt,
+                FontAwesomeIcons.trashCan,
                 color: Colors.white,
               ),
             ),
@@ -270,7 +270,7 @@ class _MyListTile<T extends AbstractModel<Object>,
       trailing: Visibility(
         visible: FollyFields().isWeb,
         child: IconButton(
-          icon: const Icon(FontAwesomeIcons.trashAlt),
+          icon: const Icon(FontAwesomeIcons.trashCan),
           onPressed: enabled ? () => _delete(context, model, ask: true) : null,
         ),
       ),

@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.7.9+115
+version: 0.8.0+116
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -35,7 +35,7 @@ dependencies:
     sdk: flutter
 
   # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: 9.2.0
+  font_awesome_flutter: 10.1.0
 
   # https://pub.dev/packages/sprintf
   sprintf: ^6.0.0
