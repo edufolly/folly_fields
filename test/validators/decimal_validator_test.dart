@@ -11,6 +11,8 @@ void main() {
   ///
   ///
   ///
+  // FIXME(edufolly): This tests are only for new DecimalField.
+  /*
   Map<String, Decimal> parseTests = <String, Decimal>{
     ',0': Decimal(precision: 4, doubleValue: 0),
     ',01': Decimal(precision: 4, doubleValue: 0.01),
@@ -74,6 +76,7 @@ void main() {
       );
     }
   });
+  */
 
   ///
   ///

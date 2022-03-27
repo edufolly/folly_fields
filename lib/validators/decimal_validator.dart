@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
@@ -36,7 +35,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
         .replaceAll('.', '')
         .split('')
         .reversed
-        .toList();
+        .toList(growable: true);
 
     int start = precision + 4;
     if (precision > 0) {
@@ -56,12 +55,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
   ///
   ///
   @override
-  String strip(String value) {
-    if (kDebugMode) {
-      print('Decimal validator - call strip method.');
-    }
-    return value;
-  }
+  String strip(String value) => value;
 
   ///
   ///
@@ -91,34 +85,17 @@ class DecimalValidator extends AbstractValidator<Decimal>
       return decimal;
     }
 
-    int sepPos = value.indexOf(decimalSeparator);
+    List<String> parts = _internalStrip(value).split('').toList(growable: true);
 
-    String integerPart = '0';
-    String decimalPart = '0';
-
-    if (sepPos < 0) {
-      integerPart = value;
-    } else if (sepPos == 0) {
-      decimalPart = _internalStrip(value);
-    } else {
-      integerPart = _internalStrip(value.substring(0, sepPos));
-      decimalPart = _internalStrip(value.substring(sepPos));
+    for (int i = parts.length; i <= precision; i++) {
+      parts.insert(0, '0');
     }
 
-    if (decimalPart.length > precision) {
-      decimalPart = decimalPart.substring(0, precision);
+    if (precision > 0) {
+      parts.insert(parts.length - precision, '.');
     }
 
-    String s = '$integerPart.$decimalPart';
-
-    double? d = double.tryParse(s);
-
-    if (d == null) {
-      if (kDebugMode) {
-        print('Error to parse $s');
-      }
-      d = 0;
-    }
+    double d = double.parse(parts.join());
 
     decimal.doubleValue = d;
 
