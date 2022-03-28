@@ -84345,16 +84345,16 @@ case 1:return A.X(q,r)}})
 return A.Y($async$$0,r)},
 $S:84}
 A.a2K.prototype={
-$2(a,b){var s,r,q,p,o=null,n=this.a,m=n.a
-m.toString
-s=A.d(n.r,"_model")
-r=n.a
+$2(a,b){var s,r,q,p,o,n=null,m=this.a,l=m.a
+l.toString
+s=A.d(m.r,"_model")
+r=m.a
 q=r.r
 r=r.e
-p=n.e
-n=n.$ti
-n=n.z[3].a(new A.nz(n.i("nz<1>")))
-return A.vI(new A.Dt(m.mh(a,s,q,r.a,p.gkG(p),n),B.bi,o,o,o,o,o,o,o,o),o,B.hb,o,B.U)},
+p=m.e
+o=m.$ti
+o=o.z[3].a(new A.nz(o.i("nz<1>")))
+return A.vI(new A.Dt(l.mh(a,s,q,r.a,m.d,p.gkG(p),o),B.bi,n,n,n,n,n,n,n,n),n,B.hb,n,B.U)},
 $S:457}
 A.wN.prototype={
 m(a){var s=this,r=s.cO$
@@ -86769,7 +86769,7 @@ s=new A.eK(s,r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,a2,a3==null?"":a3)
 s.Jg(a5,t.S)
 return s}}
 A.jq.prototype={
-mh(a3,a4,a5,a6,a7,a8){var s=null,r=A.Eh(B.M,!0,s,s,s,!0,!0,a5,s,!1,s,a4.r,s,s,B.cb,"Texto*",a6,s,1,s,1,!1,s,s,new A.a8I(a4),B.G,!1,B.a2,3,s,4,6,12,s,B.I,B.a5,s,new A.a8J()),q=A.aFw(a5,a4.w,"E-mail*",a6,new A.a8K(a4),3,4,6,12),p=A.aGW(a5,"Senha*",a6,new A.a8V(a4),3,4,6,12,new A.a91()),o=A.aFf(a5,a4.e,"Decimal*",a6,new A.a92(a4),3,4,6,12),n=A.aG4(a5,a4.f,"Integer*",a6,new A.a93(a4),3,4,6,12),m=A.aF2(a5,a4.y,"CPF*",a6,new A.a94(a4),3,4,6,12),l=A.aEY(a5,a4.z,"CNPJ*",a6,new A.a95(a4),3,4,6,12),k=A.aF1(a5,a4.Q,"CPF ou CNPJ*",a6,new A.a96(a4),3,4,6,12),j=A.aH1(a5,a4.as,"Telefone*",a6,new A.a97(a4),3,4,6,12),i=A.aGp(a5,a4.at,"Telefone sem DDD*",a6,new A.a8L(a4),3,4,6,12),h=A.aFe(a5,a4.ax,"Data e Hora*",a6,new A.a8M(a4),3,4,6,12,new A.a8N()),g=A.aFa(a5,a4.ay,"Data*",a6,new A.a8O(a4),3,4,6,12),f=A.aHW(a5,a4.ch,"Hora*",a6,new A.a8P(a4),3,4,6,12),e=A.aGq(a5,a4.CW,"Mac Address*",a6,new A.a8Q(a4),3,4,6,12),d=A.aGN(a5,a4.cx,"NCM*",a6,new A.a8R(a4),3,4,6,12),c=A.aEQ(a5,a4.cy,"CEST*",a6,new A.a8S(a4),3,4,6,12),b=A.aEX(a5,a4.db,"CNAE*",a6,new A.a8T(a4),3,4,6,12),a=A.aEP(a5,a4.dx,"CEP*",a6,new A.a8U(a4),3,4,6,12),a0=A.aEw(a5,a4.fx,"Campo Boleano",a6,new A.a8W(a4),3,4,6,12,new A.a8X()),a1=A.aEZ(a5,a4.fr,"Cor*",a6,new A.a8Y(a4),3,4,6,12,s),a2=B.cn.gnW(B.cn)
+mh(a3,a4,a5,a6,a7,a8,a9){var s=null,r=A.Eh(B.M,!0,s,s,s,!0,!0,a5,s,!1,s,a4.r,s,s,B.cb,"Texto*",a6,s,1,s,1,!1,s,s,new A.a8I(a4),B.G,!1,B.a2,3,s,4,6,12,s,B.I,B.a5,s,new A.a8J()),q=A.aFw(a5,a4.w,"E-mail*",a6,new A.a8K(a4),3,4,6,12),p=A.aGW(a5,"Senha*",a6,new A.a8V(a4),3,4,6,12,new A.a91()),o=A.aFf(a5,a4.e,"Decimal*",a6,new A.a92(a4),3,4,6,12),n=A.aG4(a5,a4.f,"Integer*",a6,new A.a93(a4),3,4,6,12),m=A.aF2(a5,a4.y,"CPF*",a6,new A.a94(a4),3,4,6,12),l=A.aEY(a5,a4.z,"CNPJ*",a6,new A.a95(a4),3,4,6,12),k=A.aF1(a5,a4.Q,"CPF ou CNPJ*",a6,new A.a96(a4),3,4,6,12),j=A.aH1(a5,a4.as,"Telefone*",a6,new A.a97(a4),3,4,6,12),i=A.aGp(a5,a4.at,"Telefone sem DDD*",a6,new A.a8L(a4),3,4,6,12),h=A.aFe(a5,a4.ax,"Data e Hora*",a6,new A.a8M(a4),3,4,6,12,new A.a8N()),g=A.aFa(a5,a4.ay,"Data*",a6,new A.a8O(a4),3,4,6,12),f=A.aHW(a5,a4.ch,"Hora*",a6,new A.a8P(a4),3,4,6,12),e=A.aGq(a5,a4.CW,"Mac Address*",a6,new A.a8Q(a4),3,4,6,12),d=A.aGN(a5,a4.cx,"NCM*",a6,new A.a8R(a4),3,4,6,12),c=A.aEQ(a5,a4.cy,"CEST*",a6,new A.a8S(a4),3,4,6,12),b=A.aEX(a5,a4.db,"CNAE*",a6,new A.a8T(a4),3,4,6,12),a=A.aEP(a5,a4.dx,"CEP*",a6,new A.a8U(a4),3,4,6,12),a0=A.aEw(a5,a4.fx,"Campo Boleano",a6,new A.a8W(a4),3,4,6,12,new A.a8X()),a1=A.aEZ(a5,a4.fr,"Cor*",a6,new A.a8Y(a4),3,4,6,12,s),a2=B.cn.gnW(B.cn)
 return A.b([r,q,p,o,n,m,l,k,j,i,h,g,f,e,d,c,b,a,a0,a1,A.aA6(a5,a4.dy,a2,"Ordinal",a6,s,new A.a8Z(a4),6,12,A.a1Y(),t.fV),A.aGF(a5,a4.go,"Multiline*",a6,new A.a9_(a4),6,12,A.aFU(A.U(a3).p4.z),new A.a90())],t.iG)}}
 A.a8J.prototype={
 $1(a){return a.length===0?"O campo texto precisa ser informado.":null},
@@ -86907,13 +86907,13 @@ tL(a){var s=new A.il(a.h(0,"name"),B.Q0.tL("type"),a.h(0,"specific1"),a.h(0,"spe
 s.Jg(a,t.S)
 return s}}
 A.tm.prototype={
-mh(a,b,c,d,e,f){var s=null,r=A.Eh(B.M,!0,s,s,s,!0,!0,c,s,!1,s,b.e,s,s,B.cb,"Nome*",d,s,1,s,1,!1,s,s,new A.a47(b),B.G,!1,B.a2,s,s,s,s,s,s,B.I,B.a5,s,A.aKi()),q=t.ja,p=A.l([B.eF,"Painel 1",B.rf,"Painel 2",B.rg,"Painel 3"],q,t.N)
-q=A.b([r,A.aA6(c,b.f,p,"Tipo*",d,new A.a48(b,e),new A.a49(b),s,s,A.a1Y(),q)],t.iG)
-B.c.H(q,this.ahZ(a,b,c,d,e,f))
+mh(a,b,c,d,e,f,g){var s=null,r=A.Eh(B.M,!0,s,s,s,!0,!0,c,s,!1,s,b.e,s,s,B.cb,"Nome*",d,s,1,s,1,!1,s,s,new A.a47(b),B.G,!1,B.a2,s,s,s,s,s,s,B.I,B.a5,s,A.aKi()),q=t.ja,p=A.l([B.eF,"Painel 1",B.rf,"Painel 2",B.rg,"Painel 3"],q,t.N)
+q=A.b([r,A.aA6(c,b.f,p,"Tipo*",d,new A.a48(b,f),new A.a49(b),s,s,A.a1Y(),q)],t.iG)
+B.c.H(q,this.ahZ(a,b,c,d,e,f,g))
 return q},
-ahZ(a,b,c,d,e,f){switch(b.f.a){case 0:return new A.a41().mh(a,b,c,d,e,f)
-case 1:return new A.a43().mh(a,b,c,d,e,f)
-case 2:return new A.a45().mh(a,b,c,d,e,f)}}}
+ahZ(a,b,c,d,e,f,g){switch(b.f.a){case 0:return new A.a41().mh(a,b,c,d,e,f,g)
+case 1:return new A.a43().mh(a,b,c,d,e,f,g)
+case 2:return new A.a45().mh(a,b,c,d,e,f,g)}}}
 A.a47.prototype={
 $1(a){return this.a.e=a},
 $S:2}
@@ -86927,21 +86927,21 @@ $1(a){a.toString
 return this.a.f=a},
 $S:498}
 A.a41.prototype={
-mh(a,b,c,d,e,f){var s=null,r=b.r
+mh(a,b,c,d,e,f,g){var s=null,r=b.r
 if(r==null)r="BrandNewEnum."+b.f.b
 return A.b([B.ayu,A.Eh(B.M,!0,s,s,s,!0,!0,c,s,!1,s,r,s,B.aH5,B.cb,"Nome*",d,s,1,s,1,!1,s,s,new A.a42(b),B.G,!1,B.a2,s,s,s,s,s,s,B.I,B.a5,s,s)],t.iG)}}
 A.a42.prototype={
 $1(a){return this.a.r=a},
 $S:2}
 A.a43.prototype={
-mh(a,b,c,d,e,f){var s=null,r=b.w
+mh(a,b,c,d,e,f,g){var s=null,r=b.w
 if(r==null)r="BrandNewEnum."+b.f.b
 return A.b([B.ayv,A.Eh(B.M,!0,s,s,s,!0,!0,c,s,!1,s,r,s,B.aH6,B.cb,"Nome*",d,s,1,s,1,!1,s,s,new A.a44(b),B.G,!1,B.a2,s,s,s,s,s,s,B.I,B.a5,s,s)],t.iG)}}
 A.a44.prototype={
 $1(a){return this.a.w=a},
 $S:2}
 A.a45.prototype={
-mh(a,b,c,d,e,f){var s=null,r=b.x
+mh(a,b,c,d,e,f,g){var s=null,r=b.x
 if(r==null)r="BrandNewEnum."+b.f.b
 return A.b([B.ayw,A.Eh(B.M,!0,s,s,s,!0,!0,c,s,!1,s,r,s,B.aH7,B.cb,"Nome*",d,s,1,s,1,!1,s,s,new A.a46(b),B.G,!1,B.a2,s,s,s,s,s,s,B.I,B.a5,s,s)],t.iG)}}
 A.a46.prototype={
@@ -100170,10 +100170,10 @@ Function.prototype.$5=function(a,b,c,d,e){return this(a,b,c,d,e)}
 Function.prototype.$2$0=function(){return this()}
 Function.prototype.$1$5=function(a,b,c,d,e){return this(a,b,c,d,e)}
 Function.prototype.$6=function(a,b,c,d,e,f){return this(a,b,c,d,e,f)}
+Function.prototype.$7=function(a,b,c,d,e,f,g){return this(a,b,c,d,e,f,g)}
 Function.prototype.$1$0=function(){return this()}
 Function.prototype.$8=function(a,b,c,d,e,f,g,h){return this(a,b,c,d,e,f,g,h)}
 Function.prototype.$2$3=function(a,b,c){return this(a,b,c)}
-Function.prototype.$7=function(a,b,c,d,e,f,g){return this(a,b,c,d,e,f,g)}
 Function.prototype.$9=function(a,b,c,d,e,f,g,h,i){return this(a,b,c,d,e,f,g,h,i)}
 convertAllToFastObject(w)
 convertToFastObject($);(function(a){if(typeof document==="undefined"){a(null)
