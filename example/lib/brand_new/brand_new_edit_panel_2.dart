@@ -19,9 +19,9 @@ class BrandNewEditPanel2 extends AbstractEditContent<BrandNewModel,
     BrandNewModel model,
     bool edit,
     String labelPrefix,
-    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     _,
+    __,
   ) {
     return <Responsive>[
       const ResponsiveDecorator(
