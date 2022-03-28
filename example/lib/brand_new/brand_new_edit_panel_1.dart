@@ -19,6 +19,7 @@ class BrandNewEditPanel1 extends AbstractEditContent<BrandNewModel,
     BrandNewModel model,
     bool edit,
     String labelPrefix,
+    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     _,
   ) {

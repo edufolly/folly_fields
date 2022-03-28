@@ -46,6 +46,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BrandNewModel model,
     bool edit,
     String labelPrefix,
+    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     EmptyEditController<BrandNewModel> editController,
   ) {
@@ -76,7 +77,15 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
       ),
 
       /// Panel
-      ...complement(context, model, edit, labelPrefix, refresh, editController),
+      ...complement(
+        context,
+        model,
+        edit,
+        labelPrefix,
+        formKey,
+        refresh,
+        editController,
+      ),
     ];
   }
 
@@ -88,6 +97,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BrandNewModel model,
     bool edit,
     String labelPrefix,
+    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     EmptyEditController<BrandNewModel> editController,
   ) {
@@ -98,6 +108,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           model,
           edit,
           labelPrefix,
+          formKey,
           refresh,
           editController,
         );
@@ -107,6 +118,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           model,
           edit,
           labelPrefix,
+          formKey,
           refresh,
           editController,
         );
@@ -116,6 +128,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
           model,
           edit,
           labelPrefix,
+          formKey,
           refresh,
           editController,
         );

@@ -57,6 +57,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
     ExampleModel model,
     bool edit,
     String labelPrefix,
+    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     _,
   ) {

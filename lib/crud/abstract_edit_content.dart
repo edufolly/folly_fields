@@ -16,6 +16,7 @@ abstract class AbstractEditContent<T extends AbstractModel<Object>,
     T model,
     bool edit,
     String labelPrefix,
+    GlobalKey<FormState> formKey,
     Function(bool refresh) refresh,
     E editController,
   );
