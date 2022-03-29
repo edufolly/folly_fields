@@ -13,12 +13,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonDateMillis or fromJsonDateSecs.')
-  static DateTime fromJsonDate(
-    int? timestamp, [
-    DateTime? defaultDateTime,
-  ]) =>
-      fromJsonDateMillis(timestamp, defaultDateTime);
+  static String string(dynamic e) => e.toString();
 
   ///
   ///
@@ -41,13 +36,6 @@ class ModelUtils {
       secs != null && secs >= 0
           ? DateTime.fromMillisecondsSinceEpoch(secs * 1000)
           : defaultDateTime ?? DateTime.now();
-
-  ///
-  ///
-  ///
-  @Deprecated('Use fromJsonNullableDateMillis or fromJsonNullableDateSecs.')
-  static DateTime? fromJsonNullableDate(int? timestamp) =>
-      fromJsonNullableDateMillis(timestamp);
 
   ///
   ///
@@ -113,6 +101,38 @@ class ModelUtils {
   ///
   ///
   ///
+  static Map<T, List<U>> fromJsonMapList<T, U>(
+    Map<dynamic, dynamic>? value,
+    T Function(dynamic k) keyConsumer,
+    U Function(dynamic v) valueConsumer,
+  ) =>
+      value?.map<T, List<U>>(
+        (dynamic key, dynamic value) => MapEntry<T, List<U>>(
+          keyConsumer(key),
+          ModelUtils.fromJsonListPrimary<U>(value, valueConsumer),
+        ),
+      ) ??
+      <T, List<U>>{};
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonSafeList<T>(
+    dynamic value,
+    T Function(dynamic e) consumer,
+  ) {
+    if (value == null) {
+      return <T>[];
+    }
+
+    return (value is List)
+        ? value.map<T>((dynamic e) => consumer(e)).toList()
+        : <T>[consumer(value)];
+  }
+
+  ///
+  ///
+  ///
   static Map<String, dynamic>? toMapModel<T extends AbstractModel<Object>>(
     T? model,
   ) =>
@@ -129,12 +149,6 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use toMapDateMillis or toMapDateSecs.')
-  static int toMapDate(DateTime dateTime) => toMapDateMillis(dateTime);
-
-  ///
-  ///
-  ///
   static int toMapDateMillis(DateTime dateTime) =>
       dateTime.millisecondsSinceEpoch;
 
@@ -143,13 +157,6 @@ class ModelUtils {
   ///
   static int toMapDateSecs(DateTime dateTime) =>
       dateTime.millisecondsSinceEpoch ~/ 1000;
-
-  ///
-  ///
-  ///
-  @Deprecated('Use toMapNullableDateMillis or toMapNullableDateSecs.')
-  static int? toMapNullableDate(DateTime? dateTime) =>
-      toMapNullableDateMillis(dateTime);
 
   ///
   ///
