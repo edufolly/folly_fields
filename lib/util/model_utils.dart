@@ -109,7 +109,7 @@ class ModelUtils {
       value?.map<T, List<U>>(
         (dynamic key, dynamic value) => MapEntry<T, List<U>>(
           keyConsumer(key),
-          ModelUtils.fromJsonListPrimary<U>(value, valueConsumer),
+          fromJsonListPrimary<U>(value, valueConsumer),
         ),
       ) ??
       <T, List<U>>{};
@@ -120,15 +120,12 @@ class ModelUtils {
   static List<T> fromJsonSafeList<T>(
     dynamic value,
     T Function(dynamic e) consumer,
-  ) {
-    if (value == null) {
-      return <T>[];
-    }
-
-    return (value is List)
-        ? value.map<T>((dynamic e) => consumer(e)).toList()
-        : <T>[consumer(value)];
-  }
+  ) =>
+      value == null
+          ? <T>[]
+          : (value is List)
+              ? value.map<T>((dynamic e) => consumer(e)).toList()
+              : <T>[consumer(value)];
 
   ///
   ///
