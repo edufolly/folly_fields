@@ -13,7 +13,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static String string(dynamic e) => e.toString();
+  static String stringProducer(dynamic e) => e.toString();
 
   ///
   ///
@@ -56,20 +56,23 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<T> fromJsonList<T extends AbstractModel<Object>>(
-    List<dynamic>? value,
-    AbstractConsumer<T> consumer,
-  ) =>
-      value?.map<T>((dynamic map) => consumer.fromJson(map)).toList() ?? <T>[];
+  static List<T> fromJsonRawList<T>(
+    List<dynamic>? value, {
+    required T Function(dynamic e) producer,
+  }) =>
+      value?.map<T>(producer).toList() ?? <T>[];
 
   ///
   ///
   ///
-  static List<T> fromJsonListPrimary<T>(
+  static List<T> fromJsonList<T extends AbstractModel<Object>>(
     List<dynamic>? value,
-    T Function(dynamic e) consumer,
+    AbstractConsumer<T> consumer,
   ) =>
-      value?.map<T>(consumer).toList() ?? <T>[];
+      fromJsonRawList<T>(
+        value,
+        producer: (dynamic e) => consumer.fromJson(e),
+      );
 
   ///
   ///
@@ -101,31 +104,40 @@ class ModelUtils {
   ///
   ///
   ///
-  static Map<T, List<U>> fromJsonMapList<T, U>(
-    Map<dynamic, dynamic>? value,
-    T Function(dynamic k) keyConsumer,
-    U Function(dynamic v) valueConsumer,
-  ) =>
-      value?.map<T, List<U>>(
-        (dynamic key, dynamic value) => MapEntry<T, List<U>>(
-          keyConsumer(key),
-          fromJsonListPrimary<U>(value, valueConsumer),
+  static Map<T, U> fromJsonRawMap<T, U>(
+    Map<dynamic, dynamic>? value, {
+    required T Function(dynamic k) keyProducer,
+    required U Function(dynamic v) valueProducer,
+  }) =>
+      value?.map<T, U>(
+        (dynamic key, dynamic value) => MapEntry<T, U>(
+          keyProducer(key),
+          valueProducer(value),
         ),
       ) ??
-      <T, List<U>>{};
+      <T, U>{};
 
   ///
   ///
   ///
   static List<T> fromJsonSafeList<T>(
-    dynamic value,
-    T Function(dynamic e) consumer,
-  ) =>
+    dynamic value, {
+    required T Function(dynamic e) producer,
+  }) =>
       value == null
           ? <T>[]
           : (value is List)
-              ? value.map<T>((dynamic e) => consumer(e)).toList()
-              : <T>[consumer(value)];
+              ? fromJsonRawList<T>(value, producer: producer)
+              : <T>[producer(value)];
+
+  ///
+  ///
+  ///
+  static List<String> fromJsonSafeStringList(dynamic value) =>
+      fromJsonSafeList<String>(
+        value,
+        producer: stringProducer,
+      );
 
   ///
   ///
