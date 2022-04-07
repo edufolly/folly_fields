@@ -68,14 +68,17 @@ void main() {
     '111111111111,9999': Decimal(precision: 4, doubleValue: 111111111111.9999),
   };
 
-  group('NewDecimalValidator parse', () {
-    for (MapEntry<String, Decimal> input in parseTests.entries) {
-      test(
-        'Testing: ${input.key}',
-        () => expect(validator.parse(input.key), input.value),
-      );
-    }
-  });
+  group(
+    'DecimalValidator parse',
+    () {
+      for (MapEntry<String, Decimal> input in parseTests.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(validator.parse(input.key), input.value),
+        );
+      }
+    },
+  );
   */
 
   ///
@@ -122,12 +125,15 @@ void main() {
         '111.111.111.111,9999',
   };
 
-  group('NewDecimalValidator format', () {
-    for (MapEntry<Decimal, String> input in formatTest.entries) {
-      test(
-        'Testing: ${input.key}',
-        () => expect(validator.format(input.key), input.value),
-      );
-    }
-  });
+  group(
+    'DecimalValidator format',
+    () {
+      for (MapEntry<Decimal, String> input in formatTest.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(validator.format(input.key), input.value),
+        );
+      }
+    },
+  );
 }

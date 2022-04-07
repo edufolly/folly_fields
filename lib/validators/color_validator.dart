@@ -55,12 +55,37 @@ class ColorValidator extends AbstractValidator<Color>
     if (text == null || text.isEmpty) {
       return defaultColor == null ? null : Color(defaultColor);
     } else {
-      text = text.replaceAll('#', '').trim().toUpperCase();
-      if (text.length == 6) {
-        text = 'FF$text';
-      }
       try {
-        return Color(int.parse('0x$text'));
+        if (!text.startsWith('0x')) {
+          text = text.replaceAll('#', '').trim().toUpperCase();
+
+          if (text.length == 3) {
+            text = text[0] + text[0] + text[1] + text[1] + text[2] + text[2];
+          }
+
+          if (text.length == 4) {
+            text = text[0] +
+                text[0] +
+                text[1] +
+                text[1] +
+                text[2] +
+                text[2] +
+                text[3] +
+                text[3];
+          }
+
+          if (text.length == 6) {
+            text = 'FF$text';
+          }
+
+          if(text.length > 8) {
+            text = text.substring(0, 8);
+          }
+
+          text = '0x$text';
+        }
+
+        return Color(int.parse(text));
       } catch (e) {
         return defaultColor == null ? null : Color(defaultColor);
       }
