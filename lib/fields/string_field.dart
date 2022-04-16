@@ -7,7 +7,8 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 class StringField extends StatelessResponsive {
   final String labelPrefix;
-  final String label;
+  final String? label;
+  final Widget? labelWidget;
   final TextEditingController? controller;
   final TextInputType keyboard;
   final String? Function(String value)? validator;
@@ -44,7 +45,8 @@ class StringField extends StatelessResponsive {
   ///
   const StringField({
     this.labelPrefix = '',
-    this.label = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.keyboard = TextInputType.text,
     this.validator,
@@ -84,6 +86,8 @@ class StringField extends StatelessResponsive {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           sizeExtraSmall: sizeExtraSmall,
           sizeSmall: sizeSmall,
@@ -109,7 +113,12 @@ class StringField extends StatelessResponsive {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
-              labelText: labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+              label: labelWidget,
+              labelText: label == null
+                  ? null
+                  : labelPrefix.isEmpty
+                      ? label
+                      : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
               counterText: '',
               enabled: enabled,

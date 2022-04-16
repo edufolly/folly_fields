@@ -13,7 +13,8 @@ class DropdownField<T> extends FormFieldResponsive<T> {
   ///
   DropdownField({
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     FormFieldValidator<T?>? validator,
     FormFieldSetter<T?>? onSaved,
@@ -61,6 +62,8 @@ class DropdownField<T> extends FormFieldResponsive<T> {
             'itemHeight must be null or equal or greater '
             'kMinInteractiveDimension.'),
         // assert(autofocus != null),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -82,6 +85,7 @@ class DropdownField<T> extends FormFieldResponsive<T> {
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
+                      label: labelWidget,
                       labelText:
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
@@ -214,15 +218,6 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   @override
-  void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
@@ -246,6 +241,15 @@ class DropdownFieldState<T> extends FormFieldState<T> {
     if (_effectiveController.value != value) {
       didChange(_effectiveController.value);
     }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    super.dispose();
   }
 }
 

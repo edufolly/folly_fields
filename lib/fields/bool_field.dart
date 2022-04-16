@@ -13,7 +13,8 @@ class BoolField extends FormFieldResponsive<bool> {
   ///
   BoolField({
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     String? Function(bool value)? validator,
     void Function(bool value)? onSaved,
@@ -37,6 +38,8 @@ class BoolField extends FormFieldResponsive<bool> {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -101,12 +104,14 @@ class BoolField extends FormFieldResponsive<bool> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 4,
                               ),
-                              child: Text(
-                                labelPrefix.isEmpty
-                                    ? label
-                                    : '$labelPrefix - $label',
-                                style: textStyle,
-                              ),
+                              child: label == null
+                                  ? labelWidget
+                                  : Text(
+                                      labelPrefix.isEmpty
+                                          ? label
+                                          : '$labelPrefix - $label',
+                                      style: textStyle,
+                                    ),
                             ),
                           ),
                           if (adaptive)
@@ -202,15 +207,6 @@ class BoolFieldState extends FormFieldState<bool> {
   ///
   ///
   @override
-  void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   void didChange(bool? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
@@ -235,6 +231,15 @@ class BoolFieldState extends FormFieldState<bool> {
     if (_effectiveController.value != value) {
       didChange(_effectiveController.value);
     }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    super.dispose();
   }
 }
 

@@ -10,7 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // TODO(edufolly): Herdar de DateTimeField?
 class DateField extends StatefulResponsive {
   final String labelPrefix;
-  final String label;
+  final String? label;
+  final Widget? labelWidget;
   final DateEditingController? controller;
   final FormFieldValidator<DateTime>? validator;
   final TextAlign textAlign;
@@ -44,7 +45,8 @@ class DateField extends StatefulResponsive {
   ///
   const DateField({
     this.labelPrefix = '',
-    this.label = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
@@ -81,6 +83,8 @@ class DateField extends StatefulResponsive {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           sizeExtraSmall: sizeExtraSmall,
           sizeSmall: sizeSmall,
@@ -164,25 +168,13 @@ class DateFieldState extends State<DateField> {
   ///
   ///
   @override
-  void dispose() {
-    _effectiveFocusNode.removeListener(_handleFocus);
-
-    _controller?.dispose();
-    _focusNode?.dispose();
-
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   Widget build(BuildContext context) {
     final InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
+              label: widget.labelWidget,
               labelText: widget.labelPrefix.isEmpty
                   ? widget.label
                   : '${widget.labelPrefix} - ${widget.label}',
@@ -276,6 +268,19 @@ class DateFieldState extends State<DateField> {
                 ),
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
+    _controller?.dispose();
+    _focusNode?.dispose();
+
+    super.dispose();
   }
 }
 

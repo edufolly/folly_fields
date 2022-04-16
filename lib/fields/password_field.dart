@@ -11,7 +11,8 @@ class PasswordField extends StringField {
   ///
   const PasswordField({
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     TextEditingController? controller,
     String? Function(String value)? validator,
     List<TextInputFormatter>? inputFormatter,
@@ -45,6 +46,7 @@ class PasswordField extends StringField {
   }) : super(
           labelPrefix: labelPrefix,
           label: label,
+          labelWidget: labelWidget,
           controller: controller,
           keyboard: TextInputType.visiblePassword,
           validator: validator,
