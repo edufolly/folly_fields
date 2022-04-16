@@ -61,19 +61,10 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
     if (value != null && isValid(value)) {
       List<String> parts = value.split(':');
       if (parts.length == 2) {
-        int? hour = int.tryParse(parts[0]);
-
-        if (hour == null || hour < 0 || hour > 23) {
-          return null;
-        }
-
-        int? minute = int.tryParse(parts[1]);
-
-        if (minute == null || minute < 0 || minute > 60) {
-          return null;
-        }
-
-        return TimeOfDay(hour: hour, minute: minute);
+        return TimeOfDay(
+          hour: int.parse(parts[0]),
+          minute: int.parse(parts[1]),
+        );
       }
     }
     return null;

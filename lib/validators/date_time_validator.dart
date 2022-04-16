@@ -17,7 +17,7 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   DateTimeValidator({
     String format = 'dd/MM/yyyy HH:mm',
     String locale = 'pt_br',
-    String mask = '##/##/#### A#:C#',
+    String mask = 'B#/D#/#### A#:C#',
   })  : dateFormat = DateFormat(format, locale),
         super(
           <TextInputFormatter>[
@@ -25,7 +25,9 @@ class DateTimeValidator extends AbstractValidator<DateTime>
               mask: mask,
               filter: <String, RegExp>{
                 'A': RegExp('[0-2]'),
+                'B': RegExp('[0-3]'),
                 'C': RegExp('[0-5]'),
+                'D': RegExp('[0-1]'),
                 '#': RegExp('[0-9]'),
               },
             ),
