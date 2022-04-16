@@ -11,7 +11,8 @@ class MultilineField extends StringField {
   ///
   const MultilineField({
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     TextEditingController? controller,
     String? Function(String value)? validator,
     int minLines = 2,
@@ -48,9 +49,12 @@ class MultilineField extends StringField {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           labelPrefix: labelPrefix,
           label: label,
+          labelWidget: labelWidget,
           controller: controller,
           keyboard: TextInputType.multiline,
           validator: validator,

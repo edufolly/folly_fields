@@ -14,7 +14,8 @@ class ValidatorField extends StringField {
     required AbstractValidator<String> abstractValidator,
     required String validatorMessage,
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     TextEditingController? controller,
     String? Function(String value)? validator,
     List<TextInputFormatter>? inputFormatter,
@@ -49,6 +50,8 @@ class ValidatorField extends StringField {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -59,6 +62,7 @@ class ValidatorField extends StringField {
           minHeight: minHeight,
           labelPrefix: labelPrefix,
           label: label,
+          labelWidget: labelWidget,
           controller: controller,
           keyboard: abstractValidator.keyboard,
           validator: enabled

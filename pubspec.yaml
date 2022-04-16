@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.9.4+121
+version: 0.9.5+122
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -8,7 +8,7 @@ publish_to: 'none' # TODO - Remove to publish
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
-  flutter: ^2.0.0
+  flutter: ">=2.0.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus

@@ -147,7 +147,7 @@ class FollyUtils {
   ///
   ///
   static String? validTime(String value) {
-    if (value.isEmpty) {
+    if (value.length != 5) {
       return 'Informe uma hora.';
     }
 

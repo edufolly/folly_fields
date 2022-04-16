@@ -15,7 +15,8 @@ class IconDataField extends FormFieldResponsive<IconData> {
   ///
   IconDataField({
     String labelPrefix = '',
-    String label = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     FormFieldValidator<IconData>? validator,
     FormFieldSetter<IconData>? onSaved,
@@ -42,6 +43,8 @@ class IconDataField extends FormFieldResponsive<IconData> {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -63,6 +66,7 @@ class IconDataField extends FormFieldResponsive<IconData> {
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
+                      label: labelWidget,
                       labelText:
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',

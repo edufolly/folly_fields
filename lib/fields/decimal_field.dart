@@ -8,7 +8,8 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 class DecimalField extends StatefulResponsive {
   final String labelPrefix;
-  final String label;
+  final String? label;
+  final Widget? labelWidget;
   final DecimalEditingController? controller;
   final Decimal? initialValue;
   final String? Function(Decimal value)? validator;
@@ -34,7 +35,8 @@ class DecimalField extends StatefulResponsive {
   ///
   const DecimalField({
     this.labelPrefix = '',
-    this.label = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.validator,
     this.textAlign = TextAlign.end,
@@ -63,6 +65,8 @@ class DecimalField extends StatefulResponsive {
     Key? key,
   })  : assert(initialValue == null || controller == null,
             'initialValue or controller must be null.'),
+        assert(label == null || labelWidget == null,
+            'label or labelWidget must be null.'),
         super(
           sizeExtraSmall: sizeExtraSmall,
           sizeSmall: sizeSmall,
@@ -135,30 +139,13 @@ class DecimalFieldState extends State<DecimalField> {
   ///
   ///
   @override
-  void dispose() {
-    _effectiveFocusNode.removeListener(_handleFocus);
-
-    if (_controller != null) {
-      _controller!.dispose();
-    }
-
-    if (_focusNode != null) {
-      _focusNode!.dispose();
-    }
-
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   Widget build(BuildContext context) {
     final InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
+              label: widget.labelWidget,
               labelText: widget.labelPrefix.isEmpty
                   ? widget.label
                   : '${widget.labelPrefix} - ${widget.label}',
@@ -201,6 +188,24 @@ class DecimalFieldState extends State<DecimalField> {
                 ),
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
+    if (_controller != null) {
+      _controller!.dispose();
+    }
+
+    if (_focusNode != null) {
+      _focusNode!.dispose();
+    }
+
+    super.dispose();
   }
 }
 
