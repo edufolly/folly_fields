@@ -1,8 +1,7 @@
 name: Site Deploy
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
@@ -12,7 +11,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get pubspec version
         run: |
@@ -21,8 +20,6 @@ jobs:
 
       - name: Flutter web environment
         uses: subosito/flutter-action@v2
-        with:
-          channel: 'beta'
 
       - name: Flutter config
         run: flutter config --enable-web --no-analytics
