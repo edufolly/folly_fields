@@ -9,7 +9,8 @@ abstract class AbstractModel<A> with Hashable {
   static final String modelIdKey = FollyFields().modelIdKey;
   static final String modelUpdatedAtKey = FollyFields().modelUpdatedAtKey;
   static final String modelDeletedAtKey = FollyFields().modelDeletedAtKey;
-  static final bool modelParseDates = FollyFields().modelParseDates;
+  static final FollyDateParse? dateParseUpdate = FollyFields().dateParseUpdate;
+  static final FollyDateParse? dateParseDelete = FollyFields().dateParseDelete;
 
   A? id;
   int? updatedAt;
@@ -33,14 +34,14 @@ abstract class AbstractModel<A> with Hashable {
     id = map[modelIdKey];
 
     if (map.containsKey(modelUpdatedAtKey)) {
-      updatedAt = modelParseDates
-          ? DateTime.parse(map[modelUpdatedAtKey]).millisecondsSinceEpoch
+      updatedAt = dateParseUpdate != null
+          ? dateParseUpdate!(map[modelUpdatedAtKey])
           : map[modelUpdatedAtKey];
     }
 
     if (map.containsKey(modelDeletedAtKey)) {
-      deletedAt = modelParseDates
-          ? DateTime.parse(map[modelDeletedAtKey]).millisecondsSinceEpoch
+      deletedAt = dateParseDelete != null
+          ? dateParseDelete!(map[modelDeletedAtKey])
           : map[modelDeletedAtKey];
     }
   }

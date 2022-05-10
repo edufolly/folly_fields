@@ -30,6 +30,11 @@ extension RunningPlatformExt on RunningPlatform {
 ///
 ///
 ///
+typedef FollyDateParse = int? Function(dynamic value);
+
+///
+///
+///
 abstract class _InternalConfig {
   ///
   ///
@@ -74,7 +79,12 @@ abstract class _InternalConfig {
   ///
   ///
   ///
-  bool get modelParseDates;
+  FollyDateParse? get dateParseUpdate;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseDelete;
 
   ///
   ///
@@ -96,8 +106,9 @@ class FollyFields implements _InternalConfig {
     String modelIdKey = 'id',
     String modelUpdatedAtKey = 'updatedAt',
     String modelDeletedAtKey = 'deletedAt',
-    bool modelParseDates = false,
     List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
+    FollyDateParse? dateParseUpdate,
+    FollyDateParse? dateParseDelete,
     Connectivity? connectivity,
   }) =>
       FollyFields()._holder = holder
@@ -105,7 +116,8 @@ class FollyFields implements _InternalConfig {
           modelIdKey: modelIdKey,
           modelUpdatedAtKey: modelUpdatedAtKey,
           modelDeletedAtKey: modelDeletedAtKey,
-          modelParseDates: modelParseDates,
+          dateParseUpdate: dateParseUpdate,
+          dateParseDelete: dateParseDelete,
           responsiveSizes: responsiveSizes,
           connectivity: connectivity,
         );
@@ -176,7 +188,13 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get modelParseDates => _holder!.modelParseDates;
+  FollyDateParse? get dateParseUpdate => _holder!.dateParseUpdate;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseDelete => _holder!.dateParseDelete;
 
   ///
   ///
@@ -220,7 +238,8 @@ abstract class AbstractConfig implements _InternalConfig {
   String _modelIdKey = 'id';
   String _modelUpdatedAtKey = 'updatedAt';
   String _modelDeletedAtKey = 'deletedAt';
-  bool _modelParseDates = false;
+  FollyDateParse? _dateParseUpdate;
+  FollyDateParse? _dateParseDelete;
   List<double> _responsiveSizes = const <double>[540, 720, 960, 1140];
 
   ///
@@ -276,7 +295,13 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
-  bool get modelParseDates => _modelParseDates;
+  FollyDateParse? get dateParseUpdate => _dateParseUpdate;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseDelete => _dateParseDelete;
 
   ///
   ///
@@ -291,8 +316,9 @@ abstract class AbstractConfig implements _InternalConfig {
     required String modelIdKey,
     required String modelUpdatedAtKey,
     required String modelDeletedAtKey,
-    required bool modelParseDates,
     required List<double> responsiveSizes,
+    FollyDateParse? dateParseUpdate,
+    FollyDateParse? dateParseDelete,
     Connectivity? connectivity,
   }) async {
     if (_started) {
@@ -308,7 +334,8 @@ abstract class AbstractConfig implements _InternalConfig {
       _modelIdKey = modelIdKey;
       _modelUpdatedAtKey = modelUpdatedAtKey;
       _modelDeletedAtKey = modelDeletedAtKey;
-      _modelParseDates = modelParseDates;
+      _dateParseUpdate = dateParseUpdate;
+      _dateParseDelete = dateParseDelete;
 
       _responsiveSizes = responsiveSizes;
 
