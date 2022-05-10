@@ -334,6 +334,7 @@ abstract class AbstractConfig implements _InternalConfig {
       _modelIdKey = modelIdKey;
       _modelUpdatedAtKey = modelUpdatedAtKey;
       _modelDeletedAtKey = modelDeletedAtKey;
+
       _dateParseUpdate = dateParseUpdate;
       _dateParseDelete = dateParseDelete;
 
