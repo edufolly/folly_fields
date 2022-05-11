@@ -25,6 +25,7 @@ class ExampleList
           selection: selection,
           multipleSelection: multipleSelection,
           forceOffline: false,
+          showRefreshButton: true,
           consumer: const ExampleConsumer(),
           uiBuilder: ExampleBuilder(labelPrefix),
           onAdd: (

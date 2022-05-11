@@ -75,6 +75,8 @@ abstract class AbstractList<
   final String addText;
   final String searchText;
   final String listEmpty;
+  final bool showRefreshButton;
+  final String refreshButtonText;
 
   ///
   ///
@@ -121,6 +123,8 @@ abstract class AbstractList<
     this.addText = 'Adicionar %s',
     this.searchText = 'Pesquisar %s',
     this.listEmpty = 'Sem %s até o momento.',
+    this.showRefreshButton = false,
+    this.refreshButtonText = 'Atualizar',
     Key? key,
   })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
             'searchFieldStyle or searchFieldDecorationTheme must be null.'),
@@ -307,6 +311,15 @@ class AbstractListState<
           return Scaffold(
             appBar: AppBar(
               title: _getScaffoldTitle(),
+              actions: <Widget>[
+                /// Refresh Button
+                if (widget.showRefreshButton)
+                  IconButton(
+                    tooltip: widget.refreshButtonText,
+                    icon: const Icon(FontAwesomeIcons.arrowsRotate),
+                    onPressed: () => _loadData(context),
+                  ),
+              ],
             ),
             bottomNavigationBar:
                 widget.uiBuilder.buildBottomNavigationBar(context),
@@ -338,7 +351,7 @@ class AbstractListState<
 
           List<Widget> _actions = <Widget>[];
 
-          /// Botão Selecionar Todos
+          /// Select All Button
           if (widget.selection == true &&
               widget.multipleSelection == true &&
               widget.invertSelection == true) {
@@ -370,6 +383,17 @@ class AbstractListState<
                 ),
                 icon: const Icon(Icons.search),
                 onPressed: _search,
+              ),
+            );
+          }
+
+          /// Refresh Button
+          if (widget.showRefreshButton) {
+            _actions.add(
+              IconButton(
+                tooltip: widget.refreshButtonText,
+                icon: const Icon(FontAwesomeIcons.arrowsRotate),
+                onPressed: () => _loadData(context),
               ),
             );
           }
