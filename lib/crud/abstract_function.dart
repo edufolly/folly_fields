@@ -56,8 +56,8 @@ abstract class AbstractFunction<T> extends AbstractRoute
   ///
   ///
   const AbstractFunction({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -90,7 +90,7 @@ abstract class MapFunction extends AbstractFunction<Map<String, String>>
   ///
   ///
   ///
-  const MapFunction({Key? key}) : super(key: key);
+  const MapFunction({super.key});
 }
 
 ///
@@ -101,5 +101,5 @@ abstract class ModelFunction<T extends AbstractModel<Object>>
   ///
   ///
   ///
-  const ModelFunction({Key? key}) : super(key: key);
+  const ModelFunction({super.key});
 }

@@ -147,8 +147,8 @@ class ExampleModel extends AbstractModel<int> {
     cpf = CpfValidator.generate();
     cnpj = CnpjValidator.generate();
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
-    phone = '889' + complete(8);
-    localPhone = '9' + complete(8);
+    phone = '889${complete(8)}';
+    localPhone = '9${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
     time = TimeOfDay(hour: now.hour, minute: now.minute);
     dateTime =

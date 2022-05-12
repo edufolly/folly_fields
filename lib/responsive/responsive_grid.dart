@@ -21,22 +21,14 @@ class ResponsiveGrid extends StatelessResponsive {
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.margin,
     this.padding,
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
-  }) : super(
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          key: key,
-        );
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  });
 
   ///
   ///

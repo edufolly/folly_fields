@@ -14,7 +14,7 @@ class ResponsiveBuilder extends StatelessWidget {
   ///
   ///
   ///
-  const ResponsiveBuilder({required this.builder, Key? key}) : super(key: key);
+  const ResponsiveBuilder({required this.builder, super.key});
 
   ///
   ///

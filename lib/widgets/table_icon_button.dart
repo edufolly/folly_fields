@@ -16,8 +16,8 @@ class TableIconButton extends StatelessWidget {
     required this.onPressed,
     required this.enabled,
     required this.iconData,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

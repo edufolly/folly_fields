@@ -21,22 +21,14 @@ class TableButton extends StatelessResponsive {
     required this.enabled,
     required this.iconData,
     this.padding = const EdgeInsets.fromLTRB(12, 12, 12, 0),
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
-  }) : super(
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          key: key,
-        );
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  });
 
   ///
   ///

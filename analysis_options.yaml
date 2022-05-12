@@ -60,7 +60,7 @@ linter:
     flutter_style_todos: true
     join_return_with_assignment: true
     leading_newlines_in_multiline_strings: true
-    # library_private_types_in_public_api: true
+    library_private_types_in_public_api: false
     lines_longer_than_80_chars: true
     missing_whitespace_between_adjacent_strings: true
     no_default_cases: true # experimental
@@ -113,6 +113,7 @@ linter:
     use_to_and_as_if_applicable: true
 
     # Pub
+    depend_on_referenced_packages: false
     secure_pubspec_urls: true
     sort_pub_dependencies: true
 

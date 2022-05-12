@@ -27,8 +27,8 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.onMenuSelect,
     this.backgroundColor,
     this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

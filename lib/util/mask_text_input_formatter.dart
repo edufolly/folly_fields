@@ -389,15 +389,10 @@ class UppercaseMask extends MaskTextInputFormatter {
   ///
   ///
   UppercaseMask({
-    String mask = '',
-    Map<String, RegExp>? filter,
-    String initialText = '',
-  })  : assert(mask.isNotEmpty, 'mask must be not empty.'),
-        super(
-          mask: mask,
-          filter: filter,
-          initialText: initialText,
-        );
+    super.mask,
+    super.filter,
+    super.initialText,
+  })  : assert(mask.isNotEmpty, 'mask must be not empty.');
 
   ///
   ///
@@ -432,8 +427,8 @@ class ChangeMask extends MaskTextInputFormatter {
   ChangeMask({
     required this.firstMask,
     required this.secondMask,
-    Map<String, RegExp>? filter,
-    String initialText = '',
+    super.filter,
+    super.initialText,
   })  : assert(firstMask.isNotEmpty, 'firstMask must be not empty.'),
         assert(secondMask.isNotEmpty, 'secondMask must be not empty.'),
         assert(
@@ -442,8 +437,6 @@ class ChangeMask extends MaskTextInputFormatter {
         ),
         super(
           mask: firstMask,
-          filter: filter,
-          initialText: initialText,
         );
 
   ///

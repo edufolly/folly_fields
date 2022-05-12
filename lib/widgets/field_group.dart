@@ -17,8 +17,8 @@ class FieldGroup extends StatelessWidget {
     required this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

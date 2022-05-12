@@ -19,7 +19,7 @@ class ListField<T extends AbstractModel<Object>,
   ///
   ///
   ListField({
-    required List<T> initialValue,
+    required List<T> super.initialValue,
     required UI uiBuilder,
     required Widget Function(BuildContext context, UI uiBuilder)
         routeAddBuilder,
@@ -27,7 +27,7 @@ class ListField<T extends AbstractModel<Object>,
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Future<bool> Function(BuildContext context)? beforeAdd,
     Future<bool> Function(BuildContext context, int index, T model)? beforeEdit,
@@ -37,23 +37,14 @@ class ListField<T extends AbstractModel<Object>,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     int Function(T a, T b)? listSort,
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
   }) : super(
-          key: key,
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          initialValue: initialValue,
-          enabled: enabled,
           onSaved: enabled && onSaved != null
               ? (List<T>? value) => onSaved(value!)
               : null,
@@ -228,8 +219,8 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.onDelete,
     required this.removeText,
     required this.enabled,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

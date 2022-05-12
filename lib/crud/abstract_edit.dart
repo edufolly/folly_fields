@@ -45,8 +45,8 @@ abstract class AbstractEdit<
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.modelFunctions,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

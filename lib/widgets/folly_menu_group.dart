@@ -20,8 +20,8 @@ class FollyMenuGroup extends StatelessWidget {
     required this.items,
     this.initialExpanded = false,
     this.color,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
