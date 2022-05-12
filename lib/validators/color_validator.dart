@@ -86,7 +86,7 @@ class ColorValidator extends AbstractValidator<Color>
         }
 
         return Color(int.parse(text));
-      } catch (e) {
+      } on Exception catch (_) {
         return defaultColor == null ? null : Color(defaultColor);
       }
     }

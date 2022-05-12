@@ -45,10 +45,14 @@ class ModelField<T extends AbstractModel<Object>>
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -63,9 +67,9 @@ class ModelField<T extends AbstractModel<Object>>
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final ModelFieldState<T> state = field as ModelFieldState<T>;
+            ModelFieldState<T> state = field as ModelFieldState<T>;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -137,13 +141,13 @@ class ModelField<T extends AbstractModel<Object>>
 
                             state._effectiveController.model = selected;
                             state.didChange(selected);
-                          } catch (ex) {
+                          } on Exception catch (ex) {
                             await FollyDialogs.dialogMessage(
                               context: state.context,
                               message: ex.toString(),
                             );
                           }
-                        } catch (e, s) {
+                        } on Exception catch (e, s) {
                           if (kDebugMode) {
                             print('$e\n$s');
                           }

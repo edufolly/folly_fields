@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 ///
@@ -18,9 +19,9 @@ class ConfigUtils {
   ///
   ///
   Future<void> loadFromAsset(
-    String assetPath, [
+    String assetPath, {
     bool removeEnvSubst = true,
-  ]) async {
+  }) async {
     configJson.clear();
 
     try {
@@ -36,8 +37,11 @@ class ConfigUtils {
       }
 
       configJson.addAll(localConfig);
-    } catch (ex) {
-      // do nothing;
+    } on Exception catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
     }
   }
 
@@ -50,7 +54,7 @@ class ConfigUtils {
   ///
   ///
   ///
-  bool boolOrDefault(String key, bool defaultValue) =>
+  bool boolOrDefault(String key, {required bool defaultValue}) =>
       configJson.containsKey(key)
           ? configJson[key].toString().toLowerCase() == 'true'
           : defaultValue;

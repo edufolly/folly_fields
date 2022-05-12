@@ -51,19 +51,24 @@ class DropdownField<T> extends FormFieldResponsive<T> {
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
         // assert(elevation != null),
         // assert(iconSize != null),
         // assert(isDense != null),
         // assert(isExpanded != null),
         assert(
-            itemHeight == null || itemHeight >= kMinInteractiveDimension,
-            'itemHeight must be null or equal or greater '
-            'kMinInteractiveDimension.'),
+          itemHeight == null || itemHeight >= kMinInteractiveDimension,
+          'itemHeight must be null or equal or greater '
+          'kMinInteractiveDimension.',
+        ),
         // assert(autofocus != null),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -78,9 +83,9 @@ class DropdownField<T> extends FormFieldResponsive<T> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final DropdownFieldState<T> state = field as DropdownFieldState<T>;
+            DropdownFieldState<T> state = field as DropdownFieldState<T>;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,

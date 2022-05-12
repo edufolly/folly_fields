@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 
@@ -39,8 +38,8 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
     return SilentFutureBuilder<bool>(
       future: rowFunction.showButton(
         context,
-        selection,
         model,
+        selection: selection,
       ),
       builder: (BuildContext context, bool data) => data
           ? IconButton(
@@ -49,8 +48,8 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
               onPressed: () async {
                 Widget? w = await rowFunction.onPressed(
                   context,
-                  selection,
                   model,
+                  selection: selection,
                 );
 
                 dynamic object = w != null
@@ -72,7 +71,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
                 }
               },
             )
-          : FollyUtils.nothing,
+          : const SizedBox.shrink(),
     );
   }
 }

@@ -6,6 +6,8 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
+// TODO(edufolly): Cweck this hint.
+// ignore: one_member_abstracts
 abstract class AbstractEditContent<T extends AbstractModel<Object>,
     E extends AbstractEditController<T>> {
   ///
@@ -14,10 +16,10 @@ abstract class AbstractEditContent<T extends AbstractModel<Object>,
   List<Responsive> formContent(
     BuildContext context,
     T model,
-    bool edit,
     String labelPrefix,
     Function(bool refresh) refresh,
     bool Function() formValidate,
-    E editController,
-  );
+    E editController, {
+    required bool edit,
+  });
 }

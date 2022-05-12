@@ -1,21 +1,21 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:folly_fields/widgets/menu_item.dart';
+import 'package:folly_fields/widgets/folly_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class MenuGroup extends StatelessWidget {
+class FollyMenuGroup extends StatelessWidget {
   final String name;
-  final List<MenuItem> items;
+  final List<FollyMenuItem> items;
   final bool initialExpanded;
   final Color? color;
 
   ///
   ///
   ///
-  const MenuGroup({
+  const FollyMenuGroup({
     required this.name,
     required this.items,
     this.initialExpanded = false,

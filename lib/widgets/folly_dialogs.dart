@@ -49,9 +49,8 @@ class FollyDialogs {
     TextInputType keyboardType = TextInputType.text,
     bool scrollable = false,
   }) async {
-    final TextEditingController _controller = TextEditingController();
-
-    _controller.text = startString;
+    TextEditingController _controller = TextEditingController()
+      ..text = startString;
 
     _controller.selection = TextSelection(
       baseOffset: 0,

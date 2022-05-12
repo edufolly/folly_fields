@@ -126,8 +126,10 @@ abstract class AbstractList<
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
     Key? key,
-  })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
-            'searchFieldStyle or searchFieldDecorationTheme must be null.'),
+  })  : assert(
+          searchFieldStyle == null || searchFieldDecorationTheme == null,
+          'searchFieldStyle or searchFieldDecorationTheme must be null.',
+        ),
         super(key: key);
 
   ///
@@ -267,7 +269,7 @@ class AbstractListState<
       List<T> result = await widget.consumer.list(
         context,
         _qsParam,
-        widget.forceOffline,
+        forceOffline: widget.forceOffline,
       );
 
       if (result.isEmpty) {
@@ -279,7 +281,7 @@ class AbstractListState<
 
       _streamController.add(true);
       _loading = false;
-    } catch (e, s) {
+    } on Exception catch (e, s) {
       if (kDebugMode) {
         print('$e\n$s');
       }
@@ -497,8 +499,8 @@ class AbstractListState<
                         },
                         child: Scrollbar(
                           controller: _scrollController,
-                          isAlwaysShown: FollyFields().isWeb,
-                          // thumbVisibility: true,
+                          // isAlwaysShown: FollyFields().isWeb,
+                          thumbVisibility: true,
                           child: ListView.separated(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(16),
@@ -762,7 +764,6 @@ class AbstractListState<
       }
 
       if (del) {
-        // ignore: unawaited_futures
         wait.show();
         await widget.consumer.delete(context, model);
         wait.close();
@@ -773,7 +774,7 @@ class AbstractListState<
 
         return ask;
       }
-    } catch (e, s) {
+    } on Exception catch (e, s) {
       wait.close();
 
       if (kDebugMode) {
@@ -912,7 +913,7 @@ class InternalSearch<
   ///
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = super.appBarTheme(context);
+    ThemeData theme = super.appBarTheme(context);
 
     return theme.copyWith(
       appBarTheme: theme.appBarTheme.copyWith(
@@ -990,7 +991,11 @@ class InternalSearch<
             child: uiBuilder.buildBackgroundContainer(
               context,
               SafeFutureBuilder<List<W>>(
-                future: consumer.list(context, param, forceOffline),
+                future: consumer.list(
+                  context,
+                  param,
+                  forceOffline: forceOffline,
+                ),
                 waitingMessage: waitingText,
                 builder: (BuildContext context, List<W> data) => data.isNotEmpty
                     ? ListView.separated(
@@ -1061,7 +1066,11 @@ class InternalSearch<
               child: uiBuilder.buildBackgroundContainer(
                 context,
                 SafeFutureBuilder<List<W>>(
-                  future: consumer.list(context, param, forceOffline),
+                  future: consumer.list(
+                    context,
+                    param,
+                    forceOffline: forceOffline,
+                  ),
                   waitingMessage: waitingText,
                   builder: (BuildContext context, List<W> data) => data
                           .isNotEmpty

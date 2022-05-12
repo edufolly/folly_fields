@@ -5,7 +5,7 @@ import 'package:folly_fields/validators/email_validator.dart';
 ///
 ///
 void main() {
-  final EmailValidator validator = EmailValidator();
+  EmailValidator validator = EmailValidator();
 
   Map<String, bool> isValidTests = <String, bool>{
     'email@example.com': true,

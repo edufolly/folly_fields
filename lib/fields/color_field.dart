@@ -67,10 +67,14 @@ class ColorField extends StatefulResponsive {
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           sizeExtraSmall: sizeExtraSmall,
           sizeSmall: sizeSmall,
@@ -154,7 +158,7 @@ class ColorFieldState extends State<ColorField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = (widget.decoration ??
+    InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
@@ -202,7 +206,7 @@ class ColorFieldState extends State<ColorField> {
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
-                    } catch (e, s) {
+                    } on Exception catch (e, s) {
                       if (kDebugMode) {
                         print('$e\n$s');
                       }

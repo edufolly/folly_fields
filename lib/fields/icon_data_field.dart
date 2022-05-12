@@ -41,10 +41,14 @@ class IconDataField extends FormFieldResponsive<IconData> {
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -59,9 +63,9 @@ class IconDataField extends FormFieldResponsive<IconData> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<IconData> field) {
-            final IconDataFieldState state = field as IconDataFieldState;
+            IconDataFieldState state = field as IconDataFieldState;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,

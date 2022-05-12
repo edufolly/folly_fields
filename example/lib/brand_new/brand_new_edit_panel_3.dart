@@ -17,12 +17,12 @@ class BrandNewEditPanel3 extends AbstractEditContent<BrandNewModel,
   List<Responsive> formContent(
     BuildContext context,
     BrandNewModel model,
-    bool edit,
     String labelPrefix,
     Function(bool refresh) refresh,
     _,
-    __,
-  ) {
+    __, {
+    required bool edit,
+  }) {
     return <Responsive>[
       const ResponsiveDecorator(
         child: Padding(

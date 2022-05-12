@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 ///
 void main() {
-  final DecimalValidator validator = DecimalValidator(4);
+  DecimalValidator validator = DecimalValidator(4);
 
   ///
   ///

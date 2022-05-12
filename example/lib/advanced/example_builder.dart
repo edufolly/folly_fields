@@ -10,7 +10,7 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   ///
-  const ExampleBuilder([String prefix = '']) : super(prefix);
+  const ExampleBuilder([super.prefix = '']);
 
   ///
   ///

@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/color_validator.dart';
 ///
 ///
 void main() {
-  final ColorValidator validator = ColorValidator();
+  ColorValidator validator = ColorValidator();
 
   Map<String?, Color?> parseTests = <String?, Color?>{
     null: null,

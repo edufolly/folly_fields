@@ -46,9 +46,9 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   Future<List<T>> list(
     BuildContext context,
-    Map<String, String> qsParam,
-    bool forceOffline,
-  );
+    Map<String, String> qsParam, {
+    required bool forceOffline,
+  });
 
   ///
   ///
@@ -57,7 +57,7 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
     BuildContext context, {
     Map<String, String> qsParam = const <String, String>{},
   }) async {
-    List<T> _list = await list(context, qsParam, false);
+    List<T> _list = await list(context, qsParam, forceOffline: false);
     return <T, String>{for (T e in _list) e: e.toString()};
   }
 

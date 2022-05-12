@@ -14,7 +14,7 @@ void main() {
 
   initializeDateFormatting(locale);
 
-  final DateValidator validator = DateValidator(
+  DateValidator validator = DateValidator(
     format: format,
     locale: locale,
     mask: mask,

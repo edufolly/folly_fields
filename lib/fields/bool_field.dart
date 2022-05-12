@@ -36,10 +36,14 @@ class BoolField extends FormFieldResponsive<bool> {
     double? minHeight,
     TextOverflow textOverflow = TextOverflow.ellipsis,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -58,9 +62,9 @@ class BoolField extends FormFieldResponsive<bool> {
           enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
-            final BoolFieldState state = field as BoolFieldState;
+            BoolFieldState state = field as BoolFieldState;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,

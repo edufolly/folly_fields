@@ -9,7 +9,7 @@ class BrandNewBuilder extends AbstractUIBuilder<BrandNewModel> {
   ///
   ///
   ///
-  const BrandNewBuilder([String prefix = '']) : super(prefix);
+  const BrandNewBuilder([super.prefix = '']);
 
   ///
   ///

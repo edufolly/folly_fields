@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 ///
 ///
 class FollyUtils {
-  static const Widget nothing = SizedBox(width: 0, height: 0);
-
   ///
   ///
   ///
@@ -200,7 +198,7 @@ class FollyUtils {
   ///
   ///
   ///
-  static String camel2Snake(String camel, [bool internal = false]) =>
+  static String camel2Snake(String camel, {bool internal = false}) =>
       internal || isCamelCase(camel)
           ? camel.splitMapJoin(
               RegExp('[A-Z]'),
@@ -212,13 +210,14 @@ class FollyUtils {
   ///
   ///
   ///
-  static String snake2Camel(String snake) =>
-      isSnakeCase(snake) ? pascal2Camel(snake2Pascal(snake, true), true) : '';
+  static String snake2Camel(String snake) => isSnakeCase(snake)
+      ? pascal2Camel(snake2Pascal(snake, internal: true), internal: true)
+      : '';
 
   ///
   ///
   ///
-  static String pascal2Camel(String pascal, [bool internal = false]) =>
+  static String pascal2Camel(String pascal, {bool internal = false}) =>
       internal || isPascalCase(pascal)
           ? pascal[0].toLowerCase() + pascal.substring(1)
           : '';
@@ -232,13 +231,14 @@ class FollyUtils {
   ///
   ///
   ///
-  static String pascal2Snake(String pascal) =>
-      isPascalCase(pascal) ? camel2Snake(pascal, true).substring(1) : '';
+  static String pascal2Snake(String pascal) => isPascalCase(pascal)
+      ? camel2Snake(pascal, internal: true).substring(1)
+      : '';
 
   ///
   ///
   ///
-  static String snake2Pascal(String snake, [bool internal = false]) =>
+  static String snake2Pascal(String snake, {bool internal = false}) =>
       internal || isSnakeCase(snake)
           ? snake.toLowerCase().splitMapJoin(
                 RegExp('_'),

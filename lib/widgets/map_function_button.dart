@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 
@@ -35,12 +34,12 @@ class MapFunctionButton extends StatelessWidget {
     return SilentFutureBuilder<bool>(
       future: mapFunction.showButton(
         context,
-        selection,
         qsParam,
+        selection: selection,
       ),
       builder: (BuildContext context, bool data) {
         if (!data) {
-          return FollyUtils.nothing;
+          return const SizedBox.shrink();
         }
 
         return IconButton(
@@ -49,8 +48,8 @@ class MapFunctionButton extends StatelessWidget {
           onPressed: () async {
             Widget? w = await mapFunction.onPressed(
               context,
-              selection,
               qsParam,
+              selection: selection,
             );
 
             Map<String, String>? map;
@@ -68,7 +67,7 @@ class MapFunctionButton extends StatelessWidget {
                 arguments: qsParam,
               );
 
-              if(returnValue is Map<String, String>) {
+              if (returnValue is Map<String, String>) {
                 map = returnValue;
               }
             }

@@ -61,7 +61,7 @@ class DateValidator extends AbstractValidator<DateTime>
     } else {
       try {
         return dateFormat.parse(text);
-      } catch (e) {
+      } on Exception catch (_) {
         return null;
       }
     }

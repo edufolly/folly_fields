@@ -9,7 +9,7 @@ class ExampleMapFunctionRoute extends MapFunction {
   ///
   ///
   ///
-  const ExampleMapFunctionRoute({Key? key}) : super(key: key);
+  const ExampleMapFunctionRoute({super.key});
 
   ///
   ///
@@ -44,8 +44,10 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
       body: qsParam != null
           ? ListView.separated(
               itemBuilder: (BuildContext context, int index) => ListTile(
-                title: Text('Key: ${qsParam.keys.elementAt(index)} - '
-                    'Value: ${qsParam.values.elementAt(index)}'),
+                title: Text(
+                  'Key: ${qsParam.keys.elementAt(index)} - '
+                  'Value: ${qsParam.values.elementAt(index)}',
+                ),
               ),
               separatorBuilder: (_, __) => const FollyDivider(),
               itemCount: qsParam.keys.length,

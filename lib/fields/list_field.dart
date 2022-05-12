@@ -127,9 +127,11 @@ class ListField<T extends AbstractModel<Object>,
                               if (returned != null) {
                                 field.value![index] = returned;
 
-                                field.value!.sort(listSort ??
-                                    (T a, T b) =>
-                                        a.toString().compareTo(b.toString()));
+                                field.value!.sort(
+                                  listSort ??
+                                      (T a, T b) =>
+                                          a.toString().compareTo(b.toString()),
+                                );
 
                                 field.didChange(field.value);
                               }
@@ -161,7 +163,7 @@ class ListField<T extends AbstractModel<Object>,
                       }
                     }
 
-                    final dynamic selected =
+                    dynamic selected =
                         await Navigator.of(field.context).push(
                       MaterialPageRoute<dynamic>(
                         builder: (BuildContext context) =>
@@ -187,8 +189,10 @@ class ListField<T extends AbstractModel<Object>,
                         }
                       }
 
-                      field.value!.sort(listSort ??
-                          (T a, T b) => a.toString().compareTo(b.toString()));
+                      field.value!.sort(
+                        listSort ??
+                            (T a, T b) => a.toString().compareTo(b.toString()),
+                      );
 
                       field.didChange(field.value);
                     }

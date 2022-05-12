@@ -16,14 +16,11 @@ class ExampleList
   ///
   ///
   ExampleList({
-    Key? key,
-    bool selection = false,
-    bool multipleSelection = false,
+    super.key,
+    super.selection = false,
+    super.multipleSelection = false,
     String labelPrefix = '',
   }) : super(
-          key: key,
-          selection: selection,
-          multipleSelection: multipleSelection,
           forceOffline: false,
           showRefreshButton: true,
           consumer: const ExampleConsumer(),
@@ -33,7 +30,7 @@ class ExampleList
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
           ) async =>
-              ExampleEdit(ExampleModel(), uiBuilder, consumer, true),
+              ExampleEdit(ExampleModel(), uiBuilder, consumer, edit: true),
           onUpdate: (
             BuildContext context,
             ExampleModel model,
@@ -41,7 +38,7 @@ class ExampleList
             ExampleConsumer consumer,
             bool edit,
           ) async =>
-              ExampleEdit(model, uiBuilder, consumer, edit),
+              ExampleEdit(model, uiBuilder, consumer, edit: edit),
           onLongPress: (
             BuildContext context,
             ExampleModel model,
@@ -49,7 +46,7 @@ class ExampleList
             ExampleConsumer consumer,
             bool edit,
           ) async =>
-              ExampleEdit(model, uiBuilder, consumer, edit),
+              ExampleEdit(model, uiBuilder, consumer, edit: edit),
           mapFunctions: <AbstractMapFunction>[
             const ExampleMapFunctionRoute(),
           ],
