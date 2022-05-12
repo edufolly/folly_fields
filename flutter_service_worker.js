@@ -13,7 +13,7 @@ const RESOURCES = {
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
 "canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba",
-"version.json": "dd6b7d9f412fd45e1e8f1c22d350a418",
+"version.json": "9760f2ca3a9586ec1be8f23d4de4cefb",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-brands-400.ttf": "d1722d5cf2c7855862f68edb85e31f88",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-regular-400.ttf": "613e4cc1af0eb5148b8ce409ad35446d",
 "assets/packages/font_awesome_flutter/lib/fonts/fa-solid-900.ttf": "dd3c4233029270506ecc994d67785a37",
@@ -22,8 +22,8 @@ const RESOURCES = {
 "assets/NOTICES": "d231553c7fa2666d0f5fa87a207f86fc",
 "assets/FontManifest.json": "3ddd9b2ab1c2ae162d46e3cc7b78ba88",
 "flutter.js": "0816e65a103ba8ba51b174eeeeb2cb67",
-"index.html": "b8cfe5e0b62c90d623e6c77ed16020b0",
-"/": "b8cfe5e0b62c90d623e6c77ed16020b0",
+"index.html": "ecf385d1142729c4879f74e29977c7e4",
+"/": "ecf385d1142729c4879f74e29977c7e4",
 "manifest.json": "2eb43e28c2026cad45ee25de8b5933b4"
 };
 
