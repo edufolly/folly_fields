@@ -126,7 +126,7 @@ abstract class AbstractList<
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
     super.key,
-  })  : assert(
+  }) : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
           'searchFieldStyle or searchFieldDecorationTheme must be null.',
         );
@@ -291,13 +291,13 @@ class AbstractListState<
   ///
   ///
   ///
-  Widget _getScaffoldTitle() => Text(
+  Widget _getScaffoldTitle(BuildContext context) => Text(
         widget.selection
             ? sprintf(
                 widget.selectionText,
-                <dynamic>[widget.uiBuilder.superSingle],
+                <dynamic>[widget.uiBuilder.superSingle(context)],
               )
-            : widget.uiBuilder.superPlural,
+            : widget.uiBuilder.superPlural(context),
       );
 
   ///
@@ -311,7 +311,7 @@ class AbstractListState<
         if (snapshot.hasError) {
           return Scaffold(
             appBar: AppBar(
-              title: _getScaffoldTitle(),
+              title: _getScaffoldTitle(context),
               actions: <Widget>[
                 /// Refresh Button
                 if (widget.showRefreshButton)
@@ -348,15 +348,15 @@ class AbstractListState<
             itemCount++;
           }
 
-          Widget? _fabAdd;
+          Widget? fabAdd;
 
-          List<Widget> _actions = <Widget>[];
+          List<Widget> actions = <Widget>[];
 
           /// Select All Button
           if (widget.selection == true &&
               widget.multipleSelection == true &&
               widget.invertSelection == true) {
-            _actions.add(
+            actions.add(
               IconButton(
                 tooltip: widget.invertSelectionText,
                 icon: const Icon(Icons.select_all),
@@ -376,11 +376,11 @@ class AbstractListState<
 
           /// Search Button
           if (FollyFields().isOnline) {
-            _actions.add(
+            actions.add(
               IconButton(
                 tooltip: sprintf(
                   widget.searchText,
-                  <dynamic>[widget.uiBuilder.superSingle],
+                  <dynamic>[widget.uiBuilder.superSingle(context)],
                 ),
                 icon: const Icon(Icons.search),
                 onPressed: _search,
@@ -390,7 +390,7 @@ class AbstractListState<
 
           /// Refresh Button
           if (widget.showRefreshButton) {
-            _actions.add(
+            actions.add(
               IconButton(
                 tooltip: widget.refreshButtonText,
                 icon: const Icon(FontAwesomeIcons.arrowsRotate),
@@ -402,11 +402,11 @@ class AbstractListState<
           /// Selection Confirm Button
           if (widget.selection) {
             if (widget.multipleSelection) {
-              _actions.add(
+              actions.add(
                 IconButton(
                   tooltip: sprintf(
                     widget.selectionText,
-                    <dynamic>[widget.uiBuilder.superPlural],
+                    <dynamic>[widget.uiBuilder.superPlural(context)],
                   ),
                   icon: const FaIcon(FontAwesomeIcons.check),
                   onPressed: () => Navigator.of(context)
@@ -418,7 +418,7 @@ class AbstractListState<
             /// Action Routes
             for (MapEntry<ConsumerPermission, AbstractMapFunction> entry
                 in effectiveMapFunctions.entries) {
-              _actions.add(
+              actions.add(
                 MapFunctionButton(
                   mapFunction: entry.value,
                   permission: entry.key,
@@ -435,21 +435,21 @@ class AbstractListState<
             /// Add Button
             if (_insert) {
               if (FollyFields().isWeb) {
-                _actions.add(
+                actions.add(
                   IconButton(
                     tooltip: sprintf(
                       widget.addText,
-                      <dynamic>[widget.uiBuilder.superSingle],
+                      <dynamic>[widget.uiBuilder.superSingle(context)],
                     ),
                     icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
                 );
               } else {
-                _fabAdd = FloatingActionButton(
+                fabAdd = FloatingActionButton(
                   tooltip: sprintf(
                     widget.addText,
-                    <dynamic>[widget.uiBuilder.superSingle],
+                    <dynamic>[widget.uiBuilder.superSingle(context)],
                   ),
                   onPressed: _addEntity,
                   child: const FaIcon(FontAwesomeIcons.plus),
@@ -458,11 +458,11 @@ class AbstractListState<
             }
 
             /// Legend Button
-            if (widget.uiBuilder.listLegend.isNotEmpty) {
-              _actions.add(
+            if (widget.uiBuilder.listLegend(context).isNotEmpty) {
+              actions.add(
                 IconButton(
-                  tooltip: widget.uiBuilder.listLegendTitle,
-                  icon: FaIcon(widget.uiBuilder.listLegendIcon),
+                  tooltip: widget.uiBuilder.listLegendTitle(context),
+                  icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
                   onPressed: _showListLegend,
                 ),
               );
@@ -471,8 +471,8 @@ class AbstractListState<
 
           return Scaffold(
             appBar: AppBar(
-              title: _getScaffoldTitle(),
-              actions: _actions,
+              title: _getScaffoldTitle(context),
+              actions: actions,
             ),
             bottomNavigationBar:
                 widget.uiBuilder.buildBottomNavigationBar(context),
@@ -485,7 +485,9 @@ class AbstractListState<
                     ? TextMessage(
                         sprintf(
                           widget.listEmpty,
-                          <dynamic>[widget.uiBuilder.superPlural.toLowerCase()],
+                          <dynamic>[
+                            widget.uiBuilder.superPlural(context).toLowerCase(),
+                          ],
                         ),
                       )
                     : RawKeyboardListener(
@@ -560,13 +562,13 @@ class AbstractListState<
                       ),
               ),
             ),
-            floatingActionButton: _fabAdd,
+            floatingActionButton: fabAdd,
           );
         }
 
         return Scaffold(
           appBar: AppBar(
-            title: _getScaffoldTitle(),
+            title: _getScaffoldTitle(context),
           ),
           bottomNavigationBar:
               widget.uiBuilder.buildBottomNavigationBar(context),
@@ -634,11 +636,11 @@ class AbstractListState<
         children: <Widget>[
           widget.multipleSelection && onTap == null
               ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
-              : widget.uiBuilder.getLeading(model),
+              : widget.uiBuilder.getLeading(context, model),
         ],
       ),
-      title: widget.uiBuilder.getTitle(model),
-      subtitle: widget.uiBuilder.getSubtitle(model),
+      title: widget.uiBuilder.getTitle(context, model),
+      subtitle: widget.uiBuilder.getSubtitle(context, model),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -800,26 +802,27 @@ class AbstractListState<
   ///
   ///
   void _showListLegend() {
+    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Row(
           children: <Widget>[
-            FaIcon(widget.uiBuilder.listLegendIcon),
+            FaIcon(widget.uiBuilder.listLegendIcon(context)),
             const SizedBox(
               width: 8,
             ),
-            Text(widget.uiBuilder.listLegendTitle),
+            Text(widget.uiBuilder.listLegendTitle(context)),
           ],
         ),
         content: SingleChildScrollView(
           child: ListBody(
-            children: widget.uiBuilder.listLegend.keys
+            children: listLegend.keys
                 .map(
                   (String key) => ListTile(
                     leading: FaIcon(
                       FontAwesomeIcons.solidCircle,
-                      color: widget.uiBuilder.listLegend[key],
+                      color: listLegend[key],
                     ),
                     title: Text(key),
                   ),
@@ -830,7 +833,7 @@ class AbstractListState<
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(widget.uiBuilder.listLegendButtonText),
+            child: Text(widget.uiBuilder.listLegendButtonText(context)),
           ),
         ],
       ),
@@ -1087,9 +1090,14 @@ class InternalSearch<
                                   W model = data[index];
 
                                   return ListTile(
-                                    title: uiBuilder.getSuggestionTitle(model),
-                                    subtitle:
-                                        uiBuilder.getSuggestionSubtitle(model),
+                                    title: uiBuilder.getSuggestionTitle(
+                                      context,
+                                      model,
+                                    ),
+                                    subtitle: uiBuilder.getSuggestionSubtitle(
+                                      context,
+                                      model,
+                                    ),
                                     onTap: () {
                                       _lastQuery = model.listSearchTerm;
                                       query = _lastQuery!;

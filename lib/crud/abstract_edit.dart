@@ -121,7 +121,7 @@ class AbstractEditState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.uiBuilder.superSingle),
+        title: Text(widget.uiBuilder.superSingle(context)),
         actions: <Widget>[
           SilentStreamBuilder<bool>(
             stream: _controllerModelFunctions.stream,

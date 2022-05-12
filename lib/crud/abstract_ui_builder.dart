@@ -13,63 +13,66 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   @mustCallSuper
-  const AbstractUIBuilder(
-    this.labelPrefix, [
+  const AbstractUIBuilder({
+    this.labelPrefix = '',
     this.labelSuffix = '',
-  ]);
+  });
 
   ///
   ///
   ///
-  String get superSingle => <String>[
+  String superSingle(BuildContext context) => <String>[
         if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
-        single,
+        single(context),
         if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
       ].join(' - ');
 
   ///
   ///
   ///
-  String get single;
+  String single(BuildContext context);
 
   ///
   ///
   ///
-  String get superPlural => <String>[
+  String superPlural(BuildContext context) => <String>[
         if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
-        plural,
+        plural(context),
         if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
       ].join(' - ');
 
   ///
   ///
   ///
-  String get plural;
+  String plural(BuildContext context);
 
   ///
   ///
   ///
-  Widget getLeading(T model) => const FaIcon(FontAwesomeIcons.solidCircle);
+  Widget getLeading(BuildContext context, T model) =>
+      const FaIcon(FontAwesomeIcons.solidCircle);
 
   ///
   ///
   ///
-  Widget getTitle(T model);
+  Widget getTitle(BuildContext context, T model);
 
   ///
   ///
   ///
-  Widget? getSubtitle(T model) => null;
+  Widget? getSubtitle(BuildContext context, T model) => null;
 
   ///
   ///
   ///
-  Widget getSuggestionTitle(T model) => getTitle(model);
+  Widget getSuggestionTitle(BuildContext context, T model) =>
+      getTitle(context, model);
 
   ///
   ///
   ///
-  Widget? getSuggestionSubtitle(T model) => getSubtitle(model);
+  Widget? getSuggestionSubtitle(BuildContext context, T model) =>
+      getSubtitle(context, model);
 
   ///
   ///
@@ -86,20 +89,21 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Map<String, Color> get listLegend => const <String, Color>{};
+  Map<String, Color> listLegend(BuildContext context) =>
+      const <String, Color>{};
 
   ///
   ///
   ///
-  IconData get listLegendIcon => FontAwesomeIcons.circleInfo;
+  IconData listLegendIcon(BuildContext context) => FontAwesomeIcons.circleInfo;
 
   ///
   ///
   ///
-  String get listLegendTitle => 'Informações';
+  String listLegendTitle(BuildContext context) => 'Informações';
 
   ///
   ///
   ///
-  String get listLegendButtonText => 'Fechar';
+  String listLegendButtonText(BuildContext context) => 'Fechar';
 }

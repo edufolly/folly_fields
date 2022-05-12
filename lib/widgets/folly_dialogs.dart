@@ -49,12 +49,12 @@ class FollyDialogs {
     TextInputType keyboardType = TextInputType.text,
     bool scrollable = false,
   }) async {
-    TextEditingController _controller = TextEditingController()
+    TextEditingController controller = TextEditingController()
       ..text = startString;
 
-    _controller.selection = TextSelection(
+    controller.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: _controller.text.length,
+      extentOffset: controller.text.length,
     );
 
     String? value = await showDialog(
@@ -81,7 +81,7 @@ class FollyDialogs {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: TextField(
-                  controller: _controller,
+                  controller: controller,
                   keyboardType: keyboardType,
                   autofocus: true,
                 ),
@@ -94,7 +94,7 @@ class FollyDialogs {
               child: Text(cancelLabel),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(_controller.text),
+              onPressed: () => Navigator.of(context).pop(controller.text),
               child: Text(confirmLabel),
             ),
           ],

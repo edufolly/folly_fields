@@ -89,8 +89,6 @@ class CodeLink extends StatelessWidget {
               icon: const Icon(Icons.copy),
               onPressed: () async {
                 await Clipboard.setData(ClipboardData(text: example));
-                // TODO(edufolly): Check this hint
-                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(

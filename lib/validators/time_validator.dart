@@ -30,10 +30,8 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  String format(TimeOfDay time) =>
-      time.hour.toString().padLeft(2, '0') +
-      ':' +
-      time.minute.toString().padLeft(2, '0');
+  String format(TimeOfDay time) => '${time.hour.toString().padLeft(2, '0')}'
+      ':${time.minute.toString().padLeft(2, '0')}';
 
   ///
   ///
