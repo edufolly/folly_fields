@@ -38,9 +38,9 @@ class CircularWaiting {
   ///
   ///
   ///
-  Future<void> show() async {
+  void show() {
     _show = true;
-    await showDialog(
+    showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => WillPopScope(

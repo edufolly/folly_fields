@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-class MenuItem extends StatelessWidget {
+class FollyMenuItem extends StatelessWidget {
   final String label;
   final IconData iconData;
   final VoidCallback onTap;
@@ -14,7 +14,7 @@ class MenuItem extends StatelessWidget {
   ///
   ///
   ///
-  const MenuItem({
+  const FollyMenuItem({
     required this.label,
     required this.iconData,
     required this.onTap,

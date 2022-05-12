@@ -4,7 +4,7 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///
 ///
@@ -23,8 +23,8 @@ class CodeLink extends StatelessWidget {
     required this.tag,
     required this.source,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -102,8 +102,8 @@ class CodeLink extends StatelessWidget {
               label: const Text('Código Fonte'),
               icon: const Icon(FontAwesomeIcons.github),
               onPressed: () async {
-                if (await canLaunch(source)) {
-                  await launch(source);
+                if (await canLaunchUrlString(source)) {
+                  await launchUrlString(source);
                 } else {
                   await FollyDialogs.dialogMessage(
                     context: context,

@@ -8,18 +8,18 @@ abstract class Hashable {
   ///
   ///
   int hashIterable(
-    Iterable<dynamic> iterable, [
+    Iterable<dynamic> iterable, {
     int deep = 1,
     bool debug = false,
-  ]) {
+  }) {
     int it = iterable.fold(
       0,
       (int h, dynamic i) {
         int hash;
         if (i is List) {
-          hash = hashIterable(i, deep + 1, debug);
+          hash = hashIterable(i, deep: deep + 1, debug: debug);
         } else if (i is Map) {
-          hash = hashIterable(i.values, deep + 1, debug);
+          hash = hashIterable(i.values, deep: deep + 1, debug: debug);
         } else if (i == null) {
           hash = 0;
         } else {
@@ -30,8 +30,10 @@ abstract class Hashable {
 
         if (debug) {
           if (kDebugMode) {
-            print((' ' * deep * 2) +
-                'h: $h => (${i.runtimeType}) $i: $hash => c: $c');
+            print(
+              (' ' * deep * 2) +
+                  'h: $h => (${i.runtimeType}) $i: $hash => c: $c',
+            );
           }
         }
         return c;

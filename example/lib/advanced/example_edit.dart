@@ -41,12 +41,12 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   ///
   ///
   const ExampleEdit(
-    ExampleModel model,
-    ExampleBuilder uiBuilder,
-    ExampleConsumer consumer,
-    bool edit, {
-    Key? key,
-  }) : super(model, uiBuilder, consumer, edit, key: key);
+    super.model,
+    super.uiBuilder,
+    super.consumer, {
+    required super.edit,
+    super.key,
+  });
 
   ///
   ///
@@ -55,12 +55,12 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   List<Responsive> formContent(
     BuildContext context,
     ExampleModel model,
-    bool edit,
     String labelPrefix,
     Function(bool refresh) refresh,
     _,
-    __,
-  ) {
+    __, {
+    required bool edit,
+  }) {
     return <Responsive>[
       /// Texto
       StringField(

@@ -17,7 +17,7 @@ void main() {
     '01:23:45:67:89:AB': true,
   };
 
-  final MacAddressValidator validator = MacAddressValidator();
+  MacAddressValidator validator = MacAddressValidator();
 
   for (int i = 0; i < 100; i++) {
     isValidTests[MacAddressValidator.generate()] = true;

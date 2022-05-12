@@ -17,8 +17,10 @@ class Decimal with Hashable {
     int? intValue,
     double? doubleValue,
   })  : assert(precision >= 0, 'precision must be positive or zero'),
-        assert(intValue == null || doubleValue == null,
-            'intValue or doubleValue must be null'),
+        assert(
+          intValue == null || doubleValue == null,
+          'intValue or doubleValue must be null',
+        ),
         doubleValue =
             doubleValue ?? (intValue ?? 0).toDouble() / pow(10, precision);
 

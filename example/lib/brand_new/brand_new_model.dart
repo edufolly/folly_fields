@@ -20,13 +20,13 @@ class BrandNewModel extends AbstractModel<int> {
   ///
   ///
   ///
-  BrandNewModel.fromJson(Map<String, dynamic> map)
+  BrandNewModel.fromJson(super.map)
       : name = map['name'],
         type = _brandNewParser.fromJson('type'),
         specific1 = map['specific1'],
         specific2 = map['specific2'],
         specific3 = map['specific3'],
-        super.fromJson(map);
+        super.fromJson();
 
   ///
   ///

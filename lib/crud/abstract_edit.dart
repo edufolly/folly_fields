@@ -11,7 +11,6 @@ import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
@@ -41,12 +40,12 @@ abstract class AbstractEdit<
   const AbstractEdit(
     this.model,
     this.uiBuilder,
-    this.consumer,
-    this.edit, {
-    Key? key,
+    this.consumer, {
+    required this.edit,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.modelFunctions,
+    Key? key,
   }) : super(key: key);
 
   ///
@@ -110,7 +109,7 @@ class AbstractEditState<
       _controller.add(true);
 
       _initialHash = _model.hashCode;
-    } catch (error, stack) {
+    } on Exception catch (error, stack) {
       _controller.addError(error, stack);
     }
   }
@@ -159,7 +158,7 @@ class AbstractEditState<
                                         _controller.add(true),
                                   );
                                 }
-                                return FollyUtils.nothing;
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
@@ -167,7 +166,7 @@ class AbstractEditState<
                         .values
                         .toList(),
                   )
-                : FollyUtils.nothing,
+                : const SizedBox.shrink(),
           ),
 
           /// Save Button
@@ -220,11 +219,11 @@ class AbstractEditState<
                 children: widget.formContent(
                   context,
                   _model,
-                  widget.edit,
                   widget.uiBuilder.labelPrefix,
                   _controller.add,
                   _formKey.currentState!.validate,
                   widget.editController ?? (EmptyEditController<T>() as E),
+                  edit: widget.edit,
                 ),
               ),
             ),
@@ -241,7 +240,6 @@ class AbstractEditState<
     CircularWaiting wait = CircularWaiting(context);
 
     try {
-      // ignore: unawaited_futures
       wait.show();
 
       _formKey.currentState!.save();
@@ -273,7 +271,7 @@ class AbstractEditState<
       } else {
         wait.close();
       }
-    } catch (e, s) {
+    } on Exception catch (e, s) {
       wait.close();
 
       if (kDebugMode) {

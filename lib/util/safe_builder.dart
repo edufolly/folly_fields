@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 
@@ -20,13 +19,13 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
           builder: builder,
           future: future,
           initialData: initialData,
-          onWait: (_, __) => FollyUtils.nothing,
+          onWait: (_, __) => const SizedBox.shrink(),
           onError: (Object? error, StackTrace? stackTrace, _) {
             if (kDebugMode) {
               print(error);
               print(stackTrace);
             }
-            return FollyUtils.nothing;
+            return const SizedBox.shrink();
           },
           key: key,
         );
@@ -61,8 +60,10 @@ class SafeFutureBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     Key? key,
-  })  : assert(onWait == null || waitingMessage == null,
-            'onWait or waitingMessage must be null.'),
+  })  : assert(
+          onWait == null || waitingMessage == null,
+          'onWait or waitingMessage must be null.',
+        ),
         super(key: key);
 
   ///
@@ -119,13 +120,13 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
           builder: builder,
           stream: stream,
           initialData: initialData,
-          onWait: (_, __) => FollyUtils.nothing,
+          onWait: (_, __) => const SizedBox.shrink(),
           onError: (Object? error, StackTrace? stackTrace, _) {
             if (kDebugMode) {
               print(error);
               print(stackTrace);
             }
-            return FollyUtils.nothing;
+            return const SizedBox.shrink();
           },
           key: key,
         );
@@ -160,8 +161,10 @@ class SafeStreamBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     Key? key,
-  })  : assert(onWait == null || waitingMessage == null,
-            'onWait or waitingMessage must be null.'),
+  })  : assert(
+          onWait == null || waitingMessage == null,
+          'onWait or waitingMessage must be null.',
+        ),
         super(key: key);
 
   ///

@@ -4,6 +4,10 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 
 Please :star: to support the project.
 
+## Flutter 3.0 - Break Changes
+
+Version 0.10.0 needs Flutter 3.0.0 and Dart 2.17.0
+
 ## Example
 
 ### Demo

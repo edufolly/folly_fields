@@ -81,7 +81,7 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   Widget buildBottomNavigationBar(BuildContext context) =>
-      const SizedBox(height: 0, width: 0);
+      const SizedBox.shrink();
 
   ///
   ///

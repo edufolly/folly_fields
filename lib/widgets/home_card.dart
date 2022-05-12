@@ -40,7 +40,7 @@ class HomeCard<T, O> extends StatelessWidget {
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),

@@ -83,10 +83,14 @@ class DateTimeField extends StatefulResponsive {
     int? sizeExtraLarge,
     double? minHeight,
     Key? key,
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        assert(label == null || labelWidget == null,
-            'label or labelWidget must be null.'),
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
           sizeExtraSmall: sizeExtraSmall,
           sizeSmall: sizeSmall,
@@ -171,7 +175,7 @@ class DateTimeFieldState extends State<DateTimeField> {
   ///
   @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = (widget.decoration ??
+    InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
@@ -210,7 +214,7 @@ class DateTimeFieldState extends State<DateTimeField> {
                           initialTime = TimeOfDay.fromDateTime(
                             _effectiveController.dateTime ?? DateTime.now(),
                           );
-                        } catch (e) {
+                        } on Exception catch (_) {
                           // Do nothing.
                         }
 
@@ -240,9 +244,10 @@ class DateTimeFieldState extends State<DateTimeField> {
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
-                    } catch (e, s) {
+                    } on Exception catch (e, s) {
                       if (kDebugMode) {
-                        print('$e\n$s');
+                        print(e);
+                        print(s);
                       }
                     }
                   }
@@ -324,7 +329,8 @@ class DateTimeEditingController extends TextEditingController {
   ///
   DateTimeEditingController({DateTime? dateTime})
       : super(
-            text: dateTime == null ? '' : DateTimeValidator().format(dateTime));
+          text: dateTime == null ? '' : DateTimeValidator().format(dateTime),
+        );
 
   ///
   ///

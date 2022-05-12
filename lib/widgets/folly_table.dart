@@ -143,8 +143,8 @@ class FollyTableState extends State<FollyTable> {
             ),
             child: Scrollbar(
               controller: _horizontalController,
-              isAlwaysShown: widget.horizontalScrollAlwaysVisible,
-              // thumbVisibility: widget.horizontalScrollAlwaysVisible,
+              // isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+              thumbVisibility: widget.horizontalScrollAlwaysVisible,
               thickness: widget.scrollBarThickness,
               child: SingleChildScrollView(
                 controller: _horizontalController,
@@ -169,8 +169,8 @@ class FollyTableState extends State<FollyTable> {
             Expanded(
               child: Scrollbar(
                 controller: _verticalController,
-                isAlwaysShown: widget.verticalScrollAlwaysVisible,
-                // thumbVisibility: widget.verticalScrollAlwaysVisible,
+                // isAlwaysShown: widget.verticalScrollAlwaysVisible,
+                thumbVisibility: widget.verticalScrollAlwaysVisible,
                 thickness: widget.scrollBarThickness,
                 child: SingleChildScrollView(
                   controller: _verticalController,

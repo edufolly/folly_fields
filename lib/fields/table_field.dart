@@ -65,9 +65,10 @@ class TableField<T extends AbstractModel<Object>>
     double? elevation,
     Key? key,
   })  : assert(
-            columnsFlex == null || columnsFlex.length == columns.length,
-            'columnsFlex must be null or columnsFlex.length equals to '
-            'columns.length.'),
+          columnsFlex == null || columnsFlex.length == columns.length,
+          'columnsFlex must be null or columnsFlex.length equals to '
+          'columns.length.',
+        ),
         super(
           key: key,
           sizeExtraSmall: sizeExtraSmall,
@@ -214,59 +215,60 @@ class TableField<T extends AbstractModel<Object>>
                         /// Table data
                         for (MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
-                          /// Divider
-                          columnData.add(
-                            FollyDivider(enabled: enabled),
-                          );
+                          columnData.addAll(
+                            <Widget>[
+                              /// Divider
+                              FollyDivider(enabled: enabled),
 
-                          /// Row
-                          columnData.add(
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                /// Cells
-                                ...buildRow(
-                                  field.context,
-                                  entry.value,
-                                  entry.key,
-                                  field.value!,
-                                  enabled,
-                                  List<String>.filled(columns.length, ''),
-                                )
-                                    .asMap()
-                                    .entries
-                                    .map<Widget>(
-                                      (MapEntry<int, Widget> entry) => Flexible(
-                                        flex: columnsFlex?[entry.key] ?? 1,
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: entry.value,
+                              /// Row
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  /// Cells
+                                  ...buildRow(
+                                    field.context,
+                                    entry.value,
+                                    entry.key,
+                                    field.value!,
+                                    enabled,
+                                    List<String>.filled(columns.length, ''),
+                                  )
+                                      .asMap()
+                                      .entries
+                                      .map<Widget>(
+                                        (MapEntry<int, Widget> entry) =>
+                                            Flexible(
+                                          flex: columnsFlex?[entry.key] ?? 1,
+                                          child: SizedBox(
+                                            width: double.infinity,
+                                            child: entry.value,
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
+                                      )
+                                      .toList(),
 
-                                /// Delete button
-                                if (removeRow != null)
-                                  TableIconButton(
-                                    enabled: enabled,
-                                    iconData: FontAwesomeIcons.trashCan,
-                                    onPressed: () async {
-                                      bool go = await removeRow(
-                                        field.context,
-                                        entry.value,
-                                        entry.key,
-                                        field.value!,
-                                      );
-                                      if (!go) {
-                                        return;
-                                      }
-                                      field.value!.removeAt(entry.key);
-                                      field.didChange(field.value);
-                                    },
-                                  ),
-                              ],
-                            ),
+                                  /// Delete button
+                                  if (removeRow != null)
+                                    TableIconButton(
+                                      enabled: enabled,
+                                      iconData: FontAwesomeIcons.trashCan,
+                                      onPressed: () async {
+                                        bool go = await removeRow(
+                                          field.context,
+                                          entry.value,
+                                          entry.key,
+                                          field.value!,
+                                        );
+                                        if (!go) {
+                                          return;
+                                        }
+                                        field.value!.removeAt(entry.key);
+                                        field.didChange(field.value);
+                                      },
+                                    ),
+                                ],
+                              ),
+                            ],
                           );
                         }
                       }

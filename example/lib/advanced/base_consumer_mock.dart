@@ -13,7 +13,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   ///
   ///
-  const BaseConsumerMock(List<String> routeName) : super(routeName);
+  const BaseConsumerMock(super.routeName);
 
   ///
   ///
@@ -56,9 +56,9 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   @override
   Future<List<T>> list(
     BuildContext context,
-    Map<String, String> qsParam,
-    bool forceOffline,
-  ) async {
+    Map<String, String> qsParam, {
+    required bool forceOffline,
+  }) async {
     if (kDebugMode) {
       print('mock list: $qsParam');
     }

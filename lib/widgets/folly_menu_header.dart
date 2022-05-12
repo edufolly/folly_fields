@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class MenuHeader<O> extends StatelessWidget {
+class FollyMenuHeader<O> extends StatelessWidget {
   final String name;
   final String email;
   final String companyName;
@@ -19,7 +19,7 @@ class MenuHeader<O> extends StatelessWidget {
   ///
   ///
   ///
-  const MenuHeader({
+  const FollyMenuHeader({
     required this.name,
     required this.email,
     this.companyName = '',

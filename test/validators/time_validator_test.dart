@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/time_validator.dart';
 ///
 ///
 void main() {
-  final TimeValidator validator = TimeValidator();
+  TimeValidator validator = TimeValidator();
 
   Map<String, bool> isValidTests = <String, bool>{
     '': false,

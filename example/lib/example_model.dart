@@ -55,7 +55,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  ExampleModel.fromJson(Map<String, dynamic> map)
+  ExampleModel.fromJson(super.map)
       : decimal = ModelUtils.fromJsonDecimal(map['decimal'], 2),
         integer = map['integer'] ?? 0,
         text = map['text'] ?? '',
@@ -79,7 +79,7 @@ class ExampleModel extends AbstractModel<int> {
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
-        super.fromJson(map);
+        super.fromJson();
 
   ///
   ///

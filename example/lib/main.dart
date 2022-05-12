@@ -52,7 +52,7 @@ import 'package:folly_fields_example/views/four_images.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///
 ///
@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
   ///
   ///
   ///
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   ///
   ///
@@ -103,13 +103,13 @@ class MyApp extends StatelessWidget {
               ExampleModel.generate(),
               const ExampleBuilder(),
               const ExampleConsumer(),
-              true,
+              edit: true,
             ),
         '/brandnew': (_) => BrandNewEdit(
               BrandNewModel(),
               const BrandNewBuilder(),
               BrandNewConsumer(),
-              true,
+              edit: true,
             ),
         '/four_images': (_) => const FourImages(),
         const ExampleMapFunctionRoute().path: (_) =>
@@ -133,7 +133,7 @@ class MyHomePage extends StatefulWidget {
   ///
   ///
   ///
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   ///
   ///
@@ -175,8 +175,8 @@ class MyHomePageState extends State<MyHomePage> {
             icon: const Icon(FontAwesomeIcons.github),
             onPressed: () async {
               const String url = 'https://github.com/edufolly/folly_fields';
-              if (await canLaunch(url)) {
-                await launch(url);
+              if (await canLaunchUrlString(url)) {
+                await launchUrlString(url);
               } else {
                 await FollyDialogs.dialogMessage(
                   context: context,
@@ -195,9 +195,7 @@ class MyHomePageState extends State<MyHomePage> {
                 context,
                 message: 'This is the main message.',
                 subtitle: 'Wait 3 seconds...',
-              );
-
-              wait.show();
+              )..show();
 
               Future<void>.delayed(
                 const Duration(seconds: 3),
@@ -231,8 +229,12 @@ class MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         child: SafeFutureBuilder<Response>(
-          future: get(Uri.parse('https://raw.githubusercontent.com/edufolly'
-              '/folly_fields/main/example/lib/main.dart')),
+          future: get(
+            Uri.parse(
+              'https://raw.githubusercontent.com/edufolly'
+              '/folly_fields/main/example/lib/main.dart',
+            ),
+          ),
           builder: (BuildContext context, Response response) {
             int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
