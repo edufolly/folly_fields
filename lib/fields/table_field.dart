@@ -25,7 +25,7 @@ class TableField<T extends AbstractModel<Object>>
   ///
   ///
   TableField({
-    required List<T> initialValue,
+    required List<T> super.initialValue,
     required AbstractUIBuilder<T> uiBuilder,
     required AbstractConsumer<T> consumer,
     required List<String> columns,
@@ -44,7 +44,7 @@ class TableField<T extends AbstractModel<Object>>
         removeRow,
     FormFieldSetter<List<T>>? onSaved,
     FormFieldValidator<List<T>>? validator,
-    bool enabled = true,
+    super.enabled,
     bool showAddButton = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(
@@ -55,30 +55,21 @@ class TableField<T extends AbstractModel<Object>>
         buildFooter,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
     ResponsiveSize? changeToCard,
     double? elevation,
-    Key? key,
+    super.key,
   })  : assert(
           columnsFlex == null || columnsFlex.length == columns.length,
           'columnsFlex must be null or columnsFlex.length equals to '
           'columns.length.',
         ),
         super(
-          key: key,
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          initialValue: initialValue,
-          enabled: enabled,
           onSaved: enabled && onSaved != null
               ? (List<T>? value) => onSaved(value)
               : null,

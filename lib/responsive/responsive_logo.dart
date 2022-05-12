@@ -19,8 +19,8 @@ class ResponsiveLogo extends StatelessWidget {
     this.min = 430,
     this.max = double.maxFinite,
     this.percent = 0.5,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

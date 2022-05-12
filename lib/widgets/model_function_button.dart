@@ -27,8 +27,8 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
     this.selection = false,
     this.qsParam = const <String, String>{},
     this.callback,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

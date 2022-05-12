@@ -8,7 +8,7 @@ class EmptyButton extends StatelessWidget {
   ///
   ///
   ///
-  const EmptyButton({Key? key}) : super(key: key);
+  const EmptyButton({super.key});
 
   ///
   ///

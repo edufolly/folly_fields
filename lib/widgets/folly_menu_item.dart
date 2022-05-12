@@ -21,8 +21,8 @@ class FollyMenuItem extends StatelessWidget {
     this.onLongPress,
     this.color,
     this.backgroundColor = Colors.transparent,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

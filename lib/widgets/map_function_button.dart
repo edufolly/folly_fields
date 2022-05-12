@@ -23,8 +23,8 @@ class MapFunctionButton extends StatelessWidget {
     required this.qsParam,
     this.selection = false,
     this.callback,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

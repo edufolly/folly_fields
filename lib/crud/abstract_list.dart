@@ -125,12 +125,11 @@ abstract class AbstractList<
     this.listEmpty = 'Sem %s até o momento.',
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
-    Key? key,
+    super.key,
   })  : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
           'searchFieldStyle or searchFieldDecorationTheme must be null.',
-        ),
-        super(key: key);
+        );
 
   ///
   ///
@@ -895,18 +894,12 @@ class InternalSearch<
     required this.startSearchText,
     required this.waitingText,
     required this.searchListEmpty,
-    required String? searchFieldLabel,
-    required TextStyle? searchFieldStyle,
-    required InputDecorationTheme? searchFieldDecorationTheme,
-    required TextInputType? keyboardType,
-    required TextInputAction textInputAction,
-  }) : super(
-          searchFieldLabel: searchFieldLabel,
-          searchFieldStyle: searchFieldStyle,
-          searchFieldDecorationTheme: searchFieldDecorationTheme,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-        );
+    required super.searchFieldLabel,
+    required super.searchFieldStyle,
+    required super.searchFieldDecorationTheme,
+    required super.keyboardType,
+    required super.textInputAction,
+  });
 
   ///
   ///

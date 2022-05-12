@@ -13,8 +13,8 @@ class HeaderCell extends StatelessWidget {
   const HeaderCell({
     required this.child,
     this.flex = 1,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

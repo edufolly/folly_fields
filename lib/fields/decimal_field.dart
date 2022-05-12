@@ -56,13 +56,13 @@ class DecimalField extends StatefulResponsive {
     this.readOnly = false,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
   })  : assert(
           initialValue == null || controller == null,
           'initialValue or controller must be null.',
@@ -70,15 +70,6 @@ class DecimalField extends StatefulResponsive {
         assert(
           label == null || labelWidget == null,
           'label or labelWidget must be null.',
-        ),
-        super(
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          key: key,
         );
 
   ///

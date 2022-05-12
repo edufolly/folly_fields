@@ -28,8 +28,8 @@ class FollyMenuHeader<O> extends StatelessWidget {
     this.background,
     this.menuItems,
     this.onMenuSelect,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -57,7 +57,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       ExpandableButton(
-                        child: UserHeader<O>(
+                        child: FollyUserHeader<O>(
                           name,
                           email,
                           companyName,
@@ -76,7 +76,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
                   ),
                 ),
               )
-            : UserHeader<O>(
+            : FollyUserHeader<O>(
                 name,
                 email,
                 companyName,
@@ -93,7 +93,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
 ///
 ///
 ///
-class UserHeader<O> extends StatelessWidget {
+class FollyUserHeader<O> extends StatelessWidget {
   final String name;
   final String email;
   final String companyName;
@@ -106,7 +106,7 @@ class UserHeader<O> extends StatelessWidget {
   ///
   ///
   ///
-  const UserHeader(
+  const FollyUserHeader(
     this.name,
     this.email,
     this.companyName,
@@ -115,8 +115,8 @@ class UserHeader<O> extends StatelessWidget {
     this.menuItems,
     this.onMenuSelect, {
     this.expandable = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

@@ -74,13 +74,13 @@ class DateField extends StatefulResponsive {
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
     this.clearOnCancel = true,
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
   })  : assert(
           initialValue == null || controller == null,
           'initialValue or controller must be null.',
@@ -88,15 +88,6 @@ class DateField extends StatefulResponsive {
         assert(
           label == null || labelWidget == null,
           'label or labelWidget must be null.',
-        ),
-        super(
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          key: key,
         );
 
   ///
@@ -301,8 +292,8 @@ class DateEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateEditingController.fromValue(TextEditingValue value)
-      : super.fromValue(value);
+  DateEditingController.fromValue(TextEditingValue super.value)
+      : super.fromValue();
 
   ///
   ///

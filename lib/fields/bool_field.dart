@@ -19,7 +19,7 @@ class BoolField extends FormFieldResponsive<bool> {
     String? Function(bool value)? validator,
     void Function(bool value)? onSaved,
     bool? initialValue,
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     this.onChanged,
     bool filled = false,
@@ -28,14 +28,14 @@ class BoolField extends FormFieldResponsive<bool> {
     Color? activeColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
     TextOverflow textOverflow = TextOverflow.ellipsis,
-    Key? key,
+    super.key,
   })  : assert(
           initialValue == null || controller == null,
           'initialValue or controller must be null.',
@@ -45,13 +45,6 @@ class BoolField extends FormFieldResponsive<bool> {
           'label or labelWidget must be null.',
         ),
         super(
-          key: key,
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
           initialValue: controller != null ? controller.value : initialValue,
           validator: enabled && validator != null
               ? (bool? value) => validator(value ?? false)
@@ -59,7 +52,6 @@ class BoolField extends FormFieldResponsive<bool> {
           onSaved: enabled && onSaved != null
               ? (bool? value) => onSaved(value ?? false)
               : null,
-          enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
             BoolFieldState state = field as BoolFieldState;

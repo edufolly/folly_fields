@@ -12,11 +12,11 @@ class FollyDivider extends StatelessWidget {
   ///
   ///
   const FollyDivider({
-    Key? key,
+    super.key,
     this.height = 1.0,
     this.color,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   ///
   ///

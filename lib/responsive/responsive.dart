@@ -174,7 +174,7 @@ abstract class StatelessResponsive extends StatelessWidget with Responsive {
     this.sizeLarge,
     this.sizeExtraLarge,
     this.minHeight,
-    Key? key,
+    super.key,
   })  : assert(
           sizeExtraSmall == null ||
               (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
@@ -200,8 +200,7 @@ abstract class StatelessResponsive extends StatelessWidget with Responsive {
         assert(
           minHeight == null || minHeight >= 0,
           'minHeight must be equal or greater than zero.',
-        ),
-        super(key: key);
+        );
 }
 
 ///
@@ -236,7 +235,7 @@ abstract class StatefulResponsive extends StatefulWidget with Responsive {
     this.sizeLarge,
     this.sizeExtraLarge,
     this.minHeight,
-    Key? key,
+    super.key,
   })  : assert(
           sizeExtraSmall == null ||
               (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
@@ -262,8 +261,7 @@ abstract class StatefulResponsive extends StatefulWidget with Responsive {
         assert(
           minHeight == null || minHeight >= 0,
           'minHeight must be equal or greater than zero.',
-        ),
-        super(key: key);
+        );
 }
 
 ///
@@ -292,20 +290,20 @@ abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
   ///
   ///
   const FormFieldResponsive({
-    required FormFieldBuilder<T> builder,
-    FormFieldSetter<T>? onSaved,
-    FormFieldValidator<T>? validator,
-    T? initialValue,
-    bool enabled = true,
-    AutovalidateMode? autovalidateMode,
-    String? restorationId,
+    required super.builder,
+    super.onSaved,
+    super.validator,
+    super.initialValue,
+    super.enabled,
+    super.autovalidateMode,
+    super.restorationId,
     this.sizeExtraSmall,
     this.sizeSmall,
     this.sizeMedium,
     this.sizeLarge,
     this.sizeExtraLarge,
     this.minHeight,
-    Key? key,
+    super.key,
   })  : assert(
           sizeExtraSmall == null ||
               (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
@@ -331,16 +329,6 @@ abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
         assert(
           minHeight == null || minHeight >= 0,
           'minHeight must be equal or greater than zero.',
-        ),
-        super(
-          builder: builder,
-          onSaved: onSaved,
-          validator: validator,
-          initialValue: initialValue,
-          enabled: enabled,
-          autovalidateMode: autovalidateMode,
-          restorationId: restorationId,
-          key: key,
         );
 }
 
@@ -355,22 +343,14 @@ class ResponsiveDecorator extends StatelessResponsive {
   ///
   const ResponsiveDecorator({
     required this.child,
-    int? sizeExtraSmall,
-    int? sizeSmall,
-    int? sizeMedium,
-    int? sizeLarge,
-    int? sizeExtraLarge,
-    double? minHeight,
-    Key? key,
-  }) : super(
-          sizeExtraSmall: sizeExtraSmall,
-          sizeSmall: sizeSmall,
-          sizeMedium: sizeMedium,
-          sizeLarge: sizeLarge,
-          sizeExtraLarge: sizeExtraLarge,
-          minHeight: minHeight,
-          key: key,
-        );
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  });
 
   ///
   ///
