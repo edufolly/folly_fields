@@ -101,7 +101,7 @@ class MyApp extends StatelessWidget {
         '/list': (_) => ExampleList(),
         '/edit': (_) => ExampleEdit(
               ExampleModel.generate(),
-              const ExampleBuilder(),
+              ExampleBuilder(),
               const ExampleConsumer(),
               edit: true,
             ),
@@ -702,7 +702,8 @@ class MyHomePageState extends State<MyHomePage> {
                           ListField<ExampleModel, ExampleBuilder>(
                         enabled: edit,
                         initialValue: list,
-                        uiBuilder: ExampleBuilder(labelPrefix),
+                        uiBuilder:
+                            ExampleBuilder(labelPrefix: labelPrefix),
                         routeAddBuilder:
                             (BuildContext context, ExampleBuilder uiBuilder) =>
                                 ExampleList(

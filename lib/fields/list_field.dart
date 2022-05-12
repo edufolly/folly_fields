@@ -55,7 +55,7 @@ class ListField<T extends AbstractModel<Object>,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.superPlural,
+                      labelText: uiBuilder.superPlural(field.context),
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -76,7 +76,7 @@ class ListField<T extends AbstractModel<Object>,
                       child: Text(
                         sprintf(
                           emptyListText,
-                          <dynamic>[uiBuilder.superPlural],
+                          <dynamic>[uiBuilder.superPlural(field.context)],
                         ),
                       ),
                     ),
@@ -144,7 +144,7 @@ class ListField<T extends AbstractModel<Object>,
                   iconData: FontAwesomeIcons.plus,
                   label: sprintf(
                     addText,
-                    <dynamic>[uiBuilder.superSingle],
+                    <dynamic>[uiBuilder.superSingle(field.context)],
                   ).toUpperCase(),
                   onPressed: () async {
                     if (beforeAdd != null) {
@@ -154,8 +154,7 @@ class ListField<T extends AbstractModel<Object>,
                       }
                     }
 
-                    dynamic selected =
-                        await Navigator.of(field.context).push(
+                    dynamic selected = await Navigator.of(field.context).push(
                       MaterialPageRoute<dynamic>(
                         builder: (BuildContext context) =>
                             routeAddBuilder(context, uiBuilder),
@@ -257,11 +256,11 @@ class _MyListTile<T extends AbstractModel<Object>,
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          uiBuilder.getLeading(model),
+          uiBuilder.getLeading(context, model),
         ],
       ),
-      title: uiBuilder.getTitle(model),
-      subtitle: uiBuilder.getSubtitle(model),
+      title: uiBuilder.getTitle(context, model),
+      subtitle: uiBuilder.getSubtitle(context, model),
       trailing: Visibility(
         visible: FollyFields().isWeb,
         child: IconButton(
@@ -297,6 +296,9 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   Future<bool?> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        message: sprintf(removeText, <dynamic>[uiBuilder.superSingle]),
+        message: sprintf(
+          removeText,
+          <dynamic>[uiBuilder.superSingle(context)],
+        ),
       );
 }

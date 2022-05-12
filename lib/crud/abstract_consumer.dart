@@ -57,8 +57,8 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
     BuildContext context, {
     Map<String, String> qsParam = const <String, String>{},
   }) async {
-    List<T> _list = await list(context, qsParam, forceOffline: false);
-    return <T, String>{for (T e in _list) e: e.toString()};
+    List<T> sList = await list(context, qsParam, forceOffline: false);
+    return <T, String>{for (T e in sList) e: e.toString()};
   }
 
   ///

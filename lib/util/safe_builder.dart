@@ -84,7 +84,7 @@ class SafeFutureBuilder<T> extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data!);
+          return builder(context, snapshot.data as T);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);
@@ -180,7 +180,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data!);
+          return builder(context, snapshot.data as T);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);

@@ -36,18 +36,18 @@ class FollyMenuHeader<O> extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    Color _foreground = color ?? Theme.of(context).colorScheme.onPrimary;
-    Color _background = background ?? Theme.of(context).colorScheme.primary;
+    Color localForeground = color ?? Theme.of(context).colorScheme.onPrimary;
+    Color localBackground = background ?? Theme.of(context).colorScheme.primary;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       width: double.infinity,
-      color: _background,
+      color: localBackground,
       child: SafeArea(
         child: expanded != null
             ? ExpandableTheme(
                 data: ExpandableThemeData(
-                  iconColor: _foreground,
+                  iconColor: localForeground,
                   collapseIcon: FontAwesomeIcons.caretUp,
                   expandIcon: FontAwesomeIcons.caretDown,
                   iconSize: 16,
@@ -61,8 +61,8 @@ class FollyMenuHeader<O> extends StatelessWidget {
                           name,
                           email,
                           companyName,
-                          _foreground,
-                          _background,
+                          localForeground,
+                          localBackground,
                           menuItems,
                           onMenuSelect,
                           expandable: true,
@@ -80,8 +80,8 @@ class FollyMenuHeader<O> extends StatelessWidget {
                 name,
                 email,
                 companyName,
-                _foreground,
-                _background,
+                localForeground,
+                localBackground,
                 menuItems,
                 onMenuSelect,
               ),

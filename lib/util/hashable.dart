@@ -31,8 +31,7 @@ abstract class Hashable {
         if (debug) {
           if (kDebugMode) {
             print(
-              (' ' * deep * 2) +
-                  'h: $h => (${i.runtimeType}) $i: $hash => c: $c',
+              '${' ' * deep * 2}h: $h => (${i.runtimeType}) $i: $hash => c: $c',
             );
           }
         }

@@ -145,7 +145,7 @@ class ExampleTableState extends State<ExampleTable> {
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(
                 list[row],
-                const ExampleBuilder(),
+                ExampleBuilder(),
                 const ExampleConsumer(),
                 edit: false,
               ),

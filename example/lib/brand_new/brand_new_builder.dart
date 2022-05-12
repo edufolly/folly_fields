@@ -9,22 +9,22 @@ class BrandNewBuilder extends AbstractUIBuilder<BrandNewModel> {
   ///
   ///
   ///
-  const BrandNewBuilder([super.prefix = '']);
+  const BrandNewBuilder();
 
   ///
   ///
   ///
   @override
-  String get single => 'Brand New';
+  String single(_) => 'Brand New';
 
   ///
   ///
   @override
-  String get plural => 'Brand News';
+  String plural(_) => 'Brand News';
 
   ///
   ///
   ///
   @override
-  Widget getTitle(BrandNewModel model) => Text(model.name);
+  Widget getTitle(_, BrandNewModel model) => Text(model.name);
 }

@@ -137,8 +137,8 @@ class FollyUtils {
           ? 29
           : 28;
     }
-    List<int> _days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return _days[month - 1];
+    List<int> days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    return days[month - 1];
   }
 
   ///
