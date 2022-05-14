@@ -226,7 +226,7 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   @override
   Widget build(BuildContext context) {
-    return FollyFields().isWeb || enabled
+    return FollyFields().isNotMobile || enabled
         ? _internalTile(context, index, model)
         : Dismissible(
             // TODO(edufolly): Test the key in tests.
@@ -262,7 +262,7 @@ class _MyListTile<T extends AbstractModel<Object>,
       title: uiBuilder.getTitle(context, model),
       subtitle: uiBuilder.getSubtitle(context, model),
       trailing: Visibility(
-        visible: FollyFields().isWeb,
+        visible: FollyFields().isNotMobile,
         child: IconButton(
           icon: const Icon(FontAwesomeIcons.trashCan),
           onPressed: enabled ? () => _delete(context, model, ask: true) : null,

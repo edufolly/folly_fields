@@ -550,7 +550,7 @@ class AbstractListState<
                                   model: model,
                                   selection: selections.containsKey(model.id),
                                   canDelete: _delete &&
-                                      FollyFields().isWeb &&
+                                      FollyFields().isNotMobile &&
                                       widget.canDelete(model),
                                 );
                               }
@@ -591,7 +591,7 @@ class AbstractListState<
       delegate: InternalSearch<T, UI, C>(
         buildResultItem: _buildResultItem,
         canDelete: (T model) =>
-            _delete && FollyFields().isWeb && widget.canDelete(model),
+            _delete && FollyFields().isNotMobile && widget.canDelete(model),
         qsParam: widget.qsParam,
         forceOffline: widget.forceOffline,
         itemsPerPage: widget.itemsPerPage,
