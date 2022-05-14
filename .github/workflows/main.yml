@@ -1,33 +1,37 @@
-name: Site Deploy
+name: Main CI
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
-    name: Flutter Web Build
-    runs-on: ubuntu-20.04
+
+  #############
+  # Build Web #
+  #############
+  test:
+    name: Tests & Release
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout the code
+      - name: Code Checkout
         uses: actions/checkout@v3
 
-      - name: Get pubspec version
+      - name: Get Pubspec Version
         run: |
           export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Flutter web environment
+      - name: Flutter Environment
         uses: subosito/flutter-action@v2
 
-      - name: Flutter config
+      - name: Flutter Config
         run: flutter config --enable-web --no-analytics
 
-      - name: Flutter pub get
+      - name: Flutter Pub Get
         run: flutter pub get
 
-      - name: Flutter test
+      - name: Flutter Test
         run: flutter test
 
       - name: Creating a GitHub Tag
@@ -41,14 +45,99 @@ jobs:
         with:
           tag: v${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
 
-      - name: Flutter build web
+
+  #############
+  # Build Web #
+  #############
+  build-web:
+    needs: [ test ]
+    name: GitHub Pages Build
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Pubspec Version
+        run: |
+          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
+
+      - name: Flutter Config
+        run: flutter config --enable-web --no-analytics
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Flutter Build Web
         run: |
           cd example
           flutter build web --base-href /folly_fields/
 
-      - name: Publishing gh-pages
+      - name: Publishing to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./example/build/web
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+  ###############
+  # Build Linux #
+  ###############
+  build-linux:
+    needs: [ test ]
+    name: Linux Native Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+
+      - name: Get Pubspec Version
+        run: |
+          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
+
+      - name: Flutter Config
+        run: flutter config --enable-linux-desktop --no-analytics
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Flutter Build Linux Native
+        run: |
+          cd example
+          flutter build linux
+
+      - name: Build App Image
+        run: |
+          cd example/linux
+          mkdir -p AppDir/usr/bin
+          cp -r ../build/linux/x64/release/bundle/. AppDir/usr/bin/
+          ln -sr AppDir/usr/bin/example AppDir/folly-fields-example
+          wget -q -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod a+x appimagetool
+          ./appimagetool AppDir ../../folly-fields-example.AppImage
+
+      - name: Adding AppImage to GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ env.VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          artifacts: "*.AppImage"
