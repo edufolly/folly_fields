@@ -58,12 +58,27 @@ abstract class _InternalConfig {
   ///
   ///
   ///
+  bool get isNotWeb;
+
+  ///
+  ///
+  ///
   bool get isMobile;
 
   ///
   ///
   ///
+  bool get isNotMobile;
+
+  ///
+  ///
+  ///
   bool get isDesktop;
+
+  ///
+  ///
+  ///
+  bool get isNotDesktop;
 
   ///
   ///
@@ -167,13 +182,31 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
+  bool get isNotWeb => _holder!.isNotWeb;
+
+  ///
+  ///
+  ///
+  @override
   bool get isMobile => _holder!.isMobile;
 
   ///
   ///
   ///
   @override
+  bool get isNotMobile => _holder!.isNotMobile;
+
+  ///
+  ///
+  ///
+  @override
   bool get isDesktop => _holder!.isDesktop;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotDesktop => _holder!.isNotDesktop;
 
   ///
   ///
@@ -279,6 +312,12 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
+  bool get isNotWeb => !isWeb;
+
+  ///
+  ///
+  ///
+  @override
   bool get isMobile =>
       _platform == RunningPlatform.android || _platform == RunningPlatform.ios;
 
@@ -286,7 +325,19 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
+  bool get isNotMobile => !isMobile;
+
+  ///
+  ///
+  ///
+  @override
   bool get isDesktop => !isWeb && !isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotDesktop => !isDesktop;
 
   ///
   ///
