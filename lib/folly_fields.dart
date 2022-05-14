@@ -15,6 +15,10 @@ enum RunningPlatform {
   web,
   android,
   ios,
+  linux,
+  windows,
+  macos,
+  fuchsia,
 }
 
 ///
@@ -55,6 +59,11 @@ abstract class _InternalConfig {
   ///
   ///
   bool get isMobile;
+
+  ///
+  ///
+  ///
+  bool get isDesktop;
 
   ///
   ///
@@ -140,12 +149,6 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get isMobile => _holder!.isMobile;
-
-  ///
-  ///
-  ///
-  @override
   bool get isOffline => _holder!.isOffline;
 
   ///
@@ -159,6 +162,18 @@ class FollyFields implements _InternalConfig {
   ///
   @override
   bool get isWeb => _holder!.isWeb;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isMobile => _holder!.isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isDesktop => _holder!.isDesktop;
 
   ///
   ///
@@ -271,6 +286,12 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
+  bool get isDesktop => !isWeb && !isMobile;
+
+  ///
+  ///
+  ///
+  @override
   String get platform => _platform.name;
 
   ///
@@ -346,6 +367,14 @@ abstract class AbstractConfig implements _InternalConfig {
         _platform = RunningPlatform.android;
       } else if (Platform.isIOS) {
         _platform = RunningPlatform.ios;
+      } else if (Platform.isLinux) {
+        _platform = RunningPlatform.linux;
+      } else if (Platform.isWindows) {
+        _platform = RunningPlatform.windows;
+      } else if (Platform.isMacOS) {
+        _platform = RunningPlatform.macos;
+      } else if (Platform.isFuchsia) {
+        _platform = RunningPlatform.fuchsia;
       }
 
       connectivity ??= Connectivity();

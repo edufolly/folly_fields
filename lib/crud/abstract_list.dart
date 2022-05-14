@@ -434,7 +434,16 @@ class AbstractListState<
 
             /// Add Button
             if (_insert) {
-              if (FollyFields().isWeb) {
+              if (FollyFields().isMobile) {
+                fabAdd = FloatingActionButton(
+                  tooltip: sprintf(
+                    widget.addText,
+                    <dynamic>[widget.uiBuilder.superSingle(context)],
+                  ),
+                  onPressed: _addEntity,
+                  child: const FaIcon(FontAwesomeIcons.plus),
+                );
+              } else {
                 actions.add(
                   IconButton(
                     tooltip: sprintf(
@@ -444,15 +453,6 @@ class AbstractListState<
                     icon: const FaIcon(FontAwesomeIcons.plus),
                     onPressed: _addEntity,
                   ),
-                );
-              } else {
-                fabAdd = FloatingActionButton(
-                  tooltip: sprintf(
-                    widget.addText,
-                    <dynamic>[widget.uiBuilder.superSingle(context)],
-                  ),
-                  onPressed: _addEntity,
-                  child: const FaIcon(FontAwesomeIcons.plus),
                 );
               }
             }
