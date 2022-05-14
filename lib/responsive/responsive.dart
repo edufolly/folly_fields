@@ -294,7 +294,7 @@ abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
     super.onSaved,
     super.validator,
     super.initialValue,
-    super.enabled,
+    super.enabled = true,
     super.autovalidateMode,
     super.restorationId,
     this.sizeExtraSmall,
