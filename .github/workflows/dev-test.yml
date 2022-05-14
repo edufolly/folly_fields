@@ -9,7 +9,7 @@ jobs:
   # Build Web #
   #############
   test:
-    name: Flutter Tests
+    name: Tests & Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -53,15 +53,11 @@ jobs:
   #############
   build-web:
     needs: [ test ]
-    name: Flutter Web Build
+    name: Web Build
     runs-on: ubuntu-20.04
     permissions:
       contents: write
     steps:
-      - name: Test env
-        run: |
-          echo v${{ env.VERSION }}
-
       - name: Checkout the code
         uses: actions/checkout@v3
 
@@ -96,7 +92,7 @@ jobs:
   ###############
   build-linux:
     needs: [ test ]
-    name: Flutter Linux Native Build
+    name: Linux Native Build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -111,7 +107,7 @@ jobs:
 
       - name: Get pubspec version
         run: |
-          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
+          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')D
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Flutter environment
@@ -127,9 +123,6 @@ jobs:
         run: |
           cd example
           flutter build linux
-
-      - name: Check the current dir
-        run: pwd
 
       - name: Build App Image
         run: |
