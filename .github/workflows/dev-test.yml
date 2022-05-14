@@ -8,9 +8,9 @@ jobs:
   #############
   # Build Web #
   #############
-  build-web:
-    name: Flutter Web Build
-    runs-on: ubuntu-20.04
+  test:
+    name: Flutter Tests
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -47,6 +47,38 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
 
+
+  #############
+  # Build Web #
+  #############
+  build-web:
+    needs: [ test ]
+    name: Flutter Web Build
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: write
+    steps:
+      - name: Test env
+        run: |
+          echo v${{ env.VERSION }}
+
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Get pubspec version
+        run: |
+          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')D
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Flutter environment
+        uses: subosito/flutter-action@v2
+
+      - name: Flutter config
+        run: flutter config --enable-web --no-analytics
+
+      - name: Flutter pub get
+        run: flutter pub get
+
       - name: Flutter build web
         run: |
           cd example
@@ -63,7 +95,7 @@ jobs:
   # Build Linux #
   ###############
   build-linux:
-    needs: [ build-web ]
+    needs: [ test ]
     name: Flutter Linux Native Build
     runs-on: ubuntu-latest
     permissions:
@@ -73,9 +105,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: sudo apt-get install -y \
-             clang cmake ninja-build pkg-config \
-             libgtk-3-dev liblzma-dev
+        run: |
+             sudo apt-get update -y
+             sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
 
       - name: Get pubspec version
         run: |
