@@ -53,7 +53,7 @@ jobs:
   #############
   build-web:
     needs: [ test ]
-    name: Web Build
+    name: GitHub Pages Build
     runs-on: ubuntu-20.04
     permissions:
       contents: write
@@ -132,12 +132,12 @@ jobs:
           ln -sr AppDir/usr/bin/example AppDir/folly-fields-example
           wget -q -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod a+x appimagetool
-          ./appimagetool AppDir folly-fields-example.AppImage
+          ./appimagetool AppDir ../../folly-fields-example.AppImage
 
-      - name: Create a GitHub Release
+      - name: Adding AppImage to Release
         uses: ncipollo/release-action@v1
         with:
           tag: v${{ env.VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          artifacts: "folly-fields-example.AppImage"
+          artifacts: "*.AppImage"
