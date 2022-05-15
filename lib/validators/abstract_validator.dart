@@ -19,7 +19,7 @@ abstract class AbstractValidator<T> {
   ///
   ///
   ///
-  String strip(String value) => value.replaceAll(RegExp(r'[^\d]'), '');
+  String strip(String value) => value.replaceAll(RegExp(r'\D'), '');
 
   ///
   ///

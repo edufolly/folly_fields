@@ -23,9 +23,15 @@ class CnaeValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
-        RegExp(r'^(\d{4})(\d{1})(\d{2})$'),
+        RegExp(r'^(\d{4})(\d)(\d{2})$'),
         (Match m) => '${m[1]}-${m[2]}/${m[3]}',
       );
+
+  ///
+  ///
+  ///
+  @override
+  TextInputType get keyboard => TextInputType.number;
 
   ///
   ///

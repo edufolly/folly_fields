@@ -225,52 +225,49 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   @override
-  Widget build(BuildContext context) {
-    return FollyFields().isNotMobile || enabled
-        ? _internalTile(context, index, model)
-        : Dismissible(
-            // TODO(edufolly): Test the key in tests.
-            key: Key('key_${index}_${model.id}'),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 8),
-              child: const FaIcon(
-                FontAwesomeIcons.trashCan,
-                color: Colors.white,
-              ),
+  Widget build(BuildContext context) => FollyFields().isNotMobile || !enabled
+      ? _internalTile(context, index, model)
+      : Dismissible(
+          // TODO(edufolly): Test the key in tests.
+          key: Key('key_${index}_${model.id}'),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            color: Colors.red,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 8),
+            child: const FaIcon(
+              FontAwesomeIcons.trashCan,
+              color: Colors.white,
             ),
-            confirmDismiss: (DismissDirection direction) => _askDelete(context),
-            onDismissed: (DismissDirection direction) =>
-                _delete(context, model),
-            child: _internalTile(context, index, model),
-          );
-  }
+          ),
+          confirmDismiss: (DismissDirection direction) => _askDelete(context),
+          onDismissed: (DismissDirection direction) => _delete(context, model),
+          child: _internalTile(context, index, model),
+        );
 
   ///
   ///
   ///
-  Widget _internalTile(BuildContext context, int index, T model) {
-    return ListTile(
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          uiBuilder.getLeading(context, model),
-        ],
-      ),
-      title: uiBuilder.getTitle(context, model),
-      subtitle: uiBuilder.getSubtitle(context, model),
-      trailing: Visibility(
-        visible: FollyFields().isNotMobile,
-        child: IconButton(
-          icon: const Icon(FontAwesomeIcons.trashCan),
-          onPressed: enabled ? () => _delete(context, model, ask: true) : null,
+  Widget _internalTile(BuildContext context, int index, T model) => ListTile(
+        enabled: enabled,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            uiBuilder.getLeading(context, model),
+          ],
         ),
-      ),
-      onTap: () => onEdit(index, model),
-    );
-  }
+        title: uiBuilder.getTitle(context, model),
+        subtitle: uiBuilder.getSubtitle(context, model),
+        trailing: Visibility(
+          visible: FollyFields().isNotMobile && enabled,
+          child: IconButton(
+            icon: const Icon(FontAwesomeIcons.trashCan),
+            onPressed:
+                enabled ? () => _delete(context, model, ask: true) : null,
+          ),
+        ),
+        onTap: () => onEdit(index, model),
+      );
 
   ///
   ///

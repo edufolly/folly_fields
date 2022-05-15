@@ -67,7 +67,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
 
     return Future<List<T>>.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
       () => List<T>.generate(
         qtd,
         (int index) => ExampleModel.generate(seed: first + index) as T,

@@ -31,5 +31,11 @@ class CepValidator extends AbstractValidator<String> {
   ///
   ///
   @override
+  TextInputType get keyboard => TextInputType.number;
+
+  ///
+  ///
+  ///
+  @override
   bool isValid(String cep) => strip(cep).length == 8;
 }

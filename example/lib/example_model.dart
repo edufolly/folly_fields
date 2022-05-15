@@ -34,7 +34,7 @@ class ExampleModel extends AbstractModel<int> {
   String localPhone = '';
   DateTime dateTime = DateTime.now();
   DateTime? date;
-  TimeOfDay? time;
+  TimeOfDay time =  TimeOfDay.now();
   String? macAddress;
   String? ncm;
   String? cest;
@@ -68,7 +68,7 @@ class ExampleModel extends AbstractModel<int> {
         localPhone = map['localPhone'] ?? '',
         dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
         date = ModelUtils.fromJsonNullableDateMillis(map['date']),
-        time = map['time'] == null ? null : _timeValidator.parse(map['time']),
+        time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
@@ -99,7 +99,7 @@ class ExampleModel extends AbstractModel<int> {
     map['localPhone'] = localPhone;
     map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
     map['date'] = ModelUtils.toMapNullableDateMillis(date);
-    map['time'] = _timeValidator.format(time!);
+    map['time'] = _timeValidator.format(time);
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
     map['cest'] = cest;
@@ -150,7 +150,7 @@ class ExampleModel extends AbstractModel<int> {
     phone = '889${complete(8)}';
     localPhone = '9${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
-    time = TimeOfDay(hour: now.hour, minute: now.minute);
+    time = TimeOfDay(hour: now.hour, minute: now.minute) ;
     dateTime =
         FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
     macAddress = MacAddressValidator.generate();

@@ -31,5 +31,11 @@ class CestValidator extends AbstractValidator<String> {
   ///
   ///
   @override
+  TextInputType get keyboard => TextInputType.number;
+
+  ///
+  ///
+  ///
+  @override
   bool isValid(String cest) => strip(cest).length == 7;
 }
