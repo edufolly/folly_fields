@@ -35,8 +35,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     );
 
     formatEditUpdate(
-      // ignore: use_named_constants
-      const TextEditingValue(),
+      TextEditingValue.empty,
       TextEditingValue(text: initialText),
     );
   }
@@ -69,8 +68,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     _lastNewValue = null;
 
     return formatEditUpdate(
-      // ignore: use_named_constants
-      const TextEditingValue(),
+      TextEditingValue.empty,
       TextEditingValue(
         text: unmaskedText,
         selection: TextSelection.collapsed(offset: unmaskedText.length),
@@ -392,7 +390,7 @@ class UppercaseMask extends MaskTextInputFormatter {
     super.mask,
     super.filter,
     super.initialText,
-  })  : assert(mask.isNotEmpty, 'mask must be not empty.');
+  }) : assert(mask.isNotEmpty, 'mask must be not empty.');
 
   ///
   ///

@@ -45,6 +45,9 @@ jobs:
       - name: Flutter Pub Get
         run: flutter pub get
 
+      - name: Dart Analyze
+        run: dart analyze --fatal-infos
+
       - name: Flutter Test
         run: flutter test
 
@@ -66,9 +69,10 @@ jobs:
   # Build Web #
   #############
   build-web:
-    needs: [ test ]
     name: GitHub Pages Build
     runs-on: ubuntu-20.04
+    needs: [ test ]
+    if: hashFiles('example/web/index.html') != ''
     permissions:
       contents: write
     steps:
@@ -99,9 +103,10 @@ jobs:
   # Build Linux #
   ###############
   build-linux:
-    needs: [ test ]
     name: Linux Native Build
     runs-on: ubuntu-latest
+    needs: [ test ]
+    if: hashFiles('example/linux/main.cc') != ''
     permissions:
       contents: write
     steps:
@@ -142,9 +147,10 @@ jobs:
   # Dist Linux App Image #
   ########################
   dist-linux-app-image:
-    needs: [ boot, build-linux ]
     name: Dist Linux App Image
     runs-on: ubuntu-latest
+    needs: [ boot, build-linux ]
+    if: hashFiles('example/linux/AppDir/AppRun') != ''
     permissions:
       contents: write
     steps:
