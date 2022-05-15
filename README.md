@@ -1,5 +1,7 @@
 # FollyFields
 
+![FollyFields](https://github.com/edufolly/folly_fields/actions/workflows/main.yml/badge.svg)
+
 Basic form fields and utilities. Maybe a humble boilerplate.
 
 Please :star: to support the project.

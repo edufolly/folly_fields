@@ -6,7 +6,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-// TODO(edufolly): Cweck this hint.
+// TODO(edufolly): Check this hint.
 // ignore: one_member_abstracts
 abstract class AbstractEditContent<T extends AbstractModel<Object>,
     E extends AbstractEditController<T>> {

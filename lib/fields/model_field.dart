@@ -38,6 +38,7 @@ class ModelField<T extends AbstractModel<Object>>
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    bool clearOnCancel = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -129,18 +130,25 @@ class ModelField<T extends AbstractModel<Object>>
                             if (acceptChange != null) {
                               selected = await acceptChange(selected);
                             }
-
-                            state._effectiveController.model = selected;
-                            state.didChange(selected);
-                          } on Exception catch (ex) {
+                            if (selected != null ||
+                                (selected == null && clearOnCancel)) {
+                              state._effectiveController.model = selected;
+                              state.didChange(selected);
+                            }
+                          } on Exception catch (e, s) {
+                            if (kDebugMode) {
+                              print(e);
+                              print(s);
+                            }
                             await FollyDialogs.dialogMessage(
                               context: state.context,
-                              message: ex.toString(),
+                              message: e.toString(),
                             );
                           }
                         } on Exception catch (e, s) {
                           if (kDebugMode) {
-                            print('$e\n$s');
+                            print(e);
+                            print(s);
                           }
                         }
                       }

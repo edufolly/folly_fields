@@ -32,6 +32,7 @@ class ColorField extends StatefulResponsive {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final IconData colorIcon;
+  final bool clearOnCancel;
 
   ///
   ///
@@ -60,6 +61,7 @@ class ColorField extends StatefulResponsive {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.colorIcon = FontAwesomeIcons.solidCircle,
+    this.clearOnCancel = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -191,15 +193,19 @@ class ColorFieldState extends State<ColorField> {
 
                       fromButton = false;
 
-                      _effectiveController.color = selectedColor;
-                      notifier.value = _effectiveController.color;
+                      if (selectedColor != null ||
+                          selectedColor == null && widget.clearOnCancel) {
+                        _effectiveController.color = selectedColor;
+                        notifier.value = _effectiveController.color;
+                      }
 
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
                     } on Exception catch (e, s) {
                       if (kDebugMode) {
-                        print('$e\n$s');
+                        print(e);
+                        print(s);
                       }
                     }
                   }

@@ -83,15 +83,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Folly Fields Example',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        colorSchemeSeed: Colors.deepOrange,
         brightness: Brightness.dark,
-        snackBarTheme: ThemeData.dark().snackBarTheme.copyWith(
-              backgroundColor: Colors.deepOrange,
-              contentTextStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
-            ),
         toggleableActiveColor: Colors.deepOrange,
       ),
       initialRoute: '/',
@@ -166,66 +159,97 @@ class MyHomePageState extends State<MyHomePage> {
   ///
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Exemplo - Folly Fields'),
-        actions: <Widget>[
-          /// Github
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.github),
-            onPressed: () async {
-              const String url = 'https://github.com/edufolly/folly_fields';
-              if (await canLaunchUrlString(url)) {
-                await launchUrlString(url);
-              } else {
-                await FollyDialogs.dialogMessage(
-                  context: context,
-                  message: 'Não foi possível abrir $url',
-                );
-              }
-            },
-            tooltip: 'Github',
-          ),
+    List<MyMenuItem> menuItems = <MyMenuItem>[
+      /// Github
+      MyMenuItem(
+        name: 'GitHub',
+        iconData: FontAwesomeIcons.github,
+        onPressed: (BuildContext context) {
+          CircularWaiting wait = CircularWaiting(context)..show();
 
-          /// Circular Waiting
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.spinner),
-            onPressed: () {
-              CircularWaiting wait = CircularWaiting(
-                context,
-                message: 'This is the main message.',
-                subtitle: 'Wait 3 seconds...',
-              )..show();
-
+          launchUrlString(
+            'https://github.com/edufolly/folly_fields/',
+            mode: LaunchMode.externalApplication,
+          ).then(
+            (_) {
               Future<void>.delayed(
-                const Duration(seconds: 3),
+                const Duration(seconds: 2),
                 () => wait.close(),
               );
             },
-            tooltip: 'Circular Waiting',
-          ),
+          ).catchError(
+            (dynamic e, StackTrace s) {
+              if (kDebugMode) {
+                print(e);
+                print(s);
+              }
+            },
+          );
+        },
+      ),
 
-          /// Four Images
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.image),
-            onPressed: () => Navigator.of(context).pushNamed('/four_images'),
-            tooltip: 'Quatro Imagens',
-          ),
+      /// Circular Waiting
+      MyMenuItem(
+        name: 'Circular Waiting',
+        iconData: FontAwesomeIcons.spinner,
+        onPressed: (BuildContext context) {
+          CircularWaiting wait = CircularWaiting(
+            context,
+            message: 'This is the main message.',
+            subtitle: 'Wait 3 seconds...',
+          )..show();
 
-          /// Table
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.table),
-            onPressed: () => Navigator.of(context).pushNamed('/table'),
-            tooltip: 'Tabela',
-          ),
+          Future<void>.delayed(
+            const Duration(seconds: 3),
+            () => wait.close(),
+          );
+        },
+      ),
 
-          /// AbstractList
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.list),
-            onPressed: () => Navigator.of(context).pushNamed('/list'),
-            tooltip: 'Lista',
-          ),
-        ],
+      /// Four Images
+      MyMenuItem(
+        name: 'Quatro Imagens',
+        iconData: FontAwesomeIcons.image,
+        onPressed: (BuildContext context) =>
+            Navigator.of(context).pushNamed('/four_images'),
+      ),
+
+      /// Table
+      MyMenuItem(
+        iconData: FontAwesomeIcons.table,
+        onPressed: (BuildContext context) =>
+            Navigator.of(context).pushNamed('/table'),
+        name: 'Tabela',
+      ),
+
+      /// AbstractList
+      MyMenuItem(
+        iconData: FontAwesomeIcons.list,
+        onPressed: (BuildContext context) =>
+            Navigator.of(context).pushNamed('/list'),
+        name: 'Lista',
+      ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Folly Fields'),
+        actions: Config().isMobile
+            ? <PopupMenuButton<MyMenuItem>>[
+                PopupMenuButton<MyMenuItem>(
+                  tooltip: 'Menu',
+                  icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+                  itemBuilder: (BuildContext context) => menuItems
+                      .map<PopupMenuEntry<MyMenuItem>>(
+                        (MyMenuItem e) => e.popupMenuItem,
+                      )
+                      .toList(),
+                  onSelected: (MyMenuItem item) => item.onPressed(context),
+                )
+              ]
+            : menuItems
+                .map((MyMenuItem item) => item.iconButton(context))
+                .toList(),
       ),
       body: SafeArea(
         child: SafeFutureBuilder<Response>(
@@ -365,6 +389,7 @@ class MyHomePageState extends State<MyHomePage> {
                         initialValue: model.color,
                         validator: FollyValidators.notNull,
                         onSaved: (Color? value) => model.color = value,
+                        clearOnCancel: false,
                       ),
                       // [/ColorField]
                     ),
@@ -469,6 +494,7 @@ class MyHomePageState extends State<MyHomePage> {
                         validator: (DateTime? value) =>
                             value == null ? 'Informe uma data' : null,
                         onSaved: (DateTime? value) => model.dateTime = value!,
+                        clearOnCancel: false,
                       ),
                       // [/DateTimeField]
                     ),
@@ -502,7 +528,9 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Hora*',
                         enabled: edit,
                         initialValue: model.time,
-                        onSaved: (TimeOfDay? value) => model.time = value,
+                        validator: FollyValidators.notNull,
+                        onSaved: (TimeOfDay? value) => model.time = value!,
+                        clearOnCancel: false,
                       ),
                       // [/TimeField]
                     ),
@@ -688,6 +716,8 @@ class MyHomePageState extends State<MyHomePage> {
                           labelPrefix: labelPrefix,
                           selection: true,
                         ),
+                        validator: FollyValidators.notNull,
+                        clearOnCancel: false,
                       ),
                       // [/ModelField]
                     ),
@@ -702,14 +732,25 @@ class MyHomePageState extends State<MyHomePage> {
                           ListField<ExampleModel, ExampleBuilder>(
                         enabled: edit,
                         initialValue: list,
-                        uiBuilder:
-                            ExampleBuilder(labelPrefix: labelPrefix),
+                        uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
                         routeAddBuilder:
                             (BuildContext context, ExampleBuilder uiBuilder) =>
                                 ExampleList(
                           labelPrefix: labelPrefix,
                           selection: true,
                           multipleSelection: true,
+                        ),
+                        routeEditBuilder: (
+                          BuildContext context,
+                          ExampleModel model,
+                          ExampleBuilder uiBuilder,
+                          bool edit,
+                        ) =>
+                            ExampleEdit(
+                          model,
+                          uiBuilder,
+                          const ExampleConsumer(),
+                          edit: edit,
                         ),
                       ),
                       // [/ListField]
@@ -756,4 +797,47 @@ class MyHomePageState extends State<MyHomePage> {
       );
     }
   }
+}
+
+///
+///
+///
+class MyMenuItem {
+  final String name;
+  final IconData iconData;
+  final Function(BuildContext context) onPressed;
+
+  ///
+  ///
+  ///
+  MyMenuItem({
+    required this.name,
+    required this.iconData,
+    required this.onPressed,
+  });
+
+  ///
+  ///
+  ///
+  IconButton iconButton(BuildContext context) => IconButton(
+        icon: Icon(iconData),
+        onPressed: () => onPressed(context),
+        tooltip: name,
+      );
+
+  ///
+  ///
+  ///
+  PopupMenuItem<MyMenuItem> get popupMenuItem => PopupMenuItem<MyMenuItem>(
+        value: this,
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Icon(iconData),
+            ),
+            Text(name),
+          ],
+        ),
+      );
 }

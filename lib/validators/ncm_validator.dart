@@ -31,5 +31,11 @@ class NcmValidator extends AbstractValidator<String> {
   ///
   ///
   @override
+  TextInputType get keyboard => TextInputType.number;
+
+  ///
+  ///
+  ///
+  @override
   bool isValid(String ncm) => strip(ncm).length == 8;
 }

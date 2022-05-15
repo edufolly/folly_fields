@@ -198,9 +198,9 @@ class ModelUtils {
   ///
   ///
   ///
-  static void toSaveListMapId(List<dynamic>? list) =>
-      // ignore: unnecessary_lambdas
-      list?.map((dynamic e) => toSaveMapId(e)).toList();
+  static void toSaveListMapId(List<dynamic>? list) => list
+      ?.map((dynamic e) => toSaveMapId(e as Map<String, dynamic>?))
+      .toList();
 
   ///
   ///
