@@ -5,9 +5,9 @@ on:
 
 jobs:
 
-  #############
-  # Build Web #
-  #############
+  ###################
+  # Tests & Release #
+  ###################
   test:
     name: Tests & Release
     runs-on: ubuntu-latest
