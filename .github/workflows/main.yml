@@ -26,7 +26,7 @@ jobs:
   ###################
   # Tests & Release #
   ###################
-  test:
+  tests:
     name: Tests & Release
     runs-on: ubuntu-latest
     needs: [ boot ]
@@ -71,8 +71,7 @@ jobs:
   build-web:
     name: GitHub Pages Build
     runs-on: ubuntu-20.04
-    needs: [ test ]
-    if: hashFiles('example/web/index.html') != ''
+    needs: [ tests ]
     permissions:
       contents: write
     steps:
@@ -105,8 +104,7 @@ jobs:
   build-linux:
     name: Linux Native Build
     runs-on: ubuntu-latest
-    needs: [ test ]
-    if: hashFiles('example/linux/main.cc') != ''
+    needs: [ tests ]
     permissions:
       contents: write
     steps:
@@ -152,7 +150,6 @@ jobs:
     name: Dist Linux App Image
     runs-on: ubuntu-latest
     needs: [ boot, build-linux ]
-    if: hashFiles('example/linux/AppDir/AppRun') != ''
     permissions:
       contents: write
     steps:
