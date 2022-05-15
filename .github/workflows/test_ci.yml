@@ -38,14 +38,14 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
 
-      - name: Flutter Config
-        run: flutter config --enable-web --no-analytics
-
-      - name: Flutter Pub Get
-        run: flutter pub get
-
-      - name: Flutter Test
-        run: flutter test
+#      - name: Flutter Config
+#        run: flutter config --no-analytics
+#
+#      - name: Flutter Pub Get
+#        run: flutter pub get
+#
+#      - name: Flutter Test
+#        run: flutter test
 
       - name: Creating a GitHub Tag
         uses: mathieudutour/github-tag-action@v6.0
@@ -130,16 +130,16 @@ jobs:
         run: tar -cvf folly-fields-example-linux.tar.gz build/linux/x64/release/bundle
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@V3
+        uses: actions/upload-artifact@v3
         with:
           name: folly-fields-example-linux
           path: example/folly-fields-example-linux.tar.gz
           retention-days: 7
 
 
-  ###############
-  # Build Linux #
-  ###############
+  #########################
+  # Build Linux App Image #
+  #########################
   build-linux-app-image:
     needs: [ boot, build-linux ]
     name: Linux Native Build
@@ -166,6 +166,10 @@ jobs:
       - name: Decompress Flutter Build
         working-directory: example
         run: tar -xf folly-fields-example-linux.tar.gz
+
+      - name: List Example
+        working-directory: example
+        run: ls -la
 
       - name: Build App Image
         working-directory: example/linux
