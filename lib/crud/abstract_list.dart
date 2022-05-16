@@ -73,7 +73,8 @@ abstract class AbstractList<
   final String deleteErrorText;
   final String searchListEmpty;
   final String addText;
-  final String searchText;
+  final bool showSearchButton;
+  final String searchButtonText;
   final String listEmpty;
   final bool showRefreshButton;
   final String refreshButtonText;
@@ -121,7 +122,8 @@ abstract class AbstractList<
     this.deleteErrorText = 'Ocorreu um erro ao tentar excluir:\n%s',
     this.searchListEmpty = 'Nenhum documento.',
     this.addText = 'Adicionar %s',
-    this.searchText = 'Pesquisar %s',
+    this.showSearchButton = true,
+    this.searchButtonText = 'Pesquisar %s',
     this.listEmpty = 'Sem %s até o momento.',
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
@@ -375,11 +377,11 @@ class AbstractListState<
           }
 
           /// Search Button
-          if (FollyFields().isOnline) {
+          if (widget.showSearchButton) {
             actions.add(
               IconButton(
                 tooltip: sprintf(
-                  widget.searchText,
+                  widget.searchButtonText,
                   <dynamic>[widget.uiBuilder.superSingle(context)],
                 ),
                 icon: const Icon(Icons.search),
@@ -494,7 +496,8 @@ class AbstractListState<
                         autofocus: true,
                         focusNode: keyboardFocusNode,
                         onKey: (RawKeyEvent event) {
-                          if (event.character != null) {
+                          if (widget.showSearchButton &&
+                              event.character != null) {
                             _search(event.character);
                           }
                         },
