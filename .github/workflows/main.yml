@@ -4,11 +4,11 @@ on:
     branches: [ main ]
 
 jobs:
-  ###########
-  # Version #
-  ###########
+  ########
+  # Boot #
+  ########
   boot:
-    name: Get Version
+    name: Boot
     runs-on: ubuntu-latest
     steps:
       - name: Code Checkout
@@ -65,11 +65,11 @@ jobs:
           allowUpdates: true
 
 
-  #############
-  # Build Web #
-  #############
+  #######################
+  # Deploy GitHub Pages #
+  #######################
   build-web:
-    name: GitHub Pages Build
+    name: Deploy GitHub Pages
     runs-on: ubuntu-20.04
     needs: [ tests ]
     permissions:
@@ -143,11 +143,11 @@ jobs:
           retention-days: 7
 
 
-  ########################
-  # Dist Linux App Image #
-  ########################
-  dist-linux-app-image:
-    name: Dist Linux App Image
+  ##########################
+  # Deploy Linux App Image #
+  ##########################
+  depoy-linux-app-image:
+    name: Deploy Linux App Image
     runs-on: ubuntu-latest
     needs: [ boot, build-linux ]
     permissions:
