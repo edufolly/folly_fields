@@ -10,6 +10,8 @@ jobs:
   boot:
     name: Boot
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version-step.outputs.version }}
     steps:
       - name: Code Checkout
         uses: actions/checkout@v3
@@ -19,8 +21,6 @@ jobs:
         run: |
           export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
           echo "::set-output name=version::$VERSION"
-    outputs:
-      version: ${{ steps.version-step.outputs.version }}
 
 
   ###################
@@ -28,8 +28,8 @@ jobs:
   ###################
   tests:
     name: Tests & Release
-    runs-on: ubuntu-latest
     needs: [ boot ]
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -70,8 +70,8 @@ jobs:
   #######################
   build-web:
     name: Deploy GitHub Pages
-    runs-on: ubuntu-20.04
     needs: [ tests ]
+    runs-on: ubuntu-20.04
     permissions:
       contents: write
     steps:
@@ -103,8 +103,8 @@ jobs:
   ###############
   build-linux:
     name: Linux Native Build
-    runs-on: ubuntu-latest
     needs: [ tests ]
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -148,8 +148,8 @@ jobs:
   ##########################
   depoy-linux-app-image:
     name: Deploy Linux App Image
-    runs-on: ubuntu-latest
     needs: [ boot, build-linux ]
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -162,20 +162,9 @@ jobs:
           name: folly-fields-example-linux
           path: example
 
-      - name: List Root
-        run: ls -la
-
-      - name: List Example
-        working-directory: example
-        run: ls -la
-
       - name: Decompress Flutter Build
         working-directory: example
         run: tar -xvzf folly-fields-example-linux.tar.gz
-
-      - name: List Example
-        working-directory: example
-        run: ls -la
 
       - name: Build App Image
         working-directory: example/linux
