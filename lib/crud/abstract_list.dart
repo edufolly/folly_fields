@@ -307,292 +307,223 @@ class AbstractListState<
   ///
   @override
   Widget build(BuildContext context) {
-    return SafeFutureBuilder<bool>(
-      future: _loadPermissions(context),
-      builder: (BuildContext context, bool value) {
-        return StreamBuilder<bool?>(
-          stream: _streamController.stream,
-          builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-            if (snapshot.hasError) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: _getScaffoldTitle(context),
-                  actions: <Widget>[
-                    /// Refresh Button
-                    if (widget.showRefreshButton)
-                      IconButton(
-                        tooltip: widget.refreshButtonText,
-                        icon: const Icon(FontAwesomeIcons.arrowsRotate),
-                        onPressed: () => _loadData(context),
-                      ),
-                  ],
-                ),
-                bottomNavigationBar:
-                    widget.uiBuilder.buildBottomNavigationBar(context),
-                body: widget.uiBuilder.buildBackgroundContainer(
-                  context,
-                  Column(
-                    children: <Widget>[
-                      Scrollbar(
-                        child: RefreshIndicator(
-                          key: _refreshIndicatorKey,
-                          onRefresh: () => _loadData(context),
-                          child: TextMessage(snapshot.error.toString()),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-
-            if (snapshot.hasData) {
-              /// CircularProgressIndicator at list final.
-              int itemCount = _globalItems.length;
-              if (!snapshot.data!) {
-                itemCount++;
-              }
-
-              Widget? fabAdd;
-
-              List<Widget> actions = <Widget>[];
-
-              /// Select All Button
-              if (widget.selection == true &&
-                  widget.multipleSelection == true &&
-                  widget.invertSelection == true) {
-                actions.add(
-                  IconButton(
-                    tooltip: widget.invertSelectionText,
-                    icon: const Icon(Icons.select_all),
-                    onPressed: () {
-                      for (T model in _globalItems) {
-                        if (selections.containsKey(model.id)) {
-                          selections.remove(model.id);
-                        } else {
-                          selections[model.id!] = model;
-                        }
-                      }
-                      setState(() {});
-                    },
-                  ),
-                );
-              }
-
-              /// Search Button
-              if (widget.showSearchButton) {
-                actions.add(
-                  IconButton(
-                    tooltip: sprintf(
-                      widget.searchButtonText,
-                      <dynamic>[widget.uiBuilder.superSingle(context)],
-                    ),
-                    icon: const Icon(Icons.search),
-                    onPressed: _search,
-                  ),
-                );
-              }
-
-              /// Refresh Button
-              if (widget.showRefreshButton) {
-                actions.add(
-                  IconButton(
-                    tooltip: widget.refreshButtonText,
-                    icon: const Icon(FontAwesomeIcons.arrowsRotate),
-                    onPressed: () => _loadData(context),
-                  ),
-                );
-              }
-
-              /// Selection Confirm Button
-              if (widget.selection) {
-                if (widget.multipleSelection) {
-                  actions.add(
-                    IconButton(
-                      tooltip: sprintf(
-                        widget.selectionText,
-                        <dynamic>[widget.uiBuilder.superPlural(context)],
-                      ),
-                      icon: const FaIcon(FontAwesomeIcons.check),
-                      onPressed: () => Navigator.of(context)
-                          .pop(List<T>.from(selections.values)),
-                    ),
-                  );
-                }
-              } else {
-                /// Action Routes
-                for (MapEntry<ConsumerPermission, AbstractMapFunction> entry
-                    in effectiveMapFunctions.entries) {
-                  actions.add(
-                    MapFunctionButton(
-                      mapFunction: entry.value,
-                      permission: entry.key,
-                      qsParam: _qsParam,
-                      selection: widget.selection,
-                      callback: (Map<String, String> map) {
-                        _qsParam.addAll(map);
-                        _loadData(context);
-                      },
-                    ),
-                  );
-                }
-
-                /// Add Button
-                if (_insert) {
-                  if (FollyFields().isMobile) {
-                    fabAdd = FloatingActionButton(
-                      tooltip: sprintf(
-                        widget.addText,
-                        <dynamic>[widget.uiBuilder.superSingle(context)],
-                      ),
-                      onPressed: _addEntity,
-                      child: const FaIcon(FontAwesomeIcons.plus),
-                    );
+    return Scaffold(
+      appBar: AppBar(
+        title: _getScaffoldTitle(context),
+        actions: <Widget>[
+          /// Select All Button
+          if (widget.selection == true &&
+              widget.multipleSelection == true &&
+              widget.invertSelection == true)
+            IconButton(
+              tooltip: widget.invertSelectionText,
+              icon: const Icon(Icons.select_all),
+              onPressed: () {
+                for (T model in _globalItems) {
+                  if (selections.containsKey(model.id)) {
+                    selections.remove(model.id);
                   } else {
-                    actions.add(
-                      IconButton(
-                        tooltip: sprintf(
-                          widget.addText,
-                          <dynamic>[widget.uiBuilder.superSingle(context)],
-                        ),
-                        icon: const FaIcon(FontAwesomeIcons.plus),
-                        onPressed: _addEntity,
-                      ),
-                    );
+                    selections[model.id!] = model;
                   }
                 }
+                setState(() {});
+              },
+            ),
 
-                /// Legend Button
-                if (widget.uiBuilder.listLegend(context).isNotEmpty) {
-                  actions.add(
-                    IconButton(
-                      tooltip: widget.uiBuilder.listLegendTitle(context),
-                      icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
-                      onPressed: _showListLegend,
-                    ),
-                  );
+          /// Search Button
+          if (widget.showSearchButton)
+            IconButton(
+              tooltip: sprintf(
+                widget.searchButtonText,
+                <dynamic>[widget.uiBuilder.superSingle(context)],
+              ),
+              icon: const Icon(Icons.search),
+              onPressed: _search,
+            ),
+
+          /// Refresh Button
+          if (widget.showRefreshButton)
+            IconButton(
+              tooltip: widget.refreshButtonText,
+              icon: const Icon(FontAwesomeIcons.arrowsRotate),
+              onPressed: () => _loadData(context),
+            ),
+
+          /// Selection Confirm Button
+          if (widget.selection && widget.multipleSelection)
+            IconButton(
+              tooltip: sprintf(
+                widget.selectionText,
+                <dynamic>[widget.uiBuilder.superPlural(context)],
+              ),
+              icon: const FaIcon(FontAwesomeIcons.check),
+              onPressed: () =>
+                  Navigator.of(context).pop(List<T>.from(selections.values)),
+            ),
+
+          /// Action Routes
+          if (!widget.selection)
+            ...effectiveMapFunctions.entries
+                .map(
+                  (MapEntry<ConsumerPermission, AbstractMapFunction> entry) =>
+                      MapFunctionButton(
+                    mapFunction: entry.value,
+                    permission: entry.key,
+                    qsParam: _qsParam,
+                    selection: widget.selection,
+                    callback: (Map<String, String> map) {
+                      _qsParam.addAll(map);
+                      _loadData(context);
+                    },
+                  ),
+                )
+                .toList(),
+
+          /// Add Button
+          if (_insert && !FollyFields().isMobile && !widget.selection)
+            IconButton(
+              tooltip: sprintf(
+                widget.addText,
+                <dynamic>[widget.uiBuilder.superSingle(context)],
+              ),
+              icon: const FaIcon(FontAwesomeIcons.plus),
+              onPressed: _addEntity,
+            ),
+
+          /// Legend Button
+          if (!widget.selection &&
+              widget.uiBuilder.listLegend(context).isNotEmpty)
+            IconButton(
+              tooltip: widget.uiBuilder.listLegendTitle(context),
+              icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
+              onPressed: _showListLegend,
+            ),
+        ],
+      ),
+      floatingActionButton:
+          _insert && FollyFields().isMobile && !widget.selection
+              ? FloatingActionButton(
+                  tooltip: sprintf(
+                    widget.addText,
+                    <dynamic>[widget.uiBuilder.superSingle(context)],
+                  ),
+                  onPressed: _addEntity,
+                  child: const FaIcon(FontAwesomeIcons.plus),
+                )
+              : null,
+      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
+      body: widget.uiBuilder.buildBackgroundContainer(
+        context,
+        SafeFutureBuilder<bool>(
+          future: _loadPermissions(context),
+          waitingMessage: widget.waitingText,
+          builder: (BuildContext context, bool value) {
+            return SafeStreamBuilder<bool?>(
+              stream: _streamController.stream,
+              waitingMessage: widget.waitingText,
+              builder: (BuildContext context, bool? data) {
+                if (data == null) {
+                  return WaitingMessage(message: widget.waitingText);
                 }
-              }
 
-              return Scaffold(
-                appBar: AppBar(
-                  title: _getScaffoldTitle(context),
-                  actions: actions,
-                ),
-                bottomNavigationBar:
-                    widget.uiBuilder.buildBottomNavigationBar(context),
-                body: widget.uiBuilder.buildBackgroundContainer(
-                  context,
-                  RefreshIndicator(
-                    key: _refreshIndicatorKey,
-                    onRefresh: () => _loadData(context),
-                    child: _globalItems.isEmpty
-                        ? TextMessage(
-                            sprintf(
-                              widget.listEmpty,
-                              <dynamic>[
-                                widget.uiBuilder
-                                    .superPlural(context)
-                                    .toLowerCase(),
-                              ],
-                            ),
-                          )
-                        : RawKeyboardListener(
-                            autofocus: true,
-                            focusNode: keyboardFocusNode,
-                            onKey: (RawKeyEvent event) {
-                              if (widget.showSearchButton &&
-                                  event.character != null) {
-                                _search(event.character);
-                              }
-                            },
-                            child: Scrollbar(
+                /// CircularProgressIndicator at list final.
+                int itemCount = _globalItems.length;
+                if (!data) {
+                  itemCount++;
+                }
+
+                return RefreshIndicator(
+                  key: _refreshIndicatorKey,
+                  onRefresh: () => _loadData(context),
+                  child: _globalItems.isEmpty
+                      ? TextMessage(
+                          sprintf(
+                            widget.listEmpty,
+                            <dynamic>[
+                              widget.uiBuilder
+                                  .superPlural(context)
+                                  .toLowerCase(),
+                            ],
+                          ),
+                        )
+                      : RawKeyboardListener(
+                          autofocus: true,
+                          focusNode: keyboardFocusNode,
+                          onKey: (RawKeyEvent event) {
+                            if (widget.showSearchButton &&
+                                event.character != null) {
+                              _search(event.character);
+                            }
+                          },
+                          child: Scrollbar(
+                            controller: _scrollController,
+                            // isAlwaysShown: FollyFields().isWeb,
+                            thumbVisibility: true,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(16),
                               controller: _scrollController,
-                              // isAlwaysShown: FollyFields().isWeb,
-                              thumbVisibility: true,
-                              child: ListView.separated(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                padding: const EdgeInsets.all(16),
-                                controller: _scrollController,
-                                itemBuilder: (BuildContext context, int index) {
-                                  /// Updating...
-                                  if (index >= _globalItems.length) {
-                                    return const SizedBox(
-                                      height: 80,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  }
+                              itemBuilder: (BuildContext context, int index) {
+                                /// Updating...
+                                if (index >= _globalItems.length) {
+                                  return const SizedBox(
+                                    height: 80,
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }
 
-                                  T model = _globalItems[index];
+                                T model = _globalItems[index];
 
-                                  if (_delete &&
-                                      FollyFields().isMobile &&
-                                      widget.canDelete(model)) {
-                                    return Dismissible(
-                                      key: Key('key_${model.id}'),
-                                      direction: DismissDirection.endToStart,
-                                      background: Container(
-                                        color: Colors.red,
-                                        alignment: Alignment.centerRight,
-                                        padding:
-                                            const EdgeInsets.only(right: 16),
-                                        child: const FaIcon(
-                                          FontAwesomeIcons.trashCan,
-                                          color: Colors.white,
-                                        ),
+                                if (_delete &&
+                                    FollyFields().isMobile &&
+                                    widget.canDelete(model)) {
+                                  return Dismissible(
+                                    key: Key('key_${model.id}'),
+                                    direction: DismissDirection.endToStart,
+                                    background: Container(
+                                      color: Colors.red,
+                                      alignment: Alignment.centerRight,
+                                      padding: const EdgeInsets.only(right: 16),
+                                      child: const FaIcon(
+                                        FontAwesomeIcons.trashCan,
+                                        color: Colors.white,
                                       ),
-                                      confirmDismiss:
-                                          (DismissDirection direction) =>
-                                              _askDelete(),
-                                      onDismissed:
-                                          (DismissDirection direction) =>
-                                              _deleteEntity(model),
-                                      child: _buildResultItem(
-                                        model: model,
-                                        selection:
-                                            selections.containsKey(model.id),
-                                        canDelete: false,
-                                      ),
-                                    );
-                                  } else {
-                                    return _buildResultItem(
+                                    ),
+                                    confirmDismiss:
+                                        (DismissDirection direction) =>
+                                            _askDelete(),
+                                    onDismissed: (DismissDirection direction) =>
+                                        _deleteEntity(model),
+                                    child: _buildResultItem(
                                       model: model,
                                       selection:
                                           selections.containsKey(model.id),
-                                      canDelete: _delete &&
-                                          FollyFields().isNotMobile &&
-                                          widget.canDelete(model),
-                                    );
-                                  }
-                                },
-                                separatorBuilder: (_, __) =>
-                                    const FollyDivider(),
-                                itemCount: itemCount,
-                              ),
+                                      canDelete: false,
+                                    ),
+                                  );
+                                } else {
+                                  return _buildResultItem(
+                                    model: model,
+                                    selection: selections.containsKey(model.id),
+                                    canDelete: _delete &&
+                                        FollyFields().isNotMobile &&
+                                        widget.canDelete(model),
+                                  );
+                                }
+                              },
+                              separatorBuilder: (_, __) => const FollyDivider(),
+                              itemCount: itemCount,
                             ),
                           ),
-                  ),
-                ),
-                floatingActionButton: fabAdd,
-              );
-            }
-
-            return Scaffold(
-              appBar: AppBar(
-                title: _getScaffoldTitle(context),
-              ),
-              bottomNavigationBar:
-                  widget.uiBuilder.buildBottomNavigationBar(context),
-              body: widget.uiBuilder.buildBackgroundContainer(
-                context,
-                WaitingMessage(message: widget.waitingText),
-              ),
+                        ),
+                );
+              },
             );
           },
-        );
-      },
+        ),
+      ),
     );
   }
 
