@@ -10,8 +10,8 @@ class HomeCard<T, O> extends StatelessWidget {
   final String name;
   final IconData iconData;
   final Function(T item) onTap;
-  final List<PopupIconMenuItem<O>> menuItems;
-  final Function(T item, O operation) onMenuSelect;
+  final List<PopupIconMenuItem<O>>? menuItems;
+  final Function(T item, O operation)? onMenuSelect;
   final Color? backgroundColor;
   final String? tooltip;
 
@@ -23,8 +23,8 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.name,
     required this.iconData,
     required this.onTap,
-    required this.menuItems,
-    required this.onMenuSelect,
+     this.menuItems,
+     this.onMenuSelect,
     this.backgroundColor,
     this.tooltip,
     super.key,
@@ -76,7 +76,7 @@ class HomeCard<T, O> extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (menuItems.isNotEmpty)
+                if (menuItems != null && menuItems!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: PopupMenuButton<O>(
@@ -85,11 +85,11 @@ class HomeCard<T, O> extends StatelessWidget {
                         FontAwesomeIcons.ellipsisVertical,
                         color: Colors.black12,
                       ),
-                      itemBuilder: (BuildContext context) => menuItems
+                      itemBuilder: (BuildContext context) => menuItems!
                           .map((PopupIconMenuItem<O> item) => item.widget)
                           .toList(),
                       onSelected: (O operation) =>
-                          onMenuSelect(item, operation),
+                          onMenuSelect?.call(item, operation),
                     ),
                   )
               ],

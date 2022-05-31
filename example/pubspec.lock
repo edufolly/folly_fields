@@ -195,7 +195,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.10.5+130"
+    version: "0.10.6+131"
   font_awesome_flutter:
     dependency: transitive
     description:
@@ -209,7 +209,7 @@ packages:
       name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "3.0.0"
   highlight:
     dependency: transitive
     description:
