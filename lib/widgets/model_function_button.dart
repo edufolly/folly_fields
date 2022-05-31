@@ -52,7 +52,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
                   selection: selection,
                 );
 
-                dynamic object = null;
+                dynamic object;
 
                 if (widget == null) {
                   if (rowFunction.path != null &&
