@@ -185,6 +185,8 @@ class AbstractListState<
 
   FocusNode keyboardFocusNode = FocusNode();
 
+  bool _checkPermissions = false;
+
   ///
   ///
   ///
@@ -195,17 +197,6 @@ class AbstractListState<
     if (widget.qsParam.isNotEmpty) {
       _qsParam.addAll(widget.qsParam);
     }
-
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
-        if (!_loading && _page >= 0) {
-          _loadData(context, clear: false);
-        }
-      }
-    });
-
-    _loadPermissions(context);
   }
 
   ///
@@ -307,6 +298,19 @@ class AbstractListState<
   ///
   @override
   Widget build(BuildContext context) {
+    if(!_checkPermissions) {
+      _scrollController.addListener(() {
+        if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent) {
+          if (!_loading && _page >= 0) {
+            _loadData(context, clear: false);
+          }
+        }
+      });
+
+      _loadPermissions(context);
+    }
+
     return StreamBuilder<bool?>(
       stream: _streamController.stream,
       builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
