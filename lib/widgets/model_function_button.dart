@@ -55,9 +55,10 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
                 dynamic object = null;
 
                 if (widget == null) {
-                  if (rowFunction.path.isNotEmpty) {
+                  if (rowFunction.path != null &&
+                      rowFunction.path!.isNotEmpty) {
                     object = await Navigator.of(context).pushNamed<Object>(
-                      rowFunction.path,
+                      rowFunction.path!,
                       arguments: <String, dynamic>{
                         'qsParam': qsParam,
                         'model': model,

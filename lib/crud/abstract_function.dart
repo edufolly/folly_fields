@@ -14,7 +14,7 @@ abstract class AbstractFunctionInterface<T> {
   ///
   ///
   ///
-  String get path;
+  String? get path;
 
   ///
   ///
