@@ -162,22 +162,25 @@ class AbstractListState<
       GlobalKey<RefreshIndicatorState>();
 
   final ScrollController _scrollController = ScrollController();
-  final StreamController<bool?> _streamController = StreamController<bool?>();
+  final StreamController<int> _streamController = StreamController<int>();
+
+  final ValueNotifier<bool> _insertNotifier = ValueNotifier<bool>(false);
+  final ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>
+      _mapFunctionsNotifier =
+      ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>(
+    <ConsumerPermission, AbstractMapFunction>{},
+  );
 
   List<T> _globalItems = <T>[];
   bool _loading = false;
   int _page = 0;
 
-  bool _insert = false;
   bool _update = false;
   bool _delete = false;
 
   Map<Object, T> selections = <Object, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
-
-  final Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
-      <ConsumerPermission, AbstractMapFunction>{};
 
   final Map<ConsumerPermission, AbstractModelFunction<T>>
       effectiveModelFunctions =
@@ -201,6 +204,15 @@ class AbstractListState<
   ///
   ///
   Future<bool> _loadPermissions(BuildContext context) async {
+    if (!widget.selection) {
+      ConsumerPermission permission =
+          await widget.consumer.checkPermission(context, <String>[]);
+
+      _insertNotifier.value = permission.insert && widget.onAdd != null;
+      _update = permission.update && widget.onUpdate != null;
+      _delete = permission.delete;
+    }
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent) {
@@ -211,6 +223,9 @@ class AbstractListState<
     });
 
     if (widget.mapFunctions != null) {
+      Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
+          <ConsumerPermission, AbstractMapFunction>{};
+
       for (AbstractMapFunction headerFunction in widget.mapFunctions!) {
         ConsumerPermission permission = await widget.consumer
             .checkPermission(context, headerFunction.routeName);
@@ -218,6 +233,10 @@ class AbstractListState<
         if (permission.view) {
           effectiveMapFunctions[permission] = headerFunction;
         }
+      }
+
+      if (effectiveMapFunctions.isNotEmpty) {
+        _mapFunctionsNotifier.value = effectiveMapFunctions;
       }
     }
 
@@ -247,22 +266,13 @@ class AbstractListState<
     if (clear) {
       _globalItems = <T>[];
       _page = 0;
-      _streamController.add(null);
+      _streamController.add(-1);
     } else {
       _loading = true;
-      _streamController.add(false);
+      _streamController.add(0);
     }
 
     try {
-      if (!widget.selection) {
-        ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, <String>[]);
-
-        _insert = permission.insert && widget.onAdd != null;
-        _update = permission.update && widget.onUpdate != null;
-        _delete = permission.delete;
-      }
-
       _qsParam['f'] = '${_page * widget.itemsPerPage}';
       _qsParam['q'] = '${widget.itemsPerPage}';
       _qsParam['s'] = '${widget.selection}';
@@ -274,13 +284,13 @@ class AbstractListState<
       );
 
       if (result.isEmpty) {
-        _page = -1;
+        _page = 0;
       } else {
         _page++;
         _globalItems.addAll(result);
       }
 
-      _streamController.add(true);
+      _streamController.add(_page);
       _loading = false;
     } on Exception catch (e, s) {
       if (kDebugMode) {
@@ -363,31 +373,57 @@ class AbstractListState<
 
           /// Action Routes
           if (!widget.selection)
-            ...effectiveMapFunctions.entries
-                .map(
-                  (MapEntry<ConsumerPermission, AbstractMapFunction> entry) =>
-                      MapFunctionButton(
-                    mapFunction: entry.value,
-                    permission: entry.key,
-                    qsParam: _qsParam,
-                    selection: widget.selection,
-                    callback: (Map<String, String> map) {
-                      _qsParam.addAll(map);
-                      _loadData(context);
-                    },
-                  ),
-                )
-                .toList(),
+            ValueListenableBuilder<
+                Map<ConsumerPermission, AbstractMapFunction>>(
+              valueListenable: _mapFunctionsNotifier,
+              builder: (
+                BuildContext context,
+                Map<ConsumerPermission, AbstractMapFunction> mapFunctions,
+                _,
+              ) {
+                if (mapFunctions.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                return Row(
+                  children: mapFunctions.entries
+                      .map(
+                        (
+                          MapEntry<ConsumerPermission, AbstractMapFunction>
+                              entry,
+                        ) =>
+                            MapFunctionButton(
+                          mapFunction: entry.value,
+                          permission: entry.key,
+                          qsParam: _qsParam,
+                          selection: widget.selection,
+                          callback: (Map<String, String> map) {
+                            _qsParam.addAll(map);
+                            _loadData(context);
+                          },
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+            ),
 
           /// Add Button
-          if (_insert && !FollyFields().isMobile && !widget.selection)
-            IconButton(
-              tooltip: sprintf(
-                widget.addText,
-                <dynamic>[widget.uiBuilder.superSingle(context)],
-              ),
-              icon: const FaIcon(FontAwesomeIcons.plus),
-              onPressed: _addEntity,
+          if (!FollyFields().isMobile && !widget.selection)
+            ValueListenableBuilder<bool>(
+              valueListenable: _insertNotifier,
+              builder: (BuildContext context, bool insert, _) {
+                return insert
+                    ? IconButton(
+                        tooltip: sprintf(
+                          widget.addText,
+                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                        ),
+                        icon: const FaIcon(FontAwesomeIcons.plus),
+                        onPressed: _addEntity,
+                      )
+                    : const SizedBox.shrink();
+              },
             ),
 
           /// Legend Button
@@ -400,17 +436,23 @@ class AbstractListState<
             ),
         ],
       ),
-      floatingActionButton:
-          _insert && FollyFields().isMobile && !widget.selection
-              ? FloatingActionButton(
-                  tooltip: sprintf(
-                    widget.addText,
-                    <dynamic>[widget.uiBuilder.superSingle(context)],
-                  ),
-                  onPressed: _addEntity,
-                  child: const FaIcon(FontAwesomeIcons.plus),
-                )
-              : null,
+      floatingActionButton: FollyFields().isMobile && !widget.selection
+          ? ValueListenableBuilder<bool>(
+              valueListenable: _insertNotifier,
+              builder: (BuildContext context, bool insert, _) {
+                return insert
+                    ? FloatingActionButton(
+                        tooltip: sprintf(
+                          widget.addText,
+                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                        ),
+                        onPressed: _addEntity,
+                        child: const FaIcon(FontAwesomeIcons.plus),
+                      )
+                    : const SizedBox.shrink();
+              },
+            )
+          : null,
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
       body: widget.uiBuilder.buildBackgroundContainer(
         context,
@@ -418,17 +460,17 @@ class AbstractListState<
           future: _loadPermissions(context),
           waitingMessage: widget.waitingText,
           builder: (BuildContext context, bool value) {
-            return SafeStreamBuilder<bool?>(
+            return SafeStreamBuilder<int>(
               stream: _streamController.stream,
               waitingMessage: widget.waitingText,
-              builder: (BuildContext context, bool? data) {
-                if (data == null) {
+              builder: (BuildContext context, int data) {
+                if (data < 0) {
                   return WaitingMessage(message: widget.waitingText);
                 }
 
                 /// CircularProgressIndicator at list final.
                 int itemCount = _globalItems.length;
-                if (!data) {
+                if (data == 0) {
                   itemCount++;
                 }
 
@@ -792,6 +834,9 @@ class AbstractListState<
   @override
   void dispose() {
     keyboardFocusNode.dispose();
+    _mapFunctionsNotifier.dispose();
+    _insertNotifier.dispose();
+    _streamController.close();
     super.dispose();
   }
 }
