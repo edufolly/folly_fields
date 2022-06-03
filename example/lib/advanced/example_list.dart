@@ -5,6 +5,7 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_map_function_route.dart';
+import 'package:folly_fields_example/advanced/example_model_function_route.dart';
 import 'package:folly_fields_example/example_model.dart';
 
 ///
@@ -49,6 +50,9 @@ class ExampleList
               ExampleEdit(model, uiBuilder, consumer, edit: edit),
           mapFunctions: <AbstractMapFunction>[
             const ExampleMapFunctionRoute(),
+          ],
+          modelFunctions: <AbstractModelFunction<ExampleModel>>[
+            const ExampleModelFunctionRoute(),
           ],
         );
 }
