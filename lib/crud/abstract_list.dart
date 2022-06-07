@@ -266,10 +266,10 @@ class AbstractListState<
     if (clear) {
       _globalItems = <T>[];
       _page = 0;
-      _streamController.add(-1);
+      _streamController.add(-2);
     } else {
       _loading = true;
-      _streamController.add(0);
+      _streamController.add(-1);
     }
 
     try {
@@ -284,7 +284,7 @@ class AbstractListState<
       );
 
       if (result.isEmpty) {
-        _page = 0;
+        _streamController.add(0);
       } else {
         _page++;
         _globalItems.addAll(result);
@@ -464,13 +464,13 @@ class AbstractListState<
               stream: _streamController.stream,
               waitingMessage: widget.waitingText,
               builder: (BuildContext context, int data) {
-                if (data < 0) {
+                if (data < -1) {
                   return WaitingMessage(message: widget.waitingText);
                 }
 
                 /// CircularProgressIndicator at list final.
                 int itemCount = _globalItems.length;
-                if (data == 0) {
+                if (data == -1) {
                   itemCount++;
                 }
 
