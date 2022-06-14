@@ -176,26 +176,24 @@ abstract class StatelessResponsive extends StatelessWidget with Responsive {
     this.minHeight,
     super.key,
   })  : assert(
-          sizeExtraSmall == null ||
-              (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
-          'sizeExtraSmall must be between 1 and 12.',
+          sizeExtraSmall == null || sizeExtraSmall > 0,
+          'sizeExtraSmall must be greater than zero.',
         ),
         assert(
-          sizeSmall == null || (sizeSmall >= 1 && sizeSmall <= 12),
-          'sizeSmall must be between 1 and 12.',
+          sizeSmall == null || sizeSmall > 0,
+          'sizeSmall must be greater than zero.',
         ),
         assert(
-          sizeMedium == null || (sizeMedium >= 1 && sizeMedium <= 12),
-          'sizeMedium must be between 1 and 12.',
+          sizeMedium == null || sizeMedium > 0,
+          'sizeMedium must be greater than zero.',
         ),
         assert(
-          sizeLarge == null || (sizeLarge >= 1 && sizeLarge <= 12),
-          'sizeLarge must be between 1 and 12.',
+          sizeLarge == null || sizeLarge > 0,
+          'sizeLarge must be greater than zero.',
         ),
         assert(
-          sizeExtraLarge == null ||
-              (sizeExtraLarge >= 1 && sizeExtraLarge <= 12),
-          'sizeExtraLarge must be between 1 and 12.',
+          sizeExtraLarge == null || sizeExtraLarge > 0,
+          'sizeExtraLarge must be greater than zero.',
         ),
         assert(
           minHeight == null || minHeight >= 0,
@@ -237,26 +235,24 @@ abstract class StatefulResponsive extends StatefulWidget with Responsive {
     this.minHeight,
     super.key,
   })  : assert(
-          sizeExtraSmall == null ||
-              (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
-          'sizeExtraSmall must be between 1 and 12.',
+          sizeExtraSmall == null || sizeExtraSmall > 0,
+          'sizeExtraSmall must be greater than zero.',
         ),
         assert(
-          sizeSmall == null || (sizeSmall >= 1 && sizeSmall <= 12),
-          'sizeSmall must be between 1 and 12.',
+          sizeSmall == null || sizeSmall > 0,
+          'sizeSmall must be greater than zero.',
         ),
         assert(
-          sizeMedium == null || (sizeMedium >= 1 && sizeMedium <= 12),
-          'sizeMedium must be between 1 and 12.',
+          sizeMedium == null || sizeMedium > 0,
+          'sizeMedium must be greater than zero.',
         ),
         assert(
-          sizeLarge == null || (sizeLarge >= 1 && sizeLarge <= 12),
-          'sizeLarge must be between 1 and 12.',
+          sizeLarge == null || sizeLarge > 0,
+          'sizeLarge must be greater than zero.',
         ),
         assert(
-          sizeExtraLarge == null ||
-              (sizeExtraLarge >= 1 && sizeExtraLarge <= 12),
-          'sizeExtraLarge must be between 1 and 12.',
+          sizeExtraLarge == null || sizeExtraLarge > 0,
+          'sizeExtraLarge must be greater than zero.',
         ),
         assert(
           minHeight == null || minHeight >= 0,
@@ -305,26 +301,24 @@ abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
     this.minHeight,
     super.key,
   })  : assert(
-          sizeExtraSmall == null ||
-              (sizeExtraSmall >= 1 && sizeExtraSmall <= 12),
-          'sizeExtraSmall must be between 1 and 12.',
+          sizeExtraSmall == null || sizeExtraSmall > 0,
+          'sizeExtraSmall must be greater than zero.',
         ),
         assert(
-          sizeSmall == null || (sizeSmall >= 1 && sizeSmall <= 12),
-          'sizeSmall must be between 1 and 12.',
+          sizeSmall == null || sizeSmall > 0,
+          'sizeSmall must be greater than zero.',
         ),
         assert(
-          sizeMedium == null || (sizeMedium >= 1 && sizeMedium <= 12),
-          'sizeMedium must be between 1 and 12.',
+          sizeMedium == null || sizeMedium > 0,
+          'sizeMedium must be greater than zero.',
         ),
         assert(
-          sizeLarge == null || (sizeLarge >= 1 && sizeLarge <= 12),
-          'sizeLarge must be between 1 and 12.',
+          sizeLarge == null || sizeLarge > 0,
+          'sizeLarge must be greater than zero.',
         ),
         assert(
-          sizeExtraLarge == null ||
-              (sizeExtraLarge >= 1 && sizeExtraLarge <= 12),
-          'sizeExtraLarge must be between 1 and 12.',
+          sizeExtraLarge == null || sizeExtraLarge > 0,
+          'sizeExtraLarge must be greater than zero.',
         ),
         assert(
           minHeight == null || minHeight >= 0,
