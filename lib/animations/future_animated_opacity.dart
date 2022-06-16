@@ -8,23 +8,16 @@ class FutureAppear extends FutureAnimatedOpacity {
   ///
   ///
   const FutureAppear({
-    required Widget child,
-    required Duration delay,
-    required Duration animationDuration,
-    Curve curve = Curves.linear,
-    VoidCallback? onEnd,
-    bool alwaysIncludeSemantics = false,
-    Key? key,
+    required super.child,
+    required super.delay,
+    required super.animationDuration,
+    super.curve,
+    super.onEnd,
+    super.alwaysIncludeSemantics,
+    super.key,
   }) : super(
-          key: key,
-          delay: delay,
           initialOpacity: 0,
           finalOpacity: 1,
-          curve: curve,
-          animationDuration: animationDuration,
-          onEnd: onEnd,
-          alwaysIncludeSemantics: alwaysIncludeSemantics,
-          child: child,
         );
 }
 
@@ -36,23 +29,16 @@ class FutureDisappear extends FutureAnimatedOpacity {
   ///
   ///
   const FutureDisappear({
-    required Widget child,
-    required Duration delay,
-    required Duration animationDuration,
-    Curve curve = Curves.linear,
-    VoidCallback? onEnd,
-    bool alwaysIncludeSemantics = false,
-    Key? key,
+    required super.child,
+    required super.delay,
+    required super.animationDuration,
+    super.curve,
+    super.onEnd,
+    super.alwaysIncludeSemantics,
+    super.key,
   }) : super(
-          key: key,
-          delay: delay,
           initialOpacity: 1,
           finalOpacity: 0,
-          curve: curve,
-          animationDuration: animationDuration,
-          onEnd: onEnd,
-          alwaysIncludeSemantics: alwaysIncludeSemantics,
-          child: child,
         );
 }
 
@@ -81,8 +67,8 @@ class FutureAnimatedOpacity extends StatelessWidget {
     this.curve = Curves.linear,
     this.onEnd,
     this.alwaysIncludeSemantics = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///

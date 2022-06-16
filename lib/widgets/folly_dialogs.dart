@@ -15,6 +15,7 @@ class FollyDialogs {
     String title = 'Atenção',
     String buttonText = 'OK',
     String defaultMessage = 'Ocorreu um erro.',
+    bool scrollable = false,
   }) {
     return showDialog(
       context: context,
@@ -23,6 +24,7 @@ class FollyDialogs {
         return AlertDialog(
           title: Text(title),
           content: Text(message ?? defaultMessage),
+          scrollable: scrollable,
           actions: <Widget>[
             ElevatedButton(
               onPressed: () => Navigator.of(context).pop(true),
@@ -45,14 +47,14 @@ class FollyDialogs {
     String cancelLabel = 'CANCELAR',
     String startString = '',
     TextInputType keyboardType = TextInputType.text,
+    bool scrollable = false,
   }) async {
-    final TextEditingController _controller = TextEditingController();
+    TextEditingController controller = TextEditingController()
+      ..text = startString;
 
-    _controller.text = startString;
-
-    _controller.selection = TextSelection(
+    controller.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: _controller.text.length,
+      extentOffset: controller.text.length,
     );
 
     String? value = await showDialog(
@@ -61,6 +63,7 @@ class FollyDialogs {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
+          scrollable: scrollable,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -78,7 +81,7 @@ class FollyDialogs {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: TextField(
-                  controller: _controller,
+                  controller: controller,
                   keyboardType: keyboardType,
                   autofocus: true,
                 ),
@@ -91,7 +94,7 @@ class FollyDialogs {
               child: Text(cancelLabel),
             ),
             TextButton(
-              onPressed: () => Navigator.of(context).pop(_controller.text),
+              onPressed: () => Navigator.of(context).pop(controller.text),
               child: Text(confirmLabel),
             ),
           ],
@@ -112,6 +115,7 @@ class FollyDialogs {
     String affirmative = 'Sim',
     String negative = 'Não',
     bool marked = false,
+    bool scrollable = false,
   }) async {
     Widget aff;
     Widget neg;
@@ -144,6 +148,7 @@ class FollyDialogs {
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
         content: Text(message),
+        scrollable: scrollable,
         actions: <Widget>[neg, aff],
       ),
     );

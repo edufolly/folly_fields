@@ -14,4 +14,9 @@ abstract class AbstractEditController<T extends AbstractModel<Object>> {
   ///
   ///
   Future<void> dispose(BuildContext context);
+
+  ///
+  ///
+  ///
+  Future<bool> validate(BuildContext context, T model) async => true;
 }

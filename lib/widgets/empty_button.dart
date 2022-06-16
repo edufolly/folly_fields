@@ -8,7 +8,7 @@ class EmptyButton extends StatelessWidget {
   ///
   ///
   ///
-  const EmptyButton({Key? key}) : super(key: key);
+  const EmptyButton({super.key});
 
   ///
   ///
@@ -19,7 +19,7 @@ class EmptyButton extends StatelessWidget {
       flex: 0,
       child: IconButton(
         icon: FaIcon(
-          FontAwesomeIcons.trashAlt,
+          FontAwesomeIcons.trashCan,
           color: Colors.transparent,
         ),
         onPressed: null,

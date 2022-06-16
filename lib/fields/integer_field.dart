@@ -10,41 +10,50 @@ class IntegerField extends StringField {
   ///
   ///
   IntegerField({
-    Key? key,
-    String prefix = '',
-    String label = '',
-    TextEditingController? controller,
+    super.labelPrefix,
+    super.label,
+    super.labelWidget,
+    IntegerEditingController? super.controller,
     FormFieldValidator<int?>? validator,
-    TextAlign textAlign = TextAlign.end,
-    int? maxLength,
+    super.textAlign = TextAlign.end,
+    super.maxLength,
     FormFieldSetter<int>? onSaved,
     int? initialValue,
-    bool enabled = true,
-    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    ValueChanged<String>? onChanged,
-    FocusNode? focusNode,
-    TextInputAction? textInputAction,
-    ValueChanged<String>? onFieldSubmitted,
-    EdgeInsets scrollPadding = const EdgeInsets.all(20),
-    bool enableInteractiveSelection = true,
-    bool filled = false,
-    Color? fillColor,
-    Iterable<String>? autofillHints,
-    bool readOnly = false,
-    TextStyle? style,
-    InputDecoration? decoration,
-    EdgeInsets padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
+    super.enabled,
+    super.autoValidateMode,
+    super.onChanged,
+    super.focusNode,
+    super.textInputAction,
+    super.onFieldSubmitted,
+    super.scrollPadding,
+    super.enableInteractiveSelection,
+    super.filled,
+    super.fillColor,
+    super.autofillHints,
+    super.readOnly,
+    super.style,
+    super.decoration,
+    super.padding,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
-          key: key,
-          prefix: prefix,
-          label: label,
-          controller: controller,
           keyboard: TextInputType.number,
           validator: (String? value) {
             if (enabled && validator != null) {
-              return validator(int.tryParse(value ?? '0'));
+              return validator(int.tryParse(value ?? ''));
             }
             return null;
           },
@@ -54,31 +63,29 @@ class IntegerField extends StringField {
           inputFormatter: <TextInputFormatter>[
             FilteringTextInputFormatter.digitsOnly,
           ],
-          textAlign: textAlign,
-          maxLength: maxLength,
           onSaved: (String? value) {
             if (enabled && onSaved != null) {
-              return onSaved(int.tryParse(value ?? '0'));
+              return onSaved(int.tryParse(value ?? ''));
             }
           },
           initialValue: initialValue?.toString(),
-          enabled: enabled,
-          autoValidateMode: autoValidateMode,
-          onChanged: onChanged,
-          focusNode: focusNode,
-          textInputAction: textInputAction,
-          onFieldSubmitted: onFieldSubmitted,
           autocorrect: false,
           enableSuggestions: false,
           textCapitalization: TextCapitalization.none,
-          scrollPadding: scrollPadding,
-          enableInteractiveSelection: enableInteractiveSelection,
-          filled: filled,
-          fillColor: fillColor,
-          autofillHints: autofillHints,
-          readOnly: readOnly,
-          style: style,
-          decoration: decoration,
-          padding: padding,
         );
+}
+
+///
+///
+///
+class IntegerEditingController extends TextEditingController {
+  ///
+  ///
+  ///
+  int? get integer => int.tryParse(text);
+
+  ///
+  ///
+  ///
+  set integer(int? integer) => text = integer.toString();
 }

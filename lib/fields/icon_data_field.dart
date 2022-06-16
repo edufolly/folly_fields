@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class IconDataField extends FormField<IconData> {
+class IconDataField extends FormFieldResponsive<IconData> {
   final IconFieldController? controller;
   final Map<String, IconData> icons;
 
@@ -13,15 +14,15 @@ class IconDataField extends FormField<IconData> {
   ///
   ///
   IconDataField({
-    Key? key,
-    String prefix = '',
-    String label = '',
+    String labelPrefix = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     FormFieldValidator<IconData>? validator,
-    FormFieldSetter<IconData>? onSaved,
+    super.onSaved,
     IconData? initialValue,
     this.icons = const <String, IconData>{},
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     bool filled = false,
     Color? fillColor,
@@ -33,24 +34,36 @@ class IconDataField extends FormField<IconData> {
     double spaceBetween = 16.0,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
-          key: key,
           initialValue: controller != null ? controller.value : initialValue,
-          onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
-          enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<IconData> field) {
-            final IconDataFieldState state = field as IconDataFieldState;
+            IconDataFieldState state = field as IconDataFieldState;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      label: labelWidget,
+                      labelText:
+                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       contentPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
                     ))

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
@@ -12,7 +13,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   ///
   ///
-  const BaseConsumerMock();
+  const BaseConsumerMock(super.routeName);
 
   ///
   ///
@@ -21,11 +22,12 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String>? paths,
-  ) =>
-      Future<ConsumerPermission>.value(
+  ) {
+    if (paths?.join('/').contains('example_map_function_route') ?? false) {
+      return Future<ConsumerPermission>.value(
         const ConsumerPermission(
-          name: 'mock',
-          iconName: 'question',
+          name: 'Example Map Func. Route',
+          iconName: 'cube',
           view: true,
           insert: true,
           update: true,
@@ -33,6 +35,34 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
           menu: true,
         ),
       );
+    }
+
+    if (paths?.join('/').contains('example_model_function_route') ?? false) {
+      return Future<ConsumerPermission>.value(
+        const ConsumerPermission(
+          name: 'Example Model Func. Route',
+          iconName: 'mugHot',
+          view: true,
+          insert: true,
+          update: true,
+          delete: true,
+          menu: true,
+        ),
+      );
+    }
+
+    return Future<ConsumerPermission>.value(
+      const ConsumerPermission(
+        name: 'mock',
+        iconName: 'question',
+        view: true,
+        insert: true,
+        update: true,
+        delete: true,
+        menu: true,
+      ),
+    );
+  }
 
   ///
   ///
@@ -40,17 +70,18 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   @override
   Future<List<T>> list(
     BuildContext context,
-    Map<String, String> qsParam,
-    bool forceOffline,
-  ) async {
-    // ignore: avoid_print
-    print('mock list: $qsParam');
+    Map<String, String> qsParam, {
+    required bool forceOffline,
+  }) async {
+    if (kDebugMode) {
+      print('mock list: $qsParam');
+    }
 
     int first = int.tryParse(qsParam['f'] ?? '0') ?? 0;
     int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
 
     return Future<List<T>>.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
       () => List<T>.generate(
         qtd,
         (int index) => ExampleModel.generate(seed: first + index) as T,

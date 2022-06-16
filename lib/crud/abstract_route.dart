@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 ///
@@ -9,7 +7,7 @@ abstract class AbstractRoute extends StatefulWidget {
   ///
   ///
   ///
-  const AbstractRoute({Key? key}) : super(key: key);
+  const AbstractRoute({super.key});
 
   ///
   ///

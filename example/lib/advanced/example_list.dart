@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_list.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
+import 'package:folly_fields_example/advanced/example_map_function_route.dart';
+import 'package:folly_fields_example/advanced/example_model_function_route.dart';
 import 'package:folly_fields_example/example_model.dart';
 
 ///
@@ -14,23 +17,21 @@ class ExampleList
   ///
   ///
   ExampleList({
-    Key? key,
-    bool selection = false,
-    bool multipleSelection = false,
-    String prefix = '',
+    super.key,
+    super.selection = false,
+    super.multipleSelection = false,
+    String labelPrefix = '',
   }) : super(
-          key: key,
-          selection: selection,
-          multipleSelection: multipleSelection,
           forceOffline: false,
+          showRefreshButton: true,
           consumer: const ExampleConsumer(),
-          uiBuilder: ExampleBuilder(prefix),
+          uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
           onAdd: (
             BuildContext context,
             ExampleBuilder uiBuilder,
             ExampleConsumer consumer,
           ) async =>
-              ExampleEdit(ExampleModel(), uiBuilder, consumer, true),
+              ExampleEdit(ExampleModel(), uiBuilder, consumer, edit: true),
           onUpdate: (
             BuildContext context,
             ExampleModel model,
@@ -38,7 +39,7 @@ class ExampleList
             ExampleConsumer consumer,
             bool edit,
           ) async =>
-              ExampleEdit(model, uiBuilder, consumer, edit),
+              ExampleEdit(model, uiBuilder, consumer, edit: edit),
           onLongPress: (
             BuildContext context,
             ExampleModel model,
@@ -46,6 +47,12 @@ class ExampleList
             ExampleConsumer consumer,
             bool edit,
           ) async =>
-              ExampleEdit(model, uiBuilder, consumer, edit),
+              ExampleEdit(model, uiBuilder, consumer, edit: edit),
+          mapFunctions: <AbstractMapFunction>[
+            const ExampleMapFunctionRoute(),
+          ],
+          modelFunctions: <AbstractModelFunction<ExampleModel>>[
+            const ExampleModelFunctionRoute(),
+          ],
         );
 }

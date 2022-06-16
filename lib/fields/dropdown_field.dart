@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
 ///
-class DropdownField<T> extends FormField<T> {
+class DropdownField<T> extends FormFieldResponsive<T> {
   final DropdownEditingController<T>? controller;
   final Map<T, String>? items;
 
@@ -11,15 +12,15 @@ class DropdownField<T> extends FormField<T> {
   ///
   ///
   DropdownField({
-    Key? key,
-    String prefix = '',
-    String label = '',
+    String labelPrefix = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     FormFieldValidator<T?>? validator,
-    FormFieldSetter<T?>? onSaved,
+    super.onSaved,
     T? initialValue,
     this.items,
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Function(T? value)? onChanged,
     // ValueChanged<String> onFieldSubmitted,
@@ -43,33 +44,46 @@ class DropdownField<T> extends FormField<T> {
     Color? dropdownColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
         // assert(elevation != null),
         // assert(iconSize != null),
         // assert(isDense != null),
         // assert(isExpanded != null),
         assert(
-            itemHeight == null || itemHeight >= kMinInteractiveDimension,
-            'itemHeight must be null or equal or greater '
-            'kMinInteractiveDimension.'),
+          itemHeight == null || itemHeight >= kMinInteractiveDimension,
+          'itemHeight must be null or equal or greater '
+          'kMinInteractiveDimension.',
+        ),
         // assert(autofocus != null),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
-          key: key,
           initialValue: controller != null ? controller.value : initialValue,
-          onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
-          enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final DropdownFieldState<T> state = field as DropdownFieldState<T>;
+            DropdownFieldState<T> state = field as DropdownFieldState<T>;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      label: labelWidget,
+                      labelText:
+                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
                     ))
@@ -200,15 +214,6 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   @override
-  void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
@@ -232,6 +237,15 @@ class DropdownFieldState<T> extends FormFieldState<T> {
     if (_effectiveController.value != value) {
       didChange(_effectiveController.value);
     }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    super.dispose();
   }
 }
 

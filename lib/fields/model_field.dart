@@ -1,27 +1,30 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
+class ModelField<T extends AbstractModel<Object>>
+    extends FormFieldResponsive<T?> {
   final ModelEditingController<T>? controller;
 
   ///
   ///
   ///
   ModelField({
-    Key? key,
-    String prefix = '',
-    String label = '',
+    String labelPrefix = '',
+    String? label,
+    Widget? labelWidget,
     this.controller,
     FormFieldValidator<T>? validator,
     TextAlign textAlign = TextAlign.start,
-    FormFieldSetter<T>? onSaved,
+    super.onSaved,
     T? initialValue,
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO(edufolly): onChanged
     TextInputAction? textInputAction,
@@ -31,28 +34,41 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
     Color? fillColor,
     Widget Function(BuildContext context)? routeBuilder,
     Future<bool> Function(BuildContext context, T? model)? beforeRoute,
-    Future<bool> Function(T? model)? acceptChange,
+    Future<T?> Function(T? model)? acceptChange,
     Function(T model)? tapToVisualize,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
+    bool clearOnCancel = true,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
         super(
-          key: key,
           initialValue: controller != null ? controller.model : initialValue,
-          onSaved: onSaved,
           validator: enabled ? validator : (_) => null,
-          enabled: enabled,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final ModelFieldState<T> state = field as ModelFieldState<T>;
+            ModelFieldState<T> state = field as ModelFieldState<T>;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
                       fillColor: fillColor,
-                      labelText: prefix.isEmpty ? label : '$prefix - $label',
+                      label: labelWidget,
+                      labelText:
+                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme)
@@ -61,7 +77,7 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       enabled && routeBuilder != null
-                          ? const FaIcon(FontAwesomeIcons.search)
+                          ? const FaIcon(FontAwesomeIcons.magnifyingGlass)
                           : tapToVisualize != null
                               ? const FaIcon(FontAwesomeIcons.chevronRight)
                               : Container(width: 0),
@@ -110,20 +126,29 @@ class ModelField<T extends AbstractModel<Object>> extends FormField<T?> {
                             ),
                           );
 
-                          bool accept = true;
-
-                          if (acceptChange != null) {
-                            accept = await acceptChange(selected);
+                          try {
+                            if (acceptChange != null) {
+                              selected = await acceptChange(selected);
+                            }
+                            if (selected != null ||
+                                (selected == null && clearOnCancel)) {
+                              state._effectiveController.model = selected;
+                              state.didChange(selected);
+                            }
+                          } on Exception catch (e, s) {
+                            if (kDebugMode) {
+                              print(e);
+                              print(s);
+                            }
+                            await FollyDialogs.dialogMessage(
+                              context: state.context,
+                              message: e.toString(),
+                            );
                           }
-
-                          if (accept) {
-                            state._effectiveController.model = selected;
-                            state.didChange(selected);
-                          }
-                        } catch (e, s) {
-                          if (FollyFields().isDebug) {
-                            // ignore: avoid_print
-                            print('$e\n$s');
+                        } on Exception catch (e, s) {
+                          if (kDebugMode) {
+                            print(e);
+                            print(s);
                           }
                         }
                       }

@@ -14,8 +14,8 @@ class AnimatedSearch extends StatefulWidget {
   const AnimatedSearch({
     required this.controller,
     this.maxSize = 200.0,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -70,7 +70,7 @@ class AnimatedSearchState extends State<AnimatedSearch> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 12, 8, 12),
               child: Icon(
-                FontAwesomeIcons.search,
+                FontAwesomeIcons.magnifyingGlass,
                 color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
               ),
             ),

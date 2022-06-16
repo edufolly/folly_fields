@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:folly_fields/widgets/popup_icon_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,8 +10,8 @@ class HomeCard<T, O> extends StatelessWidget {
   final String name;
   final IconData iconData;
   final Function(T item) onTap;
-  final List<PopupIconMenuItem<O>> menuItems;
-  final Function(T item, O operation) onMenuSelect;
+  final List<PopupIconMenuItem<O>>? menuItems;
+  final Function(T item, O operation)? onMenuSelect;
   final Color? backgroundColor;
   final String? tooltip;
 
@@ -24,12 +23,12 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.name,
     required this.iconData,
     required this.onTap,
-    required this.menuItems,
-    required this.onMenuSelect,
+     this.menuItems,
+     this.onMenuSelect,
     this.backgroundColor,
     this.tooltip,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -41,7 +40,7 @@ class HomeCard<T, O> extends StatelessWidget {
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -77,20 +76,20 @@ class HomeCard<T, O> extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (menuItems.isNotEmpty)
+                if (menuItems != null && menuItems!.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: PopupMenuButton<O>(
                       tooltip: tooltip ?? 'Opções do Favorito',
                       icon: const FaIcon(
-                        FontAwesomeIcons.ellipsisV,
+                        FontAwesomeIcons.ellipsisVertical,
                         color: Colors.black12,
                       ),
-                      itemBuilder: (BuildContext context) => menuItems
+                      itemBuilder: (BuildContext context) => menuItems!
                           .map((PopupIconMenuItem<O> item) => item.widget)
                           .toList(),
                       onSelected: (O operation) =>
-                          onMenuSelect(item, operation),
+                          onMenuSelect?.call(item, operation),
                     ),
                   )
               ],

@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/hashable.dart';
 
@@ -8,7 +9,8 @@ abstract class AbstractModel<A> with Hashable {
   static final String modelIdKey = FollyFields().modelIdKey;
   static final String modelUpdatedAtKey = FollyFields().modelUpdatedAtKey;
   static final String modelDeletedAtKey = FollyFields().modelDeletedAtKey;
-  static final bool modelParseDates = FollyFields().modelParseDates;
+  static final FollyDateParse? dateParseUpdate = FollyFields().dateParseUpdate;
+  static final FollyDateParse? dateParseDelete = FollyFields().dateParseDelete;
 
   A? id;
   int? updatedAt;
@@ -18,7 +20,12 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
-  AbstractModel();
+  AbstractModel({
+    this.id,
+    this.updatedAt,
+    this.deletedAt,
+    this.selected = false,
+  });
 
   ///
   ///
@@ -27,14 +34,14 @@ abstract class AbstractModel<A> with Hashable {
     id = map[modelIdKey];
 
     if (map.containsKey(modelUpdatedAtKey)) {
-      updatedAt = modelParseDates
-          ? DateTime.parse(map[modelUpdatedAtKey]).millisecondsSinceEpoch
+      updatedAt = dateParseUpdate != null
+          ? dateParseUpdate!(map[modelUpdatedAtKey])
           : map[modelUpdatedAtKey];
     }
 
     if (map.containsKey(modelDeletedAtKey)) {
-      deletedAt = modelParseDates
-          ? DateTime.parse(map[modelDeletedAtKey]).millisecondsSinceEpoch
+      deletedAt = dateParseDelete != null
+          ? dateParseDelete!(map[modelDeletedAtKey])
           : map[modelDeletedAtKey];
     }
   }
@@ -42,6 +49,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
+  @mustCallSuper
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) {
@@ -62,18 +70,15 @@ abstract class AbstractModel<A> with Hashable {
   int get hashCode => hashIterable(toMap().values);
 
   ///
-  /// Teste de exclusão de quando as entidades ainda não possuem id.
-  /// Anteriormente o cálculo do hash estava com uma divergência, mas agora
-  /// faremos novos testes para não precisar desse operador.
   ///
-  /// Ocorreu um novo problema com a comparação dos objetos do menu.
+  ///
   @override
   bool operator ==(Object other) => hashCode == other.hashCode;
 
   ///
   ///
   ///
-  String get searchTerm;
+  String get listSearchTerm => toString();
 
   ///
   ///

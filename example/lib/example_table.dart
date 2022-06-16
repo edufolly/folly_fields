@@ -10,7 +10,7 @@ import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///
 ///
@@ -19,7 +19,7 @@ class ExampleTable extends StatefulWidget {
   ///
   ///
   ///
-  const ExampleTable({Key? key}) : super(key: key);
+  const ExampleTable({super.key});
 
   ///
   ///
@@ -33,7 +33,9 @@ class ExampleTable extends StatefulWidget {
 ///
 class ExampleTableState extends State<ExampleTable> {
   final List<ExampleModel> list = List<ExampleModel>.generate(
-      50, (int index) => ExampleModel.generate(seed: index));
+    50,
+    (int index) => ExampleModel.generate(seed: index),
+  );
 
   final CpfValidator cpfValidator = CpfValidator();
   final CnpjValidator cnpjValidator = CnpjValidator();
@@ -57,8 +59,8 @@ class ExampleTableState extends State<ExampleTable> {
             onPressed: () async {
               const String url = 'https://github.com/edufolly/folly_fields/'
                   'blob/main/example/lib/example_table.dart';
-              if (await canLaunch(url)) {
-                await launch(url);
+              if (await canLaunchUrlString(url)) {
+                await launchUrlString(url);
               } else {
                 await FollyDialogs.dialogMessage(
                   context: context,
@@ -119,7 +121,7 @@ class ExampleTableState extends State<ExampleTable> {
                 );
 
               case 4:
-                return FollyCell.number(model.decimal.value);
+                return FollyCell.number(model.decimal.doubleValue);
 
               case 5:
                 return FollyCell.text(
@@ -143,9 +145,9 @@ class ExampleTableState extends State<ExampleTable> {
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(
                 list[row],
-                const ExampleBuilder(),
+                ExampleBuilder(),
                 const ExampleConsumer(),
-                false,
+                edit: false,
               ),
             ),
           ),

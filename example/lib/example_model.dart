@@ -5,16 +5,21 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
+import 'package:folly_fields/validators/color_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/time_validator.dart';
+import 'package:folly_fields_example/example_enum.dart';
 
 ///
 ///
 ///
 class ExampleModel extends AbstractModel<int> {
-  static final TimeValidator timeValidator = TimeValidator();
+  static final TimeValidator _timeValidator = TimeValidator();
+  static const ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
+  static final ColorValidator _colorValidator = ColorValidator();
   static final Random rnd = Random();
 
   Decimal decimal = Decimal(precision: 2);
@@ -27,14 +32,15 @@ class ExampleModel extends AbstractModel<int> {
   String document = '';
   String phone = '';
   String localPhone = '';
-  DateTime? dateTime;
+  DateTime dateTime = DateTime.now();
   DateTime? date;
-  TimeOfDay? time;
+  TimeOfDay time =  TimeOfDay.now();
   String? macAddress;
   String? ncm;
   String? cest;
   String? cnae;
   String? cep;
+  ExampleEnum ordinal = _exampleEnumParser.defaultItem;
   Color? color;
   bool active = true;
   IconData? icon;
@@ -49,8 +55,8 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   @override
-  ExampleModel.fromJson(Map<String, dynamic> map)
-      : decimal = Decimal(initialValue: map['decimal'], precision: 2),
+  ExampleModel.fromJson(super.map)
+      : decimal = ModelUtils.fromJsonDecimal(map['decimal'], 2),
         integer = map['integer'] ?? 0,
         text = map['text'] ?? '',
         email = map['email'] ?? '',
@@ -60,25 +66,20 @@ class ExampleModel extends AbstractModel<int> {
         document = map['document'] ?? '',
         phone = map['phone'] ?? '',
         localPhone = map['localPhone'] ?? '',
-        dateTime = map['dateTime'] == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(map['dateTime']),
-        date = map['date'] == null
-            ? null
-            : DateTime.fromMillisecondsSinceEpoch(map['date']),
-        time = map['date'] == null ? null : timeValidator.parse(map['time']),
+        dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
+        date = ModelUtils.fromJsonNullableDateMillis(map['date']),
+        time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
         cnae = map['cnae'],
         cep = map['cep'],
-        color = map['color'] == null
-            ? null
-            : Color(int.parse(map['color'], radix: 16)),
+        ordinal = _exampleEnumParser.fromJson(map['ordinal']),
+        color = _colorValidator.parse(map['color']),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
-        super.fromJson(map);
+        super.fromJson();
 
   ///
   ///
@@ -86,7 +87,7 @@ class ExampleModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    map['decimal'] = decimal.integer;
+    map['decimal'] = ModelUtils.toMapDecimal(decimal);
     map['integer'] = integer;
     map['text'] = text;
     map['email'] = email;
@@ -96,32 +97,17 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
-    if (dateTime != null) {
-      map['dateTime'] = dateTime!.millisecondsSinceEpoch;
-    }
-    if (date != null) {
-      map['date'] = date!.millisecondsSinceEpoch;
-    }
-    if (time != null) {
-      map['time'] = timeValidator.format(time!);
-    }
-    if (macAddress != null) {
-      map['macAddress'] = macAddress;
-    }
-    if (ncm != null) {
-      map['ncm'] = ncm;
-    }
-    if (cest != null) {
-      map['cest'] = cest;
-    }
-    if (cnae != null) {
-      map['cnae'] = cnae;
-    }
-    if (cep != null) {
-      map['cep'] = cep;
-    }
+    map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
+    map['date'] = ModelUtils.toMapNullableDateMillis(date);
+    map['time'] = _timeValidator.format(time);
+    map['macAddress'] = macAddress;
+    map['ncm'] = ncm;
+    map['cest'] = cest;
+    map['cnae'] = cnae;
+    map['cep'] = cep;
+    map['ordinal'] = _exampleEnumParser.toMap(ordinal);
     if (color != null) {
-      map['color'] = color!.value.toRadixString(16);
+      map['color'] = _colorValidator.format(color!);
     }
     map['active'] = active;
     if (icon != null) {
@@ -130,12 +116,6 @@ class ExampleModel extends AbstractModel<int> {
     map['multiline'] = multiline;
     return map;
   }
-
-  ///
-  ///
-  ///
-  @override
-  String get searchTerm => text;
 
   ///
   ///
@@ -159,7 +139,7 @@ class ExampleModel extends AbstractModel<int> {
 
     id = ms;
     updatedAt = now.millisecondsSinceEpoch;
-    decimal = Decimal(initialValue: ms, precision: 2);
+    decimal = Decimal(intValue: ms, precision: 2);
     integer = ms;
     text = 'Exemplo $ms';
     email = 'exemplo$ms@exemplo.com.br';
@@ -167,17 +147,19 @@ class ExampleModel extends AbstractModel<int> {
     cpf = CpfValidator.generate();
     cnpj = CnpjValidator.generate();
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
-    phone = '889' + complete(8);
-    localPhone = '9' + complete(8);
+    phone = '889${complete(8)}';
+    localPhone = '9${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
-    time = TimeOfDay(hour: now.hour, minute: now.minute);
-    dateTime = FollyUtils.dateMergeStart(date: date!, time: time!);
+    time = TimeOfDay(hour: now.hour, minute: now.minute) ;
+    dateTime =
+        FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
     macAddress = MacAddressValidator.generate();
     ncm = complete(8);
     cest = complete(7);
     cnae = complete(7);
     cep = complete(8);
     color = randomColor;
+    ordinal = _exampleEnumParser.random;
     active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
@@ -202,15 +184,15 @@ class ExampleModel extends AbstractModel<int> {
   ///
   ///
   ///
-  static final Map<Color, String> colors = <Color, String>{
-    Colors.red: 'Vermelho',
-    Colors.green: 'Verde',
-    Colors.blue: 'Azul',
+  static final Map<Color, String> _colors = <Color, String>{
+    Colors.red.shade500: 'Vermelho',
+    Colors.green.shade500: 'Verde',
+    Colors.blue.shade500: 'Azul',
   };
 
   ///
   ///
   ///
   static Color get randomColor =>
-      colors.keys.elementAt(rnd.nextInt(colors.length));
+      _colors.keys.elementAt(rnd.nextInt(_colors.length));
 }

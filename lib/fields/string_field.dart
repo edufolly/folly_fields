@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
 ///
-class StringField extends StatelessWidget {
-  final String prefix;
-  final String label;
+class StringField extends StatelessResponsive {
+  final String labelPrefix;
+  final String? label;
+  final Widget? labelWidget;
   final TextEditingController? controller;
   final TextInputType keyboard;
   final String? Function(String value)? validator;
@@ -36,14 +38,15 @@ class StringField extends StatelessWidget {
   final TextStyle? style;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final bool trimOnSaved;
 
   ///
   ///
   ///
   const StringField({
-    Key? key,
-    this.prefix = '',
-    this.label = '',
+    this.labelPrefix = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.keyboard = TextInputType.text,
     this.validator,
@@ -73,9 +76,22 @@ class StringField extends StatelessWidget {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        super(key: key);
+    this.trimOnSaved = true,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        );
 
   ///
   ///
@@ -92,7 +108,12 @@ class StringField extends StatelessWidget {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
-              labelText: prefix.isEmpty ? label : '$prefix - $label',
+              label: labelWidget,
+              labelText: label == null
+                  ? null
+                  : labelPrefix.isEmpty
+                      ? label
+                      : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
               counterText: '',
               enabled: enabled,
@@ -116,9 +137,7 @@ class StringField extends StatelessWidget {
         inputFormatters: inputFormatter,
         textAlign: textAlign,
         maxLength: maxLength,
-        onSaved: enabled && onSaved != null
-            ? (String? value) => onSaved!(value ?? '')
-            : null,
+        onSaved: enabled && onSaved != null ? _internalSave : null,
         initialValue: initialValue,
         enabled: enabled,
         autovalidateMode: autoValidateMode,
@@ -136,5 +155,18 @@ class StringField extends StatelessWidget {
         style: effectiveStyle,
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  void _internalSave(String? value) {
+    String val = value ?? '';
+
+    if (trimOnSaved) {
+      val = val.trim();
+    }
+
+    onSaved?.call(val);
   }
 }

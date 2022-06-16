@@ -1,16 +1,14 @@
-# folly_fields
+# FollyFields
+
+![FollyFields](https://github.com/edufolly/folly_fields/actions/workflows/main.yml/badge.svg)
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
-:star: to support the project.
+Please :star: to support the project.
 
-## Attention - flutter: ^2.0.0
+## Flutter 3.0 - Break Changes
 
-Flutter did a breaking change for RaisedButton and FlatButton (1.26.0-0) and null safety (2.0.0).
-
-http://flutter.dev/go/material-button-migration-guide
-
-So we set the Flutter minimal version. Use beta channel for it.
+Version 0.10.0 needs Flutter 3.0.0 and Dart 2.17.0
 
 ## Example
 
@@ -31,7 +29,7 @@ https://github.com/edufolly/folly_fields/tree/main/example/lib
 folly_fields:
   git:
     url: git://github.com/edufolly/folly_fields.git
-    rev: # lastest release
+    ref: # lastest release
 ```
 
 Use **ref** to avoid breaking changes.
@@ -61,13 +59,9 @@ https://github.com/edufolly/folly_fields/blob/main/example/lib/main.dart
 
 ```dart
 void main() {
-  bool debug = false;
-
-  assert(debug = true);
-
   WidgetsFlutterBinding.ensureInitialized();
 
-  FollyFields.start(Config(), debug: debug);
+  FollyFields.start(Config());
 
   runApp(MyApp());
 }
@@ -91,6 +85,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const <Locale>[
         Locale('pt', 'BR'),
@@ -99,7 +94,3 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
-
-## More Docs
-
-https://docs.google.com/spreadsheets/d/1fg7yhz-Mum2Z-cQ8KHpkuTEQzgjYI3905Wcr49nmIIY/edit#gid=0

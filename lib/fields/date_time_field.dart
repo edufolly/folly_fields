@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/validators/date_time_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,9 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class DateTimeField extends StatefulWidget {
-  final String prefix;
-  final String label;
+class DateTimeField extends StatefulResponsive {
+  final String labelPrefix;
+  final String? label;
+  final Widget? labelWidget;
   final DateTimeEditingController? controller;
   final FormFieldValidator<DateTime>? validator;
   final TextAlign textAlign;
@@ -35,14 +36,18 @@ class DateTimeField extends StatefulWidget {
   final bool required;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final DatePickerEntryMode initialDateEntryMode;
+  final DatePickerMode initialDatePickerMode;
+  final TimePickerEntryMode initialTimeEntryMode;
+  final bool clearOnCancel;
 
   ///
   ///
   ///
   const DateTimeField({
-    Key? key,
-    this.prefix = '',
-    this.label = '',
+    this.labelPrefix = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
@@ -67,9 +72,25 @@ class DateTimeField extends StatefulWidget {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        super(key: key);
+    this.initialDateEntryMode = DatePickerEntryMode.calendar,
+    this.initialDatePickerMode = DatePickerMode.day,
+    this.initialTimeEntryMode = TimePickerEntryMode.dial,
+    this.clearOnCancel = true,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        );
 
   ///
   ///
@@ -144,28 +165,16 @@ class DateTimeFieldState extends State<DateTimeField> {
   ///
   ///
   @override
-  void dispose() {
-    _effectiveFocusNode.removeListener(_handleFocus);
-
-    _controller?.dispose();
-    _focusNode?.dispose();
-
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = (widget.decoration ??
+    InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              label: widget.labelWidget,
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
@@ -183,6 +192,8 @@ class DateTimeFieldState extends State<DateTimeField> {
                             _effectiveController.dateTime ?? DateTime.now(),
                         firstDate: widget.firstDate ?? DateTime(1900),
                         lastDate: widget.lastDate ?? DateTime(2100),
+                        initialEntryMode: widget.initialDateEntryMode,
+                        initialDatePickerMode: widget.initialDatePickerMode,
                       );
 
                       fromButton = false;
@@ -194,17 +205,20 @@ class DateTimeFieldState extends State<DateTimeField> {
                           initialTime = TimeOfDay.fromDateTime(
                             _effectiveController.dateTime ?? DateTime.now(),
                           );
-                        } catch (e) {
+                        } on Exception catch (_) {
                           // Do nothing.
                         }
 
                         TimeOfDay? selectedTime = await showTimePicker(
                           context: context,
                           initialTime: initialTime,
+                          initialEntryMode: widget.initialTimeEntryMode,
                         );
 
                         if (selectedTime == null) {
-                          _effectiveController.dateTime = null;
+                          if (widget.clearOnCancel) {
+                            _effectiveController.dateTime = null;
+                          }
                         } else {
                           _effectiveController.dateTime =
                               FollyUtils.dateMergeStart(
@@ -213,16 +227,18 @@ class DateTimeFieldState extends State<DateTimeField> {
                           );
                         }
                       } else {
-                        _effectiveController.dateTime = null;
+                        if (widget.clearOnCancel) {
+                          _effectiveController.dateTime = null;
+                        }
                       }
 
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
-                    } catch (e, s) {
-                      if (FollyFields().isDebug) {
-                        // ignore: avoid_print
-                        print('$e\n$s');
+                    } on Exception catch (e, s) {
+                      if (kDebugMode) {
+                        print(e);
+                        print(s);
                       }
                     }
                   }
@@ -280,6 +296,19 @@ class DateTimeFieldState extends State<DateTimeField> {
       ),
     );
   }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
+    _controller?.dispose();
+    _focusNode?.dispose();
+
+    super.dispose();
+  }
 }
 
 ///
@@ -291,13 +320,14 @@ class DateTimeEditingController extends TextEditingController {
   ///
   DateTimeEditingController({DateTime? dateTime})
       : super(
-            text: dateTime == null ? '' : DateTimeValidator().format(dateTime));
+          text: dateTime == null ? '' : DateTimeValidator().format(dateTime),
+        );
 
   ///
   ///
   ///
-  DateTimeEditingController.fromValue(TextEditingValue value)
-      : super.fromValue(value);
+  DateTimeEditingController.fromValue(TextEditingValue super.value)
+      : super.fromValue();
 
   ///
   ///

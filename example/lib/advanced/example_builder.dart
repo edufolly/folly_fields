@@ -10,25 +10,28 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   ///
-  const ExampleBuilder([String prefix = '']) : super(prefix);
+  const ExampleBuilder({
+    super.labelPrefix,
+    super.labelSuffix,
+  });
 
   ///
   ///
   ///
   @override
-  String getInternalSingle() => 'Exemplo';
+  String single(_) => 'Exemplo';
 
   ///
   ///
   ///
   @override
-  String getInternalPlural() => 'Exemplos';
+  String plural(_) => 'Exemplos';
 
   ///
   ///
   ///
   @override
-  Widget getLeading(ExampleModel model) => Icon(
+  Widget getLeading(_, ExampleModel model) => Icon(
         FontAwesomeIcons.solidCircle,
         color: (model.integer).isEven ? Colors.red : Colors.green,
       );
@@ -37,11 +40,20 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
   ///
   ///
   @override
-  Widget getTitle(ExampleModel model) => Text(model.text);
+  Widget getTitle(_, ExampleModel model) => Text(model.text);
 
   ///
   ///
   ///
   @override
-  Widget getSubtitle(ExampleModel model) => Text(model.email);
+  Widget getSubtitle(_, ExampleModel model) => Text(model.email);
+
+  ///
+  ///
+  ///
+  @override
+  Map<String, Color> listLegend(_) => const <String, Color>{
+        'Par': Colors.red,
+        'Impar': Colors.green,
+      };
 }

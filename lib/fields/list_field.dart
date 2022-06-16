@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/widgets/add_button.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/table_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sprintf/sprintf.dart';
 
@@ -13,12 +14,12 @@ import 'package:sprintf/sprintf.dart';
 ///
 // TODO(edufolly): Create controller?
 class ListField<T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>> extends FormField<List<T>> {
+    UI extends AbstractUIBuilder<T>> extends FormFieldResponsive<List<T>> {
   ///
   ///
   ///
   ListField({
-    required List<T> initialValue,
+    required List<T> super.initialValue,
     required UI uiBuilder,
     required Widget Function(BuildContext context, UI uiBuilder)
         routeAddBuilder,
@@ -26,7 +27,7 @@ class ListField<T extends AbstractModel<Object>,
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
-    bool enabled = true,
+    super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Future<bool> Function(BuildContext context)? beforeAdd,
     Future<bool> Function(BuildContext context, int index, T model)? beforeEdit,
@@ -35,11 +36,15 @@ class ListField<T extends AbstractModel<Object>,
     String emptyListText = 'Sem %s até o momento.',
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    Key? key,
+    int Function(T a, T b)? listSort,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          enabled: enabled,
           onSaved: enabled && onSaved != null
               ? (List<T>? value) => onSaved(value!)
               : null,
@@ -50,7 +55,7 @@ class ListField<T extends AbstractModel<Object>,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.getSuperPlural(),
+                      labelText: uiBuilder.superPlural(field.context),
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -71,7 +76,7 @@ class ListField<T extends AbstractModel<Object>,
                       child: Text(
                         sprintf(
                           emptyListText,
-                          <dynamic>[uiBuilder.getSuperPlural()],
+                          <dynamic>[uiBuilder.superPlural(field.context)],
                         ),
                       ),
                     ),
@@ -112,6 +117,13 @@ class ListField<T extends AbstractModel<Object>,
 
                               if (returned != null) {
                                 field.value![index] = returned;
+
+                                field.value!.sort(
+                                  listSort ??
+                                      (T a, T b) =>
+                                          a.toString().compareTo(b.toString()),
+                                );
+
                                 field.didChange(field.value);
                               }
                             }
@@ -127,11 +139,12 @@ class ListField<T extends AbstractModel<Object>,
                       .toList(),
 
                 /// Botão Adicionar
-                AddButton(
+                TableButton(
                   enabled: enabled,
+                  iconData: FontAwesomeIcons.plus,
                   label: sprintf(
                     addText,
-                    <dynamic>[uiBuilder.getSuperSingle()],
+                    <dynamic>[uiBuilder.superSingle(field.context)],
                   ).toUpperCase(),
                   onPressed: () async {
                     if (beforeAdd != null) {
@@ -141,8 +154,7 @@ class ListField<T extends AbstractModel<Object>,
                       }
                     }
 
-                    final dynamic selected =
-                        await Navigator.of(field.context).push(
+                    dynamic selected = await Navigator.of(field.context).push(
                       MaterialPageRoute<dynamic>(
                         builder: (BuildContext context) =>
                             routeAddBuilder(context, uiBuilder),
@@ -168,7 +180,9 @@ class ListField<T extends AbstractModel<Object>,
                       }
 
                       field.value!.sort(
-                          (T a, T b) => a.toString().compareTo(b.toString()));
+                        listSort ??
+                            (T a, T b) => a.toString().compareTo(b.toString()),
+                      );
 
                       field.didChange(field.value);
                     }
@@ -204,59 +218,56 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.onDelete,
     required this.removeText,
     required this.enabled,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
   ///
   @override
-  Widget build(BuildContext context) {
-    return FollyFields().isWeb || enabled
-        ? _internalTile(context, index, model)
-        : Dismissible(
-            // TODO(edufolly): Test the key in tests.
-            key: Key('key_${index}_${model.id}'),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 8),
-              child: const FaIcon(
-                FontAwesomeIcons.trashAlt,
-                color: Colors.white,
-              ),
+  Widget build(BuildContext context) => FollyFields().isNotMobile || !enabled
+      ? _internalTile(context, index, model)
+      : Dismissible(
+          // TODO(edufolly): Test the key in tests.
+          key: Key('key_${index}_${model.id}'),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            color: Colors.red,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 8),
+            child: const FaIcon(
+              FontAwesomeIcons.trashCan,
+              color: Colors.white,
             ),
-            confirmDismiss: (DismissDirection direction) => _askDelete(context),
-            onDismissed: (DismissDirection direction) =>
-                _delete(context, model),
-            child: _internalTile(context, index, model),
-          );
-  }
+          ),
+          confirmDismiss: (DismissDirection direction) => _askDelete(context),
+          onDismissed: (DismissDirection direction) => _delete(context, model),
+          child: _internalTile(context, index, model),
+        );
 
   ///
   ///
   ///
-  Widget _internalTile(BuildContext context, int index, T model) {
-    return ListTile(
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          uiBuilder.getLeading(model),
-        ],
-      ),
-      title: uiBuilder.getTitle(model),
-      subtitle: uiBuilder.getSubtitle(model),
-      trailing: Visibility(
-        visible: FollyFields().isWeb,
-        child: IconButton(
-          icon: const Icon(FontAwesomeIcons.trashAlt),
-          onPressed: enabled ? () => _delete(context, model, ask: true) : null,
+  Widget _internalTile(BuildContext context, int index, T model) => ListTile(
+        enabled: enabled,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            uiBuilder.getLeading(context, model),
+          ],
         ),
-      ),
-      onTap: () => onEdit(index, model),
-    );
-  }
+        title: uiBuilder.getTitle(context, model),
+        subtitle: uiBuilder.getSubtitle(context, model),
+        trailing: Visibility(
+          visible: FollyFields().isNotMobile && enabled,
+          child: IconButton(
+            icon: const Icon(FontAwesomeIcons.trashCan),
+            onPressed:
+                enabled ? () => _delete(context, model, ask: true) : null,
+          ),
+        ),
+        onTap: () => onEdit(index, model),
+      );
 
   ///
   ///
@@ -282,6 +293,9 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   Future<bool?> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
         context: context,
-        message: sprintf(removeText, <dynamic>[uiBuilder.getSuperSingle()]),
+        message: sprintf(
+          removeText,
+          <dynamic>[uiBuilder.superSingle(context)],
+        ),
       );
 }

@@ -6,59 +6,73 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
-  final String prefix;
+  final String labelPrefix;
+  final String labelSuffix;
 
   ///
   ///
   ///
-  const AbstractUIBuilder(this.prefix);
-
-  ///
-  ///
-  /// Retorna o nome no singular que é utilizado nas views.
-  String getSuperSingle() =>
-      prefix.isEmpty ? getInternalSingle() : '$prefix - ${getInternalSingle()}';
-
-  ///
-  ///
-  ///
-  String getInternalSingle();
-
-  ///
-  ///
-  /// Retorna o nome no plural que é utilizado nas views.
-  String getSuperPlural() =>
-      prefix.isEmpty ? getInternalPlural() : '$prefix - ${getInternalPlural()}';
+  @mustCallSuper
+  const AbstractUIBuilder({
+    this.labelPrefix = '',
+    this.labelSuffix = '',
+  });
 
   ///
   ///
   ///
-  String getInternalPlural();
+  String superSingle(BuildContext context) => <String>[
+        if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
+        single(context),
+        if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
+      ].join(' - ');
 
   ///
   ///
-  /// Widget do leading do ListTile da lista e da pesquisa.
-  Widget getLeading(T model) => const FaIcon(FontAwesomeIcons.solidCircle);
+  ///
+  String single(BuildContext context);
 
   ///
   ///
-  /// Widget do title do ListTile da lista e da pesquisa.
-  Widget getTitle(T model);
+  ///
+  String superPlural(BuildContext context) => <String>[
+        if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
+        plural(context),
+        if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
+      ].join(' - ');
 
   ///
   ///
-  /// Widget do subtitle do ListTile da lista e da pesquisa.
-  Widget? getSubtitle(T model) => null;
+  ///
+  String plural(BuildContext context);
 
   ///
   ///
-  /// Widget do title do ListTile das sugestões.
-  Widget getSuggestionTitle(T model) => getTitle(model);
+  ///
+  Widget getLeading(BuildContext context, T model) =>
+      const FaIcon(FontAwesomeIcons.solidCircle);
 
   ///
   ///
-  /// Widget do subtitle do ListTile das sugestões.
-  Widget? getSuggestionSubtitle(T model) => getSubtitle(model);
+  ///
+  Widget getTitle(BuildContext context, T model);
+
+  ///
+  ///
+  ///
+  Widget? getSubtitle(BuildContext context, T model) => null;
+
+  ///
+  ///
+  ///
+  Widget getSuggestionTitle(BuildContext context, T model) =>
+      getTitle(context, model);
+
+  ///
+  ///
+  ///
+  Widget? getSuggestionSubtitle(BuildContext context, T model) =>
+      getSubtitle(context, model);
 
   ///
   ///
@@ -70,5 +84,26 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   Widget buildBottomNavigationBar(BuildContext context) =>
-      const SizedBox(height: 0, width: 0);
+      const SizedBox.shrink();
+
+  ///
+  ///
+  ///
+  Map<String, Color> listLegend(BuildContext context) =>
+      const <String, Color>{};
+
+  ///
+  ///
+  ///
+  IconData listLegendIcon(BuildContext context) => FontAwesomeIcons.circleInfo;
+
+  ///
+  ///
+  ///
+  String listLegendTitle(BuildContext context) => 'Informações';
+
+  ///
+  ///
+  ///
+  String listLegendButtonText(BuildContext context) => 'Fechar';
 }

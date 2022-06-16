@@ -41,8 +41,8 @@ class FollyTable extends StatefulWidget {
     this.horizontalScrollAlwaysVisible = true,
     this.freezeColumns = 0,
     this.dragDevices,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -143,7 +143,8 @@ class FollyTableState extends State<FollyTable> {
             ),
             child: Scrollbar(
               controller: _horizontalController,
-              isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+              // isAlwaysShown: widget.horizontalScrollAlwaysVisible,
+              thumbVisibility: widget.horizontalScrollAlwaysVisible,
               thickness: widget.scrollBarThickness,
               child: SingleChildScrollView(
                 controller: _horizontalController,
@@ -168,7 +169,8 @@ class FollyTableState extends State<FollyTable> {
             Expanded(
               child: Scrollbar(
                 controller: _verticalController,
-                isAlwaysShown: widget.verticalScrollAlwaysVisible,
+                // isAlwaysShown: widget.verticalScrollAlwaysVisible,
+                thumbVisibility: widget.verticalScrollAlwaysVisible,
                 thickness: widget.scrollBarThickness,
                 child: SingleChildScrollView(
                   controller: _verticalController,
@@ -239,9 +241,9 @@ class FollyTableState extends State<FollyTable> {
                   return Column(
                     children: <Widget>[
                       InkWell(
-                        onTap: () => widget.onRowTap != null
-                            ? widget.onRowTap!(row)
-                            : () {},
+                        onTap: widget.onRowTap == null
+                            ? null
+                            : () => widget.onRowTap!(row),
                         hoverColor: Colors.transparent,
                         child: Row(
                           children: cols
@@ -315,18 +317,17 @@ class FollyCell extends StatelessWidget {
     required this.child,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
   ///
   FollyCell.empty({
     this.color = Colors.transparent,
-    Key? key,
+    super.key,
   })  : align = Alignment.centerLeft,
-        child = Container(),
-        super(key: key);
+        child = Container();
 
   ///
   ///
@@ -339,13 +340,19 @@ class FollyCell extends StatelessWidget {
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    Key? key,
-  })  : child = Text(
-          text,
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                text,
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                text,
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -356,14 +363,20 @@ class FollyCell extends StatelessWidget {
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
-    Key? key,
+    bool selectable = false,
+    super.key,
   })  : align = Alignment.bottomCenter,
-        child = Text(
-          text,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
-        super(key: key);
+        child = selectable
+            ? SelectableText(
+                text,
+                textAlign: TextAlign.center,
+                style: style,
+              )
+            : Text(
+                text,
+                textAlign: TextAlign.center,
+                style: style,
+              );
 
   ///
   ///
@@ -374,13 +387,19 @@ class FollyCell extends StatelessWidget {
     this.color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
     TextStyle? style,
-    Key? key,
-  })  : child = Text(
-          text,
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                text,
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                text,
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -389,14 +408,20 @@ class FollyCell extends StatelessWidget {
     String text, {
     this.color = Colors.transparent,
     TextStyle? style,
-    Key? key,
+    bool selectable = false,
+    super.key,
   })  : align = Alignment.center,
-        child = Text(
-          text,
-          textAlign: TextAlign.center,
-          style: style,
-        ),
-        super(key: key);
+        child = selectable
+            ? SelectableText(
+                text,
+                textAlign: TextAlign.center,
+                style: style,
+              )
+            : Text(
+                text,
+                textAlign: TextAlign.center,
+                style: style,
+              );
 
   ///
   ///
@@ -409,13 +434,19 @@ class FollyCell extends StatelessWidget {
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0.00',
-    Key? key,
-  })  : child = Text(
-          NumberFormat(pattern, locale).format(number),
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                NumberFormat(pattern, locale).format(number),
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                NumberFormat(pattern, locale).format(number),
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -428,13 +459,19 @@ class FollyCell extends StatelessWidget {
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = '#,##0',
-    Key? key,
-  })  : child = Text(
-          NumberFormat(pattern, locale).format(number),
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                NumberFormat(pattern, locale).format(number),
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                NumberFormat(pattern, locale).format(number),
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -447,13 +484,19 @@ class FollyCell extends StatelessWidget {
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy',
-    Key? key,
-  })  : child = Text(
-          DateFormat(pattern, locale).format(date),
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -466,13 +509,19 @@ class FollyCell extends StatelessWidget {
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'HH:mm',
-    Key? key,
-  })  : child = Text(
-          DateFormat(pattern, locale).format(date),
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -485,13 +534,19 @@ class FollyCell extends StatelessWidget {
     TextStyle? style,
     String locale = 'pt_br',
     String pattern = 'dd/MM/yyyy HH:mm',
-    Key? key,
-  })  : child = Text(
-          DateFormat(pattern, locale).format(date),
-          textAlign: textAlign,
-          style: style,
-        ),
-        super(key: key);
+    bool selectable = false,
+    super.key,
+  })  : child = selectable
+            ? SelectableText(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              )
+            : Text(
+                DateFormat(pattern, locale).format(date),
+                textAlign: textAlign,
+                style: style,
+              );
 
   ///
   ///
@@ -501,14 +556,13 @@ class FollyCell extends StatelessWidget {
     Function()? onPressed,
     this.align = Alignment.center,
     this.color = Colors.transparent,
-    Key? key,
+    super.key,
   })  : child = FittedBox(
           child: IconButton(
             icon: Icon(iconData),
             onPressed: onPressed,
           ),
-        ),
-        super(key: key);
+        );
 
   ///
   ///

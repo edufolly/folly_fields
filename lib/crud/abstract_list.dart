@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
@@ -7,13 +8,16 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
-import 'package:folly_fields/util/icon_helper.dart';
+import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
+import 'package:folly_fields/widgets/map_function_button.dart';
+import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 ///
@@ -43,7 +47,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<AbstractRoute> actionRoutes;
+  final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -51,12 +55,29 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
-  final Map<AbstractRoute, ActionFunction<T>>? actionFunctions;
+  final List<AbstractModelFunction<T>>? modelFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
   final TextInputType? searchKeyboardType;
   final TextInputAction searchTextInputAction;
+  final IconData selectedIcon;
+  final IconData unselectedIcon;
+  final int minLengthToSearch;
+  final String hintText;
+  final String selectionText;
+  final String startSearchText;
+  final String deleteText;
+  final String invertSelectionText;
+  final String waitingText;
+  final String deleteErrorText;
+  final String searchListEmpty;
+  final String addText;
+  final bool showSearchButton;
+  final String searchButtonText;
+  final String listEmpty;
+  final bool showRefreshButton;
+  final String refreshButtonText;
 
   ///
   ///
@@ -80,18 +101,37 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.actionRoutes = const <AbstractRoute>[],
+    this.mapFunctions,
     this.onLongPress,
-    this.actionFunctions,
+    this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
     this.searchKeyboardType,
     this.searchTextInputAction = TextInputAction.search,
-    Key? key,
-  })  : assert(searchFieldStyle == null || searchFieldDecorationTheme == null,
-            'searchFieldStyle or searchFieldDecorationTheme must be null.'),
-        super(key: key);
+    this.selectedIcon = FontAwesomeIcons.solidCircleCheck,
+    this.unselectedIcon = FontAwesomeIcons.circle,
+    this.minLengthToSearch = 3,
+    this.hintText = 'Sugestões:',
+    this.selectionText = 'Selecionar %s',
+    this.startSearchText = 'Começe a sua pesquisa.\n'
+        'Digite ao menos %s caracteres.',
+    this.deleteText = 'Deseja excluir?',
+    this.invertSelectionText = 'Inverter seleção',
+    this.waitingText = 'Consultando...',
+    this.deleteErrorText = 'Ocorreu um erro ao tentar excluir:\n%s',
+    this.searchListEmpty = 'Nenhum documento.',
+    this.addText = 'Adicionar %s',
+    this.showSearchButton = true,
+    this.searchButtonText = 'Pesquisar %s',
+    this.listEmpty = 'Sem %s até o momento.',
+    this.showRefreshButton = false,
+    this.refreshButtonText = 'Atualizar',
+    super.key,
+  }) : assert(
+          searchFieldStyle == null || searchFieldDecorationTheme == null,
+          'searchFieldStyle or searchFieldDecorationTheme must be null.',
+        );
 
   ///
   ///
@@ -122,13 +162,19 @@ class AbstractListState<
       GlobalKey<RefreshIndicatorState>();
 
   final ScrollController _scrollController = ScrollController();
-  final StreamController<bool?> _streamController = StreamController<bool?>();
+  final StreamController<int> _streamController = StreamController<int>();
+
+  final ValueNotifier<bool> _insertNotifier = ValueNotifier<bool>(false);
+  final ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>
+      _mapFunctionsNotifier =
+      ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>(
+    <ConsumerPermission, AbstractMapFunction>{},
+  );
 
   List<T> _globalItems = <T>[];
   bool _loading = false;
   int _page = 0;
 
-  bool _insert = false;
   bool _update = false;
   bool _delete = false;
 
@@ -136,8 +182,11 @@ class AbstractListState<
 
   final Map<String, String> _qsParam = <String, String>{};
 
-  final Map<ConsumerPermission, AbstractRoute> permissions =
-      <ConsumerPermission, AbstractRoute>{};
+  final Map<ConsumerPermission, AbstractModelFunction<T>>
+      effectiveModelFunctions =
+      <ConsumerPermission, AbstractModelFunction<T>>{};
+
+  FocusNode keyboardFocusNode = FocusNode();
 
   ///
   ///
@@ -149,6 +198,20 @@ class AbstractListState<
     if (widget.qsParam.isNotEmpty) {
       _qsParam.addAll(widget.qsParam);
     }
+  }
+
+  ///
+  ///
+  ///
+  Future<bool> _loadPermissions(BuildContext context) async {
+    if (!widget.selection) {
+      ConsumerPermission permission =
+          await widget.consumer.checkPermission(context, <String>[]);
+
+      _insertNotifier.value = permission.insert && widget.onAdd != null;
+      _update = permission.update && widget.onUpdate != null;
+      _delete = permission.delete;
+    }
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
@@ -159,28 +222,38 @@ class AbstractListState<
       }
     });
 
-    _loadPermissions(context);
-  }
+    if (widget.mapFunctions != null) {
+      Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
+          <ConsumerPermission, AbstractMapFunction>{};
 
-  ///
-  ///
-  ///
-  Future<void> _loadPermissions(BuildContext context) async {
-    if (widget.actionFunctions != null) {
-      for (MapEntry<AbstractRoute, ActionFunction<T>> entry
-          in widget.actionFunctions!.entries) {
-        AbstractRoute route = entry.key;
-
-        ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, route.routeName);
+      for (AbstractMapFunction headerFunction in widget.mapFunctions!) {
+        ConsumerPermission permission = await widget.consumer
+            .checkPermission(context, headerFunction.routeName);
 
         if (permission.view) {
-          permissions[permission] = route;
+          effectiveMapFunctions[permission] = headerFunction;
+        }
+      }
+
+      if (effectiveMapFunctions.isNotEmpty) {
+        _mapFunctionsNotifier.value = effectiveMapFunctions;
+      }
+    }
+
+    if (widget.modelFunctions != null) {
+      for (AbstractModelFunction<T> rowFunction in widget.modelFunctions!) {
+        ConsumerPermission permission = await widget.consumer
+            .checkPermission(context, rowFunction.routeName);
+
+        if (permission.view) {
+          effectiveModelFunctions[permission] = rowFunction;
         }
       }
     }
 
     await _loadData(context);
+
+    return true;
   }
 
   ///
@@ -193,31 +266,13 @@ class AbstractListState<
     if (clear) {
       _globalItems = <T>[];
       _page = 0;
-      _streamController.add(null);
+      _streamController.add(-2);
     } else {
       _loading = true;
-      _streamController.add(false);
-
-      // // ignore: unawaited_futures
-      // Future<dynamic>.delayed(Duration(milliseconds: 200)).then((_) {
-      //   _scrollController.animateTo(
-      //     _scrollController.position.maxScrollExtent,
-      //     curve: Curves.easeOut,
-      //     duration: const Duration(milliseconds: 300),
-      //   );
-      // });
+      _streamController.add(-1);
     }
 
     try {
-      if (!widget.selection) {
-        ConsumerPermission permission =
-            await widget.consumer.checkPermission(context, <String>[]);
-
-        _insert = permission.insert && widget.onAdd != null;
-        _update = permission.update && widget.onUpdate != null;
-        _delete = permission.delete;
-      }
-
       _qsParam['f'] = '${_page * widget.itemsPerPage}';
       _qsParam['q'] = '${widget.itemsPerPage}';
       _qsParam['s'] = '${widget.selection}';
@@ -225,21 +280,20 @@ class AbstractListState<
       List<T> result = await widget.consumer.list(
         context,
         _qsParam,
-        widget.forceOffline,
+        forceOffline: widget.forceOffline,
       );
 
       if (result.isEmpty) {
-        _page = -1;
+        _streamController.add(0);
       } else {
         _page++;
         _globalItems.addAll(result);
       }
 
-      _streamController.add(true);
+      _streamController.add(_page);
       _loading = false;
-    } catch (e, s) {
-      if (FollyFields().isDebug) {
-        // ignore: avoid_print
+    } on Exception catch (e, s) {
+      if (kDebugMode) {
         print('$e\n$s');
       }
       _streamController.addError(e, s);
@@ -249,276 +303,307 @@ class AbstractListState<
   ///
   ///
   ///
-  Widget _getScaffoldTitle() {
-    return Text(widget.selection
-        ? 'Selecionar ${widget.uiBuilder.getSuperSingle()}'
-        : widget.uiBuilder.getSuperPlural());
-  }
+  Widget _getScaffoldTitle(BuildContext context) => Text(
+        widget.selection
+            ? sprintf(
+                widget.selectionText,
+                <dynamic>[widget.uiBuilder.superSingle(context)],
+              )
+            : widget.uiBuilder.superPlural(context),
+      );
 
   ///
   ///
   ///
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<bool?>(
-      stream: _streamController.stream,
-      builder: (BuildContext context, AsyncSnapshot<bool?> snapshot) {
-        if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: _getScaffoldTitle(),
-            ),
-            bottomNavigationBar:
-                widget.uiBuilder.buildBottomNavigationBar(context),
-            body: widget.uiBuilder.buildBackgroundContainer(
-              context,
-              Column(
-                children: <Widget>[
-                  Scrollbar(
-                    child: RefreshIndicator(
-                      key: _refreshIndicatorKey,
-                      onRefresh: () => _loadData(context),
-                      child: TextMessage(snapshot.error.toString()),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-
-        if (snapshot.hasData) {
-          /// Mostrar o carregando no final da lista.
-          int itemCount = _globalItems.length;
-          if (!snapshot.data!) {
-            itemCount++;
-          }
-
-          Widget? _fabAdd;
-
-          List<Widget> _actions = <Widget>[];
-
-          /// Botão Selecionar Todos
+    return Scaffold(
+      appBar: AppBar(
+        title: _getScaffoldTitle(context),
+        actions: <Widget>[
+          /// Select All Button
           if (widget.selection == true &&
               widget.multipleSelection == true &&
-              widget.invertSelection == true) {
-            _actions.add(
-              IconButton(
-                tooltip: 'Inverter seleção',
-                icon: const Icon(Icons.select_all),
-                onPressed: () {
-                  for (T model in _globalItems) {
-                    if (selections.containsKey(model.id)) {
-                      selections.remove(model.id);
-                    } else {
-                      selections[model.id!] = model;
-                    }
+              widget.invertSelection == true)
+            IconButton(
+              tooltip: widget.invertSelectionText,
+              icon: const Icon(Icons.select_all),
+              onPressed: () {
+                for (T model in _globalItems) {
+                  if (selections.containsKey(model.id)) {
+                    selections.remove(model.id);
+                  } else {
+                    selections[model.id!] = model;
                   }
-                  setState(() {});
-                },
-              ),
-            );
-          }
-
-          /// Botão Pesquisar
-          if (FollyFields().isOnline) {
-            _actions.add(
-              IconButton(
-                tooltip: 'Pesquisar ${widget.uiBuilder.getSuperSingle()}',
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  showSearch<T?>(
-                    context: context,
-                    delegate: InternalSearch<T, UI, C>(
-                      buildResultItem: _buildResultItem,
-                      canDelete: (T model) =>
-                          _delete &&
-                          FollyFields().isWeb &&
-                          widget.canDelete(model),
-                      qsParam: widget.qsParam,
-                      forceOffline: widget.forceOffline,
-                      itemsPerPage: widget.itemsPerPage,
-                      uiBuilder: widget.uiBuilder,
-                      consumer: widget.consumer,
-                      searchFieldLabel: widget.searchFieldLabel,
-                      searchFieldStyle: widget.searchFieldStyle,
-                      searchFieldDecorationTheme:
-                          widget.searchFieldDecorationTheme,
-                      keyboardType: widget.searchKeyboardType,
-                      textInputAction: widget.searchTextInputAction,
-                    ),
-                  ).then((T? entity) {
-                    if (entity != null) {
-                      _internalRoute(
-                        entity,
-                        !selections.containsKey(entity.id),
-                      );
-                    }
-                  });
-                },
-              ),
-            );
-          }
-
-          /// Botão Confirmar Seleção
-          if (widget.selection) {
-            if (widget.multipleSelection) {
-              _actions.add(
-                IconButton(
-                  tooltip: 'Selecionar ${widget.uiBuilder.getSuperPlural()}',
-                  icon: const FaIcon(FontAwesomeIcons.check),
-                  onPressed: () => Navigator.of(context)
-                      .pop(List<T>.from(selections.values)),
-                ),
-              );
-            }
-          } else {
-            /// Action Routes
-            for (AbstractRoute route in widget.actionRoutes) {
-              _actions.add(
-                // TODO(anyone): Create an Action Route component.
-                FutureBuilder<ConsumerPermission>(
-                  future: widget.consumer.checkPermission(
-                    context,
-                    route.routeName,
-                  ),
-                  builder: (
-                    BuildContext context,
-                    AsyncSnapshot<ConsumerPermission> snapshot,
-                  ) {
-                    if (snapshot.hasData) {
-                      ConsumerPermission permission = snapshot.data!;
-
-                      return permission.view
-                          ? IconButton(
-                              tooltip: permission.name,
-                              icon: IconHelper.faIcon(permission.iconName),
-                              onPressed: () =>
-                                  Navigator.of(context).pushNamed(route.path),
-                            )
-                          : const SizedBox(width: 0, height: 0);
-                    }
-
-                    return const SizedBox(width: 0, height: 0);
-                  },
-                ),
-              );
-            }
-
-            /// Botão Adicionar
-            if (_insert) {
-              if (FollyFields().isWeb) {
-                _actions.add(
-                  IconButton(
-                    tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
-                    icon: const FaIcon(FontAwesomeIcons.plus),
-                    onPressed: _addEntity,
-                  ),
-                );
-              } else {
-                _fabAdd = FloatingActionButton(
-                  tooltip: 'Adicionar ${widget.uiBuilder.getSuperSingle()}',
-                  onPressed: _addEntity,
-                  child: const FaIcon(FontAwesomeIcons.plus),
-                );
-              }
-            }
-          }
-
-          return Scaffold(
-            appBar: AppBar(
-              title: _getScaffoldTitle(),
-              actions: _actions,
+                }
+                setState(() {});
+              },
             ),
-            bottomNavigationBar:
-                widget.uiBuilder.buildBottomNavigationBar(context),
-            body: widget.uiBuilder.buildBackgroundContainer(
-              context,
-              RefreshIndicator(
-                key: _refreshIndicatorKey,
-                onRefresh: () => _loadData(context),
-                child: _globalItems.isEmpty
-                    ? TextMessage(
-                        'Sem '
-                        '${widget.uiBuilder.getSuperPlural().toLowerCase()}'
-                        ' até o momento.',
+
+          /// Search Button
+          if (widget.showSearchButton)
+            IconButton(
+              tooltip: sprintf(
+                widget.searchButtonText,
+                <dynamic>[widget.uiBuilder.superSingle(context)],
+              ),
+              icon: const Icon(Icons.search),
+              onPressed: _search,
+            ),
+
+          /// Refresh Button
+          if (widget.showRefreshButton)
+            IconButton(
+              tooltip: widget.refreshButtonText,
+              icon: const Icon(FontAwesomeIcons.arrowsRotate),
+              onPressed: () => _loadData(context),
+            ),
+
+          /// Selection Confirm Button
+          if (widget.selection && widget.multipleSelection)
+            IconButton(
+              tooltip: sprintf(
+                widget.selectionText,
+                <dynamic>[widget.uiBuilder.superPlural(context)],
+              ),
+              icon: const FaIcon(FontAwesomeIcons.check),
+              onPressed: () =>
+                  Navigator.of(context).pop(List<T>.from(selections.values)),
+            ),
+
+          /// Action Routes
+          if (!widget.selection)
+            ValueListenableBuilder<
+                Map<ConsumerPermission, AbstractMapFunction>>(
+              valueListenable: _mapFunctionsNotifier,
+              builder: (
+                BuildContext context,
+                Map<ConsumerPermission, AbstractMapFunction> mapFunctions,
+                _,
+              ) {
+                if (mapFunctions.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                return Row(
+                  children: mapFunctions.entries
+                      .map(
+                        (
+                          MapEntry<ConsumerPermission, AbstractMapFunction>
+                              entry,
+                        ) =>
+                            MapFunctionButton(
+                          mapFunction: entry.value,
+                          permission: entry.key,
+                          qsParam: _qsParam,
+                          selection: widget.selection,
+                          callback: (Map<String, String> map) {
+                            _qsParam.addAll(map);
+                            _loadData(context);
+                          },
+                        ),
                       )
-                    : Scrollbar(
-                        controller: _scrollController,
-                        isAlwaysShown: FollyFields().isWeb,
-                        child: ListView.separated(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(16),
-                          controller: _scrollController,
-                          itemBuilder: (BuildContext context, int index) {
-                            /// Atualizando...
-                            if (index >= _globalItems.length) {
-                              return const SizedBox(
-                                height: 80,
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
+                      .toList(),
+                );
+              },
+            ),
 
-                            T model = _globalItems[index];
+          /// Add Button
+          if (!FollyFields().isMobile && !widget.selection)
+            ValueListenableBuilder<bool>(
+              valueListenable: _insertNotifier,
+              builder: (BuildContext context, bool insert, _) {
+                return insert
+                    ? IconButton(
+                        tooltip: sprintf(
+                          widget.addText,
+                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                        ),
+                        icon: const FaIcon(FontAwesomeIcons.plus),
+                        onPressed: _addEntity,
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
 
-                            if (_delete &&
-                                FollyFields().isMobile &&
-                                widget.canDelete(model)) {
-                              return Dismissible(
-                                key: Key('key_${model.id}'),
-                                direction: DismissDirection.endToStart,
-                                background: Container(
-                                  color: Colors.red,
-                                  alignment: Alignment.centerRight,
-                                  padding: const EdgeInsets.only(right: 16),
-                                  child: const FaIcon(
-                                    FontAwesomeIcons.trashAlt,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                confirmDismiss: (DismissDirection direction) =>
-                                    _askDelete(),
-                                onDismissed: (DismissDirection direction) =>
-                                    _deleteEntity(model),
-                                child: _buildResultItem(
-                                  model: model,
-                                  selection: selections.containsKey(model.id),
-                                  canDelete: false,
-                                ),
-                              );
-                            } else {
-                              return _buildResultItem(
-                                model: model,
-                                selection: selections.containsKey(model.id),
-                                canDelete: _delete &&
-                                    FollyFields().isWeb &&
-                                    widget.canDelete(model),
-                              );
+          /// Legend Button
+          if (!widget.selection &&
+              widget.uiBuilder.listLegend(context).isNotEmpty)
+            IconButton(
+              tooltip: widget.uiBuilder.listLegendTitle(context),
+              icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
+              onPressed: _showListLegend,
+            ),
+        ],
+      ),
+      floatingActionButton: FollyFields().isMobile && !widget.selection
+          ? ValueListenableBuilder<bool>(
+              valueListenable: _insertNotifier,
+              builder: (BuildContext context, bool insert, _) {
+                return insert
+                    ? FloatingActionButton(
+                        tooltip: sprintf(
+                          widget.addText,
+                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                        ),
+                        onPressed: _addEntity,
+                        child: const FaIcon(FontAwesomeIcons.plus),
+                      )
+                    : const SizedBox.shrink();
+              },
+            )
+          : null,
+      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
+      body: widget.uiBuilder.buildBackgroundContainer(
+        context,
+        SafeFutureBuilder<bool>(
+          future: _loadPermissions(context),
+          waitingMessage: widget.waitingText,
+          builder: (BuildContext context, bool value) {
+            return SafeStreamBuilder<int>(
+              stream: _streamController.stream,
+              waitingMessage: widget.waitingText,
+              builder: (BuildContext context, int data) {
+                if (data < -1) {
+                  return WaitingMessage(message: widget.waitingText);
+                }
+
+                /// CircularProgressIndicator at list final.
+                int itemCount = _globalItems.length;
+                if (data == -1) {
+                  itemCount++;
+                }
+
+                return RefreshIndicator(
+                  key: _refreshIndicatorKey,
+                  onRefresh: () => _loadData(context),
+                  child: _globalItems.isEmpty
+                      ? TextMessage(
+                          sprintf(
+                            widget.listEmpty,
+                            <dynamic>[
+                              widget.uiBuilder
+                                  .superPlural(context)
+                                  .toLowerCase(),
+                            ],
+                          ),
+                        )
+                      : RawKeyboardListener(
+                          autofocus: true,
+                          focusNode: keyboardFocusNode,
+                          onKey: (RawKeyEvent event) {
+                            if (widget.showSearchButton &&
+                                event.character != null) {
+                              _search(event.character);
                             }
                           },
-                          separatorBuilder: (_, __) => const FollyDivider(),
-                          itemCount: itemCount,
+                          child: Scrollbar(
+                            controller: _scrollController,
+                            // isAlwaysShown: FollyFields().isWeb,
+                            thumbVisibility: true,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(16),
+                              controller: _scrollController,
+                              itemBuilder: (BuildContext context, int index) {
+                                /// Updating...
+                                if (index >= _globalItems.length) {
+                                  return const SizedBox(
+                                    height: 80,
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }
+
+                                T model = _globalItems[index];
+
+                                if (_delete &&
+                                    FollyFields().isMobile &&
+                                    widget.canDelete(model)) {
+                                  return Dismissible(
+                                    key: Key('key_${model.id}'),
+                                    direction: DismissDirection.endToStart,
+                                    background: Container(
+                                      color: Colors.red,
+                                      alignment: Alignment.centerRight,
+                                      padding: const EdgeInsets.only(right: 16),
+                                      child: const FaIcon(
+                                        FontAwesomeIcons.trashCan,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    confirmDismiss:
+                                        (DismissDirection direction) =>
+                                            _askDelete(),
+                                    onDismissed: (DismissDirection direction) =>
+                                        _deleteEntity(model),
+                                    child: _buildResultItem(
+                                      model: model,
+                                      selection:
+                                          selections.containsKey(model.id),
+                                      canDelete: false,
+                                    ),
+                                  );
+                                } else {
+                                  return _buildResultItem(
+                                    model: model,
+                                    selection: selections.containsKey(model.id),
+                                    canDelete: _delete &&
+                                        FollyFields().isNotMobile &&
+                                        widget.canDelete(model),
+                                  );
+                                }
+                              },
+                              separatorBuilder: (_, __) => const FollyDivider(),
+                              itemCount: itemCount,
+                            ),
+                          ),
                         ),
-                      ),
-              ),
-            ),
-            floatingActionButton: _fabAdd,
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  void _search([String? query]) {
+    showSearch<T?>(
+      context: context,
+      query: query,
+      delegate: InternalSearch<T, UI, C>(
+        buildResultItem: _buildResultItem,
+        canDelete: (T model) =>
+            _delete && FollyFields().isNotMobile && widget.canDelete(model),
+        qsParam: widget.qsParam,
+        forceOffline: widget.forceOffline,
+        itemsPerPage: widget.itemsPerPage,
+        uiBuilder: widget.uiBuilder,
+        consumer: widget.consumer,
+        searchFieldLabel: widget.searchFieldLabel,
+        searchFieldStyle: widget.searchFieldStyle,
+        searchFieldDecorationTheme: widget.searchFieldDecorationTheme,
+        keyboardType: widget.searchKeyboardType,
+        textInputAction: widget.searchTextInputAction,
+        minLengthToSearch: widget.minLengthToSearch,
+        hintText: widget.hintText,
+        startSearchText: widget.startSearchText,
+        waitingText: widget.waitingText,
+        searchListEmpty: widget.searchListEmpty,
+      ),
+    ).then(
+      (T? entity) {
+        if (entity != null) {
+          _internalRoute(
+            entity,
+            !selections.containsKey(entity.id),
           );
         }
-
-        return Scaffold(
-          appBar: AppBar(
-            title: _getScaffoldTitle(),
-          ),
-          bottomNavigationBar:
-              widget.uiBuilder.buildBottomNavigationBar(context),
-          body: widget.uiBuilder.buildBackgroundContainer(
-            context,
-            const WaitingMessage(message: 'Consultando...'),
-          ),
-        );
       },
     );
   }
@@ -538,54 +623,35 @@ class AbstractListState<
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.multipleSelection && onTap == null
-              ? FaIcon(
-                  selection
-                      ? FontAwesomeIcons.checkCircle
-                      : FontAwesomeIcons.circle,
-                )
-              : widget.uiBuilder.getLeading(model),
+              ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
+              : widget.uiBuilder.getLeading(context, model),
         ],
       ),
-      title: widget.uiBuilder.getTitle(model),
-      subtitle: widget.uiBuilder.getSubtitle(model),
+      title: widget.uiBuilder.getTitle(context, model),
+      subtitle: widget.uiBuilder.getSubtitle(context, model),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          ...permissions.entries.map(
-            (MapEntry<ConsumerPermission, AbstractRoute> entry) {
-              ConsumerPermission permission = entry.key;
-              ActionFunction<T> actionFunction =
-                  widget.actionFunctions![entry.value]!;
-              // TODO(anyone): Create an Action Route component.
-              return FutureBuilder<bool>(
-                initialData: false,
-                future: actionFunction.showButton(context, model),
-                builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                  if (snapshot.hasData && snapshot.data!) {
-                    return IconButton(
-                      tooltip: permission.name,
-                      icon: IconHelper.faIcon(permission.iconName),
-                      onPressed: () async {
-                        Widget widget =
-                            await actionFunction.onPressed(context, model);
-
-                        await Navigator.of(context).push(
-                          MaterialPageRoute<dynamic>(builder: (_) => widget),
-                        );
-
-                        await _loadData(context);
-                      },
-                    );
-                  }
-                  return const SizedBox(width: 0, height: 0);
-                },
-              );
-            },
+          /// Item Buttons
+          ...effectiveModelFunctions.entries.map(
+            (
+              MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
+            ) =>
+                ModelFunctionButton<T>(
+              rowFunction: entry.value,
+              permission: entry.key,
+              model: model,
+              selection: widget.selection,
+              qsParam: _qsParam,
+              callback: (Object? object) => _loadData(context),
+            ),
           ),
+
+          /// Delete Button
           if (canDelete)
             IconButton(
-              icon: const Icon(FontAwesomeIcons.trashAlt),
+              icon: const Icon(FontAwesomeIcons.trashCan),
               onPressed: () async {
                 bool refresh = await _deleteEntity(model, ask: true);
                 if (afterDeleteRefresh != null && refresh) {
@@ -674,7 +740,6 @@ class AbstractListState<
   ///
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
-    // FIXME - Possível bug em erros na web.
     CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
@@ -698,17 +763,16 @@ class AbstractListState<
 
         return ask;
       }
-    } catch (e, s) {
+    } on Exception catch (e, s) {
       wait.close();
 
-      if (FollyFields().isDebug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('$e\n$s');
       }
 
       await FollyDialogs.dialogMessage(
         context: context,
-        message: 'Ocorreu um erro ao tentar excluir:\n$e',
+        message: sprintf(widget.deleteErrorText, <dynamic>[e.toString()]),
       );
     }
     return !ask;
@@ -719,8 +783,62 @@ class AbstractListState<
   ///
   Future<bool> _askDelete() => FollyDialogs.yesNoDialog(
         context: context,
-        message: 'Deseja excluir?',
+        message: widget.deleteText,
       );
+
+  ///
+  ///
+  ///
+  void _showListLegend() {
+    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Row(
+          children: <Widget>[
+            FaIcon(widget.uiBuilder.listLegendIcon(context)),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(widget.uiBuilder.listLegendTitle(context)),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: listLegend.keys
+                .map(
+                  (String key) => ListTile(
+                    leading: FaIcon(
+                      FontAwesomeIcons.solidCircle,
+                      color: listLegend[key],
+                    ),
+                    title: Text(key),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(widget.uiBuilder.listLegendButtonText(context)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    keyboardFocusNode.dispose();
+    _mapFunctionsNotifier.dispose();
+    _insertNotifier.dispose();
+    _streamController.close();
+    super.dispose();
+  }
 }
 
 ///
@@ -745,6 +863,11 @@ class InternalSearch<
   final Map<String, String> qsParam;
   final bool forceOffline;
   final int itemsPerPage;
+  final int minLengthToSearch;
+  final String hintText;
+  final String startSearchText;
+  final String waitingText;
+  final String searchListEmpty;
 
   String? _lastQuery;
   Widget? _lastWidget;
@@ -760,25 +883,24 @@ class InternalSearch<
     required this.qsParam,
     required this.forceOffline,
     required this.itemsPerPage,
-    required String? searchFieldLabel,
-    required TextStyle? searchFieldStyle,
-    required InputDecorationTheme? searchFieldDecorationTheme,
-    required TextInputType? keyboardType,
-    required TextInputAction textInputAction,
-  }) : super(
-          searchFieldLabel: searchFieldLabel,
-          searchFieldStyle: searchFieldStyle,
-          searchFieldDecorationTheme: searchFieldDecorationTheme,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-        );
+    required this.minLengthToSearch,
+    required this.hintText,
+    required this.startSearchText,
+    required this.waitingText,
+    required this.searchListEmpty,
+    required super.searchFieldLabel,
+    required super.searchFieldStyle,
+    required super.searchFieldDecorationTheme,
+    required super.keyboardType,
+    required super.textInputAction,
+  });
 
   ///
   ///
   ///
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = super.appBarTheme(context);
+    ThemeData theme = super.appBarTheme(context);
 
     return theme.copyWith(
       appBarTheme: theme.appBarTheme.copyWith(
@@ -820,16 +942,15 @@ class InternalSearch<
   ///
   @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 3) {
+    if (query.length < minLengthToSearch) {
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              const Center(
+              Center(
                 child: Text(
-                  'Começe a sua pesquisa.\n'
-                  'Digite ao menos 3 caracteres.',
+                  sprintf(startSearchText, <dynamic>[minLengthToSearch]),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -849,45 +970,36 @@ class InternalSearch<
         query = query.replaceAll('%', '');
       }
 
-      param['t'] = query.toLowerCase();
+      param['t'] = query;
 
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              FutureBuilder<List<W>>(
-                future: consumer.list(context, param, forceOffline),
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isNotEmpty) {
-                      return ListView.separated(
+              SafeFutureBuilder<List<W>>(
+                future: consumer.list(
+                  context,
+                  param,
+                  forceOffline: forceOffline,
+                ),
+                waitingMessage: waitingText,
+                builder: (BuildContext context, List<W> data) => data.isNotEmpty
+                    ? ListView.separated(
                         physics: const AlwaysScrollableScrollPhysics(),
                         padding: const EdgeInsets.all(16),
-                        itemBuilder: (BuildContext context, int index) {
-                          return buildResultItem(
-                            model: snapshot.data![index],
-                            selection: false,
-                            canDelete: canDelete(snapshot.data![index]),
-                            onTap: (W entity) => close(context, entity),
-                            afterDeleteRefresh: () async => query += '%',
-                          );
-                        },
+                        itemBuilder: (BuildContext context, int index) =>
+                            buildResultItem(
+                          model: data[index],
+                          selection: false,
+                          canDelete: canDelete(data[index]),
+                          onTap: (W entity) => close(context, entity),
+                          afterDeleteRefresh: () async => query += '%',
+                        ),
                         separatorBuilder: (_, __) => const FollyDivider(),
-                        itemCount: snapshot.data!.length,
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('Nenhum documento.'),
-                      );
-                    }
-                  }
-
-                  // TODO(anyone): Tratar erro.
-
-                  return const WaitingMessage(message: 'Consultando...');
-                },
+                        itemCount: data.length,
+                      )
+                    : Center(child: Text(searchListEmpty)),
               ),
             ),
           ),
@@ -902,16 +1014,15 @@ class InternalSearch<
   ///
   @override
   Widget buildSuggestions(BuildContext context) {
-    if (query.length < 3) {
+    if (query.length < minLengthToSearch) {
       return Column(
         children: <Widget>[
           Expanded(
             child: uiBuilder.buildBackgroundContainer(
               context,
-              const Center(
+              Center(
                 child: Text(
-                  'Começe a sua pesquisa.\n'
-                  'Digite ao menos 3 caracteres.',
+                  sprintf(startSearchText, <dynamic>[minLengthToSearch]),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -932,7 +1043,7 @@ class InternalSearch<
           param.addAll(qsParam);
         }
 
-        param['t'] = query.replaceAll('%', '').toLowerCase();
+        param['t'] = query.replaceAll('%', '');
 
         param['q'] = itemsPerPage.toString();
 
@@ -941,19 +1052,22 @@ class InternalSearch<
             Expanded(
               child: uiBuilder.buildBackgroundContainer(
                 context,
-                FutureBuilder<List<W>>(
-                  future: consumer.list(context, param, forceOffline),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<List<W>> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.isNotEmpty) {
-                        return Column(
+                SafeFutureBuilder<List<W>>(
+                  future: consumer.list(
+                    context,
+                    param,
+                    forceOffline: forceOffline,
+                  ),
+                  waitingMessage: waitingText,
+                  builder: (BuildContext context, List<W> data) => data
+                          .isNotEmpty
+                      ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(8),
                               child: Text(
-                                'Sugestões:',
+                                hintText,
                                 style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   color:
@@ -964,35 +1078,30 @@ class InternalSearch<
                             Expanded(
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
-                                  W model = snapshot.data![index];
+                                  W model = data[index];
 
                                   return ListTile(
-                                    title: uiBuilder.getSuggestionTitle(model),
-                                    subtitle:
-                                        uiBuilder.getSuggestionSubtitle(model),
+                                    title: uiBuilder.getSuggestionTitle(
+                                      context,
+                                      model,
+                                    ),
+                                    subtitle: uiBuilder.getSuggestionSubtitle(
+                                      context,
+                                      model,
+                                    ),
                                     onTap: () {
-                                      _lastQuery = model.searchTerm;
+                                      _lastQuery = model.listSearchTerm;
                                       query = _lastQuery!;
                                       showResults(context);
                                     },
                                   );
                                 },
-                                itemCount: snapshot.data!.length,
+                                itemCount: data.length,
                               ),
                             ),
                           ],
-                        );
-                      } else {
-                        return const Center(
-                          child: Text('Nenhum documento.'),
-                        );
-                      }
-                    }
-
-                    // TODO(anyone): Tratar erro.
-
-                    return const WaitingMessage(message: 'Consultando...');
-                  },
+                        )
+                      : Center(child: Text(searchListEmpty)),
                 ),
               ),
             ),

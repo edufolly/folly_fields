@@ -11,10 +11,10 @@ class FollyCircular extends StatelessWidget {
   ///
   ///
   const FollyCircular({
-    Key? key,
+    super.key,
     this.color,
     this.size = 16.0,
-  }) : super(key: key);
+  });
 
   ///
   ///

@@ -17,20 +17,23 @@ void main() {
     '01:23:45:67:89:AB': true,
   };
 
-  final MacAddressValidator validator = MacAddressValidator();
+  MacAddressValidator validator = MacAddressValidator();
 
   for (int i = 0; i < 100; i++) {
     isValidTests[MacAddressValidator.generate()] = true;
   }
 
-  group('MacAddressValidator isValid', () {
-    for (MapEntry<String, bool> input in isValidTests.entries) {
-      test(
-        'Testing: ${input.key}',
-        () => expect(validator.isValid(input.key), input.value),
-      );
-    }
-  });
+  group(
+    'MacAddressValidator isValid',
+    () {
+      for (MapEntry<String, bool> input in isValidTests.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(validator.isValid(input.key), input.value),
+        );
+      }
+    },
+  );
 
   Map<String, String> formatTests = <String, String>{
     '': '',
@@ -52,12 +55,15 @@ void main() {
     '01:23:45:67:89:AB': '01:23:45:67:89:AB',
   };
 
-  group('MacAddressValidator format', () {
-    for (MapEntry<String, String> input in formatTests.entries) {
-      test(
-        'Testing: ${input.key}',
-        () => expect(validator.format(input.key), input.value),
-      );
-    }
-  });
+  group(
+    'MacAddressValidator format',
+    () {
+      for (MapEntry<String, String> input in formatTests.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(validator.format(input.key), input.value),
+        );
+      }
+    },
+  );
 }

@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:folly_fields/widgets/folly_dialogs.dart';
+import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 ///
 ///
@@ -23,8 +24,8 @@ class CodeLink extends StatelessWidget {
     required this.tag,
     required this.source,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   ///
   ///
@@ -101,15 +102,27 @@ class CodeLink extends StatelessWidget {
             ElevatedButton.icon(
               label: const Text('Código Fonte'),
               icon: const Icon(FontAwesomeIcons.github),
-              onPressed: () async {
-                if (await canLaunch(source)) {
-                  await launch(source);
-                } else {
-                  await FollyDialogs.dialogMessage(
-                    context: context,
-                    message: 'Não foi possível abrir $source',
-                  );
-                }
+              onPressed: () {
+                CircularWaiting wait = CircularWaiting(context)..show();
+
+                launchUrlString(
+                  source,
+                  mode: LaunchMode.externalApplication,
+                ).then(
+                  (_) {
+                    Future<void>.delayed(
+                      const Duration(seconds: 2),
+                      () => wait.close(),
+                    );
+                  },
+                ).catchError(
+                  (dynamic e, StackTrace s) {
+                    if (kDebugMode) {
+                      print(e);
+                      print(s);
+                    }
+                  },
+                );
               },
             ),
             ElevatedButton(

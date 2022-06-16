@@ -28,8 +28,10 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String macAddress) => strip(macAddress).replaceAllMapped(
-        RegExp('^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
-            r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$'),
+        RegExp(
+          '^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
+          r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$',
+        ),
         (Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
       );
 

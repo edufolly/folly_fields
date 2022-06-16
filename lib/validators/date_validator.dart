@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
@@ -62,7 +61,7 @@ class DateValidator extends AbstractValidator<DateTime>
     } else {
       try {
         return dateFormat.parse(text);
-      } catch (e) {
+      } on Exception catch (_) {
         return null;
       }
     }

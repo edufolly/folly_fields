@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:folly_fields/folly_fields.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/validators/date_validator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,9 +8,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 // TODO(edufolly): Herdar de DateTimeField?
-class DateField extends StatefulWidget {
-  final String prefix;
-  final String label;
+class DateField extends StatefulResponsive {
+  final String labelPrefix;
+  final String? label;
+  final Widget? labelWidget;
   final DateEditingController? controller;
   final FormFieldValidator<DateTime>? validator;
   final TextAlign textAlign;
@@ -35,14 +36,17 @@ class DateField extends StatefulWidget {
   final bool required;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final DatePickerEntryMode initialEntryMode;
+  final DatePickerMode initialDatePickerMode;
+  final bool clearOnCancel;
 
   ///
   ///
   ///
   const DateField({
-    Key? key,
-    this.prefix = '',
-    this.label = '',
+    this.labelPrefix = '',
+    this.label,
+    this.labelWidget,
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
@@ -67,9 +71,24 @@ class DateField extends StatefulWidget {
     this.required = true,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
-  })  : assert(initialValue == null || controller == null,
-            'initialValue or controller must be null.'),
-        super(key: key);
+    this.initialEntryMode = DatePickerEntryMode.calendar,
+    this.initialDatePickerMode = DatePickerMode.day,
+    this.clearOnCancel = true,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        );
 
   ///
   ///
@@ -144,34 +163,22 @@ class DateFieldState extends State<DateField> {
   ///
   ///
   @override
-  void dispose() {
-    _effectiveFocusNode.removeListener(_handleFocus);
-
-    _controller?.dispose();
-    _focusNode?.dispose();
-
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   Widget build(BuildContext context) {
-    final InputDecoration effectiveDecoration = (widget.decoration ??
+    InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               filled: widget.filled,
               fillColor: widget.fillColor,
-              labelText: widget.prefix.isEmpty
+              label: widget.labelWidget,
+              labelText: widget.labelPrefix.isEmpty
                   ? widget.label
-                  : '${widget.prefix} - ${widget.label}',
+                  : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(
           suffixIcon: IconButton(
-            icon: const Icon(FontAwesomeIcons.solidCalendarAlt),
+            icon: const Icon(FontAwesomeIcons.solidCalendarDays),
             onPressed: widget.enabled && !widget.readOnly
                 ? () async {
                     try {
@@ -183,18 +190,22 @@ class DateFieldState extends State<DateField> {
                             _effectiveController.date ?? DateTime.now(),
                         firstDate: widget.firstDate ?? DateTime(1900),
                         lastDate: widget.lastDate ?? DateTime(2100),
+                        initialEntryMode: widget.initialEntryMode,
+                        initialDatePickerMode: widget.initialDatePickerMode,
                       );
 
                       fromButton = false;
 
-                      _effectiveController.date = selectedDate;
+                      if (selectedDate != null ||
+                          (selectedDate == null && widget.clearOnCancel)) {
+                        _effectiveController.date = selectedDate;
+                      }
 
                       if (_effectiveFocusNode.canRequestFocus) {
                         _effectiveFocusNode.requestFocus();
                       }
-                    } catch (e, s) {
-                      if (FollyFields().isDebug) {
-                        // ignore: avoid_print
+                    } on Exception catch (e, s) {
+                      if (kDebugMode) {
                         print('$e\n$s');
                       }
                     }
@@ -253,6 +264,19 @@ class DateFieldState extends State<DateField> {
       ),
     );
   }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    _effectiveFocusNode.removeListener(_handleFocus);
+
+    _controller?.dispose();
+    _focusNode?.dispose();
+
+    super.dispose();
+  }
 }
 
 ///
@@ -268,8 +292,8 @@ class DateEditingController extends TextEditingController {
   ///
   ///
   ///
-  DateEditingController.fromValue(TextEditingValue value)
-      : super.fromValue(value);
+  DateEditingController.fromValue(TextEditingValue super.value)
+      : super.fromValue();
 
   ///
   ///

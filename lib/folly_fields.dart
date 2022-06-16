@@ -2,8 +2,10 @@ library folly_fields;
 
 import 'dart:io';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 
 ///
 ///
@@ -13,6 +15,10 @@ enum RunningPlatform {
   web,
   android,
   ios,
+  linux,
+  windows,
+  macos,
+  fuchsia,
 }
 
 ///
@@ -28,12 +34,12 @@ extension RunningPlatformExt on RunningPlatform {
 ///
 ///
 ///
-abstract class _InternalConfig {
-  ///
-  ///
-  ///
-  bool get isDebug;
+typedef FollyDateParse = int? Function(dynamic value);
 
+///
+///
+///
+abstract class _InternalConfig {
   ///
   ///
   ///
@@ -52,7 +58,27 @@ abstract class _InternalConfig {
   ///
   ///
   ///
+  bool get isNotWeb;
+
+  ///
+  ///
+  ///
   bool get isMobile;
+
+  ///
+  ///
+  ///
+  bool get isNotMobile;
+
+  ///
+  ///
+  ///
+  bool get isDesktop;
+
+  ///
+  ///
+  ///
+  bool get isNotDesktop;
 
   ///
   ///
@@ -77,7 +103,17 @@ abstract class _InternalConfig {
   ///
   ///
   ///
-  bool get modelParseDates;
+  FollyDateParse? get dateParseUpdate;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseDelete;
+
+  ///
+  ///
+  ///
+  List<double> get responsiveSizes;
 }
 
 ///
@@ -91,19 +127,23 @@ class FollyFields implements _InternalConfig {
   ///
   static void start(
     AbstractConfig holder, {
-    bool debug = false,
     String modelIdKey = 'id',
     String modelUpdatedAtKey = 'updatedAt',
     String modelDeletedAtKey = 'deletedAt',
-    bool modelParseDates = false,
+    List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
+    FollyDateParse? dateParseUpdate,
+    FollyDateParse? dateParseDelete,
+    Connectivity? connectivity,
   }) =>
       FollyFields()._holder = holder
         .._start(
-          debug: debug,
           modelIdKey: modelIdKey,
           modelUpdatedAtKey: modelUpdatedAtKey,
           modelDeletedAtKey: modelDeletedAtKey,
-          modelParseDates: modelParseDates,
+          dateParseUpdate: dateParseUpdate,
+          dateParseDelete: dateParseDelete,
+          responsiveSizes: responsiveSizes,
+          connectivity: connectivity,
         );
 
   AbstractConfig? _holder;
@@ -124,18 +164,6 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get isDebug => _holder!.isDebug;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isMobile => _holder!.isMobile;
-
-  ///
-  ///
-  ///
-  @override
   bool get isOffline => _holder!.isOffline;
 
   ///
@@ -149,6 +177,36 @@ class FollyFields implements _InternalConfig {
   ///
   @override
   bool get isWeb => _holder!.isWeb;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotWeb => _holder!.isNotWeb;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isMobile => _holder!.isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotMobile => _holder!.isNotMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isDesktop => _holder!.isDesktop;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotDesktop => _holder!.isNotDesktop;
 
   ///
   ///
@@ -178,7 +236,44 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get modelParseDates => _holder!.modelParseDates;
+  FollyDateParse? get dateParseUpdate => _holder!.dateParseUpdate;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseDelete => _holder!.dateParseDelete;
+
+  ///
+  ///
+  ///
+  @override
+  List<double> get responsiveSizes => _holder!.responsiveSizes;
+
+  ///
+  ///
+  ///
+  ResponsiveSize checkResponsiveSize(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    if (width < responsiveSizes[0]) {
+      return ResponsiveSize.extraSmall;
+    }
+
+    if (width >= responsiveSizes[0] && width < responsiveSizes[1]) {
+      return ResponsiveSize.small;
+    }
+
+    if (width >= responsiveSizes[1] && width < responsiveSizes[2]) {
+      return ResponsiveSize.medium;
+    }
+
+    if (width >= responsiveSizes[2] && width < responsiveSizes[3]) {
+      return ResponsiveSize.large;
+    }
+
+    return ResponsiveSize.extraLarge;
+  }
 }
 
 ///
@@ -186,19 +281,14 @@ class FollyFields implements _InternalConfig {
 ///
 abstract class AbstractConfig implements _InternalConfig {
   bool _started = false;
-  bool _debug = false;
   bool _online = false;
   RunningPlatform _platform = RunningPlatform.unknown;
   String _modelIdKey = 'id';
   String _modelUpdatedAtKey = 'updatedAt';
   String _modelDeletedAtKey = 'deletedAt';
-  bool _modelParseDates = false;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isDebug => _debug;
+  FollyDateParse? _dateParseUpdate;
+  FollyDateParse? _dateParseDelete;
+  List<double> _responsiveSizes = const <double>[540, 720, 960, 1140];
 
   ///
   ///
@@ -222,8 +312,32 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
+  bool get isNotWeb => !isWeb;
+
+  ///
+  ///
+  ///
+  @override
   bool get isMobile =>
       _platform == RunningPlatform.android || _platform == RunningPlatform.ios;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotMobile => !isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isDesktop => !isWeb && !isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotDesktop => !isDesktop;
 
   ///
   ///
@@ -253,35 +367,50 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   ///
   @override
-  bool get modelParseDates => _modelParseDates;
+  FollyDateParse? get dateParseUpdate => _dateParseUpdate;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseDelete => _dateParseDelete;
+
+  ///
+  ///
+  ///
+  @override
+  List<double> get responsiveSizes => _responsiveSizes;
 
   ///
   ///
   ///
   Future<void> _start({
-    required bool debug,
     required String modelIdKey,
     required String modelUpdatedAtKey,
     required String modelDeletedAtKey,
-    required bool modelParseDates,
+    required List<double> responsiveSizes,
+    FollyDateParse? dateParseUpdate,
+    FollyDateParse? dateParseDelete,
+    Connectivity? connectivity,
   }) async {
     if (_started) {
-      if (debug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('Folly Fields already started, ignoring...');
       }
     } else {
       _started = true;
-      if (debug) {
-        // ignore: avoid_print
+      if (kDebugMode) {
         print('Folly Fields Started.');
       }
-      _debug = debug;
 
       _modelIdKey = modelIdKey;
       _modelUpdatedAtKey = modelUpdatedAtKey;
       _modelDeletedAtKey = modelDeletedAtKey;
-      _modelParseDates = modelParseDates;
+
+      _dateParseUpdate = dateParseUpdate;
+      _dateParseDelete = dateParseDelete;
+
+      _responsiveSizes = responsiveSizes;
 
       if (kIsWeb) {
         _platform = RunningPlatform.web;
@@ -289,16 +418,25 @@ abstract class AbstractConfig implements _InternalConfig {
         _platform = RunningPlatform.android;
       } else if (Platform.isIOS) {
         _platform = RunningPlatform.ios;
+      } else if (Platform.isLinux) {
+        _platform = RunningPlatform.linux;
+      } else if (Platform.isWindows) {
+        _platform = RunningPlatform.windows;
+      } else if (Platform.isMacOS) {
+        _platform = RunningPlatform.macos;
+      } else if (Platform.isFuchsia) {
+        _platform = RunningPlatform.fuchsia;
       }
 
-      ConnectivityResult result = await Connectivity().checkConnectivity();
+      connectivity ??= Connectivity();
+
+      ConnectivityResult result = await connectivity.checkConnectivity();
 
       _online = result != ConnectivityResult.none;
 
-      Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
         _online = result != ConnectivityResult.none;
-        if (debug) {
-          // ignore: avoid_print
+        if (kDebugMode) {
           print('Connectivity Changed: $_online');
         }
       });

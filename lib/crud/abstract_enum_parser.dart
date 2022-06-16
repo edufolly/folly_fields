@@ -1,11 +1,20 @@
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
+
 ///
 ///
 ///
 abstract class AbstractEnumParser<T extends Enum> {
+  final T defaultItem;
+
   ///
   ///
   ///
-  T get defaultItem;
+  @mustCallSuper
+  const AbstractEnumParser({
+    required this.defaultItem,
+  });
 
   ///
   ///
@@ -25,10 +34,20 @@ abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   ///
+  int get length => items.length;
+
+  ///
+  ///
+  ///
   String toMap(T key) => key.toString().split('.').last;
 
   ///
   ///
   ///
   String getText(T key) => items[key]!;
+
+  ///
+  ///
+  ///
+  T get random => items.keys.elementAt(Random().nextInt(length));
 }
