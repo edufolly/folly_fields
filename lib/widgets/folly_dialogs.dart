@@ -16,6 +16,7 @@ class FollyDialogs {
     String buttonText = 'OK',
     String defaultMessage = 'Ocorreu um erro.',
     bool scrollable = false,
+    bool selectable = false,
   }) {
     return showDialog(
       context: context,
@@ -23,7 +24,9 @@ class FollyDialogs {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Text(message ?? defaultMessage),
+          content: selectable
+              ? SelectableText(message ?? defaultMessage)
+              : Text(message ?? defaultMessage),
           scrollable: scrollable,
           actions: <Widget>[
             ElevatedButton(
@@ -48,6 +51,7 @@ class FollyDialogs {
     String startString = '',
     TextInputType keyboardType = TextInputType.text,
     bool scrollable = false,
+    bool selectable = false,
   }) async {
     TextEditingController controller = TextEditingController()
       ..text = startString;
@@ -73,10 +77,15 @@ class FollyDialogs {
                   left: 8,
                   right: 8,
                 ),
-                child: Text(
-                  message,
-                  style: const TextStyle(fontSize: 18),
-                ),
+                child: selectable
+                    ? SelectableText(
+                        message,
+                        style: const TextStyle(fontSize: 18),
+                      )
+                    : Text(
+                        message,
+                        style: const TextStyle(fontSize: 18),
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8),
@@ -116,6 +125,7 @@ class FollyDialogs {
     String negative = 'Não',
     bool marked = false,
     bool scrollable = false,
+    bool selectable = false,
   }) async {
     Widget aff;
     Widget neg;
@@ -147,7 +157,7 @@ class FollyDialogs {
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
-        content: Text(message),
+        content: selectable ? SelectableText(message) : Text(message),
         scrollable: scrollable,
         actions: <Widget>[neg, aff],
       ),
