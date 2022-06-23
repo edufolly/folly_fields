@@ -23,7 +23,7 @@ class FollyDialogs {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),
-          content: Text(message ?? defaultMessage),
+          content: SelectableText(message ?? defaultMessage),
           scrollable: scrollable,
           actions: <Widget>[
             ElevatedButton(
@@ -73,7 +73,7 @@ class FollyDialogs {
                   left: 8,
                   right: 8,
                 ),
-                child: Text(
+                child: SelectableText(
                   message,
                   style: const TextStyle(fontSize: 18),
                 ),
@@ -147,7 +147,7 @@ class FollyDialogs {
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
-        content: Text(message),
+        content: SelectableText(message),
         scrollable: scrollable,
         actions: <Widget>[neg, aff],
       ),
