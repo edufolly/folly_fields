@@ -110,7 +110,9 @@ jobs:
   build-windows:
     name: Windows Native Build
     runs-on: windows-latest
-    needs: [ tests ]
+    needs: [ boot, tests ]
+    permissions:
+      contents: write
     steps:
       - name: Code Checkout
         uses: actions/checkout@v3
@@ -133,9 +135,9 @@ jobs:
 
       - name: Compress Flutter Build
         working-directory: example
-        run: Compress-Archive build/windows/runner/Release/*.* folly-fields-example-windows.zip
+        run: Compress-Archive build/windows/runner/Release/* folly-fields-example-windows.zip
 
-      - name: Adding AppImage to GitHub Release
+      - name: Adding Zip to GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: v${{ needs.boot.outputs.version }}
@@ -189,7 +191,7 @@ jobs:
         with:
           name: folly-fields-example-linux
           path: example/folly-fields-example-linux.tar.gz
-          retention-days: 7
+          retention-days: 1
 
 
   ##########################
