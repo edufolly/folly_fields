@@ -38,6 +38,9 @@ jobs:
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Flutter Config
         run: flutter config --no-analytics
@@ -80,6 +83,9 @@ jobs:
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Flutter Config
         run: flutter config --enable-web --no-analytics
@@ -96,6 +102,46 @@ jobs:
         with:
           publish_dir: ./example/build/web
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+
+  #################
+  # Build Windows #
+  #################
+  build-windows:
+    name: Windows Native Build
+    runs-on: windows-latest
+    needs: [ tests ]
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+
+      - name: Flutter Config
+        run: flutter config --enable-windows-desktop --no-analytics
+
+      - name: Flutter Pub Get
+        run: flutter pub get
+
+      - name: Flutter Build Windows Native
+        working-directory: example
+        run: flutter build windows
+
+      - name: Compress Flutter Build
+        working-directory: example
+        run: Compress-Archive build/windows/runner/Release/*.* folly-fields-example-windows.zip
+
+      - name: Adding AppImage to GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ needs.boot.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          artifacts: "example/*.zip"
 
 
   ###############
@@ -120,6 +166,9 @@ jobs:
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
+        with:
+          cache: true
+          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Flutter Config
         run: flutter config --enable-linux-desktop --no-analytics
