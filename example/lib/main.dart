@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +16,7 @@ import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
+import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
@@ -54,6 +57,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'package:file_picker/file_picker.dart';
 ///
 ///
 ///
@@ -61,7 +65,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   FollyFields.start(Config());
-
   runApp(const MyApp());
 }
 
@@ -757,6 +760,16 @@ class MyHomePageState extends State<MyHomePage> {
                     ),
                     // [/RootCode]
 
+                    FileField(
+                      label: 'Arquivo',
+                      enabled: edit,
+                      onSaved: (newValue) {
+                        model.blob = newValue ?? Uint8List(0);
+                      },
+                      allowedExtensions: const ['dart'],
+                      fileType: FileType.image,
+                    ),
+
                     /// Botão Enviar
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -792,7 +805,7 @@ class MyHomePageState extends State<MyHomePage> {
 
       FollyDialogs.dialogMessage(
         context: context,
-        title: 'Resultado do método toMap()',
+        title: 'Resultado do método toMap(). O blob é mostrado como base64.',
         message: model.toMap().toString(),
       );
     }
