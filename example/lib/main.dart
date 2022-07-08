@@ -762,10 +762,12 @@ class MyHomePageState extends State<MyHomePage> {
                     FileField(
                       label: 'Arquivo',
                       enabled: edit,
-                      onSaved: (newValue) {
+                      onSaved: (Uint8List? newValue) {
                         model.blob = newValue ?? Uint8List(0);
                       },
-                      allowedExtensions: const <String>['dart'],
+                      thumbnailSize: const Size(64,128),
+                      showImageThumbnail: true,
+                      fileType: FileType.image,
                     ),
 
                     /// Botão Enviar

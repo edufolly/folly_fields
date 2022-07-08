@@ -33,6 +33,8 @@ class FileField extends FormFieldResponsive<Uint8List> {
     EdgeInsets padding = const EdgeInsets.all(8),
     List<String>? allowedExtensions,
     FileType fileType = FileType.any,
+    bool showImageThumbnail = false,
+    Size thumbnailSize = const Size(64,32),
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -90,33 +92,68 @@ class FileField extends FormFieldResponsive<Uint8List> {
                         enabled: enabled,
                       ),
                       isFocused: Focus.of(context).hasFocus,
-                      child: Row(
+                      child: Flex(
+                        direction: Axis.horizontal,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         
-                        children: [
-                          
-                          if( state._filename!=null )...[
-                            Text( state._filename! ) ,
-                            const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.delete),
-                              label: const Text('Apagar'),
-                              onPressed: enabled
-                                ? () {
-                                  state
-                                    ..didChange(null)
-                                    .._filename = null;
-                                  if (onChanged != null && state.isValid ){
-                                    onChanged(null);
-                                  }
-                                }
-                                : null,
+                        children: <Widget>[
+                          if( state._filename!=null )...<Widget>[
+                            Flexible(
+                              fit: FlexFit.tight,
+                              flex:2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children:
+                                  <Widget>[
+                                    if( state.value!=null && 
+                                        showImageThumbnail &&
+                                        fileType == FileType.image 
+                                      )
+                                    Image.memory(
+                                      state.value!,
+                                      width: thumbnailSize.width,
+                                      height: thumbnailSize.height,
+                                      errorBuilder: (
+                                        BuildContext bc,
+                                        Object obj,
+                                        StackTrace? trace,
+                                      ) => const Text(
+                                        'Not a valid image.',
+                                        style: TextStyle(color:Colors.red),
+                                      ),
+                                    ),
+                                    Text( 
+                                      state._filename! ,
+                                      overflow: TextOverflow.ellipsis,
+                                    ) ,
+                                  ],
+                                ),
                             ),
                             const SizedBox(width: 8),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              flex:2,
+                              child: ElevatedButton.icon(
+                                icon: const Icon(Icons.delete),
+                                label: const Text('Apagar'),
+                                onPressed: enabled
+                                  ? () {
+                                    state
+                                      ..didChange(null)
+                                      .._filename = null;
+                                    if (onChanged != null && state.isValid ){
+                                      onChanged(null);
+                                    }
+                                  }
+                                  : null,
+                              ),
+                            ),
+                            const SizedBox(width: 8)
                           ],
                           
                           // File select button
                           Expanded(
+                            flex: 5,
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.attach_file),
                               label: const Text('Carregar'),
