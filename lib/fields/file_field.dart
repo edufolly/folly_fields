@@ -35,6 +35,9 @@ class FileField extends FormFieldResponsive<Uint8List> {
     FileType fileType = FileType.any,
     bool showImageThumbnail = false,
     Size thumbnailSize = const Size(64,32),
+    String loadButtonText = 'Carregar',
+    String eraseButtonText = 'Apagar',
+    String invalidThumbnailText = 'Arquivo não é uma imagem válida',
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -117,12 +120,14 @@ class FileField extends FormFieldResponsive<Uint8List> {
                                         BuildContext bc,
                                         Object obj,
                                         StackTrace? trace,
-                                      ) => const Text(
-                                        'Not a valid image.',
-                                        style: TextStyle(color:Colors.red),
+                                      ) => Text(
+                                        invalidThumbnailText,
+                                        style: 
+                                          const TextStyle(color:Colors.red),
                                       ),
                                     ),
                                     Text( 
+                                      textAlign: TextAlign.center,
                                       state._filename! ,
                                       overflow: TextOverflow.ellipsis,
                                     ) ,
@@ -135,7 +140,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                               flex:2,
                               child: ElevatedButton.icon(
                                 icon: const Icon(Icons.delete),
-                                label: const Text('Apagar'),
+                                label: Text(eraseButtonText),
                                 onPressed: enabled
                                   ? () {
                                     state
@@ -156,7 +161,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                             flex: 5,
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.attach_file),
-                              label: const Text('Carregar'),
+                              label: Text(loadButtonText),
                               onPressed: enabled
                                 ? () async {
                                   allowedExtensions = allowedExtensions
