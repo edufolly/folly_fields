@@ -1,7 +1,6 @@
 
 import 'dart:typed_data';
-
-import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart' as file;
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
@@ -45,10 +44,10 @@ class FileField extends FormFieldResponsive<Uint8List> {
           initialValue == null || controller == null,
           'initialValue or controller must be null.',
         ),
-        // assert(elevation != null),
-        // assert(iconSize != null),
-        // assert(isDense != null),
-        // assert(isExpanded != null),
+        assert( fileType==FileType.custom || fileType==FileType.any || 
+                allowedExtensions==null , 
+                'If specifying allowed extensions, fileType '
+                'should be FileType.custom',),
         assert(
           itemHeight == null || itemHeight >= kMinInteractiveDimension,
           'itemHeight must be null or equal or greater '
@@ -123,22 +122,28 @@ class FileField extends FormFieldResponsive<Uint8List> {
                               label: const Text('Carregar'),
                               onPressed: enabled
                                 ? () async {
-                                FilePickerResult? picked 
-                                  = await FilePicker.platform.pickFiles(
-                                    allowedExtensions: allowedExtensions,
-                                    type: allowedExtensions!=null 
-                                      ? FileType.custom 
-                                      : FileType.any
-                                  );
-                                if(picked!=null){
-                                  state
-                                    ..didChange(picked.files[0].bytes)
-                                    .._filename = picked.files[0].name;
-                                  if (onChanged != null && state.isValid ){
-                                    onChanged(picked.files[0].bytes);
+                                  allowedExtensions = allowedExtensions
+                                    ?.map((String ext){
+                                      return ext.startsWith('.')
+                                        ? ext.substring(1)
+                                        : ext;
+                                    }).toList();
+                                  file.FilePickerResult? picked 
+                                    = await file.FilePicker.platform.pickFiles(
+                                      allowedExtensions: allowedExtensions,
+                                      type: allowedExtensions!=null 
+                                        ? file.FileType.custom 
+                                        : fileType.toFilePicker
+                                    );
+                                  if(picked!=null){
+                                    state
+                                      ..didChange(picked.files[0].bytes)
+                                      .._filename = picked.files[0].name;
+                                    if (onChanged != null && state.isValid ){
+                                      onChanged(picked.files[0].bytes);
+                                    }
                                   }
                                 }
-                              }
                               : null,
                             ),
                           ),
@@ -278,4 +283,26 @@ class FileEditingController extends ValueNotifier<Uint8List?> {
       : super(value);
 
 
+}
+
+enum FileType {
+  any,
+  media,
+  image,
+  video,
+  audio,
+  custom,
+}
+
+extension FileTypeExtension on FileType {
+  file.FileType get toFilePicker {
+    switch(this){
+      case FileType.any: return file.FileType.any;
+      case FileType.media: return file.FileType.media;
+      case FileType.image: return file.FileType.image;
+      case FileType.video: return file.FileType.video;
+      case FileType.audio: return file.FileType.audio;
+      case FileType.custom: return file.FileType.custom;
+    }
+  }
 }

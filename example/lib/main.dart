@@ -57,7 +57,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:file_picker/file_picker.dart';
 ///
 ///
 ///
@@ -766,8 +765,7 @@ class MyHomePageState extends State<MyHomePage> {
                       onSaved: (newValue) {
                         model.blob = newValue ?? Uint8List(0);
                       },
-                      allowedExtensions: const ['dart'],
-                      fileType: FileType.image,
+                      allowedExtensions: const <String>['dart'],
                     ),
 
                     /// Botão Enviar
