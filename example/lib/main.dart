@@ -757,18 +757,28 @@ class MyHomePageState extends State<MyHomePage> {
                       ),
                       // [/ListField]
                     ),
-                    // [/RootCode]
 
-                    FileField(
-                      label: 'Arquivo',
-                      enabled: edit,
-                      onSaved: (Uint8List? newValue) {
-                        model.blob = newValue ?? Uint8List(0);
-                      },
-                      thumbnailSize: const Size(64,128),
-                      showImageThumbnail: true,
-                      fileType: FileType.image,
+                    CodeLink(
+                      code: code,
+                      tag: 'FileField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/file_field.dart',
+                      child:
+                          // [FileField]
+                          FileField(
+                        label: 'Arquivo(imagem)',
+                        enabled: edit,
+                        onSaved: (Uint8List? newValue) {
+                          model.blob = newValue ?? Uint8List(0);
+                        },
+                        thumbnailSize: const Size(64,64),
+                        showImageThumbnail: true,
+                        fileType: FileType.image,
+                      ),
+                      // [/FileField]
                     ),
+
+                    // [/RootCode]
 
                     /// Botão Enviar
                     Padding(
