@@ -28,7 +28,6 @@ class FileField extends FormFieldResponsive<Uint8List> {
     bool filled = false,
     Color? fillColor,
     Color? focusColor,
-    double? itemHeight,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     List<String>? allowedExtensions,
@@ -53,11 +52,6 @@ class FileField extends FormFieldResponsive<Uint8List> {
                 allowedExtensions==null , 
                 'If specifying allowed extensions, fileType '
                 'should be FileType.custom',),
-        assert(
-          itemHeight == null || itemHeight >= kMinInteractiveDimension,
-          'itemHeight must be null or equal or greater '
-          'kMinInteractiveDimension.',
-        ),
         // assert(autofocus != null),
         assert(
           label == null || labelWidget == null,
