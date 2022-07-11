@@ -52,6 +52,11 @@ class FileField extends FormFieldResponsive<Uint8List> {
                 allowedExtensions==null , 
                 'If specifying allowed extensions, fileType '
                 'should be FileType.custom',),
+        assert(
+          fileType==FileType.image || showImageThumbnail==false,
+          '"showImageThumbnail" should be set along with '
+          'fileType==FileType.image'
+        ),
         // assert(autofocus != null),
         assert(
           label == null || labelWidget == null,
@@ -102,10 +107,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:
                                 <Widget>[
-                                  if( state.value!=null && 
-                                      showImageThumbnail &&
-                                      fileType == FileType.image 
-                                    )
+                                  if(state.value!=null && showImageThumbnail)
                                   ConstrainedBox(
                                     constraints: BoxConstraints(
                                       maxWidth: thumbnailSize.width,
