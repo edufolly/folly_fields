@@ -101,21 +101,25 @@ class FileField extends FormFieldResponsive<Uint8List> {
                         
                         children: <Widget>[
                           if( state._filename!=null )...<Widget>[
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex:2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children:
-                                  <Widget>[
-                                    if( state.value!=null && 
-                                        showImageThumbnail &&
-                                        fileType == FileType.image 
-                                      )
-                                    Image.memory(
+                          Expanded(
+                            flex:2,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children:
+                                <Widget>[
+                                  if( state.value!=null && 
+                                      showImageThumbnail &&
+                                      fileType == FileType.image 
+                                    )
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxWidth: thumbnailSize.width,
+                                      maxHeight:thumbnailSize.height 
+                                    ),
+                                    child: Image.memory(
                                       state.value!,
-                                      width: thumbnailSize.width,
-                                      height: thumbnailSize.height,
+                                      fit: BoxFit.contain,
                                       errorBuilder: (
                                         BuildContext bc,
                                         Object obj,
@@ -126,18 +130,19 @@ class FileField extends FormFieldResponsive<Uint8List> {
                                           const TextStyle(color:Colors.red),
                                       ),
                                     ),
-                                    Text( 
-                                      textAlign: TextAlign.center,
-                                      state._filename! ,
-                                      overflow: TextOverflow.ellipsis,
-                                    ) ,
-                                  ],
-                                ),
+                                  ),
+                                  Text( 
+                                    textAlign: TextAlign.center,
+                                    state._filename! ,
+                                    overflow: TextOverflow.ellipsis,
+                                  ) ,
+                                ],
+                              ),
                             ),
+                              
                             const SizedBox(width: 8),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex:2,
+                            Expanded(
+                              flex:3,
                               child: ElevatedButton.icon(
                                 icon: const Icon(Icons.delete),
                                 label: Text(eraseButtonText),
@@ -158,7 +163,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                           
                           // File select button
                           Expanded(
-                            flex: 5,
+                            flex: 3,
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.attach_file),
                               label: Text(loadButtonText),
