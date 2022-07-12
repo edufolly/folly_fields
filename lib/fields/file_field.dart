@@ -180,10 +180,10 @@ class FileField extends FormFieldResponsive<Uint8List> {
                                     );
                                   if(picked!=null){
                                     state
-                                      ..didChange(picked.files[0].bytes)
-                                      .._filename = picked.files[0].name;
+                                      ..didChange(picked.files.first.bytes)
+                                      .._filename = picked.files.first.name;
                                     if (onChanged != null && state.isValid ){
-                                      onChanged(picked.files[0].bytes);
+                                      onChanged(picked.files.first.bytes);
                                     }
                                   }
                                 }
