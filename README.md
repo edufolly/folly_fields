@@ -6,6 +6,20 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 
 Please :star: to support the project.
 
+## Community
+<div>
+  <span>
+    <div>
+      Join our official Discord server
+    </div>
+   <a href="https://discord.gg/q67sGqkpvH">
+    <img src="https://img.shields.io/badge/Discord-7289da?style=for-the-badge&logo=discord&logoColor=FFFFFF"/>
+   </a>
+    
+    
+  </span>
+</div>
+
 ## Flutter 3.0 - Break Changes
 
 Version 0.10.0 needs Flutter 3.0.0 and Dart 2.17.0
