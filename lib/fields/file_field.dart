@@ -32,6 +32,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
     EdgeInsets padding = const EdgeInsets.all(8),
     List<String>? allowedExtensions,
     FileType fileType = FileType.any,
+    bool horizontalButtons = false,
     bool showImageThumbnail = false,
     Size thumbnailSize = const Size(64,32),
     String loadButtonText = 'Carregar',
@@ -81,6 +82,52 @@ class FileField extends FormFieldResponsive<Uint8List> {
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
+            Widget deleteWidget = ElevatedButton.icon(
+              icon: const Icon(Icons.delete),
+              label: Text(eraseButtonText),
+              onPressed: enabled
+                ? () {
+                  state
+                    ..didChange(null)
+                    .._filename = null;
+                  if (onChanged != null && state.isValid ){
+                    onChanged(null);
+                  }
+                }
+                : null,
+            );
+
+            Widget loadWidget = ElevatedButton.icon(
+              icon: const Icon(Icons.attach_file),
+              label: Text(loadButtonText),
+              onPressed: enabled
+                ? () async {
+                  allowedExtensions = allowedExtensions
+                    ?.map((String ext){
+                      return ext.startsWith('.')
+                        ? ext.substring(1)
+                        : ext;
+                    }).toList();
+                  file.FilePickerResult? picked 
+                    = await file.FilePicker.platform.pickFiles(
+                      allowedExtensions: allowedExtensions,
+                      withData: true,
+                      type: allowedExtensions!=null 
+                        ? file.FileType.custom 
+                        : fileType.toFilePicker
+                    );
+                  if(picked!=null){
+                    state
+                      ..didChange(picked.files.first.bytes)
+                      .._filename = picked.files.first.name;
+                    if (onChanged != null && state.isValid ){
+                      onChanged(picked.files.first.bytes);
+                    }
+                  }
+                }
+              : null,
+            );
+
             return Padding(
               padding: padding,
               child: Focus(
@@ -94,101 +141,68 @@ class FileField extends FormFieldResponsive<Uint8List> {
                         enabled: enabled,
                       ),
                       isFocused: Focus.of(context).hasFocus,
-                      child: Flex(
-                        direction: Axis.horizontal,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         
                         children: <Widget>[
                           if( state._filename!=null )...<Widget>[
+                          // Thumbnail & Filename
                           Expanded(
                             flex:2,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                                <Widget>[
-                                  if(state.value!=null && showImageThumbnail)
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: thumbnailSize.width,
-                                      maxHeight:thumbnailSize.height 
-                                    ),
-                                    child: Image.memory(
-                                      state.value!,
-                                      fit: BoxFit.contain,
-                                      errorBuilder: (
-                                        BuildContext bc,
-                                        Object obj,
-                                        StackTrace? trace,
-                                      ) => Text(
-                                        invalidThumbnailText,
-                                        style: 
-                                          const TextStyle(color:Colors.red),
-                                      ),
+                              children: <Widget>[
+                                if(state.value!=null && showImageThumbnail)
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: thumbnailSize.width,
+                                    maxHeight:thumbnailSize.height 
+                                  ),
+                                  child: Image.memory(
+                                    state.value!,
+                                    fit: BoxFit.contain,
+                                    errorBuilder: (
+                                      BuildContext bc,
+                                      Object obj,
+                                      StackTrace? trace,
+                                    ) => Text(
+                                      invalidThumbnailText,
+                                      style: 
+                                        const TextStyle(color:Colors.red),
                                     ),
                                   ),
-                                  Text( 
-                                    textAlign: TextAlign.center,
-                                    state._filename! ,
-                                    overflow: TextOverflow.ellipsis,
-                                  ) ,
-                                ],
-                              ),
+                                ),
+                                Text( 
+                                  textAlign: TextAlign.center,
+                                  state._filename! ,
+                                  overflow: TextOverflow.ellipsis,
+                                ) ,
+                              ],
                             ),
+                          ),
                               
-                            const SizedBox(width: 8),
-                            Expanded(
-                              flex:3,
-                              child: ElevatedButton.icon(
-                                icon: const Icon(Icons.delete),
-                                label: Text(eraseButtonText),
-                                onPressed: enabled
-                                  ? () {
-                                    state
-                                      ..didChange(null)
-                                      .._filename = null;
-                                    if (onChanged != null && state.isValid ){
-                                      onChanged(null);
-                                    }
-                                  }
-                                  : null,
-                              ),
-                            ),
-                            const SizedBox(width: 8)
+                          const SizedBox(width: 8),
+                          
+                          if(horizontalButtons)...<Widget>[
+                          Expanded(
+                            flex:3,
+                            child: deleteWidget,
+                          ),
+                          const SizedBox(width: 8)
+                          ]
+                          
                           ],
                           
                           // File select button
                           Expanded(
                             flex: 3,
-                            child: ElevatedButton.icon(
-                              icon: const Icon(Icons.attach_file),
-                              label: Text(loadButtonText),
-                              onPressed: enabled
-                                ? () async {
-                                  allowedExtensions = allowedExtensions
-                                    ?.map((String ext){
-                                      return ext.startsWith('.')
-                                        ? ext.substring(1)
-                                        : ext;
-                                    }).toList();
-                                  file.FilePickerResult? picked 
-                                    = await file.FilePicker.platform.pickFiles(
-                                      allowedExtensions: allowedExtensions,
-                                      type: allowedExtensions!=null 
-                                        ? file.FileType.custom 
-                                        : fileType.toFilePicker
-                                    );
-                                  if(picked!=null){
-                                    state
-                                      ..didChange(picked.files.first.bytes)
-                                      .._filename = picked.files.first.name;
-                                    if (onChanged != null && state.isValid ){
-                                      onChanged(picked.files.first.bytes);
-                                    }
-                                  }
-                                }
-                              : null,
-                            ),
+                            child: horizontalButtons || field.value==null
+                              ? loadWidget 
+                              : Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[deleteWidget,loadWidget]
+                              ),
                           ),
 
                         ],

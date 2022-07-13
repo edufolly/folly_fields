@@ -771,7 +771,7 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (Uint8List? newValue) {
                           model.blob = newValue ?? Uint8List(0);
                         },
-                        thumbnailSize: const Size(64,64),
+                        thumbnailSize: const Size(256,256),
                         showImageThumbnail: true,
                         fileType: FileType.image,
                       ),
