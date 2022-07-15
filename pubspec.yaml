@@ -23,6 +23,9 @@ dependencies:
   # https://pub.dev/packages/expandable
   expandable: ^5.0.1
 
+  # https://pub.dev/packages/file_picker
+  file_picker: ^4.6.1
+    
   # https://flutter.dev/
   flutter:
     sdk: flutter

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
@@ -45,6 +47,7 @@ class ExampleModel extends AbstractModel<int> {
   bool active = true;
   IconData? icon;
   String multiline = '';
+  Uint8List blob = Uint8List(0);
 
   ///
   ///
@@ -79,6 +82,7 @@ class ExampleModel extends AbstractModel<int> {
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
+        blob = base64.decode(map['blob'] ?? '') ,
         super.fromJson();
 
   ///
@@ -114,6 +118,7 @@ class ExampleModel extends AbstractModel<int> {
       map['icon'] = IconHelper.iconName(icon!);
     }
     map['multiline'] = multiline;
+    map['blob'] = base64.encode(blob);
     return map;
   }
 
