@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.10.10+135
+version: 0.10.11+136
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -23,6 +23,9 @@ dependencies:
   # https://pub.dev/packages/expandable
   expandable: ^5.0.1
 
+  # https://pub.dev/packages/file_picker
+  file_picker: ^4.6.1
+    
   # https://flutter.dev/
   flutter:
     sdk: flutter

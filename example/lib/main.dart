@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +16,7 @@ import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
+import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
@@ -61,7 +64,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   FollyFields.start(Config());
-
   runApp(const MyApp());
 }
 
@@ -755,6 +757,27 @@ class MyHomePageState extends State<MyHomePage> {
                       ),
                       // [/ListField]
                     ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'FileField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/file_field.dart',
+                      child:
+                          // [FileField]
+                          FileField(
+                        label: 'Arquivo(imagem)',
+                        enabled: edit,
+                        onSaved: (Uint8List? newValue) {
+                          model.blob = newValue ?? Uint8List(0);
+                        },
+                        thumbnailSize: const Size(256,256),
+                        showImageThumbnail: true,
+                        fileType: FileType.image,
+                      ),
+                      // [/FileField]
+                    ),
+
                     // [/RootCode]
 
                     /// Botão Enviar
@@ -792,7 +815,7 @@ class MyHomePageState extends State<MyHomePage> {
 
       FollyDialogs.dialogMessage(
         context: context,
-        title: 'Resultado do método toMap()',
+        title: 'Resultado do método toMap(). O blob é mostrado como base64.',
         message: model.toMap().toString(),
       );
     }

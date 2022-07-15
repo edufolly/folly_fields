@@ -83,6 +83,11 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
+  String get dropdownText => toString();
+
+  ///
+  ///
+  ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
     Map<String, dynamic> newMap = <String, dynamic>{};
     for (MapEntry<String, dynamic> entry in map.entries) {

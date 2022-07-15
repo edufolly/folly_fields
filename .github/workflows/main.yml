@@ -197,7 +197,7 @@ jobs:
   ##########################
   # Deploy Linux App Image #
   ##########################
-  depoy-linux-app-image:
+  deploy-linux-app-image:
     name: Deploy Linux App Image
     needs: [ boot, build-linux ]
     runs-on: ubuntu-latest
