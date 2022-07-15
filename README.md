@@ -7,16 +7,13 @@ Basic form fields and utilities. Maybe a humble boilerplate.
 Please :star: to support the project.
 
 ## Community
+
 <div>
   <span>
-    <div>
-      Join our official Discord server
-    </div>
-   <a href="https://discord.gg/q67sGqkpvH">
-    <img src="https://img.shields.io/badge/Discord-7289da?style=for-the-badge&logo=discord&logoColor=FFFFFF"/>
-   </a>
-    
-    
+    <div>Join our official Discord server</div>
+    <a href="https://discord.gg/q67sGqkpvH">
+      <img src="https://img.shields.io/badge/Discord-7289da?style=for-the-badge&logo=discord&logoColor=FFFFFF"/>
+    </a>
   </span>
 </div>
 

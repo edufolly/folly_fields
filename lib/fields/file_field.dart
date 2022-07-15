@@ -1,9 +1,7 @@
-
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart' as file;
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-
 
 ///
 ///
@@ -34,7 +32,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
     FileType fileType = FileType.any,
     bool horizontalButtons = false,
     bool showImageThumbnail = false,
-    Size thumbnailSize = const Size(64,32),
+    Size thumbnailSize = const Size(64, 32),
     String loadButtonText = 'Carregar',
     String eraseButtonText = 'Apagar',
     String invalidThumbnailText = 'Arquivo não é uma imagem válida',
@@ -49,14 +47,17 @@ class FileField extends FormFieldResponsive<Uint8List> {
           initialValue == null || controller == null,
           'initialValue or controller must be null.',
         ),
-        assert( fileType==FileType.custom || fileType==FileType.any || 
-                allowedExtensions==null , 
-                'If specifying allowed extensions, fileType '
-                'should be FileType.custom',),
         assert(
-          fileType==FileType.image || showImageThumbnail==false,
+          fileType == FileType.custom ||
+              fileType == FileType.any ||
+              allowedExtensions == null,
+          'If specifying allowed extensions, fileType '
+          'should be FileType.custom',
+        ),
+        assert(
+          fileType == FileType.image || showImageThumbnail == false,
           '"showImageThumbnail" should be set along with '
-          'fileType==FileType.image'
+          'fileType==FileType.image',
         ),
         // assert(autofocus != null),
         assert(
@@ -86,46 +87,43 @@ class FileField extends FormFieldResponsive<Uint8List> {
               icon: const Icon(Icons.delete),
               label: Text(eraseButtonText),
               onPressed: enabled
-                ? () {
-                  state
-                    ..didChange(null)
-                    .._filename = null;
-                  if (onChanged != null && state.isValid ){
-                    onChanged(null);
-                  }
-                }
-                : null,
+                  ? () {
+                      state
+                        ..didChange(null)
+                        .._filename = null;
+                      if (onChanged != null && state.isValid) {
+                        onChanged(null);
+                      }
+                    }
+                  : null,
             );
 
             Widget loadWidget = ElevatedButton.icon(
               icon: const Icon(Icons.attach_file),
               label: Text(loadButtonText),
               onPressed: enabled
-                ? () async {
-                  allowedExtensions = allowedExtensions
-                    ?.map((String ext){
-                      return ext.startsWith('.')
-                        ? ext.substring(1)
-                        : ext;
-                    }).toList();
-                  file.FilePickerResult? picked 
-                    = await file.FilePicker.platform.pickFiles(
-                      allowedExtensions: allowedExtensions,
-                      withData: true,
-                      type: allowedExtensions!=null 
-                        ? file.FileType.custom 
-                        : fileType.toFilePicker
-                    );
-                  if(picked!=null){
-                    state
-                      ..didChange(picked.files.first.bytes)
-                      .._filename = picked.files.first.name;
-                    if (onChanged != null && state.isValid ){
-                      onChanged(picked.files.first.bytes);
+                  ? () async {
+                      allowedExtensions = allowedExtensions?.map((String ext) {
+                        return ext.startsWith('.') ? ext.substring(1) : ext;
+                      }).toList();
+                      file.FilePickerResult? picked =
+                          await file.FilePicker.platform.pickFiles(
+                        allowedExtensions: allowedExtensions,
+                        withData: true,
+                        type: allowedExtensions != null
+                            ? file.FileType.custom
+                            : fileType.toFilePicker,
+                      );
+                      if (picked != null) {
+                        state
+                          ..didChange(picked.files.first.bytes)
+                          .._filename = picked.files.first.name;
+                        if (onChanged != null && state.isValid) {
+                          onChanged(picked.files.first.bytes);
+                        }
+                      }
                     }
-                  }
-                }
-              : null,
+                  : null,
             );
 
             return Padding(
@@ -143,70 +141,73 @@ class FileField extends FormFieldResponsive<Uint8List> {
                       isFocused: Focus.of(context).hasFocus,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        
                         children: <Widget>[
-                          if( state._filename!=null )...<Widget>[
-                          // Thumbnail & Filename
-                          Expanded(
-                            flex:2,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                if(state.value!=null && showImageThumbnail)
-                                ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                    maxWidth: thumbnailSize.width,
-                                    maxHeight:thumbnailSize.height 
-                                  ),
-                                  child: Image.memory(
-                                    state.value!,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (
-                                      BuildContext bc,
-                                      Object obj,
-                                      StackTrace? trace,
-                                    ) => Text(
-                                      invalidThumbnailText,
-                                      style: 
-                                        const TextStyle(color:Colors.red),
+                          if (state._filename != null) ...<Widget>[
+                            // Thumbnail & Filename
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  if (state.value != null && showImageThumbnail)
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: thumbnailSize.width,
+                                        maxHeight: thumbnailSize.height,
+                                      ),
+                                      child: Image.memory(
+                                        state.value!,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (
+                                          BuildContext bc,
+                                          Object obj,
+                                          StackTrace? trace,
+                                        ) =>
+                                            Text(
+                                          invalidThumbnailText,
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                  Text(
+                                    textAlign: TextAlign.center,
+                                    state._filename!,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                Text( 
-                                  textAlign: TextAlign.center,
-                                  state._filename! ,
-                                  overflow: TextOverflow.ellipsis,
-                                ) ,
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                              
-                          const SizedBox(width: 8),
-                          
-                          if(horizontalButtons)...<Widget>[
-                          Expanded(
-                            flex:3,
-                            child: deleteWidget,
-                          ),
-                          const SizedBox(width: 8)
-                          ]
-                          
+
+                            const SizedBox(width: 8),
+
+                            if (horizontalButtons) ...<Widget>[
+                              Expanded(
+                                flex: 3,
+                                child: deleteWidget,
+                              ),
+                              const SizedBox(width: 8)
+                            ]
                           ],
-                          
+
                           // File select button
                           Expanded(
                             flex: 3,
-                            child: horizontalButtons || field.value==null
-                              ? loadWidget 
-                              : Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[deleteWidget,loadWidget]
-                              ),
+                            child: horizontalButtons || field.value == null
+                                ? loadWidget
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      deleteWidget,
+                                      loadWidget
+                                    ],
+                                  ),
                           ),
-
                         ],
-                      )
+                      ),
                     );
                   },
                 ),
@@ -326,7 +327,6 @@ class FileFieldState extends FormFieldState<Uint8List> {
 ///
 ///
 class FileEditingController extends ValueNotifier<Uint8List?> {
-  
   ///
   ///
   ///
@@ -336,10 +336,7 @@ class FileEditingController extends ValueNotifier<Uint8List?> {
   ///
   ///
   ///
-  FileEditingController({Uint8List? value})
-      : super(value);
-
-
+  FileEditingController({Uint8List? value}) : super(value);
 }
 
 enum FileType {
@@ -353,13 +350,19 @@ enum FileType {
 
 extension FileTypeExtension on FileType {
   file.FileType get toFilePicker {
-    switch(this){
-      case FileType.any: return file.FileType.any;
-      case FileType.media: return file.FileType.media;
-      case FileType.image: return file.FileType.image;
-      case FileType.video: return file.FileType.video;
-      case FileType.audio: return file.FileType.audio;
-      case FileType.custom: return file.FileType.custom;
+    switch (this) {
+      case FileType.any:
+        return file.FileType.any;
+      case FileType.media:
+        return file.FileType.media;
+      case FileType.image:
+        return file.FileType.image;
+      case FileType.video:
+        return file.FileType.video;
+      case FileType.audio:
+        return file.FileType.audio;
+      case FileType.custom:
+        return file.FileType.custom;
     }
   }
 }
