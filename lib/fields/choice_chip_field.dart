@@ -22,26 +22,11 @@ class ChoiceChipField<T> extends FormFieldResponsive<T> {
     this.items,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    // TODO(anyone): Implement onChanged
-    // Function(T? value)? onChanged,
+    Function(T? value)? onChanged,
     // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
     Color? fillColor,
-    // Widget? hint,
-    // Widget? disabledHint,
     Color? focusColor,
-    // int elevation = 8,
-    // TextStyle? style,
-    // Widget? icon,
-    // Color? iconDisabledColor,
-    // Color? iconEnabledColor,
-    // double iconSize = 24.0,
-    // bool isDense = true,
-    // bool isExpanded = false,
-    // double? itemHeight,
-    // FocusNode? focusNode,
-    // bool autofocus = false,
-    // Color? dropdownColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     Color? selectedColor,
@@ -96,28 +81,33 @@ class ChoiceChipField<T> extends FormFieldResponsive<T> {
                   errorText: enabled ? field.errorText : null,
                   enabled: enabled,
                 ),
-                isEmpty: state.value == null,
-                child: Wrap(
-                  alignment: wrapAlignment,
-                  crossAxisAlignment: wrapCrossAlignment,
-                  children: state._effectiveController.items!.entries
-                      .map<Widget>(
+                child: ValueListenableBuilder<T?>(
+                  valueListenable: state._effectiveController,
+                  builder: (BuildContext context, T? value, _) {
+                    return Wrap(
+                      alignment: wrapAlignment,
+                      crossAxisAlignment: wrapCrossAlignment,
+                      children:
+                          state._effectiveController.items!.entries.map<Widget>(
                         (MapEntry<T, String> e) {
-                      return ChoiceChip(
-                        label: Text(e.value),
-                        selected:
-                        state._effectiveController.value == e.key,
-                        selectedColor: effectiveSelectedColor,
-                        labelStyle: state._effectiveController.value ==
-                            e.key
-                            ? TextStyle(color: effectiveSelectedTextColor)
-                            : null,
-                        onSelected: (_) {
-                          state._effectiveController.value = e.key;
+                          return ChoiceChip(
+                            label: Text(e.value),
+                            selected: value == e.key,
+                            selectedColor: effectiveSelectedColor,
+                            labelStyle: value == e.key
+                                ? TextStyle(color: effectiveSelectedTextColor)
+                                : null,
+                            onSelected: (_) {
+                              state._effectiveController.value = e.key;
+                              if (onChanged != null) {
+                                onChanged(e.key);
+                              }
+                            },
+                          );
                         },
-                      );
-                    },
-                  ).toList(),
+                      ).toList(),
+                    );
+                  },
                 ),
               ),
             );
