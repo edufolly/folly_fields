@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
+import 'package:folly_fields/fields/choice_chip_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/color_field.dart';
@@ -771,11 +772,32 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (Uint8List? newValue) {
                           model.blob = newValue ?? Uint8List(0);
                         },
-                        thumbnailSize: const Size(256,256),
+                        thumbnailSize: const Size(256, 256),
                         showImageThumbnail: true,
                         fileType: FileType.image,
                       ),
                       // [/FileField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'ChoiceChipField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/choice_chip_field.dart',
+                      child:
+                          // [ChoiceChipField]
+                          ChoiceChipField<int>(
+                        label: 'Frutas',
+                        enabled: edit,
+                        items: const <int, String>{
+                          0: 'Banana',
+                          1: 'Maça',
+                          2: 'Laranja',
+                        },
+                        validator: FollyValidators.notNull,
+                        onSaved: (int? value) => model.fruitIndex = value,
+                      ),
+                      // [/ChoiceChipField]
                     ),
 
                     // [/RootCode]
