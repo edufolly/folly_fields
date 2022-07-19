@@ -142,7 +142,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          if (state._filename != null) ...<Widget>[
+                          if (state.value != null) ...<Widget>[
                             // Thumbnail & Filename
                             Expanded(
                               flex: 2,
@@ -172,11 +172,12 @@ class FileField extends FormFieldResponsive<Uint8List> {
                                         ),
                                       ),
                                     ),
-                                  Text(
-                                    textAlign: TextAlign.center,
-                                    state._filename!,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                  if (state._filename != null)
+                                    Text(
+                                      textAlign: TextAlign.center,
+                                      state._filename!,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                 ],
                               ),
                             ),
@@ -200,6 +201,8 @@ class FileField extends FormFieldResponsive<Uint8List> {
                                 : Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
                                       deleteWidget,
                                       loadWidget
