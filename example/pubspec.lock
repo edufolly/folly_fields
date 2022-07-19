@@ -209,7 +209,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.10.10+135"
+    version: "0.10.11+136"
   font_awesome_flutter:
     dependency: transitive
     description:
