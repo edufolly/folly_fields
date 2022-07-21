@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 ///
 class FollyMenuItem extends StatelessWidget {
   final String label;
-  final IconData iconData;
+  final IconData? iconData;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
   final Color? color;
@@ -16,8 +16,8 @@ class FollyMenuItem extends StatelessWidget {
   ///
   const FollyMenuItem({
     required this.label,
-    required this.iconData,
     required this.onTap,
+    this.iconData,
     this.onLongPress,
     this.color,
     this.backgroundColor = Colors.transparent,
@@ -35,10 +35,12 @@ class FollyMenuItem extends StatelessWidget {
             : Theme.of(context).colorScheme.onSurface);
 
     return ListTile(
-      leading: Icon(
-        iconData,
-        color: accentColor,
-      ),
+      leading: iconData == null
+          ? null
+          : Icon(
+              iconData,
+              color: accentColor,
+            ),
       title: Text(
         label,
         style: TextStyle(
