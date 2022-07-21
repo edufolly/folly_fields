@@ -34,11 +34,17 @@ class ListField<T extends AbstractModel<Object>,
     Future<bool> Function(BuildContext context, int index, T model)? beforeEdit,
     String addText = 'Adicionar %s',
     String removeText = 'Deseja remover %s?',
+    String clearText = 'Deseja remover todos itens da lista?',
     String emptyListText = 'Sem %s até o momento.',
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     int Function(T a, T b)? listSort,
+    bool expandable = false,
     bool initialExpanded = true,
+    bool clearAllButton = false,
+    Widget Function(BuildContext context, List<T> value)? onCollapsed,
+    bool showCounter = false,
+    bool showTopAddButton = false,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -57,11 +63,11 @@ class ListField<T extends AbstractModel<Object>,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                        labelText: uiBuilder.superPlural(field.context),
-                        border: const OutlineInputBorder(),
-                        counterText: '',
-                        enabled: enabled,
-                        errorText: field.errorText,
+                      labelText: uiBuilder.superPlural(field.context),
+                      border: const OutlineInputBorder(),
+                      counterText: '',
+                      enabled: enabled,
+                      errorText: field.errorText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
@@ -70,129 +76,182 @@ class ListField<T extends AbstractModel<Object>,
               <dynamic>[uiBuilder.superPlural(field.context)],
             );
 
+            Future<void> _add() async {
+              if (beforeAdd != null) {
+                bool go = await beforeAdd(field.context);
+                if (!go) {
+                  return;
+                }
+              }
+
+              dynamic selected = await Navigator.of(field.context).push(
+                MaterialPageRoute<dynamic>(
+                  builder: (BuildContext context) =>
+                      routeAddBuilder(context, uiBuilder),
+                ),
+              );
+
+              if (selected != null) {
+                if (selected is List) {
+                  for (T item in selected) {
+                    if (item.id == null ||
+                        !field.value!
+                            .any((T element) => element.id == item.id)) {
+                      field.value!.add(item);
+                    }
+                  }
+                } else {
+                  if ((selected as AbstractModel<Object>).id == null ||
+                      !field.value!.any((T element) {
+                        return element.id == selected.id;
+                      })) {
+                    field.value!.add(selected as T);
+                  }
+                }
+
+                field.value!.sort(
+                  listSort ??
+                      (T a, T b) => a.toString().compareTo(b.toString()),
+                );
+
+                field.didChange(field.value);
+              }
+            }
+
             return FieldGroup(
               decoration: effectiveDecoration,
               padding: padding,
               children: <Widget>[
-                ExpandableTheme(
-                  data: ExpandableThemeData(
-                    iconColor: Theme.of(field.context).iconTheme.color,
-                    // collapseIcon: FontAwesomeIcons.caretUp,
-                    collapseIcon: FontAwesomeIcons.compress,
-                    expandIcon: FontAwesomeIcons.expand,
-                    iconSize: 16,
-                    iconPadding: const EdgeInsets.all(4),
-                  ),
-                  child: ExpandableNotifier(
-                    initialExpanded: initialExpanded,
-                    child: Column(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 24),
-                            child: ExpandableButton(
-                              child: ExpandableIcon(),
+                ExpandableNotifier(
+                  initialExpanded: expandable ? initialExpanded : !expandable,
+                  child: Column(
+                    children: <Widget>[
+                      /// Top Bar
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                /// Counter
+                                if (showCounter)
+                                  Chip(
+                                    label: Text(field.value!.length.toString()),
+                                  ),
+
+                                /// Top Add Button
+                                if (showTopAddButton)
+                                  IconButton(
+                                    onPressed: _add,
+                                    icon: const Icon(FontAwesomeIcons.plus),
+                                  ),
+                              ],
                             ),
-                          ),
-                        ),
-                        Expandable(
-                          collapsed: field.value!.isEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(bottom: 24),
-                                  child: Text(emptyText),
-                                )
-                              : Text(
-                                  field.value!.join(' - '),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                          expanded: Column(
-                            children: <Widget>[
-                              if (field.value!.isEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 16),
-                                  child: Text(emptyText),
-                                )
-                              else
-                                ...field.value!.asMap().entries.map(
-                                  (MapEntry<int, T> entry) {
-                                    return _MyListTile<T, UI>(
-                                      field: field,
-                                      index: entry.key,
-                                      model: entry.value,
-                                      uiBuilder: uiBuilder,
-                                      removeText: removeText,
-                                      enabled: enabled,
-                                      beforeEdit: beforeEdit,
-                                      routeEditBuilder: routeEditBuilder,
-                                      listSort: listSort,
-                                    );
-                                  },
-                                ).toList(),
-
-                              /// Add Button
-                              TableButton(
-                                enabled: enabled,
-                                iconData: FontAwesomeIcons.plus,
-                                label: sprintf(
-                                  addText,
-                                  <dynamic>[
-                                    uiBuilder.superSingle(field.context)
-                                  ],
-                                ).toUpperCase(),
-                                onPressed: () async {
-                                  if (beforeAdd != null) {
-                                    bool go = await beforeAdd(field.context);
-                                    if (!go) {
-                                      return;
-                                    }
-                                  }
-
-                                  dynamic selected =
-                                      await Navigator.of(field.context).push(
-                                    MaterialPageRoute<dynamic>(
-                                      builder: (BuildContext context) =>
-                                          routeAddBuilder(context, uiBuilder),
+                            Row(
+                              children: <Widget>[
+                                /// Expand Button
+                                if (expandable)
+                                  ExpandableButton(
+                                    child: ExpandableIcon(
+                                      theme: ExpandableThemeData(
+                                        iconColor: Theme.of(field.context)
+                                            .iconTheme
+                                            .color,
+                                        collapseIcon: FontAwesomeIcons.compress,
+                                        expandIcon: FontAwesomeIcons.expand,
+                                        iconSize: 24,
+                                        iconPadding: const EdgeInsets.all(4),
+                                      ),
                                     ),
+                                  ),
+
+                                /// Clear All Button
+                                if (clearAllButton)
+                                  IconButton(
+                                    onPressed: field.value!.isEmpty
+                                        ? null
+                                        : () {
+                                            FollyDialogs.yesNoDialog(
+                                              context: field.context,
+                                              message: sprintf(
+                                                clearText,
+                                                <dynamic>[
+                                                  uiBuilder.superSingle(
+                                                    field.context,
+                                                  )
+                                                ],
+                                              ),
+                                            ).then(
+                                              (bool del) {
+                                                if (del) {
+                                                  field.value!.clear();
+                                                  field.didChange(field.value);
+                                                }
+                                              },
+                                            );
+                                          },
+                                    icon: const Icon(FontAwesomeIcons.trashCan),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expandable(
+                        collapsed: field.value!.isEmpty
+                            ? Padding(
+                                padding: const EdgeInsets.only(bottom: 24),
+                                child: Text(emptyText),
+                              )
+                            : onCollapsed == null
+                                ? Padding(
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text(
+                                      field.value!.join(' - '),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  )
+                                : onCollapsed(field.context, field.value!),
+                        expanded: Column(
+                          children: <Widget>[
+                            if (field.value!.isEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: Text(emptyText),
+                              )
+                            else
+                              ...field.value!.asMap().entries.map(
+                                (MapEntry<int, T> entry) {
+                                  return _MyListTile<T, UI>(
+                                    field: field,
+                                    index: entry.key,
+                                    model: entry.value,
+                                    uiBuilder: uiBuilder,
+                                    removeText: removeText,
+                                    enabled: enabled,
+                                    beforeEdit: beforeEdit,
+                                    routeEditBuilder: routeEditBuilder,
+                                    listSort: listSort,
                                   );
-
-                                  if (selected != null) {
-                                    if (selected is List) {
-                                      for (T item in selected) {
-                                        if (item.id == null ||
-                                            !field.value!.any((T element) =>
-                                                element.id == item.id)) {
-                                          field.value!.add(item);
-                                        }
-                                      }
-                                    } else {
-                                      if ((selected as AbstractModel<Object>)
-                                                  .id ==
-                                              null ||
-                                          !field.value!.any((T element) {
-                                            return element.id == selected.id;
-                                          })) {
-                                        field.value!.add(selected as T);
-                                      }
-                                    }
-
-                                    field.value!.sort(
-                                      listSort ??
-                                          (T a, T b) => a
-                                              .toString()
-                                              .compareTo(b.toString()),
-                                    );
-
-                                    field.didChange(field.value);
-                                  }
                                 },
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                              ).toList(),
+
+                            /// Add Button
+                            TableButton(
+                              enabled: enabled,
+                              iconData: FontAwesomeIcons.plus,
+                              label: sprintf(
+                                addText,
+                                <dynamic>[uiBuilder.superSingle(field.context)],
+                              ).toUpperCase(),
+                              onPressed: _add,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],
