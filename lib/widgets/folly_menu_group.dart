@@ -12,6 +12,7 @@ class FollyMenuGroup extends StatelessWidget {
   final IconData? iconData;
   final List<Widget> items;
   final bool initialExpanded;
+  final ExpandableController? controller;
   final Color? color;
   final Color backgroundColor;
 
@@ -26,6 +27,7 @@ class FollyMenuGroup extends StatelessWidget {
     this.label,
     this.iconData,
     this.initialExpanded = false,
+    this.controller,
     this.color,
     this.backgroundColor = Colors.transparent,
     super.key,
@@ -50,7 +52,8 @@ class FollyMenuGroup extends StatelessWidget {
         iconPadding: const EdgeInsets.only(right: 5),
       ),
       child: ExpandableNotifier(
-        initialExpanded: initialExpanded,
+        controller: controller ??
+            ExpandableController(initialExpanded: initialExpanded),
         child: Column(
           children: <Widget>[
             ExpandableButton(
