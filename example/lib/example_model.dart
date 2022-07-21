@@ -36,7 +36,7 @@ class ExampleModel extends AbstractModel<int> {
   String localPhone = '';
   DateTime dateTime = DateTime.now();
   DateTime? date;
-  TimeOfDay time =  TimeOfDay.now();
+  TimeOfDay time = TimeOfDay.now();
   String? macAddress;
   String? ncm;
   String? cest;
@@ -48,6 +48,7 @@ class ExampleModel extends AbstractModel<int> {
   IconData? icon;
   String multiline = '';
   Uint8List blob = Uint8List(0);
+  int? fruitIndex;
 
   ///
   ///
@@ -82,7 +83,8 @@ class ExampleModel extends AbstractModel<int> {
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
-        blob = base64.decode(map['blob'] ?? '') ,
+        blob = base64.decode(map['blob'] ?? ''),
+        fruitIndex = map['fruitIndex'],
         super.fromJson();
 
   ///
@@ -119,6 +121,9 @@ class ExampleModel extends AbstractModel<int> {
     }
     map['multiline'] = multiline;
     map['blob'] = base64.encode(blob);
+    if (fruitIndex != null) {
+      map['fruitIndex'] = fruitIndex;
+    }
     return map;
   }
 
@@ -155,7 +160,7 @@ class ExampleModel extends AbstractModel<int> {
     phone = '889${complete(8)}';
     localPhone = '9${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
-    time = TimeOfDay(hour: now.hour, minute: now.minute) ;
+    time = TimeOfDay(hour: now.hour, minute: now.minute);
     dateTime =
         FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
     macAddress = MacAddressValidator.generate();
