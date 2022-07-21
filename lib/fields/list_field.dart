@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
@@ -37,6 +38,7 @@ class ListField<T extends AbstractModel<Object>,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     int Function(T a, T b)? listSort,
+    bool initialExpanded = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -55,138 +57,137 @@ class ListField<T extends AbstractModel<Object>,
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.superPlural(field.context),
-                      border: const OutlineInputBorder(),
-                      counterText: '',
-                      enabled: enabled,
-                      errorText: field.errorText,
+                        labelText: uiBuilder.superPlural(field.context),
+                        border: const OutlineInputBorder(),
+                        counterText: '',
+                        enabled: enabled,
+                        errorText: field.errorText,
+                        contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
+            String emptyText = sprintf(
+              emptyListText,
+              <dynamic>[uiBuilder.superPlural(field.context)],
+            );
+
             return FieldGroup(
-              padding: padding,
               decoration: effectiveDecoration,
+              padding: padding,
               children: <Widget>[
-                if (field.value!.isEmpty)
-
-                  /// Lista vazia.
-                  SizedBox(
-                    height: 75,
-                    child: Center(
-                      child: Text(
-                        sprintf(
-                          emptyListText,
-                          <dynamic>[uiBuilder.superPlural(field.context)],
+                ExpandableTheme(
+                  data: ExpandableThemeData(
+                    iconColor: Theme.of(field.context).primaryIconTheme.color,
+                    collapseIcon: FontAwesomeIcons.caretUp,
+                    expandIcon: FontAwesomeIcons.caretDown,
+                    iconSize: 16,
+                    iconPadding: const EdgeInsets.all(4),
+                  ),
+                  child: ExpandableNotifier(
+                    initialExpanded: initialExpanded,
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: ExpandableButton(
+                            child: ExpandableIcon(),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-                else
-
-                  /// Lista
-                  ...field.value!
-                      .asMap()
-                      .entries
-                      .map(
-                        (MapEntry<int, T> entry) => _MyListTile<T, UI>(
-                          index: entry.key,
-                          model: entry.value,
-                          uiBuilder: uiBuilder,
-                          onEdit: (int index, T model) async {
-                            if (beforeEdit != null) {
-                              bool go =
-                                  await beforeEdit(field.context, index, model);
-                              if (!go) {
-                                return;
-                              }
-                            }
-
-                            if (routeEditBuilder != null) {
-                              T? returned =
-                                  await Navigator.of(field.context).push(
-                                MaterialPageRoute<T>(
-                                  builder: (BuildContext context) =>
-                                      routeEditBuilder(
-                                    context,
-                                    model,
-                                    uiBuilder,
-                                    enabled,
-                                  ),
+                        Expandable(
+                          collapsed: field.value!.isEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: 24),
+                                  child: Text(emptyText),
+                                )
+                              : Text(
+                                  field.value!.join(' - '),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              );
+                          expanded: Column(
+                            children: <Widget>[
+                              if (field.value!.isEmpty)
+                                Text(emptyText)
+                              else
+                                ...field.value!.asMap().entries.map(
+                                  (MapEntry<int, T> entry) {
+                                    return _MyListTile<T, UI>(
+                                      field: field,
+                                      index: entry.key,
+                                      model: entry.value,
+                                      uiBuilder: uiBuilder,
+                                      removeText: removeText,
+                                      enabled: enabled,
+                                      beforeEdit: beforeEdit,
+                                      routeEditBuilder: routeEditBuilder,
+                                      listSort: listSort,
+                                    );
+                                  },
+                                ).toList(),
 
-                              if (returned != null) {
-                                field.value![index] = returned;
+                              /// Add Button
+                              TableButton(
+                                enabled: enabled,
+                                iconData: FontAwesomeIcons.plus,
+                                label: sprintf(
+                                  addText,
+                                  <dynamic>[
+                                    uiBuilder.superSingle(field.context)
+                                  ],
+                                ).toUpperCase(),
+                                onPressed: () async {
+                                  if (beforeAdd != null) {
+                                    bool go = await beforeAdd(field.context);
+                                    if (!go) {
+                                      return;
+                                    }
+                                  }
 
-                                field.value!.sort(
-                                  listSort ??
-                                      (T a, T b) =>
-                                          a.toString().compareTo(b.toString()),
-                                );
+                                  dynamic selected =
+                                      await Navigator.of(field.context).push(
+                                    MaterialPageRoute<dynamic>(
+                                      builder: (BuildContext context) =>
+                                          routeAddBuilder(context, uiBuilder),
+                                    ),
+                                  );
 
-                                field.didChange(field.value);
-                              }
-                            }
-                          },
-                          onDelete: (T model) {
-                            field.value!.remove(model);
-                            field.didChange(field.value);
-                          },
-                          removeText: removeText,
-                          enabled: enabled,
-                        ),
-                      )
-                      .toList(),
+                                  if (selected != null) {
+                                    if (selected is List) {
+                                      for (T item in selected) {
+                                        if (item.id == null ||
+                                            !field.value!.any((T element) =>
+                                                element.id == item.id)) {
+                                          field.value!.add(item);
+                                        }
+                                      }
+                                    } else {
+                                      if ((selected as AbstractModel<Object>)
+                                                  .id ==
+                                              null ||
+                                          !field.value!.any((T element) {
+                                            return element.id == selected.id;
+                                          })) {
+                                        field.value!.add(selected as T);
+                                      }
+                                    }
 
-                /// Botão Adicionar
-                TableButton(
-                  enabled: enabled,
-                  iconData: FontAwesomeIcons.plus,
-                  label: sprintf(
-                    addText,
-                    <dynamic>[uiBuilder.superSingle(field.context)],
-                  ).toUpperCase(),
-                  onPressed: () async {
-                    if (beforeAdd != null) {
-                      bool go = await beforeAdd(field.context);
-                      if (!go) {
-                        return;
-                      }
-                    }
+                                    field.value!.sort(
+                                      listSort ??
+                                          (T a, T b) => a
+                                              .toString()
+                                              .compareTo(b.toString()),
+                                    );
 
-                    dynamic selected = await Navigator.of(field.context).push(
-                      MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) =>
-                            routeAddBuilder(context, uiBuilder),
-                      ),
-                    );
-
-                    if (selected != null) {
-                      if (selected is List) {
-                        for (T item in selected) {
-                          if (item.id == null ||
-                              !field.value!
-                                  .any((T element) => element.id == item.id)) {
-                            field.value!.add(item);
-                          }
-                        }
-                      } else {
-                        if ((selected as AbstractModel<Object>).id == null ||
-                            !field.value!.any((T element) {
-                              return element.id == selected.id;
-                            })) {
-                          field.value!.add(selected as T);
-                        }
-                      }
-
-                      field.value!.sort(
-                        listSort ??
-                            (T a, T b) => a.toString().compareTo(b.toString()),
-                      );
-
-                      field.didChange(field.value);
-                    }
-                  },
+                                    field.didChange(field.value);
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ],
             );
@@ -199,25 +200,31 @@ class ListField<T extends AbstractModel<Object>,
 ///
 class _MyListTile<T extends AbstractModel<Object>,
     UI extends AbstractUIBuilder<T>> extends StatelessWidget {
+  final FormFieldState<List<T>> field;
   final int index;
   final T model;
   final UI uiBuilder;
-  final void Function(int, T) onEdit;
-  final void Function(T) onDelete;
   final String removeText;
   final bool enabled;
+  final Future<bool> Function(BuildContext context, int index, T model)?
+      beforeEdit;
+  final Function(BuildContext context, T model, UI uiBuilder, bool edit)?
+      routeEditBuilder;
+  final int Function(T a, T b)? listSort;
 
   ///
   ///
   ///
   const _MyListTile({
+    required this.field,
     required this.index,
     required this.model,
     required this.uiBuilder,
-    required this.onEdit,
-    required this.onDelete,
     required this.removeText,
     required this.enabled,
+    required this.beforeEdit,
+    required this.routeEditBuilder,
+    required this.listSort,
     super.key,
   });
 
@@ -248,26 +255,61 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   ///
-  Widget _internalTile(BuildContext context, int index, T model) => ListTile(
-        enabled: enabled,
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            uiBuilder.getLeading(context, model),
-          ],
+  Widget _internalTile(BuildContext context, int index, T model) {
+    return ListTile(
+      enabled: enabled,
+      leading: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          uiBuilder.getLeading(context, model),
+        ],
+      ),
+      title: uiBuilder.getTitle(context, model),
+      subtitle: uiBuilder.getSubtitle(context, model),
+      trailing: Visibility(
+        visible: FollyFields().isNotMobile && enabled,
+        child: IconButton(
+          icon: const Icon(FontAwesomeIcons.trashCan),
+          onPressed: enabled ? () => _delete(context, model, ask: true) : null,
         ),
-        title: uiBuilder.getTitle(context, model),
-        subtitle: uiBuilder.getSubtitle(context, model),
-        trailing: Visibility(
-          visible: FollyFields().isNotMobile && enabled,
-          child: IconButton(
-            icon: const Icon(FontAwesomeIcons.trashCan),
-            onPressed:
-                enabled ? () => _delete(context, model, ask: true) : null,
-          ),
-        ),
-        onTap: () => onEdit(index, model),
-      );
+      ),
+      onTap: () async {
+        if (beforeEdit != null) {
+          bool go = await beforeEdit!(
+            field.context,
+            index,
+            model,
+          );
+          if (!go) {
+            return;
+          }
+        }
+
+        if (routeEditBuilder != null) {
+          T? returned = await Navigator.of(field.context).push(
+            MaterialPageRoute<T>(
+              builder: (BuildContext context) => routeEditBuilder!(
+                context,
+                model,
+                uiBuilder,
+                enabled,
+              ),
+            ),
+          );
+
+          if (returned != null) {
+            field.value![index] = returned;
+
+            field.value!.sort(
+              listSort ?? (T a, T b) => a.toString().compareTo(b.toString()),
+            );
+
+            field.didChange(field.value);
+          }
+        }
+      },
+    );
+  }
 
   ///
   ///
@@ -284,7 +326,8 @@ class _MyListTile<T extends AbstractModel<Object>,
     }
 
     if (del) {
-      onDelete(model);
+      field.value!.remove(model);
+      field.didChange(field.value);
     }
   }
 
