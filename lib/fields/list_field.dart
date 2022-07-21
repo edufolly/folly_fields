@@ -62,7 +62,6 @@ class ListField<T extends AbstractModel<Object>,
                         counterText: '',
                         enabled: enabled,
                         errorText: field.errorText,
-                        contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
@@ -77,9 +76,10 @@ class ListField<T extends AbstractModel<Object>,
               children: <Widget>[
                 ExpandableTheme(
                   data: ExpandableThemeData(
-                    iconColor: Theme.of(field.context).primaryIconTheme.color,
-                    collapseIcon: FontAwesomeIcons.caretUp,
-                    expandIcon: FontAwesomeIcons.caretDown,
+                    iconColor: Theme.of(field.context).iconTheme.color,
+                    // collapseIcon: FontAwesomeIcons.caretUp,
+                    collapseIcon: FontAwesomeIcons.compress,
+                    expandIcon: FontAwesomeIcons.expand,
                     iconSize: 16,
                     iconPadding: const EdgeInsets.all(4),
                   ),
@@ -89,8 +89,11 @@ class ListField<T extends AbstractModel<Object>,
                       children: <Widget>[
                         Align(
                           alignment: Alignment.topRight,
-                          child: ExpandableButton(
-                            child: ExpandableIcon(),
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 24),
+                            child: ExpandableButton(
+                              child: ExpandableIcon(),
+                            ),
                           ),
                         ),
                         Expandable(
@@ -107,7 +110,10 @@ class ListField<T extends AbstractModel<Object>,
                           expanded: Column(
                             children: <Widget>[
                               if (field.value!.isEmpty)
-                                Text(emptyText)
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 16),
+                                  child: Text(emptyText),
+                                )
                               else
                                 ...field.value!.asMap().entries.map(
                                   (MapEntry<int, T> entry) {
