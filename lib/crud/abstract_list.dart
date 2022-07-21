@@ -178,7 +178,7 @@ class AbstractListState<
   bool _update = false;
   bool _delete = false;
 
-  Map<Object, T> selections = <Object, T>{};
+  final Map<Object, T> _selections = <Object, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
 
@@ -330,13 +330,13 @@ class AbstractListState<
               icon: const Icon(Icons.select_all),
               onPressed: () {
                 for (T model in _globalItems) {
-                  if (selections.containsKey(model.id)) {
-                    selections.remove(model.id);
+                  if (_selections.containsKey(model.id)) {
+                    _selections.remove(model.id);
                   } else {
-                    selections[model.id!] = model;
+                    _selections[model.id!] = model;
                   }
                 }
-                setState(() {});
+                _streamController.add(_page);
               },
             ),
 
@@ -368,7 +368,7 @@ class AbstractListState<
               ),
               icon: const FaIcon(FontAwesomeIcons.check),
               onPressed: () =>
-                  Navigator.of(context).pop(List<T>.from(selections.values)),
+                  Navigator.of(context).pop(List<T>.from(_selections.values)),
             ),
 
           /// Action Routes
@@ -540,15 +540,15 @@ class AbstractListState<
                                         _deleteEntity(model),
                                     child: _buildResultItem(
                                       model: model,
-                                      selection:
-                                          selections.containsKey(model.id),
+                                      selected:
+                                          _selections.containsKey(model.id),
                                       canDelete: false,
                                     ),
                                   );
                                 } else {
                                   return _buildResultItem(
                                     model: model,
-                                    selection: selections.containsKey(model.id),
+                                    selected: _selections.containsKey(model.id),
                                     canDelete: _delete &&
                                         FollyFields().isNotMobile &&
                                         widget.canDelete(model),
@@ -600,8 +600,8 @@ class AbstractListState<
       (T? entity) {
         if (entity != null) {
           _internalRoute(
-            entity,
-            !selections.containsKey(entity.id),
+            model: entity,
+            selected: _selections.containsKey(entity.id),
           );
         }
       },
@@ -613,7 +613,7 @@ class AbstractListState<
   ///
   Widget _buildResultItem({
     required T model,
-    required bool selection,
+    required bool selected,
     required bool canDelete,
     Future<void> Function()? afterDeleteRefresh,
     Function(T model)? onTap,
@@ -623,7 +623,7 @@ class AbstractListState<
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           widget.multipleSelection && onTap == null
-              ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
+              ? FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
               : widget.uiBuilder.getLeading(context, model),
         ],
       ),
@@ -661,9 +661,9 @@ class AbstractListState<
             ),
         ],
       ),
-      onTap: onTap != null
+      onTap: onTap != null && !widget.selection
           ? () => onTap(model)
-          : () => _internalRoute(model, !selection),
+          : () => _internalRoute(model: model, selected: selected),
       onLongPress:
           widget.onLongPress == null ? null : () => _internalLongPress(model),
     );
@@ -696,17 +696,18 @@ class AbstractListState<
   ///
   ///
   ///
-  Future<void> _internalRoute(T model, bool selected) async {
+  Future<void> _internalRoute({
+    required T model,
+    required bool selected,
+  }) async {
     if (widget.selection) {
       if (widget.multipleSelection) {
         if (selected) {
-          selections[model.id!] = model;
+          _selections.remove(model.id);
         } else {
-          selections.remove(model.id);
+          _selections[model.id!] = model;
         }
-        if (mounted) {
-          setState(() {});
-        }
+        _streamController.add(_page);
       } else {
         Navigator.of(context).pop(model);
       }
@@ -853,7 +854,7 @@ class InternalSearch<
 
   final Widget Function({
     required W model,
-    required bool selection,
+    required bool selected,
     required bool canDelete,
     Future<void> Function()? afterDeleteRefresh,
     Function(W model)? onTap,
@@ -991,7 +992,7 @@ class InternalSearch<
                         itemBuilder: (BuildContext context, int index) =>
                             buildResultItem(
                           model: data[index],
-                          selection: false,
+                          selected: false,
                           canDelete: canDelete(data[index]),
                           onTap: (W entity) => close(context, entity),
                           afterDeleteRefresh: () async => query += '%',

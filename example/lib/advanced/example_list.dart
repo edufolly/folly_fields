@@ -20,6 +20,7 @@ class ExampleList
     super.key,
     super.selection = false,
     super.multipleSelection = false,
+    super.invertSelection = false,
     String labelPrefix = '',
   }) : super(
           forceOffline: false,
