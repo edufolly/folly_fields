@@ -28,6 +28,7 @@ class ListField<T extends AbstractModel<Object>,
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
+    void Function(List<T> value)? onChanged,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Future<bool> Function(BuildContext context)? beforeAdd,
@@ -92,29 +93,36 @@ class ListField<T extends AbstractModel<Object>,
               );
 
               if (selected != null) {
+                bool changed = false;
+
                 if (selected is List) {
                   for (T item in selected) {
                     if (item.id == null ||
                         !field.value!
                             .any((T element) => element.id == item.id)) {
                       field.value!.add(item);
+                      changed = true;
                     }
                   }
                 } else {
                   if ((selected as AbstractModel<Object>).id == null ||
-                      !field.value!.any((T element) {
-                        return element.id == selected.id;
-                      })) {
+                      !field.value!
+                          .any((T element) => element.id == selected.id)) {
                     field.value!.add(selected as T);
+                    changed = true;
                   }
                 }
 
-                field.value!.sort(
-                  listSort ??
-                      (T a, T b) => a.toString().compareTo(b.toString()),
-                );
+                if(changed) {
+                  field.value!.sort(
+                    listSort ??
+                            (T a, T b) => a.toString().compareTo(b.toString()),
+                  );
 
-                field.didChange(field.value);
+                  onChanged?.call(field.value!);
+
+                  field.didChange(field.value);
+                }
               }
             }
 
@@ -186,6 +194,7 @@ class ListField<T extends AbstractModel<Object>,
                                               (bool del) {
                                                 if (del) {
                                                   field.value!.clear();
+                                                  onChanged?.call(field.value!);
                                                   field.didChange(field.value);
                                                 }
                                               },
@@ -234,6 +243,7 @@ class ListField<T extends AbstractModel<Object>,
                                     beforeEdit: beforeEdit,
                                     routeEditBuilder: routeEditBuilder,
                                     listSort: listSort,
+                                    onChanged: onChanged,
                                   );
                                 },
                               ).toList(),
@@ -276,6 +286,7 @@ class _MyListTile<T extends AbstractModel<Object>,
   final Function(BuildContext context, T model, UI uiBuilder, bool edit)?
       routeEditBuilder;
   final int Function(T a, T b)? listSort;
+  final void Function(List<T> value)? onChanged;
 
   ///
   ///
@@ -290,6 +301,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.beforeEdit,
     required this.routeEditBuilder,
     required this.listSort,
+    required this.onChanged,
     super.key,
   });
 
@@ -369,6 +381,8 @@ class _MyListTile<T extends AbstractModel<Object>,
               listSort ?? (T a, T b) => a.toString().compareTo(b.toString()),
             );
 
+            onChanged?.call(field.value!);
+
             field.didChange(field.value);
           }
         }
@@ -392,6 +406,9 @@ class _MyListTile<T extends AbstractModel<Object>,
 
     if (del) {
       field.value!.remove(model);
+
+      onChanged?.call(field.value!);
+
       field.didChange(field.value);
     }
   }
