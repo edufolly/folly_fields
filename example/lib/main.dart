@@ -742,6 +742,7 @@ class MyHomePageState extends State<MyHomePage> {
                           labelPrefix: labelPrefix,
                           selection: true,
                           multipleSelection: true,
+                          invertSelection: true,
                         ),
                         routeEditBuilder: (
                           BuildContext context,
@@ -755,6 +756,13 @@ class MyHomePageState extends State<MyHomePage> {
                           const ExampleConsumer(),
                           edit: edit,
                         ),
+                        expandable: true,
+                        clearAllButton: true,
+                        showCounter: true,
+                        showTopAddButton: true,
+                        onChanged: (List<ExampleModel> value) =>
+                            // ignore: avoid_print
+                            print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
                     ),
