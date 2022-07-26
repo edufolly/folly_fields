@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Folly Fields Example
+Exec=folly-fields-example
+Icon=folly-fields-example
+Categories=Utility;
+Keywords=FollyFields;Flutter;Gtk;
