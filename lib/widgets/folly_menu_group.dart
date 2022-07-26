@@ -22,7 +22,7 @@ class FollyMenuGroup extends StatelessWidget {
   const FollyMenuGroup({
     required this.items,
     // TODO(anyone): Remove in next version.
-    // ignore: deprecated_consistency
+    @Deprecated('Use "label" instead.')
     this.name,
     this.label,
     this.iconData,
