@@ -46,6 +46,8 @@ class ListField<T extends AbstractModel<Object>,
     Widget Function(BuildContext context, List<T> value)? onCollapsed,
     bool showCounter = false,
     bool showTopAddButton = false,
+    bool showDeleteButton = true,
+    bool showAddButton = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -113,10 +115,10 @@ class ListField<T extends AbstractModel<Object>,
                   }
                 }
 
-                if(changed) {
+                if (changed) {
                   field.value!.sort(
                     listSort ??
-                            (T a, T b) => a.toString().compareTo(b.toString()),
+                        (T a, T b) => a.toString().compareTo(b.toString()),
                   );
 
                   onChanged?.call(field.value!);
@@ -244,20 +246,24 @@ class ListField<T extends AbstractModel<Object>,
                                     routeEditBuilder: routeEditBuilder,
                                     listSort: listSort,
                                     onChanged: onChanged,
+                                    showDeleteButton: showDeleteButton,
                                   );
                                 },
                               ).toList(),
 
                             /// Add Button
-                            TableButton(
-                              enabled: enabled,
-                              iconData: FontAwesomeIcons.plus,
-                              label: sprintf(
-                                addText,
-                                <dynamic>[uiBuilder.superSingle(field.context)],
-                              ).toUpperCase(),
-                              onPressed: _add,
-                            ),
+                            if (showAddButton)
+                              TableButton(
+                                enabled: enabled,
+                                iconData: FontAwesomeIcons.plus,
+                                label: sprintf(
+                                  addText,
+                                  <dynamic>[
+                                    uiBuilder.superSingle(field.context)
+                                  ],
+                                ).toUpperCase(),
+                                onPressed: _add,
+                              ),
                           ],
                         ),
                       )
@@ -287,6 +293,7 @@ class _MyListTile<T extends AbstractModel<Object>,
       routeEditBuilder;
   final int Function(T a, T b)? listSort;
   final void Function(List<T> value)? onChanged;
+  final bool showDeleteButton;
 
   ///
   ///
@@ -302,6 +309,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.routeEditBuilder,
     required this.listSort,
     required this.onChanged,
+    required this.showDeleteButton,
     super.key,
   });
 
@@ -309,7 +317,9 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   @override
-  Widget build(BuildContext context) => FollyFields().isNotMobile || !enabled
+  Widget build(BuildContext context) => FollyFields().isNotMobile ||
+          !enabled ||
+          !showDeleteButton
       ? _internalTile(context, index, model)
       : Dismissible(
           // TODO(edufolly): Test the key in tests.
@@ -344,7 +354,7 @@ class _MyListTile<T extends AbstractModel<Object>,
       title: uiBuilder.getTitle(context, model),
       subtitle: uiBuilder.getSubtitle(context, model),
       trailing: Visibility(
-        visible: FollyFields().isNotMobile && enabled,
+        visible: FollyFields().isNotMobile && enabled && showDeleteButton,
         child: IconButton(
           icon: const Icon(FontAwesomeIcons.trashCan),
           onPressed: enabled ? () => _delete(context, model, ask: true) : null,
