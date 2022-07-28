@@ -19,6 +19,16 @@ abstract class AbstractFunctionInterface<T> {
   ///
   ///
   ///
+  Widget? iconBuilder(T model) => null;
+
+  ///
+  ///
+  ///
+  bool get redirect => true;
+
+  ///
+  ///
+  ///
   Future<bool> showButton(
     BuildContext context,
     T object, {

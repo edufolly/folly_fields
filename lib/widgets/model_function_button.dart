@@ -1,3 +1,5 @@
+// ignore_for_file: no_logic_in_create_state
+
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_function.dart';
@@ -9,7 +11,7 @@ import 'package:folly_fields/util/safe_builder.dart';
 ///
 ///
 class ModelFunctionButton<T extends AbstractModel<Object>>
-    extends StatelessWidget {
+    extends StatefulWidget {
   final AbstractModelFunction<T> rowFunction;
   final ConsumerPermission permission;
   final T model;
@@ -30,52 +32,79 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
     super.key,
   });
 
+  @override
+  State<StatefulWidget> createState() {
+    return ModelFunctionButtonState<T>();
+  }
+}
+
+///
+///
+///
+class ModelFunctionButtonState<T extends AbstractModel<Object>>
+    extends State<ModelFunctionButton<T>> {
+  ///
+  ///
+  ///
+  ModelFunctionButtonState();
+
+  ///
+  ///
+  ///
+  @override
+  void initState() {
+    super.initState();
+  }
+
   ///
   ///
   ///
   @override
   Widget build(BuildContext context) {
     return SilentFutureBuilder<bool>(
-      future: rowFunction.showButton(
+      future: widget.rowFunction.showButton(
         context,
-        model,
-        selection: selection,
+        widget.model,
+        selection: widget.selection,
       ),
       builder: (BuildContext context, bool data) => data
           ? IconButton(
-              tooltip: permission.name,
-              icon: IconHelper.faIcon(permission.iconName),
+              tooltip: widget.permission.name,
+              icon: widget.rowFunction.iconBuilder(widget.model) ??
+                  IconHelper.faIcon(widget.permission.iconName),
               onPressed: () async {
-                Widget? widget = await rowFunction.onPressed(
+                Widget? nextWidget = await widget.rowFunction.onPressed(
                   context,
-                  model,
-                  selection: selection,
+                  widget.model,
+                  selection: widget.selection,
                 );
 
-                dynamic object;
-
-                if (widget == null) {
-                  if (rowFunction.path != null &&
-                      rowFunction.path!.isNotEmpty) {
-                    object = await Navigator.of(context).pushNamed<Object>(
-                      rowFunction.path!,
-                      arguments: <String, dynamic>{
-                        'qsParam': qsParam,
-                        'model': model,
-                      },
+                if (widget.rowFunction.redirect) {
+                  dynamic object;
+                  if (nextWidget == null) {
+                    if (widget.rowFunction.path != null &&
+                        widget.rowFunction.path!.isNotEmpty) {
+                      object = await Navigator.of(context).pushNamed<Object>(
+                        widget.rowFunction.path!,
+                        arguments: <String, dynamic>{
+                          'qsParam': widget.qsParam,
+                          'model': widget.model,
+                        },
+                      );
+                    }
+                  } else {
+                    object = await Navigator.of(context).push(
+                      MaterialPageRoute<Object>(
+                        builder: (_) => nextWidget,
+                      ),
                     );
                   }
-                } else {
-                  object = await Navigator.of(context).push(
-                    MaterialPageRoute<Object>(
-                      builder: (_) => widget,
-                    ),
-                  );
-                }
 
-                if (object != null) {
-                  callback?.call(object);
+                  if (object != null) {
+                    widget.callback?.call(object);
+                  }
                 }
+                setState(() {});
               },
             )
           : const SizedBox.shrink(),
