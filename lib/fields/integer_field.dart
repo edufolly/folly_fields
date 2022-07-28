@@ -82,6 +82,11 @@ class IntegerEditingController extends TextEditingController {
   ///
   ///
   ///
+  IntegerEditingController({int? value}) : super(text: value?.toString());
+
+  ///
+  ///
+  ///
   int? get integer => int.tryParse(text);
 
   ///
