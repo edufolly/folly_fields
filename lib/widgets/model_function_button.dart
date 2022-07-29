@@ -70,7 +70,7 @@ class ModelFunctionButtonState<T extends AbstractModel<Object>>
       builder: (BuildContext context, bool data) => data
           ? IconButton(
               tooltip: widget.permission.name,
-              icon: widget.rowFunction.iconBuilder(widget.model) ??
+              icon: widget.rowFunction.iconBuilder(context, widget.model) ??
                   IconHelper.faIcon(widget.permission.iconName),
               onPressed: () async {
                 Widget? nextWidget = await widget.rowFunction.onPressed(

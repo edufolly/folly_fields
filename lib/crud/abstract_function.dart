@@ -19,7 +19,7 @@ abstract class AbstractFunctionInterface<T> {
   ///
   ///
   ///
-  Widget? iconBuilder(T model) => null;
+  Widget? iconBuilder(BuildContext context, T model) => null;
 
   ///
   ///
