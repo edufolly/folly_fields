@@ -14,6 +14,9 @@ class HomeCard<T, O> extends StatelessWidget {
   final Function(T item, O operation)? onMenuSelect;
   final Color? backgroundColor;
   final String? tooltip;
+  final double fontSize;
+  final FontWeight? fontWeight;
+  final double iconSize;
 
   ///
   ///
@@ -23,10 +26,13 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.name,
     required this.iconData,
     required this.onTap,
-     this.menuItems,
-     this.onMenuSelect,
+    this.menuItems,
+    this.onMenuSelect,
     this.backgroundColor,
     this.tooltip,
+    this.fontSize = 16,
+    this.fontWeight,
+    this.iconSize = 42,
     super.key,
   });
 
@@ -65,8 +71,8 @@ class HomeCard<T, O> extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: SizedBox(
-                    height: 42,
-                    width: 42,
+                    height: iconSize,
+                    width: iconSize,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: FaIcon(
@@ -102,7 +108,8 @@ class HomeCard<T, O> extends StatelessWidget {
                 maxLines: 2,
                 style: TextStyle(
                   color: onSurface,
-                  fontSize: 16,
+                  fontSize: fontSize,
+                  fontWeight: fontWeight,
                 ),
               ),
             ),
