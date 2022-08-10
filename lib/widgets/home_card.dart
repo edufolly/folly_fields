@@ -17,6 +17,7 @@ class HomeCard<T, O> extends StatelessWidget {
   final double fontSize;
   final FontWeight? fontWeight;
   final double iconSize;
+  final BoxShadow boxShadow;
 
   ///
   ///
@@ -33,6 +34,11 @@ class HomeCard<T, O> extends StatelessWidget {
     this.fontSize = 16,
     this.fontWeight,
     this.iconSize = 42,
+    this.boxShadow = const BoxShadow(
+      color: Colors.black26,
+      offset: Offset(1, 0.5),
+      blurRadius: 6,
+    ),
     super.key,
   });
 
@@ -50,13 +56,7 @@ class HomeCard<T, O> extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const <BoxShadow>[
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(1, 0.5),
-            blurRadius: 6,
-          ),
-        ],
+        boxShadow: <BoxShadow>[boxShadow],
       ),
       child: InkWell(
         onTap: () => onTap(item),
