@@ -217,7 +217,10 @@ class ListField<T extends AbstractModel<Object>,
                               )
                             : onCollapsed == null
                                 ? Padding(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 32,
+                                    ),
                                     child: Text(
                                       field.value!.join(' - '),
                                       maxLines: 2,
