@@ -41,7 +41,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
         model,
         selection: selection,
       ),
-      builder: (BuildContext context, bool data) => data
+      builder: (BuildContext context, bool data, _) => data
           ? IconButton(
               tooltip: permission.name,
               icon: IconHelper.faIcon(permission.iconName),

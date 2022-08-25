@@ -262,7 +262,7 @@ class MyHomePageState extends State<MyHomePage> {
               '/folly_fields/main/example/lib/main.dart',
             ),
           ),
-          builder: (BuildContext context, Response response) {
+          builder: (BuildContext context, Response response, _) {
             int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');

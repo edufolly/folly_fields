@@ -459,11 +459,11 @@ class AbstractListState<
         SafeFutureBuilder<bool>(
           future: _loadPermissions(context),
           waitingMessage: widget.waitingText,
-          builder: (BuildContext context, bool value) {
+          builder: (BuildContext context, bool value, _) {
             return SafeStreamBuilder<int>(
               stream: _streamController.stream,
               waitingMessage: widget.waitingText,
-              builder: (BuildContext context, int data) {
+              builder: (BuildContext context, int data, _) {
                 if (data < -1) {
                   return WaitingMessage(message: widget.waitingText);
                 }
@@ -985,22 +985,23 @@ class InternalSearch<
                   forceOffline: forceOffline,
                 ),
                 waitingMessage: waitingText,
-                builder: (BuildContext context, List<W> data) => data.isNotEmpty
-                    ? ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16),
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildResultItem(
-                          model: data[index],
-                          selected: false,
-                          canDelete: canDelete(data[index]),
-                          onTap: (W entity) => close(context, entity),
-                          afterDeleteRefresh: () async => query += '%',
-                        ),
-                        separatorBuilder: (_, __) => const FollyDivider(),
-                        itemCount: data.length,
-                      )
-                    : Center(child: Text(searchListEmpty)),
+                builder: (BuildContext context, List<W> data, _) =>
+                    data.isNotEmpty
+                        ? ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            itemBuilder: (BuildContext context, int index) =>
+                                buildResultItem(
+                              model: data[index],
+                              selected: false,
+                              canDelete: canDelete(data[index]),
+                              onTap: (W entity) => close(context, entity),
+                              afterDeleteRefresh: () async => query += '%',
+                            ),
+                            separatorBuilder: (_, __) => const FollyDivider(),
+                            itemCount: data.length,
+                          )
+                        : Center(child: Text(searchListEmpty)),
               ),
             ),
           ),
@@ -1060,7 +1061,7 @@ class InternalSearch<
                     forceOffline: forceOffline,
                   ),
                   waitingMessage: waitingText,
-                  builder: (BuildContext context, List<W> data) => data
+                  builder: (BuildContext context, List<W> data, _) => data
                           .isNotEmpty
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

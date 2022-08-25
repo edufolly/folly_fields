@@ -16,9 +16,16 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-          onWait: (_, __) => const SizedBox.shrink(),
-          onError: (Object? error, StackTrace? stackTrace, _) {
+          onWait: (ConnectionState connectionState, Widget widget) =>
+              const SizedBox.shrink(),
+          onError: (
+            Object? error,
+            StackTrace? stackTrace,
+            Widget widget,
+            ConnectionState connectionState,
+          ) {
             if (kDebugMode) {
+              print(connectionState);
               print(error);
               print(stackTrace);
             }
@@ -33,11 +40,16 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
 class SafeFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
   final T? initialData;
-  final Widget Function(BuildContext context, T data) builder;
+  final Widget Function(
+    BuildContext context,
+    T data,
+    ConnectionState connectionState,
+  ) builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
+    ConnectionState connectionState,
   )? onError;
   final Widget Function(
     ConnectionState connectionState,
@@ -56,7 +68,7 @@ class SafeFutureBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     super.key,
-  })  : assert(
+  }) : assert(
           onWait == null || waitingMessage == null,
           'onWait or waitingMessage must be null.',
         );
@@ -77,14 +89,19 @@ class SafeFutureBuilder<T> extends StatelessWidget {
           );
 
           if (onError != null) {
-            return onError!(snapshot.error, snapshot.stackTrace, child);
+            return onError!(
+              snapshot.error,
+              snapshot.stackTrace,
+              child,
+              snapshot.connectionState,
+            );
           } else {
             return child;
           }
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
+          return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);
@@ -112,9 +129,16 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-          onWait: (_, __) => const SizedBox.shrink(),
-          onError: (Object? error, StackTrace? stackTrace, _) {
+          onWait: (ConnectionState connectionState, Widget widget) =>
+              const SizedBox.shrink(),
+          onError: (
+            Object? error,
+            StackTrace? stackTrace,
+            Widget widget,
+            ConnectionState connectionState,
+          ) {
             if (kDebugMode) {
+              print(connectionState);
               print(error);
               print(stackTrace);
             }
@@ -129,11 +153,16 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
 class SafeStreamBuilder<T> extends StatelessWidget {
   final Stream<T>? stream;
   final T? initialData;
-  final Widget Function(BuildContext context, T data) builder;
+  final Widget Function(
+    BuildContext context,
+    T data,
+    ConnectionState connectionState,
+  ) builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
+    ConnectionState connectionState,
   )? onError;
   final Widget Function(
     ConnectionState connectionState,
@@ -152,7 +181,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     super.key,
-  })  : assert(
+  }) : assert(
           onWait == null || waitingMessage == null,
           'onWait or waitingMessage must be null.',
         );
@@ -173,14 +202,19 @@ class SafeStreamBuilder<T> extends StatelessWidget {
           );
 
           if (onError != null) {
-            return onError!(snapshot.error, snapshot.stackTrace, child);
+            return onError!(
+              snapshot.error,
+              snapshot.stackTrace,
+              child,
+              snapshot.connectionState,
+            );
           } else {
             return child;
           }
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
+          return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);
