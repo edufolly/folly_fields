@@ -123,7 +123,9 @@ class IconDataField extends FormFieldResponsive<IconData> {
                       child: SizedBox(
                         height: height,
                         child: Scrollbar(
+                          controller: state._scrollController,
                           child: GridView.builder(
+                            controller: state._scrollController,
                             gridDelegate:
                                 SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: maxCrossAxisExtent,
@@ -166,6 +168,7 @@ class IconDataField extends FormFieldResponsive<IconData> {
 ///
 class IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   IconFieldController? _controller;
   List<String> names = <String>[];
 

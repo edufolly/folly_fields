@@ -79,7 +79,7 @@ class ListField<T extends AbstractModel<Object>,
               <dynamic>[uiBuilder.superPlural(field.context)],
             );
 
-            Future<void> _add() async {
+            Future<void> add() async {
               if (beforeAdd != null) {
                 bool go = await beforeAdd(field.context);
                 if (!go) {
@@ -153,7 +153,7 @@ class ListField<T extends AbstractModel<Object>,
                                 /// Top Add Button
                                 if (showTopAddButton)
                                   IconButton(
-                                    onPressed: _add,
+                                    onPressed: add,
                                     icon: const Icon(FontAwesomeIcons.plus),
                                   ),
                               ],
@@ -265,7 +265,7 @@ class ListField<T extends AbstractModel<Object>,
                                     uiBuilder.superSingle(field.context)
                                   ],
                                 ).toUpperCase(),
-                                onPressed: _add,
+                                onPressed: add,
                               ),
                           ],
                         ),

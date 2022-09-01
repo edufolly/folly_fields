@@ -17,7 +17,7 @@ class IntegerField extends StringField {
     FormFieldValidator<int?>? validator,
     super.textAlign = TextAlign.end,
     super.maxLength,
-    FormFieldSetter<int>? onSaved,
+    FormFieldSetter<int?>? onSaved,
     int? initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -61,7 +61,7 @@ class IntegerField extends StringField {
           maxLines: 1,
           obscureText: false,
           inputFormatter: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
+            FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
           ],
           onSaved: (String? value) {
             if (enabled && onSaved != null) {

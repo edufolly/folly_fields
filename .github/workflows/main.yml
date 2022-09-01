@@ -10,6 +10,7 @@ jobs:
   boot:
     name: Boot
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     outputs:
       version: ${{ steps.version-step.outputs.version }}
     steps:
@@ -30,6 +31,7 @@ jobs:
     name: Tests & Release
     needs: [ boot ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -43,12 +45,15 @@ jobs:
           cache: true
 
       - name: Flutter Config
+        timeout-minutes: 2
         run: flutter config --no-analytics
 
       - name: Flutter Pub Get
+        timeout-minutes: 5
         run: flutter pub get
 
       - name: Dart Analyze
+        timeout-minutes: 5
         run: dart analyze --fatal-infos
 
       - name: Flutter Test
@@ -75,6 +80,7 @@ jobs:
     name: Deploy GitHub Pages
     needs: [ tests ]
     runs-on: ubuntu-20.04
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -109,8 +115,9 @@ jobs:
   #################
   build-windows:
     name: Windows Native Build
-    runs-on: windows-latest
     needs: [ boot, tests ]
+    runs-on: windows-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -153,6 +160,7 @@ jobs:
     name: Linux Native Build
     needs: [ tests ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -201,6 +209,7 @@ jobs:
     name: Deploy Linux App Image
     needs: [ boot, build-linux ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
