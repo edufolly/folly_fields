@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -800,6 +802,8 @@ class MyHomePageState extends State<MyHomePage> {
                           1: 'Maça',
                           2: 'Laranja',
                         },
+                        onChanged: (int? value) =>
+                            print('ChoiceChipField changed to $value'),
                         validator: FollyValidators.notNull,
                         onSaved: (int? value) => model.fruitIndex = value,
                       ),

@@ -98,7 +98,7 @@ class ChoiceChipField<T> extends FormFieldResponsive<T> {
                                 ? TextStyle(color: effectiveSelectedTextColor)
                                 : null,
                             onSelected: (_) {
-                              state._effectiveController.value = e.key;
+                              state.didChange(e.key);
                               if (onChanged != null) {
                                 onChanged(e.key);
                               }
