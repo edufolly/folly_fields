@@ -37,7 +37,7 @@ class MapFunctionButton extends StatelessWidget {
         qsParam,
         selection: selection,
       ),
-      builder: (BuildContext context, bool data) {
+      builder: (BuildContext context, bool data, _) {
         if (!data) {
           return const SizedBox.shrink();
         }

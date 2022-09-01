@@ -126,7 +126,7 @@ class AbstractEditState<
           SilentStreamBuilder<bool>(
             stream: _controllerModelFunctions.stream,
             initialData: false,
-            builder: (BuildContext context, bool data) => data
+            builder: (BuildContext context, bool data, _) => data
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: widget.modelFunctions!
@@ -146,6 +146,7 @@ class AbstractEditState<
                               builder: (
                                 BuildContext context,
                                 ConsumerPermission permission,
+                                _,
                               ) {
                                 if (permission.view) {
                                   _formKey.currentState!.save();
@@ -211,6 +212,7 @@ class AbstractEditState<
             builder: (
               BuildContext context,
               bool data,
+              _,
             ) =>
                 SingleChildScrollView(
               padding: const EdgeInsets.all(24),

@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+// ignore_for_file: avoid_print
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
         '/list': (_) => ExampleList(),
         '/edit': (_) => ExampleEdit(
               ExampleModel.generate(),
-              ExampleBuilder(),
+              const ExampleBuilder(),
               const ExampleConsumer(),
               edit: true,
             ),
@@ -262,7 +262,7 @@ class MyHomePageState extends State<MyHomePage> {
               '/folly_fields/main/example/lib/main.dart',
             ),
           ),
-          builder: (BuildContext context, Response response) {
+          builder: (BuildContext context, Response response, _) {
             int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');
@@ -373,6 +373,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Integer*',
                         enabled: edit,
                         initialValue: model.integer,
+                        validator: FollyValidators.intGTZero,
                         onSaved: (int? value) => model.integer = value ?? 0,
                       ),
                       // [/IntegerField]
@@ -761,7 +762,6 @@ class MyHomePageState extends State<MyHomePage> {
                         showCounter: true,
                         showTopAddButton: true,
                         onChanged: (List<ExampleModel> value) =>
-                            // ignore: avoid_print
                             print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
@@ -802,6 +802,8 @@ class MyHomePageState extends State<MyHomePage> {
                           1: 'Maça',
                           2: 'Laranja',
                         },
+                        onChanged: (int? value) =>
+                            print('ChoiceChipField changed to $value'),
                         validator: FollyValidators.notNull,
                         onSaved: (int? value) => model.fruitIndex = value,
                       ),
