@@ -61,7 +61,7 @@ class IntegerField extends StringField {
           maxLines: 1,
           obscureText: false,
           inputFormatter: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp('[0-9-]')),
+            FilteringTextInputFormatter.allow(RegExp('^-?[0-9]*')),
           ],
           onSaved: (String? value) {
             if (enabled && onSaved != null) {

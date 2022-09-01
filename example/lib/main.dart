@@ -373,6 +373,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Integer*',
                         enabled: edit,
                         initialValue: model.integer,
+                        validator: FollyValidators.intGTZero,
                         onSaved: (int? value) => model.integer = value ?? 0,
                       ),
                       // [/IntegerField]
@@ -761,7 +762,6 @@ class MyHomePageState extends State<MyHomePage> {
                         showCounter: true,
                         showTopAddButton: true,
                         onChanged: (List<ExampleModel> value) =>
-                            // ignore: avoid_print
                             print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
