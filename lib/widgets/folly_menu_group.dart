@@ -6,8 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class FollyMenuGroup extends StatelessWidget {
-  @Deprecated('Use "label" instead.')
-  final String? name;
   final String? label;
   final IconData? iconData;
   final List<Widget> items;
@@ -21,9 +19,6 @@ class FollyMenuGroup extends StatelessWidget {
   ///
   const FollyMenuGroup({
     required this.items,
-    // TODO(anyone): Remove in next version.
-    @Deprecated('Use "label" instead.')
-    this.name,
     this.label,
     this.iconData,
     this.initialExpanded = false,
@@ -65,9 +60,7 @@ class FollyMenuGroup extends StatelessWidget {
                         color: accentColor,
                       ),
                 title: Text(
-                  // TODO(anyone): Remove in next version.
-                  // ignore: deprecated_member_use_from_same_package
-                  label ?? name ?? '',
+                  label ?? '',
                   style: TextStyle(
                     color: accentColor,
                     fontWeight: FontWeight.bold,
