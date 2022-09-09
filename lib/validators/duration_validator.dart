@@ -34,8 +34,7 @@ class DurationValidator extends AbstractValidator<Duration>
         assert(
           millisecondSuffix.isNotEmpty,
           "millisecondSuffix can't be empty.",
-        ),
-        super();
+        );
 
   ///
   ///
@@ -114,25 +113,19 @@ class DurationValidator extends AbstractValidator<Duration>
   ///
   ///
   RegExp get regExp => RegExp(
-        r'((\d)+'
+        r'(\d+'
         '$yearSuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$monthSuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$daySuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$hourSuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$minuteSuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$secondSuffix)?'
-        r'(\s)*'
-        r'((\d)+'
+        r'\s*(\d+'
         '$millisecondSuffix)?',
       );
 
@@ -142,7 +135,7 @@ class DurationValidator extends AbstractValidator<Duration>
   @override
   bool isValid(String value) {
     RegExpMatch? match = regExp.firstMatch(value.trim());
-    return match != null && match.groupCount == 1;
+    return match != null && match.group(0) == value.trim();
   }
 
   ///
@@ -161,6 +154,7 @@ class DurationValidator extends AbstractValidator<Duration>
     }
 
     String input = value.split(' ').join();
+    RegExp onlyNumbers = RegExp(r'\d+');
 
     RegExp yearRegex = RegExp(r'(\d)+' '$yearSuffix');
     RegExp monthRegex = RegExp(r'(\d)+' '$monthSuffix');
@@ -170,14 +164,29 @@ class DurationValidator extends AbstractValidator<Duration>
     RegExp secondRegex = RegExp(r'(\d)+' '$secondSuffix');
     RegExp millisecondRegex = RegExp(r'(\d)+' '$millisecondSuffix');
 
-    int? years = int.tryParse(yearRegex.firstMatch(input)?.group(0) ?? '');
-    int? months = int.tryParse(monthRegex.firstMatch(input)?.group(0) ?? '');
-    int? days = int.tryParse(dayRegex.firstMatch(input)?.group(0) ?? '');
-    int? hours = int.tryParse(hourRegex.firstMatch(input)?.group(0) ?? '');
-    int? minutes = int.tryParse(minuteRegex.firstMatch(input)?.group(0) ?? '');
-    int? seconds = int.tryParse(secondRegex.firstMatch(input)?.group(0) ?? '');
-    int? milliseconds =
-        int.tryParse(millisecondRegex.firstMatch(input)?.group(0) ?? '');
+    String? yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';
+    String? monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';
+    String? daysString = dayRegex.firstMatch(input)?.group(0) ?? '';
+    String? hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';
+    String? minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';
+    String? secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';
+    String? millisecondsString =
+        millisecondRegex.firstMatch(input)?.group(0) ?? '';
+
+    int? years =
+        int.tryParse(onlyNumbers.firstMatch(yearsString)?.group(0) ?? '');
+    int? months =
+        int.tryParse(onlyNumbers.firstMatch(monthsString)?.group(0) ?? '');
+    int? days =
+        int.tryParse(onlyNumbers.firstMatch(daysString)?.group(0) ?? '');
+    int? hours =
+        int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '');
+    int? minutes =
+        int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '');
+    int? seconds =
+        int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '');
+    int? milliseconds = int.tryParse(
+        onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '');
 
     days = (days ?? 0) + 30 * (months ?? 0) + 365 * (years ?? 0);
 
