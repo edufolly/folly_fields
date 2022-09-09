@@ -207,7 +207,6 @@ class DurationFieldState extends State<DurationField> {
                     Duration? dur = await showDurationPicker(
                       context: context,
                       initialTime: _controller?.duration ?? Duration.zero,
-                      snapToMins: 3,
                       baseUnit: widget.unit.toBaseUnit,
                     );
                     if (dur != null) {
