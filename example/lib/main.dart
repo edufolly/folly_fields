@@ -544,7 +544,7 @@ class MyHomePageState extends State<MyHomePage> {
                       code: code,
                       tag: 'DurationField',
                       source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/time_field.dart',
+                          'blob/main/lib/fields/duration_field.dart',
                       child:
                           // [DurationField]
                           DurationField(
