@@ -33,12 +33,15 @@ void main() {
     '01234567891': false,
     '334.616.710-02': true,
     '334.616.710-01': false,
+    '3346167100': false,
+    '33461671001': false,
     '33461671002': true,
     '33461671003': false,
     '3346167100A': false,
+    '!3461671002': false,
   };
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 50; i++) {
     isValidTests[CpfValidator.generate()] = true;
     isValidTests[CpfValidator.generate(format: true)] = true;
   }

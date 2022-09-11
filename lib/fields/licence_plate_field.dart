@@ -19,7 +19,7 @@ class LicencePlateField extends ValidatorField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    void Function(String)? onSaved,
+    void Function(String value)? onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,

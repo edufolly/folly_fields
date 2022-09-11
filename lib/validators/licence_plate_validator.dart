@@ -36,14 +36,14 @@ class LicencePlateValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  String strip(String value) => value.replaceAll(RegExp('[^a-zA-Z0-9]'), '');
+  String strip(String value) => value.replaceAll(RegExp('[^A-Z0-9]'), '');
 
   ///
   ///
   ///
   @override
   bool isValid(String value) {
-    if (value.isEmpty || value.length != 8) {
+    if (value.isEmpty) {
       return false;
     }
 

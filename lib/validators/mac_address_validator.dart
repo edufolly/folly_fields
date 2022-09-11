@@ -52,7 +52,7 @@ class MacAddressValidator extends AbstractValidator<String> {
 
     value = strip(value);
 
-    if (value.isEmpty || value.length != 12) {
+    if (value.length != 12) {
       return false;
     }
 
