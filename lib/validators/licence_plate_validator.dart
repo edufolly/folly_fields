@@ -12,7 +12,7 @@ class LicencePlateValidator extends AbstractValidator<String> {
   LicencePlateValidator()
       : super(
           <TextInputFormatter>[
-            MaskTextInputFormatter(
+            UppercaseMask(
               mask: 'AAA-9##9',
               filter: <String, RegExp>{
                 'A': RegExp('[a-zA-Z]'),
