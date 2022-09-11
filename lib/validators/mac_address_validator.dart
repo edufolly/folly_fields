@@ -56,7 +56,7 @@ class MacAddressValidator extends AbstractValidator<String> {
       return false;
     }
 
-    return !value.contains(RegExp('[^A-F0-9]'));
+    return format(value).length == 17;
   }
 
   static final Random _random = Random();
