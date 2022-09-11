@@ -52,11 +52,11 @@ class MacAddressValidator extends AbstractValidator<String> {
 
     value = strip(value);
 
-    if (value.isEmpty || value.length != 12) {
+    if (value.length != 12) {
       return false;
     }
 
-    return !value.contains(RegExp('[^A-F0-9]'));
+    return format(value).length == 17;
   }
 
   static final Random _random = Random();

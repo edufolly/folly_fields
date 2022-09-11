@@ -41,6 +41,7 @@ class ExampleModel extends AbstractModel<int> {
   String? ncm;
   String? cest;
   String? cnae;
+  String? licencePlate;
   String? cep;
   ExampleEnum ordinal = _exampleEnumParser.defaultItem;
   Color? color;
@@ -77,6 +78,7 @@ class ExampleModel extends AbstractModel<int> {
         ncm = map['ncm'],
         cest = map['cest'],
         cnae = map['cnae'],
+        licencePlate = map['licencePlate'],
         cep = map['cep'],
         ordinal = _exampleEnumParser.fromJson(map['ordinal']),
         color = _colorValidator.parse(map['color']),
@@ -110,6 +112,7 @@ class ExampleModel extends AbstractModel<int> {
     map['ncm'] = ncm;
     map['cest'] = cest;
     map['cnae'] = cnae;
+    map['licencePlate'] = licencePlate;
     map['cep'] = cep;
     map['ordinal'] = _exampleEnumParser.toMap(ordinal);
     if (color != null) {
@@ -167,6 +170,7 @@ class ExampleModel extends AbstractModel<int> {
     ncm = complete(8);
     cest = complete(7);
     cnae = complete(7);
+    licencePlate = '${generateUpperString(3)}${complete(4)}';
     cep = complete(8);
     color = randomColor;
     ordinal = _exampleEnumParser.random;
@@ -190,6 +194,18 @@ class ExampleModel extends AbstractModel<int> {
   ///
   static String complete(int length) =>
       List<String>.generate(length, (_) => rnd.nextInt(10).toString()).join();
+
+  ///
+  ///
+  ///
+  static String generateUpperString(
+    int length, {
+    String domain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  }) =>
+      List<String>.generate(
+        length,
+        (_) => domain[rnd.nextInt(domain.length)],
+      ).join();
 
   ///
   ///

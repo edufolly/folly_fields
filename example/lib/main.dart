@@ -20,6 +20,7 @@ import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/licence_plate_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         colorSchemeSeed: Colors.deepOrange,
+        useMaterial3: true,
         brightness: Brightness.dark,
         toggleableActiveColor: Colors.deepOrange,
       ),
@@ -622,6 +624,23 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (String value) => model.cep = value,
                       ),
                       // [/CepField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'LicencePlateField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/licence_plate_field.dart',
+                      child:
+                          // [LicencePlateField]
+                          LicencePlateField(
+                        labelPrefix: labelPrefix,
+                        label: 'Licence Plate*',
+                        enabled: edit,
+                        initialValue: model.licencePlate,
+                        onSaved: (String value) => model.licencePlate = value,
+                      ),
+                      // [/LicencePlateField]
                     ),
 
                     CodeLink(
