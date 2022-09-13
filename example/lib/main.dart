@@ -551,7 +551,8 @@ class MyHomePageState extends State<MyHomePage> {
                         labelPrefix: labelPrefix,
                         label: 'Duração*',
                         enabled: edit,
-                        initialValue: const Duration(hours: 1, minutes: 12),
+                        initialValue: const Duration(hours: 11),
+                        unit: DurationUnit.hour,
                         validator: FollyValidators.notNull,
                         onSaved: (Duration? value) =>
                             model.duration = value ?? Duration.zero,

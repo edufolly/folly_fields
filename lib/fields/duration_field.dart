@@ -1,4 +1,5 @@
-import 'package:duration_picker/duration_picker.dart';
+import 'package:dial_picker/dial_picker.dart';
+import 'package:dial_picker/dial_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/validators/duration_validator.dart';
@@ -102,14 +103,15 @@ class DurationField extends StatefulResponsive {
           'suffixes should all be differents between them.',
         ),
         assert(
-            !RegExp('[^a-zA-Z]').hasMatch(yearSuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(monthSuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(daySuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(hourSuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(minuteSuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(secondSuffix) &&
-                !RegExp('[^a-zA-Z]').hasMatch(millisecondSuffix),
-            'Suffixes should only have [a-zA-Z] characters');
+          !RegExp('[^a-zA-Z]').hasMatch(yearSuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(monthSuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(daySuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(hourSuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(minuteSuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(secondSuffix) &&
+              !RegExp('[^a-zA-Z]').hasMatch(millisecondSuffix),
+          'Suffixes should only have [a-zA-Z] characters',
+        );
 
   ///
   ///
@@ -204,7 +206,7 @@ class DurationFieldState extends State<DurationField> {
             icon: const Icon(FontAwesomeIcons.stopwatch),
             onPressed: widget.enabled && !widget.readOnly
                 ? () async {
-                    Duration? dur = await showDurationPicker(
+                    Duration? dur = await showDialPicker(
                       context: context,
                       initialTime: _controller?.duration ?? Duration.zero,
                       baseUnit: widget.unit.toBaseUnit,
@@ -248,7 +250,7 @@ class DurationFieldState extends State<DurationField> {
         minLines: 1,
         inputFormatters: _validator!.inputFormatters,
         textAlign: widget.textAlign,
-        maxLength: null,
+        //maxLength: null,
         onSaved: (String? value) => widget.enabled && widget.onSaved != null
             ? widget.onSaved!(_validator?.parse(value) ?? Duration.zero)
             : null,

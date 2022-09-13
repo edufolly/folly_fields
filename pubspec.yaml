@@ -17,11 +17,8 @@ dependencies:
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
 
-  # https://pub.dev/packages/duration_picker
-  duration_picker:
-    git:
-      url: git@github.com:rilpires/duration_picker.git
-      ref: follyfields
+  # https://github.com/rilpires/dial_picker
+  dial_picker: ^1.0.1
 
   # https://pub.dev/packages/email_validator
   email_validator: ^2.0.1
