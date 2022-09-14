@@ -673,7 +673,7 @@ class AbstractListState<
   ///
   ///
   Future<void> _internalLongPress(T model) async => _push(
-        await widget.onLongPress!(
+        await widget.onLongPress?.call(
           context,
           model,
           widget.uiBuilder,
@@ -686,7 +686,7 @@ class AbstractListState<
   ///
   ///
   Future<void> _addEntity() async => _push(
-        await widget.onAdd!(
+        await widget.onAdd?.call(
           context,
           widget.uiBuilder,
           widget.consumer,
@@ -712,7 +712,7 @@ class AbstractListState<
         Navigator.of(context).pop(model);
       }
     } else {
-      Widget? next = await widget.onUpdate!(
+      Widget? next = await widget.onUpdate?.call(
         context,
         model,
         widget.uiBuilder,

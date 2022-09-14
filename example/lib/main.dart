@@ -16,6 +16,7 @@ import 'package:folly_fields/fields/date_field.dart';
 import 'package:folly_fields/fields/date_time_field.dart';
 import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
+import 'package:folly_fields/fields/duration_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
@@ -28,6 +29,7 @@ import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
+import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
@@ -348,6 +350,26 @@ class MyHomePageState extends State<MyHomePage> {
 
                     CodeLink(
                       code: code,
+                      tag: 'PasswordVisibleField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/password_visible_field.dart',
+                      child:
+                          // [PasswordVisibleField]
+                          PasswordVisibleField(
+                        labelPrefix: labelPrefix,
+                        label: 'Senha Visível*',
+                        enabled: edit,
+                        validator: (String? value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo senha visível precisa ser informado.'
+                                : null,
+                        onSaved: (String? value) => model.password = value!,
+                      ),
+                      // [/PasswordVisibleField]
+                    ),
+
+                    CodeLink(
+                      code: code,
                       tag: 'DecimalField',
                       source: 'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/decimal_field.dart',
@@ -537,6 +559,26 @@ class MyHomePageState extends State<MyHomePage> {
                         validator: FollyValidators.notNull,
                         onSaved: (TimeOfDay? value) => model.time = value!,
                         clearOnCancel: false,
+                      ),
+                      // [/TimeField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'DurationField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/duration_field.dart',
+                      child:
+                          // [DurationField]
+                          DurationField(
+                        labelPrefix: labelPrefix,
+                        label: 'Duração*',
+                        enabled: edit,
+                        initialValue: const Duration(hours: 11),
+                        unit: DurationUnit.hour,
+                        validator: FollyValidators.notNull,
+                        onSaved: (Duration? value) =>
+                            model.duration = value ?? Duration.zero,
                       ),
                       // [/TimeField]
                     ),

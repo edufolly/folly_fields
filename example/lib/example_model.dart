@@ -29,6 +29,7 @@ class ExampleModel extends AbstractModel<int> {
   String text = '';
   String email = '';
   String password = '';
+  String visiblePassword = '';
   String cpf = '';
   String cnpj = '';
   String document = '';
@@ -37,6 +38,7 @@ class ExampleModel extends AbstractModel<int> {
   DateTime dateTime = DateTime.now();
   DateTime? date;
   TimeOfDay time = TimeOfDay.now();
+  Duration duration = Duration.zero;
   String? macAddress;
   String? ncm;
   String? cest;
@@ -66,6 +68,7 @@ class ExampleModel extends AbstractModel<int> {
         text = map['text'] ?? '',
         email = map['email'] ?? '',
         password = map['password'] ?? '',
+        visiblePassword = map['visiblePassword'] ?? '',
         cpf = map['cpf'] ?? '',
         cnpj = map['cnpj'] ?? '',
         document = map['document'] ?? '',
@@ -74,6 +77,7 @@ class ExampleModel extends AbstractModel<int> {
         dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
         date = ModelUtils.fromJsonNullableDateMillis(map['date']),
         time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
+        duration = Duration(microseconds: map['duration'] ?? 0),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
@@ -100,6 +104,7 @@ class ExampleModel extends AbstractModel<int> {
     map['text'] = text;
     map['email'] = email;
     map['password'] = password;
+    map['visiblePassword'] = visiblePassword;
     map['cpf'] = cpf;
     map['cnpj'] = cnpj;
     map['document'] = document;
@@ -108,6 +113,7 @@ class ExampleModel extends AbstractModel<int> {
     map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
     map['date'] = ModelUtils.toMapNullableDateMillis(date);
     map['time'] = _timeValidator.format(time);
+    map['duration'] = duration.inMicroseconds;
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
     map['cest'] = cest;
@@ -157,6 +163,7 @@ class ExampleModel extends AbstractModel<int> {
     text = 'Exemplo $ms';
     email = 'exemplo$ms@exemplo.com.br';
     password = '123456$ms';
+    visiblePassword = 'aBc$ms';
     cpf = CpfValidator.generate();
     cnpj = CnpjValidator.generate();
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
