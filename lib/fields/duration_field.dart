@@ -250,7 +250,6 @@ class DurationFieldState extends State<DurationField> {
         minLines: 1,
         inputFormatters: _validator!.inputFormatters,
         textAlign: widget.textAlign,
-        //maxLength: null,
         onSaved: (String? value) => widget.enabled && widget.onSaved != null
             ? widget.onSaved!(_validator?.parse(value) ?? Duration.zero)
             : null,
@@ -320,7 +319,7 @@ class DurationEditingController extends TextEditingController {
           millisecondSuffix: millisecondSuffix,
         ) {
     super.text = validator.format(value);
-    addListener(_changeListener);
+    // addListener(_changeListener);
   }
 
   ///
@@ -340,23 +339,34 @@ class DurationEditingController extends TextEditingController {
   ///
   ///
   ///
-  void _changeListener() {
-    //super.value = super.value.copyWith(text: )
-    //duration = validator.parse(super.text) ?? Duration.zero;
-  }
+// void _changeListener() {
+//   super.value = super.value.copyWith(text:)
+//   duration = validator.parse(super.text) ?? Duration.zero;
+// }
 
   ///
   ///
   ///
-  @override
-  void dispose() {
-    removeListener(_changeListener);
-    super.dispose();
-  }
+// @override
+// void dispose() {
+//   removeListener(_changeListener);
+//   super.dispose();
+// }
 }
 
-enum DurationUnit { millisecond, second, minute, hour }
+///
+///
+///
+enum DurationUnit {
+  millisecond,
+  second,
+  minute,
+  hour,
+}
 
+///
+///
+///
 extension DurationUnitExtension on DurationUnit {
   BaseUnit get toBaseUnit {
     switch (this) {

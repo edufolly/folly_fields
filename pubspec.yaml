@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.10.17+142
+version: 0.11.0+143
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -17,7 +17,7 @@ dependencies:
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
 
-  # https://github.com/rilpires/dial_picker
+  # https://pub.dev/packages/dial_picker
   dial_picker: ^1.0.1
 
   # https://pub.dev/packages/email_validator
@@ -41,7 +41,7 @@ dependencies:
     sdk: flutter
 
   # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: 10.1.0
+  font_awesome_flutter: 10.2.1
 
   # https://pub.dev/packages/sprintf
   sprintf: ^6.0.0

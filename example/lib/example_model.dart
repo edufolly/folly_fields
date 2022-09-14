@@ -68,7 +68,7 @@ class ExampleModel extends AbstractModel<int> {
         text = map['text'] ?? '',
         email = map['email'] ?? '',
         password = map['password'] ?? '',
-  visiblePassword = map['visiblePassword'] ?? '',
+        visiblePassword = map['visiblePassword'] ?? '',
         cpf = map['cpf'] ?? '',
         cnpj = map['cnpj'] ?? '',
         document = map['document'] ?? '',

@@ -57,22 +57,27 @@ class DurationValidator extends AbstractValidator<Duration>
       seconds = (milliseconds / 1000).floor();
       milliseconds = milliseconds % 1000;
     }
+
     if (seconds >= 60) {
       minutes = (seconds / 60).floor();
       seconds = seconds % 60;
     }
+
     if (minutes >= 60) {
       hours = (minutes / 60).floor();
       minutes = minutes % 60;
     }
+
     if (hours >= 24) {
       days = (hours / 24).floor();
       hours = hours % 24;
     }
+
     if (days >= 30) {
       months = (days / 30).floor();
       days = days % 30;
     }
+
     if (months >= 12) {
       years = (months / 12).floor();
       months = months % 12;
@@ -81,21 +86,27 @@ class DurationValidator extends AbstractValidator<Duration>
     if (milliseconds != 0) {
       ret = '$milliseconds$millisecondSuffix';
     }
+
     if (seconds != 0) {
       ret = '$seconds$secondSuffix${ret.isEmpty ? '' : ' $ret'}';
     }
+
     if (minutes != 0) {
       ret = '$minutes$minuteSuffix${ret.isEmpty ? '' : ' $ret'}';
     }
+
     if (hours != 0) {
       ret = '$hours$hourSuffix${ret.isEmpty ? '' : ' $ret'}';
     }
+
     if (days != 0) {
       ret = '$days$daySuffix${ret.isEmpty ? '' : ' $ret'}';
     }
+
     if (months != 0) {
       ret = '$months$monthSuffix${ret.isEmpty ? '' : ' $ret'}';
     }
+
     if (years != 0) {
       ret = '$years$yearSuffix${ret.isEmpty ? '' : ' $ret'}';
     }
@@ -186,7 +197,8 @@ class DurationValidator extends AbstractValidator<Duration>
     int? seconds =
         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '');
     int? milliseconds = int.tryParse(
-        onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '');
+      onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',
+    );
 
     days = (days ?? 0) + 30 * (months ?? 0) + 365 * (years ?? 0);
 
