@@ -17,6 +17,9 @@ dependencies:
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
 
+  # https://github.com/rilpires/dial_picker
+  dial_picker: ^1.0.1
+
   # https://pub.dev/packages/email_validator
   email_validator: ^2.0.1
 

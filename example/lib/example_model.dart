@@ -38,6 +38,7 @@ class ExampleModel extends AbstractModel<int> {
   DateTime dateTime = DateTime.now();
   DateTime? date;
   TimeOfDay time = TimeOfDay.now();
+  Duration duration = Duration.zero;
   String? macAddress;
   String? ncm;
   String? cest;
@@ -76,6 +77,7 @@ class ExampleModel extends AbstractModel<int> {
         dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
         date = ModelUtils.fromJsonNullableDateMillis(map['date']),
         time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
+        duration = Duration(microseconds: map['duration'] ?? 0),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
@@ -111,6 +113,7 @@ class ExampleModel extends AbstractModel<int> {
     map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
     map['date'] = ModelUtils.toMapNullableDateMillis(date);
     map['time'] = _timeValidator.format(time);
+    map['duration'] = duration.inMicroseconds;
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
     map['cest'] = cest;
