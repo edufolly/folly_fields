@@ -28,6 +28,7 @@ import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
+import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
@@ -344,6 +345,26 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (String value) => model.password = value,
                       ),
                       // [/PasswordField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'PasswordVisibleField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/password_visible_field.dart',
+                      child:
+                          // [PasswordVisibleField]
+                          PasswordVisibleField(
+                        labelPrefix: labelPrefix,
+                        label: 'Senha Visível*',
+                        enabled: edit,
+                        validator: (String? value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo senha visível precisa ser informado.'
+                                : null,
+                        onSaved: (String? value) => model.password = value!,
+                      ),
+                      // [/PasswordVisibleField]
                     ),
 
                     CodeLink(

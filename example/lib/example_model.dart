@@ -29,6 +29,7 @@ class ExampleModel extends AbstractModel<int> {
   String text = '';
   String email = '';
   String password = '';
+  String visiblePassword = '';
   String cpf = '';
   String cnpj = '';
   String document = '';
@@ -66,6 +67,7 @@ class ExampleModel extends AbstractModel<int> {
         text = map['text'] ?? '',
         email = map['email'] ?? '',
         password = map['password'] ?? '',
+  visiblePassword = map['visiblePassword'] ?? '',
         cpf = map['cpf'] ?? '',
         cnpj = map['cnpj'] ?? '',
         document = map['document'] ?? '',
@@ -100,6 +102,7 @@ class ExampleModel extends AbstractModel<int> {
     map['text'] = text;
     map['email'] = email;
     map['password'] = password;
+    map['visiblePassword'] = visiblePassword;
     map['cpf'] = cpf;
     map['cnpj'] = cnpj;
     map['document'] = document;
@@ -157,6 +160,7 @@ class ExampleModel extends AbstractModel<int> {
     text = 'Exemplo $ms';
     email = 'exemplo$ms@exemplo.com.br';
     password = '123456$ms';
+    visiblePassword = 'aBc$ms';
     cpf = CpfValidator.generate();
     cnpj = CnpjValidator.generate();
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();

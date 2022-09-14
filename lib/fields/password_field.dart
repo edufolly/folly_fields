@@ -48,5 +48,6 @@ class PasswordField extends StringField {
           minLines: 1,
           maxLines: 1,
           obscureText: true,
+          trimOnSaved: false,
         );
 }
