@@ -3,14 +3,14 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.11.1+144
+version: 0.11.2+145
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 2.3.6
+  connectivity_plus: 2.3.7
 
   flutter:
     sdk: flutter
@@ -29,7 +29,7 @@ dependencies:
   google_fonts: 3.0.1
 
   # https://pub.dev/packages/http
-  http: 0.13.4
+  http: 0.13.5
 
   # https://pub.dev/packages/url_launcher
   url_launcher: 6.1.5

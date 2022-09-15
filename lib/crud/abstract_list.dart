@@ -399,7 +399,7 @@ class AbstractListState<
                             MapFunctionButton(
                           mapFunction: entry.value,
                           permission: entry.key,
-                          qsParam: Map<String, String>.of(_qsParam),
+                          qsParam: _qsParam,
                           selection: widget.selection,
                           callback: (Map<String, String> map) {
                             _qsParam
