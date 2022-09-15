@@ -39,6 +39,8 @@ void main() async {
         String? ccNum = reg.firstMatch(response.body)?.group(1);
 
         if (ccNum != null) {
+          ccNum = ccNum.trim();
+          print('Adding $ccNum to ${entry.key}');
           tests[ccNum] = entry.key;
         }
       }

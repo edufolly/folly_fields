@@ -181,6 +181,7 @@ class AbstractListState<
   final Map<Object, T> _selections = <Object, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
+  final List<String> _qsKeys = <String>[];
 
   final Map<ConsumerPermission, AbstractModelFunction<T>>
       effectiveModelFunctions =
@@ -197,7 +198,10 @@ class AbstractListState<
 
     if (widget.qsParam.isNotEmpty) {
       _qsParam.addAll(widget.qsParam);
+      _qsKeys.addAll(widget.qsParam.keys);
     }
+
+    _qsKeys.addAll(<String>['f', 'q', 's']);
   }
 
   ///
@@ -395,10 +399,16 @@ class AbstractListState<
                             MapFunctionButton(
                           mapFunction: entry.value,
                           permission: entry.key,
-                          qsParam: _qsParam,
+                          qsParam: Map<String, String>.of(_qsParam),
                           selection: widget.selection,
                           callback: (Map<String, String> map) {
-                            _qsParam.addAll(map);
+                            _qsParam
+                              ..removeWhere(
+                                (String key, String value) =>
+                                    !_qsKeys.contains(key),
+                              )
+                              ..addAll(map);
+
                             _loadData(context);
                           },
                         ),
