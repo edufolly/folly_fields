@@ -7,17 +7,66 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
+class ExampleMapModel {
+  Map<String, String> originalMap;
+  String? test;
+
+  ///
+  ///
+  ///
+  ExampleMapModel({this.originalMap = const <String, String>{}});
+
+  ///
+  ///
+  ///
+  ExampleMapModel.fromMap(Map<String, String> map)
+      : test = map['test'],
+        originalMap = Map<String, String>.of(map);
+
+  ///
+  ///
+  ///
+  Map<String, String> toMap() {
+    Map<String, String> map = <String, String>{};
+    if (test != null) {
+      map['test'] = test!;
+    }
+    return map;
+  }
+}
+
+///
+///
+///
 class ExampleMapFunctionRoute extends MapFunction {
+  final ExampleMapModel? model;
+
   ///
   ///
   ///
-  const ExampleMapFunctionRoute({super.key});
+  const ExampleMapFunctionRoute({
+    this.model,
+    super.key,
+  });
 
   ///
   ///
   ///
   @override
   List<String> get routeName => const <String>['example_map_function_route'];
+
+  ///
+  ///
+  ///
+  @override
+  Future<Widget> onPressed(
+    BuildContext context,
+    Map<String, String> map, {
+    required bool selection,
+  }) async =>
+      ExampleMapFunctionRoute(
+        model: ExampleMapModel.fromMap(map),
+      );
 
   ///
   ///
@@ -32,17 +81,18 @@ class ExampleMapFunctionRoute extends MapFunction {
 ///
 class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late Map<String, String> qsParam;
+  final ExampleMapModel _stateModel = ExampleMapModel();
+
+  ///
+  ///
+  ///
+  ExampleMapModel get model => widget.model ?? _stateModel;
 
   ///
   ///
   ///
   @override
   Widget build(BuildContext context) {
-    qsParam =
-        (ModalRoute.of(context)!.settings.arguments as Map<String, String>?) ??
-            <String, String>{};
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Example Map Function Route'),
@@ -61,24 +111,23 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
               padding: const EdgeInsets.all(8),
               child: StringField(
                 label: 'Campo de Teste',
-                initialValue: qsParam['test'],
-                onSaved: (String value) => value.isEmpty
-                    ? qsParam.remove('test')
-                    : qsParam['test'] = value,
+                initialValue: model.test,
+                onSaved: (String value) =>
+                    model.test = value.isEmpty ? null : value,
               ),
             ),
           ),
           Expanded(
-            child: qsParam.isNotEmpty
+            child: model.originalMap.isNotEmpty
                 ? ListView.separated(
                     itemBuilder: (BuildContext context, int index) => ListTile(
                       title: Text(
-                        'Key: ${qsParam.keys.elementAt(index)} - '
-                        'Value: ${qsParam.values.elementAt(index)}',
+                        'Key: ${model.originalMap.keys.elementAt(index)} - '
+                        'Value: ${model.originalMap.values.elementAt(index)}',
                       ),
                     ),
                     separatorBuilder: (_, __) => const FollyDivider(),
-                    itemCount: qsParam.keys.length,
+                    itemCount: model.originalMap.keys.length,
                   )
                 : const Center(
                     child: Text('Nenhum parâmetro informado.'),
@@ -95,7 +144,7 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(qsParam);
+      Navigator.of(context).pop(model.toMap());
     }
   }
 }
