@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+// ignore_for_file: avoid_print
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/credit_card.dart';
 import 'package:http/http.dart';
@@ -45,10 +46,8 @@ void main() async {
         }
       }
     } on Exception catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-        print(s);
-      }
+      print(e);
+      print(s);
     }
   }
 
