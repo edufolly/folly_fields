@@ -22,7 +22,7 @@ void main() async {
     CreditCardType.visa: 'visa16',
     CreditCardType.amex: 'amex',
     CreditCardType.dinersclub: 'diners',
-    CreditCardType.unknown: 'aura',
+    // CreditCardType.unknown: 'aura',
   };
 
   for (MapEntry<CreditCardType, String> entry in cardsRequest.entries) {
@@ -62,4 +62,15 @@ void main() async {
       }
     },
   );
+
+  group('Credit card luhn check', () {
+    for (MapEntry<String, CreditCardType> entry in tests.entries) {
+      if (entry.value.luhnCheck) {
+        test(
+          'Testing ${entry.key}',
+          () => expect(CreditCard.luhnCheck(entry.key), entry.value.luhnCheck),
+        );
+      }
+    }
+  });
 }
