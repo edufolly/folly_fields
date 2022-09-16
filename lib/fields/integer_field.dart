@@ -92,5 +92,5 @@ class IntegerEditingController extends TextEditingController {
   ///
   ///
   ///
-  set integer(int? integer) => text = integer.toString();
+  set integer(int? integer) => text = integer == null ? '' : integer.toString();
 }
