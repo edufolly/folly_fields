@@ -28,6 +28,8 @@ class BoolField extends FormFieldResponsive<bool> {
     Color? activeColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    Widget? prefixIcon,
+    Widget? suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -67,6 +69,8 @@ class BoolField extends FormFieldResponsive<bool> {
                         vertical: 10,
                         horizontal: 8,
                       ),
+                      prefixIcon: prefixIcon,
+                      suffixIcon: suffixIcon,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

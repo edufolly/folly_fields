@@ -39,6 +39,8 @@ class NcmField extends ValidatorField {
     super.decoration,
     super.padding,
     super.hintText,
+    super.prefixIcon,
+    super.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

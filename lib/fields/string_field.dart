@@ -40,6 +40,8 @@ class StringField extends StatelessResponsive {
   final EdgeInsets padding;
   final bool trimOnSaved;
   final String? hintText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   ///
   ///
@@ -79,6 +81,8 @@ class StringField extends StatelessResponsive {
     this.padding = const EdgeInsets.all(8),
     this.trimOnSaved = true,
     this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -110,6 +114,8 @@ class StringField extends StatelessResponsive {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
               label: labelWidget,
               labelText: label == null
                   ? null
