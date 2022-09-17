@@ -36,6 +36,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
     String loadButtonText = 'Carregar',
     String eraseButtonText = 'Apagar',
     String invalidThumbnailText = 'Arquivo não é uma imagem válida',
+    String? hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -80,6 +81,7 @@ class FileField extends FormFieldResponsive<Uint8List> {
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
+                      hintText: hintText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

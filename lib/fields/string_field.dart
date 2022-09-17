@@ -39,6 +39,7 @@ class StringField extends StatelessResponsive {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final bool trimOnSaved;
+  final String? hintText;
 
   ///
   ///
@@ -77,6 +78,7 @@ class StringField extends StatelessResponsive {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.trimOnSaved = true,
+    this.hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -119,6 +121,7 @@ class StringField extends StatelessResponsive {
               enabled: enabled,
               filled: filled,
               fillColor: fillColor,
+              hintText: hintText,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 

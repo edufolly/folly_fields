@@ -33,6 +33,7 @@ class ChoiceChipField<T> extends FormFieldResponsive<T> {
     Color? selectedTextColor,
     WrapAlignment wrapAlignment = WrapAlignment.spaceEvenly,
     WrapCrossAlignment wrapCrossAlignment = WrapCrossAlignment.center,
+    String? hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -71,6 +72,7 @@ class ChoiceChipField<T> extends FormFieldResponsive<T> {
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
+                      hintText: hintText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

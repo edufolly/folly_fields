@@ -39,6 +39,7 @@ class DateField extends StatefulResponsive {
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
   final bool clearOnCancel;
+  final String? hintText;
 
   ///
   ///
@@ -74,6 +75,7 @@ class DateField extends StatefulResponsive {
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
     this.clearOnCancel = true,
+    this.hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -174,6 +176,7 @@ class DateFieldState extends State<DateField> {
                   ? widget.label
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
+              hintText: widget.hintText,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

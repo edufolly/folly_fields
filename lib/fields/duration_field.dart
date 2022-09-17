@@ -39,6 +39,7 @@ class DurationField extends StatefulResponsive {
   final String minuteSuffix;
   final String secondSuffix;
   final String millisecondSuffix;
+  final String? hintText;
 
   ///
   ///
@@ -74,6 +75,7 @@ class DurationField extends StatefulResponsive {
     this.minuteSuffix = 'm',
     this.secondSuffix = 's',
     this.millisecondSuffix = 'ms',
+    this.hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -199,6 +201,7 @@ class DurationFieldState extends State<DurationField> {
                   ? widget.label
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
+              hintText: widget.hintText,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

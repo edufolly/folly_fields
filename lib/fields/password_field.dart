@@ -36,6 +36,7 @@ class PasswordField extends StringField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
