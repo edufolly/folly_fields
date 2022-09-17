@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/credit_card.dart';
 import 'package:http/http.dart';
@@ -12,17 +14,14 @@ void main() async {
 
   Map<String, CreditCardType> tests = <String, CreditCardType>{};
 
-  Uri base = Uri.parse('https://www.4devs.com.br/ferramentas_online.php');
-
-  RegExp reg = RegExp(r'<.*cartao_numero.*>([\d|\s]*)'
-      '<span class="clipboard-copy"></span></div>');
+  Uri base = Uri.parse('https://www.invertexto.com/ajax/gerar-cartao.php');
 
   Map<CreditCardType, String> cardsRequest = <CreditCardType, String>{
-    CreditCardType.mastercard: 'master',
+    CreditCardType.mastercard: 'mastercard',
     CreditCardType.visa: 'visa16',
     CreditCardType.amex: 'amex',
     CreditCardType.dinersclub: 'diners',
-    // CreditCardType.unknown: 'aura',
+    CreditCardType.unknown: 'voyager',
   };
 
   for (MapEntry<CreditCardType, String> entry in cardsRequest.entries) {
@@ -31,13 +30,12 @@ void main() async {
         Response response = await post(
           base,
           body: <String, String>{
-            'acao': 'gerar_cc',
-            'pontuacao': 'S',
             'bandeira': entry.value,
           },
         );
 
-        String? ccNum = reg.firstMatch(response.body)?.group(1);
+        Map<String, dynamic> data = jsonDecode(response.body);
+        String? ccNum = data['numero'];
 
         if (ccNum != null) {
           ccNum = ccNum.trim();
