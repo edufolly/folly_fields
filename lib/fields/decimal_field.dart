@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 ///
 ///
-class DecimalField extends StatefulResponsive {
+class DecimalField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;
@@ -200,15 +200,8 @@ class DecimalFieldState extends State<DecimalField> {
   @override
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
-
-    if (_controller != null) {
-      _controller!.dispose();
-    }
-
-    if (_focusNode != null) {
-      _focusNode!.dispose();
-    }
-
+    _controller?.dispose();
+    _focusNode?.dispose();
     super.dispose();
   }
 }

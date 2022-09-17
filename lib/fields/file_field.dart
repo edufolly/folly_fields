@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart' as file;
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
-class FileField extends FormFieldResponsive<Uint8List> {
+class FileField extends ResponsiveFormField<Uint8List> {
   final FileEditingController? controller;
 
   ///

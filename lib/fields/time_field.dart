@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class TimeField extends StatefulResponsive {
+class TimeField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;

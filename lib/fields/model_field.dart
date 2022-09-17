@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -9,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class ModelField<T extends AbstractModel<Object>>
-    extends FormFieldResponsive<T?> {
+    extends ResponsiveFormField<T?> {
   final ModelEditingController<T>? controller;
 
   ///

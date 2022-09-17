@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 // TODO(edufolly): Herdar de DateTimeField?
-class DateField extends StatefulResponsive {
+class DateField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;

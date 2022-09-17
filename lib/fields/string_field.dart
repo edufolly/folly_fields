@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-class StringField extends StatelessResponsive {
+class StringField extends ResponsiveStateless {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;

@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-class PasswordVisibleField extends StatefulResponsive {
+class PasswordVisibleField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;

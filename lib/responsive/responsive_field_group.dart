@@ -5,7 +5,7 @@ import 'package:folly_fields/widgets/field_group.dart';
 ///
 ///
 ///
-class ResponsiveFieldGroup extends StatelessResponsive {
+class ResponsiveFieldGroup extends ResponsiveStateless {
   final EdgeInsets padding;
   final String? labelText;
   final bool edit;
@@ -23,6 +23,12 @@ class ResponsiveFieldGroup extends StatelessResponsive {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.crossAxisAlignment = CrossAxisAlignment.stretch,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
     super.key,
   }) : assert(
           labelText == null || decoration == null,

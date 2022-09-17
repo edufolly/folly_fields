@@ -145,7 +145,7 @@ mixin Responsive on Widget {
 ///
 ///
 ///
-abstract class StatelessResponsive extends StatelessWidget with Responsive {
+abstract class ResponsiveStateless extends StatelessWidget with Responsive {
   @override
   final int? sizeExtraSmall;
 
@@ -167,7 +167,7 @@ abstract class StatelessResponsive extends StatelessWidget with Responsive {
   ///
   ///
   ///
-  const StatelessResponsive({
+  const ResponsiveStateless({
     this.sizeExtraSmall,
     this.sizeSmall,
     this.sizeMedium,
@@ -204,7 +204,7 @@ abstract class StatelessResponsive extends StatelessWidget with Responsive {
 ///
 ///
 ///
-abstract class StatefulResponsive extends StatefulWidget with Responsive {
+abstract class ResponsiveStateful extends StatefulWidget with Responsive {
   @override
   final int? sizeExtraSmall;
 
@@ -226,7 +226,7 @@ abstract class StatefulResponsive extends StatefulWidget with Responsive {
   ///
   ///
   ///
-  const StatefulResponsive({
+  const ResponsiveStateful({
     this.sizeExtraSmall,
     this.sizeSmall,
     this.sizeMedium,
@@ -258,97 +258,4 @@ abstract class StatefulResponsive extends StatefulWidget with Responsive {
           minHeight == null || minHeight >= 0,
           'minHeight must be equal or greater than zero.',
         );
-}
-
-///
-///
-///
-abstract class FormFieldResponsive<T> extends FormField<T> with Responsive {
-  @override
-  final int? sizeExtraSmall;
-
-  @override
-  final int? sizeSmall;
-
-  @override
-  final int? sizeMedium;
-
-  @override
-  final int? sizeLarge;
-
-  @override
-  final int? sizeExtraLarge;
-
-  @override
-  final double? minHeight;
-
-  ///
-  ///
-  ///
-  const FormFieldResponsive({
-    required super.builder,
-    super.onSaved,
-    super.validator,
-    super.initialValue,
-    super.enabled = true,
-    super.autovalidateMode,
-    super.restorationId,
-    this.sizeExtraSmall,
-    this.sizeSmall,
-    this.sizeMedium,
-    this.sizeLarge,
-    this.sizeExtraLarge,
-    this.minHeight,
-    super.key,
-  })  : assert(
-          sizeExtraSmall == null || sizeExtraSmall > 0,
-          'sizeExtraSmall must be greater than zero.',
-        ),
-        assert(
-          sizeSmall == null || sizeSmall > 0,
-          'sizeSmall must be greater than zero.',
-        ),
-        assert(
-          sizeMedium == null || sizeMedium > 0,
-          'sizeMedium must be greater than zero.',
-        ),
-        assert(
-          sizeLarge == null || sizeLarge > 0,
-          'sizeLarge must be greater than zero.',
-        ),
-        assert(
-          sizeExtraLarge == null || sizeExtraLarge > 0,
-          'sizeExtraLarge must be greater than zero.',
-        ),
-        assert(
-          minHeight == null || minHeight >= 0,
-          'minHeight must be equal or greater than zero.',
-        );
-}
-
-///
-///
-///
-class ResponsiveDecorator extends StatelessResponsive {
-  final Widget child;
-
-  ///
-  ///
-  ///
-  const ResponsiveDecorator({
-    required this.child,
-    super.sizeExtraSmall,
-    super.sizeSmall,
-    super.sizeMedium,
-    super.sizeLarge,
-    super.sizeExtraLarge,
-    super.minHeight,
-    super.key,
-  });
-
-  ///
-  ///
-  ///
-  @override
-  Widget build(BuildContext context) => child;
 }

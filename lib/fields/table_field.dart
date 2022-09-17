@@ -4,6 +4,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_builder.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/widgets/empty_button.dart';
 import 'package:folly_fields/widgets/field_group.dart';
@@ -20,7 +21,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // TODO(edufolly): Customize messages.
 // TODO(edufolly): Create controller??
 class TableField<T extends AbstractModel<Object>>
-    extends FormFieldResponsive<List<T>> {
+    extends ResponsiveFormField<List<T>> {
   ///
   ///
   ///

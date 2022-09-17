@@ -3,6 +3,7 @@ import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_decorator.dart';
 import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 
 ///

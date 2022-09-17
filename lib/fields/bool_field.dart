@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
-class BoolField extends FormFieldResponsive<bool> {
+class BoolField extends ResponsiveFormField<bool> {
   final BoolEditingController? controller;
   final Function(bool)? onChanged;
 

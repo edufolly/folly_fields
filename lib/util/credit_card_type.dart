@@ -1,6 +1,8 @@
 // ignore_for_file: always_specify_types
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -10,9 +12,9 @@ enum CreditCardType {
   /// Visa
   visa(
     name: 'Visa',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [16, 18, 19],
-    code: CreditCardCode('CVV', 3),
+    code: CreditCardCode('CVV', [3]),
     patterns: {
       Range(4),
     },
@@ -21,9 +23,9 @@ enum CreditCardType {
   /// Mastercard
   mastercard(
     name: 'Mastercard',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### ####',
     lengths: [16],
-    code: CreditCardCode('CVC', 3),
+    code: CreditCardCode('CVC', [3]),
     patterns: {
       Range(51, 55),
       Range(2221, 2229),
@@ -37,9 +39,9 @@ enum CreditCardType {
   /// American Express
   amex(
     name: 'American Express',
-    gaps: [4, 10],
+    mask: '#### ###### #####',
     lengths: [15],
-    code: CreditCardCode('CID', 4),
+    code: CreditCardCode('CID', [4]),
     patterns: {
       Range(34),
       Range(37),
@@ -49,9 +51,9 @@ enum CreditCardType {
   /// Diners Club
   dinersclub(
     name: 'Diners Club',
-    gaps: [4, 10],
+    mask: '#### ###### #########',
     lengths: [14, 16, 19],
-    code: CreditCardCode('CVV', 3),
+    code: CreditCardCode('CVV', [3]),
     patterns: {
       Range(300, 305),
       Range(36),
@@ -63,9 +65,9 @@ enum CreditCardType {
   /// Discover
   discover(
     name: 'Discover',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [16, 19],
-    code: CreditCardCode('CID', 3),
+    code: CreditCardCode('CID', [3]),
     patterns: {
       Range(6011),
       Range(644, 649),
@@ -76,9 +78,9 @@ enum CreditCardType {
   /// JCB
   jcb(
     name: 'JCB',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [16, 17, 18, 19],
-    code: CreditCardCode('CVV', 3),
+    code: CreditCardCode('CVV', [3]),
     patterns: {
       Range(2131),
       Range(1800),
@@ -89,9 +91,9 @@ enum CreditCardType {
   /// UnionPay
   unionpay(
     name: 'UnionPay',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [14, 15, 16, 17, 18, 19],
-    code: CreditCardCode('CVN', 3),
+    code: CreditCardCode('CVN', [3]),
     patterns: {
       Range(620),
       Range(62100, 62182),
@@ -116,15 +118,15 @@ enum CreditCardType {
       Range(8152, 8163),
       Range(8164, 8171),
     },
-    luhnCheck: false,
+    checkLuhn: false,
   ),
 
   /// Maestro
   maestro(
     name: 'Maestro',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [12, 13, 14, 15, 16, 17, 18, 19],
-    code: CreditCardCode('CVC', 3),
+    code: CreditCardCode('CVC', [3]),
     patterns: {
       Range(493698),
       Range(500000, 504174),
@@ -140,9 +142,9 @@ enum CreditCardType {
   /// Elo
   elo(
     name: 'Elo',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### ####',
     lengths: [16],
-    code: CreditCardCode('CVE', 3),
+    code: CreditCardCode('CVE', [3]),
     patterns: {
       Range(401178),
       Range(401179),
@@ -175,9 +177,9 @@ enum CreditCardType {
   /// Mir
   mir(
     name: 'Mir',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### #### ###',
     lengths: [16, 17, 18, 19],
-    code: CreditCardCode('CVP2', 3),
+    code: CreditCardCode('CVP2', [3]),
     patterns: {
       Range(2200, 2204),
     },
@@ -186,9 +188,9 @@ enum CreditCardType {
   /// Hiper
   hiper(
     name: 'Hiper',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### ####',
     lengths: [16],
-    code: CreditCardCode('CVC', 3),
+    code: CreditCardCode('CVC', [3]),
     patterns: {
       Range(637095),
       Range(63737423),
@@ -203,9 +205,9 @@ enum CreditCardType {
   /// Hipercard
   hipercard(
     name: 'Hipercard',
-    gaps: [4, 8, 12],
+    mask: '#### #### #### ####',
     lengths: [16],
-    code: CreditCardCode('CVC', 3),
+    code: CreditCardCode('CVC', [3]),
     patterns: {
       Range(606282),
     },
@@ -214,31 +216,139 @@ enum CreditCardType {
   /// Unknown
   unknown(
     name: 'Unknown',
-    gaps: [],
-    lengths: [],
-    code: CreditCardCode('', 0),
+    mask: '#### #### #### #### ###',
+    lengths: [12, 13, 14, 15, 16, 17, 18, 19],
+    code: CreditCardCode('CVV', [3, 4]),
     patterns: {},
-    luhnCheck: false,
+    checkLuhn: true,
   );
+
+  ///
+  ///
+  ///
+  final String name;
+  final String mask;
+  final List<int> lengths;
+  final CreditCardCode code;
+  final Set<Range> patterns;
+  final bool checkLuhn;
 
   ///
   ///
   ///
   const CreditCardType({
     required this.name,
-    required this.gaps,
+    required this.mask,
     required this.lengths,
     required this.code,
     required this.patterns,
-    this.luhnCheck = true,
+    this.checkLuhn = true,
   });
 
-  final String name;
-  final List<int> gaps;
-  final List<int> lengths;
-  final CreditCardCode code;
-  final Set<Range> patterns;
-  final bool luhnCheck;
+  ///
+  ///
+  ///
+  Icon get icon {
+    IconData iconData = FontAwesomeIcons.solidCreditCard;
+    switch (name) {
+      case 'Visa':
+        iconData = FontAwesomeIcons.ccVisa;
+        break;
+      case 'Mastercard':
+        iconData = FontAwesomeIcons.ccMastercard;
+        break;
+      case 'American Express':
+        iconData = FontAwesomeIcons.ccAmex;
+        break;
+      case 'Diners Club':
+        iconData = FontAwesomeIcons.ccDinersClub;
+        break;
+      case 'Discover':
+        iconData = FontAwesomeIcons.ccDiscover;
+        break;
+      case 'JCB':
+        iconData = FontAwesomeIcons.ccJcb;
+        break;
+    }
+
+    return Icon(iconData);
+  }
+
+  ///
+  ///
+  ///
+  bool validLength(String ccNum) => lengths.contains(clearNum(ccNum).length);
+
+  ///
+  ///
+  ///
+  bool validNumber(String ccNum) {
+    if (!checkLuhn) {
+      return true;
+    }
+
+    if (ccNum.length < 2) {
+      return false;
+    }
+
+    ccNum = ccNum.replaceAll(RegExp(r'\D'), '');
+
+    int len = ccNum.length;
+    int p = len % 2;
+    int sum = 0;
+
+    try {
+      for (int i = ccNum.length - 1; i >= 0; i--) {
+        int d = int.parse(ccNum[i]);
+
+        if (i % 2 == p) {
+          d *= 2;
+          if (d > 9) {
+            d -= 9;
+          }
+        }
+
+        sum += d;
+      }
+
+      return sum % 10 == 0;
+    } on Exception catch (e, s) {
+      if (kDebugMode) {
+        print(e);
+        print(s);
+      }
+      return false;
+    }
+  }
+
+  ///
+  ///
+  ///
+  bool cvvCheck(String cvv) =>
+      code.size.contains(cvv.length) &&
+      code.size.contains(clearNum(cvv).length);
+
+  ///
+  ///
+  ///
+  static String clearNum(String ccNum) => ccNum.replaceAll(RegExp(r'\D'), '');
+
+  ///
+  ///
+  ///
+  static CreditCardType detectType(String ccNum) {
+    ccNum = clearNum(ccNum);
+
+    for (CreditCardType type in CreditCardType.values) {
+      for (Range range in type.patterns) {
+        if (range.isValid(ccNum)) {
+          return type;
+        }
+      }
+    }
+
+    return CreditCardType.unknown;
+  }
 }
 
 ///
@@ -246,7 +356,7 @@ enum CreditCardType {
 ///
 class CreditCardCode {
   final String name;
-  final int size;
+  final List<int> size;
 
   ///
   ///
@@ -283,69 +393,6 @@ class Range {
       return ccInt == initialValue;
     } else {
       return ccInt >= initialValue && ccInt <= finalValue!;
-    }
-  }
-}
-
-///
-///
-///
-class CreditCard {
-  ///
-  ///
-  ///
-  static CreditCardType detectType(String ccNum) {
-    ccNum = ccNum.replaceAll(RegExp(r'\D'), '');
-
-    for (CreditCardType type in CreditCardType.values) {
-      for (Range range in type.patterns) {
-        if (range.isValid(ccNum)) {
-          return type;
-        }
-      }
-    }
-
-    return CreditCardType.unknown;
-  }
-
-  ///
-  ///
-  ///
-  static bool luhnCheck(String ccNum) {
-    if (ccNum.length < 2) {
-      return false;
-    }
-
-    ccNum = ccNum.replaceAll(RegExp(r'\D'), '');
-
-    print(ccNum);
-
-    int len = ccNum.length;
-    int p = len % 2;
-    int sum = 0;
-
-    try {
-      for (int i = ccNum.length - 1; i >= 0; i--) {
-        int d = int.parse(ccNum[i]);
-
-        if (i % 2 == p) {
-          d *= 2;
-        }
-
-        if (d > 9) {
-          d -= 9;
-        }
-
-        sum += d;
-      }
-
-      return sum % 10 == 0;
-    } on Exception catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-        print(s);
-      }
-      return false;
     }
   }
 }
