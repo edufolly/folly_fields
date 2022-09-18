@@ -59,8 +59,7 @@ class CpfCnpjField extends ValidatorField {
         super(
           abstractValidator: CpfCnpjValidator(),
           maxLength: 18,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

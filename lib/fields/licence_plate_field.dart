@@ -59,8 +59,7 @@ class LicencePlateField extends ValidatorField {
         super(
           abstractValidator: LicencePlateValidator(),
           maxLength: 8,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.characters,
         );
 }

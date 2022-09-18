@@ -59,8 +59,7 @@ class PhoneField extends ValidatorField {
         super(
           abstractValidator: PhoneValidator(),
           maxLength: 15,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

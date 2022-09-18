@@ -59,8 +59,7 @@ class EmailField extends ValidatorField {
         ),
         super(
           abstractValidator: EmailValidator(),
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

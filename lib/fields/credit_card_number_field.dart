@@ -205,6 +205,7 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   @override
   void dispose() {
     effectiveController.removeListener(onTextChange);
+    _stateController?.dispose();
     super.dispose();
   }
 }

@@ -59,8 +59,7 @@ class NcmField extends ValidatorField {
         super(
           abstractValidator: NcmValidator(),
           maxLength: 10,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

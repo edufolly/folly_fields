@@ -88,17 +88,15 @@ class ValidatorField extends StringField {
           ],
           onSaved: enabled
               ? (String? value) {
-                  if (onSaved != null) {
-                    if (value != null) {
-                      value = abstractValidator.strip(value);
-                    }
-
-                    if (!required && value != null && value.isEmpty) {
-                      value = null;
-                    }
-
-                    onSaved(value);
+                  if (value != null) {
+                    value = abstractValidator.strip(value);
                   }
+
+                  if (!required && value != null && value.isEmpty) {
+                    value = null;
+                  }
+
+                  onSaved?.call(value);
                 }
               : null,
           initialValue: initialValue != null
