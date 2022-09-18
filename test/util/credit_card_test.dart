@@ -40,7 +40,6 @@ void main() async {
 
         if (ccNum != null) {
           ccNum = ccNum.trim();
-          print('Adding $ccNum to ${entry.key}');
           tests[ccNum] = entry.value;
         }
       }
