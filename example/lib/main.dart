@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         colorSchemeSeed: Colors.deepOrange,
-        useMaterial3: true,
+        // useMaterial3: true,
         brightness: Brightness.dark,
         toggleableActiveColor: Colors.deepOrange,
       ),

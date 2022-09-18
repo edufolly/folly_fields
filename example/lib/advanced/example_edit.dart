@@ -24,6 +24,7 @@ import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_decorator.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
@@ -72,10 +73,47 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             ? 'O campo texto precisa ser informado.'
             : null,
         onSaved: (String value) => model.text = value,
-        sizeSmall: 12,
+        // sizeSmall: 12,
         sizeMedium: 6,
-        sizeLarge: 4,
-        sizeExtraLarge: 3,
+        // sizeLarge: 4,
+        // sizeExtraLarge: 3,
+      ),
+
+      ResponsiveDecorator(
+        sizeMedium: 6,
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: DropdownButtonFormField<ExampleEnum>(
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: 'Ordinal',
+            ),
+            items: const ExampleEnumParser()
+                .items
+                .keys
+                .map<DropdownMenuItem<ExampleEnum>>(
+                  (ExampleEnum e) => DropdownMenuItem<ExampleEnum>(
+                    value: e,
+                    child: Text(e.toString()),
+                  ),
+                )
+                .toList(),
+            onChanged: (ExampleEnum? selected) {},
+          ),
+        ),
+      ),
+
+      /// Dropdown
+      DropdownField<ExampleEnum>(
+        labelPrefix: labelPrefix,
+        label: 'Ordinal',
+        enabled: edit,
+        items: const ExampleEnumParser().items,
+        initialValue: model.ordinal,
+        validator: FollyValidators.notNull,
+        onSaved: (ExampleEnum? value) => model.ordinal = value!,
+        sizeMedium: 12,
+        sizeLarge: 6,
       ),
 
       /// E-mail
@@ -333,19 +371,6 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         sizeMedium: 6,
         sizeLarge: 4,
         sizeExtraLarge: 3,
-      ),
-
-      /// Dropdown
-      DropdownField<ExampleEnum>(
-        labelPrefix: labelPrefix,
-        label: 'Ordinal',
-        enabled: edit,
-        items: const ExampleEnumParser().items,
-        initialValue: model.ordinal,
-        validator: FollyValidators.notNull,
-        onSaved: (ExampleEnum? value) => model.ordinal = value!,
-        sizeMedium: 12,
-        sizeLarge: 6,
       ),
 
       /// Multiline
