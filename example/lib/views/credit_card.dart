@@ -111,7 +111,7 @@ class _CreditCardState extends State<CreditCard> {
                   initialValue: model.holder,
                   validator: FollyValidators.stringNullNotEmpty,
                   sizeMedium: 12,
-                )
+                ),
               ],
             ),
           ),

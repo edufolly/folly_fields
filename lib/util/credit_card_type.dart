@@ -249,7 +249,7 @@ enum CreditCardType {
   ///
   ///
   Icon get icon {
-    IconData iconData = FontAwesomeIcons.solidCreditCard;
+    IconData iconData = FontAwesomeIcons.creditCard;
     switch (name) {
       case 'Visa':
         iconData = FontAwesomeIcons.ccVisa;
@@ -268,6 +268,9 @@ enum CreditCardType {
         break;
       case 'JCB':
         iconData = FontAwesomeIcons.ccJcb;
+        break;
+      case 'Unknown':
+        iconData = FontAwesomeIcons.solidCreditCard;
         break;
     }
 
