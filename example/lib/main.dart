@@ -55,6 +55,7 @@ import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:folly_fields_example/example_table.dart';
+import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,6 +113,7 @@ class MyApp extends StatelessWidget {
               edit: true,
             ),
         '/four_images': (_) => const FourImages(),
+        '/credit_card': (_) => const CreditCard(),
         const ExampleMapFunctionRoute().path: (_) =>
             const ExampleMapFunctionRoute(),
       },
@@ -219,6 +221,13 @@ class MyHomePageState extends State<MyHomePage> {
         iconData: FontAwesomeIcons.image,
         onPressed: (BuildContext context) =>
             Navigator.of(context).pushNamed('/four_images'),
+      ),
+
+      MyMenuItem(
+        name: 'Credit Card',
+        iconData: FontAwesomeIcons.creditCard,
+        onPressed: (BuildContext context) =>
+            Navigator.of(context).pushNamed('/credit_card'),
       ),
 
       /// Table

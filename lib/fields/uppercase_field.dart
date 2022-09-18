@@ -1,25 +1,27 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:folly_fields/fields/validator_field.dart';
-import 'package:folly_fields/validators/cnpj_validator.dart';
+import 'package:folly_fields/fields/string_field.dart';
 
 ///
 ///
 ///
-class CnpjField extends ValidatorField {
+class UppercaseField extends StringField {
   ///
   ///
   ///
-  CnpjField({
-    super.validatorMessage = 'Informe o CNPJ.',
+  UppercaseField({
     super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,
+    super.keyboard,
     super.validator,
-    super.inputFormatter,
+    super.minLines,
+    super.maxLines,
+    super.obscureText,
+    List<TextInputFormatter>? inputFormatter,
     super.textAlign,
-    void Function(String value)? onSaved,
+    super.maxLength,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -28,19 +30,21 @@ class CnpjField extends ValidatorField {
     super.textInputAction,
     super.onFieldSubmitted,
     super.autocorrect,
-    super.enableSuggestions = true,
+    super.enableSuggestions,
+    super.textCapitalization,
     super.scrollPadding,
     super.enableInteractiveSelection,
     super.filled,
     super.fillColor,
-    super.required,
     super.autofillHints,
+    super.readOnly,
     super.style,
     super.decoration,
     super.padding,
     super.hintText,
     super.prefixIcon,
     super.suffixIcon,
+    super.trimOnSaved,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -57,9 +61,21 @@ class CnpjField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CnpjValidator(),
-          maxLength: 18,
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
-          textCapitalization: TextCapitalization.none,
+          inputFormatter: <TextInputFormatter>[
+            TextInputFormatter.withFunction((
+              TextEditingValue oldValue,
+              TextEditingValue newValue,
+            ) {
+              if (newValue.text.isNotEmpty) {
+                newValue = TextEditingValue(
+                  text: newValue.text.toUpperCase(),
+                  selection: newValue.selection,
+                  composing: newValue.composing,
+                );
+              }
+              return newValue;
+            }),
+            ...inputFormatter ?? <TextInputFormatter>[]
+          ],
         );
 }

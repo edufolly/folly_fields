@@ -38,6 +38,9 @@ class CpfField extends ValidatorField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
+    super.prefixIcon,
+    super.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -56,8 +59,7 @@ class CpfField extends ValidatorField {
         super(
           abstractValidator: CpfValidator(),
           maxLength: 14,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-class PasswordVisibleField extends StatefulResponsive {
+class PasswordVisibleField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;
@@ -33,6 +33,8 @@ class PasswordVisibleField extends StatefulResponsive {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final bool startObscured;
+  final String? hintText;
+  final Widget? prefixIcon;
 
   ///
   ///
@@ -65,6 +67,8 @@ class PasswordVisibleField extends StatefulResponsive {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.startObscured = true,
+    this.hintText,
+    this.prefixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -118,6 +122,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
       builder: (BuildContext context, bool? value, _) {
         InputDecoration effectiveDecoration = (widget.decoration ??
                 InputDecoration(
+                  prefixIcon: widget.prefixIcon,
                   label: widget.labelWidget,
                   labelText: widget.label == null
                       ? null
@@ -136,6 +141,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
                     onPressed: () => obscuredNotifier.value =
                         !(obscuredNotifier.value ?? true),
                   ),
+                  hintText: widget.hintText,
                 ))
             .applyDefaults(Theme.of(context).inputDecorationTheme);
 

@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive_builder.dart';
 ///
 ///
 ///
-class ResponsiveGrid extends StatelessResponsive {
+class ResponsiveGrid extends ResponsiveStateless {
   final List<Responsive> children;
   final int maxColumns;
   final CrossAxisAlignment rowCrossAxisAlignment;

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/validator_field.dart';
-import 'package:folly_fields/validators/cnpj_validator.dart';
+import 'package:folly_fields/validators/credit_card_expiration_validator.dart';
 
 ///
 ///
 ///
-class CnpjField extends ValidatorField {
+class CreditCardExpirationField extends ValidatorField {
   ///
   ///
   ///
-  CnpjField({
-    super.validatorMessage = 'Informe o CNPJ.',
+  CreditCardExpirationField({
+    super.validatorMessage = 'Informe a validade.',
     super.labelPrefix,
     super.label,
     super.labelWidget,
@@ -19,7 +19,7 @@ class CnpjField extends ValidatorField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    void Function(String value)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -57,9 +57,8 @@ class CnpjField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CnpjValidator(),
-          maxLength: 18,
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
+          abstractValidator: CreditCardExpirationValidator(),
+          maxLength: 5,
           textCapitalization: TextCapitalization.none,
         );
 }

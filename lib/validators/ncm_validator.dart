@@ -37,5 +37,5 @@ class NcmValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String ncm) => strip(ncm).length == 8;
+  bool isValid(String value) => strip(value).length == 8;
 }

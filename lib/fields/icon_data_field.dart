@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class IconDataField extends FormFieldResponsive<IconData> {
+class IconDataField extends ResponsiveFormField<IconData> {
   final IconFieldController? controller;
   final Map<String, IconData> icons;
 

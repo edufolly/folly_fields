@@ -38,6 +38,9 @@ class CnaeField extends ValidatorField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
+    super.prefixIcon,
+    super.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -56,8 +59,7 @@ class CnaeField extends ValidatorField {
         super(
           abstractValidator: CnaeValidator(),
           maxLength: 9,
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

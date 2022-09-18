@@ -37,5 +37,5 @@ class CepValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String cep) => strip(cep).length == 8;
+  bool isValid(String value) => strip(value).length == 8;
 }

@@ -74,7 +74,7 @@ class _FourImagesState extends State<FourImages> {
 ///
 ///
 ///
-class ResponsiveNetworkImage extends StatelessResponsive {
+class ResponsiveNetworkImage extends ResponsiveStateless {
   final String url;
 
   ///

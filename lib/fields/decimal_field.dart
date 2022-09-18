@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 ///
 ///
-class DecimalField extends StatefulResponsive {
+class DecimalField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;
@@ -29,6 +29,9 @@ class DecimalField extends StatefulResponsive {
   final bool readOnly;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final String? hintText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   ///
   ///
@@ -56,6 +59,9 @@ class DecimalField extends StatefulResponsive {
     this.readOnly = false,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -145,6 +151,9 @@ class DecimalFieldState extends State<DecimalField> {
                   ? widget.label
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
+              hintText: widget.hintText,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon: widget.suffixIcon,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 
@@ -191,15 +200,8 @@ class DecimalFieldState extends State<DecimalField> {
   @override
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
-
-    if (_controller != null) {
-      _controller!.dispose();
-    }
-
-    if (_focusNode != null) {
-      _focusNode!.dispose();
-    }
-
+    _controller?.dispose();
+    _focusNode?.dispose();
     super.dispose();
   }
 }

@@ -37,5 +37,5 @@ class CnaeValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String cnae) => strip(cnae).length == 7;
+  bool isValid(String value) => strip(value).length == 7;
 }

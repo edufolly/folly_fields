@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
-class DropdownField<T> extends FormFieldResponsive<T> {
+class DropdownField<T> extends ResponsiveFormField<T> {
   final DropdownEditingController<T>? controller;
   final Map<T, String>? items;
 

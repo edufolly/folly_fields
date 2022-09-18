@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class TableButton extends StatelessResponsive {
+class TableButton extends ResponsiveStateless {
   final String label;
   final VoidCallback onPressed;
   final bool enabled;
