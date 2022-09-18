@@ -44,12 +44,6 @@ class ColorValidator extends AbstractValidator<Color>
   ///
   ///
   @override
-  TextInputType get keyboard => TextInputType.text;
-
-  ///
-  ///
-  ///
-  @override
   Color? parse(String? text, [int? defaultColor]) {
     if (text == null || text.isEmpty) {
       return defaultColor == null ? null : Color(defaultColor);

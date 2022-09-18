@@ -38,10 +38,10 @@ class StringField extends ResponsiveStateless {
   final TextStyle? style;
   final InputDecoration? decoration;
   final EdgeInsets padding;
-  final bool trimOnSaved;
   final String? hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final bool trimOnSaved;
 
   ///
   ///
@@ -79,10 +79,10 @@ class StringField extends ResponsiveStateless {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
-    this.trimOnSaved = true,
     this.hintText,
     this.prefixIcon,
     this.suffixIcon,
+    this.trimOnSaved = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

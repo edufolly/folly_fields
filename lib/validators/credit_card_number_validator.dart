@@ -55,6 +55,6 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String ccNum) =>
-      _type.validLength(ccNum) && _type.validNumber(ccNum);
+  bool isValid(String value) =>
+      _type.validLength(value) && _type.validNumber(value);
 }

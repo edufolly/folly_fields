@@ -27,7 +27,7 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  String format(String macAddress) => strip(macAddress).replaceAllMapped(
+  String format(String value) => strip(value).replaceAllMapped(
         RegExp(
           '^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
           r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$',

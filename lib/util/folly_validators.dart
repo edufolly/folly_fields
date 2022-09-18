@@ -39,6 +39,14 @@ class FollyValidators {
   ///
   ///
   ///
+  static String? stringNullNotEmpty(String? string) =>
+      string == null || string.isNotEmpty
+          ? null
+          : 'Informe um valor ou deixe em branco.';
+
+  ///
+  ///
+  ///
   static String? notNull(dynamic value) =>
       value == null ? 'O campo não pode ser nulo.' : null;
 
