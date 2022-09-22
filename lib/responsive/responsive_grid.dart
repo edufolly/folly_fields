@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_builder.dart';
+import 'package:folly_fields/util/child_builder.dart';
 
 ///
 ///
@@ -83,18 +84,13 @@ class ResponsiveGrid extends ResponsiveStateless {
           columnChildren.add(_createRow(rowChildren, minHeight));
         }
 
-        Widget column = Column(
-          children: columnChildren,
+        return ChildBuilder(
+          child: Column(
+            children: columnChildren,
+          ),
+          builder: (BuildContext context, Widget child) =>
+              margin == null ? child : Padding(padding: margin!, child: child),
         );
-
-        if (margin != null) {
-          column = Padding(
-            padding: margin!,
-            child: column,
-          );
-        }
-
-        return column;
       },
     );
   }
@@ -102,20 +98,12 @@ class ResponsiveGrid extends ResponsiveStateless {
   ///
   ///
   ///
-  Widget _createRow(
-    List<Widget> rowData,
-    double minHeight,
-  ) =>
-      minHeight >= 0
-          ? SizedBox(
-              height: minHeight,
-              child: Row(
-                crossAxisAlignment: rowCrossAxisAlignment,
-                children: rowData,
-              ),
-            )
-          : Row(
-              crossAxisAlignment: rowCrossAxisAlignment,
-              children: rowData,
-            );
+  Widget _createRow(List<Widget> rowData, double minHeight) => ChildBuilder(
+        child: Row(
+          crossAxisAlignment: rowCrossAxisAlignment,
+          children: rowData,
+        ),
+        builder: (BuildContext context, Widget child) =>
+            minHeight >= 0 ? SizedBox(height: minHeight, child: child) : child,
+      );
 }
