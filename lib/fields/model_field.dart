@@ -40,6 +40,10 @@ class ModelField<T extends AbstractModel<Object>>
     EdgeInsets padding = const EdgeInsets.all(8),
     bool clearOnCancel = true,
     String? hintText,
+    Widget? prefix,
+    Widget? prefixIcon,
+    Widget? suffix,
+    Widget? suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -72,6 +76,10 @@ class ModelField<T extends AbstractModel<Object>>
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       hintText: hintText,
+                      prefix: prefix,
+                      prefixIcon: prefixIcon,
+                      suffix: suffix,
+                      suffixIcon: suffixIcon,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme)
                 .copyWith(

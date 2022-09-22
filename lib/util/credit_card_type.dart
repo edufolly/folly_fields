@@ -1,7 +1,7 @@
 // ignore_for_file: always_specify_types
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -244,35 +244,6 @@ enum CreditCardType {
     required this.patterns,
     this.checkLuhn = true,
   });
-
-  ///
-  ///
-  ///
-  Icon get icon {
-    IconData iconData = FontAwesomeIcons.solidCreditCard;
-    switch (name) {
-      case 'Visa':
-        iconData = FontAwesomeIcons.ccVisa;
-        break;
-      case 'Mastercard':
-        iconData = FontAwesomeIcons.ccMastercard;
-        break;
-      case 'American Express':
-        iconData = FontAwesomeIcons.ccAmex;
-        break;
-      case 'Diners Club':
-        iconData = FontAwesomeIcons.ccDinersClub;
-        break;
-      case 'Discover':
-        iconData = FontAwesomeIcons.ccDiscover;
-        break;
-      case 'JCB':
-        iconData = FontAwesomeIcons.ccJcb;
-        break;
-    }
-
-    return Icon(iconData);
-  }
 
   ///
   ///

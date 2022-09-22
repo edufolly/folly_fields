@@ -37,6 +37,10 @@ class FileField extends ResponsiveFormField<Uint8List> {
     String eraseButtonText = 'Apagar',
     String invalidThumbnailText = 'Arquivo não é uma imagem válida',
     String? hintText,
+    Widget? prefix,
+    Widget? prefixIcon,
+    Widget? suffix,
+    Widget? suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -82,6 +86,10 @@ class FileField extends ResponsiveFormField<Uint8List> {
                       counterText: '',
                       focusColor: focusColor,
                       hintText: hintText,
+                      prefix: prefix,
+                      prefixIcon: prefixIcon,
+                      suffix: suffix,
+                      suffixIcon: suffixIcon,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

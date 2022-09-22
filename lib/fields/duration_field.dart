@@ -40,6 +40,10 @@ class DurationField extends ResponsiveStateful {
   final String secondSuffix;
   final String millisecondSuffix;
   final String? hintText;
+  final Widget? prefix;
+  final Widget? prefixIcon;
+  final Widget? suffix;
+  final Widget? suffixIcon;
 
   ///
   ///
@@ -76,6 +80,10 @@ class DurationField extends ResponsiveStateful {
     this.secondSuffix = 's',
     this.millisecondSuffix = 'ms',
     this.hintText,
+    this.prefix,
+    this.prefixIcon,
+    this.suffix,
+    this.suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -202,6 +210,10 @@ class DurationFieldState extends State<DurationField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              prefix: widget.prefix,
+              prefixIcon: widget.prefixIcon,
+              suffix: widget.suffix,
+              suffixIcon: widget.suffixIcon,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

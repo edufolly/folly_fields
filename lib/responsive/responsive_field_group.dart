@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:folly_fields/widgets/field_group.dart';
+import 'package:folly_fields/responsive/responsive_grid.dart';
 
 ///
 ///
 ///
 class ResponsiveFieldGroup extends ResponsiveStateless {
-  final EdgeInsets padding;
+  final List<Responsive> children;
   final String? labelText;
   final bool edit;
+  final EdgeInsets padding;
   final InputDecoration? decoration;
-  final CrossAxisAlignment crossAxisAlignment;
-  final List<Widget> children;
+  final int maxColumns;
+  final CrossAxisAlignment rowCrossAxisAlignment;
+  final EdgeInsetsGeometry? gridMargin;
+  final EdgeInsetsGeometry? gridPadding;
 
   ///
   ///
@@ -20,9 +23,12 @@ class ResponsiveFieldGroup extends ResponsiveStateless {
     required this.children,
     this.labelText,
     this.edit = true,
-    this.decoration,
     this.padding = const EdgeInsets.all(8),
-    this.crossAxisAlignment = CrossAxisAlignment.stretch,
+    this.decoration,
+    this.maxColumns = 12,
+    this.rowCrossAxisAlignment = CrossAxisAlignment.start,
+    this.gridMargin,
+    this.gridPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -40,16 +46,24 @@ class ResponsiveFieldGroup extends ResponsiveStateless {
   ///
   @override
   Widget build(BuildContext context) {
-    return FieldGroup(
-      decoration: decoration ??
-          InputDecoration(
-            border: const OutlineInputBorder(),
-            labelText: labelText,
-            enabled: edit,
-          ),
+    return Padding(
       padding: padding,
-      crossAxisAlignment: crossAxisAlignment,
-      children: children,
+      child: InputDecorator(
+        decoration: decoration ??
+            InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: labelText,
+              enabled: edit,
+            ),
+        child: ResponsiveGrid(
+          maxColumns: maxColumns,
+          rowCrossAxisAlignment: rowCrossAxisAlignment,
+          margin: gridMargin,
+          padding: gridPadding,
+          sizeMedium: 12,
+          children: children,
+        ),
+      ),
     );
   }
 }

@@ -36,6 +36,28 @@ class CreditCardModel {
 ///
 ///
 ///
+class CreditCardChange {
+  final CreditCardType creditCardType;
+  final bool isValid;
+
+  ///
+  ///
+  ///
+  const CreditCardChange({required this.creditCardType, required this.isValid});
+
+  ///
+  ///
+  ///
+  CreditCardChange copy({CreditCardType? creditCardType, bool? isValid}) =>
+      CreditCardChange(
+        creditCardType: creditCardType ?? this.creditCardType,
+        isValid: isValid ?? this.isValid,
+      );
+}
+
+///
+///
+///
 class CreditCard extends StatefulWidget {
   ///
   ///
@@ -54,9 +76,14 @@ class CreditCard extends StatefulWidget {
 ///
 class _CreditCardState extends State<CreditCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ValueNotifier<CreditCardType> _notifier =
-      ValueNotifier<CreditCardType>(CreditCardType.unknown);
   final CreditCardModel model = CreditCardModel();
+  final ValueNotifier<CreditCardChange> _notifier =
+      ValueNotifier<CreditCardChange>(
+    const CreditCardChange(
+      creditCardType: CreditCardType.unknown,
+      isValid: false,
+    ),
+  );
 
   ///
   ///
@@ -84,9 +111,31 @@ class _CreditCardState extends State<CreditCard> {
                   label: 'Número do Cartão',
                   initialValue: model.number,
                   sizeMedium: 12,
-                  onTypeChange: (CreditCardType ccType) =>
-                      _notifier.value = ccType,
+                  onTypeChange: (CreditCardType ccType) => _notifier.value =
+                      _notifier.value.copy(creditCardType: ccType),
+                  onValid: (bool isValid) =>
+                      _notifier.value = _notifier.value.copy(isValid: isValid),
                   onSaved: (String? value) => model.number = value,
+                  suffix: ValueListenableBuilder<CreditCardChange>(
+                    valueListenable: _notifier,
+                    builder: (BuildContext context, CreditCardChange value, _) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          getIcon(
+                            value.creditCardType,
+                            Theme.of(context).textTheme.bodyMedium?.color,
+                          ),
+                          if (value.isValid)
+                            const Padding(
+                              padding: EdgeInsets.only(left: 16),
+                              child: Icon(FontAwesomeIcons.check),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
                 CreditCardExpirationField(
                   label: 'Validade',
@@ -95,12 +144,12 @@ class _CreditCardState extends State<CreditCard> {
                   sizeMedium: 6,
                   onSaved: (String? value) => model.expiration = value,
                 ),
-                ResponsiveValueListenableBuilder<CreditCardType>(
+                ResponsiveValueListenableBuilder<CreditCardChange>(
                   valueListenable: _notifier,
                   sizeMedium: 6,
-                  builder: (BuildContext context, CreditCardType value, _) {
+                  builder: (BuildContext context, CreditCardChange value, _) {
                     return CreditCardCodeField(
-                      creditCardType: value,
+                      creditCardType: value.creditCardType,
                       initialValue: model.code,
                       onSaved: (String? value) => model.code = value,
                     );
@@ -111,13 +160,47 @@ class _CreditCardState extends State<CreditCard> {
                   initialValue: model.holder,
                   validator: FollyValidators.stringNullNotEmpty,
                   sizeMedium: 12,
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  Icon getIcon(CreditCardType creditCardType, Color? color) {
+    IconData iconData = FontAwesomeIcons.creditCard;
+
+    // ignore: missing_enum_constant_in_switch
+    switch (creditCardType) {
+      case CreditCardType.visa:
+        iconData = FontAwesomeIcons.ccVisa;
+        break;
+      case CreditCardType.mastercard:
+        iconData = FontAwesomeIcons.ccMastercard;
+        break;
+      case CreditCardType.amex:
+        iconData = FontAwesomeIcons.ccAmex;
+        break;
+      case CreditCardType.dinersclub:
+        iconData = FontAwesomeIcons.ccDinersClub;
+        break;
+      case CreditCardType.discover:
+        iconData = FontAwesomeIcons.ccDiscover;
+        break;
+      case CreditCardType.jcb:
+        iconData = FontAwesomeIcons.ccJcb;
+        break;
+      case CreditCardType.unknown:
+        iconData = FontAwesomeIcons.solidCreditCard;
+        break;
+    }
+
+    return Icon(iconData, color: color);
   }
 
   ///
