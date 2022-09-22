@@ -4,7 +4,6 @@ import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:folly_fields/validators/credit_card_number_validator.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -44,9 +43,8 @@ class CreditCardNumberField extends ResponsiveStateful {
   final Widget? suffixIcon;
   final bool trimOnSaved;
   final Function(CreditCardType creditCardType)? onTypeChange;
+  final Function(bool valid)? onValid;
   final String validatorMessage;
-  final bool showDefaultType;
-  final bool showWhenValid;
 
   ///
   ///
@@ -86,9 +84,8 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.suffixIcon,
     this.trimOnSaved = true,
     this.onTypeChange,
+    this.onValid,
     this.validatorMessage = 'Informe o número do cartão de crédito.',
-    this.showDefaultType = true,
-    this.showWhenValid = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -142,13 +139,14 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   void onTextChange() {
     CreditCardType type = CreditCardType.detectType(effectiveController.text);
     if (validator.type != type) {
-      setState(() => validator.type = type);
+      validator.type = type;
       widget.onTypeChange?.call(validator.type);
     }
 
     bool valid = validator.isValid(effectiveController.text);
     if (isValid != valid) {
-      setState(() => isValid = valid);
+      isValid = valid;
+      widget.onValid?.call(isValid);
     }
   }
 
@@ -190,11 +188,8 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       decoration: widget.decoration,
       padding: widget.padding,
       hintText: widget.hintText,
-      prefixIcon:
-          widget.showDefaultType ? validator.type.icon : widget.prefixIcon,
-      suffixIcon: widget.showWhenValid
-          ? (isValid ? const Icon(FontAwesomeIcons.check) : null)
-          : widget.prefixIcon,
+      prefixIcon: widget.prefixIcon,
+      suffixIcon: widget.prefixIcon,
       trimOnSaved: widget.trimOnSaved,
     );
   }
