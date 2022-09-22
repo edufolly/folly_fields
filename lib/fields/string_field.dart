@@ -39,7 +39,9 @@ class StringField extends ResponsiveStateless {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final String? hintText;
+  final Widget? prefix;
   final Widget? prefixIcon;
+  final Widget? suffix;
   final Widget? suffixIcon;
   final bool trimOnSaved;
 
@@ -80,7 +82,9 @@ class StringField extends ResponsiveStateless {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.hintText,
+    this.prefix,
     this.prefixIcon,
+    this.suffix,
     this.suffixIcon,
     this.trimOnSaved = true,
     super.sizeExtraSmall,
@@ -114,7 +118,9 @@ class StringField extends ResponsiveStateless {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
+              prefix: prefix,
               prefixIcon: prefixIcon,
+              suffix: suffix,
               suffixIcon: suffixIcon,
               label: labelWidget,
               labelText: label == null
