@@ -1,8 +1,6 @@
 // ignore_for_file: always_specify_types
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
