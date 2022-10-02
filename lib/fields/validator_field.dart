@@ -16,7 +16,7 @@ class ValidatorField extends StringField {
     super.label,
     super.labelWidget,
     super.controller,
-    String? Function(String value)? validator,
+    String? Function(String? value)? validator,
     super.obscureText,
     List<TextInputFormatter>? inputFormatter,
     super.textAlign,

@@ -13,7 +13,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
-  final String? Function(String value)? validator;
+  final String? Function(String? value)? validator;
   final bool obscureText;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
@@ -21,10 +21,10 @@ class CreditCardNumberField extends ResponsiveStateful {
   final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String?>? onChanged;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;

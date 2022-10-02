@@ -41,7 +41,7 @@ class BrandNewEditPanel1 extends AbstractEditContent<BrandNewModel,
         label: 'Nome*',
         enabled: edit,
         initialValue: model.specific1 ?? model.type.toString(),
-        onSaved: (String value) => model.specific1 = value,
+        onSaved: (String? value) => model.specific1 = value,
       ),
     ];
   }

@@ -12,15 +12,15 @@ class TimeField extends ResponsiveStateful {
   final String? label;
   final Widget? labelWidget;
   final TimeEditingController? controller;
-  final FormFieldValidator<TimeOfDay>? validator;
+  final FormFieldValidator<TimeOfDay?>? validator;
   final TextAlign textAlign;
-  final FormFieldSetter<TimeOfDay>? onSaved;
+  final FormFieldSetter<TimeOfDay?>? onSaved;
   final TimeOfDay? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
