@@ -10,17 +10,17 @@ class PasswordVisibleField extends ResponsiveStateful {
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
-  final String? Function(String value)? validator;
+  final String? Function(String? value)? validator;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
   final int? maxLength;
   final void Function(String? value)? onSaved;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String?>? onChanged;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;
@@ -152,7 +152,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
             keyboardType: TextInputType.visiblePassword,
             decoration: effectiveDecoration,
             validator: widget.enabled && widget.validator != null
-                ? (String? value) => widget.validator!(value ?? '')
+                ? (String? value) => widget.validator!(value)
                 : (_) => null,
             obscureText: value ?? true,
             inputFormatters: widget.inputFormatter,

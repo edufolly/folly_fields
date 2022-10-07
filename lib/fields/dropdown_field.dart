@@ -23,7 +23,6 @@ class DropdownField<T> extends ResponsiveFormField<T> {
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Function(T? value)? onChanged,
-    // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
     Color? fillColor,
     DropdownButtonBuilder? selectedItemBuilder,

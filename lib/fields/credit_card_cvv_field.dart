@@ -18,7 +18,7 @@ class CreditCardCodeField extends StringField {
     super.labelPrefix,
     String? label,
     super.controller,
-    String? Function(String value)? validator,
+    String? Function(String? value)? validator,
     super.textAlign,
     void Function(String? value)? onSaved,
     String? initialValue,

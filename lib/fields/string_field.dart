@@ -11,21 +11,21 @@ class StringField extends ResponsiveStateless {
   final Widget? labelWidget;
   final TextEditingController? controller;
   final TextInputType keyboard;
-  final String? Function(String value)? validator;
+  final String? Function(String? value)? validator;
   final int minLines;
   final int maxLines;
   final bool obscureText;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
   final int? maxLength;
-  final void Function(String value)? onSaved;
+  final void Function(String? value)? onSaved;
   final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String?>? onChanged;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;
@@ -175,13 +175,6 @@ class StringField extends ResponsiveStateless {
   ///
   ///
   ///
-  void _internalSave(String? value) {
-    String val = value ?? '';
-
-    if (trimOnSaved) {
-      val = val.trim();
-    }
-
-    onSaved?.call(val);
-  }
+  void _internalSave(String? value) =>
+      onSaved?.call(trimOnSaved ? value?.trim() : value);
 }

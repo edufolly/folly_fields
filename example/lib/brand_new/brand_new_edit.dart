@@ -52,7 +52,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
         enabled: edit,
         initialValue: model.name,
         validator: FollyValidators.stringNotEmpty,
-        onSaved: (String value) => model.name = value,
+        onSaved: (String? value) => model.name = value ?? '',
       ),
 
       /// Type

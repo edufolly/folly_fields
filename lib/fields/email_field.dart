@@ -20,7 +20,7 @@ class EmailField extends ValidatorField {
     super.inputFormatter,
     super.textAlign,
     super.maxLength,
-    void Function(String value)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -61,7 +61,6 @@ class EmailField extends ValidatorField {
         ),
         super(
           abstractValidator: EmailValidator(),
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

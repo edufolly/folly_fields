@@ -21,7 +21,7 @@ class DurationField extends ResponsiveStateful {
   final AutovalidateMode autoValidateMode;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool filled;
