@@ -28,7 +28,7 @@ class ModelField<T extends AbstractModel<Object>>
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO(edufolly): onChanged
     TextInputAction? textInputAction,
-    ValueChanged<String>? onFieldSubmitted,
+    ValueChanged<String?>? onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20),
     bool filled = false,
     Color? fillColor,

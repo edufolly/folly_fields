@@ -19,7 +19,7 @@ class CestField extends ValidatorField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    void Function(String)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -61,7 +61,6 @@ class CestField extends ValidatorField {
         super(
           abstractValidator: CestValidator(),
           maxLength: 9,
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

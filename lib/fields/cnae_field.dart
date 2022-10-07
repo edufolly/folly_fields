@@ -19,7 +19,7 @@ class CnaeField extends ValidatorField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    void Function(String)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -61,7 +61,6 @@ class CnaeField extends ValidatorField {
         super(
           abstractValidator: CnaeValidator(),
           maxLength: 9,
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

@@ -13,15 +13,15 @@ class DateField extends ResponsiveStateful {
   final String? label;
   final Widget? labelWidget;
   final DateEditingController? controller;
-  final FormFieldValidator<DateTime>? validator;
+  final FormFieldValidator<DateTime?>? validator;
   final TextAlign textAlign;
-  final FormFieldSetter<DateTime>? onSaved;
+  final FormFieldSetter<DateTime?>? onSaved;
   final DateTime? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final DateTime? firstDate;

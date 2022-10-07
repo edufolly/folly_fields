@@ -19,7 +19,7 @@ class CpfField extends ValidatorField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    void Function(String value)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -61,7 +61,6 @@ class CpfField extends ValidatorField {
         super(
           abstractValidator: CpfValidator(),
           maxLength: 14,
-          onSaved: (String? value) => onSaved?.call(value ?? ''),
           textCapitalization: TextCapitalization.none,
         );
 }

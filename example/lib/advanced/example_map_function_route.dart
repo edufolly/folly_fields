@@ -112,8 +112,8 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
               child: StringField(
                 label: 'Campo de Teste',
                 initialValue: model.test,
-                onSaved: (String value) =>
-                    model.test = value.isEmpty ? null : value,
+                onSaved: (String? value) =>
+                    model.test = value == null || value.isEmpty ? null : value,
               ),
             ),
           ),
