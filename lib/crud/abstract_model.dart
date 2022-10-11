@@ -6,12 +6,6 @@ import 'package:folly_fields/util/hashable.dart';
 ///
 ///
 abstract class AbstractModel<A> with Hashable {
-  static final String modelIdKey = FollyFields().modelIdKey;
-  static final String modelUpdatedAtKey = FollyFields().modelUpdatedAtKey;
-  static final String modelDeletedAtKey = FollyFields().modelDeletedAtKey;
-  static final FollyDateParse? dateParseUpdate = FollyFields().dateParseUpdate;
-  static final FollyDateParse? dateParseDelete = FollyFields().dateParseDelete;
-
   A? id;
   int? updatedAt;
   int? deletedAt;
@@ -26,6 +20,31 @@ abstract class AbstractModel<A> with Hashable {
     this.deletedAt,
     this.selected = false,
   });
+
+  ///
+  ///
+  ///
+  String get modelIdKey => FollyFields().modelIdKey;
+
+  ///
+  ///
+  ///
+  String get modelUpdatedAtKey => FollyFields().modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  String get modelDeletedAtKey => FollyFields().modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseUpdate => FollyFields().dateParseUpdate;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseDelete => FollyFields().dateParseDelete;
 
   ///
   ///
