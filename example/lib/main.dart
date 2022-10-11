@@ -811,9 +811,16 @@ class MyHomePageState extends State<MyHomePage> {
                         enabled: edit,
                         initialValue: list,
                         uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
-                        routeAddBuilder:
-                            (BuildContext context, ExampleBuilder uiBuilder) =>
-                                ExampleList(
+                        beforeDelete: (
+                          BuildContext context,
+                          int index,
+                          ExampleModel model,
+                        ) async => model.integer.isEven,
+                        routeAddBuilder: (
+                          BuildContext context,
+                          ExampleBuilder uiBuilder,
+                        ) =>
+                            ExampleList(
                           labelPrefix: labelPrefix,
                           selection: true,
                           multipleSelection: true,

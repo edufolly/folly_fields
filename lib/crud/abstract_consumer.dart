@@ -65,7 +65,7 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Future<T> getById(
+  Future<T?> getById(
     BuildContext context,
     T model,
   );
