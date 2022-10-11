@@ -295,7 +295,7 @@ enum CreditCardType {
   ///
   bool cvvCheck(String cvv) =>
       code.size.contains(cvv.length) &&
-          code.size.contains(clearNum(cvv).length);
+      code.size.contains(clearNum(cvv).length);
 
   ///
   ///
@@ -318,6 +318,15 @@ enum CreditCardType {
 
     return CreditCardType.unknown;
   }
+
+  ///
+  ///
+  ///
+  static CreditCardType parse(String? value) =>
+      CreditCardType.values.firstWhere(
+        (CreditCardType type) => type.brand == value,
+        orElse: () => CreditCardType.unknown,
+      );
 }
 
 ///
