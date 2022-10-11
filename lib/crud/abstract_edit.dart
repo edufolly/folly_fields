@@ -94,10 +94,10 @@ class AbstractEditState<
   ///
   Future<void> _loadData() async {
     try {
-      if (widget.model.id == null || widget.consumer.routeName.isEmpty) {
-        _model = widget.consumer.fromJson(widget.model.toMap());
-      } else {
-        _model = await widget.consumer.getById(context, widget.model);
+      _model = widget.consumer.fromJson(widget.model.toMap());
+
+      if (widget.model.id != null && widget.consumer.routeName.isNotEmpty) {
+        _model = await widget.consumer.getById(context, widget.model) ?? _model;
       }
 
       if (widget.modelFunctions != null) {

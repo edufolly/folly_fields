@@ -4,6 +4,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+import 'package:folly_fields/util/child_builder.dart';
 import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/table_button.dart';
@@ -33,6 +34,8 @@ class ListField<T extends AbstractModel<Object>,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Future<bool> Function(BuildContext context)? beforeAdd,
     Future<bool> Function(BuildContext context, int index, T model)? beforeEdit,
+    Future<bool> Function(BuildContext context, int index, T model)?
+        beforeDelete,
     String addText = 'Adicionar %s',
     String removeText = 'Deseja remover %s?',
     String clearText = 'Deseja remover todos itens da lista?',
@@ -255,6 +258,7 @@ class ListField<T extends AbstractModel<Object>,
                                     enabled: enabled,
                                     beforeEdit: beforeEdit,
                                     routeEditBuilder: routeEditBuilder,
+                                    beforeDelete: beforeDelete,
                                     listSort: listSort,
                                     onChanged: onChanged,
                                     showDeleteButton: showDeleteButton,
@@ -302,6 +306,8 @@ class _MyListTile<T extends AbstractModel<Object>,
       beforeEdit;
   final Function(BuildContext context, T model, UI uiBuilder, bool edit)?
       routeEditBuilder;
+  final Future<bool> Function(BuildContext context, int index, T model)?
+      beforeDelete;
   final int Function(T a, T b)? listSort;
   final void Function(List<T> value)? onChanged;
   final bool showDeleteButton;
@@ -318,6 +324,7 @@ class _MyListTile<T extends AbstractModel<Object>,
     required this.enabled,
     required this.beforeEdit,
     required this.routeEditBuilder,
+    required this.beforeDelete,
     required this.listSort,
     required this.onChanged,
     required this.showDeleteButton,
@@ -328,84 +335,88 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   @override
-  Widget build(BuildContext context) => FollyFields().isNotMobile ||
-          !enabled ||
-          !showDeleteButton
-      ? _internalTile(context, index, model)
-      : Dismissible(
-          // TODO(edufolly): Test the key in tests.
-          key: Key('key_${index}_${model.id}'),
-          direction: DismissDirection.endToStart,
-          background: Container(
-            color: Colors.red,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 8),
-            child: const FaIcon(
-              FontAwesomeIcons.trashCan,
-              color: Colors.white,
-            ),
-          ),
-          confirmDismiss: (DismissDirection direction) => _askDelete(context),
-          onDismissed: (DismissDirection direction) => _delete(context, model),
-          child: _internalTile(context, index, model),
-        );
-
-  ///
-  ///
-  ///
-  Widget _internalTile(BuildContext context, int index, T model) {
-    return ListTile(
-      enabled: enabled,
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          uiBuilder.getLeading(context, model),
-        ],
-      ),
-      title: uiBuilder.getTitle(context, model),
-      subtitle: uiBuilder.getSubtitle(context, model),
-      trailing: Visibility(
-        visible: FollyFields().isNotMobile && enabled && showDeleteButton,
-        child: IconButton(
-          icon: const Icon(FontAwesomeIcons.trashCan),
-          onPressed: enabled ? () => _delete(context, model, ask: true) : null,
+  Widget build(BuildContext context) {
+    return ChildBuilder(
+      child: ListTile(
+        enabled: enabled,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            uiBuilder.getLeading(context, model),
+          ],
         ),
-      ),
-      onTap: () async {
-        if (beforeEdit != null) {
-          bool go = await beforeEdit!(
-            field.context,
-            index,
-            model,
-          );
-          if (!go) {
-            return;
+        title: uiBuilder.getTitle(context, model),
+        subtitle: uiBuilder.getSubtitle(context, model),
+        trailing: Visibility(
+          visible: FollyFields().isNotMobile && enabled && showDeleteButton,
+          child: IconButton(
+            icon: const Icon(FontAwesomeIcons.trashCan),
+            onPressed: enabled
+                ? () => _delete(context, index, model, ask: true)
+                : null,
+          ),
+        ),
+        onTap: () async {
+          if (beforeEdit != null) {
+            bool go = await beforeEdit!(
+              field.context,
+              index,
+              model,
+            );
+            if (!go) {
+              return;
+            }
           }
-        }
 
-        if (routeEditBuilder != null) {
-          T? returned = await Navigator.of(field.context).push(
-            MaterialPageRoute<T>(
-              builder: (BuildContext context) => routeEditBuilder!(
-                context,
-                model,
-                uiBuilder,
-                enabled,
+          if (routeEditBuilder != null) {
+            T? returned = await Navigator.of(field.context).push(
+              MaterialPageRoute<T>(
+                builder: (BuildContext context) => routeEditBuilder!(
+                  context,
+                  model,
+                  uiBuilder,
+                  enabled,
+                ),
               ),
-            ),
-          );
-
-          if (returned != null) {
-            field.value![index] = returned;
-
-            field.value!.sort(
-              listSort ?? (T a, T b) => a.toString().compareTo(b.toString()),
             );
 
-            onChanged?.call(field.value!);
+            if (returned != null) {
+              field.value![index] = returned;
 
-            field.didChange(field.value);
+              field.value!.sort(
+                listSort ?? (T a, T b) => a.toString().compareTo(b.toString()),
+              );
+
+              onChanged?.call(field.value!);
+
+              field.didChange(field.value);
+            }
           }
+        },
+      ),
+      builder: (BuildContext context, Widget child) {
+        if (FollyFields().isNotMobile || !enabled || !showDeleteButton) {
+          return child;
+        } else {
+          return Dismissible(
+            // TODO(edufolly): Test the key in tests.
+            key: Key('key_${index}_${model.id}'),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              color: Colors.red,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 8),
+              child: const FaIcon(
+                FontAwesomeIcons.trashCan,
+                color: Colors.white,
+              ),
+            ),
+            confirmDismiss: (DismissDirection direction) =>
+                _askDelete(context, index, model),
+            onDismissed: (DismissDirection direction) =>
+                _delete(context, index, model),
+            child: child,
+          );
         }
       },
     );
@@ -416,13 +427,14 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   Future<void> _delete(
     BuildContext context,
+    int index,
     T model, {
     bool ask = false,
   }) async {
     bool del = true;
 
     if (ask) {
-      del = (await _askDelete(context)) ?? false;
+      del = await _askDelete(context, index, model);
     }
 
     if (del) {
@@ -437,11 +449,19 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   ///
-  Future<bool?> _askDelete(BuildContext context) => FollyDialogs.yesNoDialog(
+  Future<bool> _askDelete(BuildContext context, int index, T model) async {
+    bool canDelete = await beforeDelete?.call(context, index, model) ?? true;
+
+    if (canDelete) {
+      return FollyDialogs.yesNoDialog(
         context: context,
         message: sprintf(
           removeText,
           <dynamic>[uiBuilder.superSingle(context)],
         ),
       );
+    }
+
+    return false;
+  }
 }
