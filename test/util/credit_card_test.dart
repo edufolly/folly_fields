@@ -223,34 +223,44 @@ void main() async {
     'DinersClub': CreditCardType.dinersclub,
     'Dinersclub': CreditCardType.dinersclub,
     'dinersclub': CreditCardType.dinersclub,
+    'discover': CreditCardType.discover,
+    'Discover': CreditCardType.discover,
+    'DISCOVER': CreditCardType.discover,
+    'd1sc0v3r': CreditCardType.unknown,
+    'jcb': CreditCardType.jcb,
+    'Jcb': CreditCardType.jcb,
+    'jCb': CreditCardType.jcb,
+    'jcB': CreditCardType.jcb,
+    'JCb': CreditCardType.jcb,
+    'jCB': CreditCardType.jcb,
+    'JCB': CreditCardType.jcb,
+    'unionpay': CreditCardType.unionpay,
+    'UnionPay': CreditCardType.unionpay,
+    'UNIONPAY': CreditCardType.unionpay,
+    'maestro': CreditCardType.maestro,
+    'Maestro': CreditCardType.maestro,
+    'MAESTRO': CreditCardType.maestro,
+    'elo': CreditCardType.elo,
+    'Elo': CreditCardType.elo,
+    'eLo': CreditCardType.elo,
+    'elO': CreditCardType.elo,
+    'ELo': CreditCardType.elo,
+    'eLO': CreditCardType.elo,
+    'ELO': CreditCardType.elo,
+    'mir': CreditCardType.mir,
+    'Mir': CreditCardType.mir,
+    'mIr': CreditCardType.mir,
+    'miR': CreditCardType.mir,
+    'MIr': CreditCardType.mir,
+    'mIR': CreditCardType.mir,
+    'MIR': CreditCardType.mir,
+    'hiper': CreditCardType.hiper,
+    'Hiper': CreditCardType.hiper,
+    'HIPER': CreditCardType.hiper,
+    'hipercard': CreditCardType.hipercard,
+    'Hipercard': CreditCardType.hipercard,
+    'HIPERCARD': CreditCardType.hipercard,
   };
-
-  /*
-  discover(
-    brand: 'Discover',
-
-  jcb(
-    brand: 'JCB',
-
-  unionpay(
-    brand: 'UnionPay',
-
-  maestro(
-    brand: 'Maestro',
-
-  elo(
-    brand: 'Elo',
-
-  mir(
-    brand: 'Mir',
-
-  hiper(
-    brand: 'Hiper',
-
-  hipercard(
-    brand: 'Hipercard',
-   */
-
 
   group(
     'Credit card type parse check',
