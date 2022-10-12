@@ -177,4 +177,93 @@ void main() async {
       }
     },
   );
+
+  Map<String?, CreditCardType> typeTests = <String?, CreditCardType>{
+    null: CreditCardType.unknown,
+    '': CreditCardType.unknown,
+    ' ': CreditCardType.unknown,
+    'unknown': CreditCardType.unknown,
+    'a': CreditCardType.unknown,
+    '1': CreditCardType.unknown,
+    'Mastercard': CreditCardType.mastercard,
+    'mastercard': CreditCardType.mastercard,
+    'MASTERCARD': CreditCardType.mastercard,
+    'Master card': CreditCardType.mastercard,
+    'Master Card': CreditCardType.mastercard,
+    'master card': CreditCardType.mastercard,
+    'MASTER CARD': CreditCardType.mastercard,
+    'master': CreditCardType.mastercard,
+    ' master ': CreditCardType.mastercard,
+    ' master': CreditCardType.mastercard,
+    'master ': CreditCardType.mastercard,
+    'Master': CreditCardType.mastercard,
+    'MASTER': CreditCardType.mastercard,
+    'M4ST3R': CreditCardType.unknown,
+    'visa': CreditCardType.visa,
+    'VISA': CreditCardType.visa,
+    'Visa': CreditCardType.visa,
+    'V1S4': CreditCardType.unknown,
+    'Amex': CreditCardType.amex,
+    'amex': CreditCardType.amex,
+    'AMEX': CreditCardType.amex,
+    'American Express': CreditCardType.amex,
+    'American express': CreditCardType.amex,
+    'american express': CreditCardType.amex,
+    'AmericanExpress': CreditCardType.amex,
+    'Americanexpress': CreditCardType.amex,
+    'americanexpress': CreditCardType.amex,
+    'americanExpress': CreditCardType.amex,
+    '4M3X': CreditCardType.unknown,
+    'Diners': CreditCardType.dinersclub,
+    'diners': CreditCardType.dinersclub,
+    'DINERS': CreditCardType.dinersclub,
+    'Diners Club': CreditCardType.dinersclub,
+    'Diners club': CreditCardType.dinersclub,
+    'diners club': CreditCardType.dinersclub,
+    'DinersClub': CreditCardType.dinersclub,
+    'Dinersclub': CreditCardType.dinersclub,
+    'dinersclub': CreditCardType.dinersclub,
+  };
+
+  /*
+  discover(
+    brand: 'Discover',
+
+  jcb(
+    brand: 'JCB',
+
+  unionpay(
+    brand: 'UnionPay',
+
+  maestro(
+    brand: 'Maestro',
+
+  elo(
+    brand: 'Elo',
+
+  mir(
+    brand: 'Mir',
+
+  hiper(
+    brand: 'Hiper',
+
+  hipercard(
+    brand: 'Hipercard',
+   */
+
+
+  group(
+    'Credit card type parse check',
+    () {
+      for (MapEntry<String?, CreditCardType> entry in typeTests.entries) {
+        test(
+          'Testing "${entry.key}"',
+          () => expect(
+            CreditCardType.parse(entry.key),
+            entry.value,
+          ),
+        );
+      }
+    },
+  );
 }

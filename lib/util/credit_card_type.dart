@@ -32,6 +32,7 @@ enum CreditCardType {
       Range(270, 271),
       Range(2720),
     },
+    extraBrands: ['mastercard'],
   ),
 
   /// American Express
@@ -44,6 +45,7 @@ enum CreditCardType {
       Range(34),
       Range(37),
     },
+    extraBrands: ['americanexpress'],
   ),
 
   /// Diners Club
@@ -58,6 +60,7 @@ enum CreditCardType {
       Range(38),
       Range(39),
     },
+    extraBrands: ['dinersclub'],
   ),
 
   /// Discover
@@ -230,6 +233,7 @@ enum CreditCardType {
   final CreditCardCode code;
   final Set<Range> patterns;
   final bool checkLuhn;
+  final List<String> extraBrands;
 
   ///
   ///
@@ -241,6 +245,7 @@ enum CreditCardType {
     required this.code,
     required this.patterns,
     this.checkLuhn = true,
+    this.extraBrands = const <String>[],
   });
 
   ///
@@ -324,7 +329,14 @@ enum CreditCardType {
   ///
   static CreditCardType parse(String? value) =>
       CreditCardType.values.firstWhere(
-        (CreditCardType type) => type.brand == value,
+        (CreditCardType type) {
+          String? v = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
+          return type.brand.toLowerCase() == v ||
+              type.extraBrands.fold<bool>(
+                false,
+                (bool p, String e) => p || e.toLowerCase() == v,
+              );
+        },
         orElse: () => CreditCardType.unknown,
       );
 }
