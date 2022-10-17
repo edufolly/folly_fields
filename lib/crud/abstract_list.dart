@@ -162,7 +162,8 @@ class AbstractListState<
       GlobalKey<RefreshIndicatorState>();
 
   final ScrollController _scrollController = ScrollController();
-  final StreamController<int> _streamController = StreamController<int>();
+  final StreamController<AbstractListStateEnum> _streamController =
+      StreamController<AbstractListStateEnum>();
 
   final ValueNotifier<bool> _insertNotifier = ValueNotifier<bool>(false);
   final ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>
@@ -177,6 +178,7 @@ class AbstractListState<
 
   bool _update = false;
   bool _delete = false;
+  bool _initiallyFilled = false;
 
   final Map<Object, T> _selections = <Object, T>{};
 
@@ -263,17 +265,18 @@ class AbstractListState<
   ///
   ///
   ///
-  Future<void> _loadData(
+  /// Returns the amount of fetched items.
+  Future<int> _loadData(
     BuildContext context, {
     bool clear = true,
   }) async {
     if (clear) {
       _globalItems = <T>[];
       _page = 0;
-      _streamController.add(-2);
+      _streamController.add(AbstractListStateEnum.loadingMessage);
     } else {
       _loading = true;
-      _streamController.add(-1);
+      _streamController.add(AbstractListStateEnum.incrementalLoading);
     }
 
     try {
@@ -288,19 +291,21 @@ class AbstractListState<
       );
 
       if (result.isEmpty) {
-        _streamController.add(0);
+        _streamController.add(AbstractListStateEnum.finishLoading);
       } else {
         _page++;
         _globalItems.addAll(result);
       }
 
-      _streamController.add(_page);
+      _streamController.add(AbstractListStateEnum.finishLoading);
       _loading = false;
+      return result.length;
     } on Exception catch (e, s) {
       if (kDebugMode) {
         print('$e\n$s');
       }
       _streamController.addError(e, s);
+      return 0;
     }
   }
 
@@ -340,7 +345,7 @@ class AbstractListState<
                     _selections[model.id!] = model;
                   }
                 }
-                _streamController.add(_page);
+                _streamController.add(AbstractListStateEnum.finishLoading);
               },
             ),
 
@@ -470,18 +475,41 @@ class AbstractListState<
           future: _loadPermissions(context),
           waitingMessage: widget.waitingText,
           builder: (BuildContext context, bool value, _) {
-            return SafeStreamBuilder<int>(
+            return SafeStreamBuilder<AbstractListStateEnum>(
               stream: _streamController.stream,
               waitingMessage: widget.waitingText,
-              builder: (BuildContext context, int data, _) {
-                if (data < -1) {
+              builder: (BuildContext context, AbstractListStateEnum event, _) {
+                if (event == AbstractListStateEnum.loadingMessage) {
                   return WaitingMessage(message: widget.waitingText);
                 }
 
-                /// CircularProgressIndicator at list final.
+                /// CircularProgressIndicator will be at the list bottom,
+                /// so we make space here with an extra index if
+                /// event is incrementalLoading
                 int itemCount = _globalItems.length;
-                if (data == -1) {
+                if (event == AbstractListStateEnum.incrementalLoading) {
                   itemCount++;
+                }
+
+                // If this is the first 'finishLoading' event and the scrollbar
+                // hasn't even appeared yet, we won't be able to scroll further.
+                // this callback will be called after building this widget.
+                if (event == AbstractListStateEnum.finishLoading &&
+                    _initiallyFilled == false) {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) async {
+                      if (_scrollController.positions.isNotEmpty &&
+                          _scrollController.position.maxScrollExtent == 0) {
+                        int extraAmount =
+                            await _loadData(context, clear: false);
+                        if (extraAmount == 0) {
+                          // This flags that we won't try further '_loadData'
+                          // calls
+                          _initiallyFilled = true;
+                        }
+                      }
+                    },
+                  );
                 }
 
                 return RefreshIndicator(
@@ -717,7 +745,7 @@ class AbstractListState<
         } else {
           _selections[model.id!] = model;
         }
-        _streamController.add(_page);
+        _streamController.add(AbstractListStateEnum.finishLoading);
       } else {
         Navigator.of(context).pop(model);
       }
@@ -850,6 +878,15 @@ class AbstractListState<
     _streamController.close();
     super.dispose();
   }
+}
+
+///
+///
+///
+enum AbstractListStateEnum {
+  finishLoading, // Gotta show only current list items
+  loadingMessage, // Gotta show only a waiting message
+  incrementalLoading, // Gotta show list items and a loading indicator at bottom
 }
 
 ///
