@@ -496,16 +496,20 @@ class AbstractListState<
                 // this callback will be called after building this widget.
                 if (event == AbstractListStateEnum.finishLoading &&
                     _initiallyFilled == false) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    if (_scrollController.positions.isNotEmpty &&
-                        _scrollController.position.maxScrollExtent == 0) {
-                      int extraAmount = await _loadData(context, clear: false);
-                      if (extraAmount == 0) {
-                        // This flags that we won't try further '_loadData' calls
-                        _initiallyFilled = true;
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) async {
+                      if (_scrollController.positions.isNotEmpty &&
+                          _scrollController.position.maxScrollExtent == 0) {
+                        int extraAmount =
+                            await _loadData(context, clear: false);
+                        if (extraAmount == 0) {
+                          // This flags that we won't try further '_loadData'
+                          // calls
+                          _initiallyFilled = true;
+                        }
                       }
-                    }
-                  });
+                    },
+                  );
                 }
 
                 return RefreshIndicator(

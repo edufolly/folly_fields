@@ -22,6 +22,7 @@ class ExampleList
     super.multipleSelection = false,
     super.invertSelection = false,
     String labelPrefix = '',
+    super.itemsPerPage = 10,
   }) : super(
           forceOffline: false,
           showRefreshButton: true,
