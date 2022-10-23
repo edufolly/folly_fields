@@ -35,6 +35,7 @@ class ExampleModel extends AbstractModel<int> {
   String document = '';
   String phone = '';
   String localPhone = '';
+  String mobilePhone = '';
   DateTime dateTime = DateTime.now();
   DateTime? date;
   TimeOfDay time = TimeOfDay.now();
@@ -74,6 +75,7 @@ class ExampleModel extends AbstractModel<int> {
         document = map['document'] ?? '',
         phone = map['phone'] ?? '',
         localPhone = map['localPhone'] ?? '',
+        mobilePhone = map['mobilePhone'] ?? '',
         dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
         date = ModelUtils.fromJsonNullableDateMillis(map['date']),
         time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
@@ -110,6 +112,7 @@ class ExampleModel extends AbstractModel<int> {
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
+    map['mobilePhone'] = mobilePhone;
     map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
     map['date'] = ModelUtils.toMapNullableDateMillis(date);
     map['time'] = _timeValidator.format(time);
@@ -169,6 +172,7 @@ class ExampleModel extends AbstractModel<int> {
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
     phone = '889${complete(8)}';
     localPhone = '9${complete(8)}';
+    mobilePhone = '119${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
     time = TimeOfDay(hour: now.hour, minute: now.minute);
     dateTime =

@@ -5,16 +5,15 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class PhoneValidator extends AbstractValidator<String> {
+class MobilePhoneValidator extends AbstractValidator<String> {
   ///
   ///
   ///
-  PhoneValidator()
+  MobilePhoneValidator()
       : super(
           <TextInputFormatter>[
-            ChangeMask(
-              firstMask: '(##) ####-####',
-              secondMask: '(##) #####-####',
+            MaskTextInputFormatter(
+              mask: '(##) #####-####',
             ),
           ],
         );
@@ -24,7 +23,7 @@ class PhoneValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
-        RegExp(r'^(\d{2})(\d{4,5})(\d{4})$'),
+        RegExp(r'^(\d{2})(\d{5})(\d{4})$'),
         (Match m) => '(${m[1]}) ${m[2]}-${m[3]}',
       );
 
@@ -43,11 +42,6 @@ class PhoneValidator extends AbstractValidator<String> {
 
     /// phone must be defined
     if (value.isEmpty) {
-      return false;
-    }
-
-    /// phone must have 10 or 11 chars
-    if (value.length < 10 || value.length > 11) {
       return false;
     }
 

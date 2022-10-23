@@ -25,6 +25,7 @@ import 'package:folly_fields/fields/licence_plate_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/mobile_phone_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
@@ -517,6 +518,24 @@ class MyHomePageState extends State<MyHomePage> {
                             model.localPhone = value ?? '',
                       ),
                       // [/LocalPhoneField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'MobilePhoneField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/mobile_local_phone_field.dart',
+                      child:
+                      // [MobilePhoneField]
+                      MobilePhoneField(
+                        labelPrefix: labelPrefix,
+                        label: 'Celular*',
+                        enabled: edit,
+                        initialValue: model.mobilePhone,
+                        onSaved: (String? value) =>
+                        model.mobilePhone = value ?? '',
+                      ),
+                      // [/MobilePhoneField]
                     ),
 
                     CodeLink(
