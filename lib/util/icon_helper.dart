@@ -15,13 +15,20 @@ class IconHelper {
   ///
   ///
   ///
-  static FaIcon faIcon(String iconName) => FaIcon(iconData(iconName));
+  static FaIcon faIcon(
+    String iconName, {
+    IconData defaultIconData = FontAwesomeIcons.solidCircle,
+  }) =>
+      FaIcon(iconData(iconName, defaultIconData: defaultIconData));
 
   ///
   ///
   ///
-  static IconData iconData(String iconName) =>
-      data[iconName] ?? FontAwesomeIcons.solidCircle;
+  static IconData iconData(
+    String iconName, {
+    IconData defaultIconData = FontAwesomeIcons.solidCircle,
+  }) =>
+      data[iconName] ?? defaultIconData;
 
   ///
   ///
