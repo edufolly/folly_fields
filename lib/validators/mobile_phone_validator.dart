@@ -45,12 +45,16 @@ class MobilePhoneValidator extends AbstractValidator<String> {
       return false;
     }
 
+    if (value.length != 11) {
+      return false;
+    }
+
     /// Não existe DDD com zero.
     if (value[0] == '0' || value[1] == '0') {
       return false;
     }
 
     /// Telefones celulares sempre iniciam com 9.
-    return !(value.length == 11 && value[2] != '9');
+    return value[2] == '9';
   }
 }

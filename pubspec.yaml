@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.15.4+157
+version: 0.15.5+158
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
+  # TODO(edufolly): Update in 0.16.0
   connectivity_plus: ^2.0.0
 
   # https://pub.dev/packages/cpf_cnpj_validator
@@ -25,6 +26,7 @@ dependencies:
   expandable: ^5.0.1
 
   # https://pub.dev/packages/file_picker
+  # TODO(edufolly): Update in 0.16.0
   file_picker: ^4.6.1
 
   # https://flutter.dev/
