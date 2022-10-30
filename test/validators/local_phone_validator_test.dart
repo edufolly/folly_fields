@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/validators/mobile_phone_validator.dart';
+import 'package:folly_fields/validators/local_phone_validator.dart';
 
 ///
 ///
 ///
 void main() {
-  MobilePhoneValidator validator = MobilePhoneValidator();
+  LocalPhoneValidator validator = LocalPhoneValidator();
 
   Map<String, bool> isValidTests = <String, bool>{
     '': false,
@@ -17,37 +17,23 @@ void main() {
     '99999': false,
     '999999': false,
     '9999999': false,
-    '99999999': false,
-    '999999999': false,
+    '89999999': true,
+    '99999999': true,
+    '999999999': true,
+    '199999999': false,
     '9999999999': false,
-    '88999999999': true,
-    '88899999999': false,
-    '08999999999': false,
-    '80999999999': false,
-    '08899999999': false,
-    '80899999999': false,
-    '889999999999': false,
-    '(9)': false,
-    '(99)': false,
-    '(99) 9': false,
-    '(99) 99': false,
-    '(99) 999': false,
-    '(99) 9999': false,
-    '(99) 99999': false,
-    '(99) 99999-': false,
-    '(99) 99999-9': false,
-    '(99) 99999-99': false,
-    '(99) 99999-999': false,
-    '(88) 99999-9999': true,
-    '(88) 89999-9999': false,
-    '(80) 99999-9999': false,
-    '(08) 99999-9999': false,
-    '(80) 89999-9999': false,
-    '(08) 89999-9999': false,
+    '99999-': false,
+    '99999-9': false,
+    '99999-99': false,
+    '99999-999': true,
+    '9999-9999': true,
+    '8999-9999': true,
+    '99999-9999': true,
+    '09999-9999': false,
   };
 
   group(
-    'MobilePhoneValidator isValid',
+    'LocalPhoneValidator isValid',
     () {
       for (MapEntry<String, bool> input in isValidTests.entries) {
         test(
@@ -62,10 +48,15 @@ void main() {
     '': '',
     ' ': '',
     '!': '',
+    '9999999': '9999999',
+    '99999999': '9999-9999',
+    '999999999': '99999-9999',
     '9999999999': '9999999999',
-    '(99) 99999-999': '9999999999',
-    '99999999999': '(99) 99999-9999',
-    '(99) 99999-9999': '(99) 99999-9999',
+    '8999-9999': '8999-9999',
+    '9999-9999': '9999-9999',
+    '89999-999': '8999-9999',
+    '99999-999': '9999-9999',
+    '99999-9999': '99999-9999',
   };
 
   group(
@@ -79,4 +70,5 @@ void main() {
       }
     },
   );
+
 }

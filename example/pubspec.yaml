@@ -3,14 +3,14 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.15.5+158
+version: 0.16.0+159
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 2.3.9
+  connectivity_plus: 3.0.2
 
   flutter:
     sdk: flutter
