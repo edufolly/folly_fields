@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/validators/mobile_phone_validator.dart';
+import 'package:folly_fields/validators/phone_validator.dart';
 
 ///
 ///
 ///
 void main() {
-  MobilePhoneValidator validator = MobilePhoneValidator();
+  PhoneValidator validator = PhoneValidator();
 
   Map<String, bool> isValidTests = <String, bool>{
     '': false,
@@ -19,14 +19,17 @@ void main() {
     '9999999': false,
     '99999999': false,
     '999999999': false,
-    '9999999999': false,
+    '8899999999': true,
+    '8889999999': true,
+    '0889999999': false,
+    '8089999999': false,
     '88999999999': true,
     '88899999999': false,
     '08999999999': false,
     '80999999999': false,
     '08899999999': false,
     '80899999999': false,
-    '889999999999': false,
+    '999999999999': false,
     '(9)': false,
     '(99)': false,
     '(99) 9': false,
@@ -37,7 +40,8 @@ void main() {
     '(99) 99999-': false,
     '(99) 99999-9': false,
     '(99) 99999-99': false,
-    '(99) 99999-999': false,
+    '(88) 89999-999': true,
+    '(88) 8999-9999': true,
     '(88) 99999-9999': true,
     '(88) 89999-9999': false,
     '(80) 99999-9999': false,
@@ -57,7 +61,7 @@ void main() {
       }
     },
   );
-
+/*
   Map<String, String> formatTests = <String, String>{
     '': '',
     ' ': '',
@@ -79,4 +83,5 @@ void main() {
       }
     },
   );
+ */
 }
