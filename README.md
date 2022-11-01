@@ -36,11 +36,24 @@ https://github.com/edufolly/folly_fields/tree/main/example/lib
 ### pubspec.yaml
 
 ``` yaml
+flutter:
+  sdk: flutter
+  
+flutter_localizations:
+  sdk: flutter
+
+# https://pub.dev/packages/folly_fields
+folly_fields: x.y.z # lastest release
+```
+
+For edge builds, replace pub.dev version to git repo:
+
+``` yaml
 # https://github.com/edufolly/folly_fields
 folly_fields:
   git:
-    url: git://github.com/edufolly/folly_fields.git
-    ref: # lastest release
+    url: https://github.com/edufolly/folly_fields.git
+    ref: v0.0.1 # lastest release
 ```
 
 Use **ref** to avoid breaking changes.
@@ -60,7 +73,7 @@ class Config extends AbstractConfig {
     return _singleton;
   }
 
-/// Content...
+  /// Content...
 }
 ```
 
@@ -92,8 +105,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(),
-      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+      home: const MyHomePage(),
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

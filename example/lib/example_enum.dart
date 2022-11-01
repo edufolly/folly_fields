@@ -1,32 +1,45 @@
-import 'package:folly_fields/crud/abstract_enum_parser.dart';
+import 'dart:math';
 
 ///
 ///
 ///
 enum ExampleEnum {
-  first,
-  second,
-  third,
-  other,
-}
+  first('Primeiro'),
+  second('Segundo'),
+  third('Terceiro'),
+  other('Outro');
 
-///
-///
-///
-class ExampleEnumParser extends AbstractEnumParser<ExampleEnum> {
-  ///
-  ///
-  ///
-  const ExampleEnumParser(): super(defaultItem: ExampleEnum.other);
+  final String value;
 
   ///
   ///
   ///
-  @override
-  Map<ExampleEnum, String> get items => <ExampleEnum, String>{
-        ExampleEnum.first: 'Primeiro',
-        ExampleEnum.second: 'Segundo',
-        ExampleEnum.third: 'Terceiro',
-        ExampleEnum.other: 'Outro',
-      };
+  const ExampleEnum(this.value);
+
+  ///
+  ///
+  ///
+  static ExampleEnum get defaultItem => ExampleEnum.other;
+
+  ///
+  ///
+  ///
+  static ExampleEnum fromJson(String? value) => values.firstWhere(
+        (ExampleEnum e) => e.name == value,
+        orElse: () => defaultItem,
+      );
+
+  ///
+  ///
+  ///
+  static Map<ExampleEnum, String> get items => values.asMap().map(
+        (int key, ExampleEnum value) =>
+            MapEntry<ExampleEnum, String>(value, value.value),
+      );
+
+  ///
+  ///
+  ///
+  static ExampleEnum get random =>
+      values.elementAt(Random().nextInt(values.length));
 }

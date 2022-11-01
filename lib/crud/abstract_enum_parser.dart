@@ -5,12 +5,14 @@ import 'package:flutter/foundation.dart';
 ///
 ///
 ///
+@Deprecated('Use new Flutter enum.')
 abstract class AbstractEnumParser<T extends Enum> {
   final T defaultItem;
 
   ///
   ///
   ///
+  @Deprecated('Use new Flutter enum.')
   @mustCallSuper
   const AbstractEnumParser({
     required this.defaultItem,
