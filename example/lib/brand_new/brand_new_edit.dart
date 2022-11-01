@@ -18,8 +18,6 @@ import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 ///
 class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     BrandNewConsumer, EmptyEditController<BrandNewModel>> {
-  static const BrandNewParser _brandNewParser = BrandNewParser();
-
   ///
   ///
   ///
@@ -60,11 +58,11 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
         labelPrefix: labelPrefix,
         label: 'Tipo*',
         enabled: edit,
-        items: _brandNewParser.items,
+        items: BrandNewEnum.items,
         initialValue: model.type,
         validator: FollyValidators.notNull,
         onChanged: (BrandNewEnum? value) {
-          model.type = value ?? _brandNewParser.defaultItem;
+          model.type = value ?? BrandNewEnum.panel1;
           refresh(true);
         },
         onSaved: (BrandNewEnum? value) => model.type = value!,

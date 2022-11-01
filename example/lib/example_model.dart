@@ -20,7 +20,6 @@ import 'package:folly_fields_example/example_enum.dart';
 ///
 class ExampleModel extends AbstractModel<int> {
   static final TimeValidator _timeValidator = TimeValidator();
-  static const ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
   static final ColorValidator _colorValidator = ColorValidator();
   static final Random rnd = Random();
 
@@ -46,7 +45,7 @@ class ExampleModel extends AbstractModel<int> {
   String? cnae;
   String? licencePlate;
   String? cep;
-  ExampleEnum ordinal = _exampleEnumParser.defaultItem;
+  ExampleEnum ordinal = ExampleEnum.defaultItem;
   Color? color;
   bool active = true;
   IconData? icon;
@@ -86,7 +85,7 @@ class ExampleModel extends AbstractModel<int> {
         cnae = map['cnae'],
         licencePlate = map['licencePlate'],
         cep = map['cep'],
-        ordinal = _exampleEnumParser.fromJson(map['ordinal']),
+        ordinal = ExampleEnum.fromJson(map['ordinal']),
         color = _colorValidator.parse(map['color']),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
@@ -123,7 +122,7 @@ class ExampleModel extends AbstractModel<int> {
     map['cnae'] = cnae;
     map['licencePlate'] = licencePlate;
     map['cep'] = cep;
-    map['ordinal'] = _exampleEnumParser.toMap(ordinal);
+    map['ordinal'] = ordinal.name;
     if (color != null) {
       map['color'] = _colorValidator.format(color!);
     }
@@ -184,7 +183,7 @@ class ExampleModel extends AbstractModel<int> {
     licencePlate = '${generateUpperString(3)}${complete(4)}';
     cep = complete(8);
     color = randomColor;
-    ordinal = _exampleEnumParser.random;
+    ordinal = ExampleEnum.random;
     active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);

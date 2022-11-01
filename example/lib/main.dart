@@ -767,7 +767,7 @@ class MyHomePageState extends State<MyHomePage> {
                         labelPrefix: labelPrefix,
                         label: 'Ordinal',
                         enabled: edit,
-                        items: const ExampleEnumParser().items,
+                        items: ExampleEnum.items,
                         initialValue: model.ordinal,
                         validator: FollyValidators.notNull,
                         onSaved: (ExampleEnum? value) => model.ordinal = value!,
