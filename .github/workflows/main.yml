@@ -44,6 +44,13 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Install lcov
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update -y
+          sudo apt install -y lcov
+
       - name: Flutter Config
         timeout-minutes: 2
         run: flutter config --no-analytics
@@ -57,10 +64,23 @@ jobs:
         run: dart analyze --fatal-infos
 
       - name: Flutter Test
-        run: flutter test
+        run: flutter test --coverage
 
       - name: Flutter Publish Dry Run
         run: flutter pub publish --dry-run
+
+      - name: Creating Test Coverage HTML
+        run: genhtml coverage/lcov.info -o coverage/html
+
+      - name: Compress Test Coverage
+        run: tar -cvzf folly-fields-test-coverage.tar.gz coverage
+
+      - name: Upload Test Coverage Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: folly-fields-test-coverage
+          path: folly-fields-test-coverage.tar.gz
+          retention-days: 1
 
       - name: Creating a GitHub Tag
         uses: mathieudutour/github-tag-action@v6.0
@@ -105,6 +125,18 @@ jobs:
       - name: Flutter Build Web
         working-directory: example
         run: flutter build web --base-href /folly_fields/
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: folly-fields-test-coverage
+          path: example/build/web
+
+      - name: Decompress Test Coverage
+        working-directory: example/build/web
+        run: |
+          tar -xvzf folly-fields-test-coverage.tar.gz
+          rm -f folly-fields-test-coverage.tar.gz
 
       - name: Publishing to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
