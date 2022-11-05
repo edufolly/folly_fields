@@ -1,6 +1,9 @@
 # FollyFields
 
-![FollyFields](https://github.com/edufolly/folly_fields/actions/workflows/main.yml/badge.svg)
+[![BuildWithLove](https://img.shields.io/badge/%20built%20with-%20%E2%9D%A4-ff69b4.svg "build with love")](https://github.com/edufolly/folly_fields/stargazers)
+[![pub package](https://img.shields.io/pub/v/folly_fields?include_prereleases.svg "Folly Fields")](https://pub.dev/packages/folly_fields)
+[![FollyFields](https://img.shields.io/github/license/edufolly/folly_fields)](https://github.com/edufolly/folly_fields)
+[![FollyFields](https://img.shields.io/github/workflow/status/edufolly/folly_fields/Main%20CI)](https://github.com/edufolly/folly_fields)
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
