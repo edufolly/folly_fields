@@ -270,13 +270,6 @@ class FollyUtils {
   ///
   ///
   ///
-  @Deprecated('Use createMaterialColor(intColor).')
-  static MaterialColor fakeMaterialColor(int intColor) =>
-      createMaterialColor(intColor: intColor)!;
-
-  ///
-  ///
-  ///
   static MaterialColor? createMaterialColor({
     int? intColor,
     Color? color,
