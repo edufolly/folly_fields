@@ -46,8 +46,10 @@ flutter_localizations:
   sdk: flutter
 
 # https://pub.dev/packages/folly_fields
-folly_fields: x.y.z # lastest release
+folly_fields: x.y.z # lastest pub.dev release
 ```
+
+Check [pub.dev latest release](https://pub.dev/packages/folly_fields).
 
 For edge builds, replace pub.dev version to git repo:
 
@@ -56,11 +58,11 @@ For edge builds, replace pub.dev version to git repo:
 folly_fields:
   git:
     url: https://github.com/edufolly/folly_fields.git
-    ref: v0.0.1 # lastest release
+    ref: v0.0.1 # lastest release ou branch name
 ```
 
 Use **ref** to avoid breaking changes.
-Check [latest release](https://github.com/edufolly/folly_fields/releases).
+Check [GitHub latest release](https://github.com/edufolly/folly_fields/releases).
 
 ### config.dart
 
