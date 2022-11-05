@@ -82,18 +82,18 @@ jobs:
           path: folly-fields-test-coverage.tar.gz
           retention-days: 1
 
-#      - name: Creating a GitHub Tag
-#        uses: mathieudutour/github-tag-action@v6.0
-#        with:
-#          custom_tag: ${{ needs.boot.outputs.version }}
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Create a GitHub Release
-#        uses: ncipollo/release-action@v1
-#        with:
-#          tag: v${{ needs.boot.outputs.version }}
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          allowUpdates: true
+      - name: Creating a GitHub Tag
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          custom_tag: ${{ needs.boot.outputs.version }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create a GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ needs.boot.outputs.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
 
 
   #######################
