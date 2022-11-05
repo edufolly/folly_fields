@@ -1,3 +1,8 @@
+## [0.16.2] - 2022-11-05
+
+* Updating README.md.
+* Removing deprecated method fakeMaterialColor.
+
 ## [0.16.1] - 2022-11-01
 
 * Updating README.md.
