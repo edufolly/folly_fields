@@ -84,13 +84,11 @@ DA:263,0
 DA:264,0
 DA:265,0
 DA:273,0
-DA:275,0
-DA:280,0
+DA:278,0
 DA:285,0
-DA:292,0
-DA:293,0
-DA:294,0
-LF:91
+DA:286,0
+DA:287,0
+LF:89
 LH:58
 end_of_record
 SF:lib/util/credit_card_type.dart
