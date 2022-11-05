@@ -1,6 +1,9 @@
 # FollyFields
 
-![FollyFields](https://github.com/edufolly/folly_fields/actions/workflows/main.yml/badge.svg)
+[![BuildWithLove](https://img.shields.io/badge/%20built%20with-%20%E2%9D%A4-ff69b4.svg "build with love")](https://github.com/edufolly/folly_fields/stargazers)
+[![pub package](https://img.shields.io/pub/v/folly_fields?include_prereleases.svg "Folly Fields")](https://pub.dev/packages/folly_fields)
+[![FollyFields](https://img.shields.io/github/license/edufolly/folly_fields)](https://github.com/edufolly/folly_fields)
+[![FollyFields](https://img.shields.io/github/workflow/status/edufolly/folly_fields/Main%20CI)](https://github.com/edufolly/folly_fields)
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
@@ -43,8 +46,10 @@ flutter_localizations:
   sdk: flutter
 
 # https://pub.dev/packages/folly_fields
-folly_fields: x.y.z # lastest release
+folly_fields: x.y.z # lastest pub.dev release
 ```
+
+Check [pub.dev latest release](https://pub.dev/packages/folly_fields).
 
 For edge builds, replace pub.dev version to git repo:
 
@@ -53,11 +58,11 @@ For edge builds, replace pub.dev version to git repo:
 folly_fields:
   git:
     url: https://github.com/edufolly/folly_fields.git
-    ref: v0.0.1 # lastest release
+    ref: v0.0.1 # lastest release ou branch name
 ```
 
 Use **ref** to avoid breaking changes.
-Check [latest release](https://github.com/edufolly/folly_fields/releases).
+Check [GitHub latest release](https://github.com/edufolly/folly_fields/releases).
 
 ### config.dart
 
