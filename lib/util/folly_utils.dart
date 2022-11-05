@@ -17,12 +17,14 @@ class FollyUtils {
     required DateTime? date,
     int second = 0,
     int millisecond = 0,
+    int microsecond = 0,
   }) =>
       dateMergeStart(
         date: date,
         time: getTime(date),
         second: second,
         millisecond: millisecond,
+        microsecond: microsecond,
       );
 
   ///
@@ -33,6 +35,7 @@ class FollyUtils {
     TimeOfDay? time,
     int second = 0,
     int millisecond = 0,
+    int microsecond = 0,
   }) {
     if (date == null) {
       return null;
@@ -48,6 +51,7 @@ class FollyUtils {
       time.minute,
       second,
       millisecond,
+      microsecond,
     );
   }
 
@@ -58,12 +62,14 @@ class FollyUtils {
     required DateTime? date,
     int second = 59,
     int millisecond = 999,
+    int microsecond = 0,
   }) =>
       dateMergeEnd(
         date: date,
         time: getTime(date),
         second: second,
         millisecond: millisecond,
+        microsecond: microsecond,
       );
 
   ///
@@ -74,6 +80,7 @@ class FollyUtils {
     TimeOfDay? time,
     int second = 59,
     int millisecond = 999,
+    int microsecond = 0,
   }) {
     if (date == null) {
       return null;
@@ -89,6 +96,7 @@ class FollyUtils {
       time.minute,
       second,
       millisecond,
+      microsecond,
     );
   }
 
