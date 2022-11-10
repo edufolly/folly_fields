@@ -1,3 +1,7 @@
+## [0.16.3] - 2022-11-10
+
+* Adding contentPadding to the fields.
+
 ## [0.16.2] - 2022-11-05
 
 * Updating README.md.
