@@ -30,6 +30,7 @@ class DecimalField extends ResponsiveStateful {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final String? hintText;
+  final EdgeInsets? contentPadding;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -62,6 +63,7 @@ class DecimalField extends ResponsiveStateful {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.hintText,
+    this.contentPadding,
     this.prefix,
     this.prefixIcon,
     this.suffix,
@@ -156,6 +158,7 @@ class DecimalFieldState extends State<DecimalField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
               prefix: widget.prefix,
               prefixIcon: widget.prefixIcon,
               suffix: widget.suffix,

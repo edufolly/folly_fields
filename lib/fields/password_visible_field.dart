@@ -34,6 +34,7 @@ class PasswordVisibleField extends ResponsiveStateful {
   final EdgeInsets padding;
   final bool startObscured;
   final String? hintText;
+  final EdgeInsets? contentPadding;
   final Widget? prefixIcon;
 
   ///
@@ -68,6 +69,7 @@ class PasswordVisibleField extends ResponsiveStateful {
     this.padding = const EdgeInsets.all(8),
     this.startObscured = true,
     this.hintText,
+    this.contentPadding,
     this.prefixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -142,6 +144,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
                         !(obscuredNotifier.value ?? true),
                   ),
                   hintText: widget.hintText,
+                  contentPadding: widget.contentPadding,
                 ))
             .applyDefaults(Theme.of(context).inputDecorationTheme);
 

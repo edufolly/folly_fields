@@ -34,6 +34,8 @@ class IconDataField extends ResponsiveFormField<IconData> {
     double spaceBetween = 16.0,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    String? hintText,
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -65,7 +67,9 @@ class IconDataField extends ResponsiveFormField<IconData> {
                       labelText:
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
-                      contentPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
+                      hintText: hintText,
+                      contentPadding: contentPadding ??
+                          const EdgeInsets.fromLTRB(12, 0, 8, 12),
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

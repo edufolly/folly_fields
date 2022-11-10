@@ -34,6 +34,7 @@ class ColorField extends ResponsiveStateful {
   final IconData colorIcon;
   final bool clearOnCancel;
   final String? hintText;
+  final EdgeInsets? contentPadding;
 
   ///
   ///
@@ -64,6 +65,7 @@ class ColorField extends ResponsiveStateful {
     this.colorIcon = FontAwesomeIcons.solidCircle,
     this.clearOnCancel = true,
     this.hintText,
+    this.contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -164,6 +166,7 @@ class ColorFieldState extends State<ColorField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

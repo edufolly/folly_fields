@@ -33,6 +33,7 @@ class TimeField extends ResponsiveStateful {
   final TimePickerEntryMode initialEntryMode;
   final bool clearOnCancel;
   final String? hintText;
+  final EdgeInsets? contentPadding;
 
   ///
   ///
@@ -63,6 +64,7 @@ class TimeField extends ResponsiveStateful {
     this.initialEntryMode = TimePickerEntryMode.dial,
     this.clearOnCancel = true,
     this.hintText,
+    this.contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -158,6 +160,7 @@ class TimeFieldState extends State<TimeField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

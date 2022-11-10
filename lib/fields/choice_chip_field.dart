@@ -33,6 +33,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     WrapAlignment wrapAlignment = WrapAlignment.spaceEvenly,
     WrapCrossAlignment wrapCrossAlignment = WrapCrossAlignment.center,
     String? hintText,
+    EdgeInsets? contentPadding,
     Widget? prefix,
     Widget? suffix,
     super.sizeExtraSmall,
@@ -74,6 +75,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                       counterText: '',
                       focusColor: focusColor,
                       hintText: hintText,
+                      contentPadding: contentPadding,
                       prefix: prefix,
                       suffix: suffix,
                     ))
