@@ -1,6 +1,7 @@
 ## [0.16.3] - 2022-11-10
 
 * Adding contentPadding to the fields.
+* Adding new tests for FollyUtils.
 
 ## [0.16.2] - 2022-11-05
 
