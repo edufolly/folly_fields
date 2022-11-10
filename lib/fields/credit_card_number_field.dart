@@ -39,6 +39,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final String? hintText;
+  final EdgeInsets? contentPadding;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -82,6 +83,7 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.hintText,
+    this.contentPadding,
     this.prefix,
     this.prefixIcon,
     this.suffix,
@@ -192,6 +194,7 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       decoration: widget.decoration,
       padding: widget.padding,
       hintText: widget.hintText,
+      contentPadding: widget.contentPadding,
       prefix: widget.prefix,
       prefixIcon: widget.prefixIcon,
       suffix: widget.suffix,

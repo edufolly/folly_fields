@@ -39,6 +39,7 @@ class StringField extends ResponsiveStateless {
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final String? hintText;
+  final EdgeInsets? contentPadding;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -82,6 +83,7 @@ class StringField extends ResponsiveStateless {
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.hintText,
+    this.contentPadding,
     this.prefix,
     this.prefixIcon,
     this.suffix,
@@ -134,6 +136,7 @@ class StringField extends ResponsiveStateless {
               filled: filled,
               fillColor: fillColor,
               hintText: hintText,
+              contentPadding: contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 

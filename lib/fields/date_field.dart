@@ -40,6 +40,7 @@ class DateField extends ResponsiveStateful {
   final DatePickerMode initialDatePickerMode;
   final bool clearOnCancel;
   final String? hintText;
+  final EdgeInsets? contentPadding;
 
   ///
   ///
@@ -76,6 +77,7 @@ class DateField extends ResponsiveStateful {
     this.initialDatePickerMode = DatePickerMode.day,
     this.clearOnCancel = true,
     this.hintText,
+    this.contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -177,6 +179,7 @@ class DateFieldState extends State<DateField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme)
         .copyWith(

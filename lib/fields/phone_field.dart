@@ -39,6 +39,7 @@ class PhoneField extends ValidatorField {
     super.decoration,
     super.padding,
     super.hintText,
+    super.contentPadding,
     super.prefix,
     super.prefixIcon,
     super.suffix,

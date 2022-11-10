@@ -30,13 +30,15 @@ class BoolField extends ResponsiveFormField<bool> {
     EdgeInsets padding = const EdgeInsets.all(8),
     Widget? prefixIcon,
     Widget? suffixIcon,
+    String? hintText,
+    EdgeInsets? contentPadding,
+    TextOverflow textOverflow = TextOverflow.ellipsis,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
     super.sizeLarge,
     super.sizeExtraLarge,
     super.minHeight,
-    TextOverflow textOverflow = TextOverflow.ellipsis,
     super.key,
   })  : assert(
           initialValue == null || controller == null,
@@ -65,12 +67,14 @@ class BoolField extends ResponsiveFormField<bool> {
                       fillColor: fillColor,
                       counterText: '',
                       enabled: enabled,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 8,
-                      ),
+                      contentPadding: contentPadding ??
+                          const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 8,
+                          ),
                       prefixIcon: prefixIcon,
                       suffixIcon: suffixIcon,
+                      hintText: hintText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

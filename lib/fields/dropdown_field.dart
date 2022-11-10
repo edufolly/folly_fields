@@ -43,6 +43,8 @@ class DropdownField<T> extends ResponsiveFormField<T> {
     Color? dropdownColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    String? hintText,
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -85,6 +87,8 @@ class DropdownField<T> extends ResponsiveFormField<T> {
                           labelPrefix.isEmpty ? label : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
+                      hintText: hintText,
+                      contentPadding: contentPadding,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 

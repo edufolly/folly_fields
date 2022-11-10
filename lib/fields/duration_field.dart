@@ -40,6 +40,7 @@ class DurationField extends ResponsiveStateful {
   final String secondSuffix;
   final String millisecondSuffix;
   final String? hintText;
+  final EdgeInsets? contentPadding;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -80,6 +81,7 @@ class DurationField extends ResponsiveStateful {
     this.secondSuffix = 's',
     this.millisecondSuffix = 'ms',
     this.hintText,
+    this.contentPadding,
     this.prefix,
     this.prefixIcon,
     this.suffix,
@@ -210,6 +212,7 @@ class DurationFieldState extends State<DurationField> {
                   : '${widget.labelPrefix} - ${widget.label}',
               counterText: '',
               hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
               prefix: widget.prefix,
               prefixIcon: widget.prefixIcon,
               suffix: widget.suffix,
