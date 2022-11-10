@@ -74,9 +74,9 @@ jobs:
           genhtml coverage/lcov.info \
             --output-directory coverage/html \
             --title "Folly Fields" \
-            --header-title "Folly Fields" \
-            --show-details \
-            --dark-mode
+            --show-details
+#            --header-title "Folly Fields" \
+#            --dark-mode \
 
       - name: Compress Test Coverage
         run: tar -cvzf folly-fields-test-coverage.tar.gz coverage
