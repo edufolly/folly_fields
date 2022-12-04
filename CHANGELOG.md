@@ -1,3 +1,9 @@
+## [0.16.4] - 2022-12-04
+
+ * Adding Ipv4Field.
+ * Organizing imports.
+ * Updating CI script.
+
 ## [0.16.3] - 2022-11-10
 
 * Adding contentPadding to the fields.
