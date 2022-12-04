@@ -257,6 +257,13 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@v3
 
+      - name: Install Dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update -y
+          sudo apt install -y libfuse2
+
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
