@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/fields/string_field.dart';
+import 'package:folly_fields/fields/validator_field.dart';
+import 'package:folly_fields/validators/ipv4_validator.dart';
 
 ///
 ///
 ///
-class PasswordField extends StringField {
+class Ipv4Field extends ValidatorField {
   ///
   ///
   ///
-  const PasswordField({
+  Ipv4Field({
+    super.validatorMessage = 'IPv4 inválido.',
     super.labelPrefix,
     super.label,
     super.labelWidget,
@@ -16,21 +18,21 @@ class PasswordField extends StringField {
     super.validator,
     super.inputFormatter,
     super.textAlign,
-    super.maxLength,
     super.onSaved,
+    super.initialValue,
     super.enabled,
     super.autoValidateMode,
     super.onChanged,
     super.focusNode,
     super.textInputAction,
     super.onFieldSubmitted,
-    super.autocorrect = false,
-    super.enableSuggestions = false,
-    super.textCapitalization,
+    super.autocorrect,
+    super.enableSuggestions = true,
     super.scrollPadding,
     super.enableInteractiveSelection,
     super.filled,
     super.fillColor,
+    super.required,
     super.autofillHints,
     super.style,
     super.decoration,
@@ -48,11 +50,17 @@ class PasswordField extends StringField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  }) : super(
-          keyboard: TextInputType.visiblePassword,
-          minLines: 1,
-          maxLines: 1,
-          obscureText: true,
-          trimOnSaved: false,
+  })  : assert(
+          initialValue == null || controller == null,
+          'initialValue or controller must be null.',
+        ),
+        assert(
+          label == null || labelWidget == null,
+          'label or labelWidget must be null.',
+        ),
+        super(
+          abstractValidator: Ipv4Validator(),
+          maxLength: 15,
+          textCapitalization: TextCapitalization.none,
         );
 }

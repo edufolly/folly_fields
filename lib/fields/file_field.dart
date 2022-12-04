@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart' as file;
+import 'package:file_picker/file_picker.dart' as fp;
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 
@@ -118,12 +118,12 @@ class FileField extends ResponsiveFormField<Uint8List> {
                       allowedExtensions = allowedExtensions?.map((String ext) {
                         return ext.startsWith('.') ? ext.substring(1) : ext;
                       }).toList();
-                      file.FilePickerResult? picked =
-                          await file.FilePicker.platform.pickFiles(
+                      fp.FilePickerResult? picked =
+                          await fp.FilePicker.platform.pickFiles(
                         allowedExtensions: allowedExtensions,
                         withData: true,
                         type: allowedExtensions != null
-                            ? file.FileType.custom
+                            ? fp.FileType.custom
                             : fileType.toFilePicker,
                       );
                       if (picked != null) {
@@ -364,20 +364,20 @@ enum FileType {
 }
 
 extension FileTypeExtension on FileType {
-  file.FileType get toFilePicker {
+  fp.FileType get toFilePicker {
     switch (this) {
       case FileType.any:
-        return file.FileType.any;
+        return fp.FileType.any;
       case FileType.media:
-        return file.FileType.media;
+        return fp.FileType.media;
       case FileType.image:
-        return file.FileType.image;
+        return fp.FileType.image;
       case FileType.video:
-        return file.FileType.video;
+        return fp.FileType.video;
       case FileType.audio:
-        return file.FileType.audio;
+        return fp.FileType.audio;
       case FileType.custom:
-        return file.FileType.custom;
+        return fp.FileType.custom;
     }
   }
 }

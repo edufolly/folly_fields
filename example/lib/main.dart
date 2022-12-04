@@ -21,6 +21,7 @@ import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/ipv4_field.dart';
 import 'package:folly_fields/fields/licence_plate_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
@@ -526,14 +527,14 @@ class MyHomePageState extends State<MyHomePage> {
                       source: 'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/mobile_local_phone_field.dart',
                       child:
-                      // [MobilePhoneField]
-                      MobilePhoneField(
+                          // [MobilePhoneField]
+                          MobilePhoneField(
                         labelPrefix: labelPrefix,
                         label: 'Celular*',
                         enabled: edit,
                         initialValue: model.mobilePhone,
                         onSaved: (String? value) =>
-                        model.mobilePhone = value ?? '',
+                            model.mobilePhone = value ?? '',
                       ),
                       // [/MobilePhoneField]
                     ),
@@ -718,6 +719,23 @@ class MyHomePageState extends State<MyHomePage> {
 
                     CodeLink(
                       code: code,
+                      tag: 'Ipv4Field',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/ipv4_field.dart',
+                      child:
+                          // [Ipv4Field]
+                          Ipv4Field(
+                        labelPrefix: labelPrefix,
+                        label: 'IPv4*',
+                        enabled: edit,
+                        initialValue: model.ipv4,
+                        onSaved: (String? value) => model.ipv4 = value,
+                      ),
+                      // [/Ipv4Field]
+                    ),
+
+                    CodeLink(
+                      code: code,
                       tag: 'BoolField',
                       source: 'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/bool_field.dart',
@@ -834,7 +852,8 @@ class MyHomePageState extends State<MyHomePage> {
                           BuildContext context,
                           int index,
                           ExampleModel model,
-                        ) async => model.integer.isEven,
+                        ) async =>
+                            model.integer.isEven,
                         routeAddBuilder: (
                           BuildContext context,
                           ExampleBuilder uiBuilder,

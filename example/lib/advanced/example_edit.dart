@@ -15,6 +15,7 @@ import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/ipv4_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
@@ -329,6 +330,19 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         enabled: edit,
         initialValue: model.color,
         onSaved: (Color? value) => model.color = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
+      ),
+
+      /// IPv4
+      Ipv4Field(
+        labelPrefix: labelPrefix,
+        label: 'IPv4*',
+        enabled: edit,
+        initialValue: model.ipv4,
+        onSaved: (String? value) => model.ipv4 = value,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,

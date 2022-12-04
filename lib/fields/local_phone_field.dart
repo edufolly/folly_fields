@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/local_phone_validator.dart';
 
