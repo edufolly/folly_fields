@@ -52,6 +52,7 @@ class ExampleModel extends AbstractModel<int> {
   String multiline = '';
   Uint8List blob = Uint8List(0);
   int? fruitIndex;
+  String? ipv4;
 
   ///
   ///
@@ -92,6 +93,7 @@ class ExampleModel extends AbstractModel<int> {
         multiline = map['multiline'] ?? '',
         blob = base64.decode(map['blob'] ?? ''),
         fruitIndex = map['fruitIndex'],
+        ipv4 = map['ipv4'],
         super.fromJson();
 
   ///
@@ -134,6 +136,9 @@ class ExampleModel extends AbstractModel<int> {
     map['blob'] = base64.encode(blob);
     if (fruitIndex != null) {
       map['fruitIndex'] = fruitIndex;
+    }
+    if (ipv4 != null) {
+      map['ipv4'] = ipv4;
     }
     return map;
   }
@@ -197,13 +202,18 @@ class ExampleModel extends AbstractModel<int> {
         'rhoncus consequat nisi. Praesent tempor fringilla leo. Aliquam id '
         'ipsum eu sapien tincidunt eleifend. Nullam convallis iaculis mattis. '
         'Sed semper nunc eget dui sagittis commodo.';
+
+    ipv4 = '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}';
   }
 
   ///
   ///
   ///
-  static String complete(int length) =>
-      List<String>.generate(length, (_) => rnd.nextInt(10).toString()).join();
+  static String complete(int length, {int max = 10}) =>
+      List<String>.generate(length, (_) => rnd.nextInt(max).toString()).join();
 
   ///
   ///

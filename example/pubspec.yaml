@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 0.16.3+162
+version: 0.16.4+163
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
@@ -32,7 +32,7 @@ dependencies:
   http: 0.13.5
 
   # https://pub.dev/packages/url_launcher
-  url_launcher: 6.1.6
+  url_launcher: 6.1.7
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
