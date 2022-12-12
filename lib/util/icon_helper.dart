@@ -2,14 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
-/// Arquivo gerado atráves da substituição por expressão regular:
-///
-/// static const IconData (.*) = .*$
-/// '$1': FontAwesomeIcons.$1,
-///
-/// Atenção com as quebras de linha.
-///
-/// Gerado para: font_awesome_flutter: 10.2.1
+/// Gerado para: font_awesome_flutter: 10.3.0
 ///
 class IconHelper {
   ///
@@ -241,6 +234,7 @@ class IconHelper {
     'bandage': FontAwesomeIcons.bandage,
     'bandAid': FontAwesomeIcons.bandage,
     'bandcamp': FontAwesomeIcons.bandcamp,
+    'bangladeshiTakaSign': FontAwesomeIcons.bangladeshiTakaSign,
     'barcode': FontAwesomeIcons.barcode,
     'bars': FontAwesomeIcons.bars,
     'navicon': FontAwesomeIcons.bars,
@@ -524,9 +518,10 @@ class IconHelper {
     'chevronRight': FontAwesomeIcons.chevronRight,
     'chevronUp': FontAwesomeIcons.chevronUp,
     'child': FontAwesomeIcons.child,
+    'childCombatant': FontAwesomeIcons.childCombatant,
+    'childRifle': FontAwesomeIcons.childCombatant,
     'childDress': FontAwesomeIcons.childDress,
     'childReaching': FontAwesomeIcons.childReaching,
-    'childRifle': FontAwesomeIcons.childRifle,
     'children': FontAwesomeIcons.children,
     'chrome': FontAwesomeIcons.chrome,
     'chromecast': FontAwesomeIcons.chromecast,
@@ -1734,6 +1729,7 @@ class IconHelper {
     'node': FontAwesomeIcons.node,
     'nodeJs': FontAwesomeIcons.nodeJs,
     'notEqual': FontAwesomeIcons.notEqual,
+    'notdef': FontAwesomeIcons.notdef,
     'solidNoteSticky': FontAwesomeIcons.solidNoteSticky,
     'solidStickyNote': FontAwesomeIcons.solidNoteSticky,
     'noteSticky': FontAwesomeIcons.noteSticky,

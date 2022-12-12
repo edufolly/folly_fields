@@ -1,8 +1,13 @@
+## [0.17.0] - 2022-12-12
+
+* Update to FontAwesome 10.3.0.
+* Adding Ipv4Address class.
+
 ## [0.16.4] - 2022-12-04
 
- * Adding Ipv4Field.
- * Organizing imports.
- * Updating CI script.
+* Adding Ipv4Field.
+* Organizing imports.
+* Updating CI script.
 
 ## [0.16.3] - 2022-11-10
 

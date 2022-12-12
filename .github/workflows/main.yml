@@ -108,7 +108,7 @@ jobs:
   build-web:
     name: Deploy GitHub Pages
     needs: [ tests ]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
       contents: write
