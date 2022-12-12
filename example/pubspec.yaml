@@ -23,7 +23,7 @@ dependencies:
     path: ../
 
   # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: 10.2.1
+  font_awesome_flutter: 10.3.0
 
   # https://pub.dev/packages/google_fonts
   google_fonts: 3.0.1
