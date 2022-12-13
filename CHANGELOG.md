@@ -1,3 +1,8 @@
+## [0.17.1] - 2022-12-13
+
+* Adding AppBar Leading widget to AbstractList.
+* Adding AppBar Leading widget to AbstractEdit.
+
 ## [0.17.0] - 2022-12-12
 
 * Update to FontAwesome 10.3.0.
