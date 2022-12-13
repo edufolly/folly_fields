@@ -78,7 +78,7 @@ abstract class AbstractList<
   final String listEmpty;
   final bool showRefreshButton;
   final String refreshButtonText;
-  final Widget? appBarLeading;
+  final Widget? Function(BuildContext context)? appBarLeading;
 
   ///
   ///
@@ -330,7 +330,9 @@ class AbstractListState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: widget.appBarLeading,
+        leading: widget.appBarLeading == null
+            ? null
+            : widget.appBarLeading!(context),
         title: _getScaffoldTitle(context),
         actions: <Widget>[
           /// Select All Button

@@ -1,3 +1,7 @@
+## [0.17.2] - 2022-12-13
+
+* Updating appBarLeading to use context.
+
 ## [0.17.1] - 2022-12-13
 
 * Adding AppBar Leading widget to AbstractList.

@@ -33,7 +33,7 @@ abstract class AbstractEdit<
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final List<AbstractModelFunction<T>>? modelFunctions;
-  final Widget? appBarLeading;
+  final Widget? Function(BuildContext context)? appBarLeading;
 
   ///
   ///
@@ -123,7 +123,9 @@ class AbstractEditState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: widget.appBarLeading,
+        leading: widget.appBarLeading == null
+            ? null
+            : widget.appBarLeading!(context),
         title: Text(widget.uiBuilder.superSingle(context)),
         actions: <Widget>[
           SilentStreamBuilder<bool>(
