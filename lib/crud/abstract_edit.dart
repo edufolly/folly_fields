@@ -33,6 +33,7 @@ abstract class AbstractEdit<
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final List<AbstractModelFunction<T>>? modelFunctions;
+  final Widget? appBarLeading;
 
   ///
   ///
@@ -45,6 +46,7 @@ abstract class AbstractEdit<
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.modelFunctions,
+    this.appBarLeading,
     super.key,
   });
 
@@ -121,6 +123,7 @@ class AbstractEditState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: widget.appBarLeading,
         title: Text(widget.uiBuilder.superSingle(context)),
         actions: <Widget>[
           SilentStreamBuilder<bool>(
