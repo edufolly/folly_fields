@@ -78,6 +78,7 @@ abstract class AbstractList<
   final String listEmpty;
   final bool showRefreshButton;
   final String refreshButtonText;
+  final Widget? appBarLeading;
 
   ///
   ///
@@ -127,6 +128,7 @@ abstract class AbstractList<
     this.listEmpty = 'Sem %s até o momento.',
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
+    this.appBarLeading,
     super.key,
   }) : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
@@ -328,6 +330,7 @@ class AbstractListState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: widget.appBarLeading,
         title: _getScaffoldTitle(context),
         actions: <Widget>[
           /// Select All Button
