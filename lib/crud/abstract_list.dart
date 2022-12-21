@@ -222,8 +222,9 @@ class AbstractListState<
     }
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.hasContentDimensions &&
+          _scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent) {
         if (!_loading && _page >= 0) {
           _loadData(context, clear: false);
         }
@@ -496,14 +497,16 @@ class AbstractListState<
                   itemCount++;
                 }
 
-                // If this is the first 'finishLoading' event and the scrollbar
-                // hasn't even appeared yet, we won't be able to scroll further.
-                // this callback will be called after building this widget.
+                /// If this is the first 'finishLoading' event and the
+                /// scrollbar hasn't even appeared yet, we won't be able to
+                /// scroll further.
+                /// This callback will be called after building this widget.
                 if (event == AbstractListStateEnum.finishLoading &&
                     _initiallyFilled == false) {
                   WidgetsBinding.instance.addPostFrameCallback(
                     (_) async {
                       if (_scrollController.positions.isNotEmpty &&
+                          _scrollController.position.hasContentDimensions &&
                           _scrollController.position.maxScrollExtent == 0) {
                         int extraAmount =
                             await _loadData(context, clear: false);
@@ -881,6 +884,7 @@ class AbstractListState<
     _mapFunctionsNotifier.dispose();
     _insertNotifier.dispose();
     _streamController.close();
+    _scrollController.dispose();
     super.dispose();
   }
 }
