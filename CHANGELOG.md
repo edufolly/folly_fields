@@ -1,3 +1,7 @@
+## [0.17.3] - 2022-12-21
+
+* Checking if scroll controller position has content dimensions in AbstractList.
+
 ## [0.17.2] - 2022-12-13
 
 * Updating appBarLeading to use context.
