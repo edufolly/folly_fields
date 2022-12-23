@@ -34,6 +34,7 @@ abstract class AbstractEdit<
   final CrossAxisAlignment rowCrossAxisAlignment;
   final List<AbstractModelFunction<T>>? modelFunctions;
   final Widget? Function(BuildContext context)? appBarLeading;
+  final void Function(BuildContext context, T model)? afterSave;
 
   ///
   ///
@@ -47,6 +48,7 @@ abstract class AbstractEdit<
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
     this.modelFunctions,
     this.appBarLeading,
+    this.afterSave,
     super.key,
   });
 
@@ -273,7 +275,11 @@ class AbstractEditState<
 
         if (ok) {
           _initialHash = _model.hashCode;
-          Navigator.of(context).pop(_model);
+          if (widget.afterSave == null) {
+            Navigator.of(context).pop(_model);
+          } else {
+            widget.afterSave?.call(context, _model);
+          }
         }
       } else {
         wait.close();
