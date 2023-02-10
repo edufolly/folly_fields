@@ -110,7 +110,8 @@ class StringField extends ResponsiveStateless {
   ///
   @override
   Widget build(BuildContext context) {
-    TextStyle effectiveStyle = style ?? Theme.of(context).textTheme.subtitle1!;
+    TextStyle effectiveStyle =
+        style ?? Theme.of(context).textTheme.titleMedium!;
 
     if (!enabled || readOnly) {
       effectiveStyle = effectiveStyle.copyWith(

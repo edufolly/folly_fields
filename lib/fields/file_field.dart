@@ -345,13 +345,13 @@ class FileEditingController extends ValueNotifier<Uint8List?> {
   ///
   ///
   ///
-  FileEditingController.fromValue(FileEditingController controller)
-      : super(controller.value);
+  FileEditingController({Uint8List? value}) : super(value);
 
   ///
   ///
   ///
-  FileEditingController({Uint8List? value}) : super(value);
+  FileEditingController.fromValue(FileEditingController controller)
+      : super(controller.value);
 }
 
 enum FileType {

@@ -121,7 +121,7 @@ void main() {
   group(
     'IPv4 creating test',
     () {
-      for (MapEntry<String, bool> entry in tests.entries) {
+      for (final MapEntry<String, bool> entry in tests.entries) {
         test(
           'Testing "${entry.key}" for ${entry.value}',
           () => entry.value

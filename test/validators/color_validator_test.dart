@@ -48,7 +48,7 @@ void main() {
   group(
     'ColorValidator parse',
     () {
-      for (MapEntry<String?, Color?> input in parseTests.entries) {
+      for (final MapEntry<String?, Color?> input in parseTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),

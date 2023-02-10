@@ -237,16 +237,16 @@ class ChoiceChipFieldController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  ChoiceChipFieldController.fromValue(ChoiceChipFieldController<T> controller)
-      : _items = controller.items,
-        super(controller.value);
+  ChoiceChipFieldController({Map<T, String>? items, T? value})
+      : _items = items,
+        super(value);
 
   ///
   ///
   ///
-  ChoiceChipFieldController({T? value, Map<T, String>? items})
-      : _items = items,
-        super(value);
+  ChoiceChipFieldController.fromValue(ChoiceChipFieldController<T> controller)
+      : _items = controller.items,
+        super(controller.value);
 
   ///
   ///

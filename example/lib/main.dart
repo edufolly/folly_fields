@@ -95,7 +95,6 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.deepOrange,
         useMaterial3: true,
         brightness: Brightness.dark,
-        toggleableActiveColor: Colors.deepOrange,
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
@@ -298,7 +297,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Formulário Básico',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
 
@@ -809,7 +808,7 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (String? value) =>
                             model.multiline = value ?? '',
                         style: GoogleFonts.firaMono(
-                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                       // [/MultilineField]

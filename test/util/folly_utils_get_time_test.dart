@@ -34,7 +34,7 @@ void main() {
   group(
     'getTime',
     () {
-      for (MapEntry<DateTime?, TimeOfDay?> input in domain.entries) {
+      for (final MapEntry<DateTime?, TimeOfDay?> input in domain.entries) {
         test(
           'Testing ${input.key?.toIso8601String()}',
           () => expect(FollyUtils.getTime(input.key), input.value),

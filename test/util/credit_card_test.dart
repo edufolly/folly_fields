@@ -25,7 +25,7 @@ void main() async {
     'voyager': CreditCardType.unknown,
   };
 
-  for (MapEntry<String, CreditCardType> entry in cardsRequest.entries) {
+  for (final MapEntry<String, CreditCardType> entry in cardsRequest.entries) {
     try {
       for (int i = 0; i < cardTest; i++) {
         Response response = await post(
@@ -52,7 +52,7 @@ void main() async {
   group(
     'Credit card detect type',
     () {
-      for (MapEntry<String, CreditCardType> entry in tests.entries) {
+      for (final MapEntry<String, CreditCardType> entry in tests.entries) {
         test(
           'Testing "${entry.key}" for ${entry.value}',
           () => expect(CreditCardType.detectType(entry.key), entry.value),
@@ -64,7 +64,7 @@ void main() async {
   group(
     'Credit card luhn check',
     () {
-      for (MapEntry<String, CreditCardType> entry in tests.entries) {
+      for (final MapEntry<String, CreditCardType> entry in tests.entries) {
         test(
           'Testing "${entry.key}"',
           () => expect(entry.value.validNumber(entry.key), true),
@@ -122,7 +122,7 @@ void main() async {
   group(
     'Credit card CVV check for Mastercard',
     () {
-      for (MapEntry<String, bool> entry in cvvMasterTests.entries) {
+      for (final MapEntry<String, bool> entry in cvvMasterTests.entries) {
         test(
           'Testing "${entry.key}"',
           () => expect(
@@ -144,7 +144,7 @@ void main() async {
   group(
     'Credit card CVV check for American Express',
     () {
-      for (MapEntry<String, bool> entry in cvvAmexTests.entries) {
+      for (final MapEntry<String, bool> entry in cvvAmexTests.entries) {
         test(
           'Testing "${entry.key}"',
           () => expect(
@@ -166,7 +166,7 @@ void main() async {
   group(
     'Credit card CVV check for Unknown',
     () {
-      for (MapEntry<String, bool> entry in cvvUnknownTests.entries) {
+      for (final MapEntry<String, bool> entry in cvvUnknownTests.entries) {
         test(
           'Testing "${entry.key}"',
           () => expect(
@@ -265,7 +265,7 @@ void main() async {
   group(
     'Credit card type parse check',
     () {
-      for (MapEntry<String?, CreditCardType> entry in typeTests.entries) {
+      for (final MapEntry<String?, CreditCardType> entry in typeTests.entries) {
         test(
           'Testing "${entry.key}"',
           () => expect(

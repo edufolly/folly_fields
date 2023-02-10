@@ -69,7 +69,7 @@ void main() {
   group(
     'CreditCardExpirationValidator isValid',
     () {
-      for (MapEntry<String, bool> input in isValidTests.entries) {
+      for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),

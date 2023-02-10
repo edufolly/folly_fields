@@ -115,7 +115,7 @@ class ModelField<T extends AbstractModel<Object>>
                 scrollPadding: scrollPadding,
                 style: enabled
                     ? null
-                    : Theme.of(field.context).textTheme.subtitle1!.copyWith(
+                    : Theme.of(field.context).textTheme.titleMedium!.copyWith(
                           color: Theme.of(field.context).disabledColor,
                         ),
                 readOnly: true,

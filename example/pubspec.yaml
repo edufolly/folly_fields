@@ -18,6 +18,10 @@ dependencies:
   # https://pub.dev/packages/flutter_highlight
   flutter_highlight: 0.7.0
 
+  # https://flutter.dev/
+  flutter_localizations:
+    sdk: flutter
+
   # https://github.com/edufolly/folly_fields
   folly_fields:
     path: ../

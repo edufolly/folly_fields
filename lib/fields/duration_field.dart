@@ -283,7 +283,7 @@ class DurationFieldState extends State<DurationField> {
         readOnly: widget.readOnly,
         style: widget.enabled && !widget.readOnly
             ? null
-            : Theme.of(context).textTheme.subtitle1!.copyWith(
+            : Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),

@@ -221,7 +221,6 @@ enum CreditCardType {
     lengths: [12, 13, 14, 15, 16, 17, 18, 19],
     code: CreditCardCode('CVV', [3, 4]),
     patterns: {},
-    checkLuhn: true,
   );
 
   ///
@@ -313,8 +312,8 @@ enum CreditCardType {
   static CreditCardType detectType(String ccNum) {
     ccNum = clearNum(ccNum);
 
-    for (CreditCardType type in CreditCardType.values) {
-      for (Range range in type.patterns) {
+    for (final CreditCardType type in CreditCardType.values) {
+      for (final Range range in type.patterns) {
         if (range.isValid(ccNum)) {
           return type;
         }

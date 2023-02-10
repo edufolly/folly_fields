@@ -31,7 +31,7 @@ void main() {
   group(
     'Validators decimalGTEZero',
     () {
-      for (MapEntry<Decimal, bool> input in decimalGTEZeroTests.entries) {
+      for (final MapEntry<Decimal, bool> input in decimalGTEZeroTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -60,7 +60,7 @@ void main() {
   group(
     'Validators decimalGTZero',
     () {
-      for (MapEntry<Decimal, bool> input in decimalGTZeroTests.entries) {
+      for (final MapEntry<Decimal, bool> input in decimalGTZeroTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -89,7 +89,7 @@ void main() {
   group(
     'Validators decimalLTZero',
     () {
-      for (MapEntry<Decimal, bool> input in decimalLTZeroTests.entries) {
+      for (final MapEntry<Decimal, bool> input in decimalLTZeroTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -118,7 +118,7 @@ void main() {
   group(
     'Validators decimalLTEZero',
     () {
-      for (MapEntry<Decimal, bool> input in decimalLTEZeroTests.entries) {
+      for (final MapEntry<Decimal, bool> input in decimalLTEZeroTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(

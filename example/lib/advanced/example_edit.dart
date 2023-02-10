@@ -373,7 +373,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
             : null,
         onSaved: (String? value) => model.multiline = value ?? '',
         style: GoogleFonts.firaMono(
-          textStyle: Theme.of(context).textTheme.bodyText2,
+          textStyle: Theme.of(context).textTheme.bodyMedium,
         ),
         sizeMedium: 12,
         sizeLarge: 6,

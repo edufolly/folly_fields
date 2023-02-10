@@ -113,7 +113,7 @@ class ListField<T extends AbstractModel<Object>,
                 bool changed = false;
 
                 if (selected is List) {
-                  for (T item in selected) {
+                  for (final T item in selected) {
                     if (item.id == null ||
                         !field.value!
                             .any((T element) => element.id == item.id)) {
@@ -268,7 +268,7 @@ class ListField<T extends AbstractModel<Object>,
                                     showDeleteButton: showDeleteButton,
                                   );
                                 },
-                              ).toList(),
+                              ),
 
                             /// Add Button
                             if (showAddButton)

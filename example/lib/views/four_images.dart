@@ -16,7 +16,7 @@ class FourImages extends StatefulWidget {
   ///
   ///
   @override
-  _FourImagesState createState() => _FourImagesState();
+  State<FourImages> createState() => _FourImagesState();
 }
 
 ///

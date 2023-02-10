@@ -44,7 +44,7 @@ void main() {
   group(
     'LicencePlateValidator isValid',
     () {
-      for (MapEntry<String, bool> input in isValidTest.entries) {
+      for (final MapEntry<String, bool> input in isValidTest.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -66,7 +66,7 @@ void main() {
   group(
     'LicencePlateValidator format',
         () {
-      for (MapEntry<String, String> input in formatTests.entries) {
+      for (final MapEntry<String, String> input in formatTests.entries) {
         test(
           'Testing ${input.key}',
               () => expect(validator.format(input.key), input.value),

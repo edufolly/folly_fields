@@ -146,7 +146,7 @@ class FollyFields implements _InternalConfig {
           connectivity: connectivity,
         );
 
-  AbstractConfig? _holder;
+  late AbstractConfig _holder;
 
   ///
   ///
@@ -164,91 +164,91 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   @override
-  bool get isOffline => _holder!.isOffline;
+  bool get isOffline => _holder.isOffline;
 
   ///
   ///
   ///
   @override
-  bool get isOnline => _holder!.isOnline;
+  bool get isOnline => _holder.isOnline;
 
   ///
   ///
   ///
   @override
-  bool get isWeb => _holder!.isWeb;
+  bool get isWeb => _holder.isWeb;
 
   ///
   ///
   ///
   @override
-  bool get isNotWeb => _holder!.isNotWeb;
+  bool get isNotWeb => _holder.isNotWeb;
 
   ///
   ///
   ///
   @override
-  bool get isMobile => _holder!.isMobile;
+  bool get isMobile => _holder.isMobile;
 
   ///
   ///
   ///
   @override
-  bool get isNotMobile => _holder!.isNotMobile;
+  bool get isNotMobile => _holder.isNotMobile;
 
   ///
   ///
   ///
   @override
-  bool get isDesktop => _holder!.isDesktop;
+  bool get isDesktop => _holder.isDesktop;
 
   ///
   ///
   ///
   @override
-  bool get isNotDesktop => _holder!.isNotDesktop;
+  bool get isNotDesktop => _holder.isNotDesktop;
 
   ///
   ///
   ///
   @override
-  String get platform => _holder!.platform;
+  String get platform => _holder.platform;
 
   ///
   ///
   ///
   @override
-  String get modelIdKey => _holder!.modelIdKey;
+  String get modelIdKey => _holder.modelIdKey;
 
   ///
   ///
   ///
   @override
-  String get modelUpdatedAtKey => _holder!.modelUpdatedAtKey;
+  String get modelUpdatedAtKey => _holder.modelUpdatedAtKey;
 
   ///
   ///
   ///
   @override
-  String get modelDeletedAtKey => _holder!.modelDeletedAtKey;
+  String get modelDeletedAtKey => _holder.modelDeletedAtKey;
 
   ///
   ///
   ///
   @override
-  FollyDateParse? get dateParseUpdate => _holder!.dateParseUpdate;
+  FollyDateParse? get dateParseUpdate => _holder.dateParseUpdate;
 
   ///
   ///
   ///
   @override
-  FollyDateParse? get dateParseDelete => _holder!.dateParseDelete;
+  FollyDateParse? get dateParseDelete => _holder.dateParseDelete;
 
   ///
   ///
   ///
   @override
-  List<double> get responsiveSizes => _holder!.responsiveSizes;
+  List<double> get responsiveSizes => _holder.responsiveSizes;
 
   ///
   ///
