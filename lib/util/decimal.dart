@@ -33,7 +33,6 @@ class Decimal with Hashable {
   ///
   ///
   ///
-  // TODO(edufolly): Formatar corretamente.
   @override
   String toString() => doubleValue.toStringAsFixed(precision);
 
