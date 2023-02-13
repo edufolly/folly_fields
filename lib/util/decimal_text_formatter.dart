@@ -82,11 +82,13 @@ class DecimalTextFormatter extends TextInputFormatter {
 
       if (cursorPos <= oldDecimalPos) {
         Map<String, dynamic> oldValueJson = oldValue.toJSON();
+        oldValueJson['selectionBase'] = oldDecimalPos;
+        oldValueJson['selectionExtent'] = oldDecimalPos;
+
         if (kDebugMode) {
-          oldValueJson['selectionBase'] = oldDecimalPos;
-          oldValueJson['selectionExtent'] = oldDecimalPos;
           print('\n');
         }
+
         return TextEditingValue.fromJSON(oldValueJson);
       }
 
@@ -104,6 +106,7 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     if (hasDecimalSeparator) {
       List<String> p = newValueText.split(decimalSeparator);
+
       if (kDebugMode) {
         print('P First: ${p.first}');
         print('P Last: ${p.last}');
@@ -117,6 +120,7 @@ class DecimalTextFormatter extends TextInputFormatter {
         if (kDebugMode) {
           print('decimalPart Length: ${decimalPart.length}');
         }
+
         decimalPart = decimalPart.padRight(precision, '0');
       }
 
