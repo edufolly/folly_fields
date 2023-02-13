@@ -39,7 +39,7 @@ void main() {
     ),
   ];
 
-  for (_FollyUtilsTest t in tests) {
+  for (final _FollyUtilsTest t in tests) {
     group('Valid: ${t.name}', () {
       ///
       test(
@@ -190,7 +190,7 @@ void main() {
     ),
   ];
 
-  for (_FollyUtilsTest t in errors) {
+  for (final _FollyUtilsTest t in errors) {
     group('Errors: ${t.name}', () {
       ///
       test(

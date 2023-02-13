@@ -72,7 +72,7 @@ class ExampleMapFunctionRoute extends MapFunction {
   ///
   ///
   @override
-  _ExampleMapFunctionRouteState createState() =>
+  State<ExampleMapFunctionRoute> createState() =>
       _ExampleMapFunctionRouteState();
 }
 

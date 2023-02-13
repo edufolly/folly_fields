@@ -107,7 +107,7 @@ class DateTimeField extends ResponsiveStateful {
 ///
 ///
 class DateTimeFieldState extends State<DateTimeField> {
-  DateTimeValidator? _validator;
+  late DateTimeValidator _validator;
   DateTimeEditingController? _controller;
   FocusNode? _focusNode;
   bool fromButton = false;
@@ -263,14 +263,14 @@ class DateTimeFieldState extends State<DateTimeField> {
                   return null;
                 }
 
-                String? message = _validator!.valid(value!);
+                String? message = _validator.valid(value!);
 
                 if (message != null) {
                   return message;
                 }
 
                 if (widget.validator != null) {
-                  return widget.validator!(_validator!.parse(value));
+                  return widget.validator!(_validator.parse(value));
                 }
 
                 return null;
@@ -278,11 +278,11 @@ class DateTimeFieldState extends State<DateTimeField> {
             : (_) => null,
         keyboardType: TextInputType.datetime,
         minLines: 1,
-        inputFormatters: _validator!.inputFormatters,
+        inputFormatters: _validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.mask.length,
         onSaved: (String? value) => widget.enabled && widget.onSaved != null
-            ? widget.onSaved!(_validator!.parse(value))
+            ? widget.onSaved!(_validator.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -296,7 +296,7 @@ class DateTimeFieldState extends State<DateTimeField> {
         readOnly: widget.readOnly,
         style: widget.enabled && !widget.readOnly
             ? null
-            : Theme.of(context).textTheme.subtitle1!.copyWith(
+            : Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
       ),

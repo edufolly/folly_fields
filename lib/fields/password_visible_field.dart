@@ -87,7 +87,7 @@ class PasswordVisibleField extends ResponsiveStateful {
   ///
   ///
   @override
-  _PasswordToggleFieldState createState() => _PasswordToggleFieldState();
+  State<PasswordVisibleField> createState() => _PasswordToggleFieldState();
 }
 
 ///
@@ -111,7 +111,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
   @override
   Widget build(BuildContext context) {
     TextStyle effectiveStyle =
-        widget.style ?? Theme.of(context).textTheme.subtitle1!;
+        widget.style ?? Theme.of(context).textTheme.titleMedium!;
 
     if (!widget.enabled) {
       effectiveStyle = effectiveStyle.copyWith(

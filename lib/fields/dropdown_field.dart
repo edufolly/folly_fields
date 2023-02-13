@@ -261,16 +261,16 @@ class DropdownEditingController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  DropdownEditingController.fromValue(DropdownEditingController<T> controller)
-      : _items = controller.items,
-        super(controller.value);
+  DropdownEditingController({Map<T, String>? items, T? value})
+      : _items = items,
+        super(value);
 
   ///
   ///
   ///
-  DropdownEditingController({T? value, Map<T, String>? items})
-      : _items = items,
-        super(value);
+  DropdownEditingController.fromValue(DropdownEditingController<T> controller)
+      : _items = controller.items,
+        super(controller.value);
 
   ///
   ///

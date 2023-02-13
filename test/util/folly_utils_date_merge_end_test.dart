@@ -168,7 +168,7 @@ void main() {
   group(
     'dateMergeEnd',
     () {
-      for (MapEntry<String?, DateTime?> input in domain.entries) {
+      for (final MapEntry<String?, DateTime?> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(input.key, input.value?.toIso8601String()),

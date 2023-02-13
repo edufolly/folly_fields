@@ -14,7 +14,7 @@ void main() {
   group(
     'textColorByLuminance',
     () {
-      for (MapEntry<int, int> input in domain.entries) {
+      for (final MapEntry<int, int> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(

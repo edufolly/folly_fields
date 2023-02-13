@@ -1,18 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/validators/decimal_validator.dart';
+import 'package:folly_fields/validators/new_decimal_validator.dart';
 
 ///
 ///
 ///
 void main() {
-  DecimalValidator validator = DecimalValidator(4);
+  final NewDecimalValidator validator = NewDecimalValidator(4);
 
   ///
   ///
   ///
-  // FIXME(edufolly): This tests are only for new DecimalField.
-  /*
   Map<String, Decimal> parseTests = <String, Decimal>{
     ',0': Decimal(precision: 4, doubleValue: 0),
     ',01': Decimal(precision: 4, doubleValue: 0.01),
@@ -68,18 +66,14 @@ void main() {
     '111111111111,9999': Decimal(precision: 4, doubleValue: 111111111111.9999),
   };
 
-  group(
-    'DecimalValidator parse',
-    () {
-      for (final MapEntry<String, Decimal> input in parseTests.entries) {
-        test(
-          'Testing: ${input.key}',
-          () => expect(validator.parse(input.key), input.value),
-        );
-      }
-    },
-  );
-  */
+  group('NewDecimalValidator parse', () {
+    for (final MapEntry<String, Decimal> input in parseTests.entries) {
+      test(
+        'Testing: ${input.key}',
+        () => expect(validator.parse(input.key), input.value),
+      );
+    }
+  });
 
   ///
   ///
@@ -125,15 +119,12 @@ void main() {
         '111.111.111.111,9999',
   };
 
-  group(
-    'DecimalValidator format',
-    () {
-      for (final MapEntry<Decimal, String> input in formatTest.entries) {
-        test(
-          'Testing: ${input.key}',
-          () => expect(validator.format(input.key), input.value),
-        );
-      }
-    },
-  );
+  group('NewDecimalValidator format', () {
+    for (final MapEntry<Decimal, String> input in formatTest.entries) {
+      test(
+        'Testing: ${input.key}',
+        () => expect(validator.format(input.key), input.value),
+      );
+    }
+  });
 }

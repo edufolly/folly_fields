@@ -34,7 +34,7 @@ class ExampleModelFunctionRoute extends ModelFunction<ExampleModel> {
   ///
   ///
   @override
-  _ExampleModelFunctionRouteState createState() =>
+  State<ExampleModelFunctionRoute> createState() =>
       _ExampleModelFunctionRouteState();
 }
 

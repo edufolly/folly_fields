@@ -181,7 +181,7 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     name,
-                    style: Theme.of(context).primaryTextTheme.bodyText1,
+                    style: Theme.of(context).primaryTextTheme.bodyLarge,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -205,7 +205,7 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     email,
-                    style: Theme.of(context).primaryTextTheme.bodyText2,
+                    style: Theme.of(context).primaryTextTheme.bodyMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -235,7 +235,7 @@ class FollyUserHeader<O> extends StatelessWidget {
                   Expanded(
                     child: Text(
                       companyName,
-                      style: Theme.of(context).primaryTextTheme.bodyText2,
+                      style: Theme.of(context).primaryTextTheme.bodyMedium,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

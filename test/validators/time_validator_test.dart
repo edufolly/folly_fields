@@ -71,7 +71,7 @@ void main() {
   group(
     'TimeValidator isValid',
     () {
-      for (MapEntry<String, bool> input in isValidTests.entries) {
+      for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -143,7 +143,7 @@ void main() {
   group(
     'TimeValidator parse',
     () {
-      for (MapEntry<String, TimeOfDay?> input in parseTests.entries) {
+      for (final MapEntry<String, TimeOfDay?> input in parseTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),

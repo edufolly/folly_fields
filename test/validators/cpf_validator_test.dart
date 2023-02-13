@@ -49,7 +49,7 @@ void main() {
   group(
     'CpfValidator isValid',
     () {
-      for (MapEntry<String, bool> input in isValidTests.entries) {
+      for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -69,7 +69,7 @@ void main() {
   group(
     'CpfValidator format',
     () {
-      for (MapEntry<String, String> input in formatTests.entries) {
+      for (final MapEntry<String, String> input in formatTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.format(input.key), input.value),

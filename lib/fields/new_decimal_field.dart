@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/validators/decimal_validator.dart';
+import 'package:folly_fields/validators/new_decimal_validator.dart';
 
 ///
 ///
 ///
-class DecimalField extends ResponsiveStateful {
+class NewDecimalField extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;
-  final DecimalEditingController? controller;
+  final NewDecimalEditingController? controller;
   final Decimal? initialValue;
   final String? Function(Decimal value)? validator;
   final void Function(Decimal value)? onSaved;
@@ -39,7 +39,7 @@ class DecimalField extends ResponsiveStateful {
   ///
   ///
   ///
-  const DecimalField({
+  const NewDecimalField({
     this.labelPrefix = '',
     this.label,
     this.labelWidget,
@@ -88,20 +88,20 @@ class DecimalField extends ResponsiveStateful {
   ///
   ///
   @override
-  DecimalFieldState createState() => DecimalFieldState();
+  NewDecimalFieldState createState() => NewDecimalFieldState();
 }
 
 ///
 ///
 ///
-class DecimalFieldState extends State<DecimalField> {
-  DecimalEditingController? _controller;
-  FocusNode? _focusNode;
+class NewDecimalFieldState extends State<NewDecimalField> {
+  late NewDecimalEditingController? _controller;
+  late FocusNode? _focusNode;
 
   ///
   ///
   ///
-  DecimalEditingController get _effectiveController =>
+  NewDecimalEditingController get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -115,8 +115,9 @@ class DecimalFieldState extends State<DecimalField> {
   @override
   void initState() {
     super.initState();
+
     if (widget.controller == null) {
-      _controller = DecimalEditingController(widget.initialValue!);
+      _controller = NewDecimalEditingController(widget.initialValue!);
     }
 
     if (widget.focusNode == null) {
@@ -135,10 +136,8 @@ class DecimalFieldState extends State<DecimalField> {
         baseOffset: 0,
         extentOffset: _effectiveController.text.length,
       );
-    }
-
-    if (!_effectiveFocusNode.hasFocus && widget.lostFocus != null) {
-      widget.lostFocus!(_effectiveController.decimal);
+    } else {
+      widget.lostFocus?.call(_effectiveController.decimal);
     }
   }
 
@@ -218,17 +217,14 @@ class DecimalFieldState extends State<DecimalField> {
 ///
 ///
 ///
-class DecimalEditingController extends TextEditingController {
-  final DecimalValidator validator;
-
-  double _lastValue = 0;
+class NewDecimalEditingController extends TextEditingController {
+  final NewDecimalValidator validator;
 
   ///
   ///
   ///
-  DecimalEditingController(Decimal value)
-      : validator = DecimalValidator(value.precision) {
-    addListener(_changeListener);
+  NewDecimalEditingController(Decimal value)
+      : validator = NewDecimalValidator(value.precision) {
     decimal = value;
   }
 
@@ -236,24 +232,9 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   set decimal(Decimal dec) {
-    if (dec.doubleValue.toStringAsFixed(0).length > 12) {
-      dec.doubleValue = _lastValue;
-    } else {
-      _lastValue = dec.doubleValue;
-    }
-
-    String masked = validator.format(dec);
-
-    if (masked != super.text) {
-      super.text = masked;
-
-      int cursorPosition = super.text.length;
-
-      super.selection = TextSelection.fromPosition(
-        TextPosition(
-          offset: cursorPosition,
-        ),
-      );
+    String masked = format(dec);
+    if (masked != text) {
+      text = masked;
     }
   }
 
@@ -265,44 +246,11 @@ class DecimalEditingController extends TextEditingController {
   ///
   ///
   ///
-  void _changeListener() => decimal = decimal;
-
-  ///
-  ///
-  ///
   Decimal parse(String? text) =>
       validator.parse(text) ?? Decimal(precision: validator.precision);
 
   ///
   ///
   ///
-  set intValue(int intValue) {
-    decimal = Decimal(precision: validator.precision, intValue: intValue);
-  }
-
-  ///
-  ///
-  ///
-  int get intValue => decimal.intValue;
-
-  ///
-  ///
-  ///
-  set doubleValue(double doubleValue) {
-    decimal = Decimal(precision: validator.precision, doubleValue: doubleValue);
-  }
-
-  ///
-  ///
-  ///
-  double get doubleValue => decimal.doubleValue;
-
-  ///
-  ///
-  ///
-  @override
-  void dispose() {
-    removeListener(_changeListener);
-    super.dispose();
-  }
+  String format(Decimal decimal) => validator.format(decimal);
 }

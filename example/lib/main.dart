@@ -30,6 +30,7 @@ import 'package:folly_fields/fields/mobile_phone_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
+import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
@@ -95,7 +96,6 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.deepOrange,
         useMaterial3: true,
         brightness: Brightness.dark,
-        toggleableActiveColor: Colors.deepOrange,
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
@@ -298,7 +298,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Formulário Básico',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
 
@@ -389,6 +389,23 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DecimalField]
                           DecimalField(
+                        labelPrefix: labelPrefix,
+                        label: 'Decimal*',
+                        enabled: edit,
+                        initialValue: model.decimal,
+                        onSaved: (Decimal value) => model.decimal = value,
+                      ),
+                      // [/DecimalField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'NewDecimalField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/new_decimal_field.dart',
+                      child:
+                          // [DecimalField]
+                          NewDecimalField(
                         labelPrefix: labelPrefix,
                         label: 'Decimal*',
                         enabled: edit,
@@ -809,7 +826,7 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (String? value) =>
                             model.multiline = value ?? '',
                         style: GoogleFonts.firaMono(
-                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                       // [/MultilineField]

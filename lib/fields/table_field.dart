@@ -80,7 +80,7 @@ class TableField<T extends AbstractModel<Object>>
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
             TextStyle? columnHeaderTheme =
-                Theme.of(field.context).textTheme.subtitle2;
+                Theme.of(field.context).textTheme.titleSmall;
 
             Color disabledColor = Theme.of(field.context).disabledColor;
 
@@ -131,7 +131,7 @@ class TableField<T extends AbstractModel<Object>>
                         isCard = true;
 
                         /// Table data
-                        for (MapEntry<int, T> entry
+                        for (final MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
                           columnData.add(
                             Padding(
@@ -185,10 +185,7 @@ class TableField<T extends AbstractModel<Object>>
                           Row(
                             children: <Widget>[
                               /// Columns Names
-                              ...columns
-                                  .asMap()
-                                  .entries
-                                  .map<Widget>(
+                              ...columns.asMap().entries.map<Widget>(
                                     (MapEntry<int, String> entry) => HeaderCell(
                                       flex: columnsFlex?[entry.key] ?? 1,
                                       child: Text(
@@ -196,8 +193,7 @@ class TableField<T extends AbstractModel<Object>>
                                         style: columnHeaderTheme,
                                       ),
                                     ),
-                                  )
-                                  .toList(),
+                                  ),
 
                               /// Empty column to delete button
                               if (removeRow != null) const EmptyButton(),
@@ -206,7 +202,7 @@ class TableField<T extends AbstractModel<Object>>
                         );
 
                         /// Table data
-                        for (MapEntry<int, T> entry
+                        for (final MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
                           columnData.addAll(
                             <Widget>[
@@ -225,10 +221,7 @@ class TableField<T extends AbstractModel<Object>>
                                     field.value!,
                                     enabled,
                                     List<String>.filled(columns.length, ''),
-                                  )
-                                      .asMap()
-                                      .entries
-                                      .map<Widget>(
+                                  ).asMap().entries.map<Widget>(
                                         (MapEntry<int, Widget> entry) =>
                                             Flexible(
                                           flex: columnsFlex?[entry.key] ?? 1,
@@ -237,8 +230,7 @@ class TableField<T extends AbstractModel<Object>>
                                             child: entry.value,
                                           ),
                                         ),
-                                      )
-                                      .toList(),
+                                      ),
 
                                   /// Delete button
                                   if (removeRow != null)

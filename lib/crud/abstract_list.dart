@@ -235,7 +235,7 @@ class AbstractListState<
       Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
           <ConsumerPermission, AbstractMapFunction>{};
 
-      for (AbstractMapFunction headerFunction in widget.mapFunctions!) {
+      for (final AbstractMapFunction headerFunction in widget.mapFunctions!) {
         ConsumerPermission permission = await widget.consumer
             .checkPermission(context, headerFunction.routeName);
 
@@ -250,7 +250,8 @@ class AbstractListState<
     }
 
     if (widget.modelFunctions != null) {
-      for (AbstractModelFunction<T> rowFunction in widget.modelFunctions!) {
+      for (final AbstractModelFunction<T> rowFunction
+          in widget.modelFunctions!) {
         ConsumerPermission permission = await widget.consumer
             .checkPermission(context, rowFunction.routeName);
 
@@ -344,7 +345,7 @@ class AbstractListState<
               tooltip: widget.invertSelectionText,
               icon: const Icon(Icons.select_all),
               onPressed: () {
-                for (T model in _globalItems) {
+                for (final T model in _globalItems) {
                   if (_selections.containsKey(model.id)) {
                     _selections.remove(model.id);
                   } else {

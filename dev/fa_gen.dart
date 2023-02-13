@@ -36,7 +36,7 @@ void main() async {
 
   RegExp regExp = RegExp('static const IconData (.*)=(.*);');
 
-  for (String line in lines) {
+  for (final String line in lines) {
     RegExpMatch? match = regExp.firstMatch(line);
     if (match != null) {
       String? name = match.group(1)?.trim();
