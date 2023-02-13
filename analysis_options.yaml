@@ -113,7 +113,7 @@ linter:
     use_to_and_as_if_applicable: true
 
     # TODO(edufolly): Remove
-    # constant_identifier_names: false
+    constant_identifier_names: false
     use_build_context_synchronously: false
 
     # Pub

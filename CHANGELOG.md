@@ -1,3 +1,9 @@
+## [0.18.0] - 2023-02-13
+
+* Adding NewDecimalField.
+* Update to Flutter 3.7.0 and Dart 2.19.0.
+* Fixing README.md typo.
+
 ## [0.17.4] - 2022-12-23
 
 * Adding afterSave callback in AbstractEdit.

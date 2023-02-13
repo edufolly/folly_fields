@@ -30,6 +30,7 @@ import 'package:folly_fields/fields/mobile_phone_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
+import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
@@ -388,6 +389,23 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [DecimalField]
                           DecimalField(
+                        labelPrefix: labelPrefix,
+                        label: 'Decimal*',
+                        enabled: edit,
+                        initialValue: model.decimal,
+                        onSaved: (Decimal value) => model.decimal = value,
+                      ),
+                      // [/DecimalField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'NewDecimalField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/new_decimal_field.dart',
+                      child:
+                          // [DecimalField]
+                          NewDecimalField(
                         labelPrefix: labelPrefix,
                         label: 'Decimal*',
                         enabled: edit,
