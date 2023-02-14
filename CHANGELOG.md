@@ -1,3 +1,7 @@
+## [0.18.2] - 2023-02-14
+
+* Fixing NewDecimalField.
+
 ## [0.18.1] - 2023-02-13
 
 * Fixing NewDecimalField.
