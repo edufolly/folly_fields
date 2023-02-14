@@ -1,12 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-// TODO(edufolly): Bug ao excluir a vírgula usando backspace.
-// TODO(edufolly): Bug ao excluir a vírgula usando delete.
-// TODO(edufolly): Bug ao excluir o primeiro caractere com o delete.
-// TODO(edufolly): Bug ao excluir o primeiro caractere com o baclspace.
-// TODO(edufolly): Bug ao não deixar caracteres na parte inteira.
-
 ///
 ///
 ///
@@ -38,52 +32,50 @@ class DecimalTextFormatter extends TextInputFormatter {
       print('new: ${newValue.toJSON()}');
     }
 
-    bool isDeleting = oldValue.text.length > newValue.text.length;
-    int newOffset = newValue.selection.baseOffset;
+    String newText = newValue.text;
 
-    if (kDebugMode) {
-      print('isDeleting: $isDeleting');
-      print('newOffset: $newOffset');
-    }
-
-    if (newValue.text.isEmpty ||
-        newValue.text == decimalSeparator ||
-        newValue.text == thousandSeparator) {
+    /// Empty value
+    if (newText.isEmpty ||
+        newText == decimalSeparator ||
+        newText == thousandSeparator) {
       if (kDebugMode) {
+        print('New value is empty or equals to "$decimalSeparator" '
+            'or equals to "$thousandSeparator"');
         print('\n');
       }
       return TextEditingValue(
-        text: '0${decimalSeparator.padRight(precision + 1, '0')}',
+        text: '0$decimalSeparator'.padRight(precision + 2, '0'),
         selection: const TextSelection.collapsed(offset: 1),
       );
     }
 
-    if (allow.allMatches(newValue.text).length != newValue.text.length) {
+    /// Char not allowed.
+    if (allow.allMatches(newText).length != newText.length) {
       if (kDebugMode) {
+        print('Char not allowed.');
         print('\n');
       }
       return oldValue;
     }
 
-    int oldDecimalPos = oldValue.text.indexOf(decimalSeparator) + 1;
-    int cursorPos = newValue.selection.baseOffset;
-
     int oldDecimalCount = oldValue.text.split(decimalSeparator).length;
     int oldThousandCount = oldValue.text.split(thousandSeparator).length;
 
-    int newDecimalCount = newValue.text.split(decimalSeparator).length;
-    int newThousandCount = newValue.text.split(thousandSeparator).length;
+    int newDecimalCount = newText.split(decimalSeparator).length;
+    int newThousandCount = newText.split(thousandSeparator).length;
 
     if (oldDecimalCount < newDecimalCount ||
         oldThousandCount < newThousandCount) {
+      int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
+
       if (kDebugMode) {
-        print('oldDecimalPos: $oldDecimalPos');
+        print('curPos: $curPos');
       }
 
-      if (cursorPos <= oldDecimalPos) {
+      if (newValue.selection.baseOffset <= curPos) {
         Map<String, dynamic> oldValueJson = oldValue.toJSON();
-        oldValueJson['selectionBase'] = oldDecimalPos;
-        oldValueJson['selectionExtent'] = oldDecimalPos;
+        oldValueJson['selectionBase'] = curPos;
+        oldValueJson['selectionExtent'] = curPos;
 
         if (kDebugMode) {
           print('\n');
@@ -95,21 +87,17 @@ class DecimalTextFormatter extends TextInputFormatter {
       if (kDebugMode) {
         print('\n');
       }
+
       return oldValue;
     }
 
-    /// Format
-    String newValueText = newValue.text;
-
     /// Decimal Part
-    bool hasDecimalSeparator = newValueText.contains(decimalSeparator);
-
-    if (hasDecimalSeparator) {
-      List<String> p = newValueText.split(decimalSeparator);
+    if (newText.contains(decimalSeparator)) {
+      List<String> p = newText.split(decimalSeparator);
 
       if (kDebugMode) {
-        print('P First: ${p.first}');
-        print('P Last: ${p.last}');
+        print('Integer Part: ${p.first}');
+        print('Decimal Part: ${p.last}');
       }
 
       String decimalPart = p.last;
@@ -124,15 +112,22 @@ class DecimalTextFormatter extends TextInputFormatter {
         decimalPart = decimalPart.padRight(precision, '0');
       }
 
-      newValueText = '${p.first}$decimalSeparator$decimalPart';
+      newText = '${p.first}$decimalSeparator$decimalPart';
     } else {
-      newValueText += decimalSeparator.padRight(precision + 1, '0');
+      if (newText.length == 1) {
+        newText += decimalSeparator.padRight(precision + 1, '0');
+      } else {
+        int pos = newText.length - precision;
+        newText = newText.substring(0, pos) +
+            decimalSeparator +
+            newText.substring(pos);
+      }
     }
 
-    int firstLength = newValueText.length;
+    int firstLength = newText.length;
 
     /// Integer Part
-    List<String> p = newValueText.split(decimalSeparator);
+    List<String> p = newText.split(decimalSeparator);
 
     int integerPart =
         int.tryParse(p.first.replaceAll(thousandSeparator, '')) ?? 0;
@@ -143,18 +138,19 @@ class DecimalTextFormatter extends TextInputFormatter {
       numbers.insert(i, thousandSeparator);
     }
 
-    newValueText = numbers.reversed.join() + decimalSeparator + p.last;
+    newText = numbers.reversed.join() + decimalSeparator + p.last;
 
     Map<String, dynamic> newValueJson = newValue.toJSON();
 
-    newValueJson['text'] = newValueText;
+    newValueJson['text'] = newText;
 
     /// Cursor Positioning
-    int newTextLength = newValueText.length;
+    int newTextLength = newText.length;
 
     int newPos = newValue.selection.baseOffset;
 
     int delta = newTextLength - firstLength;
+
     if (kDebugMode) {
       print('delta: $delta');
     }
@@ -166,7 +162,7 @@ class DecimalTextFormatter extends TextInputFormatter {
     }
 
     if (newPos < 1) {
-      newPos = 1;
+      newPos = 0;
     }
 
     newValueJson['selectionBase'] = newPos;
