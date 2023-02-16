@@ -252,5 +252,29 @@ class NewDecimalEditingController extends TextEditingController {
   ///
   ///
   ///
+  set intValue(int intValue) {
+    decimal = Decimal(precision: validator.precision, intValue: intValue);
+  }
+
+  ///
+  ///
+  ///
+  int get intValue => decimal.intValue;
+
+  ///
+  ///
+  ///
+  set doubleValue(double doubleValue) {
+    decimal = Decimal(precision: validator.precision, doubleValue: doubleValue);
+  }
+
+  ///
+  ///
+  ///
+  double get doubleValue => decimal.doubleValue;
+
+  ///
+  ///
+  ///
   String format(Decimal decimal) => validator.format(decimal);
 }

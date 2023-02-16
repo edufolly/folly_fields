@@ -1,3 +1,8 @@
+## [0.19.0] - 2023-02-16
+
+* Upgrade to font_awesome_flutter 10.4.0.
+* Adding intValue and doubleValue to NewDecimalEditingController.
+
 ## [0.18.2] - 2023-02-14
 
 * Fixing NewDecimalField.
