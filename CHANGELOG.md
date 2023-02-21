@@ -1,3 +1,15 @@
+## [0.20.0] - 2023-02-21
+
+* Adding onTap attribute to all fields.
+* Splitting Field Controllers
+* Updating default behavior from fields:
+  * ColorField
+  * DateField
+  * DateTimeField
+  * DurationField
+  * DecimalField
+  * NewDecimalField
+
 ## [0.19.0] - 2023-02-16
 
 * Upgrade to font_awesome_flutter 10.4.0.
