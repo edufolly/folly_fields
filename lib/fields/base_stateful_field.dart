@@ -34,6 +34,11 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   final int? maxLength;
   final Widget? prefix;
   final Widget? prefixIcon;
+  final Widget Function(
+    BuildContext context,
+    T? value,
+    Widget? prefixIcon,
+  )? updatePrefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
   final IconData? suffixIconData;
@@ -72,6 +77,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
     this.maxLength,
     this.prefix,
     this.prefixIcon,
+    this.updatePrefixIcon,
     this.suffix,
     this.suffixIcon,
     this.suffixIconData,
@@ -112,6 +118,11 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   ///
   ///
   ///
+  void dispose() {}
+
+  ///
+  ///
+  ///
   @override
   BaseStatefulFieldState<T, C> createState() => BaseStatefulFieldState<T, C>();
 }
@@ -123,6 +134,8 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     extends State<BaseStatefulField<T, C>> {
   late C? _controller;
   late FocusNode? _focusNode;
+
+  ValueNotifier<T?>? _updatePrefixIconNotifier;
   bool fromButton = false;
 
   ///
@@ -146,11 +159,24 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
       _controller = widget.createController();
     }
 
+    _effectiveController.addListener(_controllerListener);
+
     if (widget.focusNode == null) {
       _focusNode = FocusNode();
     }
 
     _effectiveFocusNode.addListener(_handleFocus);
+
+    if (widget.updatePrefixIcon != null) {
+      _updatePrefixIconNotifier = ValueNotifier<T?>(_effectiveController.data);
+    }
+  }
+
+  ///
+  ///
+  ///
+  void _controllerListener() {
+    _updatePrefixIconNotifier?.value = _effectiveController.data;
   }
 
   ///
@@ -188,7 +214,13 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
               prefix: widget.prefix,
-              prefixIcon: widget.prefixIcon,
+              prefixIcon: _updatePrefixIconNotifier != null
+                  ? ValueListenableBuilder<T?>(
+                      valueListenable: _updatePrefixIconNotifier!,
+                      builder: (BuildContext context, T? value, _) => widget
+                          .updatePrefixIcon!(context, value, widget.prefixIcon),
+                    )
+                  : widget.prefixIcon,
               label: widget.labelWidget,
               labelText: widget.label == null
                   ? null
@@ -207,7 +239,7 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
 
     /// Add suffix icon button
     if (widget.suffixIconData != null) {
-      effectiveDecoration.copyWith(
+      effectiveDecoration = effectiveDecoration.copyWith(
         suffixIcon: IconButton(
           icon: Icon(widget.suffixIconData),
           onPressed: widget.enabled && !widget.readOnly
@@ -239,7 +271,7 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
         ),
       );
     } else {
-      effectiveDecoration.copyWith(
+      effectiveDecoration = effectiveDecoration.copyWith(
         suffix: widget.suffix,
         suffixIcon: widget.suffixIcon,
       );
@@ -299,6 +331,10 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
   ///
   @override
   void dispose() {
+    widget.dispose();
+
+    _effectiveController.removeListener(_controllerListener);
+
     _effectiveFocusNode.removeListener(_handleFocus);
 
     _controller?.dispose();

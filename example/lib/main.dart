@@ -629,7 +629,7 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (Duration? value) =>
                             model.duration = value ?? Duration.zero,
                       ),
-                      // [/TimeField]
+                      // [/DurationField]
                     ),
 
                     CodeLink(
