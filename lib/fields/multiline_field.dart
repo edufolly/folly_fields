@@ -45,6 +45,7 @@ class MultilineField extends StringField {
     super.prefixIcon,
     super.suffix,
     super.suffixIcon,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

@@ -7,16 +7,15 @@ import 'package:intl/intl.dart';
 ///
 ///
 ///
-class DateTimeValidator extends AbstractValidator<DateTime>
-    implements AbstractParser<DateTime> {
+class DateTimeValidator extends AbstractParserValidator<DateTime> {
   final DateFormat dateFormat;
 
   ///
   ///
   ///
   DateTimeValidator({
-    String format = 'dd/MM/yyyy HH:mm',
     String locale = 'pt_br',
+    String format = 'dd/MM/yyyy HH:mm',
     String mask = 'B#/D#/#### A#:C#',
   })  : dateFormat = DateFormat(format, locale),
         super(

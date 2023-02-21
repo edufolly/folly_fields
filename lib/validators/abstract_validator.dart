@@ -46,3 +46,14 @@ abstract class AbstractParser<T> {
   ///
   String? valid(String value);
 }
+
+///
+///
+///
+abstract class AbstractParserValidator<T> extends AbstractValidator<T>
+    implements AbstractParser<T> {
+  ///
+  ///
+  ///
+  AbstractParserValidator([super.inputFormatters]);
+}

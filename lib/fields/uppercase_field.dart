@@ -47,6 +47,7 @@ class UppercaseField extends StringField {
     super.prefixIcon,
     super.suffix,
     super.suffixIcon,
+    super.onTap,
     super.trimOnSaved,
     super.sizeExtraSmall,
     super.sizeSmall,

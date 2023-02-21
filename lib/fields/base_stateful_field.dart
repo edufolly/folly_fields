@@ -1,21 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/validator_editing_controller.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/validators/new_decimal_validator.dart';
 
 ///
 ///
 ///
-class NewDecimalField extends ResponsiveStateful {
+abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
+    extends ResponsiveStateful {
   final String labelPrefix;
   final String? label;
   final Widget? labelWidget;
-  final NewDecimalEditingController? controller;
-  final Decimal? initialValue;
-  final String? Function(Decimal value)? validator;
-  final void Function(Decimal value)? onSaved;
+  final C? controller;
+  final FormFieldValidator<T?>? validator;
   final TextAlign textAlign;
-  final int? maxLength;
+  final FormFieldSetter<T?>? onSaved;
+  final T? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
   final FocusNode? focusNode;
@@ -25,29 +25,33 @@ class NewDecimalField extends ResponsiveStateful {
   final bool enableInteractiveSelection;
   final bool filled;
   final Color? fillColor;
-  final void Function(Decimal)? lostFocus;
   final bool readOnly;
+  final TextStyle? style;
   final InputDecoration? decoration;
   final EdgeInsets padding;
   final String? hintText;
   final EdgeInsets? contentPadding;
+  final int? maxLength;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
+  final IconData? suffixIconData;
   final void Function()? onTap;
+  final void Function(T?)? lostFocus;
+  final bool required;
+  final bool clearOnCancel;
 
   ///
   ///
   ///
-  const NewDecimalField({
+  const BaseStatefulField({
     this.labelPrefix = '',
     this.label,
     this.labelWidget,
     this.controller,
     this.validator,
-    this.textAlign = TextAlign.end,
-    this.maxLength,
+    this.textAlign = TextAlign.start,
     this.onSaved,
     this.initialValue,
     this.enabled = true,
@@ -59,17 +63,22 @@ class NewDecimalField extends ResponsiveStateful {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
-    this.lostFocus,
     this.readOnly = false,
+    this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
     this.hintText,
     this.contentPadding,
+    this.maxLength,
     this.prefix,
     this.prefixIcon,
     this.suffix,
     this.suffixIcon,
+    this.suffixIconData,
     this.onTap,
+    this.lostFocus,
+    this.required = true,
+    this.clearOnCancel = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -89,22 +98,37 @@ class NewDecimalField extends ResponsiveStateful {
   ///
   ///
   ///
+  C createController();
+
+  ///
+  ///
+  ///
+  Future<T?> selectData({
+    required BuildContext context,
+    required C controller,
+  }) async =>
+      null;
+
+  ///
+  ///
+  ///
   @override
-  NewDecimalFieldState createState() => NewDecimalFieldState();
+  BaseStatefulFieldState<T, C> createState() => BaseStatefulFieldState<T, C>();
 }
 
 ///
 ///
 ///
-class NewDecimalFieldState extends State<NewDecimalField> {
-  late NewDecimalEditingController? _controller;
+class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
+    extends State<BaseStatefulField<T, C>> {
+  late C? _controller;
   late FocusNode? _focusNode;
+  bool fromButton = false;
 
   ///
   ///
   ///
-  NewDecimalEditingController get _effectiveController =>
-      widget.controller ?? _controller!;
+  C get _effectiveController => widget.controller ?? _controller!;
 
   ///
   ///
@@ -119,7 +143,7 @@ class NewDecimalFieldState extends State<NewDecimalField> {
     super.initState();
 
     if (widget.controller == null) {
-      _controller = NewDecimalEditingController(widget.initialValue!);
+      _controller = widget.createController();
     }
 
     if (widget.focusNode == null) {
@@ -138,8 +162,12 @@ class NewDecimalFieldState extends State<NewDecimalField> {
         baseOffset: 0,
         extentOffset: _effectiveController.text.length,
       );
-    } else {
-      widget.lostFocus?.call(_effectiveController.decimal);
+    }
+
+    if (!fromButton &&
+        !_effectiveFocusNode.hasFocus &&
+        widget.lostFocus != null) {
+      widget.lostFocus!(_effectiveController.data);
     }
   }
 
@@ -148,42 +176,107 @@ class NewDecimalFieldState extends State<NewDecimalField> {
   ///
   @override
   Widget build(BuildContext context) {
+    TextStyle effectiveStyle =
+        widget.style ?? Theme.of(context).textTheme.titleMedium!;
+
+    if (!widget.enabled || widget.readOnly) {
+      effectiveStyle = effectiveStyle.copyWith(
+        color: Theme.of(context).disabledColor,
+      );
+    }
+
     InputDecoration effectiveDecoration = (widget.decoration ??
             InputDecoration(
-              border: const OutlineInputBorder(),
-              filled: widget.filled,
-              fillColor: widget.fillColor,
-              label: widget.labelWidget,
-              labelText: widget.labelPrefix.isEmpty
-                  ? widget.label
-                  : '${widget.labelPrefix} - ${widget.label}',
-              counterText: '',
-              hintText: widget.hintText,
-              contentPadding: widget.contentPadding,
               prefix: widget.prefix,
               prefixIcon: widget.prefixIcon,
-              suffix: widget.suffix,
-              suffixIcon: widget.suffixIcon,
+              label: widget.labelWidget,
+              labelText: widget.label == null
+                  ? null
+                  : widget.labelPrefix.isEmpty
+                      ? widget.label
+                      : '${widget.labelPrefix} - ${widget.label}',
+              border: const OutlineInputBorder(),
+              counterText: '',
+              enabled: widget.enabled,
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              hintText: widget.hintText,
+              contentPadding: widget.contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);
+
+    /// Add suffix icon button
+    if (widget.suffixIconData != null) {
+      effectiveDecoration.copyWith(
+        suffixIcon: IconButton(
+          icon: Icon(widget.suffixIconData),
+          onPressed: widget.enabled && !widget.readOnly
+              ? () async {
+                  try {
+                    fromButton = true;
+
+                    T? value = await widget.selectData(
+                      context: context,
+                      controller: _effectiveController,
+                    );
+
+                    fromButton = false;
+
+                    if (value != null ||
+                        (value == null && widget.clearOnCancel)) {
+                      _effectiveController.data = value;
+                    }
+                    if (_effectiveFocusNode.canRequestFocus) {
+                      _effectiveFocusNode.requestFocus();
+                    }
+                  } on Exception catch (e, s) {
+                    if (kDebugMode) {
+                      print('$e\n$s');
+                    }
+                  }
+                }
+              : null,
+        ),
+      );
+    } else {
+      effectiveDecoration.copyWith(
+        suffix: widget.suffix,
+        suffixIcon: widget.suffixIcon,
+      );
+    }
 
     return Padding(
       padding: widget.padding,
       child: TextFormField(
         controller: _effectiveController,
-        decoration: effectiveDecoration,
-        validator: (String? value) => widget.enabled && widget.validator != null
-            ? widget.validator!(
-                _effectiveController.parse(value),
-              )
-            : null,
         keyboardType: _effectiveController.validator.keyboard,
+        decoration: effectiveDecoration,
+        validator: widget.enabled
+            ? (String? value) {
+                if (!widget.required && (value == null || value.isEmpty)) {
+                  return null;
+                }
+
+                String? message = _effectiveController.validator.valid(value!);
+
+                if (message != null) {
+                  return message;
+                }
+
+                if (widget.validator != null) {
+                  return widget
+                      .validator!(_effectiveController.validator.parse(value));
+                }
+
+                return null;
+              }
+            : null,
         minLines: 1,
         inputFormatters: _effectiveController.validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.maxLength,
         onSaved: (String? value) => widget.enabled && widget.onSaved != null
-            ? widget.onSaved!(_effectiveController.parse(value))
+            ? widget.onSaved!(_effectiveController.validator.parse(value))
             : null,
         enabled: widget.enabled,
         autovalidateMode: widget.autoValidateMode,
@@ -195,12 +288,8 @@ class NewDecimalFieldState extends State<NewDecimalField> {
         scrollPadding: widget.scrollPadding,
         enableInteractiveSelection: widget.enableInteractiveSelection,
         readOnly: widget.readOnly,
-        style: widget.enabled && !widget.readOnly
-            ? null
-            : Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).disabledColor,
-                ),
         onTap: widget.onTap,
+        style: effectiveStyle,
       ),
     );
   }
@@ -211,73 +300,10 @@ class NewDecimalFieldState extends State<NewDecimalField> {
   @override
   void dispose() {
     _effectiveFocusNode.removeListener(_handleFocus);
+
     _controller?.dispose();
     _focusNode?.dispose();
+
     super.dispose();
   }
-}
-
-///
-///
-///
-class NewDecimalEditingController extends TextEditingController {
-  final NewDecimalValidator validator;
-
-  ///
-  ///
-  ///
-  NewDecimalEditingController(Decimal value)
-      : validator = NewDecimalValidator(value.precision) {
-    decimal = value;
-  }
-
-  ///
-  ///
-  ///
-  set decimal(Decimal dec) {
-    String masked = format(dec);
-    if (masked != text) {
-      text = masked;
-    }
-  }
-
-  ///
-  ///
-  ///
-  Decimal get decimal => parse(text);
-
-  ///
-  ///
-  ///
-  Decimal parse(String? text) =>
-      validator.parse(text) ?? Decimal(precision: validator.precision);
-
-  ///
-  ///
-  ///
-  set intValue(int intValue) {
-    decimal = Decimal(precision: validator.precision, intValue: intValue);
-  }
-
-  ///
-  ///
-  ///
-  int get intValue => decimal.intValue;
-
-  ///
-  ///
-  ///
-  set doubleValue(double doubleValue) {
-    decimal = Decimal(precision: validator.precision, doubleValue: doubleValue);
-  }
-
-  ///
-  ///
-  ///
-  double get doubleValue => decimal.doubleValue;
-
-  ///
-  ///
-  ///
-  String format(Decimal decimal) => validator.format(decimal);
 }

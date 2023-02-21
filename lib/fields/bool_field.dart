@@ -5,7 +5,7 @@ import 'package:folly_fields/responsive/responsive_form_field.dart';
 ///
 ///
 class BoolField extends ResponsiveFormField<bool> {
-  final BoolEditingController? controller;
+  final ValueNotifier<bool>? controller;
   final Function(bool)? onChanged;
 
   ///
@@ -151,7 +151,7 @@ class BoolField extends ResponsiveFormField<bool> {
 ///
 ///
 class BoolFieldState extends FormFieldState<bool> {
-  BoolEditingController? _controller;
+  ValueNotifier<bool>? _controller;
 
   ///
   ///
@@ -162,7 +162,7 @@ class BoolFieldState extends FormFieldState<bool> {
   ///
   ///
   ///
-  BoolEditingController get _effectiveController =>
+  ValueNotifier<bool> get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -172,9 +172,7 @@ class BoolFieldState extends FormFieldState<bool> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = BoolEditingController(
-        value: widget.initialValue ?? false,
-      );
+      _controller = ValueNotifier<bool>(widget.initialValue ?? false);
     } else {
       widget.controller?.addListener(_handleControllerChanged);
     }
@@ -192,9 +190,7 @@ class BoolFieldState extends FormFieldState<bool> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = BoolEditingController(
-          value: oldWidget.controller!.value,
-        );
+        _controller = ValueNotifier<bool>(oldWidget.controller!.value);
       }
 
       if (widget.controller != null) {
@@ -245,14 +241,4 @@ class BoolFieldState extends FormFieldState<bool> {
     widget.controller?.removeListener(_handleControllerChanged);
     super.dispose();
   }
-}
-
-///
-///
-///
-class BoolEditingController extends ValueNotifier<bool> {
-  ///
-  ///
-  ///
-  BoolEditingController({bool value = false}) : super(value);
 }

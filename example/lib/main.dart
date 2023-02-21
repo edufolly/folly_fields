@@ -393,7 +393,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Decimal*',
                         enabled: edit,
                         initialValue: model.decimal,
-                        onSaved: (Decimal value) => model.decimal = value,
+                        onSaved: (Decimal? value) => model.decimal = value!,
                       ),
                       // [/DecimalField]
                     ),

@@ -45,6 +45,7 @@ class DurationField extends ResponsiveStateful {
   final Widget? prefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
+  final void Function()? onTap;
 
   ///
   ///
@@ -86,6 +87,7 @@ class DurationField extends ResponsiveStateful {
     this.prefixIcon,
     this.suffix,
     this.suffixIcon,
+    this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -112,7 +114,7 @@ class DurationField extends ResponsiveStateful {
                 millisecondSuffix
               }.length ==
               7,
-          'suffixes should all be differents between them.',
+          'suffixes should all be different between them.',
         ),
         assert(
           !RegExp('[^a-zA-Z]').hasMatch(yearSuffix) &&
@@ -286,6 +288,7 @@ class DurationFieldState extends State<DurationField> {
             : Theme.of(context).textTheme.titleMedium!.copyWith(
                   color: Theme.of(context).disabledColor,
                 ),
+        onTap: widget.onTap,
       ),
     );
   }
