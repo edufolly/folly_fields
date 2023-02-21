@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/controllers/integer_editing_controller.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
 ///
@@ -80,24 +81,4 @@ class IntegerField extends StringField {
           enableSuggestions: false,
           textCapitalization: TextCapitalization.none,
         );
-}
-
-///
-///
-///
-class IntegerEditingController extends TextEditingController {
-  ///
-  ///
-  ///
-  IntegerEditingController({int? value}) : super(text: value?.toString());
-
-  ///
-  ///
-  ///
-  int? get integer => int.tryParse(text);
-
-  ///
-  ///
-  ///
-  set integer(int? integer) => text = integer == null ? '' : integer.toString();
 }
