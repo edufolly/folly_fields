@@ -6,17 +6,23 @@ import 'package:folly_fields/validators/color_validator.dart';
 ///
 ///
 class ColorEditingController extends ValidatorEditingController<Color> {
+  ValueNotifier<Color> pickerColor = ValueNotifier<Color>(Colors.transparent);
+
   ///
   ///
   ///
   ColorEditingController({Color? color})
-      : super(validator: ColorValidator(), value: color);
+      : super(validator: ColorValidator(), value: color) {
+    pickerColor.value = color ?? Colors.transparent;
+  }
 
   ///
   ///
   ///
   ColorEditingController.fromValue(super.value)
-      : super.fromValue(validator: ColorValidator());
+      : super.fromValue(validator: ColorValidator()) {
+    pickerColor.value = data ?? Colors.transparent;
+  }
 
   ///
   ///
@@ -29,4 +35,13 @@ class ColorEditingController extends ValidatorEditingController<Color> {
   ///
   @Deprecated('Use property data instead color.')
   set color(Color? color) => data = color;
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    pickerColor.dispose();
+    super.dispose();
+  }
 }

@@ -8,8 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class ColorField extends BaseStatefulField<Color, ColorEditingController> {
-  final ValueNotifier<Color> _pickerColor = ValueNotifier<Color>(Colors.red);
-
   ///
   ///
   ///
@@ -39,8 +37,8 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.padding = const EdgeInsets.all(8),
     super.hintText,
     super.contentPadding,
-    // super.prefix,
-    // super.prefixIcon,
+    super.prefix,
+    super.prefixIcon,
     super.onTap,
     super.lostFocus,
     super.required = true,
@@ -80,8 +78,9 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
-              pickerColor: controller.data ?? _pickerColor.value,
-              onColorChanged: (Color value) => _pickerColor.value = value,
+              pickerColor: controller.data ?? controller.pickerColor.value,
+              onColorChanged: (Color value) =>
+                  controller.pickerColor.value = value,
               portraitOnly: true,
             ),
           ),
@@ -91,21 +90,13 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
               child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(_pickerColor.value),
+              onPressed: () =>
+                  Navigator.of(context).pop(controller.pickerColor.value),
               child: Text(MaterialLocalizations.of(context).okButtonLabel),
             ),
           ],
         );
       },
     );
-  }
-
-  ///
-  ///
-  ///
-  @override
-  void dispose() {
-    _pickerColor.dispose();
-    super.dispose();
   }
 }

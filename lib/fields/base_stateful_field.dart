@@ -118,11 +118,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   ///
   ///
   ///
-  void dispose() {}
-
-  ///
-  ///
-  ///
   @override
   BaseStatefulFieldState<T, C> createState() => BaseStatefulFieldState<T, C>();
 }
@@ -331,8 +326,6 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
   ///
   @override
   void dispose() {
-    widget.dispose();
-
     _effectiveController.removeListener(_controllerListener);
 
     _effectiveFocusNode.removeListener(_handleFocus);
