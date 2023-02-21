@@ -87,8 +87,12 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
           ),
           actions: <Widget>[
             ElevatedButton(
-              child: const Text('Ok'),
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            ),
+            ElevatedButton(
               onPressed: () => Navigator.of(context).pop(_pickerColor.value),
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
             ),
           ],
         );

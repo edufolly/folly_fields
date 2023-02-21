@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/decimal_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/validators/decimal_validator.dart';
 
 ///
 ///
 ///
-class DecimalField extends BaseStatefulField<Decimal, DecimalEditingController> {
+class DecimalField
+    extends BaseStatefulField<Decimal, DecimalEditingController> {
   final String decimalSeparator;
   final String thousandSeparator;
 
@@ -22,7 +22,7 @@ class DecimalField extends BaseStatefulField<Decimal, DecimalEditingController> 
     super.labelWidget,
     super.controller,
     super.validator,
-    super.textAlign = TextAlign.start,
+    super.textAlign = TextAlign.end,
     super.onSaved,
     super.initialValue,
     super.enabled = true,
