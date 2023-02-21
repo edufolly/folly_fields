@@ -43,6 +43,7 @@ class CpfField extends ValidatorField {
     super.prefixIcon,
     super.suffix,
     super.suffixIcon,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

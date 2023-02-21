@@ -49,6 +49,7 @@ class ValidatorField extends StringField {
     super.suffix,
     super.suffixIcon,
     super.trimOnSaved = false,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/icon_data_field_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class IconDataField extends ResponsiveFormField<IconData> {
-  final IconFieldController? controller;
+  final IconDataFieldController? controller;
   final Map<String, IconData> icons;
 
   ///
@@ -173,7 +174,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
 class IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  IconFieldController? _controller;
+  IconDataFieldController? _controller;
   List<String> names = <String>[];
 
   ///
@@ -185,7 +186,7 @@ class IconDataFieldState extends FormFieldState<IconData> {
   ///
   ///
   ///
-  IconFieldController get _effectiveController =>
+  IconDataFieldController get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -198,7 +199,7 @@ class IconDataFieldState extends FormFieldState<IconData> {
     _textController.addListener(_handleSearch);
 
     if (widget.controller == null) {
-      _controller = IconFieldController(
+      _controller = IconDataFieldController(
         value: widget.initialValue,
         icons: widget.icons,
       );
@@ -221,7 +222,7 @@ class IconDataFieldState extends FormFieldState<IconData> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = IconFieldController.fromValue(oldWidget.controller!);
+        _controller = IconDataFieldController.fromValue(oldWidget.controller!);
       }
 
       if (widget.controller != null) {
@@ -284,55 +285,5 @@ class IconDataFieldState extends FormFieldState<IconData> {
     if (_effectiveController.value != value) {
       didChange(_effectiveController.value);
     }
-  }
-}
-
-///
-///
-///
-class IconFieldController extends ValueNotifier<IconData?> {
-  Map<String, IconData> _icons;
-
-  ///
-  ///
-  ///
-  IconFieldController({
-    IconData? value,
-    Map<String, IconData> icons = const <String, IconData>{},
-  })  : _icons = icons,
-        super(value);
-
-  ///
-  ///
-  ///
-  IconFieldController.fromValue(IconFieldController controller)
-      : _icons = controller.icons,
-        super(controller.value);
-
-  ///
-  ///
-  ///
-  Map<String, IconData> get icons => _icons;
-
-  ///
-  ///
-  ///
-  set icons(Map<String, IconData> icons) {
-    _icons = icons;
-    super.notifyListeners();
-  }
-
-  ///
-  ///
-  ///
-  String get name {
-    if (value == null) {
-      return '';
-    }
-
-    return _icons.keys.firstWhere(
-      (String key) => _icons[key] == value,
-      orElse: () => '',
-    );
   }
 }

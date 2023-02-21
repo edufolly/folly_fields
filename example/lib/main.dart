@@ -393,7 +393,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Decimal*',
                         enabled: edit,
                         initialValue: model.decimal,
-                        onSaved: (Decimal value) => model.decimal = value,
+                        onSaved: (Decimal? value) => model.decimal = value!,
                       ),
                       // [/DecimalField]
                     ),
@@ -410,7 +410,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'New Decimal*',
                         enabled: edit,
                         initialValue: model.decimal,
-                        onSaved: (Decimal value) => model.decimal = value,
+                        onSaved: (Decimal? value) => model.decimal = value!,
                       ),
                       // [/DecimalField]
                     ),
@@ -629,7 +629,7 @@ class MyHomePageState extends State<MyHomePage> {
                         onSaved: (Duration? value) =>
                             model.duration = value ?? Duration.zero,
                       ),
-                      // [/TimeField]
+                      // [/DurationField]
                     ),
 
                     CodeLink(

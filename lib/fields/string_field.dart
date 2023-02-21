@@ -45,6 +45,7 @@ class StringField extends ResponsiveStateless {
   final Widget? suffix;
   final Widget? suffixIcon;
   final bool trimOnSaved;
+  final void Function()? onTap;
 
   ///
   ///
@@ -89,6 +90,7 @@ class StringField extends ResponsiveStateless {
     this.suffix,
     this.suffixIcon,
     this.trimOnSaved = true,
+    this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -149,7 +151,7 @@ class StringField extends ResponsiveStateless {
         decoration: effectiveDecoration,
         validator: enabled && validator != null
             ? (String? value) => validator!(value ?? '')
-            : (_) => null,
+            : null,
         minLines: minLines,
         maxLines: maxLines,
         obscureText: obscureText,
@@ -171,6 +173,7 @@ class StringField extends ResponsiveStateless {
         enableInteractiveSelection: enableInteractiveSelection,
         autofillHints: readOnly ? null : autofillHints,
         readOnly: readOnly,
+        onTap: onTap,
         style: effectiveStyle,
       ),
     );

@@ -1,13 +1,14 @@
 import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart' as fp;
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/file_field_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
 class FileField extends ResponsiveFormField<Uint8List> {
-  final FileEditingController? controller;
+  final FileFieldController? controller;
 
   ///
   ///
@@ -242,7 +243,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
 ///
 ///
 class FileFieldState extends FormFieldState<Uint8List> {
-  FileEditingController? _controller;
+  FileFieldController? _controller;
   String? _filename;
 
   ///
@@ -254,7 +255,7 @@ class FileFieldState extends FormFieldState<Uint8List> {
   ///
   ///
   ///
-  FileEditingController get _effectiveController =>
+  FileFieldController get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -264,7 +265,7 @@ class FileFieldState extends FormFieldState<Uint8List> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = FileEditingController(
+      _controller = FileFieldController(
         value: widget.initialValue,
       );
     } else {
@@ -284,7 +285,7 @@ class FileFieldState extends FormFieldState<Uint8List> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = FileEditingController.fromValue(
+        _controller = FileFieldController.fromValue(
           oldWidget.controller!,
         );
       }
@@ -338,21 +339,6 @@ class FileFieldState extends FormFieldState<Uint8List> {
   }
 }
 
-///
-///
-///
-class FileEditingController extends ValueNotifier<Uint8List?> {
-  ///
-  ///
-  ///
-  FileEditingController({Uint8List? value}) : super(value);
-
-  ///
-  ///
-  ///
-  FileEditingController.fromValue(FileEditingController controller)
-      : super(controller.value);
-}
 
 enum FileType {
   any,
