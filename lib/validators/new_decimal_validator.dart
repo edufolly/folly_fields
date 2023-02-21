@@ -7,8 +7,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class NewDecimalValidator extends AbstractValidator<Decimal>
-    implements AbstractParser<Decimal> {
+class NewDecimalValidator extends AbstractParserValidator<Decimal> {
   final int precision;
   final String decimalSeparator;
   final String thousandSeparator;
