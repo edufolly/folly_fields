@@ -1,3 +1,7 @@
+## [0.19.1] - 2023-02-24
+
+* Fixing NewDecimalField.
+
 ## [0.19.0] - 2023-02-16
 
 * Upgrade to font_awesome_flutter 10.4.0.
