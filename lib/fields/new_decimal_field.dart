@@ -95,8 +95,8 @@ class NewDecimalField extends ResponsiveStateful {
 ///
 ///
 class NewDecimalFieldState extends State<NewDecimalField> {
-  late NewDecimalEditingController? _controller;
-  late FocusNode? _focusNode;
+  NewDecimalEditingController? _controller;
+  FocusNode? _focusNode;
 
   ///
   ///
