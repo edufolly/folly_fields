@@ -127,8 +127,8 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
 ///
 class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     extends State<BaseStatefulField<T, C>> {
-  late C? _controller;
-  late FocusNode? _focusNode;
+  C? _controller;
+  FocusNode? _focusNode;
 
   ValueNotifier<T?>? _updatePrefixIconNotifier;
   bool fromButton = false;
