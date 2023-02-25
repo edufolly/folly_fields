@@ -1,3 +1,11 @@
+## [0.20.1] - 2023-02-25
+
+* Fixing BaseStatefulField.
+
+## [0.19.1] - 2023-02-24
+
+* Fixing NewDecimalField.
+
 ## [0.20.0] - 2023-02-21
 
 * Adding onTap attribute to all fields.
@@ -9,10 +17,6 @@
   * DurationField
   * DecimalField
   * NewDecimalField
-
-## [0.19.1] - 2023-02-24
-
-* Fixing NewDecimalField.
 
 ## [0.19.0] - 2023-02-16
 
