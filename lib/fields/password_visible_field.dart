@@ -35,7 +35,9 @@ class PasswordVisibleField extends ResponsiveStateful {
   final bool startObscured;
   final String? hintText;
   final EdgeInsets? contentPadding;
+  final Widget? prefix;
   final Widget? prefixIcon;
+  final void Function()? onTap;
 
   ///
   ///
@@ -70,7 +72,9 @@ class PasswordVisibleField extends ResponsiveStateful {
     this.startObscured = true,
     this.hintText,
     this.contentPadding,
+    this.prefix,
     this.prefixIcon,
+    this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -124,6 +128,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
       builder: (BuildContext context, bool? value, _) {
         InputDecoration effectiveDecoration = (widget.decoration ??
                 InputDecoration(
+                  prefix: widget.prefix,
                   prefixIcon: widget.prefixIcon,
                   label: widget.labelWidget,
                   labelText: widget.label == null
@@ -176,6 +181,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
             scrollPadding: widget.scrollPadding,
             enableInteractiveSelection: widget.enableInteractiveSelection,
             autofillHints: widget.autofillHints,
+            onTap: widget.onTap,
             style: effectiveStyle,
           ),
         );

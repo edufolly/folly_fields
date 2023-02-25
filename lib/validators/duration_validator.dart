@@ -4,8 +4,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class DurationValidator extends AbstractValidator<Duration>
-    implements AbstractParser<Duration> {
+class DurationValidator extends AbstractParserValidator<Duration> {
   final String yearSuffix;
   final String monthSuffix;
   final String daySuffix;

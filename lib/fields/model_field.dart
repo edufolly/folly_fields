@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/model_editing_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
@@ -280,41 +281,4 @@ class ModelFieldState<T extends AbstractModel<Object>>
       didChange(_effectiveController.model);
     }
   }
-}
-
-///
-///
-///
-class ModelEditingController<T extends AbstractModel<Object>>
-    extends TextEditingController {
-  T? _model;
-
-  ///
-  ///
-  ///
-  ModelEditingController({T? model})
-      : _model = model,
-        super(text: (model ?? '').toString());
-
-  ///
-  ///
-  ///
-  T? get model => _model;
-
-  ///
-  ///
-  ///
-  set model(T? model) {
-    value = TextEditingValue(
-      text: (model ?? '').toString(),
-    );
-    _model = model;
-    notifyListeners();
-  }
-
-  ///
-  ///
-  ///
-  @override
-  String get text => (_model ?? '').toString();
 }

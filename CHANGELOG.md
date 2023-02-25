@@ -1,3 +1,15 @@
+## [0.20.0] - 2023-02-21
+
+* Adding onTap attribute to all fields.
+* Splitting Field Controllers
+* Updating default behavior from fields:
+    * ColorField
+    * DateField
+    * DateTimeField
+    * DurationField
+    * DecimalField
+    * NewDecimalField
+
 ## [0.19.1] - 2023-02-24
 
 * Fixing NewDecimalField.

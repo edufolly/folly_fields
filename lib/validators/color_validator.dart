@@ -5,8 +5,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class ColorValidator extends AbstractValidator<Color>
-    implements AbstractParser<Color> {
+class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   ///
@@ -71,7 +70,7 @@ class ColorValidator extends AbstractValidator<Color>
             text = 'FF$text';
           }
 
-          if(text.length > 8) {
+          if (text.length > 8) {
             text = text.substring(0, 8);
           }
 

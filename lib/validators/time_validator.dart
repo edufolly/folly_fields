@@ -7,8 +7,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class TimeValidator extends AbstractValidator<TimeOfDay>
-    implements AbstractParser<TimeOfDay> {
+class TimeValidator extends AbstractParserValidator<TimeOfDay> {
   ///
   ///
   ///
