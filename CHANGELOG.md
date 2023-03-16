@@ -1,3 +1,21 @@
+## [0.21.0] - 2023-03-16
+
+* AbstractEdit
+    * Deprecating modelFunctions attribute.
+    * Creating actions attribute.
+* Abstract List
+    * Deprecating mapFunctions attribute.
+    * Deprecating modelFunctions attribute.
+    * Creating actions attribute.
+    * Creating rowActions attribute.
+* Deprecating Classes
+    * AbstractFunctionInterface
+    * AbstractMapFunction
+    * AbstractModelFunction
+    * AbstractFunction
+    * MapFunction
+    * ModelFunction
+
 ## [0.20.1] - 2023-02-25
 
 * Fixing BaseStatefulField.
@@ -11,12 +29,12 @@
 * Adding onTap attribute to all fields.
 * Splitting Field Controllers
 * Updating default behavior from fields:
-  * ColorField
-  * DateField
-  * DateTimeField
-  * DurationField
-  * DecimalField
-  * NewDecimalField
+    * ColorField
+    * DateField
+    * DateTimeField
+    * DurationField
+    * DecimalField
+    * NewDecimalField
 
 ## [0.19.0] - 2023-02-16
 
