@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,14 +37,14 @@ class ExampleMapModel {
 ///
 ///
 ///
-class ExampleMapFunctionRoute extends MapFunction {
-  final ExampleMapModel? model;
+class ExampleListAction extends StatefulWidget {
+  final ExampleMapModel model;
 
   ///
   ///
   ///
-  const ExampleMapFunctionRoute({
-    this.model,
+  const ExampleListAction({
+    required this.model,
     super.key,
   });
 
@@ -53,40 +52,11 @@ class ExampleMapFunctionRoute extends MapFunction {
   ///
   ///
   @override
-  List<String> get routeName => const <String>['example_map_function_route'];
-
-  ///
-  ///
-  ///
-  @override
-  Future<Widget> onPressed(
-    BuildContext context,
-    Map<String, String> map, {
-    required bool selection,
-  }) async =>
-      ExampleMapFunctionRoute(
-        model: ExampleMapModel.fromMap(map),
-      );
-
-  ///
-  ///
-  ///
-  @override
-  State<ExampleMapFunctionRoute> createState() =>
-      _ExampleMapFunctionRouteState();
+  State<ExampleListAction> createState() => _ExampleListActionState();
 }
 
-///
-///
-///
-class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
+class _ExampleListActionState extends State<ExampleListAction> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ExampleMapModel _stateModel = ExampleMapModel();
-
-  ///
-  ///
-  ///
-  ExampleMapModel get model => widget.model ?? _stateModel;
 
   ///
   ///
@@ -111,23 +81,25 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
               padding: const EdgeInsets.all(8),
               child: StringField(
                 label: 'Campo de Teste',
-                initialValue: model.test,
-                onSaved: (String? value) =>
-                    model.test = value == null || value.isEmpty ? null : value,
+                initialValue: widget.model.test,
+                onSaved: (String? value) => widget.model.test =
+                    value == null || value.isEmpty ? null : value,
               ),
             ),
           ),
           Expanded(
-            child: model.originalMap.isNotEmpty
+            child: widget.model.originalMap.isNotEmpty
                 ? ListView.separated(
                     itemBuilder: (BuildContext context, int index) => ListTile(
                       title: Text(
-                        'Key: ${model.originalMap.keys.elementAt(index)} - '
-                        'Value: ${model.originalMap.values.elementAt(index)}',
+                        'Key: '
+                        '${widget.model.originalMap.keys.elementAt(index)} - '
+                        'Value: '
+                        '${widget.model.originalMap.values.elementAt(index)}',
                       ),
                     ),
                     separatorBuilder: (_, __) => const FollyDivider(),
-                    itemCount: model.originalMap.keys.length,
+                    itemCount: widget.model.originalMap.keys.length,
                   )
                 : const Center(
                     child: Text('Nenhum parâmetro informado.'),
@@ -144,7 +116,7 @@ class _ExampleMapFunctionRouteState extends State<ExampleMapFunctionRoute> {
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(model.toMap());
+      Navigator.of(context).pop(widget.model.toMap());
     }
   }
 }

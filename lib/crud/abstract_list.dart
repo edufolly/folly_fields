@@ -1,3 +1,6 @@
+// TODO(edufolly): Remove in version 1.0.0.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -47,6 +50,7 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
+  @Deprecated('Use actions instead mapFunctions.')
   final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
     BuildContext context,
@@ -55,6 +59,7 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
+  @Deprecated('Use rowActions instead modelFunctions.')
   final List<AbstractModelFunction<T>>? modelFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
@@ -79,6 +84,18 @@ abstract class AbstractList<
   final bool showRefreshButton;
   final String refreshButtonText;
   final Widget? Function(BuildContext context)? appBarLeading;
+  final List<Widget> Function(
+    BuildContext context,
+    bool selection,
+    Map<String, String> qsParam,
+  )? actions;
+  final List<Widget> Function(
+    BuildContext context,
+    bool selection,
+    T model,
+    Map<String, String> qsParam,
+    void Function({bool clear})? refresh,
+  )? rowActions;
 
   ///
   ///
@@ -102,9 +119,9 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.mapFunctions,
+    @Deprecated('Use actions instead mapFunctions.') this.mapFunctions,
     this.onLongPress,
-    this.modelFunctions,
+    @Deprecated('Use rowActions instead modelFunctions.') this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -129,6 +146,8 @@ abstract class AbstractList<
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
     this.appBarLeading,
+    this.actions,
+    this.rowActions,
     super.key,
   }) : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
@@ -430,6 +449,10 @@ class AbstractListState<
               },
             ),
 
+          /// Actions
+          if (!widget.selection && widget.actions != null)
+            ...widget.actions!(context, widget.selection, _qsParam),
+
           /// Add Button
           if (!FollyFields().isMobile && !widget.selection)
             ValueListenableBuilder<bool>(
@@ -694,6 +717,16 @@ class AbstractListState<
               callback: (Object? object) => _loadData(context),
             ),
           ),
+
+          /// Row Actions
+          if (widget.rowActions != null)
+            ...widget.rowActions!(
+              context,
+              widget.selection,
+              model,
+              _qsParam,
+              ({bool clear = true}) => _loadData(context, clear: clear),
+            ),
 
           /// Delete Button
           if (canDelete)

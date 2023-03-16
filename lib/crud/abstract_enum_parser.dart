@@ -5,14 +5,15 @@ import 'package:flutter/foundation.dart';
 ///
 ///
 ///
-@Deprecated('Use new Flutter enum.')
+// TODO(edufolly): Remove in version 1.0.0.
+@Deprecated('This class will be removed in version 1.0.0.')
 abstract class AbstractEnumParser<T extends Enum> {
   final T defaultItem;
 
   ///
   ///
   ///
-  @Deprecated('Use new Flutter enum.')
+  @Deprecated('This class will be removed in version 1.0.0.')
   @mustCallSuper
   const AbstractEnumParser({
     required this.defaultItem,

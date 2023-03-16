@@ -8,6 +8,8 @@ import 'package:folly_fields/util/safe_builder.dart';
 ///
 ///
 ///
+// TODO(edufolly): Remove in version 1.0.0.
+@Deprecated('This class will be removed in version 1.0.0.')
 class ModelFunctionButton<T extends AbstractModel<Object>>
     extends StatelessWidget {
   final AbstractModelFunction<T> rowFunction;
@@ -20,6 +22,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
   ///
   ///
   ///
+  @Deprecated('This class will be removed in version 1.0.0.')
   const ModelFunctionButton({
     required this.rowFunction,
     required this.permission,

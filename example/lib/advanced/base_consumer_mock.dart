@@ -23,33 +23,33 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     BuildContext context,
     List<String>? paths,
   ) {
-    if (paths?.join('/').contains('example_map_function_route') ?? false) {
-      return Future<ConsumerPermission>.value(
-        const ConsumerPermission(
-          name: 'Example Map Func. Route',
-          iconName: 'cube',
-          view: true,
-          insert: true,
-          update: true,
-          delete: true,
-          menu: true,
-        ),
-      );
-    }
+    // if (paths?.join('/').contains('example_map_function_route') ?? false) {
+    //   return Future<ConsumerPermission>.value(
+    //     const ConsumerPermission(
+    //       name: 'Example Map Func. Route',
+    //       iconName: 'cube',
+    //       view: true,
+    //       insert: true,
+    //       update: true,
+    //       delete: true,
+    //       menu: true,
+    //     ),
+    //   );
+    // }
 
-    if (paths?.join('/').contains('example_model_function_route') ?? false) {
-      return Future<ConsumerPermission>.value(
-        const ConsumerPermission(
-          name: 'Example Model Func. Route',
-          iconName: 'mugHot',
-          view: true,
-          insert: true,
-          update: true,
-          delete: true,
-          menu: true,
-        ),
-      );
-    }
+    // if (paths?.join('/').contains('example_model_function_route') ?? false) {
+    //   return Future<ConsumerPermission>.value(
+    //     const ConsumerPermission(
+    //       name: 'Example Model Func. Route',
+    //       iconName: 'mugHot',
+    //       view: true,
+    //       insert: true,
+    //       update: true,
+    //       delete: true,
+    //       menu: true,
+    //     ),
+    //   );
+    // }
 
     return Future<ConsumerPermission>.value(
       const ConsumerPermission(

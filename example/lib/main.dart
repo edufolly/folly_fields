@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -48,7 +46,6 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
-import 'package:folly_fields_example/advanced/example_map_function_route.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
 import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
@@ -116,8 +113,6 @@ class MyApp extends StatelessWidget {
             ),
         '/four_images': (_) => const FourImages(),
         '/credit_card': (_) => const CreditCard(),
-        const ExampleMapFunctionRoute().path: (_) =>
-            const ExampleMapFunctionRoute(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         ...GlobalMaterialLocalizations.delegates,
@@ -898,6 +893,7 @@ class MyHomePageState extends State<MyHomePage> {
                         showCounter: true,
                         showTopAddButton: true,
                         onChanged: (List<ExampleModel> value) =>
+                            // ignore: avoid_print
                             print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
@@ -939,6 +935,7 @@ class MyHomePageState extends State<MyHomePage> {
                           2: 'Laranja',
                         },
                         onChanged: (int? value) =>
+                            // ignore: avoid_print
                             print('ChoiceChipField changed to $value'),
                         validator: FollyValidators.notNull,
                         onSaved: (int? value) => model.fruitIndex = value,
