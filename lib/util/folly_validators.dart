@@ -8,37 +8,37 @@ class FollyValidators {
   ///
   ///
   static String? decimalGTEZero(
-    Decimal decimal, {
+    Decimal? decimal, {
     String msg = 'O valor deve ser igual ou maior que zero.',
   }) =>
-      decimal.doubleValue >= 0 ? null : msg;
+      decimal != null && decimal.doubleValue >= 0 ? null : msg;
 
   ///
   ///
   ///
   static String? decimalGTZero(
-    Decimal decimal, {
+    Decimal? decimal, {
     String msg = 'O valor deve ser maior que zero.',
   }) =>
-      decimal.doubleValue > 0 ? null : msg;
+      decimal != null && decimal.doubleValue > 0 ? null : msg;
 
   ///
   ///
   ///
   static String? decimalLTZero(
-    Decimal decimal, {
+    Decimal? decimal, {
     String msg = 'O valor deve ser menor que zero.',
   }) =>
-      decimal.doubleValue < 0 ? null : msg;
+      decimal != null && decimal.doubleValue < 0 ? null : msg;
 
   ///
   ///
   ///
   static String? decimalLTEZero(
-    Decimal decimal, {
+    Decimal? decimal, {
     String msg = 'O valor deve ser igual ou menor que zero.',
   }) =>
-      decimal.doubleValue <= 0 ? null : msg;
+      decimal != null && decimal.doubleValue <= 0 ? null : msg;
 
   ///
   ///

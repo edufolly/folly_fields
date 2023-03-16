@@ -7,6 +7,8 @@ import 'package:folly_fields/util/safe_builder.dart';
 ///
 ///
 ///
+// TODO(edufolly): Remove in version 1.0.0.
+@Deprecated('This class will be removed in version 1.0.0.')
 class MapFunctionButton extends StatelessWidget {
   final AbstractMapFunction mapFunction;
   final ConsumerPermission permission;
@@ -17,6 +19,7 @@ class MapFunctionButton extends StatelessWidget {
   ///
   ///
   ///
+  @Deprecated('This class will be removed in version 1.0.0.')
   const MapFunctionButton({
     required this.mapFunction,
     required this.permission,

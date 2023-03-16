@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_list.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
-import 'package:folly_fields_example/advanced/example_map_function_route.dart';
-import 'package:folly_fields_example/advanced/example_model_function_route.dart';
+import 'package:folly_fields_example/advanced/example_list_action.dart';
+import 'package:folly_fields_example/advanced/example_list_row_action.dart';
 import 'package:folly_fields_example/example_model.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -50,11 +50,47 @@ class ExampleList
             bool edit,
           ) async =>
               ExampleEdit(model, uiBuilder, consumer, edit: edit),
-          mapFunctions: <AbstractMapFunction>[
-            const ExampleMapFunctionRoute(),
-          ],
-          modelFunctions: <AbstractModelFunction<ExampleModel>>[
-            const ExampleModelFunctionRoute(),
-          ],
+          actions: (
+            BuildContext context,
+            bool selection,
+            Map<String, String> qsParam,
+          ) {
+            return <Widget>[
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => ExampleListAction(
+                        model: ExampleMapModel(originalMap: qsParam),
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(FontAwesomeIcons.cube),
+              ),
+            ];
+          },
+          rowActions: (
+            BuildContext context,
+            bool selection,
+            ExampleModel model,
+            Map<String, String> qsParam,
+            void Function({bool clear})? refresh,
+          ) {
+            return <Widget>[
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => ExampleListRowAction(
+                        model: model,
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(FontAwesomeIcons.mugHot),
+              ),
+            ];
+          },
         );
 }

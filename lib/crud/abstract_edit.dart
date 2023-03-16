@@ -1,3 +1,6 @@
+// TODO(edufolly): Remove in version 1.0.0.
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -32,9 +35,14 @@ abstract class AbstractEdit<
   final bool edit;
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
+  @Deprecated('Use actions instead modelFunctions.')
   final List<AbstractModelFunction<T>>? modelFunctions;
   final Widget? Function(BuildContext context)? appBarLeading;
   final void Function(BuildContext context, T model)? afterSave;
+  final List<Widget> Function({
+    required BuildContext context,
+    required T model,
+  })? actions;
 
   ///
   ///
@@ -46,9 +54,10 @@ abstract class AbstractEdit<
     required this.edit,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
-    this.modelFunctions,
+    @Deprecated('Use actions instead modelFunctions.') this.modelFunctions,
     this.appBarLeading,
     this.afterSave,
+    this.actions,
     super.key,
   });
 
@@ -176,6 +185,13 @@ class AbstractEditState<
                   )
                 : const SizedBox.shrink(),
           ),
+
+          /// Actions
+          if (widget.actions != null)
+            ...widget.actions!(
+              context: context,
+              model: _model,
+            ),
 
           /// Save Button
           if (widget.edit)
