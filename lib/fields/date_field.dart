@@ -12,7 +12,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   final DateTime? firstDate;
   final DateTime? lastDate;
   final String locale;
-  final String format;
+  final String dateFormat;
   final String mask;
 
   ///
@@ -24,7 +24,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     this.firstDate,
     this.lastDate,
     this.locale = 'pt_br',
-    this.format = 'dd/MM/yyyy',
+    this.dateFormat = 'dd/MM/yyyy',
     this.mask = 'B#/D#/####',
     super.suffixIconData = FontAwesomeIcons.solidCalendarDays,
     super.labelPrefix = '',
@@ -70,9 +70,9 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   ///
   @override
   DateEditingController createController() => DateEditingController(
-        dateTime: initialValue,
+        value: initialValue,
         locale: locale,
-        format: format,
+        dateFormat: dateFormat,
         mask: mask,
       );
 
