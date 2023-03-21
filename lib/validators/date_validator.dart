@@ -10,7 +10,7 @@ class DateValidator extends DateTimeValidator {
   ///
   DateValidator({
     super.locale,
-    super.format = 'dd/MM/yyyy',
+    super.dateFormat = 'dd/MM/yyyy',
     super.mask = 'B#/D#/####',
   });
 

@@ -15,7 +15,7 @@ class DateTimeField
   final DateTime? firstDate;
   final DateTime? lastDate;
   final String locale;
-  final String format;
+  final String dateFormat;
   final String mask;
 
   ///
@@ -28,7 +28,7 @@ class DateTimeField
     this.firstDate,
     this.lastDate,
     this.locale = 'pt_br',
-    this.format = 'dd/MM/yyyy HH:mm',
+    this.dateFormat = 'dd/MM/yyyy HH:mm',
     this.mask = 'B#/D#/#### A#:C#',
     super.suffixIconData = FontAwesomeIcons.calendarDay,
     super.labelPrefix = '',
@@ -74,9 +74,9 @@ class DateTimeField
   ///
   @override
   DateTimeEditingController createController() => DateTimeEditingController(
-        dateTime: initialValue,
+        value: initialValue,
         locale: locale,
-        format: format,
+        dateFormat: dateFormat,
         mask: mask,
       );
 

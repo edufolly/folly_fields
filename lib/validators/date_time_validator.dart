@@ -8,17 +8,17 @@ import 'package:intl/intl.dart';
 ///
 ///
 class DateTimeValidator extends AbstractParserValidator<DateTime> {
-  final DateFormat dateFormat;
+  final String locale;
+  final String dateFormat;
 
   ///
   ///
   ///
   DateTimeValidator({
-    String locale = 'pt_br',
-    String format = 'dd/MM/yyyy HH:mm',
+    this.locale = 'pt_br',
+    this.dateFormat = 'dd/MM/yyyy HH:mm',
     String mask = 'B#/D#/#### A#:C#',
-  })  : dateFormat = DateFormat(format, locale),
-        super(
+  }) : super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
               mask: mask,
@@ -37,7 +37,7 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   ///
   ///
   @override
-  String format(DateTime value) => dateFormat.format(value);
+  String format(DateTime value) => DateFormat(dateFormat, locale).format(value);
 
   ///
   ///
@@ -66,7 +66,7 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
       return null;
     } else {
       try {
-        return dateFormat.parse(text);
+        return DateFormat(dateFormat, locale).parse(text);
       } on Exception catch (_) {
         return null;
       }

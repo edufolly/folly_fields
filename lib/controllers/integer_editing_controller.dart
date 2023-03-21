@@ -7,7 +7,8 @@ class IntegerEditingController extends TextEditingController {
   ///
   ///
   ///
-  IntegerEditingController({int? value}) : super(text: value?.toString());
+  IntegerEditingController({int? value})
+      : super(text: value == null ? '' : value.toString());
 
   ///
   ///
