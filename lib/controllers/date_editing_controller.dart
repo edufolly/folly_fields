@@ -9,17 +9,18 @@ class DateEditingController extends ValidatorEditingController<DateTime> {
   ///
   ///
   DateEditingController({
-    DateTime? dateTime,
+    @Deprecated('Use property value instead dateTime.') DateTime? dateTime,
+    DateTime? value,
     String locale = 'pt_br',
-    String format = 'dd/MM/yyyy',
+    String dateFormat = 'dd/MM/yyyy',
     String mask = 'B#/D#/####',
   }) : super(
           validator: DateValidator(
             locale: locale,
-            format: format,
+            dateFormat: dateFormat,
             mask: mask,
           ),
-          value: dateTime,
+          value: value ?? dateTime,
         );
 
   ///
@@ -28,12 +29,12 @@ class DateEditingController extends ValidatorEditingController<DateTime> {
   DateEditingController.fromValue(
     super.value, {
     String locale = 'pt_br',
-    String format = 'dd/MM/yyyy',
+    String dateFormat = 'dd/MM/yyyy',
     String mask = 'B#/D#/####',
   }) : super.fromValue(
           validator: DateValidator(
             locale: locale,
-            format: format,
+            dateFormat: dateFormat,
             mask: mask,
           ),
         );

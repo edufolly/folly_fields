@@ -59,7 +59,7 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   ///
   @override
   TimeEditingController createController() =>
-      TimeEditingController(time: initialValue);
+      TimeEditingController(value: initialValue);
 
   ///
   ///

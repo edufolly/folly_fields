@@ -8,14 +8,14 @@ import 'package:intl/date_symbol_data_local.dart';
 ///
 ///
 void main() {
-  const String format = 'dd/MM/yyyy';
+  const String dateFormat = 'dd/MM/yyyy';
   const String locale = 'pt_br';
   const String mask = '##/##/####';
 
   initializeDateFormatting(locale);
 
   DateValidator validator = DateValidator(
-    format: format,
+    dateFormat: dateFormat,
     locale: locale,
     mask: mask,
   );
