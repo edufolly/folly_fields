@@ -1,3 +1,7 @@
+## [0.20.2] - 2023-03-20
+
+* Fixing DateTimeEditingController file typo.
+
 ## [0.20.1] - 2023-02-25
 
 * Fixing BaseStatefulField.
@@ -11,12 +15,12 @@
 * Adding onTap attribute to all fields.
 * Splitting Field Controllers
 * Updating default behavior from fields:
-  * ColorField
-  * DateField
-  * DateTimeField
-  * DurationField
-  * DecimalField
-  * NewDecimalField
+    * ColorField
+    * DateField
+    * DateTimeField
+    * DurationField
+    * DecimalField
+    * NewDecimalField
 
 ## [0.19.0] - 2023-02-16
 
