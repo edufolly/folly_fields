@@ -1,3 +1,7 @@
+## [0.20.4] - 2023-03-26
+
+* Fixing CreditCardNumberField suffixIcon attribute.
+
 ## [0.20.3] - 2023-03-21
 
 * Updating Date and Time Fields.
