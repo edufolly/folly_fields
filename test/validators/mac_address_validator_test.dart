@@ -25,7 +25,7 @@ void main() {
     '_0:00:00:00:00:00': false,
   };
 
-  for (int i = 0; i < 100; i++) {
+  for (int gen = 0; gen < 100; gen++) {
     isValidTests[MacAddressValidator.generate()] = true;
   }
 

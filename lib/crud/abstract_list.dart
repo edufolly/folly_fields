@@ -403,7 +403,7 @@ class AbstractListState<
               ),
               icon: const FaIcon(FontAwesomeIcons.check),
               onPressed: () =>
-                  Navigator.of(context).pop(List<T>.from(_selections.values)),
+                  Navigator.of(context).pop(List<T>.of(_selections.values)),
             ),
 
           /// Action Routes

@@ -145,6 +145,7 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   @override
   bool isValid(String value) {
     RegExpMatch? match = regExp.firstMatch(value.trim());
+
     return match != null && match.group(0) == value.trim();
   }
 

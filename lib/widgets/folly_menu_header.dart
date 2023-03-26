@@ -260,6 +260,7 @@ class FollyUserHeader<O> extends StatelessWidget {
       if (email.length < 2) {
         return '??';
       }
+
       return email.substring(0, 2);
     }
 

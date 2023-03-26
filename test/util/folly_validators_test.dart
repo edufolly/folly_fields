@@ -11,18 +11,18 @@ void main() {
     Decimal(precision: 2, doubleValue: -0.01),
     Decimal(precision: 2, doubleValue: 0),
     Decimal(precision: 2, doubleValue: 0.01),
-    Decimal(precision: 2, doubleValue: 1)
+    Decimal(precision: 2, doubleValue: 1),
   ];
 
   ///
   ///
   ///
   List<bool> decimalGTEZeroResults = <bool>[
-    false, // -1
-    false, // -0.01
-    true, // 0
-    true, // 0.01
-    true, // 1
+    false,
+    false,
+    true,
+    true,
+    true,
   ];
 
   Map<Decimal, bool> decimalGTEZeroTests =
@@ -47,11 +47,11 @@ void main() {
   ///
   ///
   List<bool> decimalGTZeroResults = <bool>[
-    false, // -1
-    false, // -0.01
-    false, // 0
-    true, // 0.01
-    true, // 1
+    false,
+    false,
+    false,
+    true,
+    true,
   ];
 
   Map<Decimal, bool> decimalGTZeroTests =
@@ -76,11 +76,11 @@ void main() {
   ///
   ///
   List<bool> decimalLTZeroResults = <bool>[
-    true, // -1
-    true, // -0.01
-    false, // 0
-    false, // 0.01
-    false, // 1
+    true,
+    true,
+    false,
+    false,
+    false,
   ];
 
   Map<Decimal, bool> decimalLTZeroTests =
@@ -105,11 +105,11 @@ void main() {
   ///
   ///
   List<bool> decimalLTEZeroResults = <bool>[
-    true, // -1
-    true, // -0.01
-    true, // 0
-    false, // 0.01
-    false, // 1
+    true,
+    true,
+    true,
+    false,
+    false,
   ];
 
   Map<Decimal, bool> decimalLTEZeroTests =

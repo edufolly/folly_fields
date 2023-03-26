@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/fields/credit_card_cvv_field.dart';
+import 'package:folly_fields/fields/credit_card_code_field.dart';
 import 'package:folly_fields/fields/credit_card_expiration_field.dart';
 import 'package:folly_fields/fields/credit_card_number_field.dart';
 import 'package:folly_fields/fields/uppercase_field.dart';

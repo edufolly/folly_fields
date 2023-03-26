@@ -1,3 +1,4 @@
+// ignore_for_file:
 ///
 ///
 ///
@@ -85,11 +86,11 @@ class Ipv4Address {
     List<int> ocs = <int>[];
 
     for (final String part in parts) {
-      int? oc = int.tryParse(part);
-      if (oc == null || oc < 0 || oc > 255) {
+      int? octet = int.tryParse(part);
+      if (octet == null || octet < 0 || octet > 255) {
         throw ArgumentError('invalidIpAddress');
       }
-      ocs.add(oc);
+      ocs.add(octet);
     }
 
     return Ipv4Address.fromDecimals(ocs[0], ocs[1], ocs[2], ocs[3]);
@@ -122,6 +123,7 @@ class Ipv4Address {
     if (newValue > 4294967295) {
       throw ArgumentError('invalidIpAddress');
     }
+
     return Ipv4Address(newValue);
   }
 
@@ -133,6 +135,7 @@ class Ipv4Address {
     if (newValue < 0) {
       throw ArgumentError('invalidIpAddress');
     }
+
     return Ipv4Address(newValue);
   }
 

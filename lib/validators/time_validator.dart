@@ -59,11 +59,12 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
       List<String> parts = value.split(':');
       if (parts.length == 2) {
         return TimeOfDay(
-          hour: int.parse(parts[0]),
-          minute: int.parse(parts[1]),
+          hour: int.parse(parts.first),
+          minute: int.parse(parts.last),
         );
       }
     }
+
     return null;
   }
 

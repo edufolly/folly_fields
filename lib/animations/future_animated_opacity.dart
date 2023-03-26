@@ -3,48 +3,6 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-class FutureAppear extends FutureAnimatedOpacity {
-  ///
-  ///
-  ///
-  const FutureAppear({
-    required super.child,
-    required super.delay,
-    required super.animationDuration,
-    super.curve,
-    super.onEnd,
-    super.alwaysIncludeSemantics,
-    super.key,
-  }) : super(
-          initialOpacity: 0,
-          finalOpacity: 1,
-        );
-}
-
-///
-///
-///
-class FutureDisappear extends FutureAnimatedOpacity {
-  ///
-  ///
-  ///
-  const FutureDisappear({
-    required super.child,
-    required super.delay,
-    required super.animationDuration,
-    super.curve,
-    super.onEnd,
-    super.alwaysIncludeSemantics,
-    super.key,
-  }) : super(
-          initialOpacity: 1,
-          finalOpacity: 0,
-        );
-}
-
-///
-///
-///
 class FutureAnimatedOpacity extends StatelessWidget {
   final Duration delay;
   final double initialOpacity;
@@ -90,4 +48,46 @@ class FutureAnimatedOpacity extends StatelessWidget {
       },
     );
   }
+}
+
+///
+///
+///
+class FutureAppear extends FutureAnimatedOpacity {
+  ///
+  ///
+  ///
+  const FutureAppear({
+    required super.child,
+    required super.delay,
+    required super.animationDuration,
+    super.curve,
+    super.onEnd,
+    super.alwaysIncludeSemantics,
+    super.key,
+  }) : super(
+          initialOpacity: 0,
+          finalOpacity: 1,
+        );
+}
+
+///
+///
+///
+class FutureDisappear extends FutureAnimatedOpacity {
+  ///
+  ///
+  ///
+  const FutureDisappear({
+    required super.child,
+    required super.delay,
+    required super.animationDuration,
+    super.curve,
+    super.onEnd,
+    super.alwaysIncludeSemantics,
+    super.key,
+  }) : super(
+          initialOpacity: 1,
+          finalOpacity: 0,
+        );
 }

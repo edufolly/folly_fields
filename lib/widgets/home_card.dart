@@ -72,6 +72,7 @@ class HomeCard<T, O> extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: SizedBox(
                     height: iconSize,
+                    // ignore: no-equal-arguments
                     width: iconSize,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
@@ -97,7 +98,7 @@ class HomeCard<T, O> extends StatelessWidget {
                       onSelected: (O operation) =>
                           onMenuSelect?.call(item, operation),
                     ),
-                  )
+                  ),
               ],
             ),
             Padding(

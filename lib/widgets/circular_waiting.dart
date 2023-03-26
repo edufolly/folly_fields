@@ -150,6 +150,7 @@ class CircularWaiting {
     if (_closeable) {
       await _streamController.close();
     }
+
     return _closeable;
   }
 }

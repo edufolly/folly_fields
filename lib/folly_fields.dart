@@ -1,3 +1,5 @@
+// ignore_this_file: prefer-first
+
 library folly_fields;
 
 import 'dart:io';
@@ -6,115 +8,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-
-///
-///
-///
-enum RunningPlatform {
-  unknown,
-  web,
-  android,
-  ios,
-  linux,
-  windows,
-  macos,
-  fuchsia,
-}
-
-///
-///
-///
-extension RunningPlatformExt on RunningPlatform {
-  ///
-  ///
-  ///
-  String get name => toString().split('.').last.toLowerCase();
-}
-
-///
-///
-///
-typedef FollyDateParse = int? Function(dynamic value);
-
-///
-///
-///
-abstract class _InternalConfig {
-  ///
-  ///
-  ///
-  bool get isOnline;
-
-  ///
-  ///
-  ///
-  bool get isOffline;
-
-  ///
-  ///
-  ///
-  bool get isWeb;
-
-  ///
-  ///
-  ///
-  bool get isNotWeb;
-
-  ///
-  ///
-  ///
-  bool get isMobile;
-
-  ///
-  ///
-  ///
-  bool get isNotMobile;
-
-  ///
-  ///
-  ///
-  bool get isDesktop;
-
-  ///
-  ///
-  ///
-  bool get isNotDesktop;
-
-  ///
-  ///
-  ///
-  String get platform;
-
-  ///
-  ///
-  ///
-  String get modelIdKey;
-
-  ///
-  ///
-  ///
-  String get modelUpdatedAtKey;
-
-  ///
-  ///
-  ///
-  String get modelDeletedAtKey;
-
-  ///
-  ///
-  ///
-  FollyDateParse? get dateParseUpdate;
-
-  ///
-  ///
-  ///
-  FollyDateParse? get dateParseDelete;
-
-  ///
-  ///
-  ///
-  List<double> get responsiveSizes;
-}
 
 ///
 ///
@@ -274,6 +167,115 @@ class FollyFields implements _InternalConfig {
 
     return ResponsiveSize.extraLarge;
   }
+}
+
+///
+///
+///
+enum RunningPlatform {
+  unknown,
+  web,
+  android,
+  ios,
+  linux,
+  windows,
+  macos,
+  fuchsia,
+}
+
+///
+///
+///
+extension RunningPlatformExt on RunningPlatform {
+  ///
+  ///
+  ///
+  String get name => toString().split('.').last.toLowerCase();
+}
+
+///
+///
+///
+typedef FollyDateParse = int? Function(dynamic value);
+
+///
+///
+///
+abstract class _InternalConfig {
+  ///
+  ///
+  ///
+  bool get isOnline;
+
+  ///
+  ///
+  ///
+  bool get isOffline;
+
+  ///
+  ///
+  ///
+  bool get isWeb;
+
+  ///
+  ///
+  ///
+  bool get isNotWeb;
+
+  ///
+  ///
+  ///
+  bool get isMobile;
+
+  ///
+  ///
+  ///
+  bool get isNotMobile;
+
+  ///
+  ///
+  ///
+  bool get isDesktop;
+
+  ///
+  ///
+  ///
+  bool get isNotDesktop;
+
+  ///
+  ///
+  ///
+  String get platform;
+
+  ///
+  ///
+  ///
+  String get modelIdKey;
+
+  ///
+  ///
+  ///
+  String get modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  String get modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseUpdate;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseDelete;
+
+  ///
+  ///
+  ///
+  List<double> get responsiveSizes;
 }
 
 ///

@@ -45,6 +45,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
     if (kDebugMode) {
       print('Decimal validator - call strip method.');
     }
+
     return value;
   }
 
