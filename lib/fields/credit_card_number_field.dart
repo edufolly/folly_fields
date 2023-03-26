@@ -200,7 +200,7 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       prefix: widget.prefix,
       prefixIcon: widget.prefixIcon,
       suffix: widget.suffix,
-      suffixIcon: widget.prefixIcon,
+      suffixIcon: widget.suffixIcon,
       trimOnSaved: widget.trimOnSaved,
       onTap: widget.onTap,
     );
