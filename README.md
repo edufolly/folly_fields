@@ -7,7 +7,9 @@
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
-Please :star: to support the project.
+## Funding
+
+[![BuyMeACoffee](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg)](https://www.buymeacoffee.com/edufolly)
 
 ## Community
 
@@ -43,14 +45,16 @@ https://github.com/edufolly/folly_fields/tree/main/example/lib
 ### pubspec.yaml
 
 ``` yaml
-flutter:
-  sdk: flutter
-  
-flutter_localizations:
-  sdk: flutter
+dependencies:
 
-# https://pub.dev/packages/folly_fields
-folly_fields: x.y.z # lastest pub.dev release
+  flutter:
+    sdk: flutter
+  
+  flutter_localizations:
+    sdk: flutter
+
+  # https://pub.dev/packages/folly_fields
+  folly_fields: x.y.z # lastest pub.dev release
 ```
 
 Check [pub.dev latest release](https://pub.dev/packages/folly_fields).
