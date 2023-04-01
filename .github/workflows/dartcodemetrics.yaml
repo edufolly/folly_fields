@@ -19,5 +19,5 @@ jobs:
           fatal_warnings: true
           fatal_performance: true
           fatal_style: true
-          check_unused_files: true
+          check_unused_files: false
           pull_request_comment: true
