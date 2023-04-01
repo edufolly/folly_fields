@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-03-21 14:51:11</td>
+            <td class="headerValue">2023-04-01 18:13:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -121,26 +121,27 @@
 <a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :       List&lt;String&gt; parts = value.split(':');</span></a>
 <a name="60"><span class="lineNum">      60 </span><span class="lineCov">          2 :       if (parts.length == 2) {</span></a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">          1 :         return TimeOfDay(</span></a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          2 :           hour: int.parse(parts[0]),</span></a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">          2 :           minute: int.parse(parts[1]),</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          2 :           hour: int.parse(parts.first),</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">          2 :           minute: int.parse(parts.last),</span></a>
 <a name="64"><span class="lineNum">      64 </span>            :         );</a>
 <a name="65"><span class="lineNum">      65 </span>            :       }</a>
 <a name="66"><span class="lineNum">      66 </span>            :     }</a>
-<a name="67"><span class="lineNum">      67 </span>            :     return null;</a>
-<a name="68"><span class="lineNum">      68 </span>            :   }</a>
-<a name="69"><span class="lineNum">      69 </span>            : </a>
-<a name="70"><span class="lineNum">      70 </span>            :   ///</a>
+<a name="67"><span class="lineNum">      67 </span>            : </a>
+<a name="68"><span class="lineNum">      68 </span>            :     return null;</a>
+<a name="69"><span class="lineNum">      69 </span>            :   }</a>
+<a name="70"><span class="lineNum">      70 </span>            : </a>
 <a name="71"><span class="lineNum">      71 </span>            :   ///</a>
 <a name="72"><span class="lineNum">      72 </span>            :   ///</a>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :   String? valid(String value) =&gt; FollyUtils.validTime(value);</span></a>
-<a name="75"><span class="lineNum">      75 </span>            : </a>
-<a name="76"><span class="lineNum">      76 </span>            :   ///</a>
+<a name="73"><span class="lineNum">      73 </span>            :   ///</a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          1 :   @override</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">          1 :   String? valid(String value) =&gt; FollyUtils.validTime(value);</span></a>
+<a name="76"><span class="lineNum">      76 </span>            : </a>
 <a name="77"><span class="lineNum">      77 </span>            :   ///</a>
 <a name="78"><span class="lineNum">      78 </span>            :   ///</a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineNoCov">          0 :   String formatDateTime(DateTime dateTime) =&gt;</span></a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 :       format(TimeOfDay.fromDateTime(dateTime));</span></a>
-<a name="81"><span class="lineNum">      81 </span>            : }</a>
+<a name="79"><span class="lineNum">      79 </span>            :   ///</a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineNoCov">          0 :   String formatDateTime(DateTime dateTime) =&gt;</span></a>
+<a name="81"><span class="lineNum">      81 </span><span class="lineNoCov">          0 :       format(TimeOfDay.fromDateTime(dateTime));</span></a>
+<a name="82"><span class="lineNum">      82 </span>            : }</a>
 </pre>
       </td>
     </tr>

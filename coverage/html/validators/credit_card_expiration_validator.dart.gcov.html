@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-03-21 14:51:11</td>
+            <td class="headerValue">2023-04-01 18:13:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -111,25 +111,25 @@
 <a name="49"><span class="lineNum">      49 </span>            : </a>
 <a name="50"><span class="lineNum">      50 </span><span class="lineCov">          1 :     String month = value.substring(0, 2);</span></a>
 <a name="51"><span class="lineNum">      51 </span>            : </a>
-<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :     int? m = int.tryParse(month);</span></a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          2 :     if (m == null || m &lt; 1 || m &gt; 12) {</span></a>
+<a name="52"><span class="lineNum">      52 </span><span class="lineCov">          1 :     int? monthNum = int.tryParse(month);</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          2 :     if (monthNum == null || monthNum &lt; 1 || monthNum &gt; 12) {</span></a>
 <a name="54"><span class="lineNum">      54 </span>            :       return false;</a>
 <a name="55"><span class="lineNum">      55 </span>            :     }</a>
 <a name="56"><span class="lineNum">      56 </span>            : </a>
 <a name="57"><span class="lineNum">      57 </span><span class="lineCov">          1 :     String year = value.substring(2);</span></a>
 <a name="58"><span class="lineNum">      58 </span>            : </a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :     int? y = int.tryParse(year);</span></a>
-<a name="60"><span class="lineNum">      60 </span>            :     if (y == null) {</a>
+<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :     int? yearNum = int.tryParse(year);</span></a>
+<a name="60"><span class="lineNum">      60 </span>            :     if (yearNum == null) {</a>
 <a name="61"><span class="lineNum">      61 </span>            :       return false;</a>
 <a name="62"><span class="lineNum">      62 </span>            :     }</a>
 <a name="63"><span class="lineNum">      63 </span>            : </a>
-<a name="64"><span class="lineNum">      64 </span><span class="lineCov">          1 :     y += 2000;</span></a>
+<a name="64"><span class="lineNum">      64 </span><span class="lineCov">          1 :     yearNum += 2000;</span></a>
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineCov">          1 :     DateTime now = DateTime.now();</span></a>
 <a name="67"><span class="lineNum">      67 </span>            : </a>
 <a name="68"><span class="lineNum">      68 </span><span class="lineCov">          3 :     DateTime base = DateTime(now.year, now.month);</span></a>
 <a name="69"><span class="lineNum">      69 </span>            : </a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          1 :     DateTime expiration = DateTime(y, m);</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          1 :     DateTime expiration = DateTime(yearNum, monthNum);</span></a>
 <a name="71"><span class="lineNum">      71 </span>            : </a>
 <a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :     return expiration.isAfter(base);</span></a>
 <a name="73"><span class="lineNum">      73 </span>            :   }</a>
