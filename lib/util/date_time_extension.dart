@@ -54,7 +54,6 @@ extension DateTimeExtension on DateTime {
         microsecond: microsecond,
       );
 
-
   ///
   ///
   ///
@@ -85,4 +84,55 @@ extension DateTimeExtension on DateTime {
 
     return days[month - 1];
   }
+
+  ///
+  ///
+  ///
+  DateTime get monthFirstDay => copyWith(day: 1).mergeStart();
+
+  ///
+  ///
+  ///
+  DateTime get monthLastDay => copyWith(day: daysInMonth).mergeEnd();
+
+  ///
+  ///
+  ///
+  DateTime get prevMonthLastDay =>
+      monthFirstDay.subtract(const Duration(days: 1)).mergeEnd();
+
+  ///
+  ///
+  ///
+  DateTime get prevMonthFirstDay => prevMonthLastDay.monthFirstDay;
+
+
+  ///
+  ///
+  ///
+  DateTime get nextMonthFirstDay =>
+      monthLastDay.add(const Duration(days: 1)).mergeStart();
+
+  ///
+  ///
+  ///
+  DateTime get nextMonthLastDay => nextMonthFirstDay.monthLastDay;
+
+  ///
+  ///
+  ///
+  DateTime weekFirstDay([int firstDay = DateTime.sunday]) => subtract(
+        Duration(
+          days: weekday - firstDay + (weekday - firstDay < 0 ? 7 : 0),
+        ),
+      ).mergeStart();
+
+  ///
+  ///
+  ///
+  DateTime weekLastDay([int lastDay = DateTime.saturday]) => add(
+        Duration(
+          days: lastDay - weekday + (lastDay - weekday < 0 ? 7 : 0),
+        ),
+      ).mergeStart();
 }
