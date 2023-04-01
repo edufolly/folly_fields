@@ -37,6 +37,8 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     EdgeInsets? contentPadding,
     Widget? prefix,
     Widget? suffix,
+    EdgeInsets chipExternalPadding = EdgeInsets.zero,
+    EdgeInsets? chipInternalPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -91,31 +93,32 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                 ),
                 child: ValueListenableBuilder<T?>(
                   valueListenable: state._effectiveController,
-                  builder: (BuildContext context, T? value, _) {
-                    return Wrap(
-                      alignment: wrapAlignment,
-                      crossAxisAlignment: wrapCrossAlignment,
-                      children:
-                          state._effectiveController.items!.entries.map<Widget>(
-                        (MapEntry<T, String> e) {
-                          return ChoiceChip(
-                            label: Text(e.value),
-                            selected: value == e.key,
-                            selectedColor: effectiveSelectedColor,
-                            labelStyle: value == e.key
-                                ? TextStyle(color: effectiveSelectedTextColor)
-                                : null,
-                            onSelected: (_) {
-                              state.didChange(e.key);
-                              if (onChanged != null) {
-                                onChanged(e.key);
-                              }
-                            },
-                          );
-                        },
-                      ).toList(),
-                    );
-                  },
+                  builder: (BuildContext context, T? value, _) => Wrap(
+                    alignment: wrapAlignment,
+                    crossAxisAlignment: wrapCrossAlignment,
+                    children: state._effectiveController.items!.entries
+                        .map<Widget>(
+                          (MapEntry<T, String> e) => Padding(
+                            padding: chipExternalPadding,
+                            child: ChoiceChip(
+                              label: Text(e.value),
+                              padding: chipInternalPadding,
+                              selected: value == e.key,
+                              selectedColor: effectiveSelectedColor,
+                              labelStyle: value == e.key
+                                  ? TextStyle(color: effectiveSelectedTextColor)
+                                  : null,
+                              onSelected: (_) {
+                                state.didChange(e.key);
+                                if (onChanged != null) {
+                                  onChanged(e.key);
+                                }
+                              },
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             );
