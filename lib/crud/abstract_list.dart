@@ -322,12 +322,14 @@ class AbstractListState<
 
       _streamController.add(AbstractListStateEnum.finishLoading);
       _loading = false;
+
       return result.length;
     } on Exception catch (e, s) {
       if (kDebugMode) {
         print('$e\n$s');
       }
       _streamController.addError(e, s);
+
       return 0;
     }
   }
@@ -357,9 +359,9 @@ class AbstractListState<
         title: _getScaffoldTitle(context),
         actions: <Widget>[
           /// Select All Button
-          if (widget.selection == true &&
-              widget.multipleSelection == true &&
-              widget.invertSelection == true)
+          if (widget.selection &&
+              widget.multipleSelection &&
+              widget.invertSelection)
             IconButton(
               tooltip: widget.invertSelectionText,
               icon: const Icon(Icons.select_all),
@@ -526,7 +528,7 @@ class AbstractListState<
                 /// scroll further.
                 /// This callback will be called after building this widget.
                 if (event == AbstractListStateEnum.finishLoading &&
-                    _initiallyFilled == false) {
+                    !_initiallyFilled) {
                   WidgetsBinding.instance.addPostFrameCallback(
                     (_) async {
                       if (_scrollController.positions.isNotEmpty &&
@@ -588,42 +590,44 @@ class AbstractListState<
 
                                 T model = _globalItems[index];
 
-                                if (_delete &&
-                                    FollyFields().isMobile &&
-                                    widget.canDelete(model)) {
-                                  return Dismissible(
-                                    key: Key('key_${model.id}'),
-                                    direction: DismissDirection.endToStart,
-                                    background: Container(
-                                      color: Colors.red,
-                                      alignment: Alignment.centerRight,
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: const FaIcon(
-                                        FontAwesomeIcons.trashCan,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    confirmDismiss:
-                                        (DismissDirection direction) =>
-                                            _askDelete(),
-                                    onDismissed: (DismissDirection direction) =>
-                                        _deleteEntity(model),
-                                    child: _buildResultItem(
-                                      model: model,
-                                      selected:
-                                          _selections.containsKey(model.id),
-                                      canDelete: false,
-                                    ),
-                                  );
-                                } else {
-                                  return _buildResultItem(
-                                    model: model,
-                                    selected: _selections.containsKey(model.id),
-                                    canDelete: _delete &&
-                                        FollyFields().isNotMobile &&
-                                        widget.canDelete(model),
-                                  );
-                                }
+                                return _delete &&
+                                        FollyFields().isMobile &&
+                                        widget.canDelete(model)
+                                    ? Dismissible(
+                                        key: Key('key_${model.id}'),
+                                        direction: DismissDirection.endToStart,
+                                        background: Container(
+                                          color: Colors.red,
+                                          alignment: Alignment.centerRight,
+                                          padding: const EdgeInsets.only(
+                                            right: 16,
+                                          ),
+                                          child: const FaIcon(
+                                            FontAwesomeIcons.trashCan,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        confirmDismiss:
+                                            (DismissDirection direction) =>
+                                                _askDelete(),
+                                        onDismissed:
+                                            (DismissDirection direction) =>
+                                                _deleteEntity(model),
+                                        child: _buildResultItem(
+                                          model: model,
+                                          selected:
+                                              _selections.containsKey(model.id),
+                                          canDelete: false,
+                                        ),
+                                      )
+                                    : _buildResultItem(
+                                        model: model,
+                                        selected:
+                                            _selections.containsKey(model.id),
+                                        canDelete: _delete &&
+                                            FollyFields().isNotMobile &&
+                                            widget.canDelete(model),
+                                      );
                               },
                               separatorBuilder: (_, __) => const FollyDivider(),
                               itemCount: itemCount,
@@ -856,6 +860,7 @@ class AbstractListState<
         message: sprintf(widget.deleteErrorText, <dynamic>[e.toString()]),
       );
     }
+
     return !ask;
   }
 

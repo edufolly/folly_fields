@@ -204,7 +204,7 @@ class ListField<T extends AbstractModel<Object>,
                                                 <dynamic>[
                                                   uiBuilder.superSingle(
                                                     field.context,
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ).then(
@@ -252,23 +252,22 @@ class ListField<T extends AbstractModel<Object>,
                               )
                             else
                               ...field.value!.asMap().entries.map(
-                                (MapEntry<int, T> entry) {
-                                  return _MyListTile<T, UI>(
-                                    field: field,
-                                    index: entry.key,
-                                    model: entry.value,
-                                    uiBuilder: uiBuilder,
-                                    removeText: removeText,
-                                    enabled: enabled,
-                                    beforeEdit: beforeEdit,
-                                    routeEditBuilder: routeEditBuilder,
-                                    beforeDelete: beforeDelete,
-                                    listSort: listSort,
-                                    onChanged: onChanged,
-                                    showDeleteButton: showDeleteButton,
-                                  );
-                                },
-                              ),
+                                    (MapEntry<int, T> entry) =>
+                                        _MyListTile<T, UI>(
+                                      field: field,
+                                      index: entry.key,
+                                      model: entry.value,
+                                      uiBuilder: uiBuilder,
+                                      removeText: removeText,
+                                      enabled: enabled,
+                                      beforeEdit: beforeEdit,
+                                      routeEditBuilder: routeEditBuilder,
+                                      beforeDelete: beforeDelete,
+                                      listSort: listSort,
+                                      onChanged: onChanged,
+                                      showDeleteButton: showDeleteButton,
+                                    ),
+                                  ),
 
                             /// Add Button
                             if (showAddButton)
@@ -278,14 +277,14 @@ class ListField<T extends AbstractModel<Object>,
                                 label: sprintf(
                                   addText,
                                   <dynamic>[
-                                    uiBuilder.superSingle(field.context)
+                                    uiBuilder.superSingle(field.context),
                                   ],
                                 ).toUpperCase(),
                                 onPressed: add,
                               ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -398,31 +397,27 @@ class _MyListTile<T extends AbstractModel<Object>,
           }
         },
       ),
-      builder: (BuildContext context, Widget child) {
-        if (FollyFields().isNotMobile || !enabled || !showDeleteButton) {
-          return child;
-        } else {
-          return Dismissible(
-            // TODO(edufolly): Test the key in tests.
-            key: Key('key_${index}_${model.id}'),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              color: Colors.red,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 8),
-              child: const FaIcon(
-                FontAwesomeIcons.trashCan,
-                color: Colors.white,
-              ),
-            ),
-            confirmDismiss: (DismissDirection direction) =>
-                _askDelete(context, index, model),
-            onDismissed: (DismissDirection direction) =>
-                _delete(context, index, model),
-            child: child,
-          );
-        }
-      },
+      builder: (BuildContext context, Widget child) =>
+          FollyFields().isNotMobile || !enabled || !showDeleteButton
+              ? child
+              : Dismissible(
+                  key: Key('key_${index}_${model.id}'),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 8),
+                    child: const FaIcon(
+                      FontAwesomeIcons.trashCan,
+                      color: Colors.white,
+                    ),
+                  ),
+                  confirmDismiss: (DismissDirection direction) =>
+                      _askDelete(context, index, model),
+                  onDismissed: (DismissDirection direction) =>
+                      _delete(context, index, model),
+                  child: child,
+                ),
     );
   }
 

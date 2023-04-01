@@ -27,7 +27,7 @@ void main() async {
 
   for (final MapEntry<String, CreditCardType> entry in cardsRequest.entries) {
     try {
-      for (int i = 0; i < cardTest; i++) {
+      for (int pos = 0; pos < cardTest; pos++) {
         Response response = await post(
           base,
           body: <String, String>{

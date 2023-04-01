@@ -233,44 +233,39 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     /// Add suffix icon button
-    if (widget.suffixIconData != null) {
-      effectiveDecoration = effectiveDecoration.copyWith(
-        suffixIcon: IconButton(
-          icon: Icon(widget.suffixIconData),
-          onPressed: widget.enabled && !widget.readOnly
-              ? () async {
-                  try {
-                    fromButton = true;
-
-                    T? value = await widget.selectData(
-                      context: context,
-                      controller: _effectiveController,
-                    );
-
-                    fromButton = false;
-
-                    if (value != null ||
-                        (value == null && widget.clearOnCancel)) {
-                      _effectiveController.data = value;
+    effectiveDecoration = widget.suffixIconData != null
+        ? effectiveDecoration.copyWith(
+            suffixIcon: IconButton(
+              icon: Icon(widget.suffixIconData),
+              onPressed: widget.enabled && !widget.readOnly
+                  ? () async {
+                      try {
+                        fromButton = true;
+                        T? value = await widget.selectData(
+                          context: context,
+                          controller: _effectiveController,
+                        );
+                        fromButton = false;
+                        if (value != null ||
+                            (value == null && widget.clearOnCancel)) {
+                          _effectiveController.data = value;
+                        }
+                        if (_effectiveFocusNode.canRequestFocus) {
+                          _effectiveFocusNode.requestFocus();
+                        }
+                      } on Exception catch (e, s) {
+                        if (kDebugMode) {
+                          print('$e\n$s');
+                        }
+                      }
                     }
-                    if (_effectiveFocusNode.canRequestFocus) {
-                      _effectiveFocusNode.requestFocus();
-                    }
-                  } on Exception catch (e, s) {
-                    if (kDebugMode) {
-                      print('$e\n$s');
-                    }
-                  }
-                }
-              : null,
-        ),
-      );
-    } else {
-      effectiveDecoration = effectiveDecoration.copyWith(
-        suffix: widget.suffix,
-        suffixIcon: widget.suffixIcon,
-      );
-    }
+                  : null,
+            ),
+          )
+        : effectiveDecoration.copyWith(
+            suffix: widget.suffix,
+            suffixIcon: widget.suffixIcon,
+          );
 
     return Padding(
       padding: widget.padding,

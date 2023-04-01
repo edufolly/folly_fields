@@ -49,25 +49,25 @@ class CreditCardExpirationValidator extends AbstractValidator<String> {
 
     String month = value.substring(0, 2);
 
-    int? m = int.tryParse(month);
-    if (m == null || m < 1 || m > 12) {
+    int? monthNum = int.tryParse(month);
+    if (monthNum == null || monthNum < 1 || monthNum > 12) {
       return false;
     }
 
     String year = value.substring(2);
 
-    int? y = int.tryParse(year);
-    if (y == null) {
+    int? yearNum = int.tryParse(year);
+    if (yearNum == null) {
       return false;
     }
 
-    y += 2000;
+    yearNum += 2000;
 
     DateTime now = DateTime.now();
 
     DateTime base = DateTime(now.year, now.month);
 
-    DateTime expiration = DateTime(y, m);
+    DateTime expiration = DateTime(yearNum, monthNum);
 
     return expiration.isAfter(base);
   }

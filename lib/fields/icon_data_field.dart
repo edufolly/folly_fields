@@ -112,7 +112,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
                                           child: Text(
                                             state._effectiveController.name,
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -140,6 +140,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
                             itemCount: keys.length,
                             itemBuilder: (BuildContext context, int index) {
                               IconData iconData = controllerIcons[keys[index]]!;
+
                               return GestureDetector(
                                 onTap: () => state.didChange(iconData),
                                 child: Align(
@@ -275,6 +276,7 @@ class IconDataFieldState extends FormFieldState<IconData> {
         .where((String key) => key.toLowerCase().contains(text))
         .toList();
 
+    // ignore: no-empty-block
     setState(() {});
   }
 

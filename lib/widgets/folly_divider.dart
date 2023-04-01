@@ -22,30 +22,15 @@ class FollyDivider extends StatelessWidget {
   ///
   ///
   @override
-  Widget build(BuildContext context) {
-    Color? effectiveColor;
-
-    if (color != null) {
-      effectiveColor = color;
-    } else {
-      if (Theme.of(context).brightness == Brightness.light) {
-        if (enabled) {
-          effectiveColor = Colors.black38;
-        } else {
-          effectiveColor = Colors.black12;
-        }
-      } else {
-        if (enabled) {
-          effectiveColor = Colors.white38;
-        } else {
-          effectiveColor = Colors.white12;
-        }
-      }
-    }
-
-    return Container(
-      height: height,
-      color: effectiveColor,
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        height: height,
+        color: color ??
+            (Theme.of(context).brightness == Brightness.light
+                ? enabled
+                    ? Colors.black38
+                    : Colors.black12
+                : enabled
+                    ? Colors.white38
+                    : Colors.white12),
+      );
 }

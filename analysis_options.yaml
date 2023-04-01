@@ -175,9 +175,8 @@ dart_code_metrics:
     # - prefer-async-await
     - prefer-trailing-comma
     - prefer-conditional-expressions
-    - prefer-correct-identifier-length
-#        exceptions:
-#          - ip
+    - prefer-correct-identifier-length:
+        exceptions: [ 'ip', 'go', 'id' ]
     - prefer-correct-test-file-name
     - prefer-correct-type-name
     - prefer-enums-by-name

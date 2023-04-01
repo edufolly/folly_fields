@@ -62,11 +62,10 @@ class FileField extends ResponsiveFormField<Uint8List> {
           'should be FileType.custom',
         ),
         assert(
-          fileType == FileType.image || showImageThumbnail == false,
+          fileType == FileType.image || !showImageThumbnail,
           '"showImageThumbnail" should be set along with '
           'fileType==FileType.image',
         ),
-        // assert(autofocus != null),
         assert(
           label == null || labelWidget == null,
           'label or labelWidget must be null.',
@@ -202,8 +201,8 @@ class FileField extends ResponsiveFormField<Uint8List> {
                                 flex: 3,
                                 child: deleteWidget,
                               ),
-                              const SizedBox(width: 8)
-                            ]
+                              const SizedBox(width: 8),
+                            ],
                           ],
 
                           // File select button
@@ -218,7 +217,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
                                       deleteWidget,
-                                      loadWidget
+                                      loadWidget,
                                     ],
                                   ),
                           ),
@@ -338,7 +337,6 @@ class FileFieldState extends FormFieldState<Uint8List> {
     super.dispose();
   }
 }
-
 
 enum FileType {
   any,

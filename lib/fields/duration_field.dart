@@ -76,7 +76,7 @@ class DurationField
                 hourSuffix,
                 minuteSuffix,
                 secondSuffix,
-                millisecondSuffix
+                millisecondSuffix,
               }.length ==
               7,
           'suffixes should all be different between them.',

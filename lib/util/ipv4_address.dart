@@ -1,4 +1,5 @@
-// ignore_for_file:
+// ignore_for_file: prefer-first
+
 ///
 ///
 ///

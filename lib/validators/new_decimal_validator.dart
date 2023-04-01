@@ -73,8 +73,8 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
       start = 3;
     }
 
-    for (int i = start; parts.length > i; i += 4) {
-      parts.insert(i, thousandSeparator);
+    for (int pos = start; parts.length > pos; pos += 4) {
+      parts.insert(pos, thousandSeparator);
     }
 
     return parts.reversed.join();
@@ -115,18 +115,18 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
       decimalPart = decimalPart.substring(0, precision);
     }
 
-    String s = '$integerPart.$decimalPart';
+    String str = '$integerPart.$decimalPart';
 
-    double? d = double.tryParse(s);
+    double? dbl = double.tryParse(str);
 
-    if (d == null) {
+    if (dbl == null) {
       if (kDebugMode) {
-        print('Error to parse $s');
+        print('Error to parse $str');
       }
-      d = 0;
+      dbl = 0;
     }
 
-    decimal.doubleValue = d;
+    decimal.doubleValue = dbl;
 
     return decimal;
   }

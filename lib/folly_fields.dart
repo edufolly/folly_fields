@@ -1,4 +1,4 @@
-// ignore_this_file: prefer-first
+// ignore_for_file: prefer-first
 
 library folly_fields;
 

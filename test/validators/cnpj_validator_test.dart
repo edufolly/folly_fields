@@ -41,7 +41,7 @@ void main() {
     '017942159000128': false,
   };
 
-  for (int i = 0; i < 10; i++) {
+  for (int gen = 0; gen < 10; gen++) {
     isValidTests[CnpjValidator.generate()] = true;
     isValidTests[CnpjValidator.generate(format: true)] = true;
   }
@@ -60,7 +60,7 @@ void main() {
 
   Map<String, String> formatTests = <String, String>{};
 
-  for (int i = 0; i < 10; i++) {
+  for (int gen = 0; gen < 10; gen++) {
     String formatted = CnpjValidator.generate(format: true);
     String striped = validator.strip(formatted);
     formatTests[striped] = formatted;

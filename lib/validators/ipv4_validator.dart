@@ -62,8 +62,8 @@ class Ipv4Validator extends AbstractValidator<String>
     }
 
     for (final String part in parts) {
-      int? oc = int.tryParse(part);
-      if (oc == null || oc < 0 || oc > 255) {
+      int? octet = int.tryParse(part);
+      if (octet == null || octet < 0 || octet > 255) {
         return null;
       }
     }

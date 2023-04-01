@@ -88,7 +88,7 @@ class ValidatorField extends StringField {
           maxLines: 1,
           inputFormatter: <TextInputFormatter>[
             ...abstractValidator.inputFormatters ?? <TextInputFormatter>[],
-            ...inputFormatter ?? <TextInputFormatter>[]
+            ...inputFormatter ?? <TextInputFormatter>[],
           ],
           onSaved: enabled
               ? (String? value) {
