@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/util/folly_utils.dart';
+import 'package:folly_fields/util/date_time_extension.dart';
 
 ///
 ///
 ///
 void main() {
-  Map<DateTime?, TimeOfDay?> domain = <DateTime?, TimeOfDay?>{
-    null: null,
+  Map<DateTime, TimeOfDay> domain = <DateTime, TimeOfDay>{
     DateTime(2000): const TimeOfDay(hour: 0, minute: 0),
     DateTime(2000, 1, 1, 0, 0, 59): const TimeOfDay(hour: 0, minute: 0),
     DateTime(2000, 1, 1, 0, 0, 60): const TimeOfDay(hour: 0, minute: 1),
@@ -32,12 +31,12 @@ void main() {
   };
 
   group(
-    'getTime',
+    'time',
     () {
-      for (final MapEntry<DateTime?, TimeOfDay?> input in domain.entries) {
+      for (final MapEntry<DateTime, TimeOfDay> input in domain.entries) {
         test(
-          'Testing ${input.key?.toIso8601String()}',
-          () => expect(FollyUtils.getTime(input.key), input.value),
+          'Testing ${input.key.toIso8601String()}',
+          () => expect(input.key.time, input.value),
         );
       }
     },

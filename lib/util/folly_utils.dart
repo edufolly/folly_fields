@@ -1,6 +1,7 @@
 // ignore_for_file: prefer-first
 
 import 'package:flutter/material.dart';
+import 'package:folly_fields/util/date_time_extension.dart';
 
 ///
 ///
@@ -9,12 +10,18 @@ class FollyUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.time. '
+      'This class will be removed in version 1.0.0.')
   static TimeOfDay? getTime(DateTime? dateTime) =>
       dateTime == null ? null : TimeOfDay.fromDateTime(dateTime);
 
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.mergeStartSeconds '
+      'This class will be removed in version 1.0.0.')
   static DateTime? dateTimeMergeStart({
     required DateTime? date,
     int second = 0,
@@ -32,6 +39,9 @@ class FollyUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.mergeStart '
+      'This class will be removed in version 1.0.0.')
   static DateTime? dateMergeStart({
     required DateTime? date,
     TimeOfDay? time,
@@ -60,6 +70,9 @@ class FollyUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.mergeEndSeconds '
+      'This class will be removed in version 1.0.0.')
   static DateTime? dateTimeMergeEnd({
     required DateTime? date,
     int second = 59,
@@ -77,6 +90,9 @@ class FollyUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.mergeEnd '
+      'This class will be removed in version 1.0.0.')
   static DateTime? dateMergeEnd({
     required DateTime? date,
     TimeOfDay? time,
@@ -131,7 +147,7 @@ class FollyUtils {
     }
 
     int? day = int.tryParse(parts[0]);
-    if (day == null || day < 1 || day > getDaysInMonth(year, month)) {
+    if (day == null || day < 1 || day > DateTime(year, month).daysInMonth) {
       return 'Dia inválido.';
     }
 
@@ -141,6 +157,9 @@ class FollyUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Prefer to use DateTime.daysInMonth '
+      'This class will be removed in version 1.0.0.')
   static int getDaysInMonth(int year, int month) {
     if (month == DateTime.february) {
       return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)

@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/util/date_time_extension.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
@@ -179,8 +179,7 @@ class ExampleModel extends AbstractModel<int> {
     mobilePhone = '119${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
     time = TimeOfDay(hour: now.hour, minute: now.minute);
-    dateTime =
-        FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
+    dateTime = (date ?? now).mergeStart(time: time);
     macAddress = MacAddressValidator.generate();
     ncm = complete(8);
     cest = complete(7);
