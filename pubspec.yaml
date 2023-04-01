@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.21.2
+version: 0.22.0
 # author:
 homepage: https://edufolly.github.io/folly_fields/
 
