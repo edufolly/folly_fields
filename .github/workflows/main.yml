@@ -88,6 +88,14 @@ jobs:
           path: folly-fields-test-coverage.tar.gz
           retention-days: 1
 
+      - name: Publishing Flutter Package
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          skipTests: true
+          format: true
+
       - name: Creating a GitHub Tag
         uses: mathieudutour/github-tag-action@v6.1
         with:
