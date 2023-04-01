@@ -82,12 +82,13 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
       return 'Data e Hora inválidas.';
     }
 
-    List<String> p = value.split(' ');
+    List<String> parts = value.split(' ');
 
-    if (p.length != 2) {
+    if (parts.length != 2) {
       return 'Partes da Data e Hora inválidas.';
     }
 
-    return FollyUtils.validDate(p.first) ?? FollyUtils.validTime(p.last);
+    return FollyUtils.validDate(parts.first) ??
+        FollyUtils.validTime(parts.last);
   }
 }

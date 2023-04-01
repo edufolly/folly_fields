@@ -49,7 +49,7 @@ class MapFunctionButton extends StatelessWidget {
           tooltip: permission.name,
           icon: IconHelper.faIcon(permission.iconName),
           onPressed: () async {
-            Widget? w = await mapFunction.onPressed(
+            Widget? widget = await mapFunction.onPressed(
               context,
               qsParam,
               selection: selection,
@@ -57,10 +57,10 @@ class MapFunctionButton extends StatelessWidget {
 
             Map<String, String>? map;
 
-            if (w != null) {
+            if (widget != null) {
               map = await Navigator.of(context).push(
                 MaterialPageRoute<Map<String, String>>(
-                  builder: (_) => w,
+                  builder: (_) => widget,
                 ),
               );
             } else {

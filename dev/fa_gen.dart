@@ -19,18 +19,18 @@ void main() async {
 
   List<String> rows = response.body.split('\n');
 
-  for (int i = 0; i < rows.length; i++) {
-    String row = rows[i].trim();
+  for (int pos = 0; pos < rows.length; pos++) {
+    String row = rows[pos].trim();
     if (row.startsWith('static const IconData')) {
-      StringBuffer sb = StringBuffer(row);
+      StringBuffer stringBuffer = StringBuffer(row);
       while (!row.endsWith(';')) {
-        i++;
-        row = rows[i].trim();
-        sb
+        pos++;
+        row = rows[pos].trim();
+        stringBuffer
           ..write(' ')
           ..write(row);
       }
-      lines.add(sb.toString());
+      lines.add(stringBuffer.toString());
     }
   }
 

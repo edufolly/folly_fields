@@ -1,3 +1,4 @@
+// ignore_for_file: prefer-match-file-name
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/widgets/error_message.dart';
@@ -29,6 +30,7 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
               print(error);
               print(stackTrace);
             }
+
             return const SizedBox.shrink();
           },
         );
@@ -88,16 +90,14 @@ class SafeFutureBuilder<T> extends StatelessWidget {
             stackTrace: snapshot.stackTrace,
           );
 
-          if (onError != null) {
-            return onError!(
-              snapshot.error,
-              snapshot.stackTrace,
-              child,
-              snapshot.connectionState,
-            );
-          } else {
-            return child;
-          }
+          return onError != null
+              ? onError!(
+                  snapshot.error,
+                  snapshot.stackTrace,
+                  child,
+                  snapshot.connectionState,
+                )
+              : child;
         }
 
         if (snapshot.hasData) {
@@ -106,11 +106,9 @@ class SafeFutureBuilder<T> extends StatelessWidget {
 
         Widget child = WaitingMessage(message: waitingMessage);
 
-        if (onWait != null) {
-          return onWait!(snapshot.connectionState, child);
-        } else {
-          return child;
-        }
+        return onWait != null
+            ? onWait!(snapshot.connectionState, child)
+            : child;
       },
     );
   }
@@ -142,6 +140,7 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
               print(error);
               print(stackTrace);
             }
+
             return const SizedBox.shrink();
           },
         );
@@ -201,16 +200,14 @@ class SafeStreamBuilder<T> extends StatelessWidget {
             stackTrace: snapshot.stackTrace,
           );
 
-          if (onError != null) {
-            return onError!(
-              snapshot.error,
-              snapshot.stackTrace,
-              child,
-              snapshot.connectionState,
-            );
-          } else {
-            return child;
-          }
+          return onError != null
+              ? onError!(
+                  snapshot.error,
+                  snapshot.stackTrace,
+                  child,
+                  snapshot.connectionState,
+                )
+              : child;
         }
 
         if (snapshot.hasData) {
@@ -219,11 +216,9 @@ class SafeStreamBuilder<T> extends StatelessWidget {
 
         Widget child = WaitingMessage(message: waitingMessage);
 
-        if (onWait != null) {
-          return onWait!(snapshot.connectionState, child);
-        } else {
-          return child;
-        }
+        return onWait != null
+            ? onWait!(snapshot.connectionState, child)
+            : child;
       },
     );
   }

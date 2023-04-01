@@ -266,22 +266,21 @@ enum CreditCardType {
 
     ccNum = ccNum.replaceAll(RegExp(r'\D'), '');
 
-    int len = ccNum.length;
-    int p = len % 2;
+    int mod = ccNum.length % 2;
     int sum = 0;
 
     try {
-      for (int i = ccNum.length - 1; i >= 0; i--) {
-        int d = int.parse(ccNum[i]);
+      for (int pos = ccNum.length - 1; pos >= 0; pos--) {
+        int digit = int.parse(ccNum[pos]);
 
-        if (i % 2 == p) {
-          d *= 2;
-          if (d > 9) {
-            d -= 9;
+        if (pos % 2 == mod) {
+          digit *= 2;
+          if (digit > 9) {
+            digit -= 9;
           }
         }
 
-        sum += d;
+        sum += digit;
       }
 
       return sum % 10 == 0;
@@ -290,6 +289,7 @@ enum CreditCardType {
         print(e);
         print(s);
       }
+
       return false;
     }
   }
@@ -327,13 +327,16 @@ enum CreditCardType {
   ///
   ///
   static CreditCardType parse(String? value) =>
+      // ignore: prefer-enums-by-name
       CreditCardType.values.firstWhere(
         (CreditCardType type) {
-          String? v = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
-          return type.brand.toLowerCase() == v ||
+          String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
+
+          return type.brand.toLowerCase() == newValue ||
               type.extraBrands.fold<bool>(
                 false,
-                (bool p, String e) => p || e.toLowerCase() == v,
+                (bool previous, String element) =>
+                    previous || element.toLowerCase() == newValue,
               );
         },
         orElse: () => CreditCardType.unknown,
@@ -378,10 +381,8 @@ class Range {
       return false;
     }
 
-    if (finalValue == null) {
-      return ccInt == initialValue;
-    } else {
-      return ccInt >= initialValue && ccInt <= finalValue!;
-    }
+    return finalValue == null
+        ? ccInt == initialValue
+        : ccInt >= initialValue && ccInt <= finalValue!;
   }
 }

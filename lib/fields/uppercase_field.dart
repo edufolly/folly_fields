@@ -77,9 +77,10 @@ class UppercaseField extends StringField {
                   composing: newValue.composing,
                 );
               }
+
               return newValue;
             }),
-            ...inputFormatter ?? <TextInputFormatter>[]
+            ...inputFormatter ?? <TextInputFormatter>[],
           ],
         );
 }

@@ -63,6 +63,7 @@ class IntegerField extends StringField {
             if (enabled && validator != null) {
               return validator(int.tryParse(value ?? ''));
             }
+
             return null;
           },
           minLines: 1,

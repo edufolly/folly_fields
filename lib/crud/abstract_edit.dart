@@ -175,6 +175,7 @@ class AbstractEditState<
                                         _controller.add(true),
                                   );
                                 }
+
                                 return const SizedBox.shrink();
                               },
                             ),
@@ -227,6 +228,7 @@ class AbstractEditState<
                     'Deseja sair mesmo assim?',
               );
             }
+
             return go;
           },
           child: SafeStreamBuilder<bool>(
@@ -273,23 +275,24 @@ class AbstractEditState<
         bool validated = await widget.editController!.validate(context, _model);
         if (!validated) {
           wait.close();
+
           return;
         }
       }
 
       if (_formKey.currentState!.validate()) {
-        bool ok = true;
+        bool go = true;
 
         if (widget.consumer.routeName.isNotEmpty) {
-          ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
-          if (ok) {
-            ok = await widget.consumer.saveOrUpdate(context, _model);
+          go = await widget.consumer.beforeSaveOrUpdate(context, _model);
+          if (go) {
+            go = await widget.consumer.saveOrUpdate(context, _model);
           }
         }
 
         wait.close();
 
-        if (ok) {
+        if (go) {
           _initialHash = _model.hashCode;
           if (widget.afterSave == null) {
             Navigator.of(context).pop(_model);

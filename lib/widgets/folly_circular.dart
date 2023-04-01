@@ -25,6 +25,7 @@ class FollyCircular extends StatelessWidget {
       padding: const EdgeInsets.all(2),
       child: SizedBox(
         width: size,
+        // ignore: no-equal-arguments
         height: size,
         child: FittedBox(
           child: CircularProgressIndicator(

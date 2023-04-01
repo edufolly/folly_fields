@@ -41,7 +41,7 @@ void main() {
     '!3461671002': false,
   };
 
-  for (int i = 0; i < 50; i++) {
+  for (int gen = 0; gen < 50; gen++) {
     isValidTests[CpfValidator.generate()] = true;
     isValidTests[CpfValidator.generate(format: true)] = true;
   }
@@ -60,7 +60,7 @@ void main() {
 
   Map<String, String> formatTests = <String, String>{};
 
-  for (int i = 0; i < 10; i++) {
+  for (int gen = 0; gen < 10; gen++) {
     String formatted = CpfValidator.generate(format: true);
     String striped = validator.strip(formatted);
     formatTests[striped] = formatted;

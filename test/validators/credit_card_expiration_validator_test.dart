@@ -8,20 +8,20 @@ import 'package:intl/intl.dart';
 void main() {
   CreditCardExpirationValidator validator = CreditCardExpirationValidator();
 
-  DateFormat df = DateFormat('MM/yy');
+  DateFormat dateFormat = DateFormat('MM/yy');
 
   DateTime nowDate = DateTime.now();
 
   DateTime firstDate = DateTime(nowDate.year, nowDate.month);
-  String now = df.format(firstDate);
+  String now = dateFormat.format(firstDate);
 
   DateTime lastOp = firstDate.subtract(const Duration(days: 1));
   DateTime lastDate = DateTime(lastOp.year, lastOp.month);
-  String last = df.format(lastDate);
+  String last = dateFormat.format(lastDate);
 
   DateTime nextOp = firstDate.add(const Duration(days: 32));
   DateTime nextDate = DateTime(nextOp.year, nextOp.month);
-  String next = df.format(nextDate);
+  String next = dateFormat.format(nextDate);
 
   String lastYear = (firstDate.year - 2001).toString().padLeft(2, '0');
   String nextYear = (firstDate.year - 1999).toString().padLeft(2, '0');

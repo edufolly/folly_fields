@@ -43,6 +43,7 @@ class DecimalTextFormatter extends TextInputFormatter {
             'or equals to "$thousandSeparator"');
         print('\n');
       }
+
       return TextEditingValue(
         text: '0$decimalSeparator'.padRight(precision + 2, '0'),
         selection: const TextSelection.collapsed(offset: 1),
@@ -55,6 +56,7 @@ class DecimalTextFormatter extends TextInputFormatter {
         print('Char not allowed.');
         print('\n');
       }
+
       return oldValue;
     }
 
@@ -93,14 +95,14 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     /// Decimal Part
     if (newText.contains(decimalSeparator)) {
-      List<String> p = newText.split(decimalSeparator);
+      List<String> parts = newText.split(decimalSeparator);
 
       if (kDebugMode) {
-        print('Integer Part: ${p.first}');
-        print('Decimal Part: ${p.last}');
+        print('Integer Part: ${parts.first}');
+        print('Decimal Part: ${parts.last}');
       }
 
-      String decimalPart = p.last;
+      String decimalPart = parts.last;
 
       if (decimalPart.length > precision) {
         decimalPart = decimalPart.substring(0, precision);
@@ -112,7 +114,7 @@ class DecimalTextFormatter extends TextInputFormatter {
         decimalPart = decimalPart.padRight(precision, '0');
       }
 
-      newText = '${p.first}$decimalSeparator$decimalPart';
+      newText = '${parts.first}$decimalSeparator$decimalPart';
     } else {
       if (newText.length == 1) {
         newText += decimalSeparator.padRight(precision + 1, '0');
@@ -127,18 +129,18 @@ class DecimalTextFormatter extends TextInputFormatter {
     int firstLength = newText.length;
 
     /// Integer Part
-    List<String> p = newText.split(decimalSeparator);
+    List<String> parts = newText.split(decimalSeparator);
 
     int integerPart =
-        int.tryParse(p.first.replaceAll(thousandSeparator, '')) ?? 0;
+        int.tryParse(parts.first.replaceAll(thousandSeparator, '')) ?? 0;
 
     List<String> numbers = integerPart.toString().split('').reversed.toList();
 
-    for (int i = 3; i < numbers.length; i += 4) {
-      numbers.insert(i, thousandSeparator);
+    for (int pos = 3; pos < numbers.length; pos += 4) {
+      numbers.insert(pos, thousandSeparator);
     }
 
-    newText = numbers.reversed.join() + decimalSeparator + p.last;
+    newText = numbers.reversed.join() + decimalSeparator + parts.last;
 
     Map<String, dynamic> newValueJson = newValue.toJSON();
 

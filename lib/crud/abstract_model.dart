@@ -74,6 +74,7 @@ abstract class AbstractModel<A> with Hashable {
     if (id != null) {
       map[modelIdKey] = id;
     }
+
     return map;
   }
 
@@ -112,6 +113,7 @@ abstract class AbstractModel<A> with Hashable {
     for (final MapEntry<String, dynamic> entry in map.entries) {
       _multiMapEntry(entry, newMap);
     }
+
     return newMap;
   }
 
@@ -125,11 +127,10 @@ abstract class AbstractModel<A> with Hashable {
     List<String> parts = entry.key.split('_');
     if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
-      if (newMap.containsKey(parts[0])) {
-        internalMap = newMap[parts[0]];
-      } else {
-        internalMap = <String, dynamic>{};
-      }
+
+      internalMap = newMap.containsKey(parts.first)
+          ? newMap[parts.first]
+          : <String, dynamic>{};
 
       String internalKey = parts.getRange(1, parts.length).join('_');
 
@@ -138,7 +139,7 @@ abstract class AbstractModel<A> with Hashable {
         internalMap,
       );
 
-      newMap[parts[0]] = internalMap;
+      newMap[parts.first] = internalMap;
     } else {
       newMap[entry.key] = entry.value;
     }
