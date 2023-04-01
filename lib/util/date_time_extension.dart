@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 ///
 ///
 extension DateTimeExtension on DateTime {
+  static const Duration oneDay = Duration(days: 1);
+  static const Duration week = Duration(days: 7);
+
   ///
   ///
   ///
@@ -98,20 +101,17 @@ extension DateTimeExtension on DateTime {
   ///
   ///
   ///
-  DateTime get prevMonthLastDay =>
-      monthFirstDay.subtract(const Duration(days: 1)).mergeEnd();
+  DateTime get prevMonthLastDay => monthFirstDay.subtract(oneDay).mergeEnd();
 
   ///
   ///
   ///
   DateTime get prevMonthFirstDay => prevMonthLastDay.monthFirstDay;
 
-
   ///
   ///
   ///
-  DateTime get nextMonthFirstDay =>
-      monthLastDay.add(const Duration(days: 1)).mergeStart();
+  DateTime get nextMonthFirstDay => monthLastDay.add(oneDay).mergeStart();
 
   ///
   ///
@@ -135,4 +135,28 @@ extension DateTimeExtension on DateTime {
           days: lastDay - weekday + (lastDay - weekday < 0 ? 7 : 0),
         ),
       ).mergeStart();
+
+  ///
+  ///
+  ///
+  DateTime prevWeekFirstDay([int firstDay = DateTime.sunday]) =>
+      weekFirstDay(firstDay).subtract(week);
+
+  ///
+  ///
+  ///
+  DateTime prevWeekLastDay([int lastDay = DateTime.saturday]) =>
+      weekLastDay(lastDay).subtract(week);
+
+  ///
+  ///
+  ///
+  DateTime nextWeekFirstDay([int firstDay = DateTime.sunday]) =>
+      weekFirstDay(firstDay).add(week);
+
+  ///
+  ///
+  ///
+  DateTime nextWeekLastDay([int lastDay = DateTime.saturday]) =>
+      weekLastDay(lastDay).add(week);
 }
