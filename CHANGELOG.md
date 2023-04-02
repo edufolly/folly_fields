@@ -1,4 +1,4 @@
-## [0.22.1] -
+## [0.22.1] - 2023-04-02
 
 * Adding chipExternalPadding and chipInternalPadding to ChoiceChipField.
 * Adding new methods to DateTimeExtension:
