@@ -25,7 +25,8 @@ class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   @override
-  String format(Color value) => value.value.toRadixString(16).toUpperCase();
+  String format(Color value) =>
+      value.value.toRadixString(16).toUpperCase().padLeft(8, '0');
 
   ///
   ///
@@ -50,6 +51,10 @@ class ColorValidator extends AbstractParserValidator<Color> {
       try {
         if (!text.startsWith('0x')) {
           text = text.replaceAll('#', '').trim().toUpperCase();
+
+          if (text.length < 3) {
+            throw Exception('Length less than 3.');
+          }
 
           if (text.length == 3) {
             text = text[0] + text[0] + text[1] + text[1] + text[2] + text[2];

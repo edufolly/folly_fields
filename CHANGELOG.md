@@ -11,6 +11,7 @@
     * stringNullNotBlank(String? value).
     * notEmpty(dynamic value).
     * notBlank(dynamic value).
+* Fixing bugs in ColorValidator and DateTimeValidator. 
 
 ## [0.22.0] - 2023-04-01
 
