@@ -5,146 +5,217 @@ import 'package:folly_fields/util/ipv4_address.dart';
 ///
 ///
 void main() {
-  Map<String, bool> tests = <String, bool>{
-    '': false,
-    ' ': false,
-    'a': false,
-    'a.': false,
-    'a.a': false,
-    'a.a.': false,
-    'a.a.a': false,
-    'a.a.a.': false,
-    '.a': false,
-    '.a.': false,
-    '.a.a': false,
-    '.a.a.': false,
-    '.a.a.a': false,
-    '.a.a.a.': false,
-    'a.a.a.a': false,
-    'A': false,
-    '-1': false,
-    '-1.': false,
-    '-1.-1': false,
-    '-1.-1.': false,
-    '-1.-1.-1': false,
-    '-1.-1.-1.': false,
-    '.-1': false,
-    '.-1.': false,
-    '.-1.-1': false,
-    '.-1.-1.': false,
-    '.-1.-1.-1': false,
-    '.-1.-1.-1.': false,
-    '-1.-1.-1.-1': false,
-    '256': false,
-    '256.': false,
-    '256.256': false,
-    '256.256.': false,
-    '256.256.256': false,
-    '256.256.256.': false,
-    '.256': false,
-    '.256.': false,
-    '.256.256': false,
-    '.256.256.': false,
-    '.256.256.256': false,
-    '.256.256.256.': false,
-    '256.256.256.256': false,
-    '0': false,
-    '0.': false,
-    '0.0': false,
-    '0.0.': false,
-    '0.0.0': false,
-    '0.0.0.': false,
-    '.0': false,
-    '.0.': false,
-    '.0.0': false,
-    '.0.0.': false,
-    '.0.0.0': false,
-    '.0.0.0.': false,
-    '0.0.0.0': true,
-    '255': false,
-    '255.': false,
-    '255.255': false,
-    '255.255.': false,
-    '255.255.255': false,
-    '255.255.255.': false,
-    '.255': false,
-    '.255.': false,
-    '.255.255': false,
-    '.255.255.': false,
-    '.255.255.255': false,
-    '.255.255.255.': false,
-    '255.255.255.255': true,
-    '255.0.0.0': true,
-    '255.255.0.0': true,
-    '255.255.255.0': true,
-    '0.255.255.255': true,
-    '0.0.255.255': true,
-    '0.0.0.255': true,
-    '10.0.0.0': true,
-    '10.255.255.255': true,
-    '100.64.0.0': true,
-    '100.127.255.255': true,
-    '127.0.0.0': true,
-    '127.255.255.255': true,
-    '169.254.0.0': true,
-    '169.254.255.255': true,
-    '172.16.0.0': true,
-    '172.31.255.255': true,
-    '192.0.0.0': true,
-    '192.0.0.255': true,
-    '192.0.2.0': true,
-    '192.0.2.255': true,
-    '192.88.99.0': true,
-    '192.88.99.255': true,
-    '192.168.0.0': true,
-    '192.168.255.255': true,
-    '198.18.0.0': true,
-    '198.19.255.255': true,
-    '198.51.100.0': true,
-    '198.51.100.255': true,
-    '203.0.113.0': true,
-    '203.0.113.255': true,
-    '224.0.0.0': true,
-    '239.255.255.255': true,
-    '233.252.0.0': true,
-    '233.252.0.255': true,
-    '240.0.0.0': true,
-    '255.255.255.254': true,
-  };
-
-  Matcher invalidIpAddress = throwsA(
+  final Matcher invalidIpAddress = throwsA(
     predicate(
       (dynamic e) => e is ArgumentError && e.message == 'invalidIpAddress',
     ),
   );
 
-  group(
-    'IPv4 creating test',
-    () {
-      for (final MapEntry<String, bool> entry in tests.entries) {
+  final Map<dynamic, bool> base = <dynamic, bool>{
+    null: false,
+    '': false,
+    ' ': false,
+    '.': false,
+    'a': false,
+    // 'A': false,
+    -1: false,
+    0: true,
+    // 1: true,
+    // 254: true,
+    255: true,
+    256: false,
+    '10': true,
+    // '100': true,
+    // '192': true,
+    // '232': true,
+    '1000': false,
+  };
+
+  group('IPv4 Creating from String Level 1', () {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      test(
+        'Testing "${oc1.key}" for "false"',
+        () => expect(
+          () => Ipv4Address.fromString('${oc1.key}'),
+          invalidIpAddress,
+        ),
+      );
+    }
+  });
+
+  group('IPv4 Creating from String Level 2', () {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+        String key = '${oc1.key}.${oc2.key}';
+
         test(
-          'Testing "${entry.key}" for ${entry.value}',
-          () => entry.value
-              ? expect(
-                  Ipv4Address.fromString(entry.key),
-                  isA<Ipv4Address>().having(
-                    (Ipv4Address ip) => ip.toString(),
-                    'Test',
-                    entry.key,
-                  ),
-                )
-              : expect(
-                  () => Ipv4Address.fromString(entry.key),
-                  invalidIpAddress,
-                ),
+          'Testing "$key" for "false"',
+          () => expect(
+            () => Ipv4Address.fromString(key),
+            invalidIpAddress,
+          ),
         );
+      }
+    }
+  });
+
+  group('IPv4 Creating from List Level 2', () {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+        List<dynamic> list = <dynamic>[oc1.key, oc2.key];
+
+        test(
+          'Testing "$list" for "false"',
+          () => expect(
+            () => Ipv4Address.fromList(list),
+            invalidIpAddress,
+          ),
+        );
+      }
+    }
+  });
+
+  group('IPv4 Creating from String Level 3', () {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+          if (oc1.key == oc2.key || oc1.key == oc3.key || oc2.key == oc3.key) {
+            continue;
+          }
+
+          String key = '${oc1.key}.${oc2.key}.${oc3.key}';
+
+          test(
+            'Testing "$key" for "false"',
+            () => expect(
+              () => Ipv4Address.fromString(key),
+              invalidIpAddress,
+            ),
+          );
+        }
+      }
+    }
+  });
+
+  group(
+    'IPv4 Creating from String Level 4',
+    () {
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
+              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+
+              if (!value &&
+                  (oc1.key == oc2.key ||
+                      oc1.key == oc3.key ||
+                      oc1.key == oc4.key ||
+                      oc2.key == oc3.key ||
+                      oc2.key == oc4.key ||
+                      oc3.key == oc4.key)) {
+                continue;
+              }
+
+              String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
+
+              test(
+                'Testing "$key" for $value',
+                () => value
+                    ? expect(
+                        Ipv4Address.fromString(key),
+                        isA<Ipv4Address>().having(
+                          (Ipv4Address ip) => ip.toString(),
+                          'Test',
+                          key,
+                        ),
+                      )
+                    : expect(
+                        () => Ipv4Address.fromString(key),
+                        invalidIpAddress,
+                      ),
+              );
+            }
+          }
+        }
       }
     },
   );
 
-  group('IPv4 operations test', () {
+  group(
+    'IPv4 Creating from List Level 4',
+    () {
+      String separator = '-';
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
+              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+
+              if (!value &&
+                  (oc1.key == oc2.key ||
+                      oc1.key == oc3.key ||
+                      oc1.key == oc4.key ||
+                      oc2.key == oc3.key ||
+                      oc2.key == oc4.key ||
+                      oc3.key == oc4.key)) {
+                continue;
+              }
+
+              List<dynamic> list = <dynamic>[
+                oc1.key,
+                oc2.key,
+                oc3.key,
+                oc4.key,
+              ];
+
+              test(
+                'Testing "$list" for $value',
+                () => value
+                    ? expect(
+                        Ipv4Address.fromList(list, separator: separator),
+                        isA<Ipv4Address>().having(
+                          (Ipv4Address ip) => ip.toString(separator: separator),
+                          'Test',
+                          list.join(separator),
+                        ),
+                      )
+                    : expect(
+                        () => Ipv4Address.fromList(list, separator: separator),
+                        invalidIpAddress,
+                      ),
+              );
+            }
+          }
+        }
+      }
+    },
+  );
+
+  group(
+    'IPv4 hashCode',
+    () {
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
+              if (oc1.value && oc2.value && oc3.value && oc4.value) {
+                String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
+                Ipv4Address ipv4 = Ipv4Address.fromString(key);
+                test(
+                  'Testing hashCode for $key',
+                  () => expect(ipv4.hashCode, ipv4.integer),
+                );
+              }
+            }
+          }
+        }
+      }
+    },
+  );
+
+  group('IPv4 Operations', () {
     test(
-      'Testing',
+      '0.0.0.0 + 1',
       () => expect(
         Ipv4Address.fromString('0.0.0.0') + 1,
         Ipv4Address.fromString('0.0.0.1'),
@@ -152,7 +223,7 @@ void main() {
     );
 
     test(
-      'Testing',
+      '0.0.0.255 + 1',
       () => expect(
         Ipv4Address.fromString('0.0.0.255') + 1,
         Ipv4Address.fromString('0.0.1.0'),
@@ -160,7 +231,7 @@ void main() {
     );
 
     test(
-      'Testing',
+      '255.255.255.255 + 1',
       () => expect(
         () => Ipv4Address.fromString('255.255.255.255') + 1,
         invalidIpAddress,
@@ -168,7 +239,7 @@ void main() {
     );
 
     test(
-      'Testing',
+      '0.0.0.0 - 1',
       () => expect(
         () => Ipv4Address.fromString('0.0.0.0') - 1,
         invalidIpAddress,
@@ -176,7 +247,7 @@ void main() {
     );
 
     test(
-      'Testing',
+      '0.0.1.0 - 1',
       () => expect(
         Ipv4Address.fromString('0.0.1.0') - 1,
         Ipv4Address.fromString('0.0.0.255'),
@@ -184,10 +255,100 @@ void main() {
     );
 
     test(
-      'Testing',
+      '255.255.255.255 - 1',
       () => expect(
         Ipv4Address.fromString('255.255.255.255') - 1,
         Ipv4Address.fromString('255.255.255.254'),
+      ),
+    );
+
+    test(
+      '255.255.255.255 > 255.255.255.254',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') >
+            Ipv4Address.fromString('255.255.255.254'),
+        true,
+      ),
+    );
+
+    test(
+      '255.255.255.254 > 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.254') >
+            Ipv4Address.fromString('255.255.255.255'),
+        false,
+      ),
+    );
+
+    test(
+      '255.255.255.255 >= 255.255.255.254',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') >=
+            Ipv4Address.fromString('255.255.255.254'),
+        true,
+      ),
+    );
+
+    test(
+      '255.255.255.255 >= 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') >=
+            Ipv4Address.fromString('255.255.255.255'),
+        true,
+      ),
+    );
+
+    test(
+      '255.255.255.254 >= 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.254') >=
+            Ipv4Address.fromString('255.255.255.255'),
+        false,
+      ),
+    );
+
+    test(
+      '255.255.255.255 < 255.255.255.254',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') <
+            Ipv4Address.fromString('255.255.255.254'),
+        false,
+      ),
+    );
+
+    test(
+      '255.255.255.254 < 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.254') <
+            Ipv4Address.fromString('255.255.255.255'),
+        true,
+      ),
+    );
+
+    test(
+      '255.255.255.255 <= 255.255.255.254',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') <=
+            Ipv4Address.fromString('255.255.255.254'),
+        false,
+      ),
+    );
+
+    test(
+      '255.255.255.255 <= 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.255') <=
+            Ipv4Address.fromString('255.255.255.255'),
+        true,
+      ),
+    );
+
+    test(
+      '255.255.255.254 <= 255.255.255.255',
+      () => expect(
+        Ipv4Address.fromString('255.255.255.254') <=
+            Ipv4Address.fromString('255.255.255.255'),
+        true,
       ),
     );
   });

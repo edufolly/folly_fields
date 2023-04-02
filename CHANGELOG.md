@@ -1,7 +1,16 @@
-## [0.22.1] - 
+## [0.22.1] -
 
 * Adding chipExternalPadding and chipInternalPadding to ChoiceChipField.
-* Adding new methods to DateTimeExtension.
+* Adding new methods to DateTimeExtension:
+    * prevWeekFirstDay.
+    * prevWeekLastDay.
+    * nextWeekFirstDay.
+    * nextWeekLastDay
+* Adding FollyValidators:
+    * stringNotBlank(String? value).
+    * stringNullNotBlank(String? value).
+    * notEmpty(dynamic value).
+    * notBlank(dynamic value).
 
 ## [0.22.0] - 2023-04-01
 

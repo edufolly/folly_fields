@@ -62,23 +62,24 @@ class Ipv4Address {
   ///
   ///
   @override
-  String toString() => '$dot1.$dot2.$dot3.$dot4';
-
-  ///
-  ///
-  ///
-  String get dash => '$dot1-$dot2-$dot3-$dot4';
+  String toString({
+    String separator = '.',
+  }) =>
+      <int>[dot1, dot2, dot3, dot4].join(separator);
 
   ///
   ///
   ///
   // ignore: prefer_constructors_over_static_methods
-  static Ipv4Address fromString(String? value) {
+  static Ipv4Address fromString(
+    String? value, {
+    String separator = '.',
+  }) {
     if (value == null || value.isEmpty) {
       throw ArgumentError('invalidIpAddress');
     }
 
-    List<String> parts = value.split('.');
+    List<String> parts = value.split(separator);
 
     if (parts.length != 4) {
       throw ArgumentError('invalidIpAddress');
@@ -100,8 +101,16 @@ class Ipv4Address {
   ///
   ///
   ///
-  static Ipv4Address fromList(List<dynamic> value) =>
-      fromString(value.join('.'));
+  static Ipv4Address fromList(
+    List<dynamic> list, {
+    String separator = '.',
+  }) {
+    if (list.length != 4) {
+      throw ArgumentError('invalidIpAddress');
+    }
+
+    return fromString(list.join(separator), separator: separator);
+  }
 
   ///
   ///

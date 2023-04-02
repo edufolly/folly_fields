@@ -64,7 +64,10 @@ jobs:
 #        run: dart analyze --fatal-infos
 
       - name: Flutter Test
-        run: flutter test --coverage
+        run: | 
+          flutter test --coverage \
+          -r github \
+          -j $(grep -c processor /proc/cpuinfo)
 
 #      - name: Flutter Publish Dry Run
 #        run: flutter pub publish --dry-run
