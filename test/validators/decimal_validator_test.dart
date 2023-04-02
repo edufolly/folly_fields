@@ -6,16 +6,10 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 ///
 ///
 void main() {
-  DecimalValidator validator = DecimalValidator(4);
-
-  ///
-  ///
-  ///
-
   group(
     'DecimalValidator parse',
     () {
-      Map<String, Decimal> parseTests = <String, Decimal>{
+      Map<String, Decimal> domain = <String, Decimal>{
         ',0': Decimal(precision: 4, doubleValue: 0),
         ',01': Decimal(precision: 4, doubleValue: 0.0001),
         ',001': Decimal(precision: 4, doubleValue: 0.0001),
@@ -74,7 +68,9 @@ void main() {
             Decimal(precision: 4, doubleValue: 111111111111.9999),
       };
 
-      for (final MapEntry<String, Decimal> input in parseTests.entries) {
+      DecimalValidator validator = DecimalValidator(4);
+
+      for (final MapEntry<String, Decimal> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),
@@ -90,7 +86,7 @@ void main() {
   group(
     'DecimalValidator format',
     () {
-      Map<Decimal, String> formatTest = <Decimal, String>{
+      Map<Decimal, String> domain = <Decimal, String>{
         Decimal(precision: 4, doubleValue: 0): '0,0000',
         Decimal(precision: 4, doubleValue: 0.1): '0,1000',
         Decimal(precision: 4, doubleValue: 0.01): '0,0100',
@@ -132,7 +128,10 @@ void main() {
         Decimal(precision: 4, doubleValue: 111111111111.9999):
             '111.111.111.111,9999',
       };
-      for (final MapEntry<Decimal, String> input in formatTest.entries) {
+
+      DecimalValidator validator = DecimalValidator(4);
+
+      for (final MapEntry<Decimal, String> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.format(input.key), input.value),
@@ -140,4 +139,9 @@ void main() {
       }
     },
   );
+
+  group('DecimalValidator Coverage', () {
+    DecimalValidator validator = DecimalValidator(4);
+    test('keyboard', () => expect(validator.keyboard, isNotNull));
+  });
 }

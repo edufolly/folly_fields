@@ -5,6 +5,8 @@ import 'package:folly_fields/validators/duration_validator.dart';
 ///
 ///
 void main() {
-  DurationValidator();
-  test('', () => expect(true, true));
+  group('DurationValidator Coverage', () {
+    DurationValidator validator = DurationValidator();
+    test('keyboard', () => expect(validator.keyboard, isNotNull));
+  });
 }
