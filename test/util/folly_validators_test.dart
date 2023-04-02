@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_validators.dart';
 ///
 ///
 void main() {
-  List<Decimal> decimalTests = <Decimal>[
+  final List<Decimal> decimalTests = <Decimal>[
     Decimal(precision: 2, doubleValue: -1),
     Decimal(precision: 2, doubleValue: -0.01),
     Decimal(precision: 2, doubleValue: 0),
@@ -17,21 +17,16 @@ void main() {
   ///
   ///
   ///
-  List<bool> decimalGTEZeroResults = <bool>[
-    false,
-    false,
-    true,
-    true,
-    true,
-  ];
-
-  Map<Decimal, bool> decimalGTEZeroTests =
-      Map<Decimal, bool>.fromIterables(decimalTests, decimalGTEZeroResults);
 
   group(
     'Validators decimalGTEZero',
     () {
-      for (final MapEntry<Decimal, bool> input in decimalGTEZeroTests.entries) {
+      List<bool> decimalResults = <bool>[false, false, true, true, true];
+
+      Map<Decimal, bool> decimalDomain =
+          Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
+
+      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -46,21 +41,15 @@ void main() {
   ///
   ///
   ///
-  List<bool> decimalGTZeroResults = <bool>[
-    false,
-    false,
-    false,
-    true,
-    true,
-  ];
-
-  Map<Decimal, bool> decimalGTZeroTests =
-      Map<Decimal, bool>.fromIterables(decimalTests, decimalGTZeroResults);
-
   group(
     'Validators decimalGTZero',
     () {
-      for (final MapEntry<Decimal, bool> input in decimalGTZeroTests.entries) {
+      List<bool> decimalResults = <bool>[false, false, false, true, true];
+
+      Map<Decimal, bool> decimalDomain =
+          Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
+
+      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -75,21 +64,16 @@ void main() {
   ///
   ///
   ///
-  List<bool> decimalLTZeroResults = <bool>[
-    true,
-    true,
-    false,
-    false,
-    false,
-  ];
-
-  Map<Decimal, bool> decimalLTZeroTests =
-      Map<Decimal, bool>.fromIterables(decimalTests, decimalLTZeroResults);
 
   group(
     'Validators decimalLTZero',
     () {
-      for (final MapEntry<Decimal, bool> input in decimalLTZeroTests.entries) {
+      List<bool> decimalResults = <bool>[true, true, false, false, false];
+
+      Map<Decimal, bool> decimalDomain =
+          Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
+
+      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -104,21 +88,15 @@ void main() {
   ///
   ///
   ///
-  List<bool> decimalLTEZeroResults = <bool>[
-    true,
-    true,
-    true,
-    false,
-    false,
-  ];
-
-  Map<Decimal, bool> decimalLTEZeroTests =
-      Map<Decimal, bool>.fromIterables(decimalTests, decimalLTEZeroResults);
-
   group(
     'Validators decimalLTEZero',
     () {
-      for (final MapEntry<Decimal, bool> input in decimalLTEZeroTests.entries) {
+      List<bool> decimalResults = <bool>[true, true, true, false, false];
+
+      Map<Decimal, bool> decimalDomain =
+          Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
+
+      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -133,55 +111,559 @@ void main() {
   ///
   ///
   ///
-  // TODO(anyone): stringNotEmpty
+
+  group(
+    'Validators stringNotEmpty',
+    () {
+      Map<String?, bool> stringDomain = <String?, bool>{
+        null: false,
+        '': false,
+        ' ': true,
+        '\t': true,
+        '\n': true,
+        'a': true,
+        'A': true,
+      };
+
+      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.stringNotEmpty(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): stringNullNotEmpty
+
+  group(
+    'Validators stringNotBlank',
+    () {
+      Map<String?, bool> stringDomain = <String?, bool>{
+        null: false,
+        '': false,
+        ' ': false,
+        '\t': false,
+        '\n': false,
+        '\t\n': false,
+        '\n\t': false,
+        ' \t \n ': false,
+        'a': true,
+        ' a': true,
+        ' a ': true,
+        'a ': true,
+        'A': true,
+        ' A': true,
+        ' A ': true,
+        'A ': true,
+      };
+
+      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.stringNotBlank(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): notNull
+  group(
+    'Validators stringNullNotEmpty',
+    () {
+      Map<String?, bool> stringDomain = <String?, bool>{
+        null: true,
+        '': false,
+        ' ': true,
+        '\t': true,
+        '\n': true,
+        'a': true,
+        'A': true,
+      };
+
+      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.stringNullNotEmpty(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intGTEZero
+
+  group(
+    'Validators stringNullNotBlank',
+    () {
+      Map<String?, bool> stringDomain = <String?, bool>{
+        null: true,
+        '': false,
+        ' ': false,
+        '\t': false,
+        '\n': false,
+        '\t\n': false,
+        '\n\t': false,
+        ' \t \n ': false,
+        'a': true,
+        ' a': true,
+        ' a ': true,
+        'a ': true,
+        'A': true,
+        ' A': true,
+        ' A ': true,
+        'A ': true,
+      };
+
+      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.stringNullNotBlank(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intGTZero
+  group(
+    'Validators notNull',
+    () {
+      Map<dynamic, bool> domain = <dynamic, bool>{
+        null: false,
+        '': true,
+        ' ': true,
+        '\t': true,
+        '\n': true,
+        '\t\n': true,
+        '\n\t': true,
+        'a': true,
+        'A': true,
+        1: true,
+        0: true,
+        true: true,
+        false: true,
+        <dynamic>[null]: true,
+        <dynamic, int>{null: 1}: true,
+        <dynamic>{null}: true,
+        <int>[]: true,
+        <int, int>{}: true,
+        <int>{}: true,
+        <int>[1]: true,
+        <int, int>{1: 1}: true,
+        <int>{1}: true,
+        <String>['']: true,
+        <String, int>{'': 1}: true,
+        <String>{''}: true,
+        <String>[' ']: true,
+        <String, int>{' ': 1}: true,
+        <String>{' '}: true,
+        <String>['\t']: true,
+        <String, int>{'\t': 1}: true,
+        <String>{'\t'}: true,
+        <String>['\n']: true,
+        <String, int>{'\n': 1}: true,
+        <String>{'\n'}: true,
+        <String>['\n\t']: true,
+        <String, int>{'\n\t': 1}: true,
+        <String>{'\n\t'}: true,
+        <String>['\t\n']: true,
+        <String, int>{'\t\n': 1}: true,
+        <String>{'\t\n'}: true,
+        <String>['a']: true,
+        <String, int>{'a': 1}: true,
+        <String>{'a'}: true,
+        <bool>[true]: true,
+        <bool, int>{true: 1}: true,
+        <bool>{true}: true,
+        <bool>[false]: true,
+        <bool, int>{false: 1}: true,
+        <bool>{false}: true,
+      };
+
+      for (final MapEntry<dynamic, bool> input in domain.entries) {
+        test(
+          'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
+          () => expect(
+            FollyValidators.notNull(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intLTZero
+  group(
+    'Validators notEmpty',
+    () {
+      Map<dynamic, bool> domain = <dynamic, bool>{
+        null: false,
+        '': false,
+        ' ': true,
+        '\t': true,
+        '\n': true,
+        '\t\n': true,
+        '\n\t': true,
+        'a': true,
+        'A': true,
+        1: true,
+        0: true,
+        true: true,
+        false: true,
+        <int>[]: false,
+        <int, int>{}: false,
+        <int>{}: false,
+        <dynamic>[null]: true,
+        <dynamic, int>{null: 1}: true,
+        <dynamic>{null}: true,
+        <int>[1]: true,
+        <int, int>{1: 1}: true,
+        <int>{1}: true,
+        <String>['']: true,
+        <String, int>{'': 1}: true,
+        <String>{''}: true,
+        <String>[' ']: true,
+        <String, int>{' ': 1}: true,
+        <String>{' '}: true,
+        <String>['\t']: true,
+        <String, int>{'\t': 1}: true,
+        <String>{'\t'}: true,
+        <String>['\n']: true,
+        <String, int>{'\n': 1}: true,
+        <String>{'\n'}: true,
+        <String>['\n\t']: true,
+        <String, int>{'\n\t': 1}: true,
+        <String>{'\n\t'}: true,
+        <String>['\t\n']: true,
+        <String, int>{'\t\n': 1}: true,
+        <String>{'\t\n'}: true,
+        <String>['a']: true,
+        <String, int>{'a': 1}: true,
+        <String>{'a'}: true,
+        <bool>[true]: true,
+        <bool, int>{true: 1}: true,
+        <bool>{true}: true,
+        <bool>[false]: true,
+        <bool, int>{false: 1}: true,
+        <bool>{false}: true,
+      };
+
+      for (final MapEntry<dynamic, bool> input in domain.entries) {
+        test(
+          'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
+          () => expect(
+            FollyValidators.notEmpty(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intLTEZero
+  group(
+    'Validators notBlank',
+        () {
+      Map<dynamic, bool> domain = <dynamic, bool>{
+        null: false,
+        '': false,
+        ' ': false,
+        '\t': false,
+        '\n': false,
+        '\t\n': false,
+        '\n\t': false,
+        'a': true,
+        'A': true,
+        1: true,
+        0: true,
+        true: true,
+        false: true,
+        <int>[]: false,
+        <int, int>{}: false,
+        <int>{}: false,
+        <dynamic>[null]: false,
+        <dynamic, int>{null: 1}: false,
+        <dynamic>{null}: false,
+        <int>[1]: true,
+        <int, int>{1: 1}: true,
+        <int>{1}: true,
+        <String>['']: false,
+        <String, int>{'': 1}: false,
+        <String>{''}: false,
+        <String>[' ']: false,
+        <String, int>{' ': 1}: false,
+        <String>{' '}: false,
+        <String>['\t']: false,
+        <String, int>{'\t': 1}: false,
+        <String>{'\t'}: false,
+        <String>['\n']: false,
+        <String, int>{'\n': 1}: false,
+        <String>{'\n'}: false,
+        <String>['\n\t']: false,
+        <String, int>{'\n\t': 1}: false,
+        <String>{'\n\t'}: false,
+        <String>['\t\n']: false,
+        <String, int>{'\t\n': 1}: false,
+        <String>{'\t\n'}: false,
+        <String>['a']: true,
+        <String, int>{'a': 1}: true,
+        <String>{'a'}: true,
+        <bool>[true]: true,
+        <bool, int>{true: 1}: true,
+        <bool>{true}: true,
+        <bool>[false]: true,
+        <bool, int>{false: 1}: true,
+        <bool>{false}: true,
+      };
+
+      for (final MapEntry<dynamic, bool> input in domain.entries) {
+        test(
+          'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
+              () => expect(
+            FollyValidators.notBlank(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intNullGTEZero
+  group(
+    'Validators intGTEZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: false,
+        -2: false,
+        -1: false,
+        0: true,
+        1: true,
+        2: true,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intGTEZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intNullGTZero
+  group(
+    'Validators intGTZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: false,
+        -2: false,
+        -1: false,
+        0: false,
+        1: true,
+        2: true,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intGTZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intNullLTZero
+  group(
+    'Validators intLTZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: false,
+        -2: true,
+        -1: true,
+        0: false,
+        1: false,
+        2: false,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intLTZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 
   ///
   ///
   ///
-  // TODO(anyone): intNullLTEZero
+  group(
+    'Validators intLTEZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: false,
+        -2: true,
+        -1: true,
+        0: true,
+        1: false,
+        2: false,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intLTEZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
+
+  ///
+  ///
+  ///
+  group(
+    'Validators intNullGTEZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: true,
+        -2: false,
+        -1: false,
+        0: true,
+        1: true,
+        2: true,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intNullGTEZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
+
+  ///
+  ///
+  ///
+  group(
+    'Validators intNullGTZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: true,
+        -2: false,
+        -1: false,
+        0: false,
+        1: true,
+        2: true,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intNullGTZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
+
+  ///
+  ///
+  ///
+  group(
+    'Validators intNullLTZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: true,
+        -2: true,
+        -1: true,
+        0: false,
+        1: false,
+        2: false,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intNullLTZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
+
+  ///
+  ///
+  ///
+  group(
+    'Validators intNullLTEZero',
+    () {
+      Map<int?, bool> intDomain = <int?, bool>{
+        null: true,
+        -2: true,
+        -1: true,
+        0: true,
+        1: false,
+        2: false,
+      };
+
+      for (final MapEntry<int?, bool> input in intDomain.entries) {
+        test(
+          'Testing: ${input.key}',
+          () => expect(
+            FollyValidators.intNullLTEZero(input.key) == null,
+            input.value,
+          ),
+        );
+      }
+    },
+  );
 }

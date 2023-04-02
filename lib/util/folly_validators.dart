@@ -52,11 +52,29 @@ class FollyValidators {
   ///
   ///
   ///
+  static String? stringNotBlank(
+    String? string, {
+    String msg = 'O campo deve ser preenchido.',
+  }) =>
+      string != null && string.trim().isNotEmpty ? null : msg;
+
+  ///
+  ///
+  ///
   static String? stringNullNotEmpty(
+    String? string, {
+    String msg = 'Informe um valor ou deixe vazio.',
+  }) =>
+      string == null || string.isNotEmpty ? null : msg;
+
+  ///
+  ///
+  ///
+  static String? stringNullNotBlank(
     String? string, {
     String msg = 'Informe um valor ou deixe em branco.',
   }) =>
-      string == null || string.isNotEmpty ? null : msg;
+      string == null || string.trim().isNotEmpty ? null : msg;
 
   ///
   ///
@@ -66,6 +84,65 @@ class FollyValidators {
     String msg = 'O campo não pode ser nulo.',
   }) =>
       value == null ? msg : null;
+
+  ///
+  ///
+  ///
+  static String? notEmpty(
+    dynamic value, {
+    String msg = 'O campo não pode ser vazio.',
+  }) {
+    if (value == null) {
+      return msg;
+    } else if (value is Iterable) {
+      if (value.isEmpty) {
+        return msg;
+      }
+    } else if (value is Map) {
+      if (value.isEmpty) {
+        return msg;
+      }
+    } else {
+      return value.toString().isEmpty ? msg : null;
+    }
+
+    return null;
+  }
+
+  ///
+  ///
+  ///
+  static String? notBlank(
+    dynamic value, {
+    String msg = 'O campo deve ser preenchido.',
+  }) {
+    if (value == null) {
+      return msg;
+    } else if (value is Iterable) {
+      if (value.isEmpty) {
+        return msg;
+      }
+      if (value.length == 1) {
+        if (value.first == null || value.first.toString().trim().isEmpty) {
+          return msg;
+        }
+      }
+    } else if (value is Map) {
+      if (value.isEmpty) {
+        return msg;
+      }
+      if (value.length == 1) {
+        if (value.keys.first == null ||
+            value.keys.first.toString().trim().isEmpty) {
+          return msg;
+        }
+      }
+    } else {
+      return value.toString().trim().isEmpty ? msg : null;
+    }
+
+    return null;
+  }
 
   ///
   ///

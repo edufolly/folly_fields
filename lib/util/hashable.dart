@@ -1,7 +1,5 @@
 // ignore_for_file: binary-expression-operand-order
 
-import 'package:flutter/foundation.dart';
-
 ///
 ///
 ///
@@ -10,46 +8,51 @@ abstract class Hashable {
   ///
   ///
   int hashIterable(
-    Iterable<dynamic> iterable, {
-    int deep = 1,
-    bool debug = false,
-  }) {
+    Iterable<dynamic> iterable,
+    // { int deep = 1,
+    // bool debug = false,}
+  ) {
     int iterated = iterable.fold(
       0,
       (int h, dynamic i) {
         int hash;
         if (i is List) {
-          hash = hashIterable(i, deep: deep + 1, debug: debug);
+          // hash = hashIterable(i, deep: deep + 1, debug: debug);
+          hash = hashIterable(i);
         } else if (i is Map) {
-          hash = hashIterable(i.values, deep: deep + 1, debug: debug);
+          // hash = hashIterable(i.values, deep: deep + 1, debug: debug);
+          hash = hashIterable(i.values);
         } else if (i == null) {
           hash = 0;
         } else {
           hash = i.hashCode;
         }
 
-        int comb = combine(h, hash);
+        // int comb = combine(h, hash);
+        //
+        // if (debug) {
+        //   if (kDebugMode) {
+        //     print('${' ' * deep * 2}h: $h => '
+        //         '(${i.runtimeType}) $i: $hash => comb: $comb');
+        //   }
+        // }
+        //
+        // return comb;
 
-        if (debug) {
-          if (kDebugMode) {
-            print('${' ' * deep * 2}h: $h => '
-                '(${i.runtimeType}) $i: $hash => comb: $comb');
-          }
-        }
-
-        return comb;
+        return combine(h, hash);
       },
     );
 
-    int finished = finish(iterated);
-
-    if (debug) {
-      if (kDebugMode) {
-        print('finish: $finished');
-      }
-    }
-
-    return finished;
+    // int finished = finish(iterated);
+    //
+    // if (debug) {
+    //   if (kDebugMode) {
+    //     print('finish: $finished');
+    //   }
+    // }
+    //
+    // return finished;
+    return finish(iterated);
   }
 
   ///

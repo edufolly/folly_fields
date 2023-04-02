@@ -1,13 +1,13 @@
 name: Dart Code Metrics
 
-on: [push]
+on:
+  push:
+    branches-ignore: [ 'main' ]
 
 jobs:
   check:
     name: dart-code-metrics-action
     runs-on: ubuntu-latest
-#    permissions:
-#      contents: write
     steps:
       - name: Code Checkout
         uses: actions/checkout@v3

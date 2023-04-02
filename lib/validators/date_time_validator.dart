@@ -62,15 +62,15 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   ///
   @override
   DateTime? parse(String? text) {
-    if (text == null || text.isEmpty) {
-      return null;
-    } else {
+    if (text != null && isValid(text)) {
       try {
         return DateFormat(dateFormat, locale).parse(text);
       } on Exception catch (_) {
-        return null;
+        // Do nothing
       }
     }
+
+    return null;
   }
 
   ///
