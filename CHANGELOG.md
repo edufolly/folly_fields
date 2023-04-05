@@ -1,3 +1,23 @@
+## [0.22.2]
+
+* Fixing ModelUtils methods:
+    * fromJsonDateMillis.
+    * fromJsonDateSecs.
+    * fromJsonNullableDateMillis.
+    * fromJsonNullableDateSecs.
+    * toSaveMapId.
+* Creating ModelUtils methods:
+    * fromJsonRawIterable.
+    * fromJsonSet.
+    * fromJsonSafeSet.
+    * fromJsonSafeStringSet.
+    * toMapSet.
+    * toSaveSetMapId.
+    * toSaveSet.
+    * toMapDecimalInt
+    * toMapDecimalDouble
+* Creating tests for ModelUtils.
+
 ## [0.22.1] - 2023-04-02
 
 * Adding chipExternalPadding and chipInternalPadding to ChoiceChipField.
@@ -11,7 +31,7 @@
     * stringNullNotBlank(String? value).
     * notEmpty(dynamic value).
     * notBlank(dynamic value).
-* Fixing bugs in ColorValidator and DateTimeValidator. 
+* Fixing bugs in ColorValidator and DateTimeValidator.
 
 ## [0.22.0] - 2023-04-01
 

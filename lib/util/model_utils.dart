@@ -1,6 +1,7 @@
 import 'package:flutter/painting.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
+import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/color_validator.dart';
 
@@ -22,7 +23,7 @@ class ModelUtils {
     int? millis, [
     DateTime? defaultDateTime,
   ]) =>
-      millis != null && millis >= 0
+      millis != null && millis >= 0 && millis <= 8640000000000000
           ? DateTime.fromMillisecondsSinceEpoch(millis)
           : defaultDateTime ?? DateTime.now();
 
@@ -33,7 +34,7 @@ class ModelUtils {
     int? secs, [
     DateTime? defaultDateTime,
   ]) =>
-      secs != null && secs >= 0
+      secs != null && secs >= 0 && secs <= 8640000000000
           ? DateTime.fromMillisecondsSinceEpoch(secs * 1000)
           : defaultDateTime ?? DateTime.now();
 
@@ -41,7 +42,7 @@ class ModelUtils {
   ///
   ///
   static DateTime? fromJsonNullableDateMillis(int? millis) =>
-      millis != null && millis >= 0
+      millis != null && millis >= 0 && millis <= 8640000000000000
           ? DateTime.fromMillisecondsSinceEpoch(millis)
           : null;
 
@@ -49,18 +50,54 @@ class ModelUtils {
   ///
   ///
   static DateTime? fromJsonNullableDateSecs(int? secs) =>
-      secs != null && secs >= 0
+      secs != null && secs >= 0 && secs <= 8640000000000
           ? DateTime.fromMillisecondsSinceEpoch(secs * 1000)
           : null;
 
   ///
   ///
   ///
-  static List<T> fromJsonRawList<T>(
-    List<dynamic>? value, {
+  static Iterable<T>? fromJsonRawIterable<T>(
+    Iterable<dynamic>? value, {
     required T Function(dynamic e) producer,
   }) =>
-      value?.map<T>(producer).toList() ?? <T>[];
+      value?.map<T>(producer);
+
+  ///
+  ///
+  ///
+  static Set<T> fromJsonSet<T extends AbstractModel<Object>>(
+    Set<dynamic>? value,
+    AbstractConsumer<T> consumer,
+  ) =>
+      fromJsonRawIterable<T>(
+        value,
+        producer: (dynamic e) => consumer.fromJson(e),
+      )?.toSet() ??
+      <T>{};
+
+  ///
+  ///
+  ///
+  static Set<T> fromJsonSafeSet<T>(
+    dynamic value, {
+    required T Function(dynamic e) producer,
+  }) =>
+      value == null
+          ? <T>{}
+          : (value is Set)
+              ? fromJsonRawIterable<T>(value, producer: producer)?.toSet() ??
+                  <T>{}
+              : <T>{producer(value)};
+
+  ///
+  ///
+  ///
+  static Set<String> fromJsonSafeStringSet(dynamic value) =>
+      fromJsonSafeSet<String>(
+        value,
+        producer: stringProducer,
+      );
 
   ///
   ///
@@ -69,9 +106,33 @@ class ModelUtils {
     List<dynamic>? value,
     AbstractConsumer<T> consumer,
   ) =>
-      fromJsonRawList<T>(
+      fromJsonRawIterable<T>(
         value,
         producer: (dynamic e) => consumer.fromJson(e),
+      )?.toList() ??
+      <T>[];
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonSafeList<T>(
+    dynamic value, {
+    required T Function(dynamic e) producer,
+  }) =>
+      value == null
+          ? <T>[]
+          : (value is List)
+              ? fromJsonRawIterable<T>(value, producer: producer)?.toList() ??
+                  <T>[]
+              : <T>[producer(value)];
+
+  ///
+  ///
+  ///
+  static List<String> fromJsonSafeStringList(dynamic value) =>
+      fromJsonSafeList<String>(
+        value,
+        producer: stringProducer,
       );
 
   ///
@@ -120,32 +181,18 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<T> fromJsonSafeList<T>(
-    dynamic value, {
-    required T Function(dynamic e) producer,
-  }) =>
-      value == null
-          ? <T>[]
-          : (value is List)
-              ? fromJsonRawList<T>(value, producer: producer)
-              : <T>[producer(value)];
-
-  ///
-  ///
-  ///
-  static List<String> fromJsonSafeStringList(dynamic value) =>
-      fromJsonSafeList<String>(
-        value,
-        producer: stringProducer,
-      );
-
-  ///
-  ///
-  ///
   static Map<String, dynamic>? toMapModel<T extends AbstractModel<Object>>(
     T? model,
   ) =>
       model?.toMap();
+
+  ///
+  ///
+  ///
+  static Set<Map<String, dynamic>> toMapSet<T extends AbstractModel<Object>>(
+    Set<T> set,
+  ) =>
+      set.map((T e) => e.toMap()).toSet();
 
   ///
   ///
@@ -182,7 +229,18 @@ class ModelUtils {
   ///
   ///
   ///
-  static int toMapDecimal(Decimal decimal) => decimal.intValue;
+  @Deprecated('Use toMapDecimalInt instead.')
+  static int toMapDecimal(Decimal decimal) => toMapDecimalInt(decimal);
+
+  ///
+  ///
+  ///
+  static int toMapDecimalInt(Decimal decimal) => decimal.intValue;
+
+  ///
+  ///
+  ///
+  static double toMapDecimalDouble(Decimal decimal) => decimal.doubleValue;
 
   ///
   ///
@@ -192,8 +250,23 @@ class ModelUtils {
   ///
   ///
   ///
-  static void toSaveMapId(Map<String, dynamic>? map) =>
-      map?.removeWhere((String key, dynamic value) => key != 'id');
+  static void toSaveMapId(Map<String, dynamic>? map) => map?.removeWhere(
+        (String key, dynamic value) => key != FollyFields().modelIdKey,
+      );
+
+  ///
+  ///
+  ///
+  static void toSaveSetMapId(Set<dynamic>? set) =>
+      set?.map((dynamic e) => toSaveMapId(e as Map<String, dynamic>?)).toSet();
+
+  ///
+  ///
+  ///
+  static Set<Map<String, dynamic>> toSaveSet<T extends AbstractModel<Object>>(
+    Set<T> set,
+  ) =>
+      set.map((T e) => e.toSave()).toSet();
 
   ///
   ///
