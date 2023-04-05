@@ -229,7 +229,9 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use toMapDecimalInt instead.')
+  // TODO(edufolly): Remove in version 1.0.0.
+  @Deprecated('Use toMapDecimalInt instead. '
+      'This method will be removed in version 1.0.0.')
   static int toMapDecimal(Decimal decimal) => toMapDecimalInt(decimal);
 
   ///

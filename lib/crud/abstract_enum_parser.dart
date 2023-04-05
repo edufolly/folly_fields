@@ -13,6 +13,7 @@ abstract class AbstractEnumParser<T extends Enum> {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   @mustCallSuper
   const AbstractEnumParser({

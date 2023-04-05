@@ -12,6 +12,7 @@ abstract class AbstractFunction<T> extends AbstractRoute
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   const AbstractFunction({
     super.key,
@@ -101,6 +102,7 @@ abstract class MapFunction extends AbstractFunction<Map<String, String>>
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   const MapFunction({super.key});
 }
@@ -115,6 +117,7 @@ abstract class ModelFunction<T extends AbstractModel<Object>>
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   const ModelFunction({super.key});
 }

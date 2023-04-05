@@ -57,12 +57,14 @@ class DurationEditingController extends ValidatorEditingController<Duration> {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use property data instead duration.')
   Duration? get duration => data;
 
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use property data instead duration.')
   set duration(Duration? duration) => data = duration;
 }

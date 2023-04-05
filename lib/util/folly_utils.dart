@@ -13,8 +13,7 @@ class FollyUtils {
   // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Prefer to use DateTime.time. '
       'This class will be removed in version 1.0.0.')
-  static TimeOfDay? getTime(DateTime? dateTime) =>
-      dateTime == null ? null : TimeOfDay.fromDateTime(dateTime);
+  static TimeOfDay? getTime(DateTime? dateTime) => dateTime?.time;
 
   ///
   ///
@@ -28,9 +27,7 @@ class FollyUtils {
     int millisecond = 0,
     int microsecond = 0,
   }) =>
-      dateMergeStart(
-        date: date,
-        time: getTime(date),
+      date?.mergeStartSeconds(
         second: second,
         millisecond: millisecond,
         microsecond: microsecond,
@@ -44,28 +41,17 @@ class FollyUtils {
       'This class will be removed in version 1.0.0.')
   static DateTime? dateMergeStart({
     required DateTime? date,
-    TimeOfDay? time,
+    TimeOfDay time = const TimeOfDay(hour: 0, minute: 0),
     int second = 0,
     int millisecond = 0,
     int microsecond = 0,
-  }) {
-    if (date == null) {
-      return null;
-    }
-
-    time ??= const TimeOfDay(hour: 0, minute: 0);
-
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-      second,
-      millisecond,
-      microsecond,
-    );
-  }
+  }) =>
+      date?.mergeStart(
+        time: time,
+        second: second,
+        millisecond: millisecond,
+        microsecond: microsecond,
+      );
 
   ///
   ///
@@ -79,9 +65,7 @@ class FollyUtils {
     int millisecond = 999,
     int microsecond = 0,
   }) =>
-      dateMergeEnd(
-        date: date,
-        time: getTime(date),
+      date?.mergeEndSeconds(
         second: second,
         millisecond: millisecond,
         microsecond: microsecond,
@@ -95,28 +79,17 @@ class FollyUtils {
       'This class will be removed in version 1.0.0.')
   static DateTime? dateMergeEnd({
     required DateTime? date,
-    TimeOfDay? time,
+    TimeOfDay time = const TimeOfDay(hour: 23, minute: 59),
     int second = 59,
     int millisecond = 999,
     int microsecond = 0,
-  }) {
-    if (date == null) {
-      return null;
-    }
-
-    time ??= const TimeOfDay(hour: 23, minute: 59);
-
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-      second,
-      millisecond,
-      microsecond,
-    );
-  }
+  }) =>
+      date?.mergeEnd(
+        time: time,
+        second: second,
+        millisecond: millisecond,
+        microsecond: microsecond,
+      );
 
   ///
   ///
