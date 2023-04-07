@@ -64,7 +64,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   @override
   ExampleModel.fromJson(super.map)
-      : decimal = ModelUtils.fromJsonDecimal(map['decimal'], 2),
+      : decimal = ModelUtils.fromJsonDecimalInt(map['decimal'], 2),
         integer = map['integer'] ?? 0,
         text = map['text'] ?? '',
         email = map['email'] ?? '',
@@ -102,7 +102,7 @@ class ExampleModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    map['decimal'] = ModelUtils.toMapDecimal(decimal);
+    map['decimal'] = ModelUtils.toMapDecimalInt(decimal);
     map['integer'] = integer;
     map['text'] = text;
     map['email'] = email;
