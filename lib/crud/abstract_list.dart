@@ -1,12 +1,8 @@
-// TODO(edufolly): Remove in version 1.0.0.
-// ignore_for_file: deprecated_member_use_from_same_package
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
@@ -15,8 +11,6 @@ import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
-import 'package:folly_fields/widgets/map_function_button.dart';
-import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -51,9 +45,6 @@ abstract class AbstractList<
   final int itemsPerPage;
   final int qtdSuggestions;
 
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use actions instead mapFunctions.')
-  final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -62,9 +53,6 @@ abstract class AbstractList<
     bool edit,
   )? onLongPress;
 
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use rowActions instead modelFunctions.')
-  final List<AbstractModelFunction<T>>? modelFunctions;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -123,11 +111,7 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    // TODO(edufolly): Remove in version 1.0.0.
-    @Deprecated('Use actions instead mapFunctions.') this.mapFunctions,
     this.onLongPress,
-    // TODO(edufolly): Remove in version 1.0.0.
-    @Deprecated('Use rowActions instead modelFunctions.') this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -193,11 +177,6 @@ class AbstractListState<
       StreamController<AbstractListStateEnum>();
 
   final ValueNotifier<bool> _insertNotifier = ValueNotifier<bool>(false);
-  final ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>
-      _mapFunctionsNotifier =
-      ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>(
-    <ConsumerPermission, AbstractMapFunction>{},
-  );
 
   List<T> _globalItems = <T>[];
   bool _loading = false;
@@ -211,10 +190,6 @@ class AbstractListState<
 
   final Map<String, String> _qsParam = <String, String>{};
   final List<String> _qsKeys = <String>[];
-
-  final Map<ConsumerPermission, AbstractModelFunction<T>>
-      effectiveModelFunctions =
-      <ConsumerPermission, AbstractModelFunction<T>>{};
 
   FocusNode keyboardFocusNode = FocusNode();
 
@@ -230,7 +205,7 @@ class AbstractListState<
       _qsKeys.addAll(widget.qsParam.keys);
     }
 
-    _qsKeys.addAll(<String>['f', 'q', 's']);
+    _qsKeys.addAll(<String>['s']);
   }
 
   ///
@@ -255,36 +230,6 @@ class AbstractListState<
         }
       }
     });
-
-    if (widget.mapFunctions != null) {
-      Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
-          <ConsumerPermission, AbstractMapFunction>{};
-
-      for (final AbstractMapFunction headerFunction in widget.mapFunctions!) {
-        ConsumerPermission permission = await widget.consumer
-            .checkPermission(context, headerFunction.routeName);
-
-        if (permission.view) {
-          effectiveMapFunctions[permission] = headerFunction;
-        }
-      }
-
-      if (effectiveMapFunctions.isNotEmpty) {
-        _mapFunctionsNotifier.value = effectiveMapFunctions;
-      }
-    }
-
-    if (widget.modelFunctions != null) {
-      for (final AbstractModelFunction<T> rowFunction
-          in widget.modelFunctions!) {
-        ConsumerPermission permission = await widget.consumer
-            .checkPermission(context, rowFunction.routeName);
-
-        if (permission.view) {
-          effectiveModelFunctions[permission] = rowFunction;
-        }
-      }
-    }
 
     await _loadData(context);
 
@@ -412,49 +357,6 @@ class AbstractListState<
               icon: const FaIcon(FontAwesomeIcons.check),
               onPressed: () =>
                   Navigator.of(context).pop(List<T>.of(_selections.values)),
-            ),
-
-          /// Action Routes
-          if (!widget.selection)
-            ValueListenableBuilder<
-                Map<ConsumerPermission, AbstractMapFunction>>(
-              valueListenable: _mapFunctionsNotifier,
-              builder: (
-                BuildContext context,
-                Map<ConsumerPermission, AbstractMapFunction> mapFunctions,
-                _,
-              ) {
-                if (mapFunctions.isEmpty) {
-                  return const SizedBox.shrink();
-                }
-
-                return Row(
-                  children: mapFunctions.entries
-                      .map(
-                        (
-                          MapEntry<ConsumerPermission, AbstractMapFunction>
-                              entry,
-                        ) =>
-                            MapFunctionButton(
-                          mapFunction: entry.value,
-                          permission: entry.key,
-                          qsParam: _qsParam,
-                          selection: widget.selection,
-                          callback: (Map<String, String> map) {
-                            _qsParam
-                              ..removeWhere(
-                                (String key, String value) =>
-                                    !_qsKeys.contains(key),
-                              )
-                              ..addAll(map);
-
-                            _loadData(context);
-                          },
-                        ),
-                      )
-                      .toList(),
-                );
-              },
             ),
 
           /// Actions
@@ -713,21 +615,6 @@ class AbstractListState<
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          /// Item Buttons
-          ...effectiveModelFunctions.entries.map(
-            (
-              MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
-            ) =>
-                ModelFunctionButton<T>(
-              rowFunction: entry.value,
-              permission: entry.key,
-              model: model,
-              selection: widget.selection,
-              qsParam: _qsParam,
-              callback: (Object? object) => _loadData(context),
-            ),
-          ),
-
           /// Row Actions
           if (widget.rowActions != null)
             ...widget.rowActions!(
@@ -926,7 +813,6 @@ class AbstractListState<
   @override
   void dispose() {
     keyboardFocusNode.dispose();
-    _mapFunctionsNotifier.dispose();
     _insertNotifier.dispose();
     _streamController.close();
     _scrollController.dispose();

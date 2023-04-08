@@ -39,18 +39,6 @@ class ModelUtils {
   ///
   ///
   ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use fromJsonDecimalInt instead. '
-      'This method will be removed in version 1.0.0.')
-  static Decimal fromJsonDecimal(
-    int? value,
-    int? precision,
-  ) =>
-      fromJsonDecimalInt(value, precision);
-
-  ///
-  ///
-  ///
   static Decimal fromJsonDecimalDouble(
     double? value,
     int? precision,
@@ -207,14 +195,6 @@ class ModelUtils {
   ///
   static int toMapDateSecs(DateTime dateTime) =>
       dateTime.millisecondsSinceEpoch ~/ 1000;
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use toMapDecimalInt instead. '
-      'This method will be removed in version 1.0.0.')
-  static int toMapDecimal(Decimal decimal) => toMapDecimalInt(decimal);
 
   ///
   ///
