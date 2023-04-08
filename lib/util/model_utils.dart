@@ -14,9 +14,9 @@ class ModelUtils {
   ///
   static Color fromJsonColor(
     String? value, [
-    int defaultColor = 0x00000000,
+    int? defaultColor,
   ]) =>
-      ColorValidator().parse(value) ?? Color(defaultColor);
+      ColorValidator().parse(value) ?? Color(defaultColor ?? 0x00000000);
 
   ///
   ///

@@ -309,13 +309,13 @@ class AbstractListState<
     }
 
     try {
-      _qsParam['f'] = '${_page * widget.itemsPerPage}';
-      _qsParam['q'] = '${widget.itemsPerPage}';
       _qsParam['s'] = '${widget.selection}';
 
       List<T> result = await widget.consumer.list(
         context,
-        _qsParam,
+        page: _page,
+        size: widget.itemsPerPage,
+        extraParams: _qsParam,
         forceOffline: widget.forceOffline,
       );
 
@@ -660,7 +660,7 @@ class AbstractListState<
         buildResultItem: _buildResultItem,
         canDelete: (T model) =>
             _delete && FollyFields().isNotMobile && widget.canDelete(model),
-        qsParam: widget.qsParam,
+        extraParams: widget.qsParam,
         forceOffline: widget.forceOffline,
         itemsPerPage: widget.itemsPerPage,
         uiBuilder: widget.uiBuilder,
@@ -962,7 +962,7 @@ class InternalSearch<
   }) buildResultItem;
 
   final bool Function(W) canDelete;
-  final Map<String, String> qsParam;
+  final Map<String, String> extraParams;
   final bool forceOffline;
   final int itemsPerPage;
   final int minLengthToSearch;
@@ -982,7 +982,7 @@ class InternalSearch<
     required this.consumer,
     required this.buildResultItem,
     required this.canDelete,
-    required this.qsParam,
+    required this.extraParams,
     required this.forceOffline,
     required this.itemsPerPage,
     required this.minLengthToSearch,
@@ -1033,9 +1033,7 @@ class InternalSearch<
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
+      onPressed: () => close(context, null),
     );
   }
 
@@ -1062,17 +1060,17 @@ class InternalSearch<
         ],
       );
     } else {
-      Map<String, String> param = <String, String>{};
+      Map<String, String> newParams = <String, String>{};
 
-      if (qsParam.isNotEmpty) {
-        param.addAll(qsParam);
+      if (extraParams.isNotEmpty) {
+        newParams.addAll(extraParams);
       }
 
       if (query.contains('%')) {
         query = query.replaceAll('%', '');
       }
 
-      param['t'] = query;
+      newParams['t'] = query;
 
       return Column(
         children: <Widget>[
@@ -1082,7 +1080,9 @@ class InternalSearch<
               SafeFutureBuilder<List<W>>(
                 future: consumer.list(
                   context,
-                  param,
+                  // TODO(edufolly): Page implementation.
+                  size: itemsPerPage,
+                  extraParams: newParams,
                   forceOffline: forceOffline,
                 ),
                 waitingMessage: waitingText,
@@ -1142,13 +1142,11 @@ class InternalSearch<
 
         _lastQuery = query;
 
-        if (qsParam.isNotEmpty) {
-          param.addAll(qsParam);
+        if (extraParams.isNotEmpty) {
+          param.addAll(extraParams);
         }
 
         param['t'] = query.replaceAll('%', '');
-
-        param['q'] = itemsPerPage.toString();
 
         _lastWidget = Column(
           children: <Widget>[
@@ -1158,7 +1156,9 @@ class InternalSearch<
                 SafeFutureBuilder<List<W>>(
                   future: consumer.list(
                     context,
-                    param,
+                    // TODO(edufolly): Page implementation.
+                    size: itemsPerPage,
+                    extraParams: param,
                     forceOffline: forceOffline,
                   ),
                   waitingMessage: waitingText,
