@@ -40,7 +40,7 @@ void main() {
 
       for (final MapEntry<dynamic, bool> input in domain.entries) {
         test(
-          '${input.key}',
+          '${input.key} // ${input.value}',
           () {
             expect(ModelUtils.fromJsonSafeBool(input.key), input.value);
           },

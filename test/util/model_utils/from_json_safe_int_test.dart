@@ -86,7 +86,7 @@ void main() {
     for (final MapEntry<Triplet<dynamic, int?, int>, int?> input
         in domain.entries) {
       test(
-        '${input.key.a} - ${input.key.b}',
+        '${input.key} // ${input.value}',
         () {
           expect(
             ModelUtils.fromJsonSafeInt(

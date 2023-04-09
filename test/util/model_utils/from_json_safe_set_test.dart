@@ -114,7 +114,7 @@ void main() {
 
       for (final MapEntry<dynamic, Set<MockModel>> input in domain.entries) {
         test(
-          '${input.key} - ${input.value}',
+          '${input.key} // ${input.value}',
           () {
             expect(
               ModelUtils.fromJsonSafeSet(

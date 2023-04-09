@@ -26,7 +26,7 @@ void main() {
 
       for (final MapEntry<int?, DateTime?> input in domain.entries) {
         test(
-          '${input.key} - ${input.value}',
+          '${input.key} // ${input.value}',
           () {
             expect(
               ModelUtils.fromJsonNullableDateMillis(input.key),

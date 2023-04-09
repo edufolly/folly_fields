@@ -84,7 +84,7 @@ void main() {
 
     for (final MapEntry<Duplet<dynamic, int?>, int?> input in domain.entries) {
       test(
-        '${input.key.a} - ${input.key.b}',
+        '${input.key} // ${input.value}',
         () {
           expect(
             ModelUtils.fromJsonNullableInt(

@@ -28,7 +28,7 @@ void main() {
       for (final MapEntry<Duplet<String?, int?>, Color> input
           in domain.entries) {
         test(
-          '${input.key}',
+          '${input.key} // ${input.value}',
           () {
             expect(
               ModelUtils.fromJsonColor(input.key.a, input.key.b),

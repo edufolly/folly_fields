@@ -37,7 +37,7 @@ void main() {
 
       for (final MapEntry<dynamic, String> input in domain.entries) {
         test(
-          '${input.key}',
+          '${input.key} // ${input.value}',
           () {
             expect(ModelUtils.stringProducer(input.key), input.value);
           },

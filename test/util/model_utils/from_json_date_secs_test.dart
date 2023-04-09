@@ -36,7 +36,7 @@ void main() {
       for (final MapEntry<Duplet<int?, DateTime?>, dynamic> input
           in domain.entries) {
         test(
-          '${input.key}',
+          '${input.key} // ${input.value}',
           () {
             expect(
               ModelUtils.fromJsonDateSecs(input.key.a, input.key.b),
