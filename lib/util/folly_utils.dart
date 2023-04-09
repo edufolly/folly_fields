@@ -1,7 +1,7 @@
 // ignore_for_file: prefer-first
 
 import 'package:flutter/material.dart';
-import 'package:folly_fields/util/date_time_extension.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 
 ///
 ///

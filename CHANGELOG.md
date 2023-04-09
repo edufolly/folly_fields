@@ -1,3 +1,10 @@
+## [1.0.0]
+
+* Removing deprecated classes and methods.
+* Creating FollyStringExtension with methods:
+    * capitalize.
+    * capitalizeWords.
+
 ## [0.22.2]
 
 * Fixing ModelUtils methods:
