@@ -93,6 +93,15 @@ class ModelUtils {
   ///
   ///
   ///
+  static int? fromJsonNullableInt(
+    dynamic value, {
+    int? radix,
+  }) =>
+      int.tryParse(value.toString().trim(), radix: radix);
+
+  ///
+  ///
+  ///
   static Iterable<T>? _fromJsonRawIterable<T>(
     Iterable<dynamic>? value, {
     required T Function(dynamic e) producer,
@@ -114,6 +123,22 @@ class ModelUtils {
         ),
       ) ??
       <T, U>{};
+
+  ///
+  ///
+  ///
+  static bool fromJsonSafeBool(dynamic value) =>
+      value.toString().trim().toLowerCase() == 'true';
+
+  ///
+  ///
+  ///
+  static int fromJsonSafeInt(
+    dynamic value, {
+    int defaultValue = 0,
+    int? radix,
+  }) =>
+      fromJsonNullableInt(value, radix: radix) ?? defaultValue;
 
   ///
   ///

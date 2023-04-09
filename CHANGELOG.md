@@ -4,9 +4,11 @@
 * Creating FollyStringExtension with methods:
     * capitalize.
     * capitalizeWords.
-
-## [0.22.2]
-
+* Creating ModelUtils methods:
+    * fromJsonSafeBool
+* Creating classes:
+    * Duplet
+    * Triplet
 * Fixing ModelUtils methods:
     * fromJsonDateMillis.
     * fromJsonDateSecs.
