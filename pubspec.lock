@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "503361166f4a100e0d7eb7fb5a62c6f0322512f2bcb48d6922caf98f24b0ab90"
+      sha256: a36ec4843dc30ea6bf652bf25e3448db6c5e8bcf4aa55f063a5d1dad216d8214
       url: "https://pub.dev"
     source: hosted
-    version: "56.0.0"
+    version: "58.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "93fcd81a6716e69864516750590cf1e699420615046bda19100238aa7b429785"
+      sha256: cc4242565347e98424ce9945c819c192ec0838cb9d1f6aa4a97cc96becbc5b27
       url: "https://pub.dev"
     source: hosted
-    version: "5.8.0"
+    version: "5.10.0"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -85,10 +85,10 @@ packages:
     dependency: "direct main"
     description:
       name: connectivity_plus
-      sha256: "8875e8ed511a49f030e313656154e4bbbcef18d68dfd32eb853fac10bce48e96"
+      sha256: d73575bb66216738db892f72ba67dc478bd3b5490fbbcf43644b57645eabc822
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.4"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -141,18 +141,18 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_metrics
-      sha256: "728b1835a8c5b994ae8111148b427236f2f89954eebcb62baf4c476909b3d02d"
+      sha256: "873890861a3d7e06fd5a6cd17d802e215ee1301dfb7cbcc7aeab9576e69330d0"
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.0"
+    version: "5.7.2"
   dart_code_metrics_presets:
     dependency: transitive
     description:
       name: dart_code_metrics_presets
-      sha256: "1b841b3ab3e7b942683a706cfbcef55fe9f38e7d01b690dbcd2e9f3c8e268525"
+      sha256: "9c9b0ecc5e23937a4b62c1fe3b3edb72d3c1b08563a1eac69fb75f1306bb57c4"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.0"
   dart_style:
     dependency: transitive
     description:
@@ -221,10 +221,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: d8e9ca7e5d1983365c277f12c21b4362df6cf659c99af146ad4d04eb33033013
+      sha256: dcde5ad1a0cebcf3715ea3f24d0db1888bf77027a26c77d7779e8ef63b8ade62
       url: "https://pub.dev"
     source: hosted
-    version: "5.2.6"
+    version: "5.2.9"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -534,10 +534,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: c9ebe7ee4ab0c2194e65d3a07d8c54c5d00bb001b76081c4a04cdb8448b59e46
+      sha256: a6f0236dbda0f63aa9a25ad1ff9a9d8a4eaaa5012da0dc59d21afdb1dc361ca4
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.3"
+    version: "3.1.4"
   xml:
     dependency: transitive
     description:

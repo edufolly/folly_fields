@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 3.0.3
+  connectivity_plus: 3.0.4
 
   flutter:
     sdk: flutter
