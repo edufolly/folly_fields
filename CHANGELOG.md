@@ -1,5 +1,6 @@
 ## [1.0.0]
 
+* Updating class Decimal features.
 * Removing deprecated classes and methods.
 * Creating FollyStringExtension with methods:
     * capitalize.

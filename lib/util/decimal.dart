@@ -7,7 +7,7 @@ import 'package:folly_fields/util/hashable.dart';
 ///
 class Decimal with Hashable {
   final int precision;
-  double doubleValue;
+  late double _doubleValue;
 
   ///
   ///
@@ -20,21 +20,42 @@ class Decimal with Hashable {
         assert(
           intValue == null || doubleValue == null,
           'intValue or doubleValue must be null',
-        ),
-        doubleValue =
-            doubleValue ?? (intValue ?? 0).toDouble() / pow(10, precision);
+        ) {
+    if (doubleValue != null) {
+      this.doubleValue = doubleValue;
+    } else {
+      this.intValue = intValue;
+    }
+  }
 
   ///
   ///
   ///
   int get intValue =>
-      int.parse((doubleValue * pow(10, precision)).toStringAsFixed(0));
+      int.parse((_doubleValue * pow(10, precision)).toStringAsFixed(0));
+
+  ///
+  ///
+  ///
+  set intValue(int? value) =>
+      _doubleValue = (value ?? 0).toDouble() / pow(10, precision);
+
+  ///
+  ///
+  ///
+  double get doubleValue => _doubleValue;
+
+  ///
+  ///
+  ///
+  set doubleValue(double? value) => _doubleValue =
+      ((value ?? 0) * pow(10, precision)).toInt() / pow(10, precision);
 
   ///
   ///
   ///
   @override
-  String toString() => doubleValue.toStringAsFixed(precision);
+  String toString() => _doubleValue.toStringAsFixed(precision);
 
   ///
   ///
