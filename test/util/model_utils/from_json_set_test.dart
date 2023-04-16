@@ -26,50 +26,38 @@ void main() {
           <Set<dynamic>?, Set<MockModel>>{
         null: <MockModel>{},
         <dynamic>{}: <MockModel>{},
-        <dynamic>{<String, dynamic>{}}: <MockModel>{MockModel()},
         <dynamic>{
           <String, dynamic>{},
           <String, dynamic>{},
         }: <MockModel>{
           MockModel(),
         },
+        ...MockModel.baseDomain.map(
+          (Map<String, dynamic> key, MockModel value) =>
+              MapEntry<Set<Map<String, dynamic>>, Set<MockModel>>(
+            <Map<String, dynamic>>{key},
+            <MockModel>{value},
+          ),
+        ),
         <dynamic>{
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
+          MockModel.alineMap,
+          MockModel.kateMap,
         }: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
+          MockModel.alineModel,
+          MockModel.kateModel,
         },
         <dynamic>{
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
+          MockModel.alineMap,
+          MockModel.alineMap,
         }: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
+          MockModel.alineModel,
         },
         <dynamic>{
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-          <String, dynamic>{'id': 'cde', 'name': 'kate', 'age': 28},
+          MockModel.alineMap,
+          <String, dynamic>{},
         }: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
-          MockModel(id: 'cde', name: 'kate', age: 28),
-        },
-        <dynamic>{
-          <String, dynamic>{'name': 'aline', 'age': 20},
-        }: <MockModel>{
-          MockModel(name: 'aline', age: 20),
-        },
-        <dynamic>{
-          <String, dynamic>{'name': 20, 'age': '20'},
-        }: <MockModel>{
-          MockModel(name: '20', age: 20),
-        },
-        <dynamic>{
-          <String, dynamic>{'name': 'aline'},
-        }: <MockModel>{
-          MockModel(name: 'aline'),
-        },
-        <dynamic>{
-          <String, dynamic>{'age': 20},
-        }: <MockModel>{
-          MockModel(age: 20),
+          MockModel.alineModel,
+          MockModel(),
         },
       };
 

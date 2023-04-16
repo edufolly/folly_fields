@@ -58,14 +58,13 @@ class ModelUtils {
   ///
   ///
   static List<T> fromJsonList<T extends AbstractModel<Object>>(
-    List<dynamic>? value,
+    List<Map<String, dynamic>>? value,
     AbstractConsumer<T> consumer,
   ) =>
-      _fromJsonRawIterable<T>(
+      fromJsonSafeList<T>(
         value,
         producer: (dynamic e) => consumer.fromJson(e),
-      )?.toList() ??
-      <T>[];
+      );
 
   ///
   ///
@@ -150,8 +149,7 @@ class ModelUtils {
       value == null
           ? <T>[]
           : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)?.toList() ??
-                  <T>[]
+              ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
               : <T>[producer(value)];
 
   ///
@@ -164,8 +162,7 @@ class ModelUtils {
       value == null
           ? <T>{}
           : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)?.toSet() ??
-                  <T>{}
+              ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
               : <T>{producer(value)};
 
   ///

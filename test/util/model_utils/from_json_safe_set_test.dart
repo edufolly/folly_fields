@@ -22,25 +22,11 @@ void main() {
 
       MockConsumer consumer = const MockConsumer();
 
-      Map<Map<String, dynamic>, MockModel> baseDomain =
-          <Map<String, dynamic>, MockModel>{
-        <String, dynamic>{}: MockModel(),
-        <String, dynamic>{'id': 'abc'}: MockModel(id: 'abc'),
-        <String, dynamic>{'name': 'aline'}: MockModel(name: 'aline'),
-        <String, dynamic>{'age': 20}: MockModel(age: 20),
-        <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20}:
-            MockModel(id: 'abc', name: 'aline', age: 20),
-        <String, dynamic>{'name': 'aline', 'age': 20}:
-            MockModel(name: 'aline', age: 20),
-        <String, dynamic>{'name': 20, 'age': '20'}:
-            MockModel(name: '20', age: 20),
-      };
-
       Map<dynamic, Set<MockModel>> domain = <dynamic, Set<MockModel>>{
         null: <MockModel>{},
 
         /// Set
-        ...baseDomain.map(
+        ...MockModel.baseDomain.map(
           (Map<String, dynamic> key, MockModel value) =>
               MapEntry<dynamic, Set<MockModel>>(
             <dynamic>{key},
@@ -55,22 +41,22 @@ void main() {
           MockModel(),
         },
         <dynamic>{
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-          <String, dynamic>{'id': 'cde', 'name': 'kate', 'age': 28},
+          MockModel.alineMap,
+          MockModel.kateMap,
         }: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
-          MockModel(id: 'cde', name: 'kate', age: 28),
+          MockModel.alineModel,
+          MockModel.kateModel,
         },
         <dynamic>{
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
+          MockModel.alineMap,
           <String, dynamic>{},
         }: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
+          MockModel.alineModel,
           MockModel(),
         },
 
         /// List
-        ...baseDomain.map(
+        ...MockModel.baseDomain.map(
           (Map<String, dynamic> key, MockModel value) =>
               MapEntry<dynamic, Set<MockModel>>(
             <dynamic>[key],
@@ -85,28 +71,28 @@ void main() {
           MockModel(),
         },
         <dynamic>[
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-          <String, dynamic>{'id': 'cde', 'name': 'kate', 'age': 28},
+          MockModel.alineMap,
+          MockModel.kateMap,
         ]: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
-          MockModel(id: 'cde', name: 'kate', age: 28),
+          MockModel.alineModel,
+          MockModel.kateModel,
         },
         <dynamic>[
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
+          MockModel.alineMap,
+          MockModel.alineMap,
         ]: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
+          MockModel.alineModel,
         },
         <dynamic>[
-          <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
+          MockModel.alineMap,
           <String, dynamic>{},
         ]: <MockModel>{
-          MockModel(id: 'abc', name: 'aline', age: 20),
+          MockModel.alineModel,
           MockModel(),
         },
 
         /// Map
-        ...baseDomain.map(
+        ...MockModel.baseDomain.map(
           (Map<String, dynamic> key, MockModel value) =>
               MapEntry<dynamic, Set<MockModel>>(key, <MockModel>{value}),
         ),
