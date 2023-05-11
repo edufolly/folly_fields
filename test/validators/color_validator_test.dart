@@ -9,7 +9,7 @@ void main() {
   group(
     'ColorValidator isValid',
     () {
-      Map<String, bool> parseTests = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         'F': false,
@@ -59,7 +59,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (final MapEntry<String, bool> input in parseTests.entries) {
+      for (final MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -71,7 +71,7 @@ void main() {
   group(
     'ColorValidator parse',
     () {
-      Map<String?, Color?> parseTests = <String?, Color?>{
+      Map<String?, Color?> domain = <String?, Color?>{
         null: null,
         '': null,
         ' ': null,
@@ -122,7 +122,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (final MapEntry<String?, Color?> input in parseTests.entries) {
+      for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),
@@ -169,7 +169,7 @@ void main() {
     () {
       Color red = const Color(0xffff0000);
 
-      Map<String?, Color?> parseTests = <String?, Color?>{
+      Map<String?, Color?> domain = <String?, Color?>{
         null: red,
         '': red,
         ' ': red,
@@ -195,7 +195,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (final MapEntry<String?, Color?> input in parseTests.entries) {
+      for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key, 0xffff0000), input.value),

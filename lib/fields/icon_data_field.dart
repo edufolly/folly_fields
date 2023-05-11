@@ -243,6 +243,8 @@ class IconDataFieldState extends FormFieldState<IconData> {
   void dispose() {
     _textController.removeListener(_handleSearch);
     widget.controller?.removeListener(_handleControllerChanged);
+    _scrollController.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 

@@ -9,6 +9,7 @@ class DateTimeEditingController extends ValidatorEditingController<DateTime> {
   ///
   ///
   DateTimeEditingController({
+    // TODO(edufolly): Remove in version 1.0.0.
     @Deprecated('Use property value instead dateTime.') DateTime? dateTime,
     DateTime? value,
     String locale = 'pt_br',
@@ -42,12 +43,14 @@ class DateTimeEditingController extends ValidatorEditingController<DateTime> {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use property data instead dateTime.')
   DateTime? get dateTime => data;
 
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use property data instead dateTime.')
   set dateTime(DateTime? date) => data = date;
 }

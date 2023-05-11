@@ -19,6 +19,7 @@ class MapFunctionButton extends StatelessWidget {
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   const MapFunctionButton({
     required this.mapFunction,

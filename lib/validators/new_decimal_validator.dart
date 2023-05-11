@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/decimal_text_formatter.dart';
@@ -41,13 +40,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
   ///
   ///
   @override
-  String strip(String value) {
-    if (kDebugMode) {
-      print('Decimal validator - call strip method.');
-    }
-
-    return value;
-  }
+  String strip(String value) => value;
 
   ///
   ///
@@ -117,16 +110,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
 
     String str = '$integerPart.$decimalPart';
 
-    double? dbl = double.tryParse(str);
-
-    if (dbl == null) {
-      if (kDebugMode) {
-        print('Error to parse $str');
-      }
-      dbl = 0;
-    }
-
-    decimal.doubleValue = dbl;
+    decimal.doubleValue = double.tryParse(str) ?? 0;
 
     return decimal;
   }

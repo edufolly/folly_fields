@@ -22,6 +22,7 @@ class ModelFunctionButton<T extends AbstractModel<Object>>
   ///
   ///
   ///
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('This class will be removed in version 1.0.0.')
   const ModelFunctionButton({
     required this.rowFunction,

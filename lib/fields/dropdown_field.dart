@@ -249,6 +249,7 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   @override
   void dispose() {
     widget.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
     super.dispose();
   }
 }

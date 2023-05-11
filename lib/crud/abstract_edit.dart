@@ -35,6 +35,8 @@ abstract class AbstractEdit<
   final bool edit;
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
+
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use actions instead modelFunctions.')
   final List<AbstractModelFunction<T>>? modelFunctions;
   final Widget? Function(BuildContext context)? appBarLeading;
@@ -54,6 +56,7 @@ abstract class AbstractEdit<
     required this.edit,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
+    // TODO(edufolly): Remove in version 1.0.0.
     @Deprecated('Use actions instead modelFunctions.') this.modelFunctions,
     this.appBarLeading,
     this.afterSave,

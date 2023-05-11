@@ -248,15 +248,6 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    super.dispose();
-  }
-
-  ///
-  ///
-  ///
-  @override
   void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.model != value) {
@@ -280,5 +271,15 @@ class ModelFieldState<T extends AbstractModel<Object>>
     if (_effectiveController.model != value) {
       didChange(_effectiveController.model);
     }
+  }
+
+  ///
+  ///
+  ///
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
+    super.dispose();
   }
 }

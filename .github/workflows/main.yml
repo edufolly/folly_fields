@@ -41,6 +41,7 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.7.12'
           channel: 'stable'
           cache: true
 
@@ -66,8 +67,8 @@ jobs:
       - name: Flutter Test
         run: | 
           flutter test --coverage \
-          -r github \
-          -j $(grep -c processor /proc/cpuinfo)
+            -r github \
+            -j $(grep -c processor /proc/cpuinfo)
 
 #      - name: Flutter Publish Dry Run
 #        run: flutter pub publish --dry-run
@@ -130,6 +131,7 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.7.12'
           channel: 'stable'
           cache: true
 
@@ -179,6 +181,7 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.7.12'
           channel: 'stable'
           cache: true
 
@@ -229,6 +232,7 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.7.12'
           channel: 'stable'
           cache: true
 

@@ -50,6 +50,8 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
+
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use actions instead mapFunctions.')
   final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
@@ -59,6 +61,8 @@ abstract class AbstractList<
     C consumer,
     bool edit,
   )? onLongPress;
+
+  // TODO(edufolly): Remove in version 1.0.0.
   @Deprecated('Use rowActions instead modelFunctions.')
   final List<AbstractModelFunction<T>>? modelFunctions;
   final String? searchFieldLabel;
@@ -119,8 +123,10 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
+    // TODO(edufolly): Remove in version 1.0.0.
     @Deprecated('Use actions instead mapFunctions.') this.mapFunctions,
     this.onLongPress,
+    // TODO(edufolly): Remove in version 1.0.0.
     @Deprecated('Use rowActions instead modelFunctions.') this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
