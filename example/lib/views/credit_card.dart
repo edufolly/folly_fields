@@ -173,34 +173,34 @@ class _CreditCardState extends State<CreditCard> {
   ///
   ///
   Icon getIcon(CreditCardType creditCardType, Color? color) {
-    IconData iconData = FontAwesomeIcons.creditCard;
-
-    // ignore: missing_enum_constant_in_switch
     switch (creditCardType) {
       case CreditCardType.visa:
-        iconData = FontAwesomeIcons.ccVisa;
-        break;
+        return Icon(FontAwesomeIcons.ccVisa, color: color);
       case CreditCardType.mastercard:
-        iconData = FontAwesomeIcons.ccMastercard;
-        break;
+        return Icon(FontAwesomeIcons.ccMastercard, color: color);
       case CreditCardType.amex:
-        iconData = FontAwesomeIcons.ccAmex;
-        break;
+        return Icon(FontAwesomeIcons.ccAmex, color: color);
       case CreditCardType.dinersclub:
-        iconData = FontAwesomeIcons.ccDinersClub;
-        break;
+        return Icon(FontAwesomeIcons.ccDinersClub, color: color);
       case CreditCardType.discover:
-        iconData = FontAwesomeIcons.ccDiscover;
-        break;
+        return Icon(FontAwesomeIcons.ccDiscover, color: color);
       case CreditCardType.jcb:
-        iconData = FontAwesomeIcons.ccJcb;
-        break;
+        return Icon(FontAwesomeIcons.ccJcb, color: color);
+      case CreditCardType.unionpay:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
+      case CreditCardType.maestro:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
+      case CreditCardType.elo:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
+      case CreditCardType.mir:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
+      case CreditCardType.hiper:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
+      case CreditCardType.hipercard:
+        return Icon(FontAwesomeIcons.creditCard, color: color);
       case CreditCardType.unknown:
-        iconData = FontAwesomeIcons.solidCreditCard;
-        break;
+        return Icon(FontAwesomeIcons.solidCreditCard, color: color);
     }
-
-    return Icon(iconData, color: color);
   }
 
   ///

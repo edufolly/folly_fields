@@ -35,10 +35,9 @@ class TableField<T extends AbstractModel<Object>>
       T row,
       int index,
       List<T> data,
-      bool enabled,
-      List<String> labels,
-    )
-        buildRow,
+      List<String> labels, {
+      required bool enabled,
+    }) buildRow,
     List<int>? columnsFlex,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     Future<bool> Function(BuildContext context, T row, int index, List<T> data)?
@@ -50,10 +49,9 @@ class TableField<T extends AbstractModel<Object>>
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(
       BuildContext context,
-      List<T> data,
-      bool isCard,
-    )?
-        buildFooter,
+      List<T> data, {
+      required bool isCard,
+    })? buildFooter,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     super.sizeExtraSmall,
@@ -147,8 +145,8 @@ class TableField<T extends AbstractModel<Object>>
                                       entry.value,
                                       entry.key,
                                       field.value!,
-                                      enabled,
                                       columns,
+                                      enabled: enabled,
                                     ),
 
                                     /// Delete button
@@ -219,8 +217,8 @@ class TableField<T extends AbstractModel<Object>>
                                     entry.value,
                                     entry.key,
                                     field.value!,
-                                    enabled,
                                     List<String>.filled(columns.length, ''),
+                                    enabled: enabled,
                                   ).asMap().entries.map<Widget>(
                                         (MapEntry<int, Widget> entry) =>
                                             Flexible(
@@ -264,7 +262,7 @@ class TableField<T extends AbstractModel<Object>>
                           buildFooter(
                             field.context,
                             field.value!,
-                            isCard,
+                            isCard: isCard,
                           ),
                         );
                       }

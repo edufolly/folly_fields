@@ -8,7 +8,6 @@ import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -80,9 +79,6 @@ class AbstractEditState<
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
 
-  // final StreamController<bool> _controllerModelFunctions =
-  //     StreamController<bool>();
-
   late T _model;
   int _initialHash = 0;
 
@@ -105,10 +101,6 @@ class AbstractEditState<
       if (widget.model.id != null && widget.consumer.routeName.isNotEmpty) {
         _model = await widget.consumer.getById(context, widget.model) ?? _model;
       }
-
-      // if (widget.modelFunctions != null) {
-      //   _controllerModelFunctions.add(true);
-      // }
 
       await widget.editController?.init(context, _model);
 
@@ -191,11 +183,12 @@ class AbstractEditState<
                 children: widget.formContent(
                   context,
                   _model,
-                  widget.uiBuilder.labelPrefix,
-                  _controller.add,
-                  _formKey.currentState!.validate,
-                  widget.editController ?? (EmptyEditController<T>() as E),
                   edit: widget.edit,
+                  formValidate: _formKey.currentState?.validate,
+                  labelPrefix: widget.uiBuilder.labelPrefix,
+                  editController: widget.editController,
+                  refresh: ({required bool refresh}) =>
+                      _controller.add(refresh),
                 ),
               ),
             ),

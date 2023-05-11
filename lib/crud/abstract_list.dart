@@ -38,9 +38,9 @@ abstract class AbstractList<
     BuildContext context,
     T model,
     UI uiBuilder,
-    C consumer,
-    bool edit,
-  )? onUpdate;
+    C consumer, {
+    required bool edit,
+  })? onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
@@ -49,9 +49,9 @@ abstract class AbstractList<
     BuildContext context,
     T model,
     UI uiBuilder,
-    C consumer,
-    bool edit,
-  )? onLongPress;
+    C consumer, {
+    required bool edit,
+  })? onLongPress;
 
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
@@ -78,15 +78,17 @@ abstract class AbstractList<
   final Widget? Function(BuildContext context)? appBarLeading;
   final List<Widget> Function(
     BuildContext context,
-    bool selection,
+
     Map<String, String> qsParam,
+  {required bool selection,}
   )? actions;
   final List<Widget> Function(
     BuildContext context,
-    bool selection,
+
     T model,
     Map<String, String> qsParam,
     void Function({bool clear})? refresh,
+  {required bool selection,}
   )? rowActions;
 
   ///
@@ -361,7 +363,7 @@ class AbstractListState<
 
           /// Actions
           if (!widget.selection && widget.actions != null)
-            ...widget.actions!(context, widget.selection, _qsParam),
+            ...widget.actions!(context, _qsParam, selection:widget.selection),
 
           /// Add Button
           if (!FollyFields().isMobile && !widget.selection)
@@ -619,10 +621,10 @@ class AbstractListState<
           if (widget.rowActions != null)
             ...widget.rowActions!(
               context,
-              widget.selection,
               model,
               _qsParam,
               ({bool clear = true}) => _loadData(context, clear: clear),
+              selection: widget.selection,
             ),
 
           /// Delete Button
@@ -655,7 +657,7 @@ class AbstractListState<
           model,
           widget.uiBuilder,
           widget.consumer,
-          _update,
+          edit: _update,
         ),
       );
 
@@ -694,7 +696,7 @@ class AbstractListState<
         model,
         widget.uiBuilder,
         widget.consumer,
-        _update,
+        edit: _update,
       );
 
       await _push(next);

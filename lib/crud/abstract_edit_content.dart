@@ -15,11 +15,11 @@ abstract class AbstractEditContent<T extends AbstractModel<Object>,
   ///
   List<Responsive> formContent(
     BuildContext context,
-    T model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    bool Function() formValidate,
-    E editController, {
+    T model, {
     required bool edit,
+    bool Function()? formValidate,
+    String? labelPrefix,
+    E? editController,
+    void Function({required bool refresh})? refresh,
   });
 }

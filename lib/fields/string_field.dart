@@ -6,7 +6,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 class StringField extends ResponsiveStateless {
-  final String labelPrefix;
+  final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
@@ -51,7 +51,7 @@ class StringField extends ResponsiveStateless {
   ///
   ///
   const StringField({
-    this.labelPrefix = '',
+    this.labelPrefix,
     this.label,
     this.labelWidget,
     this.controller,
@@ -128,11 +128,9 @@ class StringField extends ResponsiveStateless {
               suffix: suffix,
               suffixIcon: suffixIcon,
               label: labelWidget,
-              labelText: label == null
-                  ? null
-                  : labelPrefix.isEmpty
-                      ? label
-                      : '$labelPrefix - $label',
+              labelText: (labelPrefix?.isEmpty ?? true)
+                  ? label
+                  : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
               counterText: '',
               enabled: enabled,

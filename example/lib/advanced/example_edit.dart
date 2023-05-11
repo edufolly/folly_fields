@@ -56,12 +56,18 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   List<Responsive> formContent(
     BuildContext context,
     ExampleModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    _,
-    __, {
-    required bool edit,
-  }) {
+
+
+     {
+
+
+       required bool edit,
+       bool Function()? formValidate,
+       String? labelPrefix,
+       EmptyEditController<ExampleModel>? editController,
+       void Function({required bool refresh})? refresh,
+
+     }) {
     return <Responsive>[
       /// Texto
       StringField(

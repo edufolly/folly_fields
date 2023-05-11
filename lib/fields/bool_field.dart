@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 
@@ -6,13 +8,13 @@ import 'package:folly_fields/responsive/responsive_form_field.dart';
 ///
 class BoolField extends ResponsiveFormField<bool> {
   final ValueNotifier<bool>? controller;
-  final Function(bool)? onChanged;
+  final Function(bool value)? onChanged;
 
   ///
   ///
   ///
   BoolField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -111,7 +113,7 @@ class BoolField extends ResponsiveFormField<bool> {
                               child: label == null
                                   ? labelWidget
                                   : Text(
-                                      labelPrefix.isEmpty
+                                      labelPrefix?.isEmpty ?? true
                                           ? label
                                           : '$labelPrefix - $label',
                                       style: textStyle,

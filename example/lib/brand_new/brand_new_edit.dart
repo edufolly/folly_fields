@@ -35,12 +35,12 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
   @override
   List<Responsive> formContent(
     BuildContext context,
-    BrandNewModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    bool Function() fromValidate,
-    EmptyEditController<BrandNewModel> editController, {
+    BrandNewModel model, {
     required bool edit,
+    bool Function()? formValidate,
+    String? labelPrefix,
+    EmptyEditController<BrandNewModel>? editController,
+    void Function({required bool refresh})? refresh,
   }) {
     return <Responsive>[
       /// Name
@@ -63,7 +63,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
         validator: FollyValidators.notNull,
         onChanged: (BrandNewEnum? value) {
           model.type = value ?? BrandNewEnum.panel1;
-          refresh(true);
+          refresh?.call(refresh: true);
         },
         onSaved: (BrandNewEnum? value) => model.type = value!,
       ),
@@ -72,10 +72,10 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
       ...complement(
         context,
         model,
-        labelPrefix,
-        refresh,
-        fromValidate,
-        editController,
+        labelPrefix: labelPrefix,
+        refresh: refresh,
+        formValidate: formValidate,
+        editController: editController,
         edit: edit,
       ),
     ];
@@ -86,42 +86,42 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
   ///
   List<Responsive> complement(
     BuildContext context,
-    BrandNewModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    bool Function() formValidate,
-    EmptyEditController<BrandNewModel> editController, {
+    BrandNewModel model, {
     required bool edit,
+    bool Function()? formValidate,
+    String? labelPrefix,
+    EmptyEditController<BrandNewModel>? editController,
+    void Function({required bool refresh})? refresh,
   }) {
     switch (model.type) {
       case BrandNewEnum.panel1:
         return BrandNewEditPanel1().formContent(
           context,
           model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
+          labelPrefix: labelPrefix,
+          refresh: refresh,
+          formValidate: formValidate,
+          editController: editController,
           edit: edit,
         );
       case BrandNewEnum.panel2:
         return BrandNewEditPanel2().formContent(
           context,
           model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
+          labelPrefix: labelPrefix,
+          refresh: refresh,
+          formValidate: formValidate,
+          editController: editController,
           edit: edit,
         );
       case BrandNewEnum.panel3:
         return BrandNewEditPanel3().formContent(
           context,
           model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
+          labelPrefix: labelPrefix,
+          refresh: refresh,
+          formValidate: formValidate,
+          editController: editController,
           edit: edit,
         );
     }

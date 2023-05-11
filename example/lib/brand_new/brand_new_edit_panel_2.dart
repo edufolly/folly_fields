@@ -17,12 +17,12 @@ class BrandNewEditPanel2 extends AbstractEditContent<BrandNewModel,
   @override
   List<Responsive> formContent(
     BuildContext context,
-    BrandNewModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    _,
-    __, {
+    BrandNewModel model, {
     required bool edit,
+    bool Function()? formValidate,
+    String? labelPrefix,
+    EmptyEditController<BrandNewModel>? editController,
+    void Function({required bool refresh})? refresh,
   }) {
     return <Responsive>[
       const ResponsiveDecorator(

@@ -13,7 +13,7 @@ class DropdownField<T> extends ResponsiveFormField<T> {
   ///
   ///
   DropdownField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -84,8 +84,9 @@ class DropdownField<T> extends ResponsiveFormField<T> {
                       filled: filled,
                       fillColor: fillColor,
                       label: labelWidget,
-                      labelText:
-                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+                      labelText: (labelPrefix?.isEmpty ?? true)
+                          ? label
+                          : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
                       hintText: hintText,
