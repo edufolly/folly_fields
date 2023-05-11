@@ -334,6 +334,7 @@ class FileFieldState extends FormFieldState<Uint8List> {
   @override
   void dispose() {
     widget.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
     super.dispose();
   }
 }

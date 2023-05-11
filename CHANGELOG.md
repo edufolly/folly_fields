@@ -14,9 +14,15 @@
     * toMapSet.
     * toSaveSetMapId.
     * toSaveSet.
-    * toMapDecimalInt
-    * toMapDecimalDouble
+    * toMapDecimalInt.
+    * toMapDecimalDouble.
+* Creating DateTimeExtension methods:
+    * startOfDay.
+    * endOfDay.
+    * yearFirstDay.
+    * yearLastDay.
 * Creating tests for ModelUtils.
+* Disposing fields controllers.
 
 ## [0.22.1] - 2023-04-02
 
@@ -25,7 +31,7 @@
     * prevWeekFirstDay.
     * prevWeekLastDay.
     * nextWeekFirstDay.
-    * nextWeekLastDay
+    * nextWeekLastDay.
 * Adding FollyValidators:
     * stringNotBlank(String? value).
     * stringNullNotBlank(String? value).
