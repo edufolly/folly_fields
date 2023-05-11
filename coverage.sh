@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 rm -rf coverage
 
 fvm flutter test --coverage \
