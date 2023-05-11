@@ -4,10 +4,8 @@ version: 1.0.0
 homepage: https://edufolly.github.io/folly_fields/
 
 environment:
-  sdk: ">=2.19.0 <3.0.0"
-  flutter: ">=3.7.0"
-#  sdk: ">=3.0.0 <4.0.0"
-#  flutter: ">=3.10.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
@@ -43,8 +41,7 @@ dependencies:
   font_awesome_flutter: ^10.4.0
 
   # https://pub.dev/packages/intl
-  intl: ^0.17.0
-#  intl: ^0.18.0
+  intl: ^0.18.0
 
   # https://pub.dev/packages/sprintf
   sprintf: ^7.0.0
