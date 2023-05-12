@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
@@ -44,50 +45,8 @@ class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   @override
-  Color? parse(String? text, [int? defaultColor]) {
-    if (text == null || text.isEmpty) {
-      return defaultColor == null ? null : Color(defaultColor);
-    } else {
-      try {
-        if (!text.startsWith('0x')) {
-          text = text.replaceAll('#', '').trim().toUpperCase();
-
-          if (text.length < 3) {
-            throw Exception('Length less than 3.');
-          }
-
-          if (text.length == 3) {
-            text = text[0] + text[0] + text[1] + text[1] + text[2] + text[2];
-          }
-
-          if (text.length == 4) {
-            text = text[0] +
-                text[0] +
-                text[1] +
-                text[1] +
-                text[2] +
-                text[2] +
-                text[3] +
-                text[3];
-          }
-
-          if (text.length == 6) {
-            text = 'FF$text';
-          }
-
-          if (text.length > 8) {
-            text = text.substring(0, 8);
-          }
-
-          text = '0x$text';
-        }
-
-        return Color(int.parse(text));
-      } on Exception catch (_) {
-        return defaultColor == null ? null : Color(defaultColor);
-      }
-    }
-  }
+  Color? parse(String? text, [int? defaultColor]) =>
+      FollyUtils.colorParse(text, defaultColor);
 
   ///
   ///
