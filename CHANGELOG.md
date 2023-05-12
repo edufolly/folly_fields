@@ -1,4 +1,4 @@
-## [0.22.2]
+## [0.22.2] - 2023-05-11
 
 * Fixing ModelUtils methods:
     * fromJsonDateMillis.
