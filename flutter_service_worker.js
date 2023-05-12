@@ -16,15 +16,15 @@ const RESOURCES = {
 "assets/packages/font_awesome_flutter/lib/fonts/fa-solid-900.ttf": "9cda082bd7cc5642096b56fa8db15b45",
 "assets/FontManifest.json": "5a32d4310a6f5d9a6b651e75ba0d7372",
 "assets/AssetManifest.json": "801125fca546f506babac9af4ec061ba",
-"index.html": "ec3469f9e6c6bdf77b6b19cbd4b5a4fd",
-"/": "ec3469f9e6c6bdf77b6b19cbd4b5a4fd",
+"index.html": "07cba5328edf8167cd70330801d47754",
+"/": "07cba5328edf8167cd70330801d47754",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"version.json": "ca55055f54656656481f20b25d5aef4c",
+"version.json": "130ef57ef6041ef3fa6e7fa47a43b43c",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"main.dart.js": "afd5b46bbd159128bf1a5bf41c0277d9",
+"main.dart.js": "71f41c9617ec7d733bb7b6c29bdc4ea5",
 "manifest.json": "2eb43e28c2026cad45ee25de8b5933b4"
 };
 

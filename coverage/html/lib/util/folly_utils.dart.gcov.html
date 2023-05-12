@@ -31,13 +31,13 @@
             <td class="headerValue">Folly Fields</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">62</td>
-            <td class="headerCovTableEntry">77</td>
-            <td class="headerCovTableEntryMed">80.5 %</td>
+            <td class="headerCovTableEntry">88</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntryMed">85.4 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-11 23:59:26</td>
+            <td class="headerValue">2023-05-12 13:54:58</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -335,35 +335,83 @@
 <a name="273"><span class="lineNum">     273 </span>            :   ///</a>
 <a name="274"><span class="lineNum">     274 </span>            :   ///</a>
 <a name="275"><span class="lineNum">     275 </span>            :   ///</a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          1 :   static MaterialColor? createMaterialColor({</span></a>
-<a name="277"><span class="lineNum">     277 </span>            :     int? intColor,</a>
-<a name="278"><span class="lineNum">     278 </span>            :     Color? color,</a>
-<a name="279"><span class="lineNum">     279 </span>            :   }) {</a>
-<a name="280"><span class="lineNum">     280 </span>            :     if (intColor != null) {</a>
-<a name="281"><span class="lineNum">     281 </span><span class="lineCov">          1 :       color = Color(intColor);</span></a>
-<a name="282"><span class="lineNum">     282 </span>            :     }</a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">          1 :   static Color? colorParse(String? text, [int? defaultColor]) {</span></a>
+<a name="277"><span class="lineNum">     277 </span><span class="lineCov">          1 :     if (text == null || text.isEmpty) {</span></a>
+<a name="278"><span class="lineNum">     278 </span><span class="lineCov">          1 :       return defaultColor == null ? null : Color(defaultColor);</span></a>
+<a name="279"><span class="lineNum">     279 </span>            :     } else {</a>
+<a name="280"><span class="lineNum">     280 </span>            :       try {</a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">          1 :         if (!text.startsWith('0x')) {</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">          3 :           text = text.replaceAll('#', '').trim().toUpperCase();</span></a>
 <a name="283"><span class="lineNum">     283 </span>            : </a>
-<a name="284"><span class="lineNum">     284 </span>            :     if (color == null) {</a>
-<a name="285"><span class="lineNum">     285 </span>            :       return null;</a>
-<a name="286"><span class="lineNum">     286 </span>            :     }</a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineCov">          2 :           if (text.length &lt; 3) {</span></a>
+<a name="285"><span class="lineNum">     285 </span><span class="lineCov">          1 :             throw Exception('Length less than 3.');</span></a>
+<a name="286"><span class="lineNum">     286 </span>            :           }</a>
 <a name="287"><span class="lineNum">     287 </span>            : </a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineCov">          1 :     return MaterialColor(</span></a>
-<a name="289"><span class="lineNum">     289 </span><span class="lineCov">          1 :       color.value,</span></a>
-<a name="290"><span class="lineNum">     290 </span><span class="lineCov">          1 :       &lt;int, Color&gt;{</span></a>
-<a name="291"><span class="lineNum">     291 </span>            :         50: color,</a>
-<a name="292"><span class="lineNum">     292 </span>            :         100: color,</a>
-<a name="293"><span class="lineNum">     293 </span>            :         200: color,</a>
-<a name="294"><span class="lineNum">     294 </span>            :         300: color,</a>
-<a name="295"><span class="lineNum">     295 </span>            :         400: color,</a>
-<a name="296"><span class="lineNum">     296 </span>            :         500: color,</a>
-<a name="297"><span class="lineNum">     297 </span>            :         600: color,</a>
-<a name="298"><span class="lineNum">     298 </span>            :         700: color,</a>
-<a name="299"><span class="lineNum">     299 </span>            :         800: color,</a>
-<a name="300"><span class="lineNum">     300 </span>            :         900: color,</a>
-<a name="301"><span class="lineNum">     301 </span>            :       },</a>
-<a name="302"><span class="lineNum">     302 </span>            :     );</a>
-<a name="303"><span class="lineNum">     303 </span>            :   }</a>
-<a name="304"><span class="lineNum">     304 </span>            : }</a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">          2 :           if (text.length == 3) {</span></a>
+<a name="289"><span class="lineNum">     289 </span><span class="lineCov">         11 :             text = text[0] + text[0] + text[1] + text[1] + text[2] + text[2];</span></a>
+<a name="290"><span class="lineNum">     290 </span>            :           }</a>
+<a name="291"><span class="lineNum">     291 </span>            : </a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">          2 :           if (text.length == 4) {</span></a>
+<a name="293"><span class="lineNum">     293 </span><span class="lineCov">          2 :             text = text[0] +</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          2 :                 text[0] +</span></a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineCov">          2 :                 text[1] +</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          2 :                 text[1] +</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          2 :                 text[2] +</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          2 :                 text[2] +</span></a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">          2 :                 text[3] +</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 :                 text[3];</span></a>
+<a name="301"><span class="lineNum">     301 </span>            :           }</a>
+<a name="302"><span class="lineNum">     302 </span>            : </a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineCov">          2 :           if (text.length == 6) {</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">          1 :             text = 'FF$text';</span></a>
+<a name="305"><span class="lineNum">     305 </span>            :           }</a>
+<a name="306"><span class="lineNum">     306 </span>            : </a>
+<a name="307"><span class="lineNum">     307 </span><span class="lineCov">          2 :           if (text.length &gt; 8) {</span></a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">          1 :             text = text.substring(0, 8);</span></a>
+<a name="309"><span class="lineNum">     309 </span>            :           }</a>
+<a name="310"><span class="lineNum">     310 </span>            : </a>
+<a name="311"><span class="lineNum">     311 </span><span class="lineCov">          1 :           text = '0x$text';</span></a>
+<a name="312"><span class="lineNum">     312 </span>            :         }</a>
+<a name="313"><span class="lineNum">     313 </span>            : </a>
+<a name="314"><span class="lineNum">     314 </span><span class="lineCov">          2 :         return Color(int.parse(text));</span></a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineCov">          1 :       } on Exception catch (_) {</span></a>
+<a name="316"><span class="lineNum">     316 </span><span class="lineCov">          1 :         return defaultColor == null ? null : Color(defaultColor);</span></a>
+<a name="317"><span class="lineNum">     317 </span>            :       }</a>
+<a name="318"><span class="lineNum">     318 </span>            :     }</a>
+<a name="319"><span class="lineNum">     319 </span>            :   }</a>
+<a name="320"><span class="lineNum">     320 </span>            : </a>
+<a name="321"><span class="lineNum">     321 </span>            :   ///</a>
+<a name="322"><span class="lineNum">     322 </span>            :   ///</a>
+<a name="323"><span class="lineNum">     323 </span>            :   ///</a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          1 :   static MaterialColor? createMaterialColor({</span></a>
+<a name="325"><span class="lineNum">     325 </span>            :     int? intColor,</a>
+<a name="326"><span class="lineNum">     326 </span>            :     Color? color,</a>
+<a name="327"><span class="lineNum">     327 </span>            :   }) {</a>
+<a name="328"><span class="lineNum">     328 </span>            :     if (intColor != null) {</a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          1 :       color = Color(intColor);</span></a>
+<a name="330"><span class="lineNum">     330 </span>            :     }</a>
+<a name="331"><span class="lineNum">     331 </span>            : </a>
+<a name="332"><span class="lineNum">     332 </span>            :     if (color == null) {</a>
+<a name="333"><span class="lineNum">     333 </span>            :       return null;</a>
+<a name="334"><span class="lineNum">     334 </span>            :     }</a>
+<a name="335"><span class="lineNum">     335 </span>            : </a>
+<a name="336"><span class="lineNum">     336 </span><span class="lineCov">          1 :     return MaterialColor(</span></a>
+<a name="337"><span class="lineNum">     337 </span><span class="lineCov">          1 :       color.value,</span></a>
+<a name="338"><span class="lineNum">     338 </span><span class="lineCov">          1 :       &lt;int, Color&gt;{</span></a>
+<a name="339"><span class="lineNum">     339 </span>            :         50: color,</a>
+<a name="340"><span class="lineNum">     340 </span>            :         100: color,</a>
+<a name="341"><span class="lineNum">     341 </span>            :         200: color,</a>
+<a name="342"><span class="lineNum">     342 </span>            :         300: color,</a>
+<a name="343"><span class="lineNum">     343 </span>            :         400: color,</a>
+<a name="344"><span class="lineNum">     344 </span>            :         500: color,</a>
+<a name="345"><span class="lineNum">     345 </span>            :         600: color,</a>
+<a name="346"><span class="lineNum">     346 </span>            :         700: color,</a>
+<a name="347"><span class="lineNum">     347 </span>            :         800: color,</a>
+<a name="348"><span class="lineNum">     348 </span>            :         900: color,</a>
+<a name="349"><span class="lineNum">     349 </span>            :       },</a>
+<a name="350"><span class="lineNum">     350 </span>            :     );</a>
+<a name="351"><span class="lineNum">     351 </span>            :   }</a>
+<a name="352"><span class="lineNum">     352 </span>            : }</a>
 </pre>
       </td>
     </tr>
