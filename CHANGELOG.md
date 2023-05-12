@@ -1,5 +1,6 @@
 ## [1.0.0]
 
+* Upgrade to Flutter 3.10 and Dart 3.0.0.
 * Updating class Decimal features.
 * Removing deprecated classes and methods.
 * Creating FollyStringExtension with methods:
@@ -7,9 +8,12 @@
     * capitalizeWords.
 * Creating ModelUtils methods:
     * fromJsonSafeBool
-* Creating classes:
+* Creating classes for tests:
     * Duplet
     * Triplet
+
+## [0.22.2] - 2023-05-11
+
 * Fixing ModelUtils methods:
     * fromJsonDateMillis.
     * fromJsonDateSecs.
@@ -24,9 +28,15 @@
     * toMapSet.
     * toSaveSetMapId.
     * toSaveSet.
-    * toMapDecimalInt
-    * toMapDecimalDouble
+    * toMapDecimalInt.
+    * toMapDecimalDouble.
+* Creating DateTimeExtension methods:
+    * startOfDay.
+    * endOfDay.
+    * yearFirstDay.
+    * yearLastDay.
 * Creating tests for ModelUtils.
+* Disposing fields controllers.
 
 ## [0.22.1] - 2023-04-02
 
@@ -35,7 +45,7 @@
     * prevWeekFirstDay.
     * prevWeekLastDay.
     * nextWeekFirstDay.
-    * nextWeekLastDay
+    * nextWeekLastDay.
 * Adding FollyValidators:
     * stringNotBlank(String? value).
     * stringNullNotBlank(String? value).

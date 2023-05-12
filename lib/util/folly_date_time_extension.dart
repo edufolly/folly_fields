@@ -46,6 +46,11 @@ extension FollyDateTimeExtension on DateTime {
   ///
   ///
   ///
+  DateTime get startOfDay => mergeStart();
+
+  ///
+  ///
+  ///
   DateTime mergeEndSeconds({
     int second = 59,
     int millisecond = 999,
@@ -77,6 +82,11 @@ extension FollyDateTimeExtension on DateTime {
   ///
   ///
   ///
+  DateTime get endOfDay => mergeEnd();
+
+  ///
+  ///
+  ///
   int get daysInMonth {
     if (month == DateTime.february) {
       return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
@@ -91,17 +101,12 @@ extension FollyDateTimeExtension on DateTime {
   ///
   ///
   ///
-  DateTime get monthFirstDay => copyWith(day: 1).mergeStart();
+  DateTime get monthFirstDay => copyWith(day: 1).startOfDay;
 
   ///
   ///
   ///
-  DateTime get monthLastDay => copyWith(day: daysInMonth).mergeEnd();
-
-  ///
-  ///
-  ///
-  DateTime get prevMonthLastDay => monthFirstDay.subtract(oneDay).mergeEnd();
+  DateTime get monthLastDay => copyWith(day: daysInMonth).endOfDay;
 
   ///
   ///
@@ -111,7 +116,12 @@ extension FollyDateTimeExtension on DateTime {
   ///
   ///
   ///
-  DateTime get nextMonthFirstDay => monthLastDay.add(oneDay).mergeStart();
+  DateTime get prevMonthLastDay => monthFirstDay.subtract(oneDay).endOfDay;
+
+  ///
+  ///
+  ///
+  DateTime get nextMonthFirstDay => monthLastDay.add(oneDay).startOfDay;
 
   ///
   ///
@@ -159,4 +169,14 @@ extension FollyDateTimeExtension on DateTime {
   ///
   DateTime nextWeekLastDay([int lastDay = DateTime.saturday]) =>
       weekLastDay(lastDay).add(week);
+
+  ///
+  ///
+  ///
+  DateTime get yearFirstDay => copyWith(month: 1, day: 1).startOfDay;
+
+  ///
+  ///
+  ///
+  DateTime get yearLastDay => copyWith(month: 12, day: 31).endOfDay;
 }
