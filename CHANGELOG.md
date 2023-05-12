@@ -12,6 +12,10 @@
     * Duplet
     * Triplet
 
+## [0.22.3] - 2023-05-12
+
+* Adding FollyUtils.colorParse method.
+
 ## [0.22.2] - 2023-05-11
 
 * Fixing ModelUtils methods:
