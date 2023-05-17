@@ -6,24 +6,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
-  final String labelPrefix;
-  final String labelSuffix;
+  final String? labelPrefix;
+  final String? labelSuffix;
 
   ///
   ///
   ///
   const AbstractUIBuilder({
-    this.labelPrefix = '',
-    this.labelSuffix = '',
+    this.labelPrefix,
+    this.labelSuffix,
   });
 
   ///
   ///
   ///
   String superSingle(BuildContext context) => <String>[
-        if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
+        if (labelPrefix?.isNotEmpty ?? false) ...<String>[labelPrefix ?? ''],
         single(context),
-        if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
+        if (labelSuffix?.isNotEmpty ?? false) ...<String>[labelSuffix ?? ''],
       ].join(' - ');
 
   ///
@@ -35,9 +35,9 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   String superPlural(BuildContext context) => <String>[
-        if (labelPrefix.isNotEmpty) ...<String>[labelPrefix],
+        if (labelPrefix?.isNotEmpty ?? false) ...<String>[labelPrefix ?? ''],
         plural(context),
-        if (labelSuffix.isNotEmpty) ...<String>[labelSuffix],
+        if (labelSuffix?.isNotEmpty ?? false) ...<String>[labelSuffix ?? ''],
       ].join(' - ');
 
   ///

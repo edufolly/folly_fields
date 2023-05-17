@@ -11,6 +11,7 @@
 * Creating classes for tests:
     * Duplet
     * Triplet
+* Updating AbstractUIBuilder to use null string for labelPrefix and labelSuffix.
 
 ## [0.22.3] - 2023-05-12
 
