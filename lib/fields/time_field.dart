@@ -16,7 +16,7 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
     this.initialEntryMode = TimePickerEntryMode.dial,
     super.maxLength = 5,
     super.suffixIconData = FontAwesomeIcons.clock,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

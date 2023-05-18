@@ -9,7 +9,7 @@ import 'package:folly_fields/validators/credit_card_number_validator.dart';
 ///
 ///
 class CreditCardNumberField extends ResponsiveStateful {
-  final String labelPrefix;
+  final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
@@ -55,7 +55,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   ///
   ///
   const CreditCardNumberField({
-    this.labelPrefix = '',
+    this.labelPrefix,
     this.label,
     this.labelWidget,
     this.controller,

@@ -18,8 +18,6 @@ abstract class AbstractEditContent<T extends AbstractModel<Object>,
     T model, {
     required bool edit,
     bool Function()? formValidate,
-    String? labelPrefix,
-    E? editController,
     void Function({required bool refresh})? refresh,
   });
 }

@@ -185,8 +185,6 @@ class AbstractEditState<
                   _model,
                   edit: widget.edit,
                   formValidate: _formKey.currentState?.validate,
-                  labelPrefix: widget.uiBuilder.labelPrefix,
-                  editController: widget.editController,
                   refresh: ({required bool refresh}) =>
                       _controller.add(refresh),
                 ),

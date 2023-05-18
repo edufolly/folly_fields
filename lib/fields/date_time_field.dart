@@ -31,7 +31,7 @@ class DateTimeField
     this.dateFormat = 'dd/MM/yyyy HH:mm',
     this.mask = 'B#/D#/#### A#:C#',
     super.suffixIconData = FontAwesomeIcons.calendarDay,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,
