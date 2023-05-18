@@ -13,7 +13,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
   ///
   ///
   ChoiceChipField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -73,8 +73,9 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                       filled: filled,
                       fillColor: fillColor,
                       label: labelWidget,
-                      labelText:
-                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+                      labelText: (labelPrefix?.isEmpty ?? true)
+                          ? label
+                          : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
                       hintText: hintText,

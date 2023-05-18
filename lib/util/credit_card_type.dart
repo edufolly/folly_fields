@@ -1,7 +1,5 @@
 // ignore_for_file: always_specify_types
 
-import 'package:flutter/foundation.dart';
-
 ///
 ///
 /// https://github.com/braintree/credit-card-type/blob/main/src/lib/card-types.ts
@@ -284,12 +282,7 @@ enum CreditCardType {
       }
 
       return sum % 10 == 0;
-    } on Exception catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-        print(s);
-      }
-
+    } on Exception {
       return false;
     }
   }

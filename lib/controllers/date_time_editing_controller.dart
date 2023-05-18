@@ -9,9 +9,7 @@ class DateTimeEditingController extends ValidatorEditingController<DateTime> {
   ///
   ///
   DateTimeEditingController({
-    // TODO(edufolly): Remove in version 1.0.0.
-    @Deprecated('Use property value instead dateTime.') DateTime? dateTime,
-    DateTime? value,
+    super.value,
     String locale = 'pt_br',
     String dateFormat = 'dd/MM/yyyy HH:mm',
     String mask = 'B#/D#/#### A#:C#',
@@ -21,7 +19,6 @@ class DateTimeEditingController extends ValidatorEditingController<DateTime> {
             dateFormat: dateFormat,
             mask: mask,
           ),
-          value: value ?? dateTime,
         );
 
   ///
@@ -39,18 +36,4 @@ class DateTimeEditingController extends ValidatorEditingController<DateTime> {
             mask: mask,
           ),
         );
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use property data instead dateTime.')
-  DateTime? get dateTime => data;
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use property data instead dateTime.')
-  set dateTime(DateTime? date) => data = date;
 }

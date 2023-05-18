@@ -3,7 +3,7 @@
 ///
 ///
 ///
-abstract class Hashable {
+mixin Hashable {
   ///
   ///
   ///

@@ -25,7 +25,7 @@ class ListField<T extends AbstractModel<Object>,
     required UI uiBuilder,
     required Widget Function(BuildContext context, UI uiBuilder)
         routeAddBuilder,
-    Function(BuildContext context, T model, UI uiBuilder, bool edit)?
+    Function(BuildContext context, T model, UI uiBuilder, {required bool edit})?
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
@@ -307,8 +307,12 @@ class _MyListTile<T extends AbstractModel<Object>,
   final bool enabled;
   final Future<bool> Function(BuildContext context, int index, T model)?
       beforeEdit;
-  final Function(BuildContext context, T model, UI uiBuilder, bool edit)?
-      routeEditBuilder;
+  final Function(
+    BuildContext context,
+    T model,
+    UI uiBuilder, {
+    required bool edit,
+  })? routeEditBuilder;
   final Future<bool> Function(BuildContext context, int index, T model)?
       beforeDelete;
   final int Function(T a, T b)? listSort;
@@ -378,7 +382,7 @@ class _MyListTile<T extends AbstractModel<Object>,
                   context,
                   model,
                   uiBuilder,
-                  enabled,
+                  edit: enabled,
                 ),
               ),
             );

@@ -12,72 +12,67 @@ import '../../mocks/mock_connectivity.dart';
 ///
 void main() {
   ///
-  group('ModelUtils fromJsonSet', () {
-    FollyFields.start(
-      MockConfig(),
-      connectivity: MockConnectivity(),
-    );
+  group(
+    'ModelUtils fromJsonSet',
+    () {
+      FollyFields.start(
+        MockConfig(),
+        connectivity: MockConnectivity(),
+      );
 
-    MockConsumer consumer = const MockConsumer();
+      MockConsumer consumer = const MockConsumer();
 
-    Map<Set<dynamic>?, Set<MockModel>> domain = <Set<dynamic>?, Set<MockModel>>{
-      null: <MockModel>{},
-      <dynamic>{}: <MockModel>{},
-      <dynamic>{<String, dynamic>{}}: <MockModel>{MockModel()},
-      <dynamic>{
-        <String, dynamic>{},
-        <String, dynamic>{},
-      }: <MockModel>{
-        MockModel(),
-      },
-      <dynamic>{
-        <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-      }: <MockModel>{
-        MockModel(id: 'abc', name: 'aline', age: 20),
-      },
-      <dynamic>{
-        <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-        <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-      }: <MockModel>{
-        MockModel(id: 'abc', name: 'aline', age: 20),
-      },
-      <dynamic>{
-        <String, dynamic>{'id': 'abc', 'name': 'aline', 'age': 20},
-        <String, dynamic>{'id': 'cde', 'name': 'kate', 'age': 28},
-      }: <MockModel>{
-        MockModel(id: 'abc', name: 'aline', age: 20),
-        MockModel(id: 'cde', name: 'kate', age: 28),
-      },
-      <dynamic>{
-        <String, dynamic>{'name': 'aline', 'age': 20},
-      }: <MockModel>{
-        MockModel(name: 'aline', age: 20),
-      },
-      <dynamic>{
-        <String, dynamic>{'name': 20, 'age': '20'},
-      }: <MockModel>{
-        MockModel(name: '20', age: 20),
-      },
-      <dynamic>{
-        <String, dynamic>{'name': 'aline'},
-      }: <MockModel>{
-        MockModel(name: 'aline'),
-      },
-      <dynamic>{
-        <String, dynamic>{'age': 20},
-      }: <MockModel>{
-        MockModel(age: 20),
-      },
-    };
+      Map<Set<dynamic>?, Set<MockModel>> domain =
+          <Set<dynamic>?, Set<MockModel>>{
+        null: <MockModel>{},
+        <dynamic>{}: <MockModel>{},
+        <dynamic>{
+          <String, dynamic>{},
+          <String, dynamic>{},
+        }: <MockModel>{
+          MockModel(),
+        },
+        ...MockModel.baseDomain.map(
+          (Map<String, dynamic> key, MockModel value) =>
+              MapEntry<Set<Map<String, dynamic>>, Set<MockModel>>(
+            <Map<String, dynamic>>{key},
+            <MockModel>{value},
+          ),
+        ),
+        <dynamic>{
+          MockModel.alineMap,
+          MockModel.kateMap,
+        }: <MockModel>{
+          MockModel.alineModel,
+          MockModel.kateModel,
+        },
+        <dynamic>{
+          MockModel.alineMap,
+          MockModel.alineMap,
+        }: <MockModel>{
+          MockModel.alineModel,
+        },
+        <dynamic>{
+          MockModel.alineMap,
+          <String, dynamic>{},
+        }: <MockModel>{
+          MockModel.alineModel,
+          MockModel(),
+        },
+      };
 
-    for (final MapEntry<Set<dynamic>?, Set<MockModel>> input
-        in domain.entries) {
-      test('${input.key} - ${input.value}', () {
-        expect(
-          ModelUtils.fromJsonSet(input.key, consumer),
-          input.value,
+      for (final MapEntry<Set<dynamic>?, Set<MockModel>> input
+          in domain.entries) {
+        test(
+          '${input.key} // ${input.value}',
+          () {
+            expect(
+              ModelUtils.fromJsonSet(input.key, consumer),
+              input.value,
+            );
+          },
         );
-      });
-    }
-  });
+      }
+    },
+  );
 }

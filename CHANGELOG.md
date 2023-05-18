@@ -1,3 +1,20 @@
+## [1.0.0] - 2023-05-17
+
+* Upgrade to Flutter 3.10 and Dart 3.0.0.
+* Updating class Decimal features.
+* Removing deprecated classes and methods.
+* Creating FollyStringExtension with methods:
+    * capitalize.
+    * capitalizeWords.
+* Creating ModelUtils methods:
+    * fromJsonSafeBool
+* Creating classes for tests:
+    * Duplet
+    * Triplet
+* Updating AbstractUIBuilder to use null string for labelPrefix and labelSuffix.
+* Removing labelPrefix and editController from formContent method.
+* Removing AbstractEditContent class.
+
 ## [0.22.3] - 2023-05-12
 
 * Adding FollyUtils.colorParse method.

@@ -1,44 +1,33 @@
-// TODO(edufolly): Remove in version 1.0.0.
-// ignore_for_file: deprecated_member_use_from_same_package
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/crud/empty_edit_controller.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
-import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
 abstract class AbstractEdit<
-        T extends AbstractModel<Object>,
-        UI extends AbstractUIBuilder<T>,
-        C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>> extends AbstractRoute
-    implements AbstractEditContent<T, E> {
+    T extends AbstractModel<Object>,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>,
+    E extends AbstractEditController<T>> extends AbstractRoute {
   final T model;
   final UI uiBuilder;
   final C consumer;
   final bool edit;
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
-
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use actions instead modelFunctions.')
-  final List<AbstractModelFunction<T>>? modelFunctions;
   final Widget? Function(BuildContext context)? appBarLeading;
   final void Function(BuildContext context, T model)? afterSave;
   final List<Widget> Function({
@@ -56,12 +45,21 @@ abstract class AbstractEdit<
     required this.edit,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
-    // TODO(edufolly): Remove in version 1.0.0.
-    @Deprecated('Use actions instead modelFunctions.') this.modelFunctions,
     this.appBarLeading,
     this.afterSave,
     this.actions,
     super.key,
+  });
+
+  ///
+  ///
+  ///
+  List<Responsive> formContent(
+    BuildContext context,
+    T model, {
+    required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
   });
 
   ///
@@ -90,8 +88,6 @@ class AbstractEditState<
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
-  final StreamController<bool> _controllerModelFunctions =
-      StreamController<bool>();
 
   late T _model;
   int _initialHash = 0;
@@ -116,10 +112,6 @@ class AbstractEditState<
         _model = await widget.consumer.getById(context, widget.model) ?? _model;
       }
 
-      if (widget.modelFunctions != null) {
-        _controllerModelFunctions.add(true);
-      }
-
       await widget.editController?.init(context, _model);
 
       _controller.add(true);
@@ -142,54 +134,6 @@ class AbstractEditState<
             : widget.appBarLeading!(context),
         title: Text(widget.uiBuilder.superSingle(context)),
         actions: <Widget>[
-          SilentStreamBuilder<bool>(
-            stream: _controllerModelFunctions.stream,
-            initialData: false,
-            builder: (BuildContext context, bool data, _) => data
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: widget.modelFunctions!
-                        .asMap()
-                        .map(
-                          (
-                            int index,
-                            AbstractModelFunction<T> editFunction,
-                          ) =>
-                              MapEntry<int, Widget>(
-                            index,
-                            SilentFutureBuilder<ConsumerPermission>(
-                              future: widget.consumer.checkPermission(
-                                context,
-                                editFunction.routeName,
-                              ),
-                              builder: (
-                                BuildContext context,
-                                ConsumerPermission permission,
-                                _,
-                              ) {
-                                if (permission.view) {
-                                  _formKey.currentState!.save();
-
-                                  return ModelFunctionButton<T>(
-                                    rowFunction: editFunction,
-                                    permission: permission,
-                                    model: _model,
-                                    callback: (Object? object) =>
-                                        _controller.add(true),
-                                  );
-                                }
-
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                        )
-                        .values
-                        .toList(),
-                  )
-                : const SizedBox.shrink(),
-          ),
-
           /// Actions
           if (widget.actions != null)
             ...widget.actions!(
@@ -249,11 +193,10 @@ class AbstractEditState<
                 children: widget.formContent(
                   context,
                   _model,
-                  widget.uiBuilder.labelPrefix,
-                  _controller.add,
-                  _formKey.currentState!.validate,
-                  widget.editController ?? (EmptyEditController<T>() as E),
                   edit: widget.edit,
+                  formValidate: _formKey.currentState?.validate,
+                  refresh: ({required bool refresh}) =>
+                      _controller.add(refresh),
                 ),
               ),
             ),
@@ -327,7 +270,6 @@ class AbstractEditState<
   void dispose() {
     widget.editController?.dispose(context);
     _controller.close();
-    _controllerModelFunctions.close();
     super.dispose();
   }
 }

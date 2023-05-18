@@ -17,7 +17,7 @@ class DecimalField
   const DecimalField({
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

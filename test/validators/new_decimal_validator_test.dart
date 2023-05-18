@@ -121,7 +121,7 @@ void main() {
 
     for (final MapEntry<Decimal, String> input in formatTest.entries) {
       test(
-        'Testing: ${input.key}',
+        'Testing: ${input.key} => ${input.value}',
         () => expect(validator.format(input.key), input.value),
       );
     }

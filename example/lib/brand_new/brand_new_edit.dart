@@ -4,12 +4,10 @@ import 'package:folly_fields/crud/empty_edit_controller.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_decorator.dart';
 import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
-import 'package:folly_fields_example/brand_new/brand_new_edit_panel_1.dart';
-import 'package:folly_fields_example/brand_new/brand_new_edit_panel_2.dart';
-import 'package:folly_fields_example/brand_new/brand_new_edit_panel_3.dart';
 import 'package:folly_fields_example/brand_new/brand_new_enum.dart';
 import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 
@@ -35,17 +33,15 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
   @override
   List<Responsive> formContent(
     BuildContext context,
-    BrandNewModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    bool Function() fromValidate,
-    EmptyEditController<BrandNewModel> editController, {
+    BrandNewModel model, {
     required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
   }) {
     return <Responsive>[
       /// Name
       StringField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Nome*',
         enabled: edit,
         initialValue: model.name,
@@ -55,7 +51,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
 
       /// Type
       DropdownField<BrandNewEnum>(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Tipo*',
         enabled: edit,
         items: BrandNewEnum.items,
@@ -63,67 +59,61 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
         validator: FollyValidators.notNull,
         onChanged: (BrandNewEnum? value) {
           model.type = value ?? BrandNewEnum.panel1;
-          refresh(true);
+          refresh?.call(refresh: true);
         },
         onSaved: (BrandNewEnum? value) => model.type = value!,
       ),
 
-      /// Panel
-      ...complement(
-        context,
-        model,
-        labelPrefix,
-        refresh,
-        fromValidate,
-        editController,
-        edit: edit,
-      ),
-    ];
-  }
+      /// Panel1
+      if (model.type == BrandNewEnum.panel1) ...<Responsive>[
+        const ResponsiveDecorator(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('Panel 1'),
+          ),
+        ),
+        StringField(
+          key: const Key('Test1'),
+          label: 'Nome*',
+          enabled: edit,
+          initialValue: model.specific1 ?? model.type.toString(),
+          onSaved: (String? value) => model.specific1 = value,
+        ),
+      ]
 
-  ///
-  ///
-  ///
-  List<Responsive> complement(
-    BuildContext context,
-    BrandNewModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    bool Function() formValidate,
-    EmptyEditController<BrandNewModel> editController, {
-    required bool edit,
-  }) {
-    switch (model.type) {
-      case BrandNewEnum.panel1:
-        return BrandNewEditPanel1().formContent(
-          context,
-          model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
-          edit: edit,
-        );
-      case BrandNewEnum.panel2:
-        return BrandNewEditPanel2().formContent(
-          context,
-          model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
-          edit: edit,
-        );
-      case BrandNewEnum.panel3:
-        return BrandNewEditPanel3().formContent(
-          context,
-          model,
-          labelPrefix,
-          refresh,
-          formValidate,
-          editController,
-          edit: edit,
-        );
-    }
+      /// Panel2
+      else if (model.type == BrandNewEnum.panel2) ...<Responsive>[
+        const ResponsiveDecorator(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('Panel 2'),
+          ),
+        ),
+        StringField(
+          key: const Key('Test2'),
+          label: 'Nome*',
+          enabled: edit,
+          initialValue: model.specific2 ?? model.type.toString(),
+          onSaved: (String? value) => model.specific2 = value,
+        ),
+      ]
+
+      /// Panel3
+      else if (model.type == BrandNewEnum.panel3) ...<Responsive>[
+        const ResponsiveDecorator(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text('Panel 3'),
+          ),
+        ),
+        StringField(
+          key: const Key('Test3'),
+          label: 'Nome*',
+          enabled: edit,
+          initialValue: model.specific3 ?? model.type.toString(),
+          onSaved: (String? value) => model.specific3 = value,
+        ),
+      ],
+    ];
   }
 }

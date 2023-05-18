@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/util/date_time_extension.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';

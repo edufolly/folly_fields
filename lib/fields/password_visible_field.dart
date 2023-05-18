@@ -6,7 +6,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 class PasswordVisibleField extends ResponsiveStateful {
-  final String labelPrefix;
+  final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
@@ -43,7 +43,7 @@ class PasswordVisibleField extends ResponsiveStateful {
   ///
   ///
   const PasswordVisibleField({
-    this.labelPrefix = '',
+    this.labelPrefix,
     this.label,
     this.labelWidget,
     this.controller,
@@ -133,7 +133,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
                   label: widget.labelWidget,
                   labelText: widget.label == null
                       ? null
-                      : widget.labelPrefix.isEmpty
+                      : (widget.labelPrefix?.isEmpty ?? true)
                           ? widget.label
                           : '${widget.labelPrefix} - ${widget.label}',
                   border: const OutlineInputBorder(),
