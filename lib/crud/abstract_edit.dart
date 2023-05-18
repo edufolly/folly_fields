@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
 import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -18,11 +18,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractEdit<
-        T extends AbstractModel<Object>,
-        UI extends AbstractUIBuilder<T>,
-        C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>> extends AbstractRoute
-    implements AbstractEditContent<T, E> {
+    T extends AbstractModel<Object>,
+    UI extends AbstractUIBuilder<T>,
+    C extends AbstractConsumer<T>,
+    E extends AbstractEditController<T>> extends AbstractRoute {
   final T model;
   final UI uiBuilder;
   final C consumer;
@@ -50,6 +49,17 @@ abstract class AbstractEdit<
     this.afterSave,
     this.actions,
     super.key,
+  });
+
+  ///
+  ///
+  ///
+  List<Responsive> formContent(
+    BuildContext context,
+    T model, {
+    required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
   });
 
   ///

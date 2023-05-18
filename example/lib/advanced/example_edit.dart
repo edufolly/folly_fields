@@ -55,27 +55,19 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   @override
   List<Responsive> formContent(
     BuildContext context,
-    ExampleModel model,
-
-
-     {
-
-
-       required bool edit,
-       bool Function()? formValidate,
-       String? labelPrefix,
-       EmptyEditController<ExampleModel>? editController,
-       void Function({required bool refresh})? refresh,
-
-     }) {
+    ExampleModel model, {
+    required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
+  }) {
     return <Responsive>[
       /// Texto
       StringField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Texto*',
         enabled: edit,
         initialValue: model.text,
-        validator: (String? value) => value == null || value.isEmpty
+        validator: (String? value) => (value?.isEmpty ?? true)
             ? 'O campo texto precisa ser informado.'
             : null,
         onSaved: (String? value) => model.text = value ?? '',
@@ -87,7 +79,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// E-mail
       EmailField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'E-mail*',
         enabled: edit,
         initialValue: model.email,
@@ -100,10 +92,10 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Senha
       PasswordField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Senha*',
         enabled: edit,
-        validator: (String? value) => value == null || value.isEmpty
+        validator: (String? value) => (value?.isEmpty ?? true)
             ? 'O campo senha precisa ser informado.'
             : null,
         onSaved: (String? value) => model.password = value ?? '',
@@ -115,7 +107,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Decimal
       DecimalField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Decimal*',
         enabled: edit,
         initialValue: model.decimal,
@@ -128,7 +120,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Integer
       IntegerField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Integer*',
         enabled: edit,
         initialValue: model.integer,
@@ -141,7 +133,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF
       CpfField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CPF*',
         enabled: edit,
         initialValue: model.cpf,
@@ -154,7 +146,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CNPJ
       CnpjField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CNPJ*',
         enabled: edit,
         initialValue: model.cnpj,
@@ -167,7 +159,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF ou CNPJ
       CpfCnpjField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CPF ou CNPJ*',
         enabled: edit,
         initialValue: model.document,
@@ -180,7 +172,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone
       PhoneField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Telefone*',
         enabled: edit,
         initialValue: model.phone,
@@ -193,7 +185,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone sem DDD
       LocalPhoneField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Telefone sem DDD*',
         enabled: edit,
         initialValue: model.localPhone,
@@ -206,7 +198,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data e Hora
       DateTimeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Data e Hora*',
         enabled: edit,
         initialValue: model.dateTime,
@@ -222,7 +214,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data
       DateField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Data*',
         enabled: edit,
         initialValue: model.date,
@@ -235,7 +227,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Hora
       TimeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Hora*',
         enabled: edit,
         initialValue: model.time,
@@ -250,7 +242,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Mac Address
       MacAddressField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Mac Address*',
         enabled: edit,
         initialValue: model.macAddress,
@@ -263,7 +255,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Ncm
       NcmField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'NCM*',
         enabled: edit,
         initialValue: model.ncm,
@@ -276,7 +268,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cest
       CestField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CEST*',
         enabled: edit,
         initialValue: model.cest,
@@ -289,7 +281,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cnae
       CnaeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CNAE*',
         enabled: edit,
         initialValue: model.cnae,
@@ -302,7 +294,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CEP
       CepField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'CEP*',
         enabled: edit,
         initialValue: model.cep,
@@ -315,7 +307,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Bool
       BoolField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Campo Boleano',
         enabled: edit,
         initialValue: model.active,
@@ -331,7 +323,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Color
       ColorField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Cor*',
         enabled: edit,
         initialValue: model.color,
@@ -344,7 +336,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// IPv4
       Ipv4Field(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'IPv4*',
         enabled: edit,
         initialValue: model.ipv4,
@@ -357,7 +349,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Dropdown
       DropdownField<ExampleEnum>(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Ordinal',
         enabled: edit,
         items: ExampleEnum.items,
@@ -370,7 +362,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Multiline
       MultilineField(
-        labelPrefix: labelPrefix,
+        labelPrefix: uiBuilder.labelPrefix,
         label: 'Multiline*',
         enabled: edit,
         initialValue: model.multiline,
