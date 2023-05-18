@@ -17,7 +17,6 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  @mustCallSuper
   const AbstractConsumer(
     this.routeName, {
     this.offlineTableName,
@@ -45,9 +44,12 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   Future<List<T>> list(
-    BuildContext context,
-    Map<String, String> qsParam, {
-    required bool forceOffline,
+    BuildContext context, {
+    // TODO(edufolly): @QueryParam("sort") List<String> sortQuery
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
+    bool forceOffline = false,
   });
 
   ///
@@ -55,10 +57,18 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   Future<Map<T, String>> dropdownMap(
     BuildContext context, {
-    Map<String, String> qsParam = const <String, String>{},
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
     bool forceOffline = false,
   }) async =>
-      (await list(context, qsParam, forceOffline: forceOffline))
+      (await list(
+        context,
+        page: page,
+        size: size,
+        extraParams: extraParams,
+        forceOffline: forceOffline,
+      ))
           .asMap()
           .map((_, T item) => MapEntry<T, String>(item, item.dropdownText));
 
@@ -67,34 +77,47 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   Future<T?> getById(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 
   ///
   ///
   ///
-  Future<bool> beforeDelete(BuildContext context, T model) async => true;
+  Future<bool> beforeDelete(
+    BuildContext context,
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
 
   ///
   ///
   ///
   Future<bool> delete(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 
   ///
   ///
   ///
-  Future<bool> beforeSaveOrUpdate(BuildContext context, T model) async => true;
+  Future<bool> beforeSaveOrUpdate(
+    BuildContext context,
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
 
   ///
   ///
   ///
   Future<bool> saveOrUpdate(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 }
 
 ///

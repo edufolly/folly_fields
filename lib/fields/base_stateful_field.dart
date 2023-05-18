@@ -8,7 +8,7 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
     extends ResponsiveStateful {
-  final String labelPrefix;
+  final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final C? controller;
@@ -219,7 +219,7 @@ class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
               label: widget.labelWidget,
               labelText: widget.label == null
                   ? null
-                  : widget.labelPrefix.isEmpty
+                  : widget.labelPrefix?.isEmpty ?? true
                       ? widget.label
                       : '${widget.labelPrefix} - ${widget.label}',
               border: const OutlineInputBorder(),

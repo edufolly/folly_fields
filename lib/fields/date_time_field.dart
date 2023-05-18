@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/date_time_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
-import 'package:folly_fields/util/date_time_extension.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
@@ -31,7 +31,7 @@ class DateTimeField
     this.dateFormat = 'dd/MM/yyyy HH:mm',
     this.mask = 'B#/D#/#### A#:C#',
     super.suffixIconData = FontAwesomeIcons.calendarDay,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

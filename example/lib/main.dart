@@ -879,9 +879,9 @@ class MyHomePageState extends State<MyHomePage> {
                         routeEditBuilder: (
                           BuildContext context,
                           ExampleModel model,
-                          ExampleBuilder uiBuilder,
-                          bool edit,
-                        ) =>
+                          ExampleBuilder uiBuilder, {
+                          required bool edit,
+                        }) =>
                             ExampleEdit(
                           model,
                           uiBuilder,

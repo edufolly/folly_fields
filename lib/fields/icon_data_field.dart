@@ -15,7 +15,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
   ///
   ///
   IconDataField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -65,8 +65,9 @@ class IconDataField extends ResponsiveFormField<IconData> {
                       filled: filled,
                       fillColor: fillColor,
                       label: labelWidget,
-                      labelText:
-                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+                      labelText: (labelPrefix?.isEmpty ?? true)
+                          ? label
+                          : '$labelPrefix - $label',
                       counterText: '',
                       hintText: hintText,
                       contentPadding: contentPadding ??

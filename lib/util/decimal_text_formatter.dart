@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 ///
@@ -27,10 +26,10 @@ class DecimalTextFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    if (kDebugMode) {
-      print('old: ${oldValue.toJSON()}');
-      print('new: ${newValue.toJSON()}');
-    }
+    // if (kDebugMode) {
+    //   print('old: ${oldValue.toJSON()}');
+    //   print('new: ${newValue.toJSON()}');
+    // }
 
     String newText = newValue.text;
 
@@ -38,11 +37,11 @@ class DecimalTextFormatter extends TextInputFormatter {
     if (newText.isEmpty ||
         newText == decimalSeparator ||
         newText == thousandSeparator) {
-      if (kDebugMode) {
-        print('New value is empty or equals to "$decimalSeparator" '
-            'or equals to "$thousandSeparator"');
-        print('\n');
-      }
+      // if (kDebugMode) {
+      //   print('New value is empty or equals to "$decimalSeparator" '
+      //       'or equals to "$thousandSeparator"');
+      //   print('\n');
+      // }
 
       return TextEditingValue(
         text: '0$decimalSeparator'.padRight(precision + 2, '0'),
@@ -52,10 +51,10 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     /// Char not allowed.
     if (allow.allMatches(newText).length != newText.length) {
-      if (kDebugMode) {
-        print('Char not allowed.');
-        print('\n');
-      }
+      // if (kDebugMode) {
+      //   print('Char not allowed.');
+      //   print('\n');
+      // }
 
       return oldValue;
     }
@@ -70,25 +69,25 @@ class DecimalTextFormatter extends TextInputFormatter {
         oldThousandCount < newThousandCount) {
       int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
 
-      if (kDebugMode) {
-        print('curPos: $curPos');
-      }
+      // if (kDebugMode) {
+      //   print('curPos: $curPos');
+      // }
 
       if (newValue.selection.baseOffset <= curPos) {
         Map<String, dynamic> oldValueJson = oldValue.toJSON();
         oldValueJson['selectionBase'] = curPos;
         oldValueJson['selectionExtent'] = curPos;
 
-        if (kDebugMode) {
-          print('\n');
-        }
+        // if (kDebugMode) {
+        //   print('\n');
+        // }
 
         return TextEditingValue.fromJSON(oldValueJson);
       }
 
-      if (kDebugMode) {
-        print('\n');
-      }
+      // if (kDebugMode) {
+      //   print('\n');
+      // }
 
       return oldValue;
     }
@@ -97,22 +96,16 @@ class DecimalTextFormatter extends TextInputFormatter {
     if (newText.contains(decimalSeparator)) {
       List<String> parts = newText.split(decimalSeparator);
 
-      if (kDebugMode) {
-        print('Integer Part: ${parts.first}');
-        print('Decimal Part: ${parts.last}');
-      }
+      // if (kDebugMode) {
+      //   print('Integer Part: ${parts.first}');
+      //   print('Decimal Part: ${parts.last}');
+      // }
 
       String decimalPart = parts.last;
 
-      if (decimalPart.length > precision) {
-        decimalPart = decimalPart.substring(0, precision);
-      } else {
-        if (kDebugMode) {
-          print('decimalPart Length: ${decimalPart.length}');
-        }
-
-        decimalPart = decimalPart.padRight(precision, '0');
-      }
+      decimalPart = decimalPart.length > precision
+          ? decimalPart.substring(0, precision)
+          : decimalPart.padRight(precision, '0');
 
       newText = '${parts.first}$decimalSeparator$decimalPart';
     } else {
@@ -153,9 +146,9 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     int delta = newTextLength - firstLength;
 
-    if (kDebugMode) {
-      print('delta: $delta');
-    }
+    // if (kDebugMode) {
+    //   print('delta: $delta');
+    // }
 
     newPos += delta;
 
@@ -170,10 +163,10 @@ class DecimalTextFormatter extends TextInputFormatter {
     newValueJson['selectionBase'] = newPos;
     newValueJson['selectionExtent'] = newPos;
 
-    if (kDebugMode) {
-      print('newValueJson: $newValueJson');
-      print('\n');
-    }
+    // if (kDebugMode) {
+    //   print('newValueJson: $newValueJson');
+    //   print('\n');
+    // }
 
     return TextEditingValue.fromJSON(newValueJson);
   }

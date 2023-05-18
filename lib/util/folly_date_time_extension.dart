@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-extension DateTimeExtension on DateTime {
+extension FollyDateTimeExtension on DateTime {
   static const Duration oneDay = Duration(days: 1);
   static const Duration week = Duration(days: 7);
 

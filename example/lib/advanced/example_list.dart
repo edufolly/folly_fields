@@ -38,23 +38,23 @@ class ExampleList
             BuildContext context,
             ExampleModel model,
             ExampleBuilder uiBuilder,
-            ExampleConsumer consumer,
-            bool edit,
-          ) async =>
+            ExampleConsumer consumer, {
+            required bool edit,
+          }) async =>
               ExampleEdit(model, uiBuilder, consumer, edit: edit),
           onLongPress: (
             BuildContext context,
             ExampleModel model,
             ExampleBuilder uiBuilder,
-            ExampleConsumer consumer,
-            bool edit,
-          ) async =>
+            ExampleConsumer consumer, {
+            required bool edit,
+          }) async =>
               ExampleEdit(model, uiBuilder, consumer, edit: edit),
           actions: (
             BuildContext context,
-            bool selection,
-            Map<String, String> qsParam,
-          ) {
+            Map<String, String> qsParam, {
+            required bool selection,
+          }) {
             return <Widget>[
               IconButton(
                 onPressed: () {
@@ -72,11 +72,11 @@ class ExampleList
           },
           rowActions: (
             BuildContext context,
-            bool selection,
             ExampleModel model,
             Map<String, String> qsParam,
-            void Function({bool clear})? refresh,
-          ) {
+            void Function({bool clear})? refresh, {
+            required bool selection,
+          }) {
             return <Widget>[
               IconButton(
                 onPressed: () {

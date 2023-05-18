@@ -32,7 +32,7 @@ class DurationField
     this.secondSuffix = 's',
     this.millisecondSuffix = 'ms',
     super.suffixIconData = FontAwesomeIcons.stopwatch,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

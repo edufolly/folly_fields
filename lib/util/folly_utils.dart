@@ -1,96 +1,12 @@
 // ignore_for_file: prefer-first
 
 import 'package:flutter/material.dart';
-import 'package:folly_fields/util/date_time_extension.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 
 ///
 ///
 ///
 class FollyUtils {
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.time. '
-      'This class will be removed in version 1.0.0.')
-  static TimeOfDay? getTime(DateTime? dateTime) => dateTime?.time;
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.mergeStartSeconds '
-      'This class will be removed in version 1.0.0.')
-  static DateTime? dateTimeMergeStart({
-    required DateTime? date,
-    int second = 0,
-    int millisecond = 0,
-    int microsecond = 0,
-  }) =>
-      date?.mergeStartSeconds(
-        second: second,
-        millisecond: millisecond,
-        microsecond: microsecond,
-      );
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.mergeStart '
-      'This class will be removed in version 1.0.0.')
-  static DateTime? dateMergeStart({
-    required DateTime? date,
-    TimeOfDay time = const TimeOfDay(hour: 0, minute: 0),
-    int second = 0,
-    int millisecond = 0,
-    int microsecond = 0,
-  }) =>
-      date?.mergeStart(
-        time: time,
-        second: second,
-        millisecond: millisecond,
-        microsecond: microsecond,
-      );
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.mergeEndSeconds '
-      'This class will be removed in version 1.0.0.')
-  static DateTime? dateTimeMergeEnd({
-    required DateTime? date,
-    int second = 59,
-    int millisecond = 999,
-    int microsecond = 0,
-  }) =>
-      date?.mergeEndSeconds(
-        second: second,
-        millisecond: millisecond,
-        microsecond: microsecond,
-      );
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.mergeEnd '
-      'This class will be removed in version 1.0.0.')
-  static DateTime? dateMergeEnd({
-    required DateTime? date,
-    TimeOfDay time = const TimeOfDay(hour: 23, minute: 59),
-    int second = 59,
-    int millisecond = 999,
-    int microsecond = 0,
-  }) =>
-      date?.mergeEnd(
-        time: time,
-        second: second,
-        millisecond: millisecond,
-        microsecond: microsecond,
-      );
-
   ///
   ///
   ///
@@ -125,23 +41,6 @@ class FollyUtils {
     }
 
     return null;
-  }
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Prefer to use DateTime.daysInMonth '
-      'This class will be removed in version 1.0.0.')
-  static int getDaysInMonth(int year, int month) {
-    if (month == DateTime.february) {
-      return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
-          ? 29
-          : 28;
-    }
-    List<int> days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-    return days[month - 1];
   }
 
   ///

@@ -1,8 +1,10 @@
 #!/bin/sh
 
+set -e
+
 rm -rf coverage
 
-flutter test --coverage \
+fvm flutter test --coverage \
   -r github \
   -j $(grep -c processor /proc/cpuinfo)
 

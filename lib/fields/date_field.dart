@@ -27,7 +27,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     this.dateFormat = 'dd/MM/yyyy',
     this.mask = 'B#/D#/####',
     super.suffixIconData = FontAwesomeIcons.solidCalendarDays,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

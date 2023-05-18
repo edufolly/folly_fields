@@ -27,20 +27,6 @@ class ColorEditingController extends ValidatorEditingController<Color> {
   ///
   ///
   ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use property data instead color.')
-  Color? get color => data;
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use property data instead color.')
-  set color(Color? color) => data = color;
-
-  ///
-  ///
-  ///
   @override
   void dispose() {
     pickerColor.dispose();

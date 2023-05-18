@@ -18,6 +18,12 @@ class MockConsumer extends AbstractConsumer<MockModel> {
   ///
   ///
   @override
+  MockModel fromJson(Map<String, dynamic> map) => MockModel.fromJson(map);
+
+  ///
+  ///
+  ///
+  @override
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String> paths,
@@ -35,13 +41,11 @@ class MockConsumer extends AbstractConsumer<MockModel> {
   ///
   ///
   @override
-  Future<bool> delete(BuildContext context, MockModel model) async => true;
-
-  ///
-  ///
-  ///
-  @override
-  Future<MockModel?> getById(BuildContext context, MockModel model) {
+  Future<MockModel?> getById(
+    BuildContext context,
+    MockModel model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) {
     // TODO(edufolly): implement getById
     throw UnimplementedError();
   }
@@ -51,9 +55,11 @@ class MockConsumer extends AbstractConsumer<MockModel> {
   ///
   @override
   Future<List<MockModel>> list(
-    BuildContext context,
-    Map<String, String> qsParam, {
-    required bool forceOffline,
+    BuildContext context, {
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
+    bool forceOffline = false,
   }) {
     // TODO(edufolly): implement list
     throw UnimplementedError();
@@ -63,12 +69,21 @@ class MockConsumer extends AbstractConsumer<MockModel> {
   ///
   ///
   @override
-  Future<bool> saveOrUpdate(BuildContext context, MockModel model) async =>
+  Future<bool> delete(
+    BuildContext context,
+    MockModel model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
       true;
 
   ///
   ///
   ///
   @override
-  MockModel fromJson(Map<String, dynamic> map) => MockModel.fromJson(map);
+  Future<bool> saveOrUpdate(
+    BuildContext context,
+    MockModel model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
 }

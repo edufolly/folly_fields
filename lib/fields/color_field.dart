@@ -14,7 +14,7 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
   ColorField({
     super.maxLength = 8,
     super.suffixIconData = FontAwesomeIcons.palette,
-    super.labelPrefix = '',
+    super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,

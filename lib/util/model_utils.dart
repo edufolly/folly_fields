@@ -14,9 +14,9 @@ class ModelUtils {
   ///
   static Color fromJsonColor(
     String? value, [
-    int defaultColor = 0x00000000,
+    int? defaultColor,
   ]) =>
-      ColorValidator().parse(value) ?? Color(defaultColor);
+      ColorValidator().parse(value) ?? Color(defaultColor ?? 0x00000000);
 
   ///
   ///
@@ -35,18 +35,6 @@ class ModelUtils {
     DateTime? defaultDateTime,
   ]) =>
       fromJsonDateMillis(secs == null ? null : (secs * 1000), defaultDateTime);
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use fromJsonDecimalInt instead. '
-      'This method will be removed in version 1.0.0.')
-  static Decimal fromJsonDecimal(
-    int? value,
-    int? precision,
-  ) =>
-      fromJsonDecimalInt(value, precision);
 
   ///
   ///
@@ -70,14 +58,13 @@ class ModelUtils {
   ///
   ///
   static List<T> fromJsonList<T extends AbstractModel<Object>>(
-    List<dynamic>? value,
+    List<Map<String, dynamic>>? value,
     AbstractConsumer<T> consumer,
   ) =>
-      _fromJsonRawIterable<T>(
+      fromJsonSafeList<T>(
         value,
         producer: (dynamic e) => consumer.fromJson(e),
-      )?.toList() ??
-      <T>[];
+      );
 
   ///
   ///
@@ -101,6 +88,15 @@ class ModelUtils {
   ///
   static DateTime? fromJsonNullableDateSecs(int? secs) =>
       fromJsonNullableDateMillis(secs == null ? null : (secs * 1000));
+
+  ///
+  ///
+  ///
+  static int? fromJsonNullableInt(
+    dynamic value, {
+    int? radix,
+  }) =>
+      int.tryParse(value.toString().trim(), radix: radix);
 
   ///
   ///
@@ -130,6 +126,22 @@ class ModelUtils {
   ///
   ///
   ///
+  static bool fromJsonSafeBool(dynamic value) =>
+      value.toString().trim().toLowerCase() == 'true';
+
+  ///
+  ///
+  ///
+  static int fromJsonSafeInt(
+    dynamic value, {
+    int defaultValue = 0,
+    int? radix,
+  }) =>
+      fromJsonNullableInt(value, radix: radix) ?? defaultValue;
+
+  ///
+  ///
+  ///
   static List<T> fromJsonSafeList<T>(
     dynamic value, {
     required T Function(dynamic e) producer,
@@ -137,8 +149,7 @@ class ModelUtils {
       value == null
           ? <T>[]
           : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)?.toList() ??
-                  <T>[]
+              ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
               : <T>[producer(value)];
 
   ///
@@ -151,8 +162,7 @@ class ModelUtils {
       value == null
           ? <T>{}
           : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)?.toSet() ??
-                  <T>{}
+              ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
               : <T>{producer(value)};
 
   ///
@@ -207,14 +217,6 @@ class ModelUtils {
   ///
   static int toMapDateSecs(DateTime dateTime) =>
       dateTime.millisecondsSinceEpoch ~/ 1000;
-
-  ///
-  ///
-  ///
-  // TODO(edufolly): Remove in version 1.0.0.
-  @Deprecated('Use toMapDecimalInt instead. '
-      'This method will be removed in version 1.0.0.')
-  static int toMapDecimal(Decimal decimal) => toMapDecimalInt(decimal);
 
   ///
   ///

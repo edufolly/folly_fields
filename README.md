@@ -22,9 +22,13 @@ Basic form fields and utilities. Maybe a humble boilerplate.
   </span>
 </div>
 
+## Flutter 3.10 - Break Changes
+
+Version 1.0.0 needs Flutter 3.10.0 and Dart 3.0.0
+
 ## Flutter 3.7 - Break Changes
 
-version 0.18.0 needs Flutter 3.7.0 and Dart 2.19.0
+Version 0.18.0 needs Flutter 3.7.0 and Dart 2.19.0
 
 ## Flutter 3.0 - Break Changes
 
@@ -66,7 +70,7 @@ For edge builds, replace pub.dev version to git repo:
 folly_fields:
   git:
     url: https://github.com/edufolly/folly_fields.git
-    ref: v0.0.1 # lastest release or branch name
+    ref: v0.0.1 # latest release or branch name
 ```
 
 Use **ref** to avoid breaking changes.

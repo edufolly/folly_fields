@@ -69,22 +69,21 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   @override
   Future<List<T>> list(
-    BuildContext context,
-    Map<String, String> qsParam, {
-    required bool forceOffline,
+    BuildContext context, {
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
+    bool forceOffline = false,
   }) async {
     if (kDebugMode) {
-      print('mock list: $qsParam');
+      print('Page: $page - Size: $size - Extra Params: $extraParams');
     }
-
-    int first = int.tryParse(qsParam['f'] ?? '0') ?? 0;
-    int qtd = int.tryParse(qsParam['q'] ?? '50') ?? 50;
 
     return Future<List<T>>.delayed(
       const Duration(seconds: 1),
       () => List<T>.generate(
-        qtd,
-        (int index) => ExampleModel.generate(seed: first + index) as T,
+        size,
+        (int index) => ExampleModel.generate(seed: page * size + index) as T,
       ),
     );
   }
@@ -95,7 +94,9 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   @override
   Future<Map<T, String>> dropdownMap(
     BuildContext context, {
-    Map<String, String> qsParam = const <String, String>{},
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
     bool forceOffline = false,
   }) async =>
       <T, String>{};
@@ -106,19 +107,10 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   @override
   Future<T> getById(
     BuildContext context,
-    T model,
-  ) async =>
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
       Future<T>.value(model);
-
-  ///
-  ///
-  ///
-  @override
-  Future<bool> saveOrUpdate(
-    BuildContext context,
-    T model,
-  ) =>
-      Future<bool>.value(true);
 
   ///
   ///
@@ -126,7 +118,19 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   @override
   Future<bool> delete(
     BuildContext context,
-    T model,
-  ) async =>
-      Future<bool>.value(true);
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
+
+  ///
+  ///
+  ///
+  @override
+  Future<bool> saveOrUpdate(
+    BuildContext context,
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
 }

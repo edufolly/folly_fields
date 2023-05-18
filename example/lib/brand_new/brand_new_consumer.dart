@@ -25,13 +25,14 @@ class BrandNewConsumer extends BaseConsumerMock<BrandNewModel> {
   @override
   Future<bool> beforeSaveOrUpdate(
     BuildContext context,
-    BrandNewModel model,
-  ) async {
+    BrandNewModel model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async {
     await FollyDialogs.dialogMessage(
       context: context,
       message: model.toMap().toString(),
     );
 
-    return false;
+    return true;
   }
 }
