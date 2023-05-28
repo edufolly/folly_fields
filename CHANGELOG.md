@@ -1,3 +1,7 @@
+## [1.0.1] - 2023-05-28
+
+* Upgrade to http 1.0.0.
+
 ## [1.0.0] - 2023-05-17
 
 * Upgrade to Flutter 3.10 and Dart 3.0.0.
