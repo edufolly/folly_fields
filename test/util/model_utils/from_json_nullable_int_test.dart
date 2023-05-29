@@ -8,7 +8,8 @@ import 'package:folly_fields/util/model_utils.dart';
 void main() {
   ///
   group('ModelUtils fromJsonNullableInt', () {
-    Map<Duplet<dynamic, int?>, int?> domain = <Duplet<dynamic, int?>, int?>{
+    final Map<Duplet<dynamic, int?>, int?> domain =
+        <Duplet<dynamic, int?>, int?>{
       const Duplet<dynamic, int?>(null, 8): null,
       const Duplet<dynamic, int?>(null, null): null,
       const Duplet<dynamic, int?>(null, 16): null,

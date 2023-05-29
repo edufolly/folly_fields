@@ -9,27 +9,31 @@ void main() {
   group(
     'CreditCardExpirationValidator isValid',
     () {
-      CreditCardExpirationValidator validator = CreditCardExpirationValidator();
+      final CreditCardExpirationValidator validator =
+          CreditCardExpirationValidator();
 
-      DateFormat dateFormat = DateFormat('MM/yy');
+      final DateFormat dateFormat = DateFormat('MM/yy');
 
-      DateTime nowDate = DateTime.now();
+      final DateTime nowDate = DateTime.now();
 
-      DateTime firstDate = DateTime(nowDate.year, nowDate.month);
-      String now = dateFormat.format(firstDate);
+      final DateTime firstDate = DateTime(nowDate.year, nowDate.month);
+      final String now = dateFormat.format(firstDate);
 
-      DateTime lastOp = firstDate.subtract(const Duration(days: 1));
-      DateTime lastDate = DateTime(lastOp.year, lastOp.month);
-      String last = dateFormat.format(lastDate);
+      final DateTime lastOp = firstDate.subtract(const Duration(days: 1));
+      final DateTime lastDate = DateTime(lastOp.year, lastOp.month);
+      final String last = dateFormat.format(lastDate);
 
-      DateTime nextOp = firstDate.add(const Duration(days: 32));
-      DateTime nextDate = DateTime(nextOp.year, nextOp.month);
-      String next = dateFormat.format(nextDate);
+      final DateTime nextOp = firstDate.add(const Duration(days: 32));
+      final DateTime nextDate = DateTime(nextOp.year, nextOp.month);
+      final String next = dateFormat.format(nextDate);
 
-      String lastYear = (firstDate.year - 2001).toString().padLeft(2, '0');
-      String nextYear = (firstDate.year - 1999).toString().padLeft(2, '0');
+      final String lastYear =
+          (firstDate.year - 2001).toString().padLeft(2, '0');
 
-      Map<String, bool> domain = <String, bool>{
+      final String nextYear =
+          (firstDate.year - 1999).toString().padLeft(2, '0');
+
+      final Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '0': false,
@@ -79,7 +83,8 @@ void main() {
   );
 
   group('CreditCardExpirationValidator Coverage', () {
-    CreditCardExpirationValidator validator = CreditCardExpirationValidator();
+    final CreditCardExpirationValidator validator =
+        CreditCardExpirationValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

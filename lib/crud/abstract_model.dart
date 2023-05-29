@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
+
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/hashable.dart';
@@ -70,7 +72,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   @mustCallSuper
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = <String, dynamic>{};
+    final Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) {
       map[modelIdKey] = id;
     }
@@ -109,7 +111,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
-    Map<String, dynamic> newMap = <String, dynamic>{};
+    final Map<String, dynamic> newMap = <String, dynamic>{};
     for (final MapEntry<String, dynamic> entry in map.entries) {
       _multiMapEntry(entry, newMap);
     }
@@ -124,7 +126,7 @@ abstract class AbstractModel<A> with Hashable {
     MapEntry<String, dynamic> entry,
     Map<String, dynamic> newMap,
   ) {
-    List<String> parts = entry.key.split('_');
+    final List<String> parts = entry.key.split('_');
     if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
 
@@ -132,7 +134,7 @@ abstract class AbstractModel<A> with Hashable {
           ? newMap[parts.first]
           : <String, dynamic>{};
 
-      String internalKey = parts.getRange(1, parts.length).join('_');
+      final String internalKey = parts.getRange(1, parts.length).join('_');
 
       _multiMapEntry(
         MapEntry<String, dynamic>(internalKey, entry.value),

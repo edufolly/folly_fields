@@ -24,22 +24,13 @@ class TableIconButton extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-    ListTileThemeData tileTheme = ListTileTheme.of(context);
+    final ListTileThemeData tileTheme = ListTileTheme.of(context);
 
-    Color? iconColor = Colors.black45;
-    if (tileTheme.iconColor != null) {
-      iconColor = tileTheme.iconColor;
-    } else {
-      switch (theme.brightness) {
-        case Brightness.light:
-          iconColor = Colors.black45;
-          break;
-        case Brightness.dark:
-          iconColor = null;
-          break;
-      }
-    }
+    final Color? iconColor = tileTheme.iconColor ??
+        switch (Theme.of(context).brightness) {
+          Brightness.light => Colors.black45,
+          Brightness.dark => null
+        };
 
     return Flexible(
       flex: 0,

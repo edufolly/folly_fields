@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonSafeBool',
     () {
-      Map<dynamic, bool> domain = <dynamic, bool>{
+      final Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         true: true,
         false: false,

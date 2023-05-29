@@ -9,7 +9,7 @@ void main() {
   group(
     'DateTimeExtension mergeStart',
     () {
-      Map<String, DateTime> domain = <String, DateTime>{
+      final Map<String, DateTime> domain = <String, DateTime>{
         '2000-01-01T00:00:00.000':
             DateTime(2000, 1, 1, 11, 11, 11, 111, 111).mergeStart(),
         '2000-01-01T00:00:00.000888':

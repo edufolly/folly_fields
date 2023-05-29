@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension nextWeekLastDay - Saturday',
     () {
-      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 4),
         DateTime(2023, 3, 20): DateTime(2023, 4),
         DateTime(2023, 3, 21): DateTime(2023, 4),
@@ -44,7 +44,7 @@ void main() {
   group(
     'DateTimeExtension nextWeekLastDay - Sunday',
     () {
-      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 3, 26),
         DateTime(2023, 3, 20): DateTime(2023, 4, 2),
         DateTime(2023, 3, 21): DateTime(2023, 4, 2),
@@ -80,7 +80,7 @@ void main() {
   group(
     'DateTimeExtension nextWeekLastDay - Monday',
     () {
-      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 3, 27),
         DateTime(2023, 3, 20): DateTime(2023, 3, 27),
         DateTime(2023, 3, 21): DateTime(2023, 4, 3),

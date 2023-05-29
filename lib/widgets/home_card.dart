@@ -47,7 +47,7 @@ class HomeCard<T, O> extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    Color onSurface = backgroundColor ??
+    final Color onSurface = backgroundColor ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);

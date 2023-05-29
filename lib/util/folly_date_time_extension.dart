@@ -93,7 +93,20 @@ extension FollyDateTimeExtension on DateTime {
           ? 29
           : 28;
     }
-    List<int> days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    final List<int> days = <int>[
+      31,
+      -1,
+      31,
+      30,
+      31,
+      30,
+      31,
+      31,
+      30,
+      31,
+      30,
+      31,
+    ];
 
     return days[month - 1];
   }

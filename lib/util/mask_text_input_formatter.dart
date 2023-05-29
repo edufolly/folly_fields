@@ -46,13 +46,13 @@ class MaskTextInputFormatter implements TextInputFormatter {
   TextEditingValue updateMask({
     String mask = '',
     Map<String, RegExp>? filter,
-    bool clear = false,
+    // bool clear = false,
   }) {
     _mask = mask;
 
-    if (_mask.isEmpty) {
-      clear = true;
-    }
+    // if (_mask.isEmpty) {
+    //   clear = true;
+    // }
 
     if (filter != null) {
       _updateFilter(filter);
@@ -60,7 +60,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
 
     _calcMaskLength();
 
-    String unmaskedText = clear ? '' : getUnmaskedText();
+    final String unmaskedText = getUnmaskedText();
+    // final String unmaskedText = clear ? '' : getUnmaskedText();
 
     _resultTextMasked = '';
     _resultTextArray.clear();
@@ -137,7 +138,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    String mask = _mask;
+    final String mask = _mask;
 
     if (mask.isEmpty) {
       _resultTextMasked = newValue.text;
@@ -146,28 +147,28 @@ class MaskTextInputFormatter implements TextInputFormatter {
       return newValue;
     }
 
-    String beforeText = oldValue.text;
-    String afterText = newValue.text;
+    final String beforeText = oldValue.text;
+    final String afterText = newValue.text;
 
-    TextSelection beforeSelection = oldValue.selection;
-    int beforeSelectionStart =
+    final TextSelection beforeSelection = oldValue.selection;
+    final int beforeSelectionStart =
         beforeSelection.isValid ? beforeSelection.start : 0;
-    int beforeSelectionLength = beforeSelection.isValid
+    final int beforeSelectionLength = beforeSelection.isValid
         ? beforeSelection.end - beforeSelection.start
         : 0;
 
-    int lengthDifference =
+    final int lengthDifference =
         afterText.length - (beforeText.length - beforeSelectionLength);
-    int lengthRemoved = lengthDifference < 0 ? lengthDifference.abs() : 0;
-    int lengthAdded = lengthDifference > 0 ? lengthDifference : 0;
+    final int lengthRemoved = lengthDifference < 0 ? lengthDifference.abs() : 0;
+    final int lengthAdded = lengthDifference > 0 ? lengthDifference : 0;
 
-    int afterChangeStart = max(0, beforeSelectionStart - lengthRemoved);
-    int afterChangeEnd = max(0, afterChangeStart + lengthAdded);
+    final int afterChangeStart = max(0, beforeSelectionStart - lengthRemoved);
+    final int afterChangeEnd = max(0, afterChangeStart + lengthAdded);
 
-    int beforeReplaceStart = max(0, beforeSelectionStart - lengthRemoved);
-    int beforeReplaceLength = beforeSelectionLength + lengthRemoved;
+    final int beforeReplaceStart = max(0, beforeSelectionStart - lengthRemoved);
+    final int beforeReplaceLength = beforeSelectionLength + lengthRemoved;
 
-    int beforeResultTextLength = _resultTextArray.length;
+    final int beforeResultTextLength = _resultTextArray.length;
 
     int currentResultTextLength = _resultTextArray.length;
     int currentResultSelectionStart = 0;
@@ -187,7 +188,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
       }
     }
 
-    String replacementText =
+    final String replacementText =
         afterText.substring(afterChangeStart, afterChangeEnd);
     int targetCursorPosition = currentResultSelectionStart;
     if (replacementText.isEmpty) {
@@ -223,15 +224,15 @@ class MaskTextInputFormatter implements TextInputFormatter {
     int nonMaskedCount = 0;
 
     while (maskPos < mask.length) {
-      String curMaskChar = mask[maskPos];
-      bool isMaskChar = _maskChars.contains(curMaskChar);
+      final String curMaskChar = mask[maskPos];
+      final bool isMaskChar = _maskChars.contains(curMaskChar);
 
       bool curTextInRange = curTextPos < _resultTextArray.length;
 
       String? curTextChar;
       if (isMaskChar && curTextInRange) {
         while (curTextChar == null && curTextInRange) {
-          String potentialTextChar = _resultTextArray[curTextPos];
+          final String potentialTextChar = _resultTextArray[curTextPos];
           if (_maskFilter[curMaskChar]!.hasMatch(potentialTextChar)) {
             curTextChar = potentialTextChar;
           } else {
@@ -282,7 +283,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
       _resultTextArray.removeRange(_maskLength, _resultTextArray.length);
     }
 
-    int finalCursorPosition =
+    final int finalCursorPosition =
         cursorPos < 0 ? _resultTextMasked.length : cursorPos;
 
     return TextEditingValue(
@@ -302,7 +303,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
   ///
   void _calcMaskLength() {
     _maskLength = 0;
-    String mask = _mask;
+    final String mask = _mask;
     for (int pos = 0; pos < mask.length; pos++) {
       if (_maskChars.contains(mask[pos])) {
         _maskLength++;
@@ -402,17 +403,11 @@ class UppercaseMask extends MaskTextInputFormatter {
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
-  ) {
-    if (newValue.text.isNotEmpty) {
-      newValue = TextEditingValue(
-        text: newValue.text.toUpperCase(),
-        selection: newValue.selection,
-        composing: newValue.composing,
+  ) =>
+      super.formatEditUpdate(
+        oldValue,
+        newValue.copyWith(text: newValue.text.toUpperCase()),
       );
-    }
-
-    return super.formatEditUpdate(oldValue, newValue);
-  }
 }
 
 ///
@@ -448,17 +443,19 @@ class ChangeMask extends MaskTextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    int oldLength = oldValue.text.length;
-    int newLength = newValue.text.length;
+    final int oldLength = oldValue.text.length;
+    final int newLength = newValue.text.length;
+
+    TextEditingValue value = oldValue;
 
     if (oldLength == firstMask.length && newLength == firstMask.length + 1) {
-      oldValue = updateMask(mask: secondMask);
+      value = updateMask(mask: secondMask);
     }
 
     if (oldLength == firstMask.length + 1 && newLength == firstMask.length) {
-      oldValue = updateMask(mask: firstMask);
+      value = updateMask(mask: firstMask);
     }
 
-    return super.formatEditUpdate(oldValue, newValue);
+    return super.formatEditUpdate(value, newValue);
   }
 }

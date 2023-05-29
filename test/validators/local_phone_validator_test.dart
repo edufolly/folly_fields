@@ -8,7 +8,7 @@ void main() {
   group(
     'LocalPhoneValidator isValid',
     () {
-      Map<String, bool> domain = <String, bool>{
+      final Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '9': false,
@@ -33,7 +33,7 @@ void main() {
         '09999-9999': false,
       };
 
-      LocalPhoneValidator validator = LocalPhoneValidator();
+      final LocalPhoneValidator validator = LocalPhoneValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -47,7 +47,7 @@ void main() {
   group(
     'MobilePhoneValidator format',
     () {
-      Map<String, String> domain = <String, String>{
+      final Map<String, String> domain = <String, String>{
         '': '',
         ' ': '',
         '!': '',
@@ -62,7 +62,7 @@ void main() {
         '99999-9999': '99999-9999',
       };
 
-      LocalPhoneValidator validator = LocalPhoneValidator();
+      final LocalPhoneValidator validator = LocalPhoneValidator();
 
       for (final MapEntry<String, String> input in domain.entries) {
         test(
@@ -74,7 +74,7 @@ void main() {
   );
 
   group('LocalPhoneValidator Coverage', () {
-    LocalPhoneValidator validator = LocalPhoneValidator();
+    final LocalPhoneValidator validator = LocalPhoneValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

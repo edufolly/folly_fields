@@ -66,9 +66,9 @@ class ModelField<T extends AbstractModel<Object>>
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            ModelFieldState<T> state = field as ModelFieldState<T>;
+            final ModelFieldState<T> state = field as ModelFieldState<T>;
 
-            InputDecoration effectiveDecoration = (decoration ??
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -90,11 +90,12 @@ class ModelField<T extends AbstractModel<Object>>
                   suffixIcon: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      enabled && routeBuilder != null
-                          ? const FaIcon(FontAwesomeIcons.magnifyingGlass)
-                          : tapToVisualize != null
-                              ? const FaIcon(FontAwesomeIcons.chevronRight)
-                              : Container(width: 0),
+                      if (enabled && routeBuilder != null)
+                        const FaIcon(FontAwesomeIcons.magnifyingGlass)
+                      else
+                        tapToVisualize != null
+                            ? const FaIcon(FontAwesomeIcons.chevronRight)
+                            : Container(width: 0),
                     ],
                   ),
                 );
@@ -125,7 +126,7 @@ class ModelField<T extends AbstractModel<Object>>
                     ? () async {
                         try {
                           if (beforeRoute != null) {
-                            bool go = await beforeRoute(
+                            final bool go = await beforeRoute(
                               state.context,
                               state.value,
                             );

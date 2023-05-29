@@ -11,7 +11,8 @@ void main() {
   group(
     'ModelUtils fromJsonColor',
     () {
-      Map<Duplet<String?, int?>, Color> domain = <Duplet<String?, int?>, Color>{
+      final Map<Duplet<String?, int?>, Color> domain =
+          <Duplet<String?, int?>, Color>{
         const Duplet<String?, int?>(null, null): Colors.transparent,
         const Duplet<String?, int?>(null, 0xFF000000): Colors.black,
         const Duplet<String?, int?>('', null): Colors.transparent,

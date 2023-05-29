@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonRawMap',
     () {
-      Map<Map<dynamic, dynamic>?, Map<String, dynamic>> domain =
+      final Map<Map<dynamic, dynamic>?, Map<String, dynamic>> domain =
           <Map<dynamic, dynamic>?, Map<String, dynamic>>{
         null: <String, dynamic>{},
         <dynamic, dynamic>{}: <String, dynamic>{},

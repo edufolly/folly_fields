@@ -11,7 +11,8 @@ void main() {
   group(
     'ModelUtils fromJsonDecimalInt',
     () {
-      Map<Duplet<int?, int>, Decimal> domain = <Duplet<int?, int>, Decimal>{
+      final Map<Duplet<int?, int>, Decimal> domain =
+          <Duplet<int?, int>, Decimal>{
         const Duplet<int?, int>(null, 0): Decimal(precision: 0, doubleValue: 0),
         const Duplet<int?, int>(1, 0): Decimal(precision: 0, doubleValue: 1),
         const Duplet<int?, int>(11, 0): Decimal(precision: 0, doubleValue: 11),

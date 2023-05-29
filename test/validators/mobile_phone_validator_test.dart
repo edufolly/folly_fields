@@ -8,7 +8,7 @@ void main() {
   group(
     'MobilePhoneValidator isValid',
     () {
-      Map<String, bool> domain = <String, bool>{
+      final Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '9': false,
@@ -47,7 +47,7 @@ void main() {
         '(08) 89999-9999': false,
       };
 
-      MobilePhoneValidator validator = MobilePhoneValidator();
+      final MobilePhoneValidator validator = MobilePhoneValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -61,7 +61,7 @@ void main() {
   group(
     'MobilePhoneValidator format',
     () {
-      Map<String, String> domain = <String, String>{
+      final Map<String, String> domain = <String, String>{
         '': '',
         ' ': '',
         '!': '',
@@ -71,7 +71,7 @@ void main() {
         '(99) 99999-9999': '(99) 99999-9999',
       };
 
-      MobilePhoneValidator validator = MobilePhoneValidator();
+      final MobilePhoneValidator validator = MobilePhoneValidator();
 
       for (final MapEntry<String, String> input in domain.entries) {
         test(
@@ -83,7 +83,7 @@ void main() {
   );
 
   group('MobilePhoneValidator Coverage', () {
-    MobilePhoneValidator validator = MobilePhoneValidator();
+    final MobilePhoneValidator validator = MobilePhoneValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

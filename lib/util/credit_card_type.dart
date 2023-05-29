@@ -262,14 +262,13 @@ enum CreditCardType {
       return false;
     }
 
-    ccNum = ccNum.replaceAll(RegExp(r'\D'), '');
-
-    int mod = ccNum.length % 2;
+    final String cNum = ccNum.replaceAll(RegExp(r'\D'), '');
+    final int mod = cNum.length % 2;
     int sum = 0;
 
     try {
-      for (int pos = ccNum.length - 1; pos >= 0; pos--) {
-        int digit = int.parse(ccNum[pos]);
+      for (int pos = cNum.length - 1; pos >= 0; pos--) {
+        int digit = int.parse(cNum[pos]);
 
         if (pos % 2 == mod) {
           digit *= 2;
@@ -303,11 +302,11 @@ enum CreditCardType {
   ///
   ///
   static CreditCardType detectType(String ccNum) {
-    ccNum = clearNum(ccNum);
+    final String cNum = clearNum(ccNum);
 
     for (final CreditCardType type in CreditCardType.values) {
       for (final Range range in type.patterns) {
-        if (range.isValid(ccNum)) {
+        if (range.isValid(cNum)) {
           return type;
         }
       }
@@ -320,10 +319,10 @@ enum CreditCardType {
   ///
   ///
   static CreditCardType parse(String? value) =>
-      // ignore: prefer-enums-by-name
       CreditCardType.values.firstWhere(
         (CreditCardType type) {
-          String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
+          final String? newValue =
+              value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
 
           return type.brand.toLowerCase() == newValue ||
               type.extraBrands.fold<bool>(
@@ -362,13 +361,13 @@ class Range {
   ///
   ///
   bool isValid(String ccNum) {
-    int qtd = initialValue.toString().length;
+    final int qtd = initialValue.toString().length;
 
     if (ccNum.length < qtd) {
       return false;
     }
 
-    int? ccInt = int.tryParse(ccNum.substring(0, qtd));
+    final int? ccInt = int.tryParse(ccNum.substring(0, qtd));
 
     if (ccInt == null) {
       return false;

@@ -9,7 +9,7 @@ void main() {
   group(
     'TimeValidator isValid',
     () {
-      Map<String, bool> isValidTests = <String, bool>{
+      final Map<String, bool> isValidTests = <String, bool>{
         '': false,
         'A': false,
         'AA': false,
@@ -69,7 +69,7 @@ void main() {
         '24:61': false,
       };
 
-      TimeValidator validator = TimeValidator();
+      final TimeValidator validator = TimeValidator();
 
       for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
@@ -83,7 +83,7 @@ void main() {
   group(
     'TimeValidator parse',
     () {
-      Map<String, TimeOfDay?> parseTests = <String, TimeOfDay?>{
+      final Map<String, TimeOfDay?> parseTests = <String, TimeOfDay?>{
         '': null,
         'A': null,
         'AA': null,
@@ -143,7 +143,7 @@ void main() {
         '24:61': null,
       };
 
-      TimeValidator validator = TimeValidator();
+      final TimeValidator validator = TimeValidator();
 
       for (final MapEntry<String, TimeOfDay?> input in parseTests.entries) {
         test(
@@ -157,7 +157,7 @@ void main() {
   group(
     'TimeValidator format',
     () {
-      Map<TimeOfDay, String> formatTests = <TimeOfDay, String>{
+      final Map<TimeOfDay, String> formatTests = <TimeOfDay, String>{
         const TimeOfDay(hour: 0, minute: 0): '00:00',
         const TimeOfDay(hour: 0, minute: 1): '00:01',
         const TimeOfDay(hour: 0, minute: 9): '00:09',
@@ -180,7 +180,7 @@ void main() {
         const TimeOfDay(hour: 23, minute: 59): '23:59',
       };
 
-      TimeValidator validator = TimeValidator();
+      final TimeValidator validator = TimeValidator();
 
       for (final MapEntry<TimeOfDay, String> input in formatTests.entries) {
         test(
@@ -194,7 +194,7 @@ void main() {
   group(
     'TimeValidator formatDateTime',
     () {
-      Map<DateTime, String> formatTests = <DateTime, String>{
+      final Map<DateTime, String> formatTests = <DateTime, String>{
         DateTime(2000): '00:00',
         DateTime(2000, 1, 1, 0, 1): '00:01',
         DateTime(2000, 1, 1, 0, 9): '00:09',
@@ -217,7 +217,7 @@ void main() {
         DateTime(2000, 1, 1, 23, 59): '23:59',
       };
 
-      TimeValidator validator = TimeValidator();
+      final TimeValidator validator = TimeValidator();
 
       for (final MapEntry<DateTime, String> input in formatTests.entries) {
         test(
@@ -229,7 +229,7 @@ void main() {
   );
 
   group('TimeValidator Coverage', () {
-    TimeValidator validator = TimeValidator();
+    final TimeValidator validator = TimeValidator();
 
     test('strip', () => expect(validator.strip('00:00'), '00:00'));
 

@@ -46,7 +46,7 @@ void main() {
   group('IPv4 Creating from String Level 2', () {
     for (final MapEntry<dynamic, bool> oc1 in base.entries) {
       for (final MapEntry<dynamic, bool> oc2 in base.entries) {
-        String key = '${oc1.key}.${oc2.key}';
+        final String key = '${oc1.key}.${oc2.key}';
 
         test(
           'Testing "$key" for "false"',
@@ -62,7 +62,7 @@ void main() {
   group('IPv4 Creating from List Level 2', () {
     for (final MapEntry<dynamic, bool> oc1 in base.entries) {
       for (final MapEntry<dynamic, bool> oc2 in base.entries) {
-        List<dynamic> list = <dynamic>[oc1.key, oc2.key];
+        final List<dynamic> list = <dynamic>[oc1.key, oc2.key];
 
         test(
           'Testing "$list" for "false"',
@@ -83,7 +83,7 @@ void main() {
             continue;
           }
 
-          String key = '${oc1.key}.${oc2.key}.${oc3.key}';
+          final String key = '${oc1.key}.${oc2.key}.${oc3.key}';
 
           test(
             'Testing "$key" for "false"',
@@ -104,7 +104,8 @@ void main() {
         for (final MapEntry<dynamic, bool> oc2 in base.entries) {
           for (final MapEntry<dynamic, bool> oc3 in base.entries) {
             for (final MapEntry<dynamic, bool> oc4 in base.entries) {
-              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+              final bool value =
+                  oc1.value && oc2.value && oc3.value && oc4.value;
 
               if (!value &&
                   (oc1.key == oc2.key ||
@@ -116,7 +117,7 @@ void main() {
                 continue;
               }
 
-              String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
+              final String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
 
               test(
                 'Testing "$key" for $value',
@@ -144,12 +145,13 @@ void main() {
   group(
     'IPv4 Creating from List Level 4',
     () {
-      String separator = '-';
+      const String separator = '-';
       for (final MapEntry<dynamic, bool> oc1 in base.entries) {
         for (final MapEntry<dynamic, bool> oc2 in base.entries) {
           for (final MapEntry<dynamic, bool> oc3 in base.entries) {
             for (final MapEntry<dynamic, bool> oc4 in base.entries) {
-              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+              final bool value =
+                  oc1.value && oc2.value && oc3.value && oc4.value;
 
               if (!value &&
                   (oc1.key == oc2.key ||
@@ -161,7 +163,7 @@ void main() {
                 continue;
               }
 
-              List<dynamic> list = <dynamic>[
+              final List<dynamic> list = <dynamic>[
                 oc1.key,
                 oc2.key,
                 oc3.key,
@@ -199,8 +201,11 @@ void main() {
           for (final MapEntry<dynamic, bool> oc3 in base.entries) {
             for (final MapEntry<dynamic, bool> oc4 in base.entries) {
               if (oc1.value && oc2.value && oc3.value && oc4.value) {
-                String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
-                Ipv4Address ipv4 = Ipv4Address.fromString(key);
+                final String key =
+                    '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
+
+                final Ipv4Address ipv4 = Ipv4Address.fromString(key);
+
                 test(
                   'Testing hashCode for $key',
                   () => expect(ipv4.hashCode, ipv4.integer),

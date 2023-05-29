@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/cnae_validator.dart';
 ///
 void main() {
   group('CnaeValidator Coverage', () {
-    CnaeValidator validator = CnaeValidator();
+    final CnaeValidator validator = CnaeValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

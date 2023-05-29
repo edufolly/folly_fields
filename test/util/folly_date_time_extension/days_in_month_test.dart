@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension daysInMonth',
     () {
-      Map<DateTime, int> domain = <DateTime, int>{
+      final Map<DateTime, int> domain = <DateTime, int>{
         DateTime(1900, 2): 28,
         DateTime(1998, 2): 29,
         DateTime(1997, 2): 28,

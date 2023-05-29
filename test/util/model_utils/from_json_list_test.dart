@@ -20,9 +20,9 @@ void main() {
         connectivity: MockConnectivity(),
       );
 
-      MockConsumer consumer = const MockConsumer();
+      const MockConsumer consumer = MockConsumer();
 
-      Map<List<Map<String, dynamic>>?, List<MockModel>> domain =
+      final Map<List<Map<String, dynamic>>?, List<MockModel>> domain =
           <List<Map<String, dynamic>>?, List<MockModel>>{
         null: <MockModel>[],
         <Map<String, dynamic>>[]: <MockModel>[],

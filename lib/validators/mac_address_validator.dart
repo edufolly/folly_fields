@@ -46,17 +46,13 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    if (value.isEmpty || value.length != 17) {
+    final String v = strip(value);
+
+    if (v.length != 12) {
       return false;
     }
 
-    value = strip(value);
-
-    if (value.length != 12) {
-      return false;
-    }
-
-    return format(value).length == 17;
+    return format(v).length == 17;
   }
 
   static final Random _random = Random();

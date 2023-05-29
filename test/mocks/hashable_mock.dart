@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-top-level-members-in-tests
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 
 import 'package:folly_fields/util/hashable.dart';
 
@@ -15,7 +15,7 @@ class HashableMock with Hashable {
   ///
   ///
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = <String, dynamic>{};
+    final Map<String, dynamic> map = <String, dynamic>{};
     map['name'] = name;
     map['age'] = age;
     map['stringList'] = stringList;

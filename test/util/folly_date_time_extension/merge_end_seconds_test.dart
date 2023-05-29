@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension mergeEndSeconds',
     () {
-      Map<String, DateTime> domain = <String, DateTime>{
+      final Map<String, DateTime> domain = <String, DateTime>{
         '2000-01-01T00:00:59.999':
             DateTime(2000, 1, 1, 0, 0, 11, 111, 111).mergeEndSeconds(),
         '2000-01-01T00:00:59.999888':

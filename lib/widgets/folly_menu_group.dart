@@ -33,7 +33,7 @@ class FollyMenuGroup extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    Color accentColor = color ??
+    final Color accentColor = color ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);

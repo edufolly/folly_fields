@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_utils.dart';
 ///
 ///
 void main() {
-  Map<int, int> domain = <int, int>{
+  final Map<int, int> domain = <int, int>{
     0xFF000000: 0xFFFFFFFF,
     0xFF808080: 0xFFFFFFFF,
     0xFF0A141E: 0xFFFFFFFF,

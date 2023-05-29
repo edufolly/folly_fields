@@ -80,14 +80,13 @@ class TableField<T extends AbstractModel<Object>>
             TextStyle? columnHeaderTheme =
                 Theme.of(field.context).textTheme.titleSmall;
 
-            Color disabledColor = Theme.of(field.context).disabledColor;
-
             if (columnHeaderTheme != null && !enabled) {
-              columnHeaderTheme =
-                  columnHeaderTheme.copyWith(color: disabledColor);
+              columnHeaderTheme = columnHeaderTheme.copyWith(
+                color: Theme.of(field.context).disabledColor,
+              );
             }
 
-            InputDecoration effectiveDecoration = (decoration ??
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.superPlural(field.context),
                       border: const OutlineInputBorder(),
@@ -122,7 +121,7 @@ class TableField<T extends AbstractModel<Object>>
                       ResponsiveSize responsiveSize,
                     ) {
                       bool isCard = false;
-                      List<Widget> columnData = <Widget>[];
+                      final List<Widget> columnData = <Widget>[];
 
                       if (changeToCard != null &&
                           responsiveSize <= changeToCard) {
@@ -157,7 +156,7 @@ class TableField<T extends AbstractModel<Object>>
                                         padding: const EdgeInsets.all(8),
                                         label: 'REMOVER ITEM',
                                         onPressed: () async {
-                                          bool go = await removeRow(
+                                          final bool go = await removeRow(
                                             field.context,
                                             entry.value,
                                             entry.key,
@@ -236,7 +235,7 @@ class TableField<T extends AbstractModel<Object>>
                                       enabled: enabled,
                                       iconData: FontAwesomeIcons.trashCan,
                                       onPressed: () async {
-                                        bool go = await removeRow(
+                                        final bool go = await removeRow(
                                           field.context,
                                           entry.value,
                                           entry.key,
@@ -279,7 +278,8 @@ class TableField<T extends AbstractModel<Object>>
                     label: 'Adicionar ${uiBuilder.superSingle(field.context)}',
                     onPressed: () async {
                       if (beforeAdd != null) {
-                        bool go = await beforeAdd(field.context, field.value!);
+                        final bool go =
+                            await beforeAdd(field.context, field.value!);
                         if (!go) {
                           return;
                         }

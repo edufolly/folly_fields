@@ -76,9 +76,9 @@ class DropdownField<T> extends ResponsiveFormField<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            DropdownFieldState<T> state = field as DropdownFieldState<T>;
+            final DropdownFieldState<T> state = field as DropdownFieldState<T>;
 
-            InputDecoration effectiveDecoration = (decoration ??
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,

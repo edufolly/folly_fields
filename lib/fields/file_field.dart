@@ -75,8 +75,9 @@ class FileField extends ResponsiveFormField<Uint8List> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<Uint8List?> field) {
-            FileFieldState state = field as FileFieldState;
-            InputDecoration effectiveDecoration = (decoration ??
+            final FileFieldState state = field as FileFieldState;
+
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -96,7 +97,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            Widget deleteWidget = ElevatedButton.icon(
+            final Widget deleteWidget = ElevatedButton.icon(
               icon: const Icon(Icons.delete),
               label: Text(eraseButtonText),
               onPressed: enabled
@@ -111,7 +112,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
                   : null,
             );
 
-            Widget loadWidget = ElevatedButton.icon(
+            final Widget loadWidget = ElevatedButton.icon(
               icon: const Icon(Icons.attach_file),
               label: Text(loadButtonText),
               onPressed: enabled
@@ -119,7 +120,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
                       allowedExtensions = allowedExtensions?.map((String ext) {
                         return ext.startsWith('.') ? ext.substring(1) : ext;
                       }).toList();
-                      fp.FilePickerResult? picked =
+                      final fp.FilePickerResult? picked =
                           await fp.FilePicker.platform.pickFiles(
                         allowedExtensions: allowedExtensions,
                         withData: true,

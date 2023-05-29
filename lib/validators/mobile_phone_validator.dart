@@ -38,23 +38,19 @@ class MobilePhoneValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    value = strip(value);
+    final String v = strip(value);
 
     /// phone must be defined
-    if (value.isEmpty) {
-      return false;
-    }
-
-    if (value.length != 11) {
+    if (v.length != 11) {
       return false;
     }
 
     /// Não existe DDD com zero.
-    if (value[0] == '0' || value[1] == '0') {
+    if (v[0] == '0' || v[1] == '0') {
       return false;
     }
 
     /// Telefones celulares sempre iniciam com 9.
-    return value[2] == '9';
+    return v[2] == '9';
   }
 }

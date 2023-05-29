@@ -1,7 +1,3 @@
-// ignore_for_file: prefer-first
-
-library folly_fields;
-
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -147,7 +143,7 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   ResponsiveSize checkResponsiveSize(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
 
     if (width < responsiveSizes[0]) {
       return ResponsiveSize.extraSmall;
@@ -432,7 +428,7 @@ abstract class AbstractConfig implements _InternalConfig {
 
       connectivity ??= Connectivity();
 
-      ConnectivityResult result = await connectivity.checkConnectivity();
+      final ConnectivityResult result = await connectivity.checkConnectivity();
 
       _online = result != ConnectivityResult.none;
 

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-first
-
 import 'package:flutter/material.dart';
 import 'package:folly_fields/util/folly_date_time_extension.dart';
 
@@ -15,7 +13,7 @@ class FollyUtils {
       return 'Informe uma data.';
     }
 
-    List<String> parts = value.split('/');
+    final List<String> parts = value.split('/');
 
     if (parts.length != 3) {
       return 'Data inválida.';
@@ -25,17 +23,17 @@ class FollyUtils {
       return 'Ano inválido.';
     }
 
-    int? year = int.tryParse(parts[2]);
+    final int? year = int.tryParse(parts[2]);
     if (year == null) {
       return 'Ano inválido.';
     }
 
-    int? month = int.tryParse(parts[1]);
+    final int? month = int.tryParse(parts[1]);
     if (month == null || month < 1 || month > 12) {
       return 'Mês inválido.';
     }
 
-    int? day = int.tryParse(parts[0]);
+    final int? day = int.tryParse(parts[0]);
     if (day == null || day < 1 || day > DateTime(year, month).daysInMonth) {
       return 'Dia inválido.';
     }
@@ -51,19 +49,19 @@ class FollyUtils {
       return 'Informe uma hora.';
     }
 
-    List<String> parts = value.split(':');
+    final List<String> parts = value.split(':');
 
     if (parts.length != 2) {
       return 'Hora inválida.';
     }
 
-    int? hour = int.tryParse(parts[0]);
+    final int? hour = int.tryParse(parts[0]);
 
     if (hour == null || hour < 0 || hour > 23) {
       return 'Horas inválidas.';
     }
 
-    int? minute = int.tryParse(parts[1]);
+    final int? minute = int.tryParse(parts[1]);
 
     if (minute == null || minute < 0 || minute > 59) {
       return 'Minutos inválidos.';
@@ -173,47 +171,32 @@ class FollyUtils {
   ///
   ///
   static Color? colorParse(String? text, [int? defaultColor]) {
-    if (text == null || text.isEmpty) {
-      return defaultColor == null ? null : Color(defaultColor);
-    } else {
-      try {
-        if (!text.startsWith('0x')) {
-          text = text.replaceAll('#', '').trim().toUpperCase();
-
-          if (text.length < 3) {
-            throw Exception('Length less than 3.');
-          }
-
-          if (text.length == 3) {
-            text = text[0] + text[0] + text[1] + text[1] + text[2] + text[2];
-          }
-
-          if (text.length == 4) {
-            text = text[0] +
-                text[0] +
-                text[1] +
-                text[1] +
-                text[2] +
-                text[2] +
-                text[3] +
-                text[3];
-          }
-
-          if (text.length == 6) {
-            text = 'FF$text';
-          }
-
-          if (text.length > 8) {
-            text = text.substring(0, 8);
-          }
-
-          text = '0x$text';
+    try {
+      String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
+      if (!t.startsWith('0x')) {
+        if (t.length < 3) {
+          throw Exception('Length less than 3.');
         }
 
-        return Color(int.parse(text));
-      } on Exception catch (_) {
-        return defaultColor == null ? null : Color(defaultColor);
+        t = switch (t.length) {
+          3 => 'ff${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}',
+          4 => '${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}${t[3]}${t[3]}',
+          5 => '',
+          6 => 'ff$t',
+          7 => '',
+          _ => t
+        };
+
+        t = '0x$t';
       }
+
+      if (t.length > 10) {
+        t = t.substring(0, 10);
+      }
+
+      return Color(int.parse(t));
+    } on Exception catch (_) {
+      return defaultColor == null ? null : Color(defaultColor);
     }
   }
 

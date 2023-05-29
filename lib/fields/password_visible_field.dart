@@ -126,7 +126,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
     return ValueListenableBuilder<bool?>(
       valueListenable: obscuredNotifier,
       builder: (BuildContext context, bool? value, _) {
-        InputDecoration effectiveDecoration = (widget.decoration ??
+        final InputDecoration effectiveDecoration = (widget.decoration ??
                 InputDecoration(
                   prefix: widget.prefix,
                   prefixIcon: widget.prefixIcon,

@@ -58,18 +58,19 @@ class WidgetImageRenderer<T> extends StatelessWidget {
     if (controller._process) {
       String errorTag = '';
 
-      BuildContext? context = controller._globalKey.currentContext;
+      final BuildContext? context = controller._globalKey.currentContext;
 
       if (context != null) {
-        RenderRepaintBoundary? boundary =
+        final RenderRepaintBoundary? boundary =
             context.findRenderObject() as RenderRepaintBoundary?;
 
         if (boundary != null) {
-          ui.Image image = await boundary.toImage(
+          final ui.Image image = await boundary.toImage(
             pixelRatio: pixelRatio ?? MediaQuery.of(context).devicePixelRatio,
           );
 
-          ByteData? byteData = await image.toByteData(format: imageByteFormat);
+          final ByteData? byteData =
+              await image.toByteData(format: imageByteFormat);
 
           if (byteData != null) {
             callback(byteData, controller.value.value);

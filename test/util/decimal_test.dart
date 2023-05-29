@@ -9,8 +9,7 @@ void main() {
     'Check decimal values.',
     () {
       for (int integer = 0; integer <= 9999999; integer++) {
-        Decimal decimal = Decimal(precision: 2, intValue: integer);
-        expect(decimal.intValue, integer);
+        expect(Decimal(precision: 2, intValue: integer).intValue, integer);
       }
     },
   );

@@ -8,16 +8,52 @@ jobs:
   check:
     name: dart-code-metrics-action
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Code Checkout
         uses: actions/checkout@v3
 
-      - name: Dart Code Metrics
-        uses: dart-code-checker/dart-code-metrics-action@v3
+      - name: Flutter Environment
+        uses: subosito/flutter-action@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          fatal_warnings: true
-          fatal_performance: true
-          fatal_style: true
-          check_unused_files: false
-          pull_request_comment: true
+          channel: 'stable'
+          cache: true
+
+      - name: Flutter Config
+        timeout-minutes: 2
+        run: flutter config --no-analytics
+
+      - name: Flutter Pub Get
+        timeout-minutes: 5
+        run: flutter pub get
+
+      - name: Dart Analyze
+        timeout-minutes: 5
+        run: dart analyze --fatal-infos
+
+      - name: Flutter Test
+        run: |
+          flutter test \
+            -r github \
+            -j $(grep -c processor /proc/cpuinfo)
+
+      - name: Flutter Publish Dry Run
+        run: flutter pub publish --dry-run
+
+#jobs:
+#  check:
+#    name: dart-code-metrics-action
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Code Checkout
+#        uses: actions/checkout@v3
+#
+#      - name: Dart Code Metrics
+#        uses: dart-code-checker/dart-code-metrics-action@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          fatal_warnings: true
+#          fatal_performance: true
+#          fatal_style: true
+#          check_unused_files: false
+#          pull_request_comment: true

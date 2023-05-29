@@ -78,18 +78,16 @@ abstract class AbstractList<
   final Widget? Function(BuildContext context)? appBarLeading;
   final List<Widget> Function(
     BuildContext context,
-
-    Map<String, String> qsParam,
-  {required bool selection,}
-  )? actions;
+    Map<String, String> qsParam, {
+    required bool selection,
+  })? actions;
   final List<Widget> Function(
     BuildContext context,
-
     T model,
     Map<String, String> qsParam,
-    void Function({bool clear})? refresh,
-  {required bool selection,}
-  )? rowActions;
+    void Function({bool clear})? refresh, {
+    required bool selection,
+  })? rowActions;
 
   ///
   ///
@@ -215,7 +213,7 @@ class AbstractListState<
   ///
   Future<bool> _loadPermissions(BuildContext context) async {
     if (!widget.selection) {
-      ConsumerPermission permission =
+      final ConsumerPermission permission =
           await widget.consumer.checkPermission(context, <String>[]);
 
       _insertNotifier.value = permission.insert && widget.onAdd != null;
@@ -258,7 +256,7 @@ class AbstractListState<
     try {
       _qsParam['s'] = '${widget.selection}';
 
-      List<T> result = await widget.consumer.list(
+      final List<T> result = await widget.consumer.list(
         context,
         page: _page,
         size: widget.itemsPerPage,
@@ -363,7 +361,7 @@ class AbstractListState<
 
           /// Actions
           if (!widget.selection && widget.actions != null)
-            ...widget.actions!(context, _qsParam, selection:widget.selection),
+            ...widget.actions!(context, _qsParam, selection: widget.selection),
 
           /// Add Button
           if (!FollyFields().isMobile && !widget.selection)
@@ -444,7 +442,7 @@ class AbstractListState<
                       if (_scrollController.positions.isNotEmpty &&
                           _scrollController.position.hasContentDimensions &&
                           _scrollController.position.maxScrollExtent == 0) {
-                        int extraAmount =
+                        final int extraAmount =
                             await _loadData(context, clear: false);
                         if (extraAmount == 0) {
                           // This flags that we won't try further '_loadData'
@@ -498,7 +496,7 @@ class AbstractListState<
                                   );
                                 }
 
-                                T model = _globalItems[index];
+                                final T model = _globalItems[index];
 
                                 return _delete &&
                                         FollyFields().isMobile &&
@@ -606,9 +604,10 @@ class AbstractListState<
       leading: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          widget.multipleSelection && onTap == null
-              ? FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
-              : widget.uiBuilder.getLeading(context, model),
+          if (widget.multipleSelection && onTap == null)
+            FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
+          else
+            widget.uiBuilder.getLeading(context, model),
         ],
       ),
       title: widget.uiBuilder.getTitle(context, model),
@@ -632,7 +631,7 @@ class AbstractListState<
             IconButton(
               icon: const Icon(FontAwesomeIcons.trashCan),
               onPressed: () async {
-                bool refresh = await _deleteEntity(model, ask: true);
+                final bool refresh = await _deleteEntity(model, ask: true);
                 if (afterDeleteRefresh != null && refresh) {
                   await afterDeleteRefresh();
                 }
@@ -691,7 +690,7 @@ class AbstractListState<
         Navigator.of(context).pop(model);
       }
     } else {
-      Widget? next = await widget.onUpdate?.call(
+      final Widget? next = await widget.onUpdate?.call(
         context,
         model,
         widget.uiBuilder,
@@ -720,7 +719,7 @@ class AbstractListState<
   ///
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
-    CircularWaiting wait = CircularWaiting(context);
+    final CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
 
@@ -771,7 +770,7 @@ class AbstractListState<
   ///
   ///
   void _showListLegend() {
-    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
+    final Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -890,7 +889,7 @@ class InternalSearch<
   ///
   @override
   ThemeData appBarTheme(BuildContext context) {
-    ThemeData theme = super.appBarTheme(context);
+    final ThemeData theme = super.appBarTheme(context);
 
     return theme.copyWith(
       appBarTheme: theme.appBarTheme.copyWith(
@@ -948,7 +947,7 @@ class InternalSearch<
         ],
       );
     } else {
-      Map<String, String> newParams = <String, String>{};
+      final Map<String, String> newParams = <String, String>{};
 
       if (extraParams.isNotEmpty) {
         newParams.addAll(extraParams);
@@ -1026,7 +1025,7 @@ class InternalSearch<
       if (_lastQuery == query && _lastWidget != null) {
         return _lastWidget!;
       } else {
-        Map<String, String> param = <String, String>{};
+        final Map<String, String> param = <String, String>{};
 
         _lastQuery = query;
 
@@ -1069,7 +1068,7 @@ class InternalSearch<
                             Expanded(
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
-                                  W model = data[index];
+                                  final W model = data[index];
 
                                   return ListTile(
                                     title: uiBuilder.getSuggestionTitle(

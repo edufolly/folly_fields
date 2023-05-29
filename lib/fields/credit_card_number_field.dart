@@ -46,6 +46,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   final Widget? suffixIcon;
   final bool trimOnSaved;
   final Function(CreditCardType creditCardType)? onTypeChange;
+
   // ignore: avoid_positional_boolean_parameters
   final Function(bool valid)? onValid;
   final String validatorMessage;
@@ -146,13 +147,14 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   ///
   ///
   void onTextChange() {
-    CreditCardType type = CreditCardType.detectType(effectiveController.text);
+    final CreditCardType type =
+        CreditCardType.detectType(effectiveController.text);
     if (validator.type != type) {
       validator.type = type;
       widget.onTypeChange?.call(validator.type);
     }
 
-    bool valid = validator.isValid(effectiveController.text);
+    final bool valid = validator.isValid(effectiveController.text);
     if (isValid != valid) {
       isValid = valid;
       widget.onValid?.call(isValid);

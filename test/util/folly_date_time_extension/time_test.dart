@@ -9,7 +9,7 @@ void main() {
   group(
     'DateTimeExtension time',
     () {
-      Map<DateTime, TimeOfDay> domain = <DateTime, TimeOfDay>{
+      final Map<DateTime, TimeOfDay> domain = <DateTime, TimeOfDay>{
         DateTime(2000): const TimeOfDay(hour: 0, minute: 0),
         DateTime(2000, 1, 1, 0, 0, 59): const TimeOfDay(hour: 0, minute: 0),
         DateTime(2000, 1, 1, 0, 0, 60): const TimeOfDay(hour: 0, minute: 1),

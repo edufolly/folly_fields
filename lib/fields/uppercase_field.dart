@@ -66,20 +66,13 @@ class UppercaseField extends StringField {
         ),
         super(
           inputFormatter: <TextInputFormatter>[
-            TextInputFormatter.withFunction((
-              TextEditingValue oldValue,
-              TextEditingValue newValue,
-            ) {
-              if (newValue.text.isNotEmpty) {
-                newValue = TextEditingValue(
-                  text: newValue.text.toUpperCase(),
-                  selection: newValue.selection,
-                  composing: newValue.composing,
-                );
-              }
-
-              return newValue;
-            }),
+            TextInputFormatter.withFunction(
+              (
+                TextEditingValue oldValue,
+                TextEditingValue newValue,
+              ) =>
+                  newValue.copyWith(text: newValue.text.toUpperCase()),
+            ),
             ...inputFormatter ?? <TextInputFormatter>[],
           ],
         );

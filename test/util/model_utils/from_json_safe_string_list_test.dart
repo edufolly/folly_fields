@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonSafeStringList',
     () {
-      Map<dynamic, List<String>> domain = <dynamic, List<String>>{
+      final Map<dynamic, List<String>> domain = <dynamic, List<String>>{
         null: <String>[],
         '': <String>[''],
         ' ': <String>[' '],

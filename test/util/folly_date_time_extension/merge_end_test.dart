@@ -9,7 +9,7 @@ void main() {
   group(
     'DateTimeExtension mergeEnd',
     () {
-      Map<String, DateTime> domain = <String, DateTime>{
+      final Map<String, DateTime> domain = <String, DateTime>{
         '2000-01-01T23:59:59.999':
             DateTime(2000, 1, 1, 11, 11, 11, 111, 111).mergeEnd(),
         '2000-01-01T23:59:59.999888':

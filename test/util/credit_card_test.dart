@@ -10,13 +10,13 @@ import 'package:http/http.dart';
 ///
 ///
 void main() async {
-  int cardTest = 5;
+  const int cardTest = 5;
 
-  Map<String, CreditCardType> tests = <String, CreditCardType>{};
+  final Map<String, CreditCardType> tests = <String, CreditCardType>{};
 
-  Uri base = Uri.parse('https://www.invertexto.com/ajax/gerar-cartao.php');
+  final Uri base = Uri.parse('https://www.invertexto.com/ajax/gerar-cartao.php');
 
-  Map<String, CreditCardType> cardsRequest = <String, CreditCardType>{
+  final Map<String, CreditCardType> cardsRequest = <String, CreditCardType>{
     'mastercard': CreditCardType.mastercard,
     'visa16': CreditCardType.visa,
     'visa13': CreditCardType.visa,
@@ -28,14 +28,14 @@ void main() async {
   for (final MapEntry<String, CreditCardType> entry in cardsRequest.entries) {
     try {
       for (int pos = 0; pos < cardTest; pos++) {
-        Response response = await post(
+        final Response response = await post(
           base,
           body: <String, String>{
             'bandeira': entry.key,
           },
         );
 
-        Map<String, dynamic> data = jsonDecode(response.body);
+        final Map<String, dynamic> data = jsonDecode(response.body);
         String? ccNum = data['numero'];
 
         if (ccNum != null) {
@@ -73,7 +73,7 @@ void main() async {
     },
   );
 
-  Map<String, bool> cvvFailTests = <String, bool>{
+  final Map<String, bool> cvvFailTests = <String, bool>{
     '': false,
     '  ': false,
     '   ': false,
@@ -112,7 +112,7 @@ void main() async {
     ' * *': false,
   };
 
-  Map<String, bool> cvvMasterTests = <String, bool>{
+  final Map<String, bool> cvvMasterTests = <String, bool>{
     ...cvvFailTests,
     '111 ': false,
     '234': true,
@@ -134,7 +134,7 @@ void main() async {
     },
   );
 
-  Map<String, bool> cvvAmexTests = <String, bool>{
+  final Map<String, bool> cvvAmexTests = <String, bool>{
     ...cvvFailTests,
     '111 ': false,
     '234': false,
@@ -156,7 +156,7 @@ void main() async {
     },
   );
 
-  Map<String, bool> cvvUnknownTests = <String, bool>{
+  final Map<String, bool> cvvUnknownTests = <String, bool>{
     ...cvvFailTests,
     '111 ': true,
     '234': true,
@@ -178,7 +178,7 @@ void main() async {
     },
   );
 
-  Map<String?, CreditCardType> typeTests = <String?, CreditCardType>{
+  final Map<String?, CreditCardType> typeTests = <String?, CreditCardType>{
     null: CreditCardType.unknown,
     '': CreditCardType.unknown,
     ' ': CreditCardType.unknown,
