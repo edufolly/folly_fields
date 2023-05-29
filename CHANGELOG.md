@@ -1,6 +1,7 @@
-## [1.0.1] - 2023-05-28
+## [1.0.1] - 2023-05-29
 
-* Upgrade to http 1.0.0.
+* Updating linter rules.
+* Removing Dart Code Metrics.
 
 ## [1.0.0] - 2023-05-17
 
