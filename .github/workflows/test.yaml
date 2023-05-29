@@ -1,4 +1,4 @@
-name: Dart Code Metrics
+name: Test CI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   check:
-    name: dart-code-metrics-action
+    name: Test CI
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
