@@ -31,13 +31,13 @@
             <td class="headerValue">Folly Fields</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">14</td>
-            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">13</td>
+            <td class="headerCovTableEntry">13</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-18 02:05:34</td>
+            <td class="headerValue">2023-05-29 14:05:14</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -101,22 +101,17 @@
 <a name="39"><span class="lineNum">      39 </span>            :   ///</a>
 <a name="40"><span class="lineNum">      40 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="41"><span class="lineNum">      41 </span>            :   bool isValid(String value) {</a>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :     value = strip(value);</span></a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          1 :     final String v = strip(value);</span></a>
 <a name="43"><span class="lineNum">      43 </span>            : </a>
-<a name="44"><span class="lineNum">      44 </span>            :     /// phone must be defined</a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          1 :     if (value.isEmpty) {</span></a>
+<a name="44"><span class="lineNum">      44 </span>            :     /// phone must have 10 or 11 chars</a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          4 :     if (v.length &lt; 8 || v.length &gt; 9) {</span></a>
 <a name="46"><span class="lineNum">      46 </span>            :       return false;</a>
 <a name="47"><span class="lineNum">      47 </span>            :     }</a>
 <a name="48"><span class="lineNum">      48 </span>            : </a>
-<a name="49"><span class="lineNum">      49 </span>            :     /// phone must have 10 or 11 chars</a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          4 :     if (value.length &lt; 8 || value.length &gt; 9) {</span></a>
-<a name="51"><span class="lineNum">      51 </span>            :       return false;</a>
-<a name="52"><span class="lineNum">      52 </span>            :     }</a>
-<a name="53"><span class="lineNum">      53 </span>            : </a>
-<a name="54"><span class="lineNum">      54 </span>            :     /// Números de 9 dígitos sempre iniciam com 9.</a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          4 :     return !(value.length == 9 &amp;&amp; value[0] != '9');</span></a>
-<a name="56"><span class="lineNum">      56 </span>            :   }</a>
-<a name="57"><span class="lineNum">      57 </span>            : }</a>
+<a name="49"><span class="lineNum">      49 </span>            :     /// Números de 9 dígitos sempre iniciam com 9.</a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          4 :     return !(v.length == 9 &amp;&amp; v[0] != '9');</span></a>
+<a name="51"><span class="lineNum">      51 </span>            :   }</a>
+<a name="52"><span class="lineNum">      52 </span>            : }</a>
 </pre>
       </td>
     </tr>

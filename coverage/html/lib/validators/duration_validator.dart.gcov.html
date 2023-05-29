@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntry">86</td>
-            <td class="headerCovTableEntryLo">10.5 %</td>
+            <td class="headerCovTableEntry">85</td>
+            <td class="headerCovTableEntryLo">10.6 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-18 02:05:34</td>
+            <td class="headerValue">2023-05-29 14:05:14</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -185,100 +185,91 @@
 <a name="123"><span class="lineNum">     123 </span>            :   ///</a>
 <a name="124"><span class="lineNum">     124 </span>            :   ///</a>
 <a name="125"><span class="lineNum">     125 </span><span class="lineNoCov">          0 :   RegExp get regExp =&gt; RegExp(</span></a>
-<a name="126"><span class="lineNum">     126 </span>            :         r'(\d+'</a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :         '$yearSuffix)?'</span></a>
-<a name="128"><span class="lineNum">     128 </span>            :         r'\s*(\d+'</a>
-<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :         '$monthSuffix)?'</span></a>
-<a name="130"><span class="lineNum">     130 </span>            :         r'\s*(\d+'</a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :         '$daySuffix)?'</span></a>
-<a name="132"><span class="lineNum">     132 </span>            :         r'\s*(\d+'</a>
-<a name="133"><span class="lineNum">     133 </span><span class="lineNoCov">          0 :         '$hourSuffix)?'</span></a>
-<a name="134"><span class="lineNum">     134 </span>            :         r'\s*(\d+'</a>
-<a name="135"><span class="lineNum">     135 </span><span class="lineNoCov">          0 :         '$minuteSuffix)?'</span></a>
-<a name="136"><span class="lineNum">     136 </span>            :         r'\s*(\d+'</a>
-<a name="137"><span class="lineNum">     137 </span><span class="lineNoCov">          0 :         '$secondSuffix)?'</span></a>
-<a name="138"><span class="lineNum">     138 </span>            :         r'\s*(\d+'</a>
-<a name="139"><span class="lineNum">     139 </span><span class="lineNoCov">          0 :         '$millisecondSuffix)?',</span></a>
-<a name="140"><span class="lineNum">     140 </span>            :       );</a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineNoCov">          0 :         '(\\d+$yearSuffix)?\\s*'</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineNoCov">          0 :         '(\\d+$monthSuffix)?\\s*'</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineNoCov">          0 :         '(\\d+$daySuffix)?\\s*'</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineNoCov">          0 :         '(\\d+$hourSuffix)?\\s*'</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineNoCov">          0 :         '(\\d+$minuteSuffix)?\\s*'</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineNoCov">          0 :         '(\\d+$secondSuffix)?\\s*'</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineNoCov">          0 :         '(\\d+$millisecondSuffix)?',</span></a>
+<a name="133"><span class="lineNum">     133 </span>            :       );</a>
+<a name="134"><span class="lineNum">     134 </span>            : </a>
+<a name="135"><span class="lineNum">     135 </span>            :   ///</a>
+<a name="136"><span class="lineNum">     136 </span>            :   ///</a>
+<a name="137"><span class="lineNum">     137 </span>            :   ///</a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="139"><span class="lineNum">     139 </span>            :   bool isValid(String value) =&gt;</a>
+<a name="140"><span class="lineNum">     140 </span><span class="lineNoCov">          0 :       regExp.firstMatch(value.trim())?.group(0) == value.trim();</span></a>
 <a name="141"><span class="lineNum">     141 </span>            : </a>
 <a name="142"><span class="lineNum">     142 </span>            :   ///</a>
 <a name="143"><span class="lineNum">     143 </span>            :   ///</a>
 <a name="144"><span class="lineNum">     144 </span>            :   ///</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="146"><span class="lineNum">     146 </span>            :   bool isValid(String value) {</a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineNoCov">          0 :     RegExpMatch? match = regExp.firstMatch(value.trim());</span></a>
-<a name="148"><span class="lineNum">     148 </span>            : </a>
-<a name="149"><span class="lineNum">     149 </span><span class="lineNoCov">          0 :     return match != null &amp;&amp; match.group(0) == value.trim();</span></a>
-<a name="150"><span class="lineNum">     150 </span>            :   }</a>
-<a name="151"><span class="lineNum">     151 </span>            : </a>
-<a name="152"><span class="lineNum">     152 </span>            :   ///</a>
-<a name="153"><span class="lineNum">     153 </span>            :   ///</a>
-<a name="154"><span class="lineNum">     154 </span>            :   ///</a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="156"><span class="lineNum">     156 </span>            :   TextInputType get keyboard =&gt; TextInputType.text;</a>
-<a name="157"><span class="lineNum">     157 </span>            : </a>
-<a name="158"><span class="lineNum">     158 </span>            :   ///</a>
-<a name="159"><span class="lineNum">     159 </span>            :   ///</a>
-<a name="160"><span class="lineNum">     160 </span>            :   ///</a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="162"><span class="lineNum">     162 </span>            :   Duration? parse(String? value) {</a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :     if (value == null || !isValid(value)) {</span></a>
-<a name="164"><span class="lineNum">     164 </span>            :       return Duration.zero;</a>
-<a name="165"><span class="lineNum">     165 </span>            :     }</a>
-<a name="166"><span class="lineNum">     166 </span>            : </a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :     String input = value.split(' ').join();</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :     RegExp onlyNumbers = RegExp(r'\d+');</span></a>
-<a name="169"><span class="lineNum">     169 </span>            : </a>
-<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :     RegExp yearRegex = RegExp(r'(\d)+' '$yearSuffix');</span></a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :     RegExp monthRegex = RegExp(r'(\d)+' '$monthSuffix');</span></a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :     RegExp dayRegex = RegExp(r'(\d)+' '$daySuffix');</span></a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :     RegExp hourRegex = RegExp(r'(\d)+' '$hourSuffix');</span></a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineNoCov">          0 :     RegExp minuteRegex = RegExp(r'(\d)+' '$minuteSuffix');</span></a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :     RegExp secondRegex = RegExp(r'(\d)+' '$secondSuffix');</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :     RegExp millisecondRegex = RegExp(r'(\d)+' '$millisecondSuffix');</span></a>
-<a name="177"><span class="lineNum">     177 </span>            : </a>
-<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :     String? yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="179"><span class="lineNum">     179 </span><span class="lineNoCov">          0 :     String? monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :     String? daysString = dayRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineNoCov">          0 :     String? hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="182"><span class="lineNum">     182 </span><span class="lineNoCov">          0 :     String? minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="183"><span class="lineNum">     183 </span><span class="lineNoCov">          0 :     String? secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="184"><span class="lineNum">     184 </span>            :     String? millisecondsString =</a>
-<a name="185"><span class="lineNum">     185 </span><span class="lineNoCov">          0 :         millisecondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="186"><span class="lineNum">     186 </span>            : </a>
-<a name="187"><span class="lineNum">     187 </span>            :     int? years =</a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(yearsString)?.group(0) ?? '');</span></a>
-<a name="189"><span class="lineNum">     189 </span>            :     int? months =</a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(monthsString)?.group(0) ?? '');</span></a>
-<a name="191"><span class="lineNum">     191 </span>            :     int? days =</a>
-<a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(daysString)?.group(0) ?? '');</span></a>
-<a name="193"><span class="lineNum">     193 </span>            :     int? hours =</a>
-<a name="194"><span class="lineNum">     194 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '');</span></a>
-<a name="195"><span class="lineNum">     195 </span>            :     int? minutes =</a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '');</span></a>
-<a name="197"><span class="lineNum">     197 </span>            :     int? seconds =</a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '');</span></a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineNoCov">          0 :     int? milliseconds = int.tryParse(</span></a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineNoCov">          0 :       onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',</span></a>
-<a name="201"><span class="lineNum">     201 </span>            :     );</a>
-<a name="202"><span class="lineNum">     202 </span>            : </a>
-<a name="203"><span class="lineNum">     203 </span><span class="lineNoCov">          0 :     days = (days ?? 0) + 30 * (months ?? 0) + 365 * (years ?? 0);</span></a>
+<a name="145"><span class="lineNum">     145 </span><span class="lineCov">          1 :   @override</span></a>
+<a name="146"><span class="lineNum">     146 </span>            :   TextInputType get keyboard =&gt; TextInputType.text;</a>
+<a name="147"><span class="lineNum">     147 </span>            : </a>
+<a name="148"><span class="lineNum">     148 </span>            :   ///</a>
+<a name="149"><span class="lineNum">     149 </span>            :   ///</a>
+<a name="150"><span class="lineNum">     150 </span>            :   ///</a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="152"><span class="lineNum">     152 </span>            :   Duration? parse(String? value) {</a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :     if (value == null || !isValid(value)) {</span></a>
+<a name="154"><span class="lineNum">     154 </span>            :       return Duration.zero;</a>
+<a name="155"><span class="lineNum">     155 </span>            :     }</a>
+<a name="156"><span class="lineNum">     156 </span>            : </a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :     final String input = value.split(' ').join();</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :     final RegExp onlyNumbers = RegExp(r'\d+');</span></a>
+<a name="159"><span class="lineNum">     159 </span>            : </a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     final RegExp yearRegex = RegExp('(\\d)+$yearSuffix');</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :     final RegExp monthRegex = RegExp('(\\d)+$monthSuffix');</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :     final RegExp dayRegex = RegExp('(\\d)+$daySuffix');</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :     final RegExp hourRegex = RegExp('(\\d)+$hourSuffix');</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :     final RegExp minuteRegex = RegExp('(\\d)+$minuteSuffix');</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :     final RegExp secondRegex = RegExp('(\\d)+$secondSuffix');</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :     final RegExp millisecondRegex = RegExp('(\\d)+$millisecondSuffix');</span></a>
+<a name="167"><span class="lineNum">     167 </span>            : </a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :     final String yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :     final String monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :     final String daysString = dayRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :     final String hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :     final String minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :     final String secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="174"><span class="lineNum">     174 </span>            :     final String millisecondsString =</a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :         millisecondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="176"><span class="lineNum">     176 </span>            : </a>
+<a name="177"><span class="lineNum">     177 </span>            :     final int years =</a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(yearsString)?.group(0) ?? '') ?? 0;</span></a>
+<a name="179"><span class="lineNum">     179 </span>            :     final int months =</a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(monthsString)?.group(0) ?? '') ?? 0;</span></a>
+<a name="181"><span class="lineNum">     181 </span>            :     final int days =</a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(daysString)?.group(0) ?? '') ?? 0;</span></a>
+<a name="183"><span class="lineNum">     183 </span>            :     final int hours =</a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '') ?? 0;</span></a>
+<a name="185"><span class="lineNum">     185 </span>            :     final int minutes =</a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '') ??</span></a>
+<a name="187"><span class="lineNum">     187 </span>            :             0;</a>
+<a name="188"><span class="lineNum">     188 </span>            :     final int seconds =</a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '') ??</span></a>
+<a name="190"><span class="lineNum">     190 </span>            :             0;</a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineNoCov">          0 :     final int milliseconds = int.tryParse(</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 :           onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',</span></a>
+<a name="193"><span class="lineNum">     193 </span>            :         ) ??</a>
+<a name="194"><span class="lineNum">     194 </span>            :         0;</a>
+<a name="195"><span class="lineNum">     195 </span>            : </a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineNoCov">          0 :     return Duration(</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineNoCov">          0 :       days: days + 30 * months + 365 * years,</span></a>
+<a name="198"><span class="lineNum">     198 </span>            :       hours: hours,</a>
+<a name="199"><span class="lineNum">     199 </span>            :       minutes: minutes,</a>
+<a name="200"><span class="lineNum">     200 </span>            :       seconds: seconds,</a>
+<a name="201"><span class="lineNum">     201 </span>            :       milliseconds: milliseconds,</a>
+<a name="202"><span class="lineNum">     202 </span>            :     );</a>
+<a name="203"><span class="lineNum">     203 </span>            :   }</a>
 <a name="204"><span class="lineNum">     204 </span>            : </a>
-<a name="205"><span class="lineNum">     205 </span><span class="lineNoCov">          0 :     return Duration(</span></a>
-<a name="206"><span class="lineNum">     206 </span>            :       days: days,</a>
-<a name="207"><span class="lineNum">     207 </span>            :       hours: hours ?? 0,</a>
-<a name="208"><span class="lineNum">     208 </span>            :       minutes: minutes ?? 0,</a>
-<a name="209"><span class="lineNum">     209 </span>            :       seconds: seconds ?? 0,</a>
-<a name="210"><span class="lineNum">     210 </span>            :       milliseconds: milliseconds ?? 0,</a>
-<a name="211"><span class="lineNum">     211 </span>            :     );</a>
-<a name="212"><span class="lineNum">     212 </span>            :   }</a>
-<a name="213"><span class="lineNum">     213 </span>            : </a>
-<a name="214"><span class="lineNum">     214 </span>            :   ///</a>
-<a name="215"><span class="lineNum">     215 </span>            :   ///</a>
-<a name="216"><span class="lineNum">     216 </span>            :   ///</a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="218"><span class="lineNum">     218 </span>            :   String? valid(String value) =&gt; null;</a>
-<a name="219"><span class="lineNum">     219 </span>            : }</a>
+<a name="205"><span class="lineNum">     205 </span>            :   ///</a>
+<a name="206"><span class="lineNum">     206 </span>            :   ///</a>
+<a name="207"><span class="lineNum">     207 </span>            :   ///</a>
+<a name="208"><span class="lineNum">     208 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="209"><span class="lineNum">     209 </span>            :   String? valid(String value) =&gt; null;</a>
+<a name="210"><span class="lineNum">     210 </span>            : }</a>
 </pre>
       </td>
     </tr>

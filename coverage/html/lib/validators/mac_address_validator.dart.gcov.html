@@ -31,13 +31,13 @@
             <td class="headerValue">Folly Fields</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">22</td>
-            <td class="headerCovTableEntry">22</td>
+            <td class="headerCovTableEntry">21</td>
+            <td class="headerCovTableEntry">21</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-18 02:05:34</td>
+            <td class="headerValue">2023-05-29 14:05:14</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -108,30 +108,26 @@
 <a name="46"><span class="lineNum">      46 </span>            :   ///</a>
 <a name="47"><span class="lineNum">      47 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="48"><span class="lineNum">      48 </span>            :   bool isValid(String value) {</a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          3 :     if (value.isEmpty || value.length != 17) {</span></a>
-<a name="50"><span class="lineNum">      50 </span>            :       return false;</a>
-<a name="51"><span class="lineNum">      51 </span>            :     }</a>
-<a name="52"><span class="lineNum">      52 </span>            : </a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :     value = strip(value);</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          1 :     final String v = strip(value);</span></a>
+<a name="50"><span class="lineNum">      50 </span>            : </a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          2 :     if (v.length != 12) {</span></a>
+<a name="52"><span class="lineNum">      52 </span>            :       return false;</a>
+<a name="53"><span class="lineNum">      53 </span>            :     }</a>
 <a name="54"><span class="lineNum">      54 </span>            : </a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          2 :     if (value.length != 12) {</span></a>
-<a name="56"><span class="lineNum">      56 </span>            :       return false;</a>
-<a name="57"><span class="lineNum">      57 </span>            :     }</a>
-<a name="58"><span class="lineNum">      58 </span>            : </a>
-<a name="59"><span class="lineNum">      59 </span><span class="lineCov">          3 :     return format(value).length == 17;</span></a>
-<a name="60"><span class="lineNum">      60 </span>            :   }</a>
-<a name="61"><span class="lineNum">      61 </span>            : </a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">          3 :   static final Random _random = Random();</span></a>
-<a name="63"><span class="lineNum">      63 </span>            : </a>
-<a name="64"><span class="lineNum">      64 </span>            :   ///</a>
-<a name="65"><span class="lineNum">      65 </span>            :   ///</a>
-<a name="66"><span class="lineNum">      66 </span>            :   ///</a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          2 :   static String generate() =&gt; List&lt;String&gt;.generate(</span></a>
-<a name="68"><span class="lineNum">      68 </span>            :         17,</a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">          1 :         (int index) =&gt;</span></a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          6 :             (index + 1) % 3 == 0 ? ':' : _random.nextInt(16).toRadixString(16),</span></a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">          2 :       ).join().toUpperCase();</span></a>
-<a name="72"><span class="lineNum">      72 </span>            : }</a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          3 :     return format(v).length == 17;</span></a>
+<a name="56"><span class="lineNum">      56 </span>            :   }</a>
+<a name="57"><span class="lineNum">      57 </span>            : </a>
+<a name="58"><span class="lineNum">      58 </span><span class="lineCov">          3 :   static final Random _random = Random();</span></a>
+<a name="59"><span class="lineNum">      59 </span>            : </a>
+<a name="60"><span class="lineNum">      60 </span>            :   ///</a>
+<a name="61"><span class="lineNum">      61 </span>            :   ///</a>
+<a name="62"><span class="lineNum">      62 </span>            :   ///</a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">          2 :   static String generate() =&gt; List&lt;String&gt;.generate(</span></a>
+<a name="64"><span class="lineNum">      64 </span>            :         17,</a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">          1 :         (int index) =&gt;</span></a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">          6 :             (index + 1) % 3 == 0 ? ':' : _random.nextInt(16).toRadixString(16),</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          2 :       ).join().toUpperCase();</span></a>
+<a name="68"><span class="lineNum">      68 </span>            : }</a>
 </pre>
       </td>
     </tr>

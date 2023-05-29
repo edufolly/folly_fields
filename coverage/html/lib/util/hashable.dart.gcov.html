@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-05-18 02:05:34</td>
+            <td class="headerValue">2023-05-29 14:05:14</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -74,7 +74,7 @@
 <a name="12"><span class="lineNum">      12 </span>            :     // { int deep = 1,</a>
 <a name="13"><span class="lineNum">      13 </span>            :     // bool debug = false,}</a>
 <a name="14"><span class="lineNum">      14 </span>            :   ) {</a>
-<a name="15"><span class="lineNum">      15 </span><span class="lineCov">          6 :     int iterated = iterable.fold(</span></a>
+<a name="15"><span class="lineNum">      15 </span><span class="lineCov">          6 :     final int iterated = iterable.fold(</span></a>
 <a name="16"><span class="lineNum">      16 </span>            :       0,</a>
 <a name="17"><span class="lineNum">      17 </span><span class="lineCov">          6 :       (int h, dynamic i) {</span></a>
 <a name="18"><span class="lineNum">      18 </span>            :         int hash;</a>
@@ -121,20 +121,20 @@
 <a name="59"><span class="lineNum">      59 </span>            :   ///</a>
 <a name="60"><span class="lineNum">      60 </span>            :   ///</a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">         11 :   int combine(int hash, int value) {</span></a>
-<a name="62"><span class="lineNum">      62 </span><span class="lineCov">         22 :     hash = 0x1fffffff &amp; (hash + value);</span></a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">         44 :     hash = 0x1fffffff &amp; (hash + ((0x0007ffff &amp; hash) &lt;&lt; 10));</span></a>
+<a name="62"><span class="lineNum">      62 </span><span class="lineCov">         22 :     int h = 0x1fffffff &amp; (hash + value);</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">         44 :     h = 0x1fffffff &amp; (h + ((0x0007ffff &amp; h) &lt;&lt; 10));</span></a>
 <a name="64"><span class="lineNum">      64 </span>            : </a>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">         22 :     return hash ^ (hash &gt;&gt; 6);</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">         22 :     return h ^ (h &gt;&gt; 6);</span></a>
 <a name="66"><span class="lineNum">      66 </span>            :   }</a>
 <a name="67"><span class="lineNum">      67 </span>            : </a>
 <a name="68"><span class="lineNum">      68 </span>            :   ///</a>
 <a name="69"><span class="lineNum">      69 </span>            :   ///</a>
 <a name="70"><span class="lineNum">      70 </span>            :   ///</a>
 <a name="71"><span class="lineNum">      71 </span><span class="lineCov">         11 :   int finish(int hash) {</span></a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">         44 :     hash = 0x1fffffff &amp; (hash + ((0x03ffffff &amp; hash) &lt;&lt; 3));</span></a>
-<a name="73"><span class="lineNum">      73 </span><span class="lineCov">         22 :     hash = hash ^ (hash &gt;&gt; 11);</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">         44 :     int h = 0x1fffffff &amp; (hash + ((0x03ffffff &amp; hash) &lt;&lt; 3));</span></a>
+<a name="73"><span class="lineNum">      73 </span><span class="lineCov">         22 :     h = h ^ (h &gt;&gt; 11);</span></a>
 <a name="74"><span class="lineNum">      74 </span>            : </a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">         44 :     return 0x1fffffff &amp; (hash + ((0x00003fff &amp; hash) &lt;&lt; 15));</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">         44 :     return 0x1fffffff &amp; (h + ((0x00003fff &amp; h) &lt;&lt; 15));</span></a>
 <a name="76"><span class="lineNum">      76 </span>            :   }</a>
 <a name="77"><span class="lineNum">      77 </span>            : }</a>
 </pre>
