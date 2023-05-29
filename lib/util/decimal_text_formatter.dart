@@ -16,7 +16,7 @@ class DecimalTextFormatter extends TextInputFormatter {
     required this.precision,
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
-  }) : allow = RegExp('[0-9$decimalSeparator$thousandSeparator]');
+  }) : allow = RegExp('[-0-9$decimalSeparator$thousandSeparator]');
 
   ///
   ///
@@ -26,35 +26,44 @@ class DecimalTextFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // if (kDebugMode) {
-    //   print('old: ${oldValue.toJSON()}');
-    //   print('new: ${newValue.toJSON()}');
-    // }
+    // print('old: ${oldValue.toJSON()}');
+    // print('new: ${newValue.toJSON()}');
 
-    String newText = newValue.text;
+    final int signals = RegExp('-').allMatches(newValue.text).length;
+
+    bool isNegative = oldValue.text.startsWith('-');
+    bool delNegative = false;
+
+    if (isNegative && signals != 1) {
+      isNegative = false;
+      delNegative = true;
+    }
+
+    if (!isNegative && signals == 1) {
+      isNegative = true;
+    }
+
+    String newText = newValue.text.replaceAll('-', '');
 
     /// Empty value
     if (newText.isEmpty ||
         newText == decimalSeparator ||
         newText == thousandSeparator) {
-      // if (kDebugMode) {
-      //   print('New value is empty or equals to "$decimalSeparator" '
+      // print('New value is empty or equals to "$decimalSeparator" '
       //       'or equals to "$thousandSeparator"');
-      //   print('\n');
-      // }
+      // print('\n');
 
       return TextEditingValue(
-        text: '0$decimalSeparator'.padRight(precision + 2, '0'),
-        selection: const TextSelection.collapsed(offset: 1),
+        text: '${isNegative ? '-0' : '0'}$decimalSeparator'
+            .padRight(precision + (isNegative ? 3 : 2), '0'),
+        selection: TextSelection.collapsed(offset: (isNegative ? 2 : 1)),
       );
     }
 
     /// Char not allowed.
     if (allow.allMatches(newText).length != newText.length) {
-      // if (kDebugMode) {
-      //   print('Char not allowed.');
-      //   print('\n');
-      // }
+      // print('Char not allowed.');
+      // print('\n');
 
       return oldValue;
     }
@@ -69,25 +78,19 @@ class DecimalTextFormatter extends TextInputFormatter {
         oldThousandCount < newThousandCount) {
       final int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
 
-      // if (kDebugMode) {
-      //   print('curPos: $curPos');
-      // }
+      // print('curPos: $curPos');
 
       if (newValue.selection.baseOffset <= curPos) {
         final Map<String, dynamic> oldValueJson = oldValue.toJSON();
         oldValueJson['selectionBase'] = curPos;
         oldValueJson['selectionExtent'] = curPos;
 
-        // if (kDebugMode) {
-        //   print('\n');
-        // }
+        // print('\n');
 
         return TextEditingValue.fromJSON(oldValueJson);
       }
 
-      // if (kDebugMode) {
-      //   print('\n');
-      // }
+      // print('\n');
 
       return oldValue;
     }
@@ -96,10 +99,8 @@ class DecimalTextFormatter extends TextInputFormatter {
     if (newText.contains(decimalSeparator)) {
       final List<String> parts = newText.split(decimalSeparator);
 
-      // if (kDebugMode) {
-      //   print('Integer Part: ${parts.first}');
-      //   print('Decimal Part: ${parts.last}');
-      // }
+      // print('Integer Part: ${parts.first}');
+      // print('Decimal Part: ${parts.last}');
 
       String decimalPart = parts.last;
 
@@ -136,38 +137,38 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     newText = numbers.reversed.join() + decimalSeparator + parts.last;
 
-    final Map<String, dynamic> newValueJson = newValue.toJSON();
-
-    newValueJson['text'] = newText;
-
     /// Cursor Positioning
     final int newTextLength = newText.length;
 
     int newPos = newValue.selection.baseOffset;
 
-    final int delta = newTextLength - firstLength;
+    // print('newPos: $newPos');
 
-    // if (kDebugMode) {
-    //   print('delta: $delta');
-    // }
+    newPos += newTextLength - firstLength;
 
-    newPos += delta;
+    // print('delta: ${newTextLength - firstLength}');
 
-    if (newValue.selection.baseOffset > newTextLength) {
-      newPos = newTextLength;
+    if (delNegative) {
+      newPos -= 2;
     }
 
     if (newPos < 1) {
       newPos = 0;
     }
 
+    newText = (isNegative ? '-' : '') + newText;
+
+    if (newPos > newText.length) {
+      newPos = newText.length;
+    }
+
+    final Map<String, dynamic> newValueJson = newValue.toJSON();
+    newValueJson['text'] = newText;
     newValueJson['selectionBase'] = newPos;
     newValueJson['selectionExtent'] = newPos;
 
-    // if (kDebugMode) {
-    //   print('newValueJson: $newValueJson');
-    //   print('\n');
-    // }
+    // print('newValueJson: $newValueJson');
+    // print('\n');
 
     return TextEditingValue.fromJSON(newValueJson);
   }

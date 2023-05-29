@@ -55,6 +55,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
     final List<String> parts = decimal.doubleValue
         .toStringAsFixed(precision)
         .replaceAll('.', '')
+        .replaceAll('-', '')
         .split('')
         .reversed
         .toList();
@@ -68,6 +69,10 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
 
     for (int pos = start; parts.length > pos; pos += 4) {
       parts.insert(pos, thousandSeparator);
+    }
+
+    if (decimal.doubleValue < 0) {
+      parts.add('-');
     }
 
     return parts.reversed.join();
@@ -90,25 +95,29 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
       return decimal;
     }
 
-    final int sepPos = value.indexOf(decimalSeparator);
+    final bool isNegative = value.startsWith('-');
+
+    final String newValue = value.replaceAll('-', '');
+
+    final int sepPos = newValue.indexOf(decimalSeparator);
 
     String integerPart = '0';
     String decimalPart = '0';
 
     if (sepPos < 0) {
-      integerPart = value;
+      integerPart = newValue;
     } else if (sepPos == 0) {
-      decimalPart = _internalStrip(value);
+      decimalPart = _internalStrip(newValue);
     } else {
-      integerPart = _internalStrip(value.substring(0, sepPos));
-      decimalPart = _internalStrip(value.substring(sepPos));
+      integerPart = _internalStrip(newValue.substring(0, sepPos));
+      decimalPart = _internalStrip(newValue.substring(sepPos));
     }
 
     if (decimalPart.length > precision) {
       decimalPart = decimalPart.substring(0, precision);
     }
 
-    final String str = '$integerPart.$decimalPart';
+    final String str = '${isNegative ? '-' : ''}$integerPart.$decimalPart';
 
     decimal.doubleValue = double.tryParse(str) ?? 0;
 
