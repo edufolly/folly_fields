@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/credit_card_number_validator.dart';
 ///
 void main() {
   group('CreditCardNumberValidator Coverage', () {
-    CreditCardNumberValidator validator = CreditCardNumberValidator();
+    final CreditCardNumberValidator validator = CreditCardNumberValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

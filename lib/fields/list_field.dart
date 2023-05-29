@@ -73,7 +73,7 @@ class ListField<T extends AbstractModel<Object>,
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            InputDecoration effectiveDecoration = (decoration ??
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.superPlural(field.context),
                       border: const OutlineInputBorder(),
@@ -89,20 +89,20 @@ class ListField<T extends AbstractModel<Object>,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            String emptyText = sprintf(
+            final String emptyText = sprintf(
               emptyListText,
               <dynamic>[uiBuilder.superPlural(field.context)],
             );
 
             Future<void> add() async {
               if (beforeAdd != null) {
-                bool go = await beforeAdd(field.context);
+                final bool go = await beforeAdd(field.context);
                 if (!go) {
                   return;
                 }
               }
 
-              dynamic selected = await Navigator.of(field.context).push(
+              final dynamic selected = await Navigator.of(field.context).push(
                 MaterialPageRoute<dynamic>(
                   builder: (BuildContext context) =>
                       routeAddBuilder(context, uiBuilder),
@@ -365,7 +365,7 @@ class _MyListTile<T extends AbstractModel<Object>,
         ),
         onTap: () async {
           if (beforeEdit != null) {
-            bool go = await beforeEdit!(
+            final bool go = await beforeEdit!(
               field.context,
               index,
               model,
@@ -376,7 +376,7 @@ class _MyListTile<T extends AbstractModel<Object>,
           }
 
           if (routeEditBuilder != null) {
-            T? returned = await Navigator.of(field.context).push(
+            final T? returned = await Navigator.of(field.context).push(
               MaterialPageRoute<T>(
                 builder: (BuildContext context) => routeEditBuilder!(
                   context,
@@ -453,7 +453,8 @@ class _MyListTile<T extends AbstractModel<Object>,
   ///
   ///
   Future<bool> _askDelete(BuildContext context, int index, T model) async {
-    bool canDelete = await beforeDelete?.call(context, index, model) ?? true;
+    final bool canDelete =
+        await beforeDelete?.call(context, index, model) ?? true;
 
     if (canDelete) {
       return FollyDialogs.yesNoDialog(

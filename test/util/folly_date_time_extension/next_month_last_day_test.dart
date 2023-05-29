@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension nextLastMonthDay',
     () {
-      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(1900): DateTime(1900, 2, 28, 23, 59, 59, 999),
         DateTime(1900, 1, 2): DateTime(1900, 2, 28, 23, 59, 59, 999),
         DateTime(1900, 1, 30): DateTime(1900, 2, 28, 23, 59, 59, 999),

@@ -1,20 +1,21 @@
-// ignore_for_file: prefer-first
+import 'package:flutter/foundation.dart';
 
 ///
 ///
 ///
+@immutable
 class Ipv4Address {
   final int _ip;
 
   ///
   ///
   ///
-  Ipv4Address(int ip) : _ip = ip;
+  const Ipv4Address(int ip) : _ip = ip;
 
   ///
   ///
   ///
-  Ipv4Address.fromDecimals(int oc1, int oc2, int oc3, int oc4)
+  const Ipv4Address.fromDecimals(int oc1, int oc2, int oc3, int oc4)
       : assert(
           oc1 >= 0 && oc1 <= 255,
           'First octet must be between 0 and 255',
@@ -79,16 +80,16 @@ class Ipv4Address {
       throw ArgumentError('invalidIpAddress');
     }
 
-    List<String> parts = value.split(separator);
+    final List<String> parts = value.split(separator);
 
     if (parts.length != 4) {
       throw ArgumentError('invalidIpAddress');
     }
 
-    List<int> ocs = <int>[];
+    final List<int> ocs = <int>[];
 
     for (final String part in parts) {
-      int? octet = int.tryParse(part);
+      final int? octet = int.tryParse(part);
       if (octet == null || octet < 0 || octet > 255) {
         throw ArgumentError('invalidIpAddress');
       }
@@ -129,7 +130,7 @@ class Ipv4Address {
   ///
   ///
   Ipv4Address operator +(int value) {
-    int newValue = _ip + value;
+    final int newValue = _ip + value;
     if (newValue > 4294967295) {
       throw ArgumentError('invalidIpAddress');
     }
@@ -141,7 +142,7 @@ class Ipv4Address {
   ///
   ///
   Ipv4Address operator -(int value) {
-    int newValue = _ip - value;
+    final int newValue = _ip - value;
     if (newValue < 0) {
       throw ArgumentError('invalidIpAddress');
     }

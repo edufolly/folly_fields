@@ -3,3 +3,6 @@
 dev/
 AppDir/
 coverage.sh
+coverage/
+build/
+*.tar.gz

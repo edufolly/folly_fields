@@ -60,9 +60,9 @@ class BoolField extends ResponsiveFormField<bool> {
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
-            BoolFieldState state = field as BoolFieldState;
+            final BoolFieldState state = field as BoolFieldState;
 
-            InputDecoration effectiveDecoration = (decoration ??
+            final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -80,12 +80,12 @@ class BoolField extends ResponsiveFormField<bool> {
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            Color? textColor =
-                Theme.of(field.context).textTheme.titleMedium!.color;
+            final Color? textColor =
+                Theme.of(field.context).textTheme.titleMedium?.color;
 
-            TextStyle textStyle =
+            final TextStyle textStyle =
                 Theme.of(field.context).textTheme.titleMedium!.copyWith(
-                      color: textColor!.withOpacity(enabled ? 1 : 0.4),
+                      color: textColor?.withOpacity(enabled ? 1 : 0.4),
                       overflow: textOverflow,
                     );
 

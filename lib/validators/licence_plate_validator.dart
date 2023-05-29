@@ -43,16 +43,12 @@ class LicencePlateValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    if (value.isEmpty) {
+    final String v = strip(value);
+
+    if (v.length != 7) {
       return false;
     }
 
-    value = strip(value);
-
-    if (value.length != 7) {
-      return false;
-    }
-
-    return format(value).length == 8;
+    return format(v).length == 8;
   }
 }

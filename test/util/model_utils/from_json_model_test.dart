@@ -20,9 +20,9 @@ void main() {
         connectivity: MockConnectivity(),
       );
 
-      MockConsumer consumer = const MockConsumer();
+      const MockConsumer consumer = MockConsumer();
 
-      Map<Map<String, dynamic>?, MockModel?> domain =
+      final Map<Map<String, dynamic>?, MockModel?> domain =
           <Map<String, dynamic>?, MockModel?>{
         null: null,
         ...MockModel.baseDomain,

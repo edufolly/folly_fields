@@ -8,7 +8,7 @@ void main() {
   group(
     'CnpjValidator isValid',
     () {
-      Map<String, bool> domain = <String, bool>{
+      final Map<String, bool> domain = <String, bool>{
         '00000000000000': false,
         '11111111111111': false,
         '22222222222222': false,
@@ -47,7 +47,7 @@ void main() {
         domain[CnpjValidator.generate(format: true)] = true;
       }
 
-      CnpjValidator validator = CnpjValidator();
+      final CnpjValidator validator = CnpjValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -61,13 +61,13 @@ void main() {
   group(
     'CnpjValidator format',
     () {
-      Map<String, String> domain = <String, String>{};
+      final Map<String, String> domain = <String, String>{};
 
-      CnpjValidator validator = CnpjValidator();
+      final CnpjValidator validator = CnpjValidator();
 
       for (int gen = 0; gen < 10; gen++) {
-        String formatted = CnpjValidator.generate(format: true);
-        String striped = validator.strip(formatted);
+        final String formatted = CnpjValidator.generate(format: true);
+        final String striped = validator.strip(formatted);
         domain[striped] = formatted;
       }
 
@@ -81,7 +81,7 @@ void main() {
   );
 
   group('CnpjValidator Coverage', () {
-    CnpjValidator validator = CnpjValidator();
+    final CnpjValidator validator = CnpjValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

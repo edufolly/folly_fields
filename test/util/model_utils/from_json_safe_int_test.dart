@@ -8,7 +8,7 @@ import 'package:folly_fields/util/model_utils.dart';
 void main() {
   ///
   group('ModelUtils fromJsonSafeInt', () {
-    Map<Triplet<dynamic, int?, int>, int?> domain =
+    final Map<Triplet<dynamic, int?, int>, int?> domain =
         <Triplet<dynamic, int?, int>, int?>{
       const Triplet<dynamic, int?, int>(null, 8, 1): 1,
       const Triplet<dynamic, int?, int>(null, null, 1): 1,

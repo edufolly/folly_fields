@@ -21,9 +21,9 @@ void main() {
   group(
     'Validators decimalGTEZero',
     () {
-      List<bool> decimalResults = <bool>[false, false, true, true, true];
+      final List<bool> decimalResults = <bool>[false, false, true, true, true];
 
-      Map<Decimal, bool> decimalDomain =
+      final Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
       for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
@@ -44,9 +44,9 @@ void main() {
   group(
     'Validators decimalGTZero',
     () {
-      List<bool> decimalResults = <bool>[false, false, false, true, true];
+      final List<bool> decimalResults = <bool>[false, false, false, true, true];
 
-      Map<Decimal, bool> decimalDomain =
+      final Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
       for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
@@ -68,9 +68,9 @@ void main() {
   group(
     'Validators decimalLTZero',
     () {
-      List<bool> decimalResults = <bool>[true, true, false, false, false];
+      final List<bool> decimalResults = <bool>[true, true, false, false, false];
 
-      Map<Decimal, bool> decimalDomain =
+      final Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
       for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
@@ -91,9 +91,9 @@ void main() {
   group(
     'Validators decimalLTEZero',
     () {
-      List<bool> decimalResults = <bool>[true, true, true, false, false];
+      final List<bool> decimalResults = <bool>[true, true, true, false, false];
 
-      Map<Decimal, bool> decimalDomain =
+      final Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
       for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
@@ -115,7 +115,7 @@ void main() {
   group(
     'Validators stringNotEmpty',
     () {
-      Map<String?, bool> stringDomain = <String?, bool>{
+      final Map<String?, bool> stringDomain = <String?, bool>{
         null: false,
         '': false,
         ' ': true,
@@ -144,7 +144,7 @@ void main() {
   group(
     'Validators stringNotBlank',
     () {
-      Map<String?, bool> stringDomain = <String?, bool>{
+      final Map<String?, bool> stringDomain = <String?, bool>{
         null: false,
         '': false,
         ' ': false,
@@ -181,7 +181,7 @@ void main() {
   group(
     'Validators stringNullNotEmpty',
     () {
-      Map<String?, bool> stringDomain = <String?, bool>{
+      final Map<String?, bool> stringDomain = <String?, bool>{
         null: true,
         '': false,
         ' ': true,
@@ -210,7 +210,7 @@ void main() {
   group(
     'Validators stringNullNotBlank',
     () {
-      Map<String?, bool> stringDomain = <String?, bool>{
+      final Map<String?, bool> stringDomain = <String?, bool>{
         null: true,
         '': false,
         ' ': false,
@@ -247,7 +247,7 @@ void main() {
   group(
     'Validators notNull',
     () {
-      Map<dynamic, bool> domain = <dynamic, bool>{
+      final Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': true,
         ' ': true,
@@ -317,7 +317,7 @@ void main() {
   group(
     'Validators notEmpty',
     () {
-      Map<dynamic, bool> domain = <dynamic, bool>{
+      final Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': false,
         ' ': true,
@@ -387,7 +387,7 @@ void main() {
   group(
     'Validators notBlank',
         () {
-      Map<dynamic, bool> domain = <dynamic, bool>{
+      final Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': false,
         ' ': false,
@@ -457,7 +457,7 @@ void main() {
   group(
     'Validators intGTEZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: false,
         -1: false,
@@ -484,7 +484,7 @@ void main() {
   group(
     'Validators intGTZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: false,
         -1: false,
@@ -511,7 +511,7 @@ void main() {
   group(
     'Validators intLTZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: true,
         -1: true,
@@ -538,7 +538,7 @@ void main() {
   group(
     'Validators intLTEZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: true,
         -1: true,
@@ -565,7 +565,7 @@ void main() {
   group(
     'Validators intNullGTEZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: false,
         -1: false,
@@ -592,7 +592,7 @@ void main() {
   group(
     'Validators intNullGTZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: false,
         -1: false,
@@ -619,7 +619,7 @@ void main() {
   group(
     'Validators intNullLTZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: true,
         -1: true,
@@ -646,7 +646,7 @@ void main() {
   group(
     'Validators intNullLTEZero',
     () {
-      Map<int?, bool> intDomain = <int?, bool>{
+      final Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: true,
         -1: true,

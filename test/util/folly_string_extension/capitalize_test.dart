@@ -8,7 +8,7 @@ void main() {
   group(
     'FollyStringExtension capitalize',
     () {
-      Map<String, String> domain = <String, String>{
+      final Map<String, String> domain = <String, String>{
         'word': 'Word',
         'Word': 'Word',
         'WOrd': 'Word',

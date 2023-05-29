@@ -56,7 +56,7 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
   @override
   TimeOfDay? parse(String? value) {
     if (value != null && isValid(value)) {
-      List<String> parts = value.split(':');
+      final List<String> parts = value.split(':');
       if (parts.length == 2) {
         return TimeOfDay(
           hour: int.parse(parts.first),

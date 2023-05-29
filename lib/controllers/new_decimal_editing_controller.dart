@@ -27,7 +27,7 @@ class NewDecimalEditingController extends ValidatorEditingController<Decimal> {
   ///
   ///
   set decimal(Decimal dec) {
-    String masked = validator.format(dec);
+    final String masked = validator.format(dec);
     if (masked != text) {
       text = masked;
     }

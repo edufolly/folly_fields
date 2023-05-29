@@ -12,7 +12,7 @@ mixin Hashable {
     // { int deep = 1,
     // bool debug = false,}
   ) {
-    int iterated = iterable.fold(
+    final int iterated = iterable.fold(
       0,
       (int h, dynamic i) {
         int hash;
@@ -59,19 +59,19 @@ mixin Hashable {
   ///
   ///
   int combine(int hash, int value) {
-    hash = 0x1fffffff & (hash + value);
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+    int h = 0x1fffffff & (hash + value);
+    h = 0x1fffffff & (h + ((0x0007ffff & h) << 10));
 
-    return hash ^ (hash >> 6);
+    return h ^ (h >> 6);
   }
 
   ///
   ///
   ///
   int finish(int hash) {
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    hash = hash ^ (hash >> 11);
+    int h = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    h = h ^ (h >> 11);
 
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+    return 0x1fffffff & (h + ((0x00003fff & h) << 15));
   }
 }

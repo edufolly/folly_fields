@@ -8,7 +8,7 @@ void main() {
   group(
     'CpfValidator isValid',
     () {
-      Map<String, bool> domain = <String, bool>{
+      final Map<String, bool> domain = <String, bool>{
         '00000000000': false,
         '11111111111': false,
         '22222222222': false,
@@ -47,7 +47,7 @@ void main() {
         domain[CpfValidator.generate(format: true)] = true;
       }
 
-      CpfValidator validator = CpfValidator();
+      final CpfValidator validator = CpfValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -61,13 +61,13 @@ void main() {
   group(
     'CpfValidator format',
     () {
-      Map<String, String> domain = <String, String>{};
+      final Map<String, String> domain = <String, String>{};
 
-      CpfValidator validator = CpfValidator();
+      final CpfValidator validator = CpfValidator();
 
       for (int gen = 0; gen < 10; gen++) {
-        String formatted = CpfValidator.generate(format: true);
-        String striped = validator.strip(formatted);
+        final String formatted = CpfValidator.generate(format: true);
+        final String striped = validator.strip(formatted);
         domain[striped] = formatted;
       }
 
@@ -81,7 +81,7 @@ void main() {
   );
 
   group('CpfValidator Coverage', () {
-    CpfValidator validator = CpfValidator();
+    final CpfValidator validator = CpfValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

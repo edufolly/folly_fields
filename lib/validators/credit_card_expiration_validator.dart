@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
@@ -41,34 +42,25 @@ class CreditCardExpirationValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    value = value.replaceAll(RegExp(r'\D'), '');
+    final String v = value.replaceAll(RegExp(r'\D'), '');
 
-    if (value.length != 4) {
+    if (v.length != 4) {
       return false;
     }
 
-    String month = value.substring(0, 2);
-
-    int? monthNum = int.tryParse(month);
+    final int? monthNum = int.tryParse(v.substring(0, 2));
     if (monthNum == null || monthNum < 1 || monthNum > 12) {
       return false;
     }
 
-    String year = value.substring(2);
+    int? yearNum = int.tryParse(v.substring(2));
 
-    int? yearNum = int.tryParse(year);
     if (yearNum == null) {
       return false;
     }
 
     yearNum += 2000;
 
-    DateTime now = DateTime.now();
-
-    DateTime base = DateTime(now.year, now.month);
-
-    DateTime expiration = DateTime(yearNum, monthNum);
-
-    return expiration.isAfter(base);
+    return DateTime(yearNum, monthNum).isAfter(DateTime.now().monthFirstDay);
   }
 }

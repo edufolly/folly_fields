@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils stringProducer',
     () {
-      Map<dynamic, String> domain = <dynamic, String>{
+      final Map<dynamic, String> domain = <dynamic, String>{
         null: 'null',
         'null': 'null',
         '': '',

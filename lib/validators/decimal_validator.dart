@@ -29,7 +29,7 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   ///
   @override
   String format(Decimal decimal) {
-    List<String> parts = decimal.doubleValue
+    final List<String> parts = decimal.doubleValue
         .toStringAsFixed(precision)
         .replaceAll('.', '')
         .split('')
@@ -78,13 +78,14 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   ///
   @override
   Decimal? parse(String? value) {
-    Decimal decimal = Decimal(precision: precision);
+    final Decimal decimal = Decimal(precision: precision);
 
     if (value == null || value.isEmpty) {
       return decimal;
     }
 
-    List<String> parts = _internalStrip(value).split('').toList(growable: true);
+    final List<String> parts =
+        _internalStrip(value).split('').toList(growable: true);
 
     for (int pos = parts.length; pos <= precision; pos++) {
       parts.insert(0, '0');

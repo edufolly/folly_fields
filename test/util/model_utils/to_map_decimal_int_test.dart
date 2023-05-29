@@ -10,7 +10,7 @@ void main() {
   group(
     'ModelUtils toMapDecimalInt',
     () {
-      Map<Decimal, int> domain = <Decimal, int>{
+      final Map<Decimal, int> domain = <Decimal, int>{
         Decimal(doubleValue: 1, precision: 0): 1,
         Decimal(doubleValue: 1, precision: 2): 100,
         Decimal(doubleValue: 1.1, precision: 2): 110,

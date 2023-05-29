@@ -6,23 +6,23 @@ import 'package:http/http.dart';
 ///
 ///
 void main() async {
-  String version = '10.4.0';
+  const String version = '10.4.0';
 
-  Response response = await get(
+  final Response response = await get(
     Uri.parse(
       'https://raw.githubusercontent.com/fluttercommunity/font_awesome_flutter'
       '/$version/lib/font_awesome_flutter.dart',
     ),
   );
 
-  List<String> lines = <String>[];
+  final List<String> lines = <String>[];
 
-  List<String> rows = response.body.split('\n');
+  final List<String> rows = response.body.split('\n');
 
   for (int pos = 0; pos < rows.length; pos++) {
     String row = rows[pos].trim();
     if (row.startsWith('static const IconData')) {
-      StringBuffer stringBuffer = StringBuffer(row);
+      final StringBuffer stringBuffer = StringBuffer(row);
       while (!row.endsWith(';')) {
         pos++;
         row = rows[pos].trim();
@@ -34,13 +34,13 @@ void main() async {
     }
   }
 
-  RegExp regExp = RegExp('static const IconData (.*)=(.*);');
+  final RegExp regExp = RegExp('static const IconData (.*)=(.*);');
 
   for (final String line in lines) {
-    RegExpMatch? match = regExp.firstMatch(line);
+    final RegExpMatch? match = regExp.firstMatch(line);
     if (match != null) {
-      String? name = match.group(1)?.trim();
-      String? icon = match.group(2)?.trim();
+      final String? name = match.group(1)?.trim();
+      final String? icon = match.group(2)?.trim();
       if ((icon?.contains('IconData') ?? true) && name != null) {
         print("'$name': FontAwesomeIcons.$name,");
       } else {

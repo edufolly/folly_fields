@@ -9,9 +9,9 @@ void main() {
   group(
     'ModelUtils fromJsonNullableDateMillis',
     () {
-      DateTime now = DateTime.now().copyWith(microsecond: 0);
+      final DateTime now = DateTime.now().copyWith(microsecond: 0);
 
-      Map<int?, DateTime?> domain = <int?, DateTime?>{
+      final Map<int?, DateTime?> domain = <int?, DateTime?>{
         null: null,
         now.millisecondsSinceEpoch: now,
         -1: null,

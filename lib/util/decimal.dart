@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 import 'dart:math';
 
 import 'package:folly_fields/util/hashable.dart';

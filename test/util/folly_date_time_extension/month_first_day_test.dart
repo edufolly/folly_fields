@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension firstMonthDay',
     () {
-      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(1900, 2): DateTime(1900, 2),
         DateTime(1900, 2, 2): DateTime(1900, 2),
         DateTime(1900, 2, 27): DateTime(1900, 2),

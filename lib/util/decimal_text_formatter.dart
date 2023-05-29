@@ -59,22 +59,22 @@ class DecimalTextFormatter extends TextInputFormatter {
       return oldValue;
     }
 
-    int oldDecimalCount = oldValue.text.split(decimalSeparator).length;
-    int oldThousandCount = oldValue.text.split(thousandSeparator).length;
+    final int oldDecimalCount = oldValue.text.split(decimalSeparator).length;
+    final int oldThousandCount = oldValue.text.split(thousandSeparator).length;
 
-    int newDecimalCount = newText.split(decimalSeparator).length;
-    int newThousandCount = newText.split(thousandSeparator).length;
+    final int newDecimalCount = newText.split(decimalSeparator).length;
+    final int newThousandCount = newText.split(thousandSeparator).length;
 
     if (oldDecimalCount < newDecimalCount ||
         oldThousandCount < newThousandCount) {
-      int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
+      final int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
 
       // if (kDebugMode) {
       //   print('curPos: $curPos');
       // }
 
       if (newValue.selection.baseOffset <= curPos) {
-        Map<String, dynamic> oldValueJson = oldValue.toJSON();
+        final Map<String, dynamic> oldValueJson = oldValue.toJSON();
         oldValueJson['selectionBase'] = curPos;
         oldValueJson['selectionExtent'] = curPos;
 
@@ -94,7 +94,7 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     /// Decimal Part
     if (newText.contains(decimalSeparator)) {
-      List<String> parts = newText.split(decimalSeparator);
+      final List<String> parts = newText.split(decimalSeparator);
 
       // if (kDebugMode) {
       //   print('Integer Part: ${parts.first}');
@@ -112,22 +112,23 @@ class DecimalTextFormatter extends TextInputFormatter {
       if (newText.length == 1) {
         newText += decimalSeparator.padRight(precision + 1, '0');
       } else {
-        int pos = newText.length - precision;
+        final int pos = newText.length - precision;
         newText = newText.substring(0, pos) +
             decimalSeparator +
             newText.substring(pos);
       }
     }
 
-    int firstLength = newText.length;
+    final int firstLength = newText.length;
 
     /// Integer Part
-    List<String> parts = newText.split(decimalSeparator);
+    final List<String> parts = newText.split(decimalSeparator);
 
-    int integerPart =
+    final int integerPart =
         int.tryParse(parts.first.replaceAll(thousandSeparator, '')) ?? 0;
 
-    List<String> numbers = integerPart.toString().split('').reversed.toList();
+    final List<String> numbers =
+        integerPart.toString().split('').reversed.toList();
 
     for (int pos = 3; pos < numbers.length; pos += 4) {
       numbers.insert(pos, thousandSeparator);
@@ -135,16 +136,16 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     newText = numbers.reversed.join() + decimalSeparator + parts.last;
 
-    Map<String, dynamic> newValueJson = newValue.toJSON();
+    final Map<String, dynamic> newValueJson = newValue.toJSON();
 
     newValueJson['text'] = newText;
 
     /// Cursor Positioning
-    int newTextLength = newText.length;
+    final int newTextLength = newText.length;
 
     int newPos = newValue.selection.baseOffset;
 
-    int delta = newTextLength - firstLength;
+    final int delta = newTextLength - firstLength;
 
     // if (kDebugMode) {
     //   print('delta: $delta');

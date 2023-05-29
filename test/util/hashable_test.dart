@@ -10,7 +10,7 @@ void main() {
   group(
     'Hashable',
     () {
-      Map<HashableMock, int> domain = <HashableMock, int>{
+      final Map<HashableMock, int> domain = <HashableMock, int>{
         HashableMock(): 44916520,
       };
 

@@ -52,7 +52,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
   ///
   @override
   String format(Decimal decimal) {
-    List<String> parts = decimal.doubleValue
+    final List<String> parts = decimal.doubleValue
         .toStringAsFixed(precision)
         .replaceAll('.', '')
         .split('')
@@ -84,13 +84,13 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
   ///
   @override
   Decimal? parse(String? value) {
-    Decimal decimal = Decimal(precision: precision);
+    final Decimal decimal = Decimal(precision: precision);
 
     if (value == null || value.isEmpty) {
       return decimal;
     }
 
-    int sepPos = value.indexOf(decimalSeparator);
+    final int sepPos = value.indexOf(decimalSeparator);
 
     String integerPart = '0';
     String decimalPart = '0';
@@ -108,7 +108,7 @@ class NewDecimalValidator extends AbstractParserValidator<Decimal> {
       decimalPart = decimalPart.substring(0, precision);
     }
 
-    String str = '$integerPart.$decimalPart';
+    final String str = '$integerPart.$decimalPart';
 
     decimal.doubleValue = double.tryParse(str) ?? 0;
 

@@ -10,9 +10,9 @@ void main() {
   group(
     'ModelUtils fromJsonDateMillis',
     () {
-      DateTime now = DateTime.now().copyWith(microsecond: 0);
+      final DateTime now = DateTime.now().copyWith(microsecond: 0);
 
-      Map<Duplet<int?, DateTime?>, dynamic> domain =
+      final Map<Duplet<int?, DateTime?>, dynamic> domain =
           <Duplet<int?, DateTime?>, dynamic>{
         Duplet<int?, DateTime?>(null, now): now,
         Duplet<int?, DateTime?>(now.millisecondsSinceEpoch, null): now,

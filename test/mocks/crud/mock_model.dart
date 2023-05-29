@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-top-level-members-in-tests
-
 import 'package:folly_fields/crud/abstract_model.dart';
 
 ///
@@ -27,7 +25,7 @@ class MockModel extends AbstractModel<String> {
   ///
   @override
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = super.toMap();
+    final Map<String, dynamic> map = super.toMap();
     map['name'] = name;
     map['age'] = age;
 

@@ -25,28 +25,24 @@ class CpfCnpjValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  String format(String value) {
-    String stripped = strip(value);
-
-    return (stripped.length > 11)
-        ? CNPJValidator.format(value)
-        : CPFValidator.format(value);
-  }
+  String format(String value) => (strip(value).length > 11)
+      ? CNPJValidator.format(value)
+      : CPFValidator.format(value);
 
   ///
   ///
   ///
   @override
   bool isValid(String value) {
-    value = strip(value);
+    final String v = strip(value);
 
-    if (value.isEmpty) {
+    if (v.isEmpty) {
       return false;
     }
 
-    return (value.length > 11)
-        ? CNPJValidator.isValid(value, false)
-        : CPFValidator.isValid(value, false);
+    return (v.length > 11)
+        ? CNPJValidator.isValid(v, false)
+        : CPFValidator.isValid(v, false);
   }
 
   ///
