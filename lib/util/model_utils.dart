@@ -58,12 +58,13 @@ class ModelUtils {
   ///
   ///
   static List<T> fromJsonList<T extends AbstractModel<Object>>(
-    List<Map<String, dynamic>>? value,
+    List<dynamic>? value,
     AbstractConsumer<T> consumer,
   ) =>
       fromJsonSafeList<T>(
         value,
-        producer: (dynamic e) => consumer.fromJson(e),
+        producer: (dynamic e) =>
+            consumer.fromJson(AbstractModel.fromMultiMap(e)),
       );
 
   ///
