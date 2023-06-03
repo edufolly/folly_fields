@@ -24,7 +24,7 @@ class CreditCardModel {
   ///
   ///
   Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = <String, dynamic>{};
+    final Map<String, dynamic> map = <String, dynamic>{};
     map['number'] = number;
     map['expiration'] = expiration;
     map['code'] = code;
@@ -172,36 +172,29 @@ class _CreditCardState extends State<CreditCard> {
   ///
   ///
   ///
-  Icon getIcon(CreditCardType creditCardType, Color? color) {
-    switch (creditCardType) {
-      case CreditCardType.visa:
-        return Icon(FontAwesomeIcons.ccVisa, color: color);
-      case CreditCardType.mastercard:
-        return Icon(FontAwesomeIcons.ccMastercard, color: color);
-      case CreditCardType.amex:
-        return Icon(FontAwesomeIcons.ccAmex, color: color);
-      case CreditCardType.dinersclub:
-        return Icon(FontAwesomeIcons.ccDinersClub, color: color);
-      case CreditCardType.discover:
-        return Icon(FontAwesomeIcons.ccDiscover, color: color);
-      case CreditCardType.jcb:
-        return Icon(FontAwesomeIcons.ccJcb, color: color);
-      case CreditCardType.unionpay:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.maestro:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.elo:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.mir:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.hiper:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.hipercard:
-        return Icon(FontAwesomeIcons.creditCard, color: color);
-      case CreditCardType.unknown:
-        return Icon(FontAwesomeIcons.solidCreditCard, color: color);
-    }
-  }
+  Icon getIcon(CreditCardType creditCardType, Color? color) =>
+      switch (creditCardType) {
+        CreditCardType.visa => Icon(FontAwesomeIcons.ccVisa, color: color),
+        CreditCardType.mastercard =>
+          Icon(FontAwesomeIcons.ccMastercard, color: color),
+        CreditCardType.amex => Icon(FontAwesomeIcons.ccAmex, color: color),
+        CreditCardType.dinersclub =>
+          Icon(FontAwesomeIcons.ccDinersClub, color: color),
+        CreditCardType.discover =>
+          Icon(FontAwesomeIcons.ccDiscover, color: color),
+        CreditCardType.jcb => Icon(FontAwesomeIcons.ccJcb, color: color),
+        CreditCardType.unionpay =>
+          Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.maestro =>
+          Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.elo => Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.mir => Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.hiper => Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.hipercard =>
+          Icon(FontAwesomeIcons.creditCard, color: color),
+        CreditCardType.unknown =>
+          Icon(FontAwesomeIcons.solidCreditCard, color: color)
+      };
 
   ///
   ///

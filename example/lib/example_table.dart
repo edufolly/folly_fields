@@ -98,48 +98,33 @@ class ExampleTableState extends State<ExampleTable> {
             FollyCell.textHeaderCenter('MAC Address'),
           ],
           cellBuilder: (int row, int col) {
-            ExampleModel model = list[row];
-            switch (col) {
-              case 0:
-                return FollyCell.text(model.text);
-
-              case 1:
-                return FollyCell.text(model.email);
-
-              case 2:
-                return FollyCell.text(
+            final ExampleModel model = list[row];
+            return switch (col) {
+              0 => FollyCell.text(model.text),
+              1 => FollyCell.text(model.email),
+              2 => FollyCell.text(
                   cpfValidator.format(model.cpf),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
-                );
-
-              case 3:
-                return FollyCell.text(
+                ),
+              3 => FollyCell.text(
                   cnpjValidator.format(model.cnpj),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
-                );
-
-              case 4:
-                return FollyCell.number(model.decimal.doubleValue);
-
-              case 5:
-                return FollyCell.text(
+                ),
+              4 => FollyCell.number(model.decimal.doubleValue),
+              5 => FollyCell.text(
                   phoneValidator.format(model.phone),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
-                );
-
-              case 6:
-                return FollyCell.text(
+                ),
+              6 => FollyCell.text(
                   macAddressValidator.format(model.macAddress!),
                   align: Alignment.center,
                   textAlign: TextAlign.center,
-                );
-
-              default:
-                return FollyCell.text('ERRO: $row - $col');
-            }
+                ),
+              _ => FollyCell.text('ERRO: $row - $col')
+            };
           },
           onRowTap: (int row) => Navigator.of(context).push(
             MaterialPageRoute<void>(
