@@ -1,3 +1,7 @@
+## [1.0.3] - 2023-06-03
+
+* Fixing ModelUtils.fromJsonList method.
+
 ## [1.0.2] - 2023-05-29
 
 * Allow NewDecimalField to work with negative numbers.

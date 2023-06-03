@@ -26,7 +26,7 @@ class ExampleMapModel {
   ///
   ///
   Map<String, String> toMap() {
-    Map<String, String> map = <String, String>{};
+    final Map<String, String> map = <String, String>{};
     if (test != null) {
       map['test'] = test!;
     }

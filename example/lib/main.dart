@@ -165,13 +165,13 @@ class MyHomePageState extends State<MyHomePage> {
   ///
   @override
   Widget build(BuildContext context) {
-    List<MyMenuItem> menuItems = <MyMenuItem>[
+    final List<MyMenuItem> menuItems = <MyMenuItem>[
       /// Github
       MyMenuItem(
         name: 'GitHub',
         iconData: FontAwesomeIcons.github,
         onPressed: (BuildContext context) {
-          CircularWaiting wait = CircularWaiting(context)..show();
+          final CircularWaiting wait = CircularWaiting(context)..show();
 
           launchUrlString(
             'https://github.com/edufolly/folly_fields/',
@@ -180,7 +180,7 @@ class MyHomePageState extends State<MyHomePage> {
             (_) {
               Future<void>.delayed(
                 const Duration(seconds: 2),
-                () => wait.close(),
+                wait.close,
               );
             },
           ).catchError(
@@ -199,7 +199,7 @@ class MyHomePageState extends State<MyHomePage> {
         name: 'Circular Waiting',
         iconData: FontAwesomeIcons.spinner,
         onPressed: (BuildContext context) {
-          CircularWaiting wait = CircularWaiting(
+          final CircularWaiting wait = CircularWaiting(
             context,
             message: 'This is the main message.',
             subtitle: 'Wait 3 seconds...',
@@ -207,7 +207,7 @@ class MyHomePageState extends State<MyHomePage> {
 
           Future<void>.delayed(
             const Duration(seconds: 3),
-            () => wait.close(),
+            wait.close,
           );
         },
       ),
@@ -273,12 +273,12 @@ class MyHomePageState extends State<MyHomePage> {
             ),
           ),
           builder: (BuildContext context, Response response, _) {
-            int statusCode = response.statusCode;
+            final int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');
             }
 
-            String code = response.body;
+            final String code = response.body;
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24),
