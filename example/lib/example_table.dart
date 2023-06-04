@@ -3,6 +3,7 @@ import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/phone_validator.dart';
+import 'package:folly_fields/widgets/folly_cell.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_table.dart';
 import 'package:folly_fields_example/advanced/example_builder.dart';
