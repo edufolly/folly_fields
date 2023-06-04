@@ -1,3 +1,6 @@
+// TODO(edufolly): Remove in version 1.1.0
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,12 +10,37 @@ import 'package:folly_fields/widgets/folly_divider.dart';
 ///
 ///
 ///
+class FollyTableColumnBuilder {
+  final double width;
+  final FollyCell Function(int row) builder;
+  final FollyCell header;
+
+  ///
+  ///
+  ///
+  FollyTableColumnBuilder({
+    required this.width,
+    required this.builder,
+    this.header = const FollyCell.empty(),
+  });
+}
+
+///
+///
+///
 class FollyTable extends StatefulWidget {
   final int rowsCount;
-  final List<double> columnsSize;
-  final List<FollyCell> headerColumns;
+  final List<FollyTableColumnBuilder>? columnBuilders;
+  @Deprecated('Use columnBuilders instead.')
+  // TODO(edufolly): Remove in version 1.1.0
+  final List<double>? columnsSize;
+  @Deprecated('Use columnBuilders instead.')
+  // TODO(edufolly): Remove in version 1.1.0
+  final FollyCell Function(int row, int column)? cellBuilder;
+  @Deprecated('Use columnBuilders instead.')
+  // TODO(edufolly): Remove in version 1.1.0
+  final List<FollyCell>? headerColumns;
   final double headerHeight;
-  final FollyCell Function(int row, int column) cellBuilder;
   final double rowHeight;
   final void Function(int row)? onRowTap;
   final double dividerHeight;
@@ -28,9 +56,13 @@ class FollyTable extends StatefulWidget {
   ///
   const FollyTable({
     required this.rowsCount,
-    required this.columnsSize,
-    required this.cellBuilder,
-    this.headerColumns = const <FollyCell>[],
+    this.columnBuilders,
+    // TODO(edufolly): Remove in version 1.1.0
+    @Deprecated('Use columnBuilders instead.') this.columnsSize,
+    // TODO(edufolly): Remove in version 1.1.0
+    @Deprecated('Use columnBuilders instead.') this.cellBuilder,
+    // TODO(edufolly): Remove in version 1.1.0
+    @Deprecated('Use columnBuilders instead.') this.headerColumns,
     this.headerHeight = 16.0,
     this.rowHeight = 16.0,
     this.onRowTap,
@@ -42,7 +74,24 @@ class FollyTable extends StatefulWidget {
     this.freezeColumns = 0,
     this.dragDevices,
     super.key,
-  });
+  })  : assert(
+          (columnBuilders != null && columnsSize == null) ||
+              (columnBuilders == null && columnsSize != null),
+          'You must provide either columnBuilders or columnsSize, '
+          'but not both.',
+        ),
+        assert(
+          (columnBuilders != null && cellBuilder == null) ||
+              (columnBuilders == null && cellBuilder != null),
+          'You must provide either columnBuilders or cellBuilder, '
+          'but not both.',
+        ),
+        assert(
+          (columnBuilders != null && headerColumns == null) ||
+              (columnBuilders == null && headerColumns != null),
+          'You must provide either columnBuilders or headerColumns, '
+          'but not both.',
+        );
 
   ///
   ///
@@ -151,7 +200,9 @@ class FollyTableState extends State<FollyTable> {
                 scrollDirection: Axis.horizontal,
                 child: _drawColumns(
                   widget.freezeColumns,
-                  widget.columnsSize.length,
+                  widget.columnBuilders?.length ??
+                      widget.columnsSize?.length ??
+                      0,
                   _internalController,
                 ),
               ),
@@ -194,8 +245,9 @@ class FollyTableState extends State<FollyTable> {
   Column _drawColumns(
     int start,
     int end,
-    ScrollController scrollController,
-  ) {
+    ScrollController scrollController, {
+    double halfPad = 2,
+  }) {
     final List<int> cols = List<int>.generate(
       end - start,
       (int index) => start + index,
@@ -203,7 +255,10 @@ class FollyTableState extends State<FollyTable> {
 
     final double width = cols.fold(
       0,
-      (double p, int i) => p + widget.columnsSize[i] + 4,
+      (double p, int i) =>
+          p +
+          (widget.columnBuilders?[i].width ?? widget.columnsSize?[i] ?? 0) +
+          halfPad * 2,
     );
 
     return Column(
@@ -212,9 +267,17 @@ class FollyTableState extends State<FollyTable> {
           children: cols
               .map(
                 (int col) => _buildCell(
-                  padding: const EdgeInsets.fromLTRB(2, 0, 2, 4),
-                  cell: widget.headerColumns[col],
-                  width: widget.columnsSize[col],
+                  padding: EdgeInsets.only(
+                    left: halfPad,
+                    right: halfPad,
+                    bottom: halfPad * 2,
+                  ),
+                  cell: widget.columnBuilders?[col].header ??
+                      widget.headerColumns?[col] ??
+                      const FollyCell.empty(),
+                  width: widget.columnBuilders?[col].width ??
+                      widget.columnsSize?[col] ??
+                      0,
                   height: widget.headerHeight,
                 ),
               )
@@ -249,8 +312,13 @@ class FollyTableState extends State<FollyTable> {
                           children: cols
                               .map(
                                 (int col) => _buildCell(
-                                  cell: widget.cellBuilder(row, col),
-                                  width: widget.columnsSize[col],
+                                  cell: widget.columnBuilders?[col].builder
+                                          .call(row) ??
+                                      widget.cellBuilder?.call(row, col) ??
+                                      const FollyCell.empty(),
+                                  width: widget.columnBuilders?[col].width ??
+                                      widget.columnsSize?[col] ??
+                                      0,
                                   height: widget.rowHeight,
                                 ),
                               )

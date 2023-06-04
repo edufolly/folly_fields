@@ -80,53 +80,69 @@ class ExampleTableState extends State<ExampleTable> {
           headerHeight: rowHeight,
           rowHeight: rowHeight,
           freezeColumns: 2,
-          columnsSize: const <double>[
-            160,
-            230,
-            150,
-            200,
-            100,
-            150,
-            150,
+          columnBuilders: <FollyTableColumnBuilder>[
+            /// Text
+            FollyTableColumnBuilder(
+              width: 160,
+              header: FollyCell.textHeaderCenter('Text'),
+              builder: (int row) => FollyCell.text(list[row].text),
+            ),
+
+            /// E-mail
+            FollyTableColumnBuilder(
+              width: 230,
+              header: FollyCell.textHeaderCenter('E-mail'),
+              builder: (int row) => FollyCell.text(list[row].email),
+            ),
+
+            /// CPF
+            FollyTableColumnBuilder(
+              width: 150,
+              header: FollyCell.textHeaderCenter('CPF'),
+              builder: (int row) => FollyCell.textCenter(
+                cpfValidator.format(list[row].cpf),
+              ),
+            ),
+
+            /// CNPJ
+            FollyTableColumnBuilder(
+              width: 200,
+              header: FollyCell.textHeaderCenter('CNPJ'),
+              builder: (int row) => FollyCell.textCenter(
+                cnpjValidator.format(list[row].cnpj),
+              ),
+            ),
+
+            
+
           ],
-          headerColumns: <FollyCell>[
-            FollyCell.textHeaderCenter('Text'),
-            FollyCell.textHeaderCenter('E-mail'),
-            FollyCell.textHeaderCenter('CPF'),
-            FollyCell.textHeaderCenter('CNPJ'),
-            FollyCell.textHeaderCenter('Decimal'),
-            FollyCell.textHeaderCenter('Telefone'),
-            FollyCell.textHeaderCenter('MAC Address'),
-          ],
-          cellBuilder: (int row, int col) {
-            final ExampleModel model = list[row];
-            return switch (col) {
-              0 => FollyCell.text(model.text),
-              1 => FollyCell.text(model.email),
-              2 => FollyCell.text(
-                  cpfValidator.format(model.cpf),
-                  align: Alignment.center,
-                  textAlign: TextAlign.center,
-                ),
-              3 => FollyCell.text(
-                  cnpjValidator.format(model.cnpj),
-                  align: Alignment.center,
-                  textAlign: TextAlign.center,
-                ),
-              4 => FollyCell.number(model.decimal.doubleValue),
-              5 => FollyCell.text(
-                  phoneValidator.format(model.phone),
-                  align: Alignment.center,
-                  textAlign: TextAlign.center,
-                ),
-              6 => FollyCell.text(
-                  macAddressValidator.format(model.macAddress!),
-                  align: Alignment.center,
-                  textAlign: TextAlign.center,
-                ),
-              _ => FollyCell.text('ERRO: $row - $col')
-            };
-          },
+          // columnsSize: const <double>[
+          //   100,
+          //   150,
+          //   150,
+          // ],
+          // headerColumns: <FollyCell>[
+          //   FollyCell.textHeaderCenter('Decimal'),
+          //   FollyCell.textHeaderCenter('Telefone'),
+          //   FollyCell.textHeaderCenter('MAC Address'),
+          // ],
+          // cellBuilder: (int row, int col) {
+          //   final ExampleModel model = list[row];
+          //   return switch (col) {
+          //     4 => FollyCell.number(model.decimal.doubleValue),
+          //     5 => FollyCell.text(
+          //         phoneValidator.format(model.phone),
+          //         align: Alignment.center,
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     6 => FollyCell.text(
+          //         macAddressValidator.format(model.macAddress!),
+          //         align: Alignment.center,
+          //         textAlign: TextAlign.center,
+          //       ),
+          //     _ => FollyCell.text('ERRO: $row - $col')
+          //   };
+          // },
           onRowTap: (int row) => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(

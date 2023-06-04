@@ -22,11 +22,11 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   ///
-  FollyCell.empty({
+  const FollyCell.empty({
     this.color = Colors.transparent,
     super.key,
   })  : align = Alignment.center,
-        child = Container();
+        child = const SizedBox.shrink();
 
   ///
   ///

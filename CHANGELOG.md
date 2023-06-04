@@ -1,3 +1,7 @@
+## [1.0.5]
+
+* Creating FollyTableColumnBuilder to help build columns for FollyTable.
+
 ## [1.0.4] - 2023-06-04
 
 * Splitting FollyCell to a new file.
