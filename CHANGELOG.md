@@ -1,3 +1,8 @@
+## [1.0.4] - 2023-06-04
+
+* Splitting FollyCell to a new file.
+* Removing AbstractModel.fromMultiMap call from ModelUtils.fromJsonList method.
+
 ## [1.0.3] - 2023-06-03
 
 * Fixing ModelUtils.fromJsonList method.

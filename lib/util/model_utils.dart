@@ -63,8 +63,7 @@ class ModelUtils {
   ) =>
       fromJsonSafeList<T>(
         value,
-        producer: (dynamic e) =>
-            consumer.fromJson(AbstractModel.fromMultiMap(e)),
+        producer: (dynamic e) => consumer.fromJson(e),
       );
 
   ///
