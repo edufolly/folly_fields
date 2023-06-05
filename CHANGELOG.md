@@ -1,6 +1,7 @@
 ## [1.0.5]
 
 * Creating FollyTableColumnBuilder to help build columns for FollyTable.
+* Deprecating Duplet and Triplet classes instead of using Dart Records.
 
 ## [1.0.4] - 2023-06-04
 

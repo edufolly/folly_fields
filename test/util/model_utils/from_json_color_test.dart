@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/util/duplet.dart';
 import 'package:folly_fields/util/model_utils.dart';
 
 ///
@@ -11,22 +10,22 @@ void main() {
   group(
     'ModelUtils fromJsonColor',
     () {
-      final Map<Duplet<String?, int?>, Color> domain =
-          <Duplet<String?, int?>, Color>{
-        const Duplet<String?, int?>(null, null): Colors.transparent,
-        const Duplet<String?, int?>(null, 0xFF000000): Colors.black,
-        const Duplet<String?, int?>('', null): Colors.transparent,
-        const Duplet<String?, int?>('#', null): Colors.transparent,
-        const Duplet<String?, int?>('#F', null): Colors.transparent,
-        const Duplet<String?, int?>('#FF', null): Colors.transparent,
-        const Duplet<String?, int?>('#FFF', null): Colors.white,
-        const Duplet<String?, int?>('#', 0xFF000000): Colors.black,
-        const Duplet<String?, int?>('#F', 0xFF000000): Colors.black,
-        const Duplet<String?, int?>('#FF', 0xFF000000): Colors.black,
-        const Duplet<String?, int?>('#FFF', 0xFF000000): Colors.white,
+      final Map<({String? a, int? b}), Color> domain =
+          <({String? a, int? b}), Color>{
+        (a: null, b: null): Colors.transparent,
+        (a: null, b: 0xFF000000): Colors.black,
+        (a: '', b: null): Colors.transparent,
+        (a: '#', b: null): Colors.transparent,
+        (a: '#F', b: null): Colors.transparent,
+        (a: '#FF', b: null): Colors.transparent,
+        (a: '#FFF', b: null): Colors.white,
+        (a: '#', b: 0xFF000000): Colors.black,
+        (a: '#F', b: 0xFF000000): Colors.black,
+        (a: '#FF', b: 0xFF000000): Colors.black,
+        (a: '#FFF', b: 0xFF000000): Colors.white,
       };
 
-      for (final MapEntry<Duplet<String?, int?>, Color> input
+      for (final MapEntry<({String? a, int? b}), Color> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',
