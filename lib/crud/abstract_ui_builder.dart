@@ -76,14 +76,22 @@ abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Widget buildBackgroundContainer(BuildContext context, Widget child) =>
-      Container(child: child);
+  Widget buildListBody(BuildContext context, Widget child) => child;
 
   ///
   ///
   ///
-  Widget buildBottomNavigationBar(BuildContext context) =>
-      const SizedBox.shrink();
+  Widget buildSearchBody(BuildContext context, Widget child) => child;
+
+  ///
+  ///
+  ///
+  Widget buildEditBody(BuildContext context, T model, Widget child) => child;
+
+  ///
+  ///
+  ///
+  Widget? buildBottomNavigationBar(BuildContext context) => null;
 
   ///
   ///

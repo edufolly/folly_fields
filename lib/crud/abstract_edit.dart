@@ -155,8 +155,9 @@ class AbstractEditState<
         ],
       ),
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildBackgroundContainer(
+      body: widget.uiBuilder.buildEditBody(
         context,
+        _model,
         Form(
           key: _formKey,
           onWillPop: () async {

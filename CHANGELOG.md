@@ -1,7 +1,14 @@
-## [1.0.5]
+## [1.1.0] - 2023-06-29
 
 * Creating FollyTableColumnBuilder to help build columns for FollyTable.
 * Deprecating Duplet and Triplet classes instead of using Dart Records.
+* Bump Font Awesome to ^10.5.0.
+* AbstractUIBuilder updates:
+    * Method buildBottomNavigationBar return Widget? instead Widget.
+    * Removing method buildBackgroundContainer.
+    * Creating method buildListBody.
+    * Creating method buildSearchBody.
+    * Creating method buildEditBody.
 
 ## [1.0.4] - 2023-06-04
 

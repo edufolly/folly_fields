@@ -409,7 +409,7 @@ class AbstractListState<
             )
           : null,
       bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildBackgroundContainer(
+      body: widget.uiBuilder.buildListBody(
         context,
         SafeFutureBuilder<bool>(
           future: _loadPermissions(context),
@@ -933,7 +933,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: uiBuilder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -943,7 +943,8 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          uiBuilder.buildBottomNavigationBar(context) ??
+              const SizedBox.shrink(),
         ],
       );
     } else {
@@ -962,7 +963,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: uiBuilder.buildSearchBody(
               context,
               SafeFutureBuilder<List<W>>(
                 future: consumer.list(
@@ -993,7 +994,8 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          uiBuilder.buildBottomNavigationBar(context) ??
+              const SizedBox.shrink(),
         ],
       );
     }
@@ -1008,7 +1010,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: uiBuilder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -1018,7 +1020,8 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          uiBuilder.buildBottomNavigationBar(context) ??
+              const SizedBox.shrink(),
         ],
       );
     } else {
@@ -1038,7 +1041,7 @@ class InternalSearch<
         _lastWidget = Column(
           children: <Widget>[
             Expanded(
-              child: uiBuilder.buildBackgroundContainer(
+              child: uiBuilder.buildSearchBody(
                 context,
                 SafeFutureBuilder<List<W>>(
                   future: consumer.list(
@@ -1095,7 +1098,8 @@ class InternalSearch<
                 ),
               ),
             ),
-            uiBuilder.buildBottomNavigationBar(context),
+            uiBuilder.buildBottomNavigationBar(context) ??
+                const SizedBox.shrink(),
           ],
         );
 
