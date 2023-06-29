@@ -112,37 +112,7 @@ class ExampleTableState extends State<ExampleTable> {
                 cnpjValidator.format(list[row].cnpj),
               ),
             ),
-
-            
-
           ],
-          // columnsSize: const <double>[
-          //   100,
-          //   150,
-          //   150,
-          // ],
-          // headerColumns: <FollyCell>[
-          //   FollyCell.textHeaderCenter('Decimal'),
-          //   FollyCell.textHeaderCenter('Telefone'),
-          //   FollyCell.textHeaderCenter('MAC Address'),
-          // ],
-          // cellBuilder: (int row, int col) {
-          //   final ExampleModel model = list[row];
-          //   return switch (col) {
-          //     4 => FollyCell.number(model.decimal.doubleValue),
-          //     5 => FollyCell.text(
-          //         phoneValidator.format(model.phone),
-          //         align: Alignment.center,
-          //         textAlign: TextAlign.center,
-          //       ),
-          //     6 => FollyCell.text(
-          //         macAddressValidator.format(model.macAddress!),
-          //         align: Alignment.center,
-          //         textAlign: TextAlign.center,
-          //       ),
-          //     _ => FollyCell.text('ERRO: $row - $col')
-          //   };
-          // },
           onRowTap: (int row) => Navigator.of(context).push(
             MaterialPageRoute<void>(
               builder: (_) => ExampleEdit(
