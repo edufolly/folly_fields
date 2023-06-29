@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+import 'dart:io';
 
 import 'package:http/http.dart';
 
@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 ///
 ///
 void main() async {
-  const String version = '10.4.0';
+  const String version = '10.5.0';
 
   final Response response = await get(
     Uri.parse(
@@ -36,16 +36,22 @@ void main() async {
 
   final RegExp regExp = RegExp('static const IconData (.*)=(.*);');
 
+  final StringBuffer sb = StringBuffer();
+
   for (final String line in lines) {
     final RegExpMatch? match = regExp.firstMatch(line);
     if (match != null) {
       final String? name = match.group(1)?.trim();
       final String? icon = match.group(2)?.trim();
       if ((icon?.contains('IconData') ?? true) && name != null) {
-        print("'$name': FontAwesomeIcons.$name,");
+        sb.writeln("'$name': FontAwesomeIcons.$name,");
       } else {
-        print("'$name': FontAwesomeIcons.$icon,");
+        sb.writeln("'$name': FontAwesomeIcons.$icon,");
       }
     }
   }
+
+  File('fa_code.txt')
+    ..createSync(recursive: true)
+    ..writeAsStringSync(sb.toString());
 }

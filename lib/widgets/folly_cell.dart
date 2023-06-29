@@ -22,11 +22,11 @@ class FollyCell extends StatelessWidget {
   ///
   ///
   ///
-  FollyCell.empty({
+  const FollyCell.empty({
     this.color = Colors.transparent,
     super.key,
   })  : align = Alignment.center,
-        child = Container();
+        child = const SizedBox.shrink();
 
   ///
   ///
@@ -283,17 +283,63 @@ class FollyCell extends StatelessWidget {
     dynamic value, {
     Alignment align = Alignment.centerRight,
     Color color = Colors.transparent,
+    TextAlign textAlign = TextAlign.end,
+    TextStyle? style,
+    String zeroText = '-  ',
+    bool selectable = false,
+    Key? key,
   }) =>
       value is num && value > 0
           ? FollyCell.number(
               value,
               align: align,
               color: color,
+              textAlign: textAlign,
+              style: style,
+              selectable: selectable,
+              key: key,
             )
           : FollyCell.text(
-              '-  ',
+              zeroText,
               align: align,
               color: color,
+              textAlign: textAlign,
+              style: style,
+              selectable: selectable,
+              key: key,
+            );
+
+  ///
+  ///
+  ///
+  factory FollyCell.notZero(
+    dynamic value, {
+    Alignment align = Alignment.centerRight,
+    Color color = Colors.transparent,
+    TextAlign textAlign = TextAlign.end,
+    TextStyle? style,
+    String zeroText = '--',
+    bool selectable = false,
+    Key? key,
+  }) =>
+      value is num && value != 0
+          ? FollyCell.integer(
+              value,
+              align: align,
+              color: color,
+              textAlign: textAlign,
+              style: style,
+              selectable: selectable,
+              key: key,
+            )
+          : FollyCell.text(
+              zeroText,
+              align: align,
+              color: color,
+              textAlign: textAlign,
+              style: style,
+              selectable: selectable,
+              key: key,
             );
 
   ///

@@ -56,4 +56,76 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
         'Par': Colors.red,
         'Impar': Colors.green,
       };
+
+  ///
+  ///
+  ///
+  @override
+  Widget buildListBody(BuildContext context, Widget child) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ColoredBox(
+          color: Theme.of(context).colorScheme.primary,
+          child: Text(
+            'buildListBody',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Expanded(child: child),
+      ],
+    );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  Widget buildSearchBody(BuildContext context, Widget child) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ColoredBox(
+          color: Theme.of(context).colorScheme.primary,
+          child: Text(
+            'buildSearchBody',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Expanded(child: child),
+      ],
+    );
+  }
+
+  ///
+  ///
+  ///
+  @override
+  Widget buildEditBody(BuildContext context, ExampleModel model, Widget child) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        ColoredBox(
+          color: Theme.of(context).colorScheme.primary,
+          child: Text(
+            'buildSearchBody',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Expanded(child: child),
+      ],
+    );
+  }
 }
