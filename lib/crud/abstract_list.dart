@@ -711,7 +711,9 @@ class AbstractListState<
         MaterialPageRoute<T>(builder: (_) => widget),
       );
 
-      await _loadData(context, clear: clear);
+      if (mounted) {
+        await _loadData(context, clear: clear);
+      }
     }
   }
 
