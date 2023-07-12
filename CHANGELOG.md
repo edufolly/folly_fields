@@ -1,3 +1,7 @@
+## [1.1.1] - 2023-07-12
+
+* Fixing AbstractList mount status.
+
 ## [1.1.0] - 2023-06-29
 
 * Creating FollyTableColumnBuilder to help build columns for FollyTable.
