@@ -27,7 +27,7 @@ jobs:
         run: |
           URL=$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/releases/latest
           LATEST=$(curl --silent "$URL" | jq -r .name)
-          if [ "$LATEST" == "$VERSION" ]; then
+          if [ "$LATEST" == "v$VERSION" ]; then
             echo "Version already used: $VERSION"
             exit 1
           fi
