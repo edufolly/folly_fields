@@ -1,9 +1,10 @@
 # FollyFields
 
-[![BuildWithLove](https://img.shields.io/badge/%20built%20with-%20%E2%9D%A4-ff69b4.svg "build with love")](https://github.com/edufolly/folly_fields/stargazers)
-[![pub package](https://img.shields.io/pub/v/folly_fields?include_prereleases.svg "Folly Fields")](https://pub.dev/packages/folly_fields)
-[![FollyFields](https://img.shields.io/github/license/edufolly/folly_fields)](https://github.com/edufolly/folly_fields)
-[![FollyFields](https://img.shields.io/github/actions/workflow/status/edufolly/folly_fields/main.yml?branch=main)](https://github.com/edufolly/folly_fields)
+[![Build With Love](https://img.shields.io/badge/%20built%20with-%20%E2%9D%A4-ff69b4.svg)](https://github.com/edufolly/folly_fields/stargazers)
+[![Version](https://img.shields.io/pub/v/folly_fields?color=orange)](https://pub.dev/packages/folly_fields)
+[![Licence](https://img.shields.io/github/license/edufolly/folly_fields?color=blue)](https://github.com/edufolly/folly_fields/blob/main/LICENSE)
+[![Build](https://img.shields.io/github/actions/workflow/status/edufolly/folly_fields/main.yml?branch=main)](https://github.com/edufolly/folly_fields/releases/latest)
+[![Coverage Report](https://img.shields.io/badge/coverage-report-C08EA1)](https://edufolly.github.io/folly_fields/coverage/html/)
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
