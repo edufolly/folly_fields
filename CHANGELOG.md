@@ -1,3 +1,7 @@
+## [1.2.2] - 2023-07-15
+
+* Removing nullable from columnBuilders in FollyTable.
+
 ## [1.2.1] - 2023-07-15
 
 * Removing column attribute to FollyTableColumnBuilder.
