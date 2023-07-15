@@ -1,3 +1,8 @@
+## [1.2.0] - 2023-07-15
+
+* Adding column attribute to FollyTableColumnBuilder.
+* Removing Duplet class.
+
 ## [1.1.1] - 2023-07-12
 
 * Fixing AbstractList mount status.
