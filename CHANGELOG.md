@@ -1,3 +1,7 @@
+## [1.2.1] - 2023-07-15
+
+* Removing column attribute to FollyTableColumnBuilder.
+
 ## [1.2.0] - 2023-07-15
 
 * Adding column attribute to FollyTableColumnBuilder.

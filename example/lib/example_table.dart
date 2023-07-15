@@ -85,21 +85,21 @@ class ExampleTableState extends State<ExampleTable> {
             FollyTableColumnBuilder(
               width: 160,
               header: FollyCell.textHeaderCenter('Text'),
-              builder: (int row, int col) => FollyCell.text(list[row].text),
+              builder: (int row) => FollyCell.text(list[row].text),
             ),
 
             /// E-mail
             FollyTableColumnBuilder(
               width: 230,
               header: FollyCell.textHeaderCenter('E-mail'),
-              builder: (int row, int col) => FollyCell.text(list[row].email),
+              builder: (int row) => FollyCell.text(list[row].email),
             ),
 
             /// CPF
             FollyTableColumnBuilder(
               width: 150,
               header: FollyCell.textHeaderCenter('CPF'),
-              builder: (int row, int col) => FollyCell.textCenter(
+              builder: (int row) => FollyCell.textCenter(
                 cpfValidator.format(list[row].cpf),
               ),
             ),
@@ -108,7 +108,7 @@ class ExampleTableState extends State<ExampleTable> {
             FollyTableColumnBuilder(
               width: 200,
               header: FollyCell.textHeaderCenter('CNPJ'),
-              builder: (int row, int col) => FollyCell.textCenter(
+              builder: (int row) => FollyCell.textCenter(
                 cnpjValidator.format(list[row].cnpj),
               ),
             ),

@@ -9,7 +9,7 @@ import 'package:folly_fields/widgets/folly_divider.dart';
 ///
 class FollyTableColumnBuilder {
   final double width;
-  final FollyCell Function(int row, int col) builder;
+  final FollyCell Function(int row) builder;
   final FollyCell header;
 
   ///
@@ -271,7 +271,7 @@ class FollyTableState extends State<FollyTable> {
                               .map(
                                 (int col) => _buildCell(
                                   cell: widget.columnBuilders?[col].builder
-                                          .call(row, col) ??
+                                          .call(row) ??
                                       const FollyCell.empty(),
                                   width: widget.columnBuilders?[col].width ?? 0,
                                   height: widget.rowHeight,
