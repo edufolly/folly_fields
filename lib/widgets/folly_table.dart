@@ -27,7 +27,7 @@ class FollyTableColumnBuilder {
 ///
 class FollyTable extends StatefulWidget {
   final int rowsCount;
-  final List<FollyTableColumnBuilder>? columnBuilders;
+  final List<FollyTableColumnBuilder> columnBuilders;
   final double headerHeight;
   final double rowHeight;
   final void Function(int row)? onRowTap;
@@ -44,7 +44,7 @@ class FollyTable extends StatefulWidget {
   ///
   const FollyTable({
     required this.rowsCount,
-    this.columnBuilders,
+    required this.columnBuilders,
     this.headerHeight = 16.0,
     this.rowHeight = 16.0,
     this.onRowTap,
@@ -157,7 +157,6 @@ class FollyTableState extends State<FollyTable> {
             ),
             child: Scrollbar(
               controller: _horizontalController,
-              // isAlwaysShown: widget.horizontalScrollAlwaysVisible,
               thumbVisibility: widget.horizontalScrollAlwaysVisible,
               thickness: widget.scrollBarThickness,
               child: SingleChildScrollView(
@@ -165,7 +164,7 @@ class FollyTableState extends State<FollyTable> {
                 scrollDirection: Axis.horizontal,
                 child: _drawColumns(
                   widget.freezeColumns,
-                  widget.columnBuilders?.length ?? 0,
+                  widget.columnBuilders.length,
                   _internalController,
                 ),
               ),
@@ -218,8 +217,7 @@ class FollyTableState extends State<FollyTable> {
 
     final double width = cols.fold(
       0,
-      (double p, int i) =>
-          p + (widget.columnBuilders?[i].width ?? 0) + halfPad * 2,
+      (double p, int i) => p + (widget.columnBuilders[i].width) + halfPad * 2,
     );
 
     return Column(
@@ -233,9 +231,8 @@ class FollyTableState extends State<FollyTable> {
                     right: halfPad,
                     bottom: halfPad * 2,
                   ),
-                  cell: widget.columnBuilders?[col].header ??
-                      const FollyCell.empty(),
-                  width: widget.columnBuilders?[col].width ?? 0,
+                  cell: widget.columnBuilders[col].header,
+                  width: widget.columnBuilders[col].width,
                   height: widget.headerHeight,
                 ),
               )
@@ -270,10 +267,9 @@ class FollyTableState extends State<FollyTable> {
                           children: cols
                               .map(
                                 (int col) => _buildCell(
-                                  cell: widget.columnBuilders?[col].builder
-                                          .call(row) ??
-                                      const FollyCell.empty(),
-                                  width: widget.columnBuilders?[col].width ?? 0,
+                                  cell: widget.columnBuilders[col].builder
+                                      .call(row),
+                                  width: widget.columnBuilders[col].width,
                                   height: widget.rowHeight,
                                 ),
                               )
