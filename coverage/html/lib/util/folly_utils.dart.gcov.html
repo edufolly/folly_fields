@@ -31,13 +31,13 @@
             <td class="headerValue">Folly Fields</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">79</td>
-            <td class="headerCovTableEntry">79</td>
+            <td class="headerCovTableEntry">80</td>
+            <td class="headerCovTableEntry">80</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-07-15 23:35:19</td>
+            <td class="headerValue">2023-07-16 23:55:12</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -232,68 +232,74 @@
 <a name="170"><span class="lineNum">     170 </span>            :   ///</a>
 <a name="171"><span class="lineNum">     171 </span>            :   ///</a>
 <a name="172"><span class="lineNum">     172 </span>            :   ///</a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineCov">          3 :   static Color? colorParse(String? text, [int? defaultColor]) {</span></a>
-<a name="174"><span class="lineNum">     174 </span>            :     try {</a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          9 :       String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineCov">          3 :       if (!t.startsWith('0x')) {</span></a>
-<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          6 :         if (t.length &lt; 3) {</span></a>
-<a name="178"><span class="lineNum">     178 </span><span class="lineCov">          3 :           throw Exception('Length less than 3.');</span></a>
-<a name="179"><span class="lineNum">     179 </span>            :         }</a>
-<a name="180"><span class="lineNum">     180 </span>            : </a>
-<a name="181"><span class="lineNum">     181 </span><span class="lineCov">          3 :         t = switch (t.length) {</span></a>
-<a name="182"><span class="lineNum">     182 </span><span class="lineCov">         24 :           3 =&gt; 'ff${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}',</span></a>
-<a name="183"><span class="lineNum">     183 </span><span class="lineCov">         20 :           4 =&gt; '${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}${t[3]}${t[3]}',</span></a>
-<a name="184"><span class="lineNum">     184 </span><span class="lineCov">          2 :           5 =&gt; '',</span></a>
-<a name="185"><span class="lineNum">     185 </span><span class="lineCov">          4 :           6 =&gt; 'ff$t',</span></a>
-<a name="186"><span class="lineNum">     186 </span><span class="lineCov">          2 :           7 =&gt; '',</span></a>
-<a name="187"><span class="lineNum">     187 </span>            :           _ =&gt; t</a>
-<a name="188"><span class="lineNum">     188 </span>            :         };</a>
-<a name="189"><span class="lineNum">     189 </span>            : </a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          3 :         t = '0x$t';</span></a>
-<a name="191"><span class="lineNum">     191 </span>            :       }</a>
-<a name="192"><span class="lineNum">     192 </span>            : </a>
-<a name="193"><span class="lineNum">     193 </span><span class="lineCov">          6 :       if (t.length &gt; 10) {</span></a>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">          2 :         t = t.substring(0, 10);</span></a>
-<a name="195"><span class="lineNum">     195 </span>            :       }</a>
-<a name="196"><span class="lineNum">     196 </span>            : </a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">          6 :       return Color(int.parse(t));</span></a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          3 :     } on Exception catch (_) {</span></a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          1 :       return defaultColor == null ? null : Color(defaultColor);</span></a>
-<a name="200"><span class="lineNum">     200 </span>            :     }</a>
-<a name="201"><span class="lineNum">     201 </span>            :   }</a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">          1 :   static String colorHex(Color color) =&gt;</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          4 :       color.value.toRadixString(16).toUpperCase().padLeft(8, '0');</span></a>
+<a name="175"><span class="lineNum">     175 </span>            : </a>
+<a name="176"><span class="lineNum">     176 </span>            :   ///</a>
+<a name="177"><span class="lineNum">     177 </span>            :   ///</a>
+<a name="178"><span class="lineNum">     178 </span>            :   ///</a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">          3 :   static Color? colorParse(String? text) {</span></a>
+<a name="180"><span class="lineNum">     180 </span>            :     try {</a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineCov">          9 :       String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineCov">          3 :       if (!t.startsWith('0x')) {</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">          6 :         if (t.length &lt; 3) {</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineCov">          3 :           throw Exception('Length less than 3.');</span></a>
+<a name="185"><span class="lineNum">     185 </span>            :         }</a>
+<a name="186"><span class="lineNum">     186 </span>            : </a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          3 :         t = switch (t.length) {</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">         24 :           3 =&gt; 'ff${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}',</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">         20 :           4 =&gt; '${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}${t[3]}${t[3]}',</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          2 :           5 =&gt; '',</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          4 :           6 =&gt; 'ff$t',</span></a>
+<a name="192"><span class="lineNum">     192 </span><span class="lineCov">          2 :           7 =&gt; '',</span></a>
+<a name="193"><span class="lineNum">     193 </span>            :           _ =&gt; t</a>
+<a name="194"><span class="lineNum">     194 </span>            :         };</a>
+<a name="195"><span class="lineNum">     195 </span>            : </a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          3 :         t = '0x$t';</span></a>
+<a name="197"><span class="lineNum">     197 </span>            :       }</a>
+<a name="198"><span class="lineNum">     198 </span>            : </a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          6 :       if (t.length &gt; 10) {</span></a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">          2 :         t = t.substring(0, 10);</span></a>
+<a name="201"><span class="lineNum">     201 </span>            :       }</a>
 <a name="202"><span class="lineNum">     202 </span>            : </a>
-<a name="203"><span class="lineNum">     203 </span>            :   ///</a>
-<a name="204"><span class="lineNum">     204 </span>            :   ///</a>
-<a name="205"><span class="lineNum">     205 </span>            :   ///</a>
-<a name="206"><span class="lineNum">     206 </span><span class="lineCov">          1 :   static MaterialColor? createMaterialColor({</span></a>
-<a name="207"><span class="lineNum">     207 </span>            :     int? intColor,</a>
-<a name="208"><span class="lineNum">     208 </span>            :     Color? color,</a>
-<a name="209"><span class="lineNum">     209 </span>            :   }) {</a>
-<a name="210"><span class="lineNum">     210 </span>            :     if (intColor != null) {</a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          1 :       color = Color(intColor);</span></a>
-<a name="212"><span class="lineNum">     212 </span>            :     }</a>
-<a name="213"><span class="lineNum">     213 </span>            : </a>
-<a name="214"><span class="lineNum">     214 </span>            :     if (color == null) {</a>
-<a name="215"><span class="lineNum">     215 </span>            :       return null;</a>
-<a name="216"><span class="lineNum">     216 </span>            :     }</a>
-<a name="217"><span class="lineNum">     217 </span>            : </a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          1 :     return MaterialColor(</span></a>
-<a name="219"><span class="lineNum">     219 </span><span class="lineCov">          1 :       color.value,</span></a>
-<a name="220"><span class="lineNum">     220 </span><span class="lineCov">          1 :       &lt;int, Color&gt;{</span></a>
-<a name="221"><span class="lineNum">     221 </span>            :         50: color,</a>
-<a name="222"><span class="lineNum">     222 </span>            :         100: color,</a>
-<a name="223"><span class="lineNum">     223 </span>            :         200: color,</a>
-<a name="224"><span class="lineNum">     224 </span>            :         300: color,</a>
-<a name="225"><span class="lineNum">     225 </span>            :         400: color,</a>
-<a name="226"><span class="lineNum">     226 </span>            :         500: color,</a>
-<a name="227"><span class="lineNum">     227 </span>            :         600: color,</a>
-<a name="228"><span class="lineNum">     228 </span>            :         700: color,</a>
-<a name="229"><span class="lineNum">     229 </span>            :         800: color,</a>
-<a name="230"><span class="lineNum">     230 </span>            :         900: color,</a>
-<a name="231"><span class="lineNum">     231 </span>            :       },</a>
-<a name="232"><span class="lineNum">     232 </span>            :     );</a>
-<a name="233"><span class="lineNum">     233 </span>            :   }</a>
-<a name="234"><span class="lineNum">     234 </span>            : }</a>
+<a name="203"><span class="lineNum">     203 </span><span class="lineCov">          6 :       return Color(int.parse(t));</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">          3 :     } on Exception catch (_) {</span></a>
+<a name="205"><span class="lineNum">     205 </span>            :       return null;</a>
+<a name="206"><span class="lineNum">     206 </span>            :     }</a>
+<a name="207"><span class="lineNum">     207 </span>            :   }</a>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<a name="209"><span class="lineNum">     209 </span>            :   ///</a>
+<a name="210"><span class="lineNum">     210 </span>            :   ///</a>
+<a name="211"><span class="lineNum">     211 </span>            :   ///</a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">          1 :   static MaterialColor? createMaterialColor({</span></a>
+<a name="213"><span class="lineNum">     213 </span>            :     int? intColor,</a>
+<a name="214"><span class="lineNum">     214 </span>            :     Color? color,</a>
+<a name="215"><span class="lineNum">     215 </span>            :   }) {</a>
+<a name="216"><span class="lineNum">     216 </span>            :     if (intColor != null) {</a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          1 :       color = Color(intColor);</span></a>
+<a name="218"><span class="lineNum">     218 </span>            :     }</a>
+<a name="219"><span class="lineNum">     219 </span>            : </a>
+<a name="220"><span class="lineNum">     220 </span>            :     if (color == null) {</a>
+<a name="221"><span class="lineNum">     221 </span>            :       return null;</a>
+<a name="222"><span class="lineNum">     222 </span>            :     }</a>
+<a name="223"><span class="lineNum">     223 </span>            : </a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">          1 :     return MaterialColor(</span></a>
+<a name="225"><span class="lineNum">     225 </span><span class="lineCov">          1 :       color.value,</span></a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">          1 :       &lt;int, Color&gt;{</span></a>
+<a name="227"><span class="lineNum">     227 </span>            :         50: color,</a>
+<a name="228"><span class="lineNum">     228 </span>            :         100: color,</a>
+<a name="229"><span class="lineNum">     229 </span>            :         200: color,</a>
+<a name="230"><span class="lineNum">     230 </span>            :         300: color,</a>
+<a name="231"><span class="lineNum">     231 </span>            :         400: color,</a>
+<a name="232"><span class="lineNum">     232 </span>            :         500: color,</a>
+<a name="233"><span class="lineNum">     233 </span>            :         600: color,</a>
+<a name="234"><span class="lineNum">     234 </span>            :         700: color,</a>
+<a name="235"><span class="lineNum">     235 </span>            :         800: color,</a>
+<a name="236"><span class="lineNum">     236 </span>            :         900: color,</a>
+<a name="237"><span class="lineNum">     237 </span>            :       },</a>
+<a name="238"><span class="lineNum">     238 </span>            :     );</a>
+<a name="239"><span class="lineNum">     239 </span>            :   }</a>
+<a name="240"><span class="lineNum">     240 </span>            : }</a>
 </pre>
       </td>
     </tr>
