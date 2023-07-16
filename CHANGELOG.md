@@ -1,3 +1,10 @@
+## [1.2.3]
+
+* Fixing NewDecimalField example.
+* Creating FollyUtils.colorHex(Color color) method.
+* Updating FollyUtils.colorParser to return null instead default color.
+* Renaming HomeCard backgroundColor to color.
+
 ## [1.2.2] - 2023-07-15
 
 * Removing nullable from columnBuilders in FollyTable.

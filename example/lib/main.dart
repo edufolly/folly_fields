@@ -399,7 +399,7 @@ class MyHomePageState extends State<MyHomePage> {
                       source: 'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/new_decimal_field.dart',
                       child:
-                          // [DecimalField]
+                          // [NewDecimalField]
                           NewDecimalField(
                         labelPrefix: labelPrefix,
                         label: 'New Decimal*',
@@ -407,7 +407,7 @@ class MyHomePageState extends State<MyHomePage> {
                         initialValue: model.decimal,
                         onSaved: (Decimal? value) => model.decimal = value!,
                       ),
-                      // [/DecimalField]
+                      // [/NewDecimalField]
                     ),
 
                     CodeLink(

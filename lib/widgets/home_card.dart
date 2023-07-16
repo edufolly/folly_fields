@@ -12,7 +12,7 @@ class HomeCard<T, O> extends StatelessWidget {
   final Function(T item) onTap;
   final List<PopupIconMenuItem<O>>? menuItems;
   final Function(T item, O operation)? onMenuSelect;
-  final Color? backgroundColor;
+  final Color? color;
   final String? tooltip;
   final double fontSize;
   final FontWeight? fontWeight;
@@ -29,7 +29,7 @@ class HomeCard<T, O> extends StatelessWidget {
     required this.onTap,
     this.menuItems,
     this.onMenuSelect,
-    this.backgroundColor,
+    this.color,
     this.tooltip,
     this.fontSize = 16,
     this.fontWeight,
@@ -47,7 +47,7 @@ class HomeCard<T, O> extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    final Color onSurface = backgroundColor ??
+    final Color effectiveColor = color ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
@@ -72,13 +72,12 @@ class HomeCard<T, O> extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: SizedBox(
                     height: iconSize,
-                    // ignore: no-equal-arguments
                     width: iconSize,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
                       child: FaIcon(
                         iconData,
-                        color: onSurface,
+                        color: effectiveColor,
                       ),
                     ),
                   ),
@@ -108,7 +107,7 @@ class HomeCard<T, O> extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
-                  color: onSurface,
+                  color: effectiveColor,
                   fontSize: fontSize,
                   fontWeight: fontWeight,
                 ),

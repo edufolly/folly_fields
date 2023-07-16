@@ -26,8 +26,7 @@ class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   @override
-  String format(Color value) =>
-      value.value.toRadixString(16).toUpperCase().padLeft(8, '0');
+  String format(Color value) => FollyUtils.colorHex(value);
 
   ///
   ///
@@ -45,8 +44,7 @@ class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   @override
-  Color? parse(String? text, [int? defaultColor]) =>
-      FollyUtils.colorParse(text, defaultColor);
+  Color? parse(String? text) => FollyUtils.colorParse(text);
 
   ///
   ///
