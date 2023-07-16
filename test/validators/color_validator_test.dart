@@ -199,7 +199,10 @@ void main() {
       for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
           'Testing: ${input.key}',
-          () => expect(validator.parse(input.key, 0xffff0000), input.value),
+          () => expect(
+            validator.parse(input.key, intColor: 0xffff0000),
+            input.value,
+          ),
         );
       }
     },

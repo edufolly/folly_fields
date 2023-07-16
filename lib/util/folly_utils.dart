@@ -170,7 +170,17 @@ class FollyUtils {
   ///
   ///
   ///
-  static Color? colorParse(String? text, [int? defaultColor]) {
+  static String colorHex(Color color) =>
+      color.value.toRadixString(16).toUpperCase().padLeft(8, '0');
+
+  ///
+  ///
+  ///
+  static Color? colorParse(
+    String? text, {
+    Color? defaultColor,
+    int? intColor,
+  }) {
     try {
       String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
       if (!t.startsWith('0x')) {
@@ -196,7 +206,7 @@ class FollyUtils {
 
       return Color(int.parse(t));
     } on Exception catch (_) {
-      return defaultColor == null ? null : Color(defaultColor);
+      return defaultColor ?? (intColor == null ? null : Color(intColor));
     }
   }
 

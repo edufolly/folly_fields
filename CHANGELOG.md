@@ -1,6 +1,8 @@
 ## [1.2.X]
 
 * Fixing NewDecimalField example.
+* Creating FollyUtils.colorHex(Color color) method.
+* Updating FollyUtils.colorParser to accept default color and int color.
 
 ## [1.2.2] - 2023-07-15
 
