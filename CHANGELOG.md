@@ -3,6 +3,7 @@
 * Fixing NewDecimalField example.
 * Creating FollyUtils.colorHex(Color color) method.
 * Updating FollyUtils.colorParser to accept default color and int color.
+* Renaming HomeCard backgroundColor to color.
 
 ## [1.2.2] - 2023-07-15
 
