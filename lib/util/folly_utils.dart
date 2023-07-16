@@ -176,11 +176,7 @@ class FollyUtils {
   ///
   ///
   ///
-  static Color? colorParse(
-    String? text, {
-    Color? defaultColor,
-    int? intColor,
-  }) {
+  static Color? colorParse(String? text) {
     try {
       String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
       if (!t.startsWith('0x')) {
@@ -206,7 +202,7 @@ class FollyUtils {
 
       return Color(int.parse(t));
     } on Exception catch (_) {
-      return defaultColor ?? (intColor == null ? null : Color(intColor));
+      return null;
     }
   }
 

@@ -44,12 +44,7 @@ class ColorValidator extends AbstractParserValidator<Color> {
   ///
   ///
   @override
-  Color? parse(String? text, {Color? defaultColor, int? intColor}) =>
-      FollyUtils.colorParse(
-        text,
-        defaultColor: defaultColor,
-        intColor: intColor,
-      );
+  Color? parse(String? text) => FollyUtils.colorParse(text);
 
   ///
   ///

@@ -168,30 +168,28 @@ void main() {
   group(
     'ColorValidator parse with default color',
     () {
-      const Color red = Color(0xffff0000);
-
       final Map<String?, Color?> domain = <String?, Color?>{
-        null: red,
-        '': red,
-        ' ': red,
-        'F': red,
-        'FF': red,
-        '0x': red,
+        null: null,
+        '': null,
+        ' ': null,
+        'F': null,
+        'FF': null,
+        '0x': null,
         'FFF': Colors.white,
         'FFFF': Colors.white,
         'FFFFFF': Colors.white,
         'FFFFFFFF': Colors.white,
         'FFFFFFFFF': Colors.white,
         'FFFFFFFF0': Colors.white,
-        'GFFFFFFFF': red,
-        'G': red,
-        'GG': red,
-        'GGG': red,
-        'GGGG': red,
-        'GGGGG': red,
-        'GGGGGG': red,
-        'GGGGGGG': red,
-        'GGGGGGGG': red,
+        'GFFFFFFFF': null,
+        'G': null,
+        'GG': null,
+        'GGG': null,
+        'GGGG': null,
+        'GGGGG': null,
+        'GGGGGG': null,
+        'GGGGGGG': null,
+        'GGGGGGGG': null,
       };
 
       final ColorValidator validator = ColorValidator();
@@ -200,7 +198,7 @@ void main() {
         test(
           'Testing: ${input.key}',
           () => expect(
-            validator.parse(input.key, intColor: 0xffff0000),
+            validator.parse(input.key),
             input.value,
           ),
         );
