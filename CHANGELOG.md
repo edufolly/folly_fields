@@ -1,4 +1,4 @@
-## [1.2.X]
+## [1.2.3]
 
 * Fixing NewDecimalField example.
 * Creating FollyUtils.colorHex(Color color) method.
