@@ -1,4 +1,8 @@
-## [1.2.3]
+## [1.2.4] - 2023-07-18
+
+* Updating implementation of columnsHeaders in TableField.
+
+## [1.2.3] - 2023-07-16
 
 * Fixing NewDecimalField example.
 * Creating FollyUtils.colorHex(Color color) method.

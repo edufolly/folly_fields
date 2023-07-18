@@ -29,15 +29,15 @@ class TableField<T extends AbstractModel<Object>>
     required List<T> super.initialValue,
     required AbstractUIBuilder<T> uiBuilder,
     required AbstractConsumer<T> consumer,
-    required List<String> columns,
     required List<Responsive> Function(
       BuildContext context,
       T row,
       int index,
       List<T> data,
-      List<String> labels, {
+      List<String> columnsHeaders, {
       required bool enabled,
     }) buildRow,
+    List<String> columnHeaders = const <String>[],
     List<int>? columnsFlex,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     Future<bool> Function(BuildContext context, T row, int index, List<T> data)?
@@ -64,9 +64,9 @@ class TableField<T extends AbstractModel<Object>>
     double? elevation,
     super.key,
   })  : assert(
-          columnsFlex == null || columnsFlex.length == columns.length,
+          columnsFlex == null || columnsFlex.length == columnHeaders.length,
           'columnsFlex must be null or columnsFlex.length equals to '
-          'columns.length.',
+          'columnHeaders.length.',
         ),
         super(
           onSaved: enabled && onSaved != null
@@ -144,7 +144,7 @@ class TableField<T extends AbstractModel<Object>>
                                       entry.value,
                                       entry.key,
                                       field.value!,
-                                      columns,
+                                      columnHeaders,
                                       enabled: enabled,
                                     ),
 
@@ -178,25 +178,28 @@ class TableField<T extends AbstractModel<Object>>
                         }
                       } else {
                         /// Header
-                        columnData.add(
-                          Row(
-                            children: <Widget>[
-                              /// Columns Names
-                              ...columns.asMap().entries.map<Widget>(
-                                    (MapEntry<int, String> entry) => HeaderCell(
-                                      flex: columnsFlex?[entry.key] ?? 1,
-                                      child: Text(
-                                        entry.value,
-                                        style: columnHeaderTheme,
+                        if (columnHeaders.isNotEmpty) {
+                          columnData.add(
+                            Row(
+                              children: <Widget>[
+                                /// Columns Names
+                                ...columnHeaders.asMap().entries.map<Widget>(
+                                      (MapEntry<int, String> entry) =>
+                                          HeaderCell(
+                                        flex: columnsFlex?[entry.key] ?? 1,
+                                        child: Text(
+                                          entry.value,
+                                          style: columnHeaderTheme,
+                                        ),
                                       ),
                                     ),
-                                  ),
 
-                              /// Empty column to delete button
-                              if (removeRow != null) const EmptyButton(),
-                            ],
-                          ),
-                        );
+                                /// Empty column to delete button
+                                if (removeRow != null) const EmptyButton(),
+                              ],
+                            ),
+                          );
+                        }
 
                         /// Table data
                         for (final MapEntry<int, T> entry
@@ -216,7 +219,10 @@ class TableField<T extends AbstractModel<Object>>
                                     entry.value,
                                     entry.key,
                                     field.value!,
-                                    List<String>.filled(columns.length, ''),
+                                    List<String>.filled(
+                                      columnHeaders.length,
+                                      '',
+                                    ),
                                     enabled: enabled,
                                   ).asMap().entries.map<Widget>(
                                         (MapEntry<int, Widget> entry) =>
