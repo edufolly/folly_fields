@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">2</td>
-            <td class="headerCovTableEntry">25</td>
-            <td class="headerCovTableEntryLo">8.0 %</td>
+            <td class="headerCovTableEntry">26</td>
+            <td class="headerCovTableEntryLo">7.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-07-18 13:46:29</td>
+            <td class="headerValue">2023-07-26 16:17:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -67,7 +67,7 @@
 <a name="5"><span class="lineNum">       5 </span>            : ///</a>
 <a name="6"><span class="lineNum">       6 </span>            : ///</a>
 <a name="7"><span class="lineNum">       7 </span>            : @immutable</a>
-<a name="8"><span class="lineNum">       8 </span>            : abstract class AbstractConsumer&lt;T extends AbstractModel&lt;Object&gt;&gt; {</a>
+<a name="8"><span class="lineNum">       8 </span>            : abstract class AbstractConsumer&lt;T extends AbstractModel&lt;ID&gt;, ID&gt; {</a>
 <a name="9"><span class="lineNum">       9 </span>            :   final List&lt;String&gt; routeName;</a>
 <a name="10"><span class="lineNum">      10 </span>            :   final String? offlineTableName;</a>
 <a name="11"><span class="lineNum">      11 </span>            :   final String? offlineWhere;</a>
@@ -175,7 +175,7 @@
 <a name="113"><span class="lineNum">     113 </span>            :   ///</a>
 <a name="114"><span class="lineNum">     114 </span>            :   ///</a>
 <a name="115"><span class="lineNum">     115 </span>            :   ///</a>
-<a name="116"><span class="lineNum">     116 </span>            :   Future&lt;bool&gt; saveOrUpdate(</a>
+<a name="116"><span class="lineNum">     116 </span>            :   Future&lt;ID?&gt; saveOrUpdate(</a>
 <a name="117"><span class="lineNum">     117 </span>            :     BuildContext context,</a>
 <a name="118"><span class="lineNum">     118 </span>            :     T model, {</a>
 <a name="119"><span class="lineNum">     119 </span>            :     Map&lt;String, String&gt; extraParams = const &lt;String, String&gt;{},</a>
@@ -211,30 +211,42 @@
 <a name="149"><span class="lineNum">     149 </span>            :   ///</a>
 <a name="150"><span class="lineNum">     150 </span>            :   ///</a>
 <a name="151"><span class="lineNum">     151 </span>            :   ///</a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 :   ConsumerPermission.fromJson(Map&lt;String, dynamic&gt; map)</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineNoCov">          0 :       : menu = map['menu'] ?? false,</span></a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineNoCov">          0 :         view = map['view'] ?? false,</span></a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineNoCov">          0 :         insert = map['insert'] ?? false,</span></a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :         update = map['update'] ?? false,</span></a>
-<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :         delete = map['delete'] ?? false,</span></a>
-<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :         iconName = map['iconName'] ?? 'solidCircle',</span></a>
-<a name="159"><span class="lineNum">     159 </span><span class="lineNoCov">          0 :         name = map['name'] ?? '';</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineNoCov">          0 :   const ConsumerPermission.allowAll({String? name, String? iconName})</span></a>
+<a name="153"><span class="lineNum">     153 </span>            :       : menu = true,</a>
+<a name="154"><span class="lineNum">     154 </span>            :         view = true,</a>
+<a name="155"><span class="lineNum">     155 </span>            :         insert = true,</a>
+<a name="156"><span class="lineNum">     156 </span>            :         update = true,</a>
+<a name="157"><span class="lineNum">     157 </span>            :         delete = true,</a>
+<a name="158"><span class="lineNum">     158 </span>            :         iconName = iconName ?? 'solidCircle',</a>
+<a name="159"><span class="lineNum">     159 </span>            :         name = name ?? '';</a>
 <a name="160"><span class="lineNum">     160 </span>            : </a>
 <a name="161"><span class="lineNum">     161 </span>            :   ///</a>
 <a name="162"><span class="lineNum">     162 </span>            :   ///</a>
 <a name="163"><span class="lineNum">     163 </span>            :   ///</a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toMap() {</span></a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :     return &lt;String, dynamic&gt;{</span></a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :       'menu': menu,</span></a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :       'view': view,</span></a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :       'insert': insert,</span></a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :       'update': update,</span></a>
-<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :       'delete': delete,</span></a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :       'iconName': iconName,</span></a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :       'name': name,</span></a>
-<a name="173"><span class="lineNum">     173 </span>            :     };</a>
-<a name="174"><span class="lineNum">     174 </span>            :   }</a>
-<a name="175"><span class="lineNum">     175 </span>            : }</a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :   ConsumerPermission.fromJson(Map&lt;String, dynamic&gt; map)</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :       : menu = map['menu'] ?? false,</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :         view = map['view'] ?? false,</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineNoCov">          0 :         insert = map['insert'] ?? false,</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :         update = map['update'] ?? false,</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :         delete = map['delete'] ?? false,</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :         iconName = map['iconName'] ?? 'solidCircle',</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :         name = map['name'] ?? '';</span></a>
+<a name="172"><span class="lineNum">     172 </span>            : </a>
+<a name="173"><span class="lineNum">     173 </span>            :   ///</a>
+<a name="174"><span class="lineNum">     174 </span>            :   ///</a>
+<a name="175"><span class="lineNum">     175 </span>            :   ///</a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toMap() {</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineNoCov">          0 :     return &lt;String, dynamic&gt;{</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :       'menu': menu,</span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineNoCov">          0 :       'view': view,</span></a>
+<a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :       'insert': insert,</span></a>
+<a name="181"><span class="lineNum">     181 </span><span class="lineNoCov">          0 :       'update': update,</span></a>
+<a name="182"><span class="lineNum">     182 </span><span class="lineNoCov">          0 :       'delete': delete,</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineNoCov">          0 :       'iconName': iconName,</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineNoCov">          0 :       'name': name,</span></a>
+<a name="185"><span class="lineNum">     185 </span>            :     };</a>
+<a name="186"><span class="lineNum">     186 </span>            :   }</a>
+<a name="187"><span class="lineNum">     187 </span>            : }</a>
 </pre>
       </td>
     </tr>

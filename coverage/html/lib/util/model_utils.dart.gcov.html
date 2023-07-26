@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-07-18 13:46:29</td>
+            <td class="headerValue">2023-07-26 16:17:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -119,9 +119,9 @@
 <a name="57"><span class="lineNum">      57 </span>            :   ///</a>
 <a name="58"><span class="lineNum">      58 </span>            :   ///</a>
 <a name="59"><span class="lineNum">      59 </span>            :   ///</a>
-<a name="60"><span class="lineNum">      60 </span><span class="lineCov">          1 :   static List&lt;T&gt; fromJsonList&lt;T extends AbstractModel&lt;Object&gt;&gt;(</span></a>
+<a name="60"><span class="lineNum">      60 </span><span class="lineCov">          1 :   static List&lt;T&gt; fromJsonList&lt;T extends AbstractModel&lt;ID&gt;, ID&gt;(</span></a>
 <a name="61"><span class="lineNum">      61 </span>            :     List&lt;dynamic&gt;? value,</a>
-<a name="62"><span class="lineNum">      62 </span>            :     AbstractConsumer&lt;T&gt; consumer,</a>
+<a name="62"><span class="lineNum">      62 </span>            :     AbstractConsumer&lt;T, ID&gt; consumer,</a>
 <a name="63"><span class="lineNum">      63 </span>            :   ) =&gt;</a>
 <a name="64"><span class="lineNum">      64 </span><span class="lineCov">          1 :       fromJsonSafeList&lt;T&gt;(</span></a>
 <a name="65"><span class="lineNum">      65 </span>            :         value,</a>
@@ -131,9 +131,9 @@
 <a name="69"><span class="lineNum">      69 </span>            :   ///</a>
 <a name="70"><span class="lineNum">      70 </span>            :   ///</a>
 <a name="71"><span class="lineNum">      71 </span>            :   ///</a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :   static T? fromJsonModel&lt;T extends AbstractModel&lt;Object&gt;&gt;(</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">          1 :   static T? fromJsonModel&lt;T extends AbstractModel&lt;ID&gt;, ID&gt;(</span></a>
 <a name="73"><span class="lineNum">      73 </span>            :     Map&lt;String, dynamic&gt;? map,</a>
-<a name="74"><span class="lineNum">      74 </span>            :     AbstractConsumer&lt;T&gt; consumer,</a>
+<a name="74"><span class="lineNum">      74 </span>            :     AbstractConsumer&lt;T, ID&gt; consumer,</a>
 <a name="75"><span class="lineNum">      75 </span>            :   ) =&gt;</a>
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">          1 :       map != null ? consumer.fromJson(map) : null;</span></a>
 <a name="77"><span class="lineNum">      77 </span>            : </a>
@@ -248,9 +248,9 @@
 <a name="186"><span class="lineNum">     186 </span>            :   ///</a>
 <a name="187"><span class="lineNum">     187 </span>            :   ///</a>
 <a name="188"><span class="lineNum">     188 </span>            :   ///</a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          1 :   static Set&lt;T&gt; fromJsonSet&lt;T extends AbstractModel&lt;Object&gt;&gt;(</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          1 :   static Set&lt;T&gt; fromJsonSet&lt;T extends AbstractModel&lt;ID&gt;, ID&gt;(</span></a>
 <a name="190"><span class="lineNum">     190 </span>            :     Set&lt;dynamic&gt;? value,</a>
-<a name="191"><span class="lineNum">     191 </span>            :     AbstractConsumer&lt;T&gt; consumer,</a>
+<a name="191"><span class="lineNum">     191 </span>            :     AbstractConsumer&lt;T, ID&gt; consumer,</a>
 <a name="192"><span class="lineNum">     192 </span>            :   ) =&gt;</a>
 <a name="193"><span class="lineNum">     193 </span><span class="lineCov">          1 :       _fromJsonRawIterable&lt;T&gt;(</span></a>
 <a name="194"><span class="lineNum">     194 </span>            :         value,</a>
