@@ -35,6 +35,11 @@ abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///
+  ID? idFrom(dynamic value);
+
+  ///
+  ///
+  ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String> paths,

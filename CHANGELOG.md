@@ -1,3 +1,7 @@
+## [2.0.X] - 2023-07-26
+
+* Creating AbstractConsumer idFrom method.
+
 ## [2.0.0] - 2023-07-26
 
 * Correcting id object type to AbstractModel.

@@ -15,4 +15,10 @@ class ExampleConsumer extends BaseConsumerMock<ExampleModel> {
   ///
   @override
   ExampleModel fromJson(Map<String, dynamic> map) => ExampleModel.fromJson(map);
+
+  ///
+  ///
+  ///
+  @override
+  int? idFrom(dynamic value) => int.tryParse(value.toString());
 }

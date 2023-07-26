@@ -23,6 +23,12 @@ class BrandNewConsumer extends BaseConsumerMock<BrandNewModel> {
   ///
   ///
   @override
+  int? idFrom(dynamic value) => int.tryParse(value.toString());
+
+  ///
+  ///
+  ///
+  @override
   Future<bool> beforeSaveOrUpdate(
     BuildContext context,
     BrandNewModel model, {

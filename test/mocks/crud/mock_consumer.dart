@@ -22,6 +22,12 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
   ///
   ///
   @override
+  String? idFrom(dynamic value) => value?.toString();
+
+  ///
+  ///
+  ///
+  @override
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String> paths,
