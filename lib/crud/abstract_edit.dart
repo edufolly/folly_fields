@@ -21,7 +21,8 @@ abstract class AbstractEdit<
     T extends AbstractModel<ID>,
     UI extends AbstractUIBuilder<T, ID>,
     C extends AbstractConsumer<T, ID>,
-    E extends AbstractEditController<T, ID>, ID> extends AbstractRoute {
+    E extends AbstractEditController<T, ID>,
+    ID> extends AbstractRoute {
   final T model;
   final UI uiBuilder;
   final C consumer;
@@ -29,7 +30,7 @@ abstract class AbstractEdit<
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final Widget? Function(BuildContext context)? appBarLeading;
-  final void Function(BuildContext context, T model)? afterSave;
+  final void Function(BuildContext context, ID? id)? afterSave;
   final List<Widget> Function({
     required BuildContext context,
     required T model,
@@ -72,7 +73,7 @@ abstract class AbstractEdit<
   ///
   ///
   @override
-  AbstractEditState<T, UI, C, E,ID> createState() =>
+  AbstractEditState<T, UI, C, E, ID> createState() =>
       AbstractEditState<T, UI, C, E, ID>();
 }
 
@@ -83,8 +84,8 @@ class AbstractEditState<
         T extends AbstractModel<ID>,
         UI extends AbstractUIBuilder<T, ID>,
         C extends AbstractConsumer<T, ID>,
-        E extends AbstractEditController<T, ID>, ID>
-    extends State<AbstractEdit<T, UI, C, E, ID>>
+        E extends AbstractEditController<T, ID>,
+        ID> extends State<AbstractEdit<T, UI, C, E, ID>>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
@@ -212,7 +213,7 @@ class AbstractEditState<
   ///
   Future<void> _save() async {
     final CircularWaiting wait = CircularWaiting(context);
-
+    ID? id;
     try {
       wait.show();
 
@@ -223,7 +224,6 @@ class AbstractEditState<
             await widget.editController!.validate(context, _model);
         if (!validated) {
           wait.close();
-
           return;
         }
       }
@@ -234,7 +234,8 @@ class AbstractEditState<
         if (widget.consumer.routeName.isNotEmpty) {
           go = await widget.consumer.beforeSaveOrUpdate(context, _model);
           if (go) {
-            go = await widget.consumer.saveOrUpdate(context, _model);
+            id = await widget.consumer.saveOrUpdate(context, _model);
+            go = id != null;
           }
         }
 
@@ -243,9 +244,9 @@ class AbstractEditState<
         if (go) {
           _initialHash = _model.hashCode;
           if (widget.afterSave == null) {
-            Navigator.of(context).pop(_model);
+            Navigator.of(context).pop(id);
           } else {
-            widget.afterSave?.call(context, _model);
+            widget.afterSave?.call(context, id);
           }
         }
       } else {

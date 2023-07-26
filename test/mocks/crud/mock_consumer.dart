@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-top-level-members-in-tests
-
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 
@@ -80,10 +78,12 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
   ///
   ///
   @override
-  Future<bool> saveOrUpdate(
+  Future<String> saveOrUpdate(
     BuildContext context,
     MockModel model, {
     Map<String, String> extraParams = const <String, String>{},
-  }) async =>
-      true;
+  }) async {
+    model.id = model.hashCode.toString();
+    return model.id!;
+  }
 }

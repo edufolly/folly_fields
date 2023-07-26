@@ -1,3 +1,11 @@
+## [2.0.0] - 2023-07-26
+
+* Correcting id object type to AbstractModel.
+* Updating AbstractConsumer saveOrUpdate method to return AbstractModel ID.
+* Updating AbstractEdit:
+    * Method afterSave now receive ID instead AbstractModel.
+    * Navigator pop now return ID instead AbstractModel.
+
 ## [1.2.4] - 2023-07-18
 
 * Updating implementation of columnsHeaders in TableField.
