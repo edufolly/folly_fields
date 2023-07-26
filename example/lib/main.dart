@@ -856,7 +856,7 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/list_field.dart',
                       child:
                           // [ListField]
-                          ListField<ExampleModel, ExampleBuilder>(
+                          ListField<ExampleModel, ExampleBuilder, int>(
                         enabled: edit,
                         initialValue: list,
                         uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),

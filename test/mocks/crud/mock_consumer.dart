@@ -8,7 +8,7 @@ import 'mock_model.dart';
 ///
 ///
 ///
-class MockConsumer extends AbstractConsumer<MockModel> {
+class MockConsumer extends AbstractConsumer<MockModel, String> {
   ///
   ///
   ///

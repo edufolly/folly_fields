@@ -5,7 +5,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 @immutable
-abstract class AbstractConsumer<T extends AbstractModel<Object>> {
+abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   final List<String> routeName;
   final String? offlineTableName;
   final String? offlineWhere;

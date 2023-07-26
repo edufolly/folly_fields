@@ -18,10 +18,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 abstract class AbstractEdit<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>,
-    E extends AbstractEditController<T>> extends AbstractRoute {
+    T extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    E extends AbstractEditController<T, ID>, ID> extends AbstractRoute {
   final T model;
   final UI uiBuilder;
   final C consumer;
@@ -72,19 +72,19 @@ abstract class AbstractEdit<
   ///
   ///
   @override
-  AbstractEditState<T, UI, C, E> createState() =>
-      AbstractEditState<T, UI, C, E>();
+  AbstractEditState<T, UI, C, E,ID> createState() =>
+      AbstractEditState<T, UI, C, E, ID>();
 }
 
 ///
 ///
 ///
 class AbstractEditState<
-        T extends AbstractModel<Object>,
-        UI extends AbstractUIBuilder<T>,
-        C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>>
-    extends State<AbstractEdit<T, UI, C, E>>
+        T extends AbstractModel<ID>,
+        UI extends AbstractUIBuilder<T, ID>,
+        C extends AbstractConsumer<T, ID>,
+        E extends AbstractEditController<T, ID>, ID>
+    extends State<AbstractEdit<T, UI, C, E, ID>>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();

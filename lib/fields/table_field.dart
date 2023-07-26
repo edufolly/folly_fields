@@ -20,15 +20,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // TODO(edufolly): Test layout with DataTable.
 // TODO(edufolly): Customize messages.
 // TODO(edufolly): Create controller??
-class TableField<T extends AbstractModel<Object>>
+class TableField<T extends AbstractModel<ID>, ID>
     extends ResponsiveFormField<List<T>> {
   ///
   ///
   ///
   TableField({
     required List<T> super.initialValue,
-    required AbstractUIBuilder<T> uiBuilder,
-    required AbstractConsumer<T> consumer,
+    required AbstractUIBuilder<T, ID> uiBuilder,
+    required AbstractConsumer<T, ID> consumer,
     required List<Responsive> Function(
       BuildContext context,
       T row,

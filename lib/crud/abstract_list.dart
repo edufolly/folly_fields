@@ -20,9 +20,10 @@ import 'package:sprintf/sprintf.dart';
 ///
 ///
 abstract class AbstractList<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends AbstractRoute {
+    T extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    ID> extends AbstractRoute {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
@@ -159,16 +160,18 @@ abstract class AbstractList<
   ///
   ///
   @override
-  AbstractListState<T, UI, C> createState() => AbstractListState<T, UI, C>();
+  AbstractListState<T, UI, C, ID> createState() =>
+      AbstractListState<T, UI, C, ID>();
 }
 
 ///
 ///
 ///
 class AbstractListState<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
+    T extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    ID> extends State<AbstractList<T, UI, C, ID>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
@@ -558,7 +561,7 @@ class AbstractListState<
     showSearch<T?>(
       context: context,
       query: query,
-      delegate: InternalSearch<T, UI, C>(
+      delegate: InternalSearch<T, UI, C, ID>(
         buildResultItem: _buildResultItem,
         canDelete: (T model) =>
             _delete && FollyFields().isNotMobile && widget.canDelete(model),
@@ -836,9 +839,10 @@ enum AbstractListStateEnum {
 ///
 ///
 class InternalSearch<
-    W extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<W>,
-    C extends AbstractConsumer<W>> extends SearchDelegate<W?> {
+    W extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<W, ID>,
+    C extends AbstractConsumer<W, ID>,
+    ID> extends SearchDelegate<W?> {
   final UI uiBuilder;
   final C consumer;
 

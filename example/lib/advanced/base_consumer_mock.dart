@@ -8,8 +8,8 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 @immutable
-abstract class BaseConsumerMock<T extends AbstractModel<Object>>
-    extends AbstractConsumer<T> {
+abstract class BaseConsumerMock<T extends AbstractModel<ID>, ID>
+    extends AbstractConsumer<T, ID> {
   ///
   ///
   ///

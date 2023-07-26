@@ -6,7 +6,7 @@ import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 ///
 ///
 ///
-class BrandNewConsumer extends BaseConsumerMock<BrandNewModel> {
+class BrandNewConsumer extends BaseConsumerMock<BrandNewModel, int> {
   ///
   ///
   ///

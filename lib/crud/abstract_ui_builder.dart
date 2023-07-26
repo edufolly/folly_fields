@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-abstract class AbstractUIBuilder<T extends AbstractModel<Object>> {
+abstract class AbstractUIBuilder<T extends AbstractModel<ID>, ID> {
   final String? labelPrefix;
   final String? labelSuffix;
 
