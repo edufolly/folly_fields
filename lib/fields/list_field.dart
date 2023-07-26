@@ -15,8 +15,10 @@ import 'package:sprintf/sprintf.dart';
 ///
 ///
 // TODO(edufolly): Create controller?
-class ListField<T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>> extends ResponsiveFormField<List<T>> {
+class ListField<
+    T extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<T, ID>,
+    ID> extends ResponsiveFormField<List<T>> {
   ///
   ///
   ///
@@ -253,7 +255,7 @@ class ListField<T extends AbstractModel<Object>,
                             else
                               ...field.value!.asMap().entries.map(
                                     (MapEntry<int, T> entry) =>
-                                        _MyListTile<T, UI>(
+                                        _MyListTile<T, UI, ID>(
                                       field: field,
                                       index: entry.key,
                                       model: entry.value,
@@ -297,8 +299,8 @@ class ListField<T extends AbstractModel<Object>,
 ///
 ///
 ///
-class _MyListTile<T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>> extends StatelessWidget {
+class _MyListTile<T extends AbstractModel<ID>,
+    UI extends AbstractUIBuilder<T, ID>, ID> extends StatelessWidget {
   final FormFieldState<List<T>> field;
   final int index;
   final T model;

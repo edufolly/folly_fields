@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ExampleBuilder extends AbstractUIBuilder<ExampleModel> {
+class ExampleBuilder extends AbstractUIBuilder<ExampleModel, int> {
   ///
   ///
   ///

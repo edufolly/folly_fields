@@ -8,8 +8,8 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 @immutable
-abstract class BaseConsumerMock<T extends AbstractModel<Object>>
-    extends AbstractConsumer<T> {
+abstract class BaseConsumerMock<T extends AbstractModel<int>>
+    extends AbstractConsumer<T, int> {
   ///
   ///
   ///
@@ -22,47 +22,11 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String>? paths,
-  ) {
-    // if (paths?.join('/').contains('example_map_function_route') ?? false) {
-    //   return Future<ConsumerPermission>.value(
-    //     const ConsumerPermission(
-    //       name: 'Example Map Func. Route',
-    //       iconName: 'cube',
-    //       view: true,
-    //       insert: true,
-    //       update: true,
-    //       delete: true,
-    //       menu: true,
-    //     ),
-    //   );
-    // }
-
-    // if (paths?.join('/').contains('example_model_function_route') ?? false) {
-    //   return Future<ConsumerPermission>.value(
-    //     const ConsumerPermission(
-    //       name: 'Example Model Func. Route',
-    //       iconName: 'mugHot',
-    //       view: true,
-    //       insert: true,
-    //       update: true,
-    //       delete: true,
-    //       menu: true,
-    //     ),
-    //   );
-    // }
-
-    return Future<ConsumerPermission>.value(
-      const ConsumerPermission(
+  ) async =>
+      const ConsumerPermission.allowAll(
         name: 'mock',
         iconName: 'question',
-        view: true,
-        insert: true,
-        update: true,
-        delete: true,
-        menu: true,
-      ),
-    );
-  }
+      );
 
   ///
   ///
@@ -110,7 +74,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
     T model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
-      Future<T>.value(model);
+      model;
 
   ///
   ///
@@ -127,10 +91,10 @@ abstract class BaseConsumerMock<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  Future<bool> saveOrUpdate(
+  Future<int?> saveOrUpdate(
     BuildContext context,
     T model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
-      true;
+      model.id ?? -1;
 }

@@ -12,7 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 class ExampleList
-    extends AbstractList<ExampleModel, ExampleBuilder, ExampleConsumer> {
+    extends AbstractList<ExampleModel, ExampleBuilder, ExampleConsumer, int> {
   ///
   ///
   ///

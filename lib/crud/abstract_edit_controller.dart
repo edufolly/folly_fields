@@ -4,7 +4,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
-abstract class AbstractEditController<T extends AbstractModel<Object>> {
+abstract class AbstractEditController<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///

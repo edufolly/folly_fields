@@ -1,5 +1,3 @@
-// ignore_for_file: no-empty-block
-
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
@@ -7,8 +5,8 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
-class EmptyEditController<T extends AbstractModel<Object>>
-    extends AbstractEditController<T> {
+class EmptyEditController<T extends AbstractModel<ID>, ID>
+    extends AbstractEditController<T, ID> {
   ///
   ///
   ///

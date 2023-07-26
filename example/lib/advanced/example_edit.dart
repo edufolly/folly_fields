@@ -37,7 +37,7 @@ import 'package:google_fonts/google_fonts.dart';
 ///
 ///
 class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
-    ExampleConsumer, EmptyEditController<ExampleModel>> {
+    ExampleConsumer, EmptyEditController<ExampleModel, int>, int> {
   ///
   ///
   ///

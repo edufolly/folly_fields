@@ -5,7 +5,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 @immutable
-abstract class AbstractConsumer<T extends AbstractModel<Object>> {
+abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   final List<String> routeName;
   final String? offlineTableName;
   final String? offlineWhere;
@@ -113,7 +113,7 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  Future<bool> saveOrUpdate(
+  Future<ID?> saveOrUpdate(
     BuildContext context,
     T model, {
     Map<String, String> extraParams = const <String, String>{},
@@ -145,6 +145,18 @@ class ConsumerPermission {
     this.iconName = 'solidCircle',
     this.name = '',
   });
+
+  ///
+  ///
+  ///
+  const ConsumerPermission.allowAll({String? name, String? iconName})
+      : menu = true,
+        view = true,
+        insert = true,
+        update = true,
+        delete = true,
+        iconName = iconName ?? 'solidCircle',
+        name = name ?? '';
 
   ///
   ///

@@ -57,9 +57,9 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<T> fromJsonList<T extends AbstractModel<Object>>(
+  static List<T> fromJsonList<T extends AbstractModel<ID>, ID>(
     List<dynamic>? value,
-    AbstractConsumer<T> consumer,
+    AbstractConsumer<T, ID> consumer,
   ) =>
       fromJsonSafeList<T>(
         value,
@@ -69,9 +69,9 @@ class ModelUtils {
   ///
   ///
   ///
-  static T? fromJsonModel<T extends AbstractModel<Object>>(
+  static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
     Map<String, dynamic>? map,
-    AbstractConsumer<T> consumer,
+    AbstractConsumer<T, ID> consumer,
   ) =>
       map != null ? consumer.fromJson(map) : null;
 
@@ -186,9 +186,9 @@ class ModelUtils {
   ///
   ///
   ///
-  static Set<T> fromJsonSet<T extends AbstractModel<Object>>(
+  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
     Set<dynamic>? value,
-    AbstractConsumer<T> consumer,
+    AbstractConsumer<T, ID> consumer,
   ) =>
       _fromJsonRawIterable<T>(
         value,
