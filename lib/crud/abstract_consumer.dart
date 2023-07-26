@@ -149,6 +149,18 @@ class ConsumerPermission {
   ///
   ///
   ///
+  const ConsumerPermission.allowAll()
+      : menu = true,
+        view = true,
+        insert = true,
+        update = true,
+        delete = true,
+        iconName = 'solidCircle',
+        name = '';
+
+  ///
+  ///
+  ///
   ConsumerPermission.fromJson(Map<String, dynamic> map)
       : menu = map['menu'] ?? false,
         view = map['view'] ?? false,
