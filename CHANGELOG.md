@@ -1,6 +1,7 @@
 ## [2.0.0] - 2023-07-26
 
 * Correcting id object type to AbstractModel.
+* Adding ConsumerPermission.allowAll constructor.
 * Updating AbstractConsumer saveOrUpdate method to return AbstractModel ID.
 * Updating AbstractEdit:
     * Method afterSave now receive ID instead AbstractModel.

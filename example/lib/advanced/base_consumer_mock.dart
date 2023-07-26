@@ -8,8 +8,8 @@ import 'package:folly_fields_example/example_model.dart';
 ///
 ///
 @immutable
-abstract class BaseConsumerMock<T extends AbstractModel<ID>, ID>
-    extends AbstractConsumer<T, ID> {
+abstract class BaseConsumerMock<T extends AbstractModel<int>>
+    extends AbstractConsumer<T, int> {
   ///
   ///
   ///
@@ -22,17 +22,10 @@ abstract class BaseConsumerMock<T extends AbstractModel<ID>, ID>
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String>? paths,
-  ) =>
-      Future<ConsumerPermission>.value(
-        const ConsumerPermission(
-          name: 'mock',
-          iconName: 'question',
-          view: true,
-          insert: true,
-          update: true,
-          delete: true,
-          menu: true,
-        ),
+  ) async =>
+      const ConsumerPermission.allowAll(
+        name: 'mock',
+        iconName: 'question',
       );
 
   ///
@@ -81,7 +74,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<ID>, ID>
     T model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
-      Future<T>.value(model);
+      model;
 
   ///
   ///
@@ -98,10 +91,10 @@ abstract class BaseConsumerMock<T extends AbstractModel<ID>, ID>
   ///
   ///
   @override
-  Future<ID?> saveOrUpdate(
+  Future<int?> saveOrUpdate(
     BuildContext context,
     T model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
-      model.id;
+      model.id ?? -1;
 }

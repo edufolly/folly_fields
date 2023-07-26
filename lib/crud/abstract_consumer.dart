@@ -149,14 +149,14 @@ class ConsumerPermission {
   ///
   ///
   ///
-  const ConsumerPermission.allowAll()
+  const ConsumerPermission.allowAll({String? name, String? iconName})
       : menu = true,
         view = true,
         insert = true,
         update = true,
         delete = true,
-        iconName = 'solidCircle',
-        name = '';
+        iconName = iconName ?? 'solidCircle',
+        name = name ?? '';
 
   ///
   ///
