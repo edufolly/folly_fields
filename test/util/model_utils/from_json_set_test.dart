@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/model_utils.dart';
 
-import '../../mocks/crud/mock_consumer.dart';
-import '../../mocks/crud/mock_model.dart';
+import '../../mocks/crud/mock_string_consumer.dart';
+import '../../mocks/crud/mock_string_model.dart';
 import '../../mocks/mock_config.dart';
 import '../../mocks/mock_connectivity.dart';
 
@@ -20,48 +20,48 @@ void main() {
         connectivity: MockConnectivity(),
       );
 
-      const MockConsumer consumer = MockConsumer();
+      const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<Set<dynamic>?, Set<MockModel>> domain =
-          <Set<dynamic>?, Set<MockModel>>{
-        null: <MockModel>{},
-        <dynamic>{}: <MockModel>{},
+      final Map<Set<dynamic>?, Set<MockStringModel>> domain =
+          <Set<dynamic>?, Set<MockStringModel>>{
+        null: <MockStringModel>{},
+        <dynamic>{}: <MockStringModel>{},
         <dynamic>{
           <String, dynamic>{},
           <String, dynamic>{},
-        }: <MockModel>{
-          MockModel(),
+        }: <MockStringModel>{
+          MockStringModel(),
         },
-        ...MockModel.baseDomain.map(
-          (Map<String, dynamic> key, MockModel value) =>
-              MapEntry<Set<Map<String, dynamic>>, Set<MockModel>>(
+        ...MockStringModel.baseDomain.map(
+          (Map<String, dynamic> key, MockStringModel value) =>
+              MapEntry<Set<Map<String, dynamic>>, Set<MockStringModel>>(
             <Map<String, dynamic>>{key},
-            <MockModel>{value},
+            <MockStringModel>{value},
           ),
         ),
         <dynamic>{
-          MockModel.alineMap,
-          MockModel.kateMap,
-        }: <MockModel>{
-          MockModel.alineModel,
-          MockModel.kateModel,
+          MockStringModel.alineMap,
+          MockStringModel.kateMap,
+        }: <MockStringModel>{
+          MockStringModel.alineModel,
+          MockStringModel.kateModel,
         },
         <dynamic>{
-          MockModel.alineMap,
-          MockModel.alineMap,
-        }: <MockModel>{
-          MockModel.alineModel,
+          MockStringModel.alineMap,
+          MockStringModel.alineMap,
+        }: <MockStringModel>{
+          MockStringModel.alineModel,
         },
         <dynamic>{
-          MockModel.alineMap,
+          MockStringModel.alineMap,
           <String, dynamic>{},
-        }: <MockModel>{
-          MockModel.alineModel,
-          MockModel(),
+        }: <MockStringModel>{
+          MockStringModel.alineModel,
+          MockStringModel(),
         },
       };
 
-      for (final MapEntry<Set<dynamic>?, Set<MockModel>> input
+      for (final MapEntry<Set<dynamic>?, Set<MockStringModel>> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',

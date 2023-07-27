@@ -1,4 +1,4 @@
-## [2.0.X] - 2023-07-26
+## [2.0.X] - 2023-07-27
 
 * Creating AbstractConsumer idFrom method.
 

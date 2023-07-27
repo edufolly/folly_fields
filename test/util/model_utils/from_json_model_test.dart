@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/model_utils.dart';
 
-import '../../mocks/crud/mock_consumer.dart';
-import '../../mocks/crud/mock_model.dart';
+import '../../mocks/crud/mock_string_consumer.dart';
+import '../../mocks/crud/mock_string_model.dart';
 import '../../mocks/mock_config.dart';
 import '../../mocks/mock_connectivity.dart';
 
@@ -20,17 +20,17 @@ void main() {
         connectivity: MockConnectivity(),
       );
 
-      const MockConsumer consumer = MockConsumer();
+      const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<Map<String, dynamic>?, MockModel?> domain =
-          <Map<String, dynamic>?, MockModel?>{
+      final Map<Map<String, dynamic>?, MockStringModel?> domain =
+          <Map<String, dynamic>?, MockStringModel?>{
         null: null,
-        ...MockModel.baseDomain,
-        MockModel.alineMap: MockModel.alineModel,
-        MockModel.kateMap: MockModel.kateModel,
+        ...MockStringModel.baseDomain,
+        MockStringModel.alineMap: MockStringModel.alineModel,
+        MockStringModel.kateMap: MockStringModel.kateModel,
       };
 
-      for (final MapEntry<Map<String, dynamic>?, MockModel?> input
+      for (final MapEntry<Map<String, dynamic>?, MockStringModel?> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',
