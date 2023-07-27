@@ -1,3 +1,5 @@
+// ignore_for_file: type_literal_in_constant_pattern
+
 import 'package:flutter/cupertino.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 
@@ -31,6 +33,15 @@ abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   ///
   ///
   T fromJson(Map<String, dynamic> map);
+
+  ///
+  ///
+  ///
+  ID? idFrom(dynamic value) => switch (ID) {
+        String => value?.toString(),
+        int => int.tryParse(value.toString()),
+        _ => throw UnsupportedError('Type $ID not supported in idFrom')
+      } as ID?;
 
   ///
   ///

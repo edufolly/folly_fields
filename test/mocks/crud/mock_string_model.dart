@@ -3,19 +3,19 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
-class MockModel extends AbstractModel<String> {
+class MockStringModel extends AbstractModel<String> {
   String? name;
   int? age;
 
   ///
   ///
   ///
-  MockModel({super.id, this.name, this.age}) : super();
+  MockStringModel({super.id, this.name, this.age}) : super();
 
   ///
   ///
   ///
-  MockModel.fromJson(super.map)
+  MockStringModel.fromJson(super.map)
       : name = map['name']?.toString(),
         age = int.tryParse(map['age'].toString()),
         super.fromJson();
@@ -35,15 +35,16 @@ class MockModel extends AbstractModel<String> {
   ///
   ///
   ///
-  static final Map<Map<String, dynamic>, MockModel> baseDomain =
-      <Map<String, dynamic>, MockModel>{
-    <String, dynamic>{}: MockModel(),
-    <String, dynamic>{'id': 'abc'}: MockModel(id: 'abc'),
-    <String, dynamic>{'name': 'aline'}: MockModel(name: 'aline'),
-    <String, dynamic>{'age': 20}: MockModel(age: 20),
+  static final Map<Map<String, dynamic>, MockStringModel> baseDomain =
+      <Map<String, dynamic>, MockStringModel>{
+    <String, dynamic>{}: MockStringModel(),
+    <String, dynamic>{'id': 'abc'}: MockStringModel(id: 'abc'),
+    <String, dynamic>{'name': 'aline'}: MockStringModel(name: 'aline'),
+    <String, dynamic>{'age': 20}: MockStringModel(age: 20),
     <String, dynamic>{'name': 'aline', 'age': 20}:
-        MockModel(name: 'aline', age: 20),
-    <String, dynamic>{'name': 20, 'age': '20'}: MockModel(name: '20', age: 20),
+        MockStringModel(name: 'aline', age: 20),
+    <String, dynamic>{'name': 20, 'age': '20'}:
+        MockStringModel(name: '20', age: 20),
     alineMap: alineModel,
     kateMap: kateModel,
   };
@@ -60,8 +61,8 @@ class MockModel extends AbstractModel<String> {
   ///
   ///
   ///
-  static final MockModel alineModel =
-      MockModel(id: 'abc', name: 'aline', age: 20);
+  static final MockStringModel alineModel =
+      MockStringModel(id: 'abc', name: 'aline', age: 20);
 
   ///
   ///
@@ -75,6 +76,6 @@ class MockModel extends AbstractModel<String> {
   ///
   ///
   ///
-  static final MockModel kateModel =
-      MockModel(id: 'cde', name: 'kate', age: 28);
+  static final MockStringModel kateModel =
+      MockStringModel(id: 'cde', name: 'kate', age: 28);
 }

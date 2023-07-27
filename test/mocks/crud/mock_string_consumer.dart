@@ -1,22 +1,23 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 
-import 'mock_model.dart';
+import 'mock_string_model.dart';
 
 ///
 ///
 ///
-class MockConsumer extends AbstractConsumer<MockModel, String> {
+class MockStringConsumer extends AbstractConsumer<MockStringModel, String> {
   ///
   ///
   ///
-  const MockConsumer() : super(const <String>['mock']);
+  const MockStringConsumer() : super(const <String>['mock', 'string']);
 
   ///
   ///
   ///
   @override
-  MockModel fromJson(Map<String, dynamic> map) => MockModel.fromJson(map);
+  MockStringModel fromJson(Map<String, dynamic> map) =>
+      MockStringModel.fromJson(map);
 
   ///
   ///
@@ -26,22 +27,15 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
     BuildContext context,
     List<String> paths,
   ) async =>
-      const ConsumerPermission(
-        name: 'Mock',
-        menu: true,
-        view: true,
-        insert: true,
-        update: true,
-        delete: true,
-      );
+      const ConsumerPermission.allowAll(name: 'Mock String');
 
   ///
   ///
   ///
   @override
-  Future<MockModel?> getById(
+  Future<MockStringModel?> getById(
     BuildContext context,
-    MockModel model, {
+    MockStringModel model, {
     Map<String, String> extraParams = const <String, String>{},
   }) {
     // TODO(edufolly): implement getById
@@ -52,7 +46,7 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
   ///
   ///
   @override
-  Future<List<MockModel>> list(
+  Future<List<MockStringModel>> list(
     BuildContext context, {
     int page = 0,
     int size = 20,
@@ -69,7 +63,7 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
   @override
   Future<bool> delete(
     BuildContext context,
-    MockModel model, {
+    MockStringModel model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
       true;
@@ -80,7 +74,7 @@ class MockConsumer extends AbstractConsumer<MockModel, String> {
   @override
   Future<String> saveOrUpdate(
     BuildContext context,
-    MockModel model, {
+    MockStringModel model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async {
     model.id = model.hashCode.toString();

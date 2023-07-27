@@ -1,3 +1,7 @@
+## [2.0.1] - 2023-07-27
+
+* Creating AbstractConsumer idFrom method.
+
 ## [2.0.0] - 2023-07-26
 
 * Correcting id object type to AbstractModel.
@@ -14,7 +18,7 @@
 ## [1.2.3] - 2023-07-16
 
 * Fixing NewDecimalField example.
-* Creating FollyUtils.colorHex(Color color) method.
+* Creating FollyUtils.colorHex method.
 * Updating FollyUtils.colorParser to return null instead default color.
 * Renaming HomeCard backgroundColor to color.
 
