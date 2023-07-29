@@ -1,3 +1,7 @@
+## [2.0.2] - 2023-07-29
+
+* Fixing the returned value of AbstractEdit to AbstractList.
+
 ## [2.0.1] - 2023-07-27
 
 * Creating AbstractConsumer idFrom method.
