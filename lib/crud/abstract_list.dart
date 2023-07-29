@@ -711,7 +711,7 @@ class AbstractListState<
   Future<void> _push(Widget? widget, [bool clear = true]) async {
     if (widget != null) {
       await Navigator.of(context).push(
-        MaterialPageRoute<T>(builder: (_) => widget),
+        MaterialPageRoute<dynamic>(builder: (_) => widget),
       );
 
       if (mounted) {
