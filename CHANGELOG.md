@@ -1,3 +1,7 @@
+## [0.20.5] - 2023-08-06
+
+* Fixing ModelEditingController.
+
 ## [0.20.4] - 2023-03-26
 
 * Fixing CreditCardNumberField suffixIcon attribute.
