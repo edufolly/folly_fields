@@ -26,6 +26,7 @@ class ModelField<T extends AbstractModel<Object>>
     super.onSaved,
     T? initialValue,
     super.enabled,
+    super.restorationId,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO(edufolly): onChanged
     TextInputAction? textInputAction,
@@ -66,7 +67,7 @@ class ModelField<T extends AbstractModel<Object>>
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            ModelFieldState<T> state = field as ModelFieldState<T>;
+            _ModelFieldState<T> state = field as _ModelFieldState<T>;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -146,7 +147,7 @@ class ModelField<T extends AbstractModel<Object>>
                             if (selected != null ||
                                 (selected == null && clearOnCancel)) {
                               state._effectiveController.model = selected;
-                              state.didChange(selected);
+                              // state.didChange(selected);
                             }
                           } on Exception catch (e, s) {
                             if (kDebugMode) {
@@ -182,27 +183,26 @@ class ModelField<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  ModelFieldState<T> createState() => ModelFieldState<T>();
+  FormFieldState<T?> createState() => _ModelFieldState<T>();
 }
 
 ///
 ///
 ///
-class ModelFieldState<T extends AbstractModel<Object>>
+class _ModelFieldState<T extends AbstractModel<Object>>
     extends FormFieldState<T?> {
   ModelEditingController<T>? _controller;
 
   ///
   ///
   ///
-  @override
-  ModelField<T> get widget => super.widget as ModelField<T>;
+  ModelField<T> get _modelField => super.widget as ModelField<T>;
 
   ///
   ///
   ///
   ModelEditingController<T> get _effectiveController =>
-      widget.controller ?? _controller!;
+      _modelField.controller ?? _controller!;
 
   ///
   ///
@@ -210,10 +210,10 @@ class ModelFieldState<T extends AbstractModel<Object>>
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
+    if (_modelField.controller == null) {
       _controller = ModelEditingController<T>(model: widget.initialValue);
     } else {
-      widget.controller!.addListener(_handleControllerChanged);
+      _modelField.controller!.addListener(_handleControllerChanged);
     }
   }
 
@@ -223,21 +223,21 @@ class ModelFieldState<T extends AbstractModel<Object>>
   @override
   void didUpdateWidget(ModelField<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
+    if (_modelField.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
+      _modelField.controller?.addListener(_handleControllerChanged);
 
-      widget.controller?.addListener(_handleControllerChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
+      if (oldWidget.controller != null && _modelField.controller == null) {
         _controller = ModelEditingController<T>(
           model: oldWidget.controller!.model,
         );
       }
 
-      if (widget.controller != null) {
-        setValue(widget.controller!.model);
+      if (_modelField.controller != null) {
+        setValue(_modelField.controller!.model);
 
         if (oldWidget.controller == null) {
+          _controller!.dispose();
           _controller = null;
         }
       }
@@ -249,7 +249,8 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   @override
   void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
+    _modelField.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -269,8 +270,8 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   @override
   void reset() {
+    _effectiveController.model = widget.initialValue;
     super.reset();
-    setState(() => _effectiveController.model = widget.initialValue);
   }
 
   ///

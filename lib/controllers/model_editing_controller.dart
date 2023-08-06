@@ -24,7 +24,7 @@ class ModelEditingController<T extends AbstractModel<Object>>
   ///
   ///
   set model(T? model) {
-    text = (model ?? '').toString();
     _model = model;
+    text = (model ?? '').toString();
   }
 }
