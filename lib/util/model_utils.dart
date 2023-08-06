@@ -267,7 +267,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static void _toSaveMapOnlyId(Map<String, dynamic>? map) => map?.removeWhere(
+  static void toSaveMapOnlyId(Map<String, dynamic>? map) => map?.removeWhere(
         (String key, dynamic value) => key != FollyFields().modelIdKey,
       );
 
@@ -276,7 +276,7 @@ class ModelUtils {
   ///
   static void toSaveListMapOnlyId(List<dynamic>? list) => list
       ?.map(
-        (dynamic e) => e is Map<String, dynamic> ? _toSaveMapOnlyId(e) : null,
+        (dynamic e) => e is Map<String, dynamic> ? toSaveMapOnlyId(e) : null,
       )
       .toList();
 
@@ -294,7 +294,7 @@ class ModelUtils {
   ///
   static void toSaveSetMapOnlyId(Set<dynamic>? set) => set
       ?.map(
-        (dynamic e) => e is Map<String, dynamic> ? _toSaveMapOnlyId(e) : null,
+        (dynamic e) => e is Map<String, dynamic> ? toSaveMapOnlyId(e) : null,
       )
       .toSet();
 

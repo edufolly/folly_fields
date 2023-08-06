@@ -9,9 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-class ModelField<T extends AbstractModel<Object>>
+class ModelField<T extends AbstractModel<ID>, ID>
     extends ResponsiveFormField<T?> {
-  final ModelEditingController<T>? controller;
+  final ModelEditingController<T, ID>? controller;
 
   ///
   ///
@@ -66,7 +66,8 @@ class ModelField<T extends AbstractModel<Object>>
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final ModelFieldState<T> state = field as ModelFieldState<T>;
+            final _ModelFieldState<T, ID> state =
+                field as _ModelFieldState<T, ID>;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -148,7 +149,7 @@ class ModelField<T extends AbstractModel<Object>>
                             if (selected != null ||
                                 (selected == null && clearOnCancel)) {
                               state._effectiveController.model = selected;
-                              state.didChange(selected);
+                              // state.didChange(selected);
                             }
                           } on Exception catch (e, s) {
                             if (kDebugMode) {
@@ -184,27 +185,26 @@ class ModelField<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  ModelFieldState<T> createState() => ModelFieldState<T>();
+  FormFieldState<T?> createState() => _ModelFieldState<T, ID>();
 }
 
 ///
 ///
 ///
-class ModelFieldState<T extends AbstractModel<Object>>
+class _ModelFieldState<T extends AbstractModel<ID>, ID>
     extends FormFieldState<T?> {
-  ModelEditingController<T>? _controller;
+  ModelEditingController<T, ID>? _controller;
 
   ///
   ///
   ///
-  @override
-  ModelField<T> get widget => super.widget as ModelField<T>;
+  ModelField<T, ID> get _modelField => super.widget as ModelField<T, ID>;
 
   ///
   ///
   ///
-  ModelEditingController<T> get _effectiveController =>
-      widget.controller ?? _controller!;
+  ModelEditingController<T, ID> get _effectiveController =>
+      _modelField.controller ?? _controller!;
 
   ///
   ///
@@ -212,10 +212,12 @@ class ModelFieldState<T extends AbstractModel<Object>>
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
-      _controller = ModelEditingController<T>(model: widget.initialValue);
+    if (_modelField.controller == null) {
+      _controller = ModelEditingController<T, ID>(
+        model: _modelField.initialValue,
+      );
     } else {
-      widget.controller!.addListener(_handleControllerChanged);
+      _modelField.controller!.addListener(_handleControllerChanged);
     }
   }
 
@@ -223,23 +225,23 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  void didUpdateWidget(ModelField<T> oldWidget) {
+  void didUpdateWidget(ModelField<T, ID> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
+    if (_modelField.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
+      _modelField.controller?.addListener(_handleControllerChanged);
 
-      widget.controller?.addListener(_handleControllerChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
-        _controller = ModelEditingController<T>(
+      if (oldWidget.controller != null && _modelField.controller == null) {
+        _controller = ModelEditingController<T, ID>(
           model: oldWidget.controller!.model,
         );
       }
 
-      if (widget.controller != null) {
-        setValue(widget.controller!.model);
+      if (_modelField.controller != null) {
+        setValue(_modelField.controller!.model);
 
         if (oldWidget.controller == null) {
+          _controller!.dispose();
           _controller = null;
         }
       }
@@ -262,8 +264,8 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   @override
   void reset() {
+    _effectiveController.model = _modelField.initialValue;
     super.reset();
-    setState(() => _effectiveController.model = widget.initialValue);
   }
 
   ///
@@ -280,7 +282,7 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   @override
   void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
+    _modelField.controller?.removeListener(_handleControllerChanged);
     _controller?.dispose();
     super.dispose();
   }

@@ -834,7 +834,7 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/model_field.dart',
                       child:
                           // [ModelField]
-                          ModelField<ExampleModel>(
+                          ModelField<ExampleModel, int>(
                         labelPrefix: labelPrefix,
                         label: 'Example Model*',
                         enabled: edit,
