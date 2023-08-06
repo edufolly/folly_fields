@@ -4,7 +4,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 ///
-class ModelEditingController<T extends AbstractModel<Object>>
+class ModelEditingController<T extends AbstractModel<ID>, ID>
     extends TextEditingController {
   T? _model;
 
@@ -24,7 +24,7 @@ class ModelEditingController<T extends AbstractModel<Object>>
   ///
   ///
   set model(T? model) {
-    text = (model ?? '').toString();
     _model = model;
+    text = (model ?? '').toString();
   }
 }

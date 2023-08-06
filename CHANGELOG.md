@@ -1,3 +1,8 @@
+## [2.1.0] - 2023-08-06
+
+* Fixing ModelEditingController.
+* Adding ID type to ModelField.
+
 ## [2.0.2] - 2023-07-29
 
 * Fixing the returned value of AbstractEdit to AbstractList.
