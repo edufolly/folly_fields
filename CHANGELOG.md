@@ -2,6 +2,7 @@
 
 * Fixing ModelEditingController.
 * Adding ID type to ModelField.
+* Changing ModelUtils.toSaveMapOnlyId visibility.
 
 ## [2.0.2] - 2023-07-29
 
