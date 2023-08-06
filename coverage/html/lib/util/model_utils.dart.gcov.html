@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-07-29 18:45:16</td>
+            <td class="headerValue">2023-08-06 19:08:11</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -329,7 +329,7 @@
 <a name="267"><span class="lineNum">     267 </span>            :   ///</a>
 <a name="268"><span class="lineNum">     268 </span>            :   ///</a>
 <a name="269"><span class="lineNum">     269 </span>            :   ///</a>
-<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :   static void _toSaveMapOnlyId(Map&lt;String, dynamic&gt;? map) =&gt; map?.removeWhere(</span></a>
+<a name="270"><span class="lineNum">     270 </span><span class="lineNoCov">          0 :   static void toSaveMapOnlyId(Map&lt;String, dynamic&gt;? map) =&gt; map?.removeWhere(</span></a>
 <a name="271"><span class="lineNum">     271 </span><span class="lineNoCov">          0 :         (String key, dynamic value) =&gt; key != FollyFields().modelIdKey,</span></a>
 <a name="272"><span class="lineNum">     272 </span>            :       );</a>
 <a name="273"><span class="lineNum">     273 </span>            : </a>
@@ -338,7 +338,7 @@
 <a name="276"><span class="lineNum">     276 </span>            :   ///</a>
 <a name="277"><span class="lineNum">     277 </span><span class="lineNoCov">          0 :   static void toSaveListMapOnlyId(List&lt;dynamic&gt;? list) =&gt; list</span></a>
 <a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 :       ?.map(</span></a>
-<a name="279"><span class="lineNum">     279 </span><span class="lineNoCov">          0 :         (dynamic e) =&gt; e is Map&lt;String, dynamic&gt; ? _toSaveMapOnlyId(e) : null,</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineNoCov">          0 :         (dynamic e) =&gt; e is Map&lt;String, dynamic&gt; ? toSaveMapOnlyId(e) : null,</span></a>
 <a name="280"><span class="lineNum">     280 </span>            :       )</a>
 <a name="281"><span class="lineNum">     281 </span><span class="lineNoCov">          0 :       .toList();</span></a>
 <a name="282"><span class="lineNum">     282 </span>            : </a>
@@ -356,7 +356,7 @@
 <a name="294"><span class="lineNum">     294 </span>            :   ///</a>
 <a name="295"><span class="lineNum">     295 </span><span class="lineNoCov">          0 :   static void toSaveSetMapOnlyId(Set&lt;dynamic&gt;? set) =&gt; set</span></a>
 <a name="296"><span class="lineNum">     296 </span><span class="lineNoCov">          0 :       ?.map(</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineNoCov">          0 :         (dynamic e) =&gt; e is Map&lt;String, dynamic&gt; ? _toSaveMapOnlyId(e) : null,</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineNoCov">          0 :         (dynamic e) =&gt; e is Map&lt;String, dynamic&gt; ? toSaveMapOnlyId(e) : null,</span></a>
 <a name="298"><span class="lineNum">     298 </span>            :       )</a>
 <a name="299"><span class="lineNum">     299 </span><span class="lineNoCov">          0 :       .toSet();</span></a>
 <a name="300"><span class="lineNum">     300 </span>            : </a>
