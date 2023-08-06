@@ -1,3 +1,7 @@
+## [2.1.1] - 2023-08-06
+
+* Fixing ModelField.
+
 ## [2.1.0] - 2023-08-06
 
 * Fixing ModelEditingController.

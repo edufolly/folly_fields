@@ -149,7 +149,7 @@ class ModelField<T extends AbstractModel<ID>, ID>
                             if (selected != null ||
                                 (selected == null && clearOnCancel)) {
                               state._effectiveController.model = selected;
-                              // state.didChange(selected);
+                              state.didChange(selected);
                             }
                           } on Exception catch (e, s) {
                             if (kDebugMode) {
