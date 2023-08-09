@@ -10,6 +10,7 @@ class CestField extends ValidatorField {
   ///
   ///
   CestField({
+    CestValidator? cestValidator,
     super.validatorMessage = 'Informe o CEST.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class CestField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CestValidator(),
+          abstractValidator: cestValidator ?? CestValidator(),
           maxLength: 9,
           textCapitalization: TextCapitalization.none,
         );

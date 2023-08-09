@@ -10,6 +10,7 @@ class CnpjField extends ValidatorField {
   ///
   ///
   CnpjField({
+    CnpjValidator? cnpjValidator,
     super.validatorMessage = 'Informe o CNPJ.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class CnpjField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CnpjValidator(),
+          abstractValidator: cnpjValidator ?? CnpjValidator(),
           maxLength: 18,
           textCapitalization: TextCapitalization.none,
         );

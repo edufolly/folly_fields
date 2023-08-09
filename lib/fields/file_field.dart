@@ -75,7 +75,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<Uint8List?> field) {
-            final FileFieldState state = field as FileFieldState;
+            final _FileFieldState state = field as _FileFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -237,13 +237,13 @@ class FileField extends ResponsiveFormField<Uint8List> {
   ///
   ///
   @override
-  FileFieldState createState() => FileFieldState();
+  FormFieldState<Uint8List> createState() => _FileFieldState();
 }
 
 ///
 ///
 ///
-class FileFieldState extends FormFieldState<Uint8List> {
+class _FileFieldState extends FormFieldState<Uint8List> {
   FileFieldController? _controller;
   String? _filename;
 

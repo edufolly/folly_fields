@@ -10,6 +10,7 @@ class MobilePhoneField extends ValidatorField {
   ///
   ///
   MobilePhoneField({
+    MobilePhoneValidator? mobilePhoneValidator,
     super.validatorMessage = 'Informe o celular.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class MobilePhoneField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: MobilePhoneValidator(),
+          abstractValidator: mobilePhoneValidator ?? MobilePhoneValidator(),
           maxLength: 15,
           textCapitalization: TextCapitalization.none,
         );

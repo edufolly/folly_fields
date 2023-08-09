@@ -10,6 +10,7 @@ class CepField extends ValidatorField {
   ///
   ///
   CepField({
+    CepValidator? cepValidator,
     super.validatorMessage = 'Informe o CEP.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class CepField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CepValidator(),
+          abstractValidator: cepValidator ?? CepValidator(),
           maxLength: 10,
           textCapitalization: TextCapitalization.none,
         );

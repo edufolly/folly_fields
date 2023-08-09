@@ -10,6 +10,7 @@ class MacAddressField extends ValidatorField {
   ///
   ///
   MacAddressField({
+    MacAddressValidator? macAddressValidator,
     super.validatorMessage = 'Informe o MAC Address.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class MacAddressField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: MacAddressValidator(),
+          abstractValidator: macAddressValidator ?? MacAddressValidator(),
           maxLength: 17,
           textCapitalization: TextCapitalization.characters,
         );

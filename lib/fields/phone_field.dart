@@ -10,6 +10,7 @@ class PhoneField extends ValidatorField {
   ///
   ///
   PhoneField({
+    PhoneValidator? phoneValidator,
     super.validatorMessage = 'Informe o telefone.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class PhoneField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: PhoneValidator(),
+          abstractValidator: phoneValidator ?? PhoneValidator(),
           maxLength: 15,
           textCapitalization: TextCapitalization.none,
         );

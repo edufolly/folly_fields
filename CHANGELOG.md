@@ -1,3 +1,28 @@
+## [2.1.2] - 2023-08-09
+* Renaming the states classes to respect private visibility:
+  * _BaseStatefulFieldState
+  * _BoolFieldState
+  * _ChoiceChipFieldState
+  * _DropdownFieldState
+  * _FileFieldState
+  * _IconDataFieldState
+* Adding AbstractValidator to field's constructor:
+  * CepField
+  * CestField
+  * CnaeField
+  * CnpjField
+  * CpfCnpjField
+  * CpfField
+  * CreditCardExpirationField
+  * EmailField
+  * Ipv4Field
+  * LicencePlateField
+  * LocalPhoneField
+  * MacAddressField
+  * MobilePhoneField
+  * NcmField
+  * PhoneField
+
 ## [2.1.1] - 2023-08-06
 
 * Fixing ModelField.
