@@ -10,6 +10,7 @@ class CpfField extends ValidatorField {
   ///
   ///
   CpfField({
+    CpfValidator? cpfValidator,
     super.validatorMessage = 'Informe o CPF.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class CpfField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CpfValidator(),
+          abstractValidator: cpfValidator ?? CpfValidator(),
           maxLength: 14,
           textCapitalization: TextCapitalization.none,
         );

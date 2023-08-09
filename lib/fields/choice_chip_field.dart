@@ -59,8 +59,8 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final ChoiceChipFieldState<T> state =
-                field as ChoiceChipFieldState<T>;
+            final _ChoiceChipFieldState<T> state =
+                field as _ChoiceChipFieldState<T>;
 
             final Color effectiveSelectedColor =
                 selectedColor ?? Theme.of(state.context).colorScheme.primary;
@@ -131,13 +131,13 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
   ///
   ///
   @override
-  ChoiceChipFieldState<T> createState() => ChoiceChipFieldState<T>();
+  FormFieldState<T> createState() => _ChoiceChipFieldState<T>();
 }
 
 ///
 ///
 ///
-class ChoiceChipFieldState<T> extends FormFieldState<T> {
+class _ChoiceChipFieldState<T> extends FormFieldState<T> {
   ChoiceChipFieldController<T>? _controller;
 
   ///

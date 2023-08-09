@@ -76,7 +76,8 @@ class DropdownField<T> extends ResponsiveFormField<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final DropdownFieldState<T> state = field as DropdownFieldState<T>;
+            final _DropdownFieldState<T> state =
+                field as _DropdownFieldState<T>;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -151,13 +152,13 @@ class DropdownField<T> extends ResponsiveFormField<T> {
   ///
   ///
   @override
-  DropdownFieldState<T> createState() => DropdownFieldState<T>();
+  FormFieldState<T> createState() => _DropdownFieldState<T>();
 }
 
 ///
 ///
 ///
-class DropdownFieldState<T> extends FormFieldState<T> {
+class _DropdownFieldState<T> extends FormFieldState<T> {
   DropdownEditingController<T>? _controller;
 
   ///

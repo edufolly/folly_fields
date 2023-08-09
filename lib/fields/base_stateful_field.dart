@@ -119,13 +119,14 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   ///
   ///
   @override
-  BaseStatefulFieldState<T, C> createState() => BaseStatefulFieldState<T, C>();
+  State<BaseStatefulField<T, C>> createState() =>
+      _BaseStatefulFieldState<T, C>();
 }
 
 ///
 ///
 ///
-class BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
+class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     extends State<BaseStatefulField<T, C>> {
   C? _controller;
   FocusNode? _focusNode;

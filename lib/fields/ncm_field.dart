@@ -10,6 +10,7 @@ class NcmField extends ValidatorField {
   ///
   ///
   NcmField({
+    NcmValidator? ncmValidator,
     super.validatorMessage = 'Informe o NCM.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class NcmField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: NcmValidator(),
+          abstractValidator: ncmValidator ?? NcmValidator(),
           maxLength: 10,
           textCapitalization: TextCapitalization.none,
         );

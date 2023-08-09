@@ -10,6 +10,7 @@ class Ipv4Field extends ValidatorField {
   ///
   ///
   Ipv4Field({
+    Ipv4Validator? ipv4Validator,
     super.validatorMessage = 'IPv4 inválido.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class Ipv4Field extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: Ipv4Validator(),
+          abstractValidator: ipv4Validator ?? Ipv4Validator(),
           maxLength: 15,
           textCapitalization: TextCapitalization.none,
         );

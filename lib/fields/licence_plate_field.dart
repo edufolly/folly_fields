@@ -10,6 +10,7 @@ class LicencePlateField extends ValidatorField {
   ///
   ///
   LicencePlateField({
+    LicencePlateValidator? licencePlateValidator,
     super.validatorMessage = 'Informe a placa do veículo.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class LicencePlateField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: LicencePlateValidator(),
+          abstractValidator: licencePlateValidator ?? LicencePlateValidator(),
           maxLength: 8,
           textCapitalization: TextCapitalization.characters,
         );

@@ -60,7 +60,7 @@ class BoolField extends ResponsiveFormField<bool> {
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
-            final BoolFieldState state = field as BoolFieldState;
+            final _BoolFieldState state = field as _BoolFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -146,13 +146,13 @@ class BoolField extends ResponsiveFormField<bool> {
   ///
   ///
   @override
-  BoolFieldState createState() => BoolFieldState();
+  FormFieldState<bool> createState() => _BoolFieldState();
 }
 
 ///
 ///
 ///
-class BoolFieldState extends FormFieldState<bool> {
+class _BoolFieldState extends FormFieldState<bool> {
   ValueNotifier<bool>? _controller;
 
   ///

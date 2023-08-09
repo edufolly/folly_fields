@@ -10,6 +10,7 @@ class EmailField extends ValidatorField {
   ///
   ///
   EmailField({
+    EmailValidator? emailValidator,
     super.validatorMessage = 'Informe o e-mail.',
     super.labelPrefix,
     super.label,
@@ -61,7 +62,7 @@ class EmailField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: EmailValidator(),
+          abstractValidator: emailValidator ?? EmailValidator(),
           textCapitalization: TextCapitalization.none,
         );
 }

@@ -10,6 +10,7 @@ class CnaeField extends ValidatorField {
   ///
   ///
   CnaeField({
+    CnaeValidator? cnaeValidator,
     super.validatorMessage = 'Informe o CNAE.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class CnaeField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CnaeValidator(),
+          abstractValidator: cnaeValidator ?? CnaeValidator(),
           maxLength: 9,
           textCapitalization: TextCapitalization.none,
         );
