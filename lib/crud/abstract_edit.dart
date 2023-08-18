@@ -213,7 +213,7 @@ class AbstractEditState<
   ///
   Future<void> _save() async {
     final CircularWaiting wait = CircularWaiting(context);
-    T? model;
+    T? model = _model;
     try {
       wait.show();
 

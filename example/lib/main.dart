@@ -258,7 +258,7 @@ class MyHomePageState extends State<MyHomePage> {
                       )
                       .toList(),
                   onSelected: (MyMenuItem item) => item.onPressed(context),
-                )
+                ),
               ]
             : menuItems
                 .map((MyMenuItem item) => item.iconButton(context))
