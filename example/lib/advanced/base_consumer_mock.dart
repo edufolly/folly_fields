@@ -91,10 +91,10 @@ abstract class BaseConsumerMock<T extends AbstractModel<int>>
   ///
   ///
   @override
-  Future<int?> saveOrUpdate(
+  Future<T?> saveOrUpdate(
     BuildContext context,
     T model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async =>
-      model.id ?? -1;
+      model;
 }

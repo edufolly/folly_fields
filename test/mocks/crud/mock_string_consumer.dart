@@ -72,12 +72,12 @@ class MockStringConsumer extends AbstractConsumer<MockStringModel, String> {
   ///
   ///
   @override
-  Future<String> saveOrUpdate(
+  Future<MockStringModel> saveOrUpdate(
     BuildContext context,
     MockStringModel model, {
     Map<String, String> extraParams = const <String, String>{},
   }) async {
     model.id = model.hashCode.toString();
-    return model.id!;
+    return model;
   }
 }

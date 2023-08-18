@@ -124,7 +124,7 @@ abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///
-  Future<ID?> saveOrUpdate(
+  Future<T?> saveOrUpdate(
     BuildContext context,
     T model, {
     Map<String, String> extraParams = const <String, String>{},
