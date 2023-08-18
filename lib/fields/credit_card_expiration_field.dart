@@ -10,6 +10,7 @@ class CreditCardExpirationField extends ValidatorField {
   ///
   ///
   CreditCardExpirationField({
+    CreditCardExpirationValidator? creditCardExpirationValidator,
     super.validatorMessage = 'Informe a validade.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,8 @@ class CreditCardExpirationField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: CreditCardExpirationValidator(),
+          abstractValidator:
+              creditCardExpirationValidator ?? CreditCardExpirationValidator(),
           maxLength: 5,
           textCapitalization: TextCapitalization.none,
         );

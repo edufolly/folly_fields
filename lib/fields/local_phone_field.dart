@@ -10,6 +10,7 @@ class LocalPhoneField extends ValidatorField {
   ///
   ///
   LocalPhoneField({
+    LocalPhoneValidator? localPhoneValidator,
     super.validatorMessage = 'Informe o telefone.',
     super.labelPrefix,
     super.label,
@@ -60,7 +61,7 @@ class LocalPhoneField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: LocalPhoneValidator(),
+          abstractValidator: localPhoneValidator ?? LocalPhoneValidator(),
           maxLength: 10,
           textCapitalization: TextCapitalization.none,
         );

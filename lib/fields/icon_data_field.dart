@@ -57,7 +57,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<IconData> field) {
-            final IconDataFieldState state = field as IconDataFieldState;
+            final _IconDataFieldState state = field as _IconDataFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -168,13 +168,13 @@ class IconDataField extends ResponsiveFormField<IconData> {
   ///
   ///
   @override
-  IconDataFieldState createState() => IconDataFieldState();
+  FormFieldState<IconData> createState() => _IconDataFieldState();
 }
 
 ///
 ///
 ///
-class IconDataFieldState extends FormFieldState<IconData> {
+class _IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   IconDataFieldController? _controller;
