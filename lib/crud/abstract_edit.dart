@@ -30,7 +30,7 @@ abstract class AbstractEdit<
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
   final Widget? Function(BuildContext context)? appBarLeading;
-  final void Function(BuildContext context, ID? id)? afterSave;
+  final void Function(BuildContext context, T? model)? afterSave;
   final List<Widget> Function({
     required BuildContext context,
     required T model,
@@ -213,7 +213,7 @@ class AbstractEditState<
   ///
   Future<void> _save() async {
     final CircularWaiting wait = CircularWaiting(context);
-    ID? id;
+    T? model = _model;
     try {
       wait.show();
 
@@ -234,8 +234,8 @@ class AbstractEditState<
         if (widget.consumer.routeName.isNotEmpty) {
           go = await widget.consumer.beforeSaveOrUpdate(context, _model);
           if (go) {
-            id = await widget.consumer.saveOrUpdate(context, _model);
-            go = id != null;
+            model = await widget.consumer.saveOrUpdate(context, _model);
+            go = model != null;
           }
         }
 
@@ -244,9 +244,9 @@ class AbstractEditState<
         if (go) {
           _initialHash = _model.hashCode;
           if (widget.afterSave == null) {
-            Navigator.of(context).pop(id);
+            Navigator.of(context).pop(model);
           } else {
-            widget.afterSave?.call(context, id);
+            widget.afterSave?.call(context, model);
           }
         }
       } else {

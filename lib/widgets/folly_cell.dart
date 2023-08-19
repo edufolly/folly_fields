@@ -5,15 +5,17 @@ import 'package:intl/intl.dart';
 ///
 ///
 class FollyCell extends StatelessWidget {
+  final EdgeInsets padding;
+  final Widget child;
   final AlignmentGeometry align;
   final Color color;
-  final Widget child;
 
   ///
   ///
   ///
   const FollyCell({
     required this.child,
+    required this.padding,
     this.align = Alignment.centerLeft,
     this.color = Colors.transparent,
     super.key,
@@ -24,6 +26,7 @@ class FollyCell extends StatelessWidget {
   ///
   const FollyCell.empty({
     this.color = Colors.transparent,
+    this.padding = EdgeInsets.zero,
     super.key,
   })  : align = Alignment.center,
         child = const SizedBox.shrink();
@@ -33,6 +36,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell._text(
     String text, {
+    required this.padding,
     required this.align,
     required this.color,
     required TextAlign textAlign,
@@ -56,6 +60,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.textHeader(
     String text, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.bottomLeft,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
@@ -66,6 +71,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           text,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -79,6 +85,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.textHeaderCenter(
     String text, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.bottomCenter,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
@@ -89,6 +96,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           text,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -102,6 +110,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.text(
     String text, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.centerLeft,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.start,
@@ -110,6 +119,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           text,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -123,6 +133,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.textCenter(
     String text, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.center,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
@@ -131,6 +142,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           text,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -144,6 +156,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.number(
     num number, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.centerRight,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
@@ -154,6 +167,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           NumberFormat(pattern, locale).format(number),
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -167,6 +181,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.integer(
     num number, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.centerRight,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
@@ -177,6 +192,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this.number(
           number,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -192,6 +208,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.date(
     DateTime date, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.center,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
@@ -202,6 +219,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this._text(
           DateFormat(pattern, locale).format(date),
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -215,6 +233,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.time(
     DateTime date, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.center,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
@@ -225,6 +244,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this.date(
           date,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -240,6 +260,7 @@ class FollyCell extends StatelessWidget {
   ///
   FollyCell.dateTime(
     DateTime date, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.center,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.center,
@@ -250,6 +271,7 @@ class FollyCell extends StatelessWidget {
     Key? key,
   }) : this.date(
           date,
+          padding: padding,
           align: align,
           color: color,
           textAlign: textAlign,
@@ -266,6 +288,7 @@ class FollyCell extends StatelessWidget {
   FollyCell.iconButton(
     IconData iconData, {
     Function()? onPressed,
+    this.padding = EdgeInsets.zero,
     this.align = Alignment.center,
     this.color = Colors.transparent,
     super.key,
@@ -281,6 +304,7 @@ class FollyCell extends StatelessWidget {
   ///
   factory FollyCell.positive(
     dynamic value, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.centerRight,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
@@ -292,6 +316,7 @@ class FollyCell extends StatelessWidget {
       value is num && value > 0
           ? FollyCell.number(
               value,
+              padding: padding,
               align: align,
               color: color,
               textAlign: textAlign,
@@ -301,6 +326,7 @@ class FollyCell extends StatelessWidget {
             )
           : FollyCell.text(
               zeroText,
+              padding: padding,
               align: align,
               color: color,
               textAlign: textAlign,
@@ -314,6 +340,7 @@ class FollyCell extends StatelessWidget {
   ///
   factory FollyCell.notZero(
     dynamic value, {
+    EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.centerRight,
     Color color = Colors.transparent,
     TextAlign textAlign = TextAlign.end,
@@ -325,6 +352,7 @@ class FollyCell extends StatelessWidget {
       value is num && value != 0
           ? FollyCell.integer(
               value,
+              padding: padding,
               align: align,
               color: color,
               textAlign: textAlign,
@@ -334,6 +362,7 @@ class FollyCell extends StatelessWidget {
             )
           : FollyCell.text(
               zeroText,
+              padding: padding,
               align: align,
               color: color,
               textAlign: textAlign,
@@ -347,9 +376,12 @@ class FollyCell extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: align,
-      child: child,
+    return Padding(
+      padding: padding,
+      child: Align(
+        alignment: align,
+        child: child,
+      ),
     );
   }
 }

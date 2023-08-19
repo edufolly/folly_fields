@@ -70,7 +70,7 @@ class _ExampleListActionState extends State<ExampleListAction> {
           IconButton(
             onPressed: _save,
             icon: const FaIcon(FontAwesomeIcons.check),
-          )
+          ),
         ],
       ),
       body: Column(

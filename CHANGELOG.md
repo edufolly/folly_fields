@@ -1,27 +1,34 @@
+## [2.1.3] - 2023-08-18
+
+* Adding internal padding to FollyCell.
+* Fixing AbstractEdit model return.
+* Upgrading to Flutter 3.13.0 and Dart 3.1.0.
+
 ## [2.1.2] - 2023-08-09
+
 * Renaming the states classes to respect private visibility:
-  * _BaseStatefulFieldState
-  * _BoolFieldState
-  * _ChoiceChipFieldState
-  * _DropdownFieldState
-  * _FileFieldState
-  * _IconDataFieldState
+    * _BaseStatefulFieldState
+    * _BoolFieldState
+    * _ChoiceChipFieldState
+    * _DropdownFieldState
+    * _FileFieldState
+    * _IconDataFieldState
 * Adding AbstractValidator to field's constructor:
-  * CepField
-  * CestField
-  * CnaeField
-  * CnpjField
-  * CpfCnpjField
-  * CpfField
-  * CreditCardExpirationField
-  * EmailField
-  * Ipv4Field
-  * LicencePlateField
-  * LocalPhoneField
-  * MacAddressField
-  * MobilePhoneField
-  * NcmField
-  * PhoneField
+    * CepField
+    * CestField
+    * CnaeField
+    * CnpjField
+    * CpfCnpjField
+    * CpfField
+    * CreditCardExpirationField
+    * EmailField
+    * Ipv4Field
+    * LicencePlateField
+    * LocalPhoneField
+    * MacAddressField
+    * MobilePhoneField
+    * NcmField
+    * PhoneField
 
 ## [2.1.1] - 2023-08-06
 

@@ -97,7 +97,7 @@ class _CreditCardState extends State<CreditCard> {
           IconButton(
             onPressed: _save,
             icon: const Icon(FontAwesomeIcons.check),
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
