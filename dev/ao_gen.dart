@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unreachable_from_main
+
 import 'dart:convert';
 import 'dart:io';
 
