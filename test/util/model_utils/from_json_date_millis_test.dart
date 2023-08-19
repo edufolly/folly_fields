@@ -9,9 +9,9 @@ void main() {
   group(
     'ModelUtils fromJsonDateMillis',
     () {
-      final DateTime now = DateTime.now().copyWith(microsecond: 0);
+      DateTime now = DateTime.now().copyWith(microsecond: 0);
 
-      final Map<({int? a, DateTime? b}), dynamic> domain =
+      Map<({int? a, DateTime? b}), dynamic> domain =
           <({int? a, DateTime? b}), dynamic>{
         (a: null, b: now): now,
         (a: now.millisecondsSinceEpoch, b: null): now,
@@ -28,8 +28,7 @@ void main() {
         (a: 8640000000000001, b: null): isA<DateTime>(),
       };
 
-      for (final MapEntry<({int? a, DateTime? b}), dynamic> input
-          in domain.entries) {
+      for (MapEntry<({int? a, DateTime? b}), dynamic> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

@@ -10,7 +10,7 @@ void main() {
   group(
     'ModelUtils toMapDecimalDouble',
     () {
-      final Map<Decimal, double> domain = <Decimal, double>{
+      Map<Decimal, double> domain = <Decimal, double>{
         Decimal(intValue: 1, precision: 0): 1.0,
         Decimal(intValue: 11, precision: 0): 11.0,
         Decimal(intValue: 112, precision: 0): 112.0,
@@ -21,7 +21,7 @@ void main() {
         Decimal(intValue: 1123, precision: 2): 11.23,
       };
 
-      for (final MapEntry<Decimal, double> input in domain.entries) {
+      for (MapEntry<Decimal, double> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

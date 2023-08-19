@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_utils.dart';
 ///
 ///
 void main() {
-  final Map<int, int> domain = <int, int>{
+  Map<int, int> domain = <int, int>{
     0xFF000000: 0xFFFFFFFF,
     0xFF808080: 0xFFFFFFFF,
     0xFF0A141E: 0xFFFFFFFF,
@@ -19,7 +19,7 @@ void main() {
   group(
     'textColorByLuminance',
     () {
-      for (final MapEntry<int, int> input in domain.entries) {
+      for (MapEntry<int, int> input in domain.entries) {
         test(
           'Testing ${input.key.toRadixString(16)}',
           () => expect(

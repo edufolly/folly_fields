@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension mergeStartSeconds',
     () {
-      final Map<String, DateTime> domain = <String, DateTime>{
+      Map<String, DateTime> domain = <String, DateTime>{
         '2000-01-01T00:00:00.000':
             DateTime(2000, 1, 1, 0, 0, 11, 111, 111).mergeStartSeconds(),
         '2000-01-01T00:00:00.000888':
@@ -186,7 +186,7 @@ void main() {
         ),
       };
 
-      for (final MapEntry<String?, DateTime?> input in domain.entries) {
+      for (MapEntry<String?, DateTime?> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(input.key, input.value?.toIso8601String()),

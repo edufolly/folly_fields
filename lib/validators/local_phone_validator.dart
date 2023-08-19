@@ -39,7 +39,7 @@ class LocalPhoneValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    final String v = strip(value);
+    String v = strip(value);
 
     /// phone must have 10 or 11 chars
     if (v.length < 8 || v.length > 9) {

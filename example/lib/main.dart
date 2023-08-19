@@ -165,13 +165,13 @@ class MyHomePageState extends State<MyHomePage> {
   ///
   @override
   Widget build(BuildContext context) {
-    final List<MyMenuItem> menuItems = <MyMenuItem>[
+    List<MyMenuItem> menuItems = <MyMenuItem>[
       /// Github
       MyMenuItem(
         name: 'GitHub',
         iconData: FontAwesomeIcons.github,
         onPressed: (BuildContext context) {
-          final CircularWaiting wait = CircularWaiting(context)..show();
+          CircularWaiting wait = CircularWaiting(context)..show();
 
           launchUrlString(
             'https://github.com/edufolly/folly_fields/',
@@ -199,7 +199,7 @@ class MyHomePageState extends State<MyHomePage> {
         name: 'Circular Waiting',
         iconData: FontAwesomeIcons.spinner,
         onPressed: (BuildContext context) {
-          final CircularWaiting wait = CircularWaiting(
+          CircularWaiting wait = CircularWaiting(
             context,
             message: 'This is the main message.',
             subtitle: 'Wait 3 seconds...',
@@ -273,12 +273,12 @@ class MyHomePageState extends State<MyHomePage> {
             ),
           ),
           builder: (BuildContext context, Response response, _) {
-            final int statusCode = response.statusCode;
+            int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');
             }
 
-            final String code = response.body;
+            String code = response.body;
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24),

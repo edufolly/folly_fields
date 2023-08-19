@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension daysInMonth',
     () {
-      final Map<DateTime, int> domain = <DateTime, int>{
+      Map<DateTime, int> domain = <DateTime, int>{
         DateTime(1900, 2): 28,
         DateTime(1998, 2): 29,
         DateTime(1997, 2): 28,
@@ -34,7 +34,7 @@ void main() {
         DateTime(2100, 2): 28,
       };
 
-      for (final MapEntry<DateTime, int> input in domain.entries) {
+      for (MapEntry<DateTime, int> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.daysInMonth, input.value),

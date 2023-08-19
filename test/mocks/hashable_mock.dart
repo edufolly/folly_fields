@@ -15,7 +15,7 @@ class HashableMock with Hashable {
   ///
   ///
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = <String, dynamic>{};
+    Map<String, dynamic> map = <String, dynamic>{};
     map['name'] = name;
     map['age'] = age;
     map['stringList'] = stringList;

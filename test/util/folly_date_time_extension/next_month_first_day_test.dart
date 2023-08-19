@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension nextFirstMonthDay',
     () {
-      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(1900, 2): DateTime(1900, 3),
         DateTime(1900, 2, 2): DateTime(1900, 3),
         DateTime(1900, 2, 27): DateTime(1900, 3),
@@ -79,7 +79,7 @@ void main() {
         DateTime(2100, 2, 28): DateTime(2100, 3),
       };
 
-      for (final MapEntry<DateTime, DateTime> input in domain.entries) {
+      for (MapEntry<DateTime, DateTime> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.nextMonthFirstDay, input.value),

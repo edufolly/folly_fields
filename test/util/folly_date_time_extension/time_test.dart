@@ -9,7 +9,7 @@ void main() {
   group(
     'DateTimeExtension time',
     () {
-      final Map<DateTime, TimeOfDay> domain = <DateTime, TimeOfDay>{
+      Map<DateTime, TimeOfDay> domain = <DateTime, TimeOfDay>{
         DateTime(2000): const TimeOfDay(hour: 0, minute: 0),
         DateTime(2000, 1, 1, 0, 0, 59): const TimeOfDay(hour: 0, minute: 0),
         DateTime(2000, 1, 1, 0, 0, 60): const TimeOfDay(hour: 0, minute: 1),
@@ -33,7 +33,7 @@ void main() {
         DateTime(2000, 1, 1, 24, 1): const TimeOfDay(hour: 0, minute: 1),
       };
 
-      for (final MapEntry<DateTime, TimeOfDay> input in domain.entries) {
+      for (MapEntry<DateTime, TimeOfDay> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.time, input.value),

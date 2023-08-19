@@ -24,9 +24,9 @@ class TableIconButton extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    final ListTileThemeData tileTheme = ListTileTheme.of(context);
+    ListTileThemeData tileTheme = ListTileTheme.of(context);
 
-    final Color? iconColor = tileTheme.iconColor ??
+    Color? iconColor = tileTheme.iconColor ??
         switch (Theme.of(context).brightness) {
           Brightness.light => Colors.black45,
           Brightness.dark => null

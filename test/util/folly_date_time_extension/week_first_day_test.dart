@@ -8,7 +8,7 @@ void main() {
   group(
     'DateTimeExtension firstWeekDay - Monday',
     () {
-      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 3, 13),
         DateTime(2023, 3, 20): DateTime(2023, 3, 20),
         DateTime(2023, 3, 21): DateTime(2023, 3, 20),
@@ -32,7 +32,7 @@ void main() {
         DateTime(2023, 4, 8): DateTime(2023, 4, 3),
       };
 
-      for (final MapEntry<DateTime, DateTime> input in domain.entries) {
+      for (MapEntry<DateTime, DateTime> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.weekFirstDay(DateTime.monday), input.value),
@@ -44,7 +44,7 @@ void main() {
   group(
     'DateTimeExtension firstWeekDay - Wednesday',
     () {
-      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 3, 15),
         DateTime(2023, 3, 20): DateTime(2023, 3, 15),
         DateTime(2023, 3, 21): DateTime(2023, 3, 15),
@@ -68,7 +68,7 @@ void main() {
         DateTime(2023, 4, 8): DateTime(2023, 4, 5),
       };
 
-      for (final MapEntry<DateTime, DateTime> input in domain.entries) {
+      for (MapEntry<DateTime, DateTime> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.weekFirstDay(DateTime.wednesday), input.value),
@@ -80,7 +80,7 @@ void main() {
   group(
     'DateTimeExtension firstWeekDay - Sunday',
     () {
-      final Map<DateTime, DateTime> domain = <DateTime, DateTime>{
+      Map<DateTime, DateTime> domain = <DateTime, DateTime>{
         DateTime(2023, 3, 19): DateTime(2023, 3, 19),
         DateTime(2023, 3, 20): DateTime(2023, 3, 19),
         DateTime(2023, 3, 21): DateTime(2023, 3, 19),
@@ -104,7 +104,7 @@ void main() {
         DateTime(2023, 4, 8): DateTime(2023, 4, 2),
       };
 
-      for (final MapEntry<DateTime, DateTime> input in domain.entries) {
+      for (MapEntry<DateTime, DateTime> input in domain.entries) {
         test(
           'Testing ${input.key.toIso8601String()}',
           () => expect(input.key.weekFirstDay(), input.value),

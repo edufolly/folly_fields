@@ -55,14 +55,14 @@ class Ipv4Validator extends AbstractValidator<String>
       return null;
     }
 
-    final List<String> parts = value.split('.');
+    List<String> parts = value.split('.');
 
     if (parts.length != 4) {
       return null;
     }
 
-    for (final String part in parts) {
-      final int? octet = int.tryParse(part);
+    for (String part in parts) {
+      int? octet = int.tryParse(part);
       if (octet == null || octet < 0 || octet > 255) {
         return null;
       }

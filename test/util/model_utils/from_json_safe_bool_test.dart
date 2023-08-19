@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonSafeBool',
     () {
-      final Map<dynamic, bool> domain = <dynamic, bool>{
+      Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         true: true,
         false: false,
@@ -38,7 +38,7 @@ void main() {
         'FALSE': false,
       };
 
-      for (final MapEntry<dynamic, bool> input in domain.entries) {
+      for (MapEntry<dynamic, bool> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

@@ -22,7 +22,7 @@ void main() {
 
       const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<List<Map<String, dynamic>>?, List<MockStringModel>> domain =
+      Map<List<Map<String, dynamic>>?, List<MockStringModel>> domain =
           <List<Map<String, dynamic>>?, List<MockStringModel>>{
         null: <MockStringModel>[],
         <Map<String, dynamic>>[]: <MockStringModel>[],
@@ -63,8 +63,8 @@ void main() {
         ],
       };
 
-      for (final MapEntry<List<Map<String, dynamic>>?,
-          List<MockStringModel>> input in domain.entries) {
+      for (MapEntry<List<Map<String, dynamic>>?, List<MockStringModel>> input
+          in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

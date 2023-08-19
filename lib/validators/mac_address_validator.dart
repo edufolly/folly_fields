@@ -46,7 +46,7 @@ class MacAddressValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    final String v = strip(value);
+    String v = strip(value);
 
     if (v.length != 12) {
       return false;

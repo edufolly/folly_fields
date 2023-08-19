@@ -57,9 +57,9 @@ class IconDataField extends ResponsiveFormField<IconData> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<IconData> field) {
-            final _IconDataFieldState state = field as _IconDataFieldState;
+            _IconDataFieldState state = field as _IconDataFieldState;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -75,10 +75,10 @@ class IconDataField extends ResponsiveFormField<IconData> {
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
-            final Map<String, IconData> controllerIcons =
+            Map<String, IconData> controllerIcons =
                 state._effectiveController.icons;
 
-            final List<String> keys = state.names;
+            List<String> keys = state.names;
 
             return Padding(
               padding: padding,
@@ -140,8 +140,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
                             ),
                             itemCount: keys.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final IconData iconData =
-                                  controllerIcons[keys[index]]!;
+                              IconData iconData = controllerIcons[keys[index]]!;
 
                               return GestureDetector(
                                 onTap: () => state.didChange(iconData),
@@ -274,7 +273,7 @@ class _IconDataFieldState extends FormFieldState<IconData> {
   ///
   ///
   void _handleSearch() {
-    final String text = _textController.text.toLowerCase();
+    String text = _textController.text.toLowerCase();
 
     names = _effectiveController.icons.keys
         .where((String key) => key.toLowerCase().contains(text))

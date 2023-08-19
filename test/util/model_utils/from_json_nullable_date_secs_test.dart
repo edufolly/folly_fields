@@ -9,12 +9,12 @@ void main() {
   group(
     'ModelUtils fromJsonNullableDateSecs',
     () {
-      final DateTime now = DateTime.now().copyWith(
+      DateTime now = DateTime.now().copyWith(
         millisecond: 0,
         microsecond: 0,
       );
 
-      final Map<int?, DateTime?> domain = <int?, DateTime?>{
+      Map<int?, DateTime?> domain = <int?, DateTime?>{
         null: null,
         now.millisecondsSinceEpoch ~/ 1000: now,
         -1: null,
@@ -27,7 +27,7 @@ void main() {
         8640000000001: null,
       };
 
-      for (final MapEntry<int?, DateTime?> input in domain.entries) {
+      for (MapEntry<int?, DateTime?> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

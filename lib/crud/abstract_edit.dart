@@ -167,7 +167,7 @@ class AbstractEditState<
             }
 
             _formKey.currentState!.save();
-            final int currentHash = _model.hashCode;
+            int currentHash = _model.hashCode;
 
             bool go = true;
             if (_initialHash != currentHash) {
@@ -212,7 +212,7 @@ class AbstractEditState<
   ///
   ///
   Future<void> _save() async {
-    final CircularWaiting wait = CircularWaiting(context);
+    CircularWaiting wait = CircularWaiting(context);
     T? model = _model;
     try {
       wait.show();
@@ -220,8 +220,7 @@ class AbstractEditState<
       _formKey.currentState!.save();
 
       if (widget.editController != null) {
-        final bool validated =
-            await widget.editController!.validate(context, _model);
+        bool validated = await widget.editController!.validate(context, _model);
         if (!validated) {
           wait.close();
           return;

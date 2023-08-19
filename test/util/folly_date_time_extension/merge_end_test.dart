@@ -9,7 +9,7 @@ void main() {
   group(
     'DateTimeExtension mergeEnd',
     () {
-      final Map<String, DateTime> domain = <String, DateTime>{
+      Map<String, DateTime> domain = <String, DateTime>{
         '2000-01-01T23:59:59.999':
             DateTime(2000, 1, 1, 11, 11, 11, 111, 111).mergeEnd(),
         '2000-01-01T23:59:59.999888':
@@ -161,7 +161,7 @@ void main() {
         ),
       };
 
-      for (final MapEntry<String?, DateTime?> input in domain.entries) {
+      for (MapEntry<String?, DateTime?> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(input.key, input.value?.toIso8601String()),

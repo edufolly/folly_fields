@@ -9,12 +9,12 @@ void main() {
   group(
     'ModelUtils fromJsonDateSecs',
     () {
-      final DateTime now = DateTime.now().copyWith(
+      DateTime now = DateTime.now().copyWith(
         millisecond: 0,
         microsecond: 0,
       );
 
-      final Map<({int? a, DateTime? b}), dynamic> domain =
+      Map<({int? a, DateTime? b}), dynamic> domain =
           <({int? a, DateTime? b}), dynamic>{
         (a: null, b: now): now,
         (a: now.millisecondsSinceEpoch ~/ 1000, b: null): now,
@@ -30,8 +30,7 @@ void main() {
         (a: 8640000000001, b: null): isA<DateTime>(),
       };
 
-      for (final MapEntry<({int? a, DateTime? b}), dynamic> input
-          in domain.entries) {
+      for (MapEntry<({int? a, DateTime? b}), dynamic> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

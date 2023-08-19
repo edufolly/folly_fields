@@ -10,8 +10,7 @@ void main() {
   group(
     'ModelUtils fromJsonColor',
     () {
-      final Map<({String? a, int? b}), Color> domain =
-          <({String? a, int? b}), Color>{
+      Map<({String? a, int? b}), Color> domain = <({String? a, int? b}), Color>{
         (a: null, b: null): Colors.transparent,
         (a: null, b: 0xFF000000): Colors.black,
         (a: '', b: null): Colors.transparent,
@@ -25,8 +24,7 @@ void main() {
         (a: '#FFF', b: 0xFF000000): Colors.white,
       };
 
-      for (final MapEntry<({String? a, int? b}), Color> input
-          in domain.entries) {
+      for (MapEntry<({String? a, int? b}), Color> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

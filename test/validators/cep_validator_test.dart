@@ -8,7 +8,7 @@ void main() {
   group(
     'CepValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '0': false,
@@ -35,9 +35,9 @@ void main() {
         'AAAAAAAA': false,
       };
 
-      final CepValidator validator = CepValidator();
+      CepValidator validator = CepValidator();
 
-      for (final MapEntry<String, bool> input in domain.entries) {
+      for (MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -49,7 +49,7 @@ void main() {
   group(
     'CepValidator format',
     () {
-      final Map<String, String> domain = <String, String>{
+      Map<String, String> domain = <String, String>{
         '': '',
         ' ': '',
         '!': '',
@@ -57,9 +57,9 @@ void main() {
         '28660123': '28.660-123',
       };
 
-      final CepValidator validator = CepValidator();
+      CepValidator validator = CepValidator();
 
-      for (final MapEntry<String, String> input in domain.entries) {
+      for (MapEntry<String, String> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(validator.format(input.key), input.value),
@@ -69,7 +69,7 @@ void main() {
   );
 
   group('CepValidator Coverage', () {
-    final CepValidator validator = CepValidator();
+    CepValidator validator = CepValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

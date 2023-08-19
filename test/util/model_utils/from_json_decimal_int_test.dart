@@ -10,8 +10,7 @@ void main() {
   group(
     'ModelUtils fromJsonDecimalInt',
     () {
-      final Map<({int? a, int b}), Decimal> domain =
-          <({int? a, int b}), Decimal>{
+      Map<({int? a, int b}), Decimal> domain = <({int? a, int b}), Decimal>{
         (a: null, b: 0): Decimal(precision: 0, doubleValue: 0),
         (a: 1, b: 0): Decimal(precision: 0, doubleValue: 1),
         (a: 11, b: 0): Decimal(precision: 0, doubleValue: 11),
@@ -24,7 +23,7 @@ void main() {
         (a: 1123, b: 2): Decimal(precision: 2, doubleValue: 11.23),
       };
 
-      for (final MapEntry<({int? a, int b}), Decimal> input in domain.entries) {
+      for (MapEntry<({int? a, int b}), Decimal> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

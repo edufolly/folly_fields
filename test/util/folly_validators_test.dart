@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_validators.dart';
 ///
 ///
 void main() {
-  final List<Decimal> decimalTests = <Decimal>[
+  List<Decimal> decimalTests = <Decimal>[
     Decimal(precision: 2, doubleValue: -1),
     Decimal(precision: 2, doubleValue: -0.01),
     Decimal(precision: 2, doubleValue: 0),
@@ -21,12 +21,12 @@ void main() {
   group(
     'Validators decimalGTEZero',
     () {
-      final List<bool> decimalResults = <bool>[false, false, true, true, true];
+      List<bool> decimalResults = <bool>[false, false, true, true, true];
 
-      final Map<Decimal, bool> decimalDomain =
+      Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
-      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
+      for (MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -44,12 +44,12 @@ void main() {
   group(
     'Validators decimalGTZero',
     () {
-      final List<bool> decimalResults = <bool>[false, false, false, true, true];
+      List<bool> decimalResults = <bool>[false, false, false, true, true];
 
-      final Map<Decimal, bool> decimalDomain =
+      Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
-      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
+      for (MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -68,12 +68,12 @@ void main() {
   group(
     'Validators decimalLTZero',
     () {
-      final List<bool> decimalResults = <bool>[true, true, false, false, false];
+      List<bool> decimalResults = <bool>[true, true, false, false, false];
 
-      final Map<Decimal, bool> decimalDomain =
+      Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
-      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
+      for (MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -91,12 +91,12 @@ void main() {
   group(
     'Validators decimalLTEZero',
     () {
-      final List<bool> decimalResults = <bool>[true, true, true, false, false];
+      List<bool> decimalResults = <bool>[true, true, true, false, false];
 
-      final Map<Decimal, bool> decimalDomain =
+      Map<Decimal, bool> decimalDomain =
           Map<Decimal, bool>.fromIterables(decimalTests, decimalResults);
 
-      for (final MapEntry<Decimal, bool> input in decimalDomain.entries) {
+      for (MapEntry<Decimal, bool> input in decimalDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -115,7 +115,7 @@ void main() {
   group(
     'Validators stringNotEmpty',
     () {
-      final Map<String?, bool> stringDomain = <String?, bool>{
+      Map<String?, bool> stringDomain = <String?, bool>{
         null: false,
         '': false,
         ' ': true,
@@ -125,7 +125,7 @@ void main() {
         'A': true,
       };
 
-      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+      for (MapEntry<String?, bool> input in stringDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -144,7 +144,7 @@ void main() {
   group(
     'Validators stringNotBlank',
     () {
-      final Map<String?, bool> stringDomain = <String?, bool>{
+      Map<String?, bool> stringDomain = <String?, bool>{
         null: false,
         '': false,
         ' ': false,
@@ -163,7 +163,7 @@ void main() {
         'A ': true,
       };
 
-      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+      for (MapEntry<String?, bool> input in stringDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -181,7 +181,7 @@ void main() {
   group(
     'Validators stringNullNotEmpty',
     () {
-      final Map<String?, bool> stringDomain = <String?, bool>{
+      Map<String?, bool> stringDomain = <String?, bool>{
         null: true,
         '': false,
         ' ': true,
@@ -191,7 +191,7 @@ void main() {
         'A': true,
       };
 
-      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+      for (MapEntry<String?, bool> input in stringDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -210,7 +210,7 @@ void main() {
   group(
     'Validators stringNullNotBlank',
     () {
-      final Map<String?, bool> stringDomain = <String?, bool>{
+      Map<String?, bool> stringDomain = <String?, bool>{
         null: true,
         '': false,
         ' ': false,
@@ -229,7 +229,7 @@ void main() {
         'A ': true,
       };
 
-      for (final MapEntry<String?, bool> input in stringDomain.entries) {
+      for (MapEntry<String?, bool> input in stringDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -247,7 +247,7 @@ void main() {
   group(
     'Validators notNull',
     () {
-      final Map<dynamic, bool> domain = <dynamic, bool>{
+      Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': true,
         ' ': true,
@@ -299,7 +299,7 @@ void main() {
         <bool>{false}: true,
       };
 
-      for (final MapEntry<dynamic, bool> input in domain.entries) {
+      for (MapEntry<dynamic, bool> input in domain.entries) {
         test(
           'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
           () => expect(
@@ -317,7 +317,7 @@ void main() {
   group(
     'Validators notEmpty',
     () {
-      final Map<dynamic, bool> domain = <dynamic, bool>{
+      Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': false,
         ' ': true,
@@ -369,7 +369,7 @@ void main() {
         <bool>{false}: true,
       };
 
-      for (final MapEntry<dynamic, bool> input in domain.entries) {
+      for (MapEntry<dynamic, bool> input in domain.entries) {
         test(
           'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
           () => expect(
@@ -386,8 +386,8 @@ void main() {
   ///
   group(
     'Validators notBlank',
-        () {
-      final Map<dynamic, bool> domain = <dynamic, bool>{
+    () {
+      Map<dynamic, bool> domain = <dynamic, bool>{
         null: false,
         '': false,
         ' ': false,
@@ -439,10 +439,10 @@ void main() {
         <bool>{false}: true,
       };
 
-      for (final MapEntry<dynamic, bool> input in domain.entries) {
+      for (MapEntry<dynamic, bool> input in domain.entries) {
         test(
           'Testing: ${(input.key as Object?).runtimeType} ${input.key}',
-              () => expect(
+          () => expect(
             FollyValidators.notBlank(input.key) == null,
             input.value,
           ),
@@ -457,7 +457,7 @@ void main() {
   group(
     'Validators intGTEZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: false,
         -1: false,
@@ -466,7 +466,7 @@ void main() {
         2: true,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -484,7 +484,7 @@ void main() {
   group(
     'Validators intGTZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: false,
         -1: false,
@@ -493,7 +493,7 @@ void main() {
         2: true,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -511,7 +511,7 @@ void main() {
   group(
     'Validators intLTZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: true,
         -1: true,
@@ -520,7 +520,7 @@ void main() {
         2: false,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -538,7 +538,7 @@ void main() {
   group(
     'Validators intLTEZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: false,
         -2: true,
         -1: true,
@@ -547,7 +547,7 @@ void main() {
         2: false,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -565,7 +565,7 @@ void main() {
   group(
     'Validators intNullGTEZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: false,
         -1: false,
@@ -574,7 +574,7 @@ void main() {
         2: true,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -592,7 +592,7 @@ void main() {
   group(
     'Validators intNullGTZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: false,
         -1: false,
@@ -601,7 +601,7 @@ void main() {
         2: true,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -619,7 +619,7 @@ void main() {
   group(
     'Validators intNullLTZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: true,
         -1: true,
@@ -628,7 +628,7 @@ void main() {
         2: false,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
@@ -646,7 +646,7 @@ void main() {
   group(
     'Validators intNullLTEZero',
     () {
-      final Map<int?, bool> intDomain = <int?, bool>{
+      Map<int?, bool> intDomain = <int?, bool>{
         null: true,
         -2: true,
         -1: true,
@@ -655,7 +655,7 @@ void main() {
         2: false,
       };
 
-      for (final MapEntry<int?, bool> input in intDomain.entries) {
+      for (MapEntry<int?, bool> input in intDomain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(

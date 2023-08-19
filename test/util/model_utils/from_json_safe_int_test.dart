@@ -7,7 +7,7 @@ import 'package:folly_fields/util/model_utils.dart';
 void main() {
   ///
   group('ModelUtils fromJsonSafeInt', () {
-    final Map<({dynamic a, int? b, int c}), int?> domain =
+    Map<({dynamic a, int? b, int c}), int?> domain =
         <({dynamic a, int? b, int c}), int?>{
       (a: null, b: 8, c: 1): 1,
       (a: null, b: null, c: 1): 1,
@@ -82,8 +82,7 @@ void main() {
       (a: 'false', b: 16, c: 1): 1,
     };
 
-    for (final MapEntry<({dynamic a, int? b, int c}), int?> input
-        in domain.entries) {
+    for (MapEntry<({dynamic a, int? b, int c}), int?> input in domain.entries) {
       test(
         '${input.key} // ${input.value}',
         () {

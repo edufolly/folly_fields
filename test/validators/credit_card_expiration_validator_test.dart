@@ -9,31 +9,28 @@ void main() {
   group(
     'CreditCardExpirationValidator isValid',
     () {
-      final CreditCardExpirationValidator validator =
-          CreditCardExpirationValidator();
+      CreditCardExpirationValidator validator = CreditCardExpirationValidator();
 
-      final DateFormat dateFormat = DateFormat('MM/yy');
+      DateFormat dateFormat = DateFormat('MM/yy');
 
-      final DateTime nowDate = DateTime.now();
+      DateTime nowDate = DateTime.now();
 
-      final DateTime firstDate = DateTime(nowDate.year, nowDate.month);
-      final String now = dateFormat.format(firstDate);
+      DateTime firstDate = DateTime(nowDate.year, nowDate.month);
+      String now = dateFormat.format(firstDate);
 
-      final DateTime lastOp = firstDate.subtract(const Duration(days: 1));
-      final DateTime lastDate = DateTime(lastOp.year, lastOp.month);
-      final String last = dateFormat.format(lastDate);
+      DateTime lastOp = firstDate.subtract(const Duration(days: 1));
+      DateTime lastDate = DateTime(lastOp.year, lastOp.month);
+      String last = dateFormat.format(lastDate);
 
-      final DateTime nextOp = firstDate.add(const Duration(days: 32));
-      final DateTime nextDate = DateTime(nextOp.year, nextOp.month);
-      final String next = dateFormat.format(nextDate);
+      DateTime nextOp = firstDate.add(const Duration(days: 32));
+      DateTime nextDate = DateTime(nextOp.year, nextOp.month);
+      String next = dateFormat.format(nextDate);
 
-      final String lastYear =
-          (firstDate.year - 2001).toString().padLeft(2, '0');
+      String lastYear = (firstDate.year - 2001).toString().padLeft(2, '0');
 
-      final String nextYear =
-          (firstDate.year - 1999).toString().padLeft(2, '0');
+      String nextYear = (firstDate.year - 1999).toString().padLeft(2, '0');
 
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '0': false,
@@ -73,7 +70,7 @@ void main() {
         '13/$nextYear': false,
       };
 
-      for (final MapEntry<String, bool> input in domain.entries) {
+      for (MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -83,8 +80,7 @@ void main() {
   );
 
   group('CreditCardExpirationValidator Coverage', () {
-    final CreditCardExpirationValidator validator =
-        CreditCardExpirationValidator();
+    CreditCardExpirationValidator validator = CreditCardExpirationValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

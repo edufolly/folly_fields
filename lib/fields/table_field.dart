@@ -86,7 +86,7 @@ class TableField<T extends AbstractModel<ID>, ID>
               );
             }
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       labelText: uiBuilder.superPlural(field.context),
                       border: const OutlineInputBorder(),
@@ -121,14 +121,14 @@ class TableField<T extends AbstractModel<ID>, ID>
                       ResponsiveSize responsiveSize,
                     ) {
                       bool isCard = false;
-                      final List<Widget> columnData = <Widget>[];
+                      List<Widget> columnData = <Widget>[];
 
                       if (changeToCard != null &&
                           responsiveSize <= changeToCard) {
                         isCard = true;
 
                         /// Table data
-                        for (final MapEntry<int, T> entry
+                        for (MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
                           columnData.add(
                             Padding(
@@ -156,7 +156,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                                         padding: const EdgeInsets.all(8),
                                         label: 'REMOVER ITEM',
                                         onPressed: () async {
-                                          final bool go = await removeRow(
+                                          bool go = await removeRow(
                                             field.context,
                                             entry.value,
                                             entry.key,
@@ -202,7 +202,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                         }
 
                         /// Table data
-                        for (final MapEntry<int, T> entry
+                        for (MapEntry<int, T> entry
                             in field.value!.asMap().entries) {
                           columnData.addAll(
                             <Widget>[
@@ -241,7 +241,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                                       enabled: enabled,
                                       iconData: FontAwesomeIcons.trashCan,
                                       onPressed: () async {
-                                        final bool go = await removeRow(
+                                        bool go = await removeRow(
                                           field.context,
                                           entry.value,
                                           entry.key,
@@ -284,8 +284,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                     label: 'Adicionar ${uiBuilder.superSingle(field.context)}',
                     onPressed: () async {
                       if (beforeAdd != null) {
-                        final bool go =
-                            await beforeAdd(field.context, field.value!);
+                        bool go = await beforeAdd(field.context, field.value!);
                         if (!go) {
                           return;
                         }

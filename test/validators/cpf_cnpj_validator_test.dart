@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/cpf_cnpj_validator.dart';
 ///
 void main() {
   group('CpfCnpjValidator Coverage', () {
-    final CpfCnpjValidator validator = CpfCnpjValidator();
+    CpfCnpjValidator validator = CpfCnpjValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

@@ -8,7 +8,7 @@ void main() {
   group(
     'FollyStringExtension capitalizeWords',
     () {
-      final Map<String, String> domain = <String, String>{
+      Map<String, String> domain = <String, String>{
         'word': 'Word',
         'Word': 'Word',
         'WOrd': 'Word',
@@ -26,7 +26,7 @@ void main() {
         'WORD LAST NEXT': 'Word Last Next',
       };
 
-      for (final MapEntry<String, String> input in domain.entries) {
+      for (MapEntry<String, String> input in domain.entries) {
         test(
           'Testing ${input.key} => ${input.value}',
           () => expect(input.key.capitalizeWords, input.value),

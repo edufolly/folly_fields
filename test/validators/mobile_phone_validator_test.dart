@@ -8,7 +8,7 @@ void main() {
   group(
     'MobilePhoneValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '9': false,
@@ -47,9 +47,9 @@ void main() {
         '(08) 89999-9999': false,
       };
 
-      final MobilePhoneValidator validator = MobilePhoneValidator();
+      MobilePhoneValidator validator = MobilePhoneValidator();
 
-      for (final MapEntry<String, bool> input in domain.entries) {
+      for (MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -61,7 +61,7 @@ void main() {
   group(
     'MobilePhoneValidator format',
     () {
-      final Map<String, String> domain = <String, String>{
+      Map<String, String> domain = <String, String>{
         '': '',
         ' ': '',
         '!': '',
@@ -71,9 +71,9 @@ void main() {
         '(99) 99999-9999': '(99) 99999-9999',
       };
 
-      final MobilePhoneValidator validator = MobilePhoneValidator();
+      MobilePhoneValidator validator = MobilePhoneValidator();
 
-      for (final MapEntry<String, String> input in domain.entries) {
+      for (MapEntry<String, String> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(validator.format(input.key), input.value),
@@ -83,7 +83,7 @@ void main() {
   );
 
   group('MobilePhoneValidator Coverage', () {
-    final MobilePhoneValidator validator = MobilePhoneValidator();
+    MobilePhoneValidator validator = MobilePhoneValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

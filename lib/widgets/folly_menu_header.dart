@@ -36,11 +36,9 @@ class FollyMenuHeader<O> extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    final Color localForeground =
-        color ?? Theme.of(context).colorScheme.onPrimary;
+    Color localForeground = color ?? Theme.of(context).colorScheme.onPrimary;
 
-    final Color localBackground =
-        background ?? Theme.of(context).colorScheme.primary;
+    Color localBackground = background ?? Theme.of(context).colorScheme.primary;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -267,7 +265,7 @@ class FollyUserHeader<O> extends StatelessWidget {
       return email.substring(0, 2);
     }
 
-    final List<String> parts = name.split(' ');
+    List<String> parts = name.split(' ');
 
     if (parts.length < 2) {
       return name.substring(0, 2);

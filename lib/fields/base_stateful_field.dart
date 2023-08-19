@@ -242,7 +242,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                   ? () async {
                       try {
                         fromButton = true;
-                        final T? value = await widget.selectData(
+                        T? value = await widget.selectData(
                           context: context,
                           controller: _effectiveController,
                         );
@@ -280,8 +280,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                   return null;
                 }
 
-                final String? message =
-                    _effectiveController.validator.valid(value!);
+                String? message = _effectiveController.validator.valid(value!);
 
                 if (message != null) {
                   return message;

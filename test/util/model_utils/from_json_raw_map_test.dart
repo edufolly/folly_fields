@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonRawMap',
     () {
-      final Map<Map<dynamic, dynamic>?, Map<String, dynamic>> domain =
+      Map<Map<dynamic, dynamic>?, Map<String, dynamic>> domain =
           <Map<dynamic, dynamic>?, Map<String, dynamic>>{
         null: <String, dynamic>{},
         <dynamic, dynamic>{}: <String, dynamic>{},
@@ -28,7 +28,7 @@ void main() {
         },
       };
 
-      for (final MapEntry<Map<dynamic, dynamic>?, Map<String, dynamic>> input
+      for (MapEntry<Map<dynamic, dynamic>?, Map<String, dynamic>> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',

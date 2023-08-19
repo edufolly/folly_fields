@@ -8,7 +8,7 @@ void main() {
   group(
     'MacAddressValidator isValid',
     () {
-      final Map<String, bool> isValidTests = <String, bool>{
+      Map<String, bool> isValidTests = <String, bool>{
         '': false,
         '1': false,
         'aa:bb:cc:dd:ee:ff': false,
@@ -30,9 +30,9 @@ void main() {
         isValidTests[MacAddressValidator.generate()] = true;
       }
 
-      final MacAddressValidator validator = MacAddressValidator();
+      MacAddressValidator validator = MacAddressValidator();
 
-      for (final MapEntry<String, bool> input in isValidTests.entries) {
+      for (MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -44,7 +44,7 @@ void main() {
   group(
     'MacAddressValidator format',
     () {
-      final Map<String, String> formatTests = <String, String>{
+      Map<String, String> formatTests = <String, String>{
         '': '',
         ' ': '',
         '  ': '',
@@ -70,9 +70,9 @@ void main() {
         '01:23:45:67:89:AB': '01:23:45:67:89:AB',
       };
 
-      final MacAddressValidator validator = MacAddressValidator();
+      MacAddressValidator validator = MacAddressValidator();
 
-      for (final MapEntry<String, String> input in formatTests.entries) {
+      for (MapEntry<String, String> input in formatTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.format(input.key), input.value),

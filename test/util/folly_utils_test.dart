@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_utils.dart';
 ///
 ///
 void main() {
-  final List<_FollyUtilsTest> tests = <_FollyUtilsTest>[
+  List<_FollyUtilsTest> tests = <_FollyUtilsTest>[
     _FollyUtilsTest(
       name: 'Name',
       camelCase: 'name',
@@ -39,7 +39,7 @@ void main() {
     ),
   ];
 
-  for (final _FollyUtilsTest t in tests) {
+  for (_FollyUtilsTest t in tests) {
     group('Valid: ${t.name}', () {
       ///
       test(
@@ -172,7 +172,7 @@ void main() {
   ///
   ///
   ///
-  final List<_FollyUtilsTest> errors = <_FollyUtilsTest>[
+  List<_FollyUtilsTest> errors = <_FollyUtilsTest>[
     _FollyUtilsTest(
       name: '[Empty]',
     ),
@@ -190,7 +190,7 @@ void main() {
     ),
   ];
 
-  for (final _FollyUtilsTest t in errors) {
+  for (_FollyUtilsTest t in errors) {
     group('Errors: ${t.name}', () {
       ///
       test(
@@ -275,7 +275,7 @@ void main() {
   ///
   const Color staticColor = Colors.black;
 
-  final MaterialColor staticMaterialColor = MaterialColor(
+  MaterialColor staticMaterialColor = MaterialColor(
     staticColor.value,
     const <int, Color>{
       50: staticColor,

@@ -41,7 +41,7 @@ class ResponsiveGrid extends ResponsiveStateless {
         BuildContext context,
         ResponsiveSize responsiveSize,
       ) {
-        final List<Widget> columnChildren = <Widget>[];
+        List<Widget> columnChildren = <Widget>[];
 
         int total = 0;
 
@@ -49,8 +49,8 @@ class ResponsiveGrid extends ResponsiveStateless {
 
         List<Widget> rowChildren = <Widget>[];
 
-        for (final Responsive child in children) {
-          final int size = child.responsiveSize(responsiveSize);
+        for (Responsive child in children) {
+          int size = child.responsiveSize(responsiveSize);
 
           if (size > 0) {
             if (total + size > maxColumns) {

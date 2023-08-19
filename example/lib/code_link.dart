@@ -55,7 +55,7 @@ class CodeLink extends StatelessWidget {
   ///
   ///
   void _showCode(BuildContext context) {
-    final String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
+    String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
         .firstMatch(code)!
         .group(1)!
         .replaceAll('              ', '')
@@ -103,7 +103,7 @@ class CodeLink extends StatelessWidget {
               label: const Text('Código Fonte'),
               icon: const Icon(FontAwesomeIcons.github),
               onPressed: () {
-                final CircularWaiting wait = CircularWaiting(context)..show();
+                CircularWaiting wait = CircularWaiting(context)..show();
 
                 launchUrlString(
                   source,

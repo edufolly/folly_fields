@@ -147,14 +147,13 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   ///
   ///
   void onTextChange() {
-    final CreditCardType type =
-        CreditCardType.detectType(effectiveController.text);
+    CreditCardType type = CreditCardType.detectType(effectiveController.text);
     if (validator.type != type) {
       validator.type = type;
       widget.onTypeChange?.call(validator.type);
     }
 
-    final bool valid = validator.isValid(effectiveController.text);
+    bool valid = validator.isValid(effectiveController.text);
     if (isValid != valid) {
       isValid = valid;
       widget.onValid?.call(isValid);

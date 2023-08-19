@@ -88,7 +88,7 @@ class DateTimeField
     required BuildContext context,
     required DateTimeEditingController controller,
   }) async {
-    final DateTime? selectedDate = await showDatePicker(
+    DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: controller.data ?? DateTime.now(),
       firstDate: firstDate ?? DateTime(1900),
@@ -111,7 +111,7 @@ class DateTimeField
       // Do nothing.
     }
 
-    final TimeOfDay? selectedTime = await showTimePicker(
+    TimeOfDay? selectedTime = await showTimePicker(
       context: context,
       initialTime: initialTime,
       initialEntryMode: initialTimeEntryMode,

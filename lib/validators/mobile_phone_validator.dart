@@ -38,7 +38,7 @@ class MobilePhoneValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    final String v = strip(value);
+    String v = strip(value);
 
     /// phone must be defined
     if (v.length != 11) {

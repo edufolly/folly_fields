@@ -80,16 +80,16 @@ class Ipv4Address {
       throw ArgumentError('invalidIpAddress');
     }
 
-    final List<String> parts = value.split(separator);
+    List<String> parts = value.split(separator);
 
     if (parts.length != 4) {
       throw ArgumentError('invalidIpAddress');
     }
 
-    final List<int> ocs = <int>[];
+    List<int> ocs = <int>[];
 
-    for (final String part in parts) {
-      final int? octet = int.tryParse(part);
+    for (String part in parts) {
+      int? octet = int.tryParse(part);
       if (octet == null || octet < 0 || octet > 255) {
         throw ArgumentError('invalidIpAddress');
       }
@@ -130,7 +130,7 @@ class Ipv4Address {
   ///
   ///
   Ipv4Address operator +(int value) {
-    final int newValue = _ip + value;
+    int newValue = _ip + value;
     if (newValue > 4294967295) {
       throw ArgumentError('invalidIpAddress');
     }
@@ -142,7 +142,7 @@ class Ipv4Address {
   ///
   ///
   Ipv4Address operator -(int value) {
-    final int newValue = _ip - value;
+    int newValue = _ip - value;
     if (newValue < 0) {
       throw ArgumentError('invalidIpAddress');
     }

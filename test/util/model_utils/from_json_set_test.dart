@@ -22,7 +22,7 @@ void main() {
 
       const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<Set<dynamic>?, Set<MockStringModel>> domain =
+      Map<Set<dynamic>?, Set<MockStringModel>> domain =
           <Set<dynamic>?, Set<MockStringModel>>{
         null: <MockStringModel>{},
         <dynamic>{}: <MockStringModel>{},
@@ -61,7 +61,7 @@ void main() {
         },
       };
 
-      for (final MapEntry<Set<dynamic>?, Set<MockStringModel>> input
+      for (MapEntry<Set<dynamic>?, Set<MockStringModel>> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',

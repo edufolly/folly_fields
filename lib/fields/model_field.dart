@@ -66,10 +66,9 @@ class ModelField<T extends AbstractModel<ID>, ID>
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final _ModelFieldState<T, ID> state =
-                field as _ModelFieldState<T, ID>;
+            _ModelFieldState<T, ID> state = field as _ModelFieldState<T, ID>;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,
@@ -127,7 +126,7 @@ class ModelField<T extends AbstractModel<ID>, ID>
                     ? () async {
                         try {
                           if (beforeRoute != null) {
-                            final bool go = await beforeRoute(
+                            bool go = await beforeRoute(
                               state.context,
                               state.value,
                             );

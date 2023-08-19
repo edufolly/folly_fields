@@ -8,7 +8,7 @@ void main() {
   group(
     'EmailValidator isValid',
     () {
-      final Map<String, bool> isValidTests = <String, bool>{
+      Map<String, bool> isValidTests = <String, bool>{
         'email@example.com': true,
         'firstname.lastname@example.com': true,
         'email@subdomain.example.com': true,
@@ -39,9 +39,9 @@ void main() {
         'Abc..123@example.com': false,
       };
 
-      final EmailValidator validator = EmailValidator();
+      EmailValidator validator = EmailValidator();
 
-      for (final MapEntry<String, bool> input in isValidTests.entries) {
+      for (MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -51,7 +51,7 @@ void main() {
   );
 
   group('EmailValidator Coverage', () {
-    final EmailValidator validator = EmailValidator();
+    EmailValidator validator = EmailValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

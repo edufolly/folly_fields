@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils stringProducer',
     () {
-      final Map<dynamic, String> domain = <dynamic, String>{
+      Map<dynamic, String> domain = <dynamic, String>{
         null: 'null',
         'null': 'null',
         '': '',
@@ -35,7 +35,7 @@ void main() {
             '2.3: 2.3}',
       };
 
-      for (final MapEntry<dynamic, String> input in domain.entries) {
+      for (MapEntry<dynamic, String> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

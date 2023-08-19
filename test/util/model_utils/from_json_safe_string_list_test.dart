@@ -9,7 +9,7 @@ void main() {
   group(
     'ModelUtils fromJsonSafeStringList',
     () {
-      final Map<dynamic, List<String>> domain = <dynamic, List<String>>{
+      Map<dynamic, List<String>> domain = <dynamic, List<String>>{
         null: <String>[],
         '': <String>[''],
         ' ': <String>[' '],
@@ -50,7 +50,7 @@ void main() {
         <dynamic, dynamic>{null: null}: <String>['{null: null}'],
       };
 
-      for (final MapEntry<dynamic, List<String>> input in domain.entries) {
+      for (MapEntry<dynamic, List<String>> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {
