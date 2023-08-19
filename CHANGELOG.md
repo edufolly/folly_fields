@@ -1,6 +1,8 @@
-## [2.1.X] - 2023-08-12
+## [2.1.3] - 2023-08-18
 
 * Adding internal padding to FollyCell.
+* Fixing AbstractEdit model return.
+* Upgrading to Flutter 3.13.0 and Dart 3.1.0.
 
 ## [2.1.2] - 2023-08-09
 
