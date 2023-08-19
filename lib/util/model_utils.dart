@@ -69,6 +69,18 @@ class ModelUtils {
   ///
   ///
   ///
+  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
+    Set<dynamic>? value,
+    AbstractConsumer<T, ID> consumer,
+  ) =>
+      fromJsonSafeSet<T>(
+        value,
+        producer: (dynamic e) => consumer.fromJson(e),
+      );
+
+  ///
+  ///
+  ///
   static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
     Map<String, dynamic>? map,
     AbstractConsumer<T, ID> consumer,
@@ -101,11 +113,11 @@ class ModelUtils {
   ///
   ///
   ///
-  static Iterable<T>? _fromJsonRawIterable<T>(
-    Iterable<dynamic>? value, {
+  static Iterable<T> _fromJsonRawIterable<T>(
+    Iterable<dynamic> value, {
     required T Function(dynamic e) producer,
   }) =>
-      value?.map<T>(producer);
+      value.map<T>(producer);
 
   ///
   ///
@@ -146,11 +158,12 @@ class ModelUtils {
     dynamic value, {
     required T Function(dynamic e) producer,
   }) =>
-      value == null
-          ? <T>[]
-          : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
-              : <T>[producer(value)];
+      switch (value) {
+        null => <T>[],
+        Iterable<dynamic> _ =>
+          _fromJsonRawIterable<T>(value, producer: producer).toList(),
+        _ => <T>[producer(value)],
+      };
 
   ///
   ///
@@ -159,11 +172,12 @@ class ModelUtils {
     dynamic value, {
     required T Function(dynamic e) producer,
   }) =>
-      value == null
-          ? <T>{}
-          : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
-              : <T>{producer(value)};
+      switch (value) {
+        null => <T>{},
+        Iterable<dynamic> _ =>
+          _fromJsonRawIterable<T>(value, producer: producer).toSet(),
+        _ => <T>{producer(value)},
+      };
 
   ///
   ///
@@ -182,19 +196,6 @@ class ModelUtils {
         value,
         producer: stringProducer,
       );
-
-  ///
-  ///
-  ///
-  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
-    Set<dynamic>? value,
-    AbstractConsumer<T, ID> consumer,
-  ) =>
-      _fromJsonRawIterable<T>(
-        value,
-        producer: (dynamic e) => consumer.fromJson(e),
-      )?.toSet() ??
-      <T>{};
 
   ///
   ///

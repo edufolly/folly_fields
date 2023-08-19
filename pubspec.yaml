@@ -5,8 +5,8 @@ repository: https://github.com/edufolly/folly_fields/
 homepage: https://edufolly.github.io/folly_fields/
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.10.0"
+  sdk: ">=3.1.0 <4.0.0"
+  flutter: ">=3.13.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
@@ -57,6 +57,9 @@ dev_dependencies:
 
   # https://pub.dev/packages/http
   http: ^1.1.0
+
+  # https://pub.dev/packages/yaml
+  yaml: ^3.1.0
 
 flutter:
   uses-material-design: true
