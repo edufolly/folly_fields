@@ -130,7 +130,7 @@ void main() {
 
     NewDecimalValidator validator = NewDecimalValidator(4);
 
-    for (MapEntry<String, Decimal> input in parseTests.entries) {
+    for (final MapEntry<String, Decimal> input in parseTests.entries) {
       test(
         'Testing: ${input.key}',
         () => expect(validator.parse(input.key), input.value),
@@ -227,7 +227,7 @@ void main() {
 
     NewDecimalValidator validator = NewDecimalValidator(4);
 
-    for (MapEntry<Decimal, String> input in formatTest.entries) {
+    for (final MapEntry<Decimal, String> input in formatTest.entries) {
       test(
         'Testing: ${input.key} => ${input.value}',
         () => expect(validator.format(input.key), input.value),

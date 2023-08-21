@@ -49,10 +49,13 @@ void main() {
 
       CnpjValidator validator = CnpjValidator();
 
-      for (MapEntry<String, bool> input in domain.entries) {
+      for (final MapEntry<String, bool>(
+            :String key,
+            :bool value,
+          ) in domain.entries) {
         test(
-          'Testing: ${input.key}',
-          () => expect(validator.isValid(input.key), input.value),
+          'Testing: $key',
+          () => expect(validator.isValid(key), value),
         );
       }
     },
@@ -71,10 +74,13 @@ void main() {
         domain[striped] = formatted;
       }
 
-      for (MapEntry<String, String> input in domain.entries) {
+      for (final MapEntry<String, String>(
+            :String key,
+            :String value,
+          ) in domain.entries) {
         test(
-          'Testing: ${input.key}',
-          () => expect(validator.format(input.key), input.value),
+          'Testing: $key',
+          () => expect(validator.format(key), value),
         );
       }
     },

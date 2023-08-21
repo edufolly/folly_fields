@@ -38,7 +38,7 @@ void main() async {
 
   StringBuffer sb = StringBuffer();
 
-  for (String line in lines) {
+  for (final String line in lines) {
     RegExpMatch? match = regExp.firstMatch(line);
     if (match != null) {
       String? name = match.group(1)?.trim();

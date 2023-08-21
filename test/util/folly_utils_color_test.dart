@@ -50,13 +50,13 @@ void main() {
   group(
     'colorParse',
     () {
-      for (MapEntry<String?, Color?> input in domain.entries) {
+      for (final MapEntry<String?, Color?>(
+            :String? key,
+            :Color? value,
+          ) in domain.entries) {
         test(
-          'Testing ${input.key}',
-          () => expect(
-            FollyUtils.colorParse(input.key),
-            input.value,
-          ),
+          'Testing $key',
+          () => expect(FollyUtils.colorParse(key), value),
         );
       }
     },

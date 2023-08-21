@@ -44,7 +44,7 @@ void main() {
 
       LicencePlateValidator validator = LicencePlateValidator();
 
-      for (MapEntry<String, bool> input in domain.entries) {
+      for (final MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -68,7 +68,7 @@ void main() {
 
       LicencePlateValidator validator = LicencePlateValidator();
 
-      for (MapEntry<String, String> input in domain.entries) {
+      for (final MapEntry<String, String> input in domain.entries) {
         test(
           'Testing ${input.key}',
           () => expect(validator.format(input.key), input.value),

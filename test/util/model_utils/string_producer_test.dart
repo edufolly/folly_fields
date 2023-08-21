@@ -35,12 +35,13 @@ void main() {
             '2.3: 2.3}',
       };
 
-      for (MapEntry<dynamic, String> input in domain.entries) {
+      for (final MapEntry<dynamic, String>(
+            :dynamic key,
+            :String value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(ModelUtils.stringProducer(input.key), input.value);
-          },
+          '$key // $value',
+          () => expect(ModelUtils.stringProducer(key), value),
         );
       }
     },

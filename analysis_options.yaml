@@ -154,7 +154,7 @@ linter:
 
     prefer_expression_function_bodies: false
     prefer_final_fields: true
-    prefer_final_in_for_each: false
+    prefer_final_in_for_each: true
 
     # Incompatible with:
     # unnecessary_final
@@ -224,7 +224,7 @@ linter:
     # Incompatible with:
     # prefer_final_locals
     # prefer_final_parameters
-    unnecessary_final: true
+    unnecessary_final: false
 
     unnecessary_getters_setters: true
     unnecessary_lambdas: true

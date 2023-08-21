@@ -128,7 +128,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                         isCard = true;
 
                         /// Table data
-                        for (MapEntry<int, T> entry
+                        for (final MapEntry<int, T> (:int key, :T value)
                             in field.value!.asMap().entries) {
                           columnData.add(
                             Padding(
@@ -141,8 +141,8 @@ class TableField<T extends AbstractModel<ID>, ID>
                                     /// Fields
                                     ...buildRow(
                                       field.context,
-                                      entry.value,
-                                      entry.key,
+                                      value,
+                                      key,
                                       field.value!,
                                       columnHeaders,
                                       enabled: enabled,
@@ -158,14 +158,14 @@ class TableField<T extends AbstractModel<ID>, ID>
                                         onPressed: () async {
                                           bool go = await removeRow(
                                             field.context,
-                                            entry.value,
-                                            entry.key,
+                                            value,
+                                            key,
                                             field.value!,
                                           );
                                           if (!go) {
                                             return;
                                           }
-                                          field.value!.removeAt(entry.key);
+                                          field.value!.removeAt(key);
                                           field.didChange(field.value);
                                         },
                                         sizeMedium: 12,
@@ -202,7 +202,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                         }
 
                         /// Table data
-                        for (MapEntry<int, T> entry
+                        for (final MapEntry<int, T> (:int key, :T value)
                             in field.value!.asMap().entries) {
                           columnData.addAll(
                             <Widget>[
@@ -216,8 +216,8 @@ class TableField<T extends AbstractModel<ID>, ID>
                                   /// Cells
                                   ...buildRow(
                                     field.context,
-                                    entry.value,
-                                    entry.key,
+                                    value,
+                                    key,
                                     field.value!,
                                     List<String>.filled(
                                       columnHeaders.length,
@@ -243,14 +243,14 @@ class TableField<T extends AbstractModel<ID>, ID>
                                       onPressed: () async {
                                         bool go = await removeRow(
                                           field.context,
-                                          entry.value,
-                                          entry.key,
+                                          value,
+                                          key,
                                           field.value!,
                                         );
                                         if (!go) {
                                           return;
                                         }
-                                        field.value!.removeAt(entry.key);
+                                        field.value!.removeAt(key);
                                         field.didChange(field.value);
                                       },
                                     ),

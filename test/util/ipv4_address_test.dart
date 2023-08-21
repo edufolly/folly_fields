@@ -32,7 +32,7 @@ void main() {
   };
 
   group('IPv4 Creating from String Level 1', () {
-    for (MapEntry<dynamic, bool> oc1 in base.entries) {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
       test(
         'Testing "${oc1.key}" for "false"',
         () => expect(
@@ -44,8 +44,8 @@ void main() {
   });
 
   group('IPv4 Creating from String Level 2', () {
-    for (MapEntry<dynamic, bool> oc1 in base.entries) {
-      for (MapEntry<dynamic, bool> oc2 in base.entries) {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
         String key = '${oc1.key}.${oc2.key}';
 
         test(
@@ -60,8 +60,8 @@ void main() {
   });
 
   group('IPv4 Creating from List Level 2', () {
-    for (MapEntry<dynamic, bool> oc1 in base.entries) {
-      for (MapEntry<dynamic, bool> oc2 in base.entries) {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
         List<dynamic> list = <dynamic>[oc1.key, oc2.key];
 
         test(
@@ -76,9 +76,9 @@ void main() {
   });
 
   group('IPv4 Creating from String Level 3', () {
-    for (MapEntry<dynamic, bool> oc1 in base.entries) {
-      for (MapEntry<dynamic, bool> oc2 in base.entries) {
-        for (MapEntry<dynamic, bool> oc3 in base.entries) {
+    for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc3 in base.entries) {
           if (oc1.key == oc2.key || oc1.key == oc3.key || oc2.key == oc3.key) {
             continue;
           }
@@ -100,10 +100,10 @@ void main() {
   group(
     'IPv4 Creating from String Level 4',
     () {
-      for (MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (MapEntry<dynamic, bool> oc4 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
               bool value = oc1.value && oc2.value && oc3.value && oc4.value;
 
               if (!value &&
@@ -145,10 +145,10 @@ void main() {
     'IPv4 Creating from List Level 4',
     () {
       const String separator = '-';
-      for (MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (MapEntry<dynamic, bool> oc4 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
               bool value = oc1.value && oc2.value && oc3.value && oc4.value;
 
               if (!value &&
@@ -194,10 +194,10 @@ void main() {
   group(
     'IPv4 hashCode',
     () {
-      for (MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (MapEntry<dynamic, bool> oc4 in base.entries) {
+      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
               if (oc1.value && oc2.value && oc3.value && oc4.value) {
                 String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
 

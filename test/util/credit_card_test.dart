@@ -25,13 +25,16 @@ void main() async {
     'voyager': CreditCardType.unknown,
   };
 
-  for (MapEntry<String, CreditCardType> entry in cardsRequest.entries) {
+  for (final MapEntry<String, CreditCardType>(
+        :String key,
+        :CreditCardType value,
+      ) in cardsRequest.entries) {
     try {
       for (int pos = 0; pos < cardTest; pos++) {
         Response response = await post(
           base,
           body: <String, String>{
-            'bandeira': entry.key,
+            'bandeira': key,
           },
         );
 
@@ -40,7 +43,7 @@ void main() async {
 
         if (ccNum != null) {
           ccNum = ccNum.trim();
-          tests[ccNum] = entry.value;
+          tests[ccNum] = value;
         }
       }
     } on Exception catch (e, s) {
@@ -52,10 +55,13 @@ void main() async {
   group(
     'Credit card detect type',
     () {
-      for (MapEntry<String, CreditCardType> entry in tests.entries) {
+      for (final MapEntry<String, CreditCardType>(
+            :String key,
+            :CreditCardType value,
+          ) in tests.entries) {
         test(
-          'Testing "${entry.key}" for ${entry.value}',
-          () => expect(CreditCardType.detectType(entry.key), entry.value),
+          'Testing "$key" for $value',
+          () => expect(CreditCardType.detectType(key), value),
         );
       }
     },
@@ -64,10 +70,13 @@ void main() async {
   group(
     'Credit card luhn check',
     () {
-      for (MapEntry<String, CreditCardType> entry in tests.entries) {
+      for (final MapEntry<String, CreditCardType>(
+            :String key,
+            :CreditCardType value,
+          ) in tests.entries) {
         test(
-          'Testing "${entry.key}"',
-          () => expect(entry.value.validNumber(entry.key), true),
+          'Testing "$key"',
+          () => expect(value.validNumber(key), true),
         );
       }
     },
@@ -122,13 +131,13 @@ void main() async {
   group(
     'Credit card CVV check for Mastercard',
     () {
-      for (MapEntry<String, bool> entry in cvvMasterTests.entries) {
+      for (final MapEntry<String, bool>(
+            :String key,
+            :bool value,
+          ) in cvvMasterTests.entries) {
         test(
-          'Testing "${entry.key}"',
-          () => expect(
-            CreditCardType.mastercard.cvvCheck(entry.key),
-            entry.value,
-          ),
+          'Testing "$key"',
+          () => expect(CreditCardType.mastercard.cvvCheck(key), value),
         );
       }
     },
@@ -144,13 +153,13 @@ void main() async {
   group(
     'Credit card CVV check for American Express',
     () {
-      for (MapEntry<String, bool> entry in cvvAmexTests.entries) {
+      for (final MapEntry<String, bool>(
+            :String key,
+            :bool value,
+          ) in cvvAmexTests.entries) {
         test(
-          'Testing "${entry.key}"',
-          () => expect(
-            CreditCardType.amex.cvvCheck(entry.key),
-            entry.value,
-          ),
+          'Testing "$key"',
+          () => expect(CreditCardType.amex.cvvCheck(key), value),
         );
       }
     },
@@ -166,13 +175,13 @@ void main() async {
   group(
     'Credit card CVV check for Unknown',
     () {
-      for (MapEntry<String, bool> entry in cvvUnknownTests.entries) {
+      for (final MapEntry<String, bool>(
+            :String key,
+            :bool value,
+          ) in cvvUnknownTests.entries) {
         test(
-          'Testing "${entry.key}"',
-          () => expect(
-            CreditCardType.unknown.cvvCheck(entry.key),
-            entry.value,
-          ),
+          'Testing "$key"',
+          () => expect(CreditCardType.unknown.cvvCheck(key), value),
         );
       }
     },
@@ -265,13 +274,13 @@ void main() async {
   group(
     'Credit card type parse check',
     () {
-      for (MapEntry<String?, CreditCardType> entry in typeTests.entries) {
+      for (final MapEntry<String?, CreditCardType>(
+            :String? key,
+            :CreditCardType value,
+          ) in typeTests.entries) {
         test(
-          'Testing "${entry.key}"',
-          () => expect(
-            CreditCardType.parse(entry.key),
-            entry.value,
-          ),
+          'Testing "$key"',
+          () => expect(CreditCardType.parse(key), value),
         );
       }
     },

@@ -112,7 +112,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
     Map<String, dynamic> newMap = <String, dynamic>{};
-    for (MapEntry<String, dynamic> entry in map.entries) {
+    for (final MapEntry<String, dynamic> entry in map.entries) {
       _multiMapEntry(entry, newMap);
     }
 

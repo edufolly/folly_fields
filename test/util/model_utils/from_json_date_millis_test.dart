@@ -11,32 +11,25 @@ void main() {
     () {
       DateTime now = DateTime.now().copyWith(microsecond: 0);
 
-      Map<({int? a, DateTime? b}), dynamic> domain =
-          <({int? a, DateTime? b}), dynamic>{
-        (a: null, b: now): now,
-        (a: now.millisecondsSinceEpoch, b: null): now,
-        (a: 8640000000000001, b: now): now,
-        (a: null, b: null): isA<DateTime>(),
-        (a: -1, b: null): isA<DateTime>(),
-        (a: 0, b: null): DateTime.utc(1970).toLocal(),
-        (a: 1, b: null): DateTime.utc(1970, 1, 1, 0, 0, 0, 1).toLocal(),
-        (a: 1999, b: null): DateTime.utc(1970, 1, 1, 0, 0, 1, 999).toLocal(),
-        (a: 59999, b: null): DateTime.utc(1970, 1, 1, 0, 0, 59, 999).toLocal(),
-        (a: 3599999, b: null):
-            DateTime.utc(1970, 1, 1, 0, 59, 59, 999).toLocal(),
-        (a: 8640000000000000, b: null): DateTime.utc(275760, 9, 13).toLocal(),
-        (a: 8640000000000001, b: null): isA<DateTime>(),
+      Set<(int?, DateTime?, dynamic)> domain = <(int?, DateTime?, dynamic)>{
+        (null, now, now),
+        (now.millisecondsSinceEpoch, null, now),
+        (8640000000000001, now, now),
+        (null, null, isA<DateTime>()),
+        (-1, null, isA<DateTime>()),
+        (0, null, DateTime.utc(1970).toLocal()),
+        (1, null, DateTime.utc(1970, 1, 1, 0, 0, 0, 1).toLocal()),
+        (1999, null, DateTime.utc(1970, 1, 1, 0, 0, 1, 999).toLocal()),
+        (59999, null, DateTime.utc(1970, 1, 1, 0, 0, 59, 999).toLocal()),
+        (3599999, null, DateTime.utc(1970, 1, 1, 0, 59, 59, 999).toLocal()),
+        (8640000000000000, null, DateTime.utc(275760, 9, 13).toLocal()),
+        (8640000000000001, null, isA<DateTime>()),
       };
 
-      for (MapEntry<({int? a, DateTime? b}), dynamic> input in domain.entries) {
+      for (final (int? a, DateTime? b, dynamic r) in domain) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonDateMillis(input.key.a, input.key.b),
-              input.value,
-            );
-          },
+          '$a // $b => $r',
+          () => expect(ModelUtils.fromJsonDateMillis(a, b), r),
         );
       }
     },

@@ -50,7 +50,7 @@ void main() {
         <dynamic, dynamic>{null: null}: <String>['{null: null}'],
       };
 
-      for (MapEntry<dynamic, List<String>> input in domain.entries) {
+      for (final MapEntry<dynamic, List<String>> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

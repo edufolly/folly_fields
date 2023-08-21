@@ -70,7 +70,7 @@ void main() {
 
       DecimalValidator validator = DecimalValidator(4);
 
-      for (MapEntry<String, Decimal> input in domain.entries) {
+      for (final MapEntry<String, Decimal> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),
@@ -131,7 +131,7 @@ void main() {
 
       DecimalValidator validator = DecimalValidator(4);
 
-      for (MapEntry<Decimal, String> input in domain.entries) {
+      for (final MapEntry<Decimal, String> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.format(input.key), input.value),

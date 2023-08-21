@@ -63,13 +63,13 @@ void main() {
         ],
       };
 
-      for (MapEntry<List<Map<String, dynamic>>?, List<MockStringModel>> input
-          in domain.entries) {
+      for (final MapEntry<List<Map<String, dynamic>>?, List<MockStringModel>>(
+            :List<Map<String, dynamic>>? key,
+            :List<MockStringModel> value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(ModelUtils.fromJsonList(input.key, consumer), input.value);
-          },
+          '$key => $value',
+          () => expect(ModelUtils.fromJsonList(key, consumer), value),
         );
       }
     },

@@ -10,29 +10,24 @@ void main() {
   group(
     'ModelUtils fromJsonColor',
     () {
-      Map<({String? a, int? b}), Color> domain = <({String? a, int? b}), Color>{
-        (a: null, b: null): Colors.transparent,
-        (a: null, b: 0xFF000000): Colors.black,
-        (a: '', b: null): Colors.transparent,
-        (a: '#', b: null): Colors.transparent,
-        (a: '#F', b: null): Colors.transparent,
-        (a: '#FF', b: null): Colors.transparent,
-        (a: '#FFF', b: null): Colors.white,
-        (a: '#', b: 0xFF000000): Colors.black,
-        (a: '#F', b: 0xFF000000): Colors.black,
-        (a: '#FF', b: 0xFF000000): Colors.black,
-        (a: '#FFF', b: 0xFF000000): Colors.white,
+      Set<(String?, int?, Color)> domain = <(String?, int?, Color)>{
+        (null, null, Colors.transparent),
+        (null, 0xFF000000, Colors.black),
+        ('', null, Colors.transparent),
+        ('#', null, Colors.transparent),
+        ('#F', null, Colors.transparent),
+        ('#FF', null, Colors.transparent),
+        ('#FFF', null, Colors.white),
+        ('#', 0xFF000000, Colors.black),
+        ('#F', 0xFF000000, Colors.black),
+        ('#FF', 0xFF000000, Colors.black),
+        ('#FFF', 0xFF000000, Colors.white),
       };
 
-      for (MapEntry<({String? a, int? b}), Color> input in domain.entries) {
+      for (final (String? a, int? b, Color r) in domain) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonColor(input.key.a, input.key.b),
-              input.value,
-            );
-          },
+          '$a // $b => $r',
+          () => expect(ModelUtils.fromJsonColor(a, b), r),
         );
       }
     },

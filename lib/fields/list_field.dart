@@ -115,7 +115,7 @@ class ListField<
                 bool changed = false;
 
                 if (selected is List) {
-                  for (T item in selected) {
+                  for (final T item in selected) {
                     if (item.id == null ||
                         !field.value!
                             .any((T element) => element.id == item.id)) {
@@ -124,7 +124,7 @@ class ListField<
                     }
                   }
                 } else {
-                  if ((selected as AbstractModel<Object>).id == null ||
+                  if ((selected as AbstractModel<ID>).id == null ||
                       !field.value!
                           .any((T element) => element.id == selected.id)) {
                     field.value!.add(selected as T);

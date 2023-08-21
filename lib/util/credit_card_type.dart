@@ -304,8 +304,8 @@ enum CreditCardType {
   static CreditCardType detectType(String ccNum) {
     String cNum = clearNum(ccNum);
 
-    for (CreditCardType type in CreditCardType.values) {
-      for (Range range in type.patterns) {
+    for (final CreditCardType type in CreditCardType.values) {
+      for (final Range range in type.patterns) {
         if (range.isValid(cNum)) {
           return type;
         }

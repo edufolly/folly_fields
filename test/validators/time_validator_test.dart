@@ -71,7 +71,7 @@ void main() {
 
       TimeValidator validator = TimeValidator();
 
-      for (MapEntry<String, bool> input in isValidTests.entries) {
+      for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -145,7 +145,7 @@ void main() {
 
       TimeValidator validator = TimeValidator();
 
-      for (MapEntry<String, TimeOfDay?> input in parseTests.entries) {
+      for (final MapEntry<String, TimeOfDay?> input in parseTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),
@@ -182,7 +182,7 @@ void main() {
 
       TimeValidator validator = TimeValidator();
 
-      for (MapEntry<TimeOfDay, String> input in formatTests.entries) {
+      for (final MapEntry<TimeOfDay, String> input in formatTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.format(input.key), input.value),
@@ -219,7 +219,7 @@ void main() {
 
       TimeValidator validator = TimeValidator();
 
-      for (MapEntry<DateTime, String> input in formatTests.entries) {
+      for (final MapEntry<DateTime, String> input in formatTests.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.formatDateTime(input.key), input.value),

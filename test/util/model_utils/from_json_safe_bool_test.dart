@@ -38,12 +38,13 @@ void main() {
         'FALSE': false,
       };
 
-      for (MapEntry<dynamic, bool> input in domain.entries) {
+      for (final MapEntry<dynamic, bool>(
+            :dynamic key,
+            :bool value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(ModelUtils.fromJsonSafeBool(input.key), input.value);
-          },
+          '$key // $value',
+          () => expect(ModelUtils.fromJsonSafeBool(key), value),
         );
       }
     },

@@ -14,11 +14,11 @@ void main() {
         HashableMock(): 44916520,
       };
 
-      for (MapEntry<HashableMock, int> input in domain.entries) {
-        test(
-          '${input.key} // ${input.value}',
-          () => expect(input.key.hashCode, input.value),
-        );
+      for (final MapEntry<HashableMock, int>(
+            :HashableMock key,
+            :int value,
+          ) in domain.entries) {
+        test('$key // $value', () => expect(key.hashCode, value));
       }
     },
   );

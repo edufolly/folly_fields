@@ -49,7 +49,7 @@ class ResponsiveGrid extends ResponsiveStateless {
 
         List<Widget> rowChildren = <Widget>[];
 
-        for (Responsive child in children) {
+        for (final Responsive child in children) {
           int size = child.responsiveSize(responsiveSize);
 
           if (size > 0) {

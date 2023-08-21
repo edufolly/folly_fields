@@ -87,29 +87,11 @@ extension FollyDateTimeExtension on DateTime {
   ///
   ///
   ///
-  int get daysInMonth {
-    if (month == DateTime.february) {
-      return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
+  int get daysInMonth => (month == DateTime.february)
+      ? (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
           ? 29
-          : 28;
-    }
-    List<int> days = <int>[
-      31,
-      -1,
-      31,
-      30,
-      31,
-      30,
-      31,
-      31,
-      30,
-      31,
-      30,
-      31,
-    ];
-
-    return days[month - 1];
-  }
+          : 28
+      : <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1];
 
   ///
   ///

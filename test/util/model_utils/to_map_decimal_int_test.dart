@@ -17,15 +17,10 @@ void main() {
         Decimal(doubleValue: 1.12, precision: 2): 112,
       };
 
-      for (MapEntry<Decimal, int> input in domain.entries) {
+      for (final MapEntry<Decimal, int> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.toMapDecimalInt(input.key),
-              input.value,
-            );
-          },
+          () => expect(ModelUtils.toMapDecimalInt(input.key), input.value),
         );
       }
     },

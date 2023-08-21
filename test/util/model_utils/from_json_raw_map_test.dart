@@ -28,20 +28,20 @@ void main() {
         },
       };
 
-      for (MapEntry<Map<dynamic, dynamic>?, Map<String, dynamic>> input
-          in domain.entries) {
+      for (final MapEntry<Map<dynamic, dynamic>?, Map<String, dynamic>>(
+            :Map<dynamic, dynamic>? key,
+            :Map<String, dynamic> value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonRawMap<String, dynamic>(
-                input.key,
-                keyProducer: (dynamic k) => k.toString(),
-                valueProducer: (dynamic v) => v,
-              ),
-              input.value,
-            );
-          },
+          '$key // $value',
+          () => expect(
+            ModelUtils.fromJsonRawMap<String, dynamic>(
+              key,
+              keyProducer: (dynamic k) => k.toString(),
+              valueProducer: (dynamic v) => v,
+            ),
+            value,
+          ),
         );
       }
     },

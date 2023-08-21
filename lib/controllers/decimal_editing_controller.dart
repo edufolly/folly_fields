@@ -61,6 +61,7 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
   ///
   ///
   ///
+  // ignore: no_self_assignments
   void _changeListener() => decimal = decimal;
 
   ///

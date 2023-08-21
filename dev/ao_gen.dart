@@ -34,15 +34,15 @@ void main() async {
 
   YamlMap yamlRules = yamlLinter['rules'] as YamlMap;
 
-  for (Rule rule in rules) {
+  for (final Rule rule in rules) {
     if (yamlRules.containsKey(rule.name)) {
       rule.active = yamlRules[rule.name].toString().toLowerCase() == 'true';
     }
   }
 
-  for (Rule rule in rules) {
-    if (rule.incompatible.isNotEmpty) {
-      for (Rule incompatible in rules) {
+  for (final Rule rule in rules) {
+    if (rule.active && rule.incompatible.isNotEmpty) {
+      for (final Rule incompatible in rules) {
         if (rule.incompatible.contains(incompatible.name) &&
             rule.active == incompatible.active) {
           print('Rule ${rule.name} is incompatible with '
@@ -61,14 +61,14 @@ void main() async {
     ..writeln('linter:')
     ..writeln('  rules:');
 
-  for (Rule rule in rules) {
+  for (final Rule rule in rules) {
     if (rule.incompatible.isNotEmpty) {
       sb
         ..writeln()
         ..writeln('    # Incompatible with:');
     }
 
-    for (String incompatible in rule.incompatible) {
+    for (final String incompatible in rule.incompatible) {
       sb.writeln('    # $incompatible');
     }
 

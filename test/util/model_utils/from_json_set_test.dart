@@ -61,7 +61,7 @@ void main() {
         },
       };
 
-      for (MapEntry<Set<dynamic>?, Set<MockStringModel>> input
+      for (final MapEntry<Set<dynamic>?, Set<MockStringModel>> input
           in domain.entries) {
         test(
           '${input.key} // ${input.value}',

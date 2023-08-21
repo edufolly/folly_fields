@@ -19,12 +19,12 @@ void main() {
   group(
     'textColorByLuminance',
     () {
-      for (MapEntry<int, int> input in domain.entries) {
+      for (final MapEntry<int, int>(:int key, :int value) in domain.entries) {
         test(
-          'Testing ${input.key.toRadixString(16)}',
+          'Testing ${key.toRadixString(16)}',
           () => expect(
-            FollyUtils.textColorByLuminance(Color(input.key)),
-            Color(input.value),
+            FollyUtils.textColorByLuminance(Color(key)),
+            Color(value),
           ),
         );
       }

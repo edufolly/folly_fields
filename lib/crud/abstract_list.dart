@@ -320,7 +320,7 @@ class AbstractListState<
               tooltip: widget.invertSelectionText,
               icon: const Icon(Icons.select_all),
               onPressed: () {
-                for (T model in _globalItems) {
+                for (final T model in _globalItems) {
                   if (_selections.containsKey(model.id)) {
                     _selections.remove(model.id);
                   } else {

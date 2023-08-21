@@ -206,7 +206,7 @@ void main() {
 
       DateValidator validator = DateValidator();
 
-      for (MapEntry<String, bool> input in domain.entries) {
+      for (final MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -411,13 +411,10 @@ void main() {
 
     DateValidator validator = DateValidator();
 
-    for (MapEntry<String, DateTime?> input in domain.entries) {
+    for (final MapEntry<String, DateTime?> input in domain.entries) {
       test(
         'Testing: ${input.key}',
-        () => expect(
-          validator.parse(input.key),
-          input.value,
-        ),
+        () => expect(validator.parse(input.key), input.value),
       );
     }
   });

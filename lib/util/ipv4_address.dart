@@ -88,7 +88,7 @@ class Ipv4Address {
 
     List<int> ocs = <int>[];
 
-    for (String part in parts) {
+    for (final String part in parts) {
       int? octet = int.tryParse(part);
       if (octet == null || octet < 0 || octet > 255) {
         throw ArgumentError('invalidIpAddress');

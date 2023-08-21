@@ -26,9 +26,11 @@ class ResponsiveLogo extends StatelessWidget {
   ///
   ///
   @override
-  Widget build(BuildContext context) {
-    double responsive = MediaQuery.of(context).size.width * percent;
-
-    return Image.asset(path, width: math.min(math.max(responsive, min), max));
-  }
+  Widget build(BuildContext context) => Image.asset(
+        path,
+        width: math.min(
+          math.max(MediaQuery.of(context).size.width * percent, min),
+          max,
+        ),
+      );
 }

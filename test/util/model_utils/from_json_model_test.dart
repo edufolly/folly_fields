@@ -30,16 +30,13 @@ void main() {
         MockStringModel.kateMap: MockStringModel.kateModel,
       };
 
-      for (MapEntry<Map<String, dynamic>?, MockStringModel?> input
-          in domain.entries) {
+      for (final MapEntry<Map<String, dynamic>?, MockStringModel?>(
+            :Map<String, dynamic>? key,
+            :MockStringModel? value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonModel(input.key, consumer),
-              input.value,
-            );
-          },
+          '$key => $value',
+          () => expect(ModelUtils.fromJsonModel(key, consumer), value),
         );
       }
     },

@@ -48,7 +48,7 @@ void main() {
         <dynamic, dynamic>{null: null}: <String>{'{null: null}'},
       };
 
-      for (MapEntry<dynamic, Set<String>> input in domain.entries) {
+      for (final MapEntry<dynamic, Set<String>> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
           () {

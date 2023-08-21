@@ -59,7 +59,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (MapEntry<String, bool> input in domain.entries) {
+      for (final MapEntry<String, bool> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.isValid(input.key), input.value),
@@ -122,7 +122,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (MapEntry<String?, Color?> input in domain.entries) {
+      for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(validator.parse(input.key), input.value),
@@ -138,14 +138,14 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (String oc0 in ocp) {
-        for (String oc1 in ocp) {
-          for (String oc2 in ocp) {
-            for (String oc3 in ocp) {
-              for (String oc4 in ocp) {
-                for (String oc5 in ocp) {
-                  for (String oc6 in ocp) {
-                    for (String oc7 in ocp) {
+      for (final String oc0 in ocp) {
+        for (final String oc1 in ocp) {
+          for (final String oc2 in ocp) {
+            for (final String oc3 in ocp) {
+              for (final String oc4 in ocp) {
+                for (final String oc5 in ocp) {
+                  for (final String oc6 in ocp) {
+                    for (final String oc7 in ocp) {
                       String value = '$oc0$oc1$oc2$oc3$oc4$oc5$oc6$oc7';
                       Color key = Color(int.tryParse('0x$value') ?? 0x00000000);
 
@@ -193,7 +193,7 @@ void main() {
 
       ColorValidator validator = ColorValidator();
 
-      for (MapEntry<String?, Color?> input in domain.entries) {
+      for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
           'Testing: ${input.key}',
           () => expect(
