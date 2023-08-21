@@ -140,7 +140,6 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.0'
           channel: 'stable'
           cache: true
 
@@ -190,7 +189,6 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.0'
           channel: 'stable'
           cache: true
 
@@ -241,7 +239,6 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.0'
           channel: 'stable'
           cache: true
 
