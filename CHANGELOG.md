@@ -1,4 +1,4 @@
-## [2.2.X] - 2023-08-XX
+## [2.2.0] - 2023-08-21
 
 * Upgrading to Flutter 3.13.0 and Dart 3.1.0.
 * Updating analysis_options.yaml.
