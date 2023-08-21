@@ -121,7 +121,7 @@ class StringField extends ResponsiveStateless {
       );
     }
 
-    final InputDecoration effectiveDecoration = (decoration ??
+    InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
               prefix: prefix,
               prefixIcon: prefixIcon,

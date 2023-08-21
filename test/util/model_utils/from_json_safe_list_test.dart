@@ -22,7 +22,7 @@ void main() {
 
       const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<dynamic, Set<MockStringModel>> domain =
+      Map<dynamic, Set<MockStringModel>> domain =
           <dynamic, Set<MockStringModel>>{
         null: <MockStringModel>{},
 

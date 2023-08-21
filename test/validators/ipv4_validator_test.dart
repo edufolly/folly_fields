@@ -8,7 +8,7 @@ void main() {
   group(
     'IPv4Validator isValid',
     () {
-      final Map<String, bool> isValidTests = <String, bool>{
+      Map<String, bool> isValidTests = <String, bool>{
         '': false,
         ' ': false,
         'a': false,
@@ -115,7 +115,7 @@ void main() {
         '255.255.255.254': true,
       };
 
-      final Ipv4Validator validator = Ipv4Validator();
+      Ipv4Validator validator = Ipv4Validator();
 
       for (final MapEntry<String, bool> input in isValidTests.entries) {
         test(
@@ -127,7 +127,7 @@ void main() {
   );
 
   group('IPv4Validator Coverage', () {
-    final Ipv4Validator validator = Ipv4Validator();
+    Ipv4Validator validator = Ipv4Validator();
 
     test('format', () => expect(validator.format('127.0.0.1'), '127.0.0.1'));
 

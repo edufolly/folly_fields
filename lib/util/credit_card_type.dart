@@ -262,8 +262,8 @@ enum CreditCardType {
       return false;
     }
 
-    final String cNum = ccNum.replaceAll(RegExp(r'\D'), '');
-    final int mod = cNum.length % 2;
+    String cNum = ccNum.replaceAll(RegExp(r'\D'), '');
+    int mod = cNum.length % 2;
     int sum = 0;
 
     try {
@@ -302,7 +302,7 @@ enum CreditCardType {
   ///
   ///
   static CreditCardType detectType(String ccNum) {
-    final String cNum = clearNum(ccNum);
+    String cNum = clearNum(ccNum);
 
     for (final CreditCardType type in CreditCardType.values) {
       for (final Range range in type.patterns) {
@@ -321,8 +321,7 @@ enum CreditCardType {
   static CreditCardType parse(String? value) =>
       CreditCardType.values.firstWhere(
         (CreditCardType type) {
-          final String? newValue =
-              value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
+          String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
 
           return type.brand.toLowerCase() == newValue ||
               type.extraBrands.fold<bool>(
@@ -361,13 +360,13 @@ class Range {
   ///
   ///
   bool isValid(String ccNum) {
-    final int qtd = initialValue.toString().length;
+    int qtd = initialValue.toString().length;
 
     if (ccNum.length < qtd) {
       return false;
     }
 
-    final int? ccInt = int.tryParse(ccNum.substring(0, qtd));
+    int? ccInt = int.tryParse(ccNum.substring(0, qtd));
 
     if (ccInt == null) {
       return false;

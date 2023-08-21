@@ -29,7 +29,7 @@ class DecimalTextFormatter extends TextInputFormatter {
     // print('old: ${oldValue.toJSON()}');
     // print('new: ${newValue.toJSON()}');
 
-    final int signals = RegExp('-').allMatches(newValue.text).length;
+    int signals = RegExp('-').allMatches(newValue.text).length;
 
     bool isNegative = oldValue.text.startsWith('-');
     bool delNegative = false;
@@ -68,20 +68,20 @@ class DecimalTextFormatter extends TextInputFormatter {
       return oldValue;
     }
 
-    final int oldDecimalCount = oldValue.text.split(decimalSeparator).length;
-    final int oldThousandCount = oldValue.text.split(thousandSeparator).length;
+    int oldDecimalCount = oldValue.text.split(decimalSeparator).length;
+    int oldThousandCount = oldValue.text.split(thousandSeparator).length;
 
-    final int newDecimalCount = newText.split(decimalSeparator).length;
-    final int newThousandCount = newText.split(thousandSeparator).length;
+    int newDecimalCount = newText.split(decimalSeparator).length;
+    int newThousandCount = newText.split(thousandSeparator).length;
 
     if (oldDecimalCount < newDecimalCount ||
         oldThousandCount < newThousandCount) {
-      final int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
+      int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
 
       // print('curPos: $curPos');
 
       if (newValue.selection.baseOffset <= curPos) {
-        final Map<String, dynamic> oldValueJson = oldValue.toJSON();
+        Map<String, dynamic> oldValueJson = oldValue.toJSON();
         oldValueJson['selectionBase'] = curPos;
         oldValueJson['selectionExtent'] = curPos;
 
@@ -97,7 +97,7 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     /// Decimal Part
     if (newText.contains(decimalSeparator)) {
-      final List<String> parts = newText.split(decimalSeparator);
+      List<String> parts = newText.split(decimalSeparator);
 
       // print('Integer Part: ${parts.first}');
       // print('Decimal Part: ${parts.last}');
@@ -113,23 +113,22 @@ class DecimalTextFormatter extends TextInputFormatter {
       if (newText.length == 1) {
         newText += decimalSeparator.padRight(precision + 1, '0');
       } else {
-        final int pos = newText.length - precision;
+        int pos = newText.length - precision;
         newText = newText.substring(0, pos) +
             decimalSeparator +
             newText.substring(pos);
       }
     }
 
-    final int firstLength = newText.length;
+    int firstLength = newText.length;
 
     /// Integer Part
-    final List<String> parts = newText.split(decimalSeparator);
+    List<String> parts = newText.split(decimalSeparator);
 
-    final int integerPart =
+    int integerPart =
         int.tryParse(parts.first.replaceAll(thousandSeparator, '')) ?? 0;
 
-    final List<String> numbers =
-        integerPart.toString().split('').reversed.toList();
+    List<String> numbers = integerPart.toString().split('').reversed.toList();
 
     for (int pos = 3; pos < numbers.length; pos += 4) {
       numbers.insert(pos, thousandSeparator);
@@ -138,7 +137,7 @@ class DecimalTextFormatter extends TextInputFormatter {
     newText = numbers.reversed.join() + decimalSeparator + parts.last;
 
     /// Cursor Positioning
-    final int newTextLength = newText.length;
+    int newTextLength = newText.length;
 
     int newPos = newValue.selection.baseOffset;
 
@@ -162,7 +161,7 @@ class DecimalTextFormatter extends TextInputFormatter {
       newPos = newText.length;
     }
 
-    final Map<String, dynamic> newValueJson = newValue.toJSON();
+    Map<String, dynamic> newValueJson = newValue.toJSON();
     newValueJson['text'] = newText;
     newValueJson['selectionBase'] = newPos;
     newValueJson['selectionExtent'] = newPos;

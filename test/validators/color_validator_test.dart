@@ -9,7 +9,7 @@ void main() {
   group(
     'ColorValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         'F': false,
@@ -57,7 +57,7 @@ void main() {
         'GGGGGGGG': false,
       };
 
-      final ColorValidator validator = ColorValidator();
+      ColorValidator validator = ColorValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -71,7 +71,7 @@ void main() {
   group(
     'ColorValidator parse',
     () {
-      final Map<String?, Color?> domain = <String?, Color?>{
+      Map<String?, Color?> domain = <String?, Color?>{
         null: null,
         '': null,
         ' ': null,
@@ -120,7 +120,7 @@ void main() {
         'GGGGGGGG': null,
       };
 
-      final ColorValidator validator = ColorValidator();
+      ColorValidator validator = ColorValidator();
 
       for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
@@ -134,9 +134,9 @@ void main() {
   group(
     'ColorValidator format',
     () {
-      final List<String> ocp = <String>['0', 'F'];
+      List<String> ocp = <String>['0', 'F'];
 
-      final ColorValidator validator = ColorValidator();
+      ColorValidator validator = ColorValidator();
 
       for (final String oc0 in ocp) {
         for (final String oc1 in ocp) {
@@ -146,9 +146,8 @@ void main() {
                 for (final String oc5 in ocp) {
                   for (final String oc6 in ocp) {
                     for (final String oc7 in ocp) {
-                      final String value = '$oc0$oc1$oc2$oc3$oc4$oc5$oc6$oc7';
-                      final Color key =
-                          Color(int.tryParse('0x$value') ?? 0x00000000);
+                      String value = '$oc0$oc1$oc2$oc3$oc4$oc5$oc6$oc7';
+                      Color key = Color(int.tryParse('0x$value') ?? 0x00000000);
 
                       test(
                         'Testing: $key',
@@ -168,7 +167,7 @@ void main() {
   group(
     'ColorValidator parse with default color',
     () {
-      final Map<String?, Color?> domain = <String?, Color?>{
+      Map<String?, Color?> domain = <String?, Color?>{
         null: null,
         '': null,
         ' ': null,
@@ -192,7 +191,7 @@ void main() {
         'GGGGGGGG': null,
       };
 
-      final ColorValidator validator = ColorValidator();
+      ColorValidator validator = ColorValidator();
 
       for (final MapEntry<String?, Color?> input in domain.entries) {
         test(
@@ -207,7 +206,7 @@ void main() {
   );
 
   group('TimeValidator Coverage', () {
-    final ColorValidator validator = ColorValidator();
+    ColorValidator validator = ColorValidator();
 
     test('strip', () => expect(validator.strip('#FFFFFF'), '#FFFFFF'));
 

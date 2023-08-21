@@ -22,7 +22,7 @@ void main() {
 
       const MockStringConsumer consumer = MockStringConsumer();
 
-      final Map<Map<String, dynamic>?, MockStringModel?> domain =
+      Map<Map<String, dynamic>?, MockStringModel?> domain =
           <Map<String, dynamic>?, MockStringModel?>{
         null: null,
         ...MockStringModel.baseDomain,
@@ -30,16 +30,13 @@ void main() {
         MockStringModel.kateMap: MockStringModel.kateModel,
       };
 
-      for (final MapEntry<Map<String, dynamic>?, MockStringModel?> input
-          in domain.entries) {
+      for (final MapEntry<Map<String, dynamic>?, MockStringModel?>(
+            :Map<String, dynamic>? key,
+            :MockStringModel? value,
+          ) in domain.entries) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonModel(input.key, consumer),
-              input.value,
-            );
-          },
+          '$key => $value',
+          () => expect(ModelUtils.fromJsonModel(key, consumer), value),
         );
       }
     },

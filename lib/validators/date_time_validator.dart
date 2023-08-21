@@ -82,7 +82,7 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
       return 'Data e Hora inválidas.';
     }
 
-    final List<String> parts = value.split(' ');
+    List<String> parts = value.split(' ');
 
     if (parts.length != 2) {
       return 'Partes da Data e Hora inválidas.';

@@ -154,41 +154,41 @@ class DurationValidator extends AbstractParserValidator<Duration> {
       return Duration.zero;
     }
 
-    final String input = value.split(' ').join();
-    final RegExp onlyNumbers = RegExp(r'\d+');
+    String input = value.split(' ').join();
+    RegExp onlyNumbers = RegExp(r'\d+');
 
-    final RegExp yearRegex = RegExp('(\\d)+$yearSuffix');
-    final RegExp monthRegex = RegExp('(\\d)+$monthSuffix');
-    final RegExp dayRegex = RegExp('(\\d)+$daySuffix');
-    final RegExp hourRegex = RegExp('(\\d)+$hourSuffix');
-    final RegExp minuteRegex = RegExp('(\\d)+$minuteSuffix');
-    final RegExp secondRegex = RegExp('(\\d)+$secondSuffix');
-    final RegExp millisecondRegex = RegExp('(\\d)+$millisecondSuffix');
+    RegExp yearRegex = RegExp('(\\d)+$yearSuffix');
+    RegExp monthRegex = RegExp('(\\d)+$monthSuffix');
+    RegExp dayRegex = RegExp('(\\d)+$daySuffix');
+    RegExp hourRegex = RegExp('(\\d)+$hourSuffix');
+    RegExp minuteRegex = RegExp('(\\d)+$minuteSuffix');
+    RegExp secondRegex = RegExp('(\\d)+$secondSuffix');
+    RegExp millisecondRegex = RegExp('(\\d)+$millisecondSuffix');
 
-    final String yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';
-    final String monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';
-    final String daysString = dayRegex.firstMatch(input)?.group(0) ?? '';
-    final String hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';
-    final String minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';
-    final String secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';
-    final String millisecondsString =
+    String yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';
+    String monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';
+    String daysString = dayRegex.firstMatch(input)?.group(0) ?? '';
+    String hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';
+    String minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';
+    String secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';
+    String millisecondsString =
         millisecondRegex.firstMatch(input)?.group(0) ?? '';
 
-    final int years =
+    int years =
         int.tryParse(onlyNumbers.firstMatch(yearsString)?.group(0) ?? '') ?? 0;
-    final int months =
+    int months =
         int.tryParse(onlyNumbers.firstMatch(monthsString)?.group(0) ?? '') ?? 0;
-    final int days =
+    int days =
         int.tryParse(onlyNumbers.firstMatch(daysString)?.group(0) ?? '') ?? 0;
-    final int hours =
+    int hours =
         int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '') ?? 0;
-    final int minutes =
+    int minutes =
         int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '') ??
             0;
-    final int seconds =
+    int seconds =
         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '') ??
             0;
-    final int milliseconds = int.tryParse(
+    int milliseconds = int.tryParse(
           onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',
         ) ??
         0;

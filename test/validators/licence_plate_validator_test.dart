@@ -8,7 +8,7 @@ void main() {
   group(
     'LicencePlateValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         ' ': false,
         '0': false,
@@ -42,7 +42,7 @@ void main() {
         '9AA-90Z9': false,
       };
 
-      final LicencePlateValidator validator = LicencePlateValidator();
+      LicencePlateValidator validator = LicencePlateValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -56,7 +56,7 @@ void main() {
   group(
     'LicencePlateValidator format',
     () {
-      final Map<String, String> domain = <String, String>{
+      Map<String, String> domain = <String, String>{
         '': '',
         ' ': '',
         '!': '',
@@ -66,7 +66,7 @@ void main() {
         'AAA99A9': 'AAA-99A9',
       };
 
-      final LicencePlateValidator validator = LicencePlateValidator();
+      LicencePlateValidator validator = LicencePlateValidator();
 
       for (final MapEntry<String, String> input in domain.entries) {
         test(
@@ -78,7 +78,7 @@ void main() {
   );
 
   group('LicencePlateValidator Coverage', () {
-    final LicencePlateValidator validator = LicencePlateValidator();
+    LicencePlateValidator validator = LicencePlateValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

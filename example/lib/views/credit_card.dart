@@ -24,7 +24,7 @@ class CreditCardModel {
   ///
   ///
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = <String, dynamic>{};
+    Map<String, dynamic> map = <String, dynamic>{};
     map['number'] = number;
     map['expiration'] = expiration;
     map['code'] = code;

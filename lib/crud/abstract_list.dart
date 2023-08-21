@@ -216,7 +216,7 @@ class AbstractListState<
   ///
   Future<bool> _loadPermissions(BuildContext context) async {
     if (!widget.selection) {
-      final ConsumerPermission permission =
+      ConsumerPermission permission =
           await widget.consumer.checkPermission(context, <String>[]);
 
       _insertNotifier.value = permission.insert && widget.onAdd != null;
@@ -259,7 +259,7 @@ class AbstractListState<
     try {
       _qsParam['s'] = '${widget.selection}';
 
-      final List<T> result = await widget.consumer.list(
+      List<T> result = await widget.consumer.list(
         context,
         page: _page,
         size: widget.itemsPerPage,
@@ -445,7 +445,7 @@ class AbstractListState<
                       if (_scrollController.positions.isNotEmpty &&
                           _scrollController.position.hasContentDimensions &&
                           _scrollController.position.maxScrollExtent == 0) {
-                        final int extraAmount =
+                        int extraAmount =
                             await _loadData(context, clear: false);
                         if (extraAmount == 0) {
                           // This flags that we won't try further '_loadData'
@@ -499,7 +499,7 @@ class AbstractListState<
                                   );
                                 }
 
-                                final T model = _globalItems[index];
+                                T model = _globalItems[index];
 
                                 return _delete &&
                                         FollyFields().isMobile &&
@@ -634,7 +634,7 @@ class AbstractListState<
             IconButton(
               icon: const Icon(FontAwesomeIcons.trashCan),
               onPressed: () async {
-                final bool refresh = await _deleteEntity(model, ask: true);
+                bool refresh = await _deleteEntity(model, ask: true);
                 if (afterDeleteRefresh != null && refresh) {
                   await afterDeleteRefresh();
                 }
@@ -693,7 +693,7 @@ class AbstractListState<
         Navigator.of(context).pop(model);
       }
     } else {
-      final Widget? next = await widget.onUpdate?.call(
+      Widget? next = await widget.onUpdate?.call(
         context,
         model,
         widget.uiBuilder,
@@ -724,7 +724,7 @@ class AbstractListState<
   ///
   ///
   Future<bool> _deleteEntity(T model, {bool ask = false}) async {
-    final CircularWaiting wait = CircularWaiting(context);
+    CircularWaiting wait = CircularWaiting(context);
     try {
       bool del = true;
 
@@ -775,7 +775,7 @@ class AbstractListState<
   ///
   ///
   void _showListLegend() {
-    final Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
+    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -895,7 +895,7 @@ class InternalSearch<
   ///
   @override
   ThemeData appBarTheme(BuildContext context) {
-    final ThemeData theme = super.appBarTheme(context);
+    ThemeData theme = super.appBarTheme(context);
 
     return theme.copyWith(
       appBarTheme: theme.appBarTheme.copyWith(
@@ -954,7 +954,7 @@ class InternalSearch<
         ],
       );
     } else {
-      final Map<String, String> newParams = <String, String>{};
+      Map<String, String> newParams = <String, String>{};
 
       if (extraParams.isNotEmpty) {
         newParams.addAll(extraParams);
@@ -1034,7 +1034,7 @@ class InternalSearch<
       if (_lastQuery == query && _lastWidget != null) {
         return _lastWidget!;
       } else {
-        final Map<String, String> param = <String, String>{};
+        Map<String, String> param = <String, String>{};
 
         _lastQuery = query;
 
@@ -1077,7 +1077,7 @@ class InternalSearch<
                             Expanded(
                               child: ListView.builder(
                                 itemBuilder: (BuildContext context, int index) {
-                                  final W model = data[index];
+                                  W model = data[index];
 
                                   return ListTile(
                                     title: uiBuilder.getSuggestionTitle(

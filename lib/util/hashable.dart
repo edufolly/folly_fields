@@ -12,7 +12,7 @@ mixin Hashable {
     // { int deep = 1,
     // bool debug = false,}
   ) {
-    final int iterated = iterable.fold(
+    int iterated = iterable.fold(
       0,
       (int h, dynamic i) {
         int hash;

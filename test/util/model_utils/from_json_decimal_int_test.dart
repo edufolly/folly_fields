@@ -10,29 +10,23 @@ void main() {
   group(
     'ModelUtils fromJsonDecimalInt',
     () {
-      final Map<({int? a, int b}), Decimal> domain =
-          <({int? a, int b}), Decimal>{
-        (a: null, b: 0): Decimal(precision: 0, doubleValue: 0),
-        (a: 1, b: 0): Decimal(precision: 0, doubleValue: 1),
-        (a: 11, b: 0): Decimal(precision: 0, doubleValue: 11),
-        (a: 112, b: 0): Decimal(precision: 0, doubleValue: 112),
-        (a: 1123, b: 0): Decimal(precision: 0, doubleValue: 1123),
-        (a: null, b: 2): Decimal(precision: 2, doubleValue: 0),
-        (a: 1, b: 2): Decimal(precision: 2, doubleValue: 0.01),
-        (a: 11, b: 2): Decimal(precision: 2, doubleValue: 0.11),
-        (a: 112, b: 2): Decimal(precision: 2, doubleValue: 1.12),
-        (a: 1123, b: 2): Decimal(precision: 2, doubleValue: 11.23),
+      Set<(int?, int, Decimal)> domain = <(int?, int, Decimal)>{
+        (null, 0, Decimal(precision: 0, doubleValue: 0)),
+        (1, 0, Decimal(precision: 0, doubleValue: 1)),
+        (11, 0, Decimal(precision: 0, doubleValue: 11)),
+        (112, 0, Decimal(precision: 0, doubleValue: 112)),
+        (1123, 0, Decimal(precision: 0, doubleValue: 1123)),
+        (null, 2, Decimal(precision: 2, doubleValue: 0)),
+        (1, 2, Decimal(precision: 2, doubleValue: 0.01)),
+        (11, 2, Decimal(precision: 2, doubleValue: 0.11)),
+        (112, 2, Decimal(precision: 2, doubleValue: 1.12)),
+        (1123, 2, Decimal(precision: 2, doubleValue: 11.23)),
       };
 
-      for (final MapEntry<({int? a, int b}), Decimal> input in domain.entries) {
+      for (final (int? a, int b, Decimal r) in domain) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonDecimalInt(input.key.a, input.key.b),
-              input.value,
-            );
-          },
+          '$a // $b => $r',
+          () => expect(ModelUtils.fromJsonDecimalInt(a, b), r),
         );
       }
     },

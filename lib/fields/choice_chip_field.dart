@@ -59,16 +59,15 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            final _ChoiceChipFieldState<T> state =
-                field as _ChoiceChipFieldState<T>;
+            _ChoiceChipFieldState<T> state = field as _ChoiceChipFieldState<T>;
 
-            final Color effectiveSelectedColor =
+            Color effectiveSelectedColor =
                 selectedColor ?? Theme.of(state.context).colorScheme.primary;
 
-            final Color effectiveSelectedTextColor = selectedTextColor ??
+            Color effectiveSelectedTextColor = selectedTextColor ??
                 Theme.of(state.context).colorScheme.onPrimary;
 
-            final InputDecoration effectiveDecoration = (decoration ??
+            InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: filled,

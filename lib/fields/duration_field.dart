@@ -118,7 +118,7 @@ class DurationField
       showDialPicker(
         context: context,
         initialTime: controller.data ?? Duration.zero,
-        baseUnit: unit.toBaseUnit,
+        baseUnit: unit.baseUnit,
       );
 }
 
@@ -126,26 +126,15 @@ class DurationField
 ///
 ///
 enum DurationUnit {
-  millisecond,
-  second,
-  minute,
-  hour,
-}
+  millisecond(BaseUnit.millisecond),
+  second(BaseUnit.second),
+  minute(BaseUnit.minute),
+  hour(BaseUnit.hour);
 
-///
-///
-///
-extension DurationUnitExtension on DurationUnit {
-  BaseUnit get toBaseUnit {
-    switch (this) {
-      case DurationUnit.millisecond:
-        return BaseUnit.millisecond;
-      case DurationUnit.second:
-        return BaseUnit.second;
-      case DurationUnit.minute:
-        return BaseUnit.minute;
-      case DurationUnit.hour:
-        return BaseUnit.hour;
-    }
-  }
+  final BaseUnit baseUnit;
+
+  ///
+  ///
+  ///
+  const DurationUnit(this.baseUnit);
 }

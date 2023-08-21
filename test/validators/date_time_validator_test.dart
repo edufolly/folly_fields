@@ -6,7 +6,7 @@ import 'package:folly_fields/validators/date_time_validator.dart';
 ///
 void main() {
   group('DateTimeValidator Coverage', () {
-    final DateTimeValidator validator = DateTimeValidator();
+    DateTimeValidator validator = DateTimeValidator();
 
     test(
       'strip',

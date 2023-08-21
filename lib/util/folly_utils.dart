@@ -13,7 +13,7 @@ class FollyUtils {
       return 'Informe uma data.';
     }
 
-    final List<String> parts = value.split('/');
+    List<String> parts = value.split('/');
 
     if (parts.length != 3) {
       return 'Data inválida.';
@@ -23,17 +23,17 @@ class FollyUtils {
       return 'Ano inválido.';
     }
 
-    final int? year = int.tryParse(parts[2]);
+    int? year = int.tryParse(parts[2]);
     if (year == null) {
       return 'Ano inválido.';
     }
 
-    final int? month = int.tryParse(parts[1]);
+    int? month = int.tryParse(parts[1]);
     if (month == null || month < 1 || month > 12) {
       return 'Mês inválido.';
     }
 
-    final int? day = int.tryParse(parts[0]);
+    int? day = int.tryParse(parts[0]);
     if (day == null || day < 1 || day > DateTime(year, month).daysInMonth) {
       return 'Dia inválido.';
     }
@@ -49,19 +49,19 @@ class FollyUtils {
       return 'Informe uma hora.';
     }
 
-    final List<String> parts = value.split(':');
+    List<String> parts = value.split(':');
 
     if (parts.length != 2) {
       return 'Hora inválida.';
     }
 
-    final int? hour = int.tryParse(parts[0]);
+    int? hour = int.tryParse(parts[0]);
 
     if (hour == null || hour < 0 || hour > 23) {
       return 'Horas inválidas.';
     }
 
-    final int? minute = int.tryParse(parts[1]);
+    int? minute = int.tryParse(parts[1]);
 
     if (minute == null || minute < 0 || minute > 59) {
       return 'Minutos inválidos.';

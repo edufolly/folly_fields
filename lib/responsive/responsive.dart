@@ -67,20 +67,13 @@ mixin Responsive on Widget {
   ///
   ///
   ///
-  int responsiveSize(ResponsiveSize size) {
-    switch (size) {
-      case ResponsiveSize.extraSmall:
-        return safeSizeExtraSmall;
-      case ResponsiveSize.small:
-        return safeSizeSmall;
-      case ResponsiveSize.medium:
-        return safeSizeMedium;
-      case ResponsiveSize.large:
-        return safeSizeLarge;
-      case ResponsiveSize.extraLarge:
-        return safeSizeExtraLarge;
-    }
-  }
+  int responsiveSize(ResponsiveSize size) => switch (size) {
+        ResponsiveSize.extraSmall => safeSizeExtraSmall,
+        ResponsiveSize.small => safeSizeSmall,
+        ResponsiveSize.medium => safeSizeMedium,
+        ResponsiveSize.large => safeSizeLarge,
+        ResponsiveSize.extraLarge => safeSizeExtraLarge,
+      };
 }
 
 ///
@@ -101,20 +94,13 @@ extension ResponsiveSizeExtension on ResponsiveSize {
   ///
   ///
   ///
-  int get value {
-    switch (this) {
-      case ResponsiveSize.extraSmall:
-        return 1;
-      case ResponsiveSize.small:
-        return 2;
-      case ResponsiveSize.medium:
-        return 3;
-      case ResponsiveSize.large:
-        return 4;
-      case ResponsiveSize.extraLarge:
-        return 5;
-    }
-  }
+  int get value => switch (this) {
+        ResponsiveSize.extraSmall => 1,
+        ResponsiveSize.small => 2,
+        ResponsiveSize.medium => 3,
+        ResponsiveSize.large => 4,
+        ResponsiveSize.extraLarge => 5
+      };
 
   ///
   ///

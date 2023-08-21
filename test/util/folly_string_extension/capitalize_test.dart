@@ -8,26 +8,26 @@ void main() {
   group(
     'FollyStringExtension capitalize',
     () {
-      final Map<String, String> domain = <String, String>{
-        'word': 'Word',
-        'Word': 'Word',
-        'WOrd': 'Word',
-        'WORd': 'Word',
-        'WORD': 'Word',
-        'worD': 'Word',
-        'wOrD': 'Word',
-        'WOrD': 'Word',
-        'word last': 'Word last',
-        'Word last': 'Word last',
-        'Word Last': 'Word last',
-        'word Last': 'Word last',
-        'WORD LAST': 'Word last',
+      Set<(String, String)> domain = <(String, String)>{
+        ('word', 'Word'),
+        ('Word', 'Word'),
+        ('WOrd', 'Word'),
+        ('WORd', 'Word'),
+        ('WORD', 'Word'),
+        ('worD', 'Word'),
+        ('wOrD', 'Word'),
+        ('WOrD', 'Word'),
+        ('word last', 'Word last'),
+        ('Word last', 'Word last'),
+        ('Word Last', 'Word last'),
+        ('word Last', 'Word last'),
+        ('WORD LAST', 'Word last'),
       };
 
-      for (final MapEntry<String, String> input in domain.entries) {
+      for (final (String key, String value) in domain) {
         test(
-          'Testing ${input.key} => ${input.value}',
-          () => expect(input.key.capitalize, input.value),
+          'Testing $key => $value',
+          () => expect(key.capitalize, value),
         );
       }
     },

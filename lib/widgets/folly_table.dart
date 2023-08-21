@@ -210,12 +210,12 @@ class FollyTableState extends State<FollyTable> {
     ScrollController scrollController, {
     double halfPad = 2,
   }) {
-    final List<int> cols = List<int>.generate(
+    List<int> cols = List<int>.generate(
       end - start,
       (int index) => start + index,
     );
 
-    final double width = cols.fold(
+    double width = cols.fold(
       0,
       (double p, int i) => p + (widget.columnBuilders[i].width) + halfPad * 2,
     );

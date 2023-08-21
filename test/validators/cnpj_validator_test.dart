@@ -8,7 +8,7 @@ void main() {
   group(
     'CnpjValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '00000000000000': false,
         '11111111111111': false,
         '22222222222222': false,
@@ -47,12 +47,15 @@ void main() {
         domain[CnpjValidator.generate(format: true)] = true;
       }
 
-      final CnpjValidator validator = CnpjValidator();
+      CnpjValidator validator = CnpjValidator();
 
-      for (final MapEntry<String, bool> input in domain.entries) {
+      for (final MapEntry<String, bool>(
+            :String key,
+            :bool value,
+          ) in domain.entries) {
         test(
-          'Testing: ${input.key}',
-          () => expect(validator.isValid(input.key), input.value),
+          'Testing: $key',
+          () => expect(validator.isValid(key), value),
         );
       }
     },
@@ -61,27 +64,30 @@ void main() {
   group(
     'CnpjValidator format',
     () {
-      final Map<String, String> domain = <String, String>{};
+      Map<String, String> domain = <String, String>{};
 
-      final CnpjValidator validator = CnpjValidator();
+      CnpjValidator validator = CnpjValidator();
 
       for (int gen = 0; gen < 10; gen++) {
-        final String formatted = CnpjValidator.generate(format: true);
-        final String striped = validator.strip(formatted);
+        String formatted = CnpjValidator.generate(format: true);
+        String striped = validator.strip(formatted);
         domain[striped] = formatted;
       }
 
-      for (final MapEntry<String, String> input in domain.entries) {
+      for (final MapEntry<String, String>(
+            :String key,
+            :String value,
+          ) in domain.entries) {
         test(
-          'Testing: ${input.key}',
-          () => expect(validator.format(input.key), input.value),
+          'Testing: $key',
+          () => expect(validator.format(key), value),
         );
       }
     },
   );
 
   group('CnpjValidator Coverage', () {
-    final CnpjValidator validator = CnpjValidator();
+    CnpjValidator validator = CnpjValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

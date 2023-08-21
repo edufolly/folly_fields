@@ -83,7 +83,19 @@ class FollyValidators {
     dynamic value, {
     String msg = 'O campo não pode ser nulo.',
   }) =>
-      value == null ? msg : null;
+      switch (value) {
+        null => msg,
+        Iterable<dynamic> _ =>
+          value.length == 1 && notNull(value.first, msg: msg) != null
+              ? msg
+              : null,
+        Map<dynamic, dynamic> _ => value.length == 1 &&
+                (notNull(value.keys.first, msg: msg) != null ||
+                    notNull(value.values.first, msg: msg) != null)
+            ? msg
+            : null,
+        _ => null
+      };
 
   ///
   ///
@@ -91,23 +103,18 @@ class FollyValidators {
   static String? notEmpty(
     dynamic value, {
     String msg = 'O campo não pode ser vazio.',
-  }) {
-    if (value == null) {
-      return msg;
-    } else if (value is Iterable) {
-      if (value.isEmpty) {
-        return msg;
-      }
-    } else if (value is Map) {
-      if (value.isEmpty) {
-        return msg;
-      }
-    } else {
-      return value.toString().isEmpty ? msg : null;
-    }
-
-    return null;
-  }
+  }) =>
+      switch (value) {
+        null => msg,
+        Iterable<dynamic> _ =>
+          value.isEmpty || notEmpty(value.first, msg: msg) != null ? msg : null,
+        Map<dynamic, dynamic> _ => value.isEmpty ||
+                notEmpty(value.keys.first, msg: msg) != null ||
+                notEmpty(value.values.first, msg: msg) != null
+            ? msg
+            : null,
+        _ => value.toString().isEmpty ? msg : null
+      };
 
   ///
   ///
@@ -115,34 +122,21 @@ class FollyValidators {
   static String? notBlank(
     dynamic value, {
     String msg = 'O campo deve ser preenchido.',
-  }) {
-    if (value == null) {
-      return msg;
-    } else if (value is Iterable) {
-      if (value.isEmpty) {
-        return msg;
-      }
-      if (value.length == 1) {
-        if (value.first == null || value.first.toString().trim().isEmpty) {
-          return msg;
-        }
-      }
-    } else if (value is Map) {
-      if (value.isEmpty) {
-        return msg;
-      }
-      if (value.length == 1) {
-        if (value.keys.first == null ||
-            value.keys.first.toString().trim().isEmpty) {
-          return msg;
-        }
-      }
-    } else {
-      return value.toString().trim().isEmpty ? msg : null;
-    }
-
-    return null;
-  }
+  }) =>
+      switch (value) {
+        null => msg,
+        Iterable<dynamic> _ => value.isEmpty ||
+                (value.length == 1 && notBlank(value.first, msg: msg) != null)
+            ? msg
+            : null,
+        Map<dynamic, dynamic> _ => value.isEmpty ||
+                (value.length == 1 &&
+                    (notBlank(value.keys.first, msg: msg) != null ||
+                        notBlank(value.values.first, msg: msg) != null))
+            ? msg
+            : null,
+        _ => value.toString().trim().isEmpty ? msg : null
+      };
 
   ///
   ///

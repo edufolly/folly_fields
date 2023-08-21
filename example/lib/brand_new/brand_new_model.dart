@@ -32,7 +32,7 @@ class BrandNewModel extends AbstractModel<int> {
   ///
   @override
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = super.toMap();
+    Map<String, dynamic> map = super.toMap();
     map['name'] = name;
     map['type'] = type.name;
     map['specific1'] = specific1;

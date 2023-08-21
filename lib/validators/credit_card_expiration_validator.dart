@@ -42,13 +42,13 @@ class CreditCardExpirationValidator extends AbstractValidator<String> {
   ///
   @override
   bool isValid(String value) {
-    final String v = value.replaceAll(RegExp(r'\D'), '');
+    String v = value.replaceAll(RegExp(r'\D'), '');
 
     if (v.length != 4) {
       return false;
     }
 
-    final int? monthNum = int.tryParse(v.substring(0, 2));
+    int? monthNum = int.tryParse(v.substring(0, 2));
     if (monthNum == null || monthNum < 1 || monthNum > 12) {
       return false;
     }

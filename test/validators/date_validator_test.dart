@@ -11,7 +11,7 @@ void main() {
   group(
     'DateValidator isValid',
     () {
-      final Map<String, bool> domain = <String, bool>{
+      Map<String, bool> domain = <String, bool>{
         '': false,
         '00': false,
         '00-00-00': false,
@@ -204,7 +204,7 @@ void main() {
         '30/02/2104': false,
       };
 
-      final DateValidator validator = DateValidator();
+      DateValidator validator = DateValidator();
 
       for (final MapEntry<String, bool> input in domain.entries) {
         test(
@@ -216,7 +216,7 @@ void main() {
   );
 
   group('DateValidator parse', () {
-    final Map<String, DateTime?> domain = <String, DateTime?>{
+    Map<String, DateTime?> domain = <String, DateTime?>{
       '': null,
       '00': null,
       '00-00-00': null,
@@ -409,21 +409,18 @@ void main() {
       '30/02/2104': null,
     };
 
-    final DateValidator validator = DateValidator();
+    DateValidator validator = DateValidator();
 
     for (final MapEntry<String, DateTime?> input in domain.entries) {
       test(
         'Testing: ${input.key}',
-        () => expect(
-          validator.parse(input.key),
-          input.value,
-        ),
+        () => expect(validator.parse(input.key), input.value),
       );
     }
   });
 
   group('DateValidator Coverage', () {
-    final DateValidator validator = DateValidator();
+    DateValidator validator = DateValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }

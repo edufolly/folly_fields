@@ -49,7 +49,7 @@ class FollyDialogs {
     TextInputType keyboardType = TextInputType.text,
     bool scrollable = false,
   }) async {
-    final TextEditingController controller = TextEditingController()
+    TextEditingController controller = TextEditingController()
       ..text = startString;
 
     controller.selection = TextSelection(
@@ -57,7 +57,7 @@ class FollyDialogs {
       extentOffset: controller.text.length,
     );
 
-    final String? value = await showDialog(
+    String? value = await showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -142,7 +142,7 @@ class FollyDialogs {
       );
     }
 
-    final bool? value = await showDialog(
+    bool? value = await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(

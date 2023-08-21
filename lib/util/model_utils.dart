@@ -69,6 +69,18 @@ class ModelUtils {
   ///
   ///
   ///
+  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
+    Set<dynamic>? value,
+    AbstractConsumer<T, ID> consumer,
+  ) =>
+      fromJsonSafeSet<T>(
+        value,
+        producer: (dynamic e) => consumer.fromJson(e),
+      );
+
+  ///
+  ///
+  ///
   static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
     Map<String, dynamic>? map,
     AbstractConsumer<T, ID> consumer,
@@ -101,11 +113,11 @@ class ModelUtils {
   ///
   ///
   ///
-  static Iterable<T>? _fromJsonRawIterable<T>(
-    Iterable<dynamic>? value, {
+  static Iterable<T> _fromJsonRawIterable<T>(
+    Iterable<dynamic> value, {
     required T Function(dynamic e) producer,
   }) =>
-      value?.map<T>(producer);
+      value.map<T>(producer);
 
   ///
   ///
@@ -146,11 +158,12 @@ class ModelUtils {
     dynamic value, {
     required T Function(dynamic e) producer,
   }) =>
-      value == null
-          ? <T>[]
-          : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
-              : <T>[producer(value)];
+      switch (value) {
+        null => <T>[],
+        Iterable<dynamic> _ =>
+          _fromJsonRawIterable<T>(value, producer: producer).toList(),
+        _ => <T>[producer(value)],
+      };
 
   ///
   ///
@@ -159,11 +172,12 @@ class ModelUtils {
     dynamic value, {
     required T Function(dynamic e) producer,
   }) =>
-      value == null
-          ? <T>{}
-          : (value is Iterable)
-              ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
-              : <T>{producer(value)};
+      switch (value) {
+        null => <T>{},
+        Iterable<dynamic> _ =>
+          _fromJsonRawIterable<T>(value, producer: producer).toSet(),
+        _ => <T>{producer(value)},
+      };
 
   ///
   ///
@@ -183,18 +197,38 @@ class ModelUtils {
         producer: stringProducer,
       );
 
-  ///
-  ///
-  ///
-  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
-    Set<dynamic>? value,
-    AbstractConsumer<T, ID> consumer,
+  static Iterable<T> _fromJsonSafeEnumIterable<T extends Enum>(
+    Iterable<dynamic> value,
+    Iterable<T> values,
   ) =>
-      _fromJsonRawIterable<T>(
-        value,
-        producer: (dynamic e) => consumer.fromJson(e),
-      )?.toSet() ??
-      <T>{};
+      value.map((dynamic e) => values.byName(e.toString()));
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonSafeEnumList<T extends Enum>(
+    dynamic value,
+    Iterable<T> values,
+  ) =>
+      switch (value) {
+        null => <T>[],
+        Iterable<dynamic> _ =>
+          _fromJsonSafeEnumIterable(value, values).toList(),
+        _ => <T>[values.byName(value.toString())],
+      };
+
+  ///
+  ///
+  ///
+  static Set<T> fromJsonSafeEnumSet<T extends Enum>(
+    dynamic value,
+    Iterable<T> values,
+  ) =>
+      switch (value) {
+        null => <T>{},
+        Iterable<dynamic> _ => _fromJsonSafeEnumIterable(value, values).toSet(),
+        _ => <T>{values.byName(value.toString())},
+      };
 
   ///
   ///
@@ -231,7 +265,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<Map<String, dynamic>> toMapList<T extends AbstractModel<Object>>(
+  static List<Map<String, dynamic>> toMapList<T extends AbstractModel<ID>, ID>(
     List<T> list,
   ) =>
       list.map((T e) => e.toMap()).toList();
@@ -239,7 +273,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static Map<String, dynamic>? toMapModel<T extends AbstractModel<Object>>(
+  static Map<String, dynamic>? toMapModel<T extends AbstractModel<ID>, ID>(
     T? model,
   ) =>
       model?.toMap();
@@ -259,7 +293,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static Set<Map<String, dynamic>> toMapSet<T extends AbstractModel<Object>>(
+  static Set<Map<String, dynamic>> toMapSet<T extends AbstractModel<ID>, ID>(
     Set<T> set,
   ) =>
       set.map((T e) => e.toMap()).toSet();
@@ -283,10 +317,15 @@ class ModelUtils {
   ///
   ///
   ///
+  static Iterable<Map<String, dynamic>>?
+      _toSaveIterable<T extends AbstractModel<ID>, ID>(Iterable<T>? iterable) =>
+          iterable?.map((T e) => e.toSave());
+
+  ///
+  ///
+  ///
   static List<Map<String, dynamic>>?
-      toSaveList<T extends AbstractModel<Object>>(
-    List<T>? list,
-  ) =>
+      toSaveList<T extends AbstractModel<ID>, ID>(List<T>? list) =>
           _toSaveIterable(list)?.toList();
 
   ///
@@ -301,7 +340,7 @@ class ModelUtils {
   ///
   ///
   ///
-  static Set<Map<String, dynamic>>? toSaveSet<T extends AbstractModel<Object>>(
+  static Set<Map<String, dynamic>>? toSaveSet<T extends AbstractModel<ID>, ID>(
     Set<T>? set,
   ) =>
       _toSaveIterable(set)?.toSet();
@@ -309,7 +348,40 @@ class ModelUtils {
   ///
   ///
   ///
-  static Iterable<Map<String, dynamic>>?
-      _toSaveIterable<T extends AbstractModel<Object>>(Iterable<T>? iterable) =>
-          iterable?.map((T e) => e.toSave());
+  static Iterable<String> _toMapEnumByName<T extends Enum>(
+    Iterable<T> values,
+  ) =>
+      values.map((T e) => e.name);
+
+  ///
+  ///
+  ///
+  static List<String> toMapListEnumByName<T extends Enum>(List<T> list) =>
+      _toMapEnumByName(list).toList();
+
+  ///
+  ///
+  ///
+  static Set<String> toMapSetEnumByName<T extends Enum>(Set<T> set) =>
+      _toMapEnumByName(set).toSet();
+
+  ///
+  ///
+  ///
+  static Iterable<String> _toMapEnumToString<T extends Enum>(
+    Iterable<T> values,
+  ) =>
+      values.map((T e) => e.toString());
+
+  ///
+  ///
+  ///
+  static List<String> toMapListEnumToString<T extends Enum>(List<T> list) =>
+      _toMapEnumToString(list).toList();
+
+  ///
+  ///
+  ///
+  static Set<String> toMapSetEnumToString<T extends Enum>(Set<T> set) =>
+      _toMapEnumToString(set).toSet();
 }

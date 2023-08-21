@@ -25,7 +25,7 @@ class MockStringModel extends AbstractModel<String> {
   ///
   @override
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = super.toMap();
+    Map<String, dynamic> map = super.toMap();
     map['name'] = name;
     map['age'] = age;
 

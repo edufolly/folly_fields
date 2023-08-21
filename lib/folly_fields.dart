@@ -143,7 +143,7 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   ResponsiveSize checkResponsiveSize(BuildContext context) {
-    final double width = MediaQuery.of(context).size.width;
+    double width = MediaQuery.of(context).size.width;
 
     if (width < responsiveSizes[0]) {
       return ResponsiveSize.extraSmall;
@@ -428,7 +428,7 @@ abstract class AbstractConfig implements _InternalConfig {
 
       connectivity ??= Connectivity();
 
-      final ConnectivityResult result = await connectivity.checkConnectivity();
+      ConnectivityResult result = await connectivity.checkConnectivity();
 
       _online = result != ConnectivityResult.none;
 

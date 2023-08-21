@@ -25,10 +25,10 @@ class ConfigUtils {
     configJson.clear();
 
     try {
-      final String configString =
+      String configString =
           await DefaultAssetBundle.of(context).loadString(assetPath);
 
-      final Map<String, dynamic> localConfig = json.decode(configString);
+      Map<String, dynamic> localConfig = json.decode(configString);
 
       if (removeEnvSubst) {
         localConfig.removeWhere(

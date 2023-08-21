@@ -10,7 +10,7 @@ void main() {
   group(
     'ModelUtils toMapDecimalInt',
     () {
-      final Map<Decimal, int> domain = <Decimal, int>{
+      Map<Decimal, int> domain = <Decimal, int>{
         Decimal(doubleValue: 1, precision: 0): 1,
         Decimal(doubleValue: 1, precision: 2): 100,
         Decimal(doubleValue: 1.1, precision: 2): 110,
@@ -20,12 +20,7 @@ void main() {
       for (final MapEntry<Decimal, int> input in domain.entries) {
         test(
           '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.toMapDecimalInt(input.key),
-              input.value,
-            );
-          },
+          () => expect(ModelUtils.toMapDecimalInt(input.key), input.value),
         );
       }
     },

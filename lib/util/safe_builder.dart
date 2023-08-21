@@ -85,7 +85,7 @@ class SafeFutureBuilder<T> extends StatelessWidget {
       initialData: initialData,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
-          final Widget child = ErrorMessage(
+          Widget child = ErrorMessage(
             error: snapshot.error,
             stackTrace: snapshot.stackTrace,
           );
@@ -104,7 +104,7 @@ class SafeFutureBuilder<T> extends StatelessWidget {
           return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
-        final Widget child = WaitingMessage(message: waitingMessage);
+        Widget child = WaitingMessage(message: waitingMessage);
 
         return onWait != null
             ? onWait!(snapshot.connectionState, child)
@@ -195,7 +195,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
       initialData: initialData,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
-          final Widget child = ErrorMessage(
+          Widget child = ErrorMessage(
             error: snapshot.error,
             stackTrace: snapshot.stackTrace,
           );
@@ -214,7 +214,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
           return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
-        final Widget child = WaitingMessage(message: waitingMessage);
+        Widget child = WaitingMessage(message: waitingMessage);
 
         return onWait != null
             ? onWait!(snapshot.connectionState, child)

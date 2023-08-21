@@ -10,31 +10,56 @@ void main() {
   group(
     'ModelUtils fromJsonColor',
     () {
-      final Map<({String? a, int? b}), Color> domain =
-          <({String? a, int? b}), Color>{
-        (a: null, b: null): Colors.transparent,
-        (a: null, b: 0xFF000000): Colors.black,
-        (a: '', b: null): Colors.transparent,
-        (a: '#', b: null): Colors.transparent,
-        (a: '#F', b: null): Colors.transparent,
-        (a: '#FF', b: null): Colors.transparent,
-        (a: '#FFF', b: null): Colors.white,
-        (a: '#', b: 0xFF000000): Colors.black,
-        (a: '#F', b: 0xFF000000): Colors.black,
-        (a: '#FF', b: 0xFF000000): Colors.black,
-        (a: '#FFF', b: 0xFF000000): Colors.white,
+      Set<(String?, int?, Color)> domain = <(String?, int?, Color)>{
+        (null, null, Colors.transparent),
+        ('0xF', null, const Color(0x0000000f)),
+        ('0xZ', null, Colors.transparent),
+        (null, 0xFF000000, Colors.black),
+        ('0xF', 0xFF000000, const Color(0x0000000f)),
+        ('0xZ', 0xFF000000, Colors.black),
+        ('', null, Colors.transparent),
+        (' ', null, Colors.transparent),
+        ('#', null, Colors.transparent),
+        ('F', null, Colors.transparent),
+        ('#F', null, Colors.transparent),
+        ('FF', null, Colors.transparent),
+        ('#FF', null, Colors.transparent),
+        ('FFF', null, Colors.white),
+        ('#FFF', null, Colors.white),
+        ('FFFF', null, Colors.white),
+        ('#FFFF', null, Colors.white),
+        ('FFFFF', null, Colors.transparent),
+        ('#FFFFF', null, Colors.transparent),
+        ('FFFFFF', null, Colors.white),
+        ('#FFFFFF', null, Colors.white),
+        ('#FFFFFFF', null, Colors.transparent),
+        ('#FFFFFFFF', null, Colors.white),
+        ('#FFFFFFFFF', null, Colors.white),
+        (' ', 0xFF000000, Colors.black),
+        ('#', 0xFF000000, Colors.black),
+        ('F', 0xFF000000, Colors.black),
+        ('#F', 0xFF000000, Colors.black),
+        ('FF', 0xFF000000, Colors.black),
+        ('#FF', 0xFF000000, Colors.black),
+        ('FFF', 0xFF000000, Colors.white),
+        ('#FFF', 0xFF000000, Colors.white),
+        ('FFFF', 0xFF000000, Colors.white),
+        ('#FFFF', 0xFF000000, Colors.white),
+        ('0FFF', 0xFF000000, const Color(0x00FFFFFF)),
+        ('#0FFF', 0xFF000000, const Color(0x00FFFFFF)),
+        ('FFFFF', 0xFF000000, Colors.black),
+        ('#FFFFF', 0xFF000000, Colors.black),
+        ('FFFFFF', 0xFF000000, Colors.white),
+        ('#FFFFFF', 0xFF000000, Colors.white),
+        ('#FFFFFFF', 0xFF000000, Colors.black),
+        ('#FFFFFFFF', 0xFF000000, Colors.white),
+        ('#FFFFFFFFF', 0xFF000000, Colors.white),
       };
 
-      for (final MapEntry<({String? a, int? b}), Color> input
-          in domain.entries) {
+      for (final (String? a, int? b, Color r) in domain) {
         test(
-          '${input.key} // ${input.value}',
-          () {
-            expect(
-              ModelUtils.fromJsonColor(input.key.a, input.key.b),
-              input.value,
-            );
-          },
+          '$a // $b => $r',
+          () => expect(ModelUtils.fromJsonColor(a, b), r),
         );
       }
     },

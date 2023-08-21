@@ -101,7 +101,7 @@ class ExampleModel extends AbstractModel<int> {
   ///
   @override
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = super.toMap();
+    Map<String, dynamic> map = super.toMap();
     map['decimal'] = ModelUtils.toMapDecimalInt(decimal);
     map['integer'] = integer;
     map['text'] = text;
@@ -159,9 +159,9 @@ class ExampleModel extends AbstractModel<int> {
   ///
   /// Método exclusivo para geração aleatória de objetos.
   ExampleModel.generate({int seed = 1}) {
-    final DateTime now = DateTime.now();
+    DateTime now = DateTime.now();
 
-    final int ms = seed * 1000 + now.millisecond;
+    int ms = seed * 1000 + now.millisecond;
 
     id = ms;
     updatedAt = now.millisecondsSinceEpoch;
@@ -190,8 +190,8 @@ class ExampleModel extends AbstractModel<int> {
     ordinal = ExampleEnum.random;
     active = ms.isEven;
 
-    final int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
-    final String iconName = IconHelper.data.keys.elementAt(iconNumber);
+    int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
+    String iconName = IconHelper.data.keys.elementAt(iconNumber);
     icon = IconHelper.iconData(iconName);
 
     multiline = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'

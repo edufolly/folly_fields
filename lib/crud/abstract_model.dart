@@ -72,7 +72,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   @mustCallSuper
   Map<String, dynamic> toMap() {
-    final Map<String, dynamic> map = <String, dynamic>{};
+    Map<String, dynamic> map = <String, dynamic>{};
     if (id != null) {
       map[modelIdKey] = id;
     }
@@ -111,7 +111,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
-    final Map<String, dynamic> newMap = <String, dynamic>{};
+    Map<String, dynamic> newMap = <String, dynamic>{};
     for (final MapEntry<String, dynamic> entry in map.entries) {
       _multiMapEntry(entry, newMap);
     }
@@ -126,7 +126,7 @@ abstract class AbstractModel<A> with Hashable {
     MapEntry<String, dynamic> entry,
     Map<String, dynamic> newMap,
   ) {
-    final List<String> parts = entry.key.split('_');
+    List<String> parts = entry.key.split('_');
     if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
 
@@ -134,7 +134,7 @@ abstract class AbstractModel<A> with Hashable {
           ? newMap[parts.first]
           : <String, dynamic>{};
 
-      final String internalKey = parts.getRange(1, parts.length).join('_');
+      String internalKey = parts.getRange(1, parts.length).join('_');
 
       _multiMapEntry(
         MapEntry<String, dynamic>(internalKey, entry.value),

@@ -37,12 +37,12 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
       _lastValue = dec.doubleValue;
     }
 
-    final String masked = validator.format(dec);
+    String masked = validator.format(dec);
 
     if (masked != super.text) {
       super.text = masked;
 
-      final int cursorPosition = super.text.length;
+      int cursorPosition = super.text.length;
 
       super.selection = TextSelection.fromPosition(
         TextPosition(
@@ -61,6 +61,7 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
   ///
   ///
   ///
+  // ignore: no_self_assignments
   void _changeListener() => decimal = decimal;
 
   ///
