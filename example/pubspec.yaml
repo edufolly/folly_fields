@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 2.2.0+197
+version: 2.2.1+198
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -23,7 +23,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # https://github.com/edufolly/folly_fields
+  # https://pub.dev/packages/folly_fields
   folly_fields:
     path: ../
 
@@ -31,13 +31,13 @@ dependencies:
   font_awesome_flutter: ^10.5.0
 
   # https://pub.dev/packages/google_fonts
-  google_fonts: 5.1.0
+  google_fonts: 6.1.0
 
   # https://pub.dev/packages/http
-  http: ^1.1.0
+  http: 1.1.0
 
   # https://pub.dev/packages/url_launcher
-  url_launcher: 6.1.12
+  url_launcher: 6.1.14
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
