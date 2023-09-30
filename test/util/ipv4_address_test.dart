@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/ipv4_address.dart';
 
+import '../cartesian_product_helper.dart';
+
 ///
 ///
 ///
@@ -97,47 +99,44 @@ void main() {
     }
   });
 
+  List<Map<dynamic, bool>> domain = <Map<dynamic, bool>>[
+    base,
+    base,
+    base,
+    base,
+  ];
+
   group(
     'IPv4 Creating from String Level 4',
     () {
-      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
-              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+      cartesianProductGenerate(
+        domain,
+        (
+          List<dynamic> data, {
+          required bool result,
+        }) {
+          if (result || data.length == data.toSet().length) {
+            String key = data.join('.');
 
-              if (!value &&
-                  (oc1.key == oc2.key ||
-                      oc1.key == oc3.key ||
-                      oc1.key == oc4.key ||
-                      oc2.key == oc3.key ||
-                      oc2.key == oc4.key ||
-                      oc3.key == oc4.key)) {
-                continue;
-              }
-
-              String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
-
-              test(
-                'Testing "$key" for $value',
-                () => value
-                    ? expect(
-                        Ipv4Address.fromString(key),
-                        isA<Ipv4Address>().having(
-                          (Ipv4Address ip) => ip.toString(),
-                          'Test',
-                          key,
-                        ),
-                      )
-                    : expect(
-                        () => Ipv4Address.fromString(key),
-                        invalidIpAddress,
+            test(
+              'Testing "$key" for $result',
+              () => result
+                  ? expect(
+                      Ipv4Address.fromString(key),
+                      isA<Ipv4Address>().having(
+                        (Ipv4Address ip) => ip.toString(),
+                        'Test',
+                        key,
                       ),
-              );
-            }
+                    )
+                  : expect(
+                      () => Ipv4Address.fromString(key),
+                      invalidIpAddress,
+                    ),
+            );
           }
-        }
-      }
+        },
+      );
     },
   );
 
@@ -145,73 +144,98 @@ void main() {
     'IPv4 Creating from List Level 4',
     () {
       const String separator = '-';
-      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
-              bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+      // for (final MapEntry<dynamic, bool> oc1 in base.entries) {
+      //   for (final MapEntry<dynamic, bool> oc2 in base.entries) {
+      //     for (final MapEntry<dynamic, bool> oc3 in base.entries) {
+      //       for (final MapEntry<dynamic, bool> oc4 in base.entries) {
+      //         bool value = oc1.value && oc2.value && oc3.value && oc4.value;
+      //
+      //         if (!value &&
+      //             (oc1.key == oc2.key ||
+      //                 oc1.key == oc3.key ||
+      //                 oc1.key == oc4.key ||
+      //                 oc2.key == oc3.key ||
+      //                 oc2.key == oc4.key ||
+      //                 oc3.key == oc4.key)) {
+      //           continue;
+      //         }
+      //
+      //         List<dynamic> list = <dynamic>[
+      //           oc1.key,
+      //           oc2.key,
+      //           oc3.key,
+      //           oc4.key,
+      //         ];
+      //
+      //         test(
+      //           'Testing "$list" for $value',
+      //           () => value
+      //               ? expect(
+      //                   Ipv4Address.fromList(list, separator: separator),
+      //                   isA<Ipv4Address>().having(
+      //                     (Ipv4Address ip) => ip.toString(separator: separator),
+      //                     'Test',
+      //                     list.join(separator),
+      //                   ),
+      //                 )
+      //               : expect(
+      //                   () => Ipv4Address.fromList(list, separator: separator),
+      //                   invalidIpAddress,
+      //                 ),
+      //         );
+      //       }
+      //     }
+      //   }
+      // }
 
-              if (!value &&
-                  (oc1.key == oc2.key ||
-                      oc1.key == oc3.key ||
-                      oc1.key == oc4.key ||
-                      oc2.key == oc3.key ||
-                      oc2.key == oc4.key ||
-                      oc3.key == oc4.key)) {
-                continue;
-              }
-
-              List<dynamic> list = <dynamic>[
-                oc1.key,
-                oc2.key,
-                oc3.key,
-                oc4.key,
-              ];
-
-              test(
-                'Testing "$list" for $value',
-                () => value
-                    ? expect(
-                        Ipv4Address.fromList(list, separator: separator),
-                        isA<Ipv4Address>().having(
-                          (Ipv4Address ip) => ip.toString(separator: separator),
-                          'Test',
-                          list.join(separator),
-                        ),
-                      )
-                    : expect(
-                        () => Ipv4Address.fromList(list, separator: separator),
-                        invalidIpAddress,
+      cartesianProductGenerate(
+        domain,
+        (
+          List<dynamic> data, {
+          required bool result,
+        }) {
+          if (result || data.length == data.toSet().length) {
+            test(
+              'Testing "$data" for $result',
+              () => result
+                  ? expect(
+                      Ipv4Address.fromList(data, separator: separator),
+                      isA<Ipv4Address>().having(
+                        (Ipv4Address ip) => ip.toString(separator: separator),
+                        'Test',
+                        data.join(separator),
                       ),
-              );
-            }
+                    )
+                  : expect(
+                      () => Ipv4Address.fromList(data, separator: separator),
+                      invalidIpAddress,
+                    ),
+            );
           }
-        }
-      }
+        },
+      );
     },
   );
 
   group(
     'IPv4 hashCode',
     () {
-      for (final MapEntry<dynamic, bool> oc1 in base.entries) {
-        for (final MapEntry<dynamic, bool> oc2 in base.entries) {
-          for (final MapEntry<dynamic, bool> oc3 in base.entries) {
-            for (final MapEntry<dynamic, bool> oc4 in base.entries) {
-              if (oc1.value && oc2.value && oc3.value && oc4.value) {
-                String key = '${oc1.key}.${oc2.key}.${oc3.key}.${oc4.key}';
-
-                Ipv4Address ipv4 = Ipv4Address.fromString(key);
-
-                test(
-                  'Testing hashCode for $key',
-                  () => expect(ipv4.hashCode, ipv4.integer),
-                );
-              }
-            }
+      cartesianProductGenerate(
+        domain,
+        (
+          List<dynamic> data, {
+          required bool result,
+        }) {
+          if (result) {
+            String key = data.join('.');
+            Ipv4Address ipv4 = Ipv4Address.fromString(key);
+            test(
+              'Testing hashCode for $key',
+              () => expect(ipv4.hashCode, ipv4.integer),
+            );
           }
-        }
-      }
+        },
+      );
     },
   );
 

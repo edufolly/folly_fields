@@ -1,55 +1,38 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/validators/licence_plate_validator.dart';
 
+import '../cartesian_product_helper.dart';
+
 ///
 ///
 ///
 void main() {
+  LicencePlateValidator validator = LicencePlateValidator();
+
   group(
     'LicencePlateValidator isValid',
     () {
-      Map<String, bool> domain = <String, bool>{
-        '': false,
-        ' ': false,
-        '0': false,
-        '1': false,
-        '_': false,
-        '!': false,
-        '@': false,
-        'a': false,
-        'á': false,
-        '00': false,
-        'A': false,
-        '9': false,
-        'AA': false,
-        'AAA': false,
-        'AAA9': false,
-        'AAAA': false,
-        'AAA9A': false,
-        'AAA9AA': false,
-        'AAA9AA9': false,
-        'AAA9999': true,
-        'AA99A99': false,
-        'AA99AA9': false,
-        '9AA1234': false,
-        'AAAA999': false,
-        'AAA-9999': true,
-        'AAA-9A99': true,
-        'AAA-9AB9': false,
-        'AAA-90Z9': false,
-        '!AA-90Z9': false,
-        'A!A-90Z9': false,
-        '9AA-90Z9': false,
-      };
+      List<Map<String, bool>> domain = <Map<String, bool>>[
+        <String, bool>{'A': true, '9': false, '-': false, ' ': false},
+        <String, bool>{'A': true, '9': false},
+        <String, bool>{'A': true, '9': false},
+        <String, bool>{'-': true, '': true},
+        <String, bool>{'A': false, '9': true},
+        <String, bool>{'A': true, '9': true},
+        <String, bool>{'A': false, '9': true},
+        <String, bool>{'A': false, '9': true},
+      ];
 
-      LicencePlateValidator validator = LicencePlateValidator();
-
-      for (final MapEntry<String, bool> input in domain.entries) {
-        test(
-          'Testing: ${input.key}',
-          () => expect(validator.isValid(input.key), input.value),
-        );
-      }
+      cartesianProductGenerate(
+        domain,
+        (List<dynamic> data, {required bool result}) {
+          String key = data.join();
+          test(
+            'Testing "$key" for "$result"',
+            () => expect(validator.isValid(key), result),
+          );
+        },
+      );
     },
   );
 
@@ -64,8 +47,6 @@ void main() {
         'AAA9A99': 'AAA-9A99',
       };
 
-      LicencePlateValidator validator = LicencePlateValidator();
-
       for (final MapEntry<String, String> input in domain.entries) {
         test(
           'Testing ${input.key}',
@@ -76,7 +57,6 @@ void main() {
   );
 
   group('LicencePlateValidator Coverage', () {
-    LicencePlateValidator validator = LicencePlateValidator();
     test('keyboard', () => expect(validator.keyboard, isNotNull));
   });
 }
