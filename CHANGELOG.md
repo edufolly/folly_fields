@@ -1,3 +1,9 @@
+## [2.2.1] - 2023-09-30
+
+* Fixing LicencePlateValidator.
+* Updating type attribute in FileField.
+* Updating plugins.
+
 ## [2.2.0] - 2023-08-21
 
 * Upgrading to Flutter 3.13.0 and Dart 3.1.0.
