@@ -15,7 +15,7 @@ jobs:
       version: ${{ steps.version-step.outputs.version }}
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get Pubspec Version
         id: version-step
@@ -45,7 +45,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -135,7 +135,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -184,7 +184,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -227,7 +227,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Dependencies
         env:
@@ -276,7 +276,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Dependencies
         env:
