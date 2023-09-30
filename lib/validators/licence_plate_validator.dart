@@ -13,7 +13,7 @@ class LicencePlateValidator extends AbstractValidator<String> {
       : super(
           <TextInputFormatter>[
             UppercaseMask(
-              mask: 'AAA-9##9',
+              mask: 'AAA-9#99',
               filter: <String, RegExp>{
                 'A': RegExp('[a-zA-Z]'),
                 '9': RegExp('[0-9]'),
@@ -28,7 +28,7 @@ class LicencePlateValidator extends AbstractValidator<String> {
   ///
   @override
   String format(String value) => strip(value).replaceAllMapped(
-        RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9]{2})([0-9])$'),
+        RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9])([0-9]{2})$'),
         (Match m) => '${m[1]}-${m[2]}${m[3]}${m[4]}',
       );
 

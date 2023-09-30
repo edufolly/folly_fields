@@ -27,7 +27,7 @@ void main() {
         'AAAA': false,
         'AAA9A': false,
         'AAA9AA': false,
-        'AAA9AA9': true,
+        'AAA9AA9': false,
         'AAA9999': true,
         'AA99A99': false,
         'AA99AA9': false,
@@ -35,8 +35,8 @@ void main() {
         'AAAA999': false,
         'AAA-9999': true,
         'AAA-9A99': true,
-        'AAA-9AB9': true,
-        'AAA-90Z9': true,
+        'AAA-9AB9': false,
+        'AAA-90Z9': false,
         '!AA-90Z9': false,
         'A!A-90Z9': false,
         '9AA-90Z9': false,
@@ -62,8 +62,6 @@ void main() {
         '!': '',
         'AAA9999': 'AAA-9999',
         'AAA9A99': 'AAA-9A99',
-        'AAA9AA9': 'AAA-9AA9',
-        'AAA99A9': 'AAA-99A9',
       };
 
       LicencePlateValidator validator = LicencePlateValidator();

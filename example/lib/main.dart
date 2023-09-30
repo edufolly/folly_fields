@@ -914,7 +914,7 @@ class MyHomePageState extends State<MyHomePage> {
                         },
                         thumbnailSize: const Size(256, 256),
                         showImageThumbnail: true,
-                        fileType: FileType.image,
+                        type: FileFieldType.image,
                       ),
                       // [/FileField]
                     ),

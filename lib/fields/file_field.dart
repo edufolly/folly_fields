@@ -1,8 +1,24 @@
 import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart' as fp;
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/file_field_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+
+///
+///
+///
+enum FileFieldType {
+  any(FileType.any),
+  media(FileType.media),
+  image(FileType.image),
+  video(FileType.video),
+  audio(FileType.audio),
+  custom(FileType.custom);
+
+  final FileType toFilePicker;
+
+  const FileFieldType(this.toFilePicker);
+}
 
 ///
 ///
@@ -30,7 +46,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     List<String>? allowedExtensions,
-    FileType fileType = FileType.any,
+    FileFieldType type = FileFieldType.any,
     bool horizontalButtons = false,
     bool showImageThumbnail = false,
     Size thumbnailSize = const Size(64, 32),
@@ -55,16 +71,16 @@ class FileField extends ResponsiveFormField<Uint8List> {
           'initialValue or controller must be null.',
         ),
         assert(
-          fileType == FileType.custom ||
-              fileType == FileType.any ||
+          type == FileFieldType.custom ||
+              type == FileFieldType.any ||
               allowedExtensions == null,
           'If specifying allowed extensions, fileType '
-          'should be FileType.custom',
+          'should be FileFieldType.custom',
         ),
         assert(
-          fileType == FileType.image || !showImageThumbnail,
+          type == FileFieldType.image || !showImageThumbnail,
           '"showImageThumbnail" should be set along with '
-          'fileType==FileType.image',
+          'fileType==FileFieldType.image',
         ),
         assert(
           label == null || labelWidget == null,
@@ -120,13 +136,13 @@ class FileField extends ResponsiveFormField<Uint8List> {
                       allowedExtensions = allowedExtensions?.map((String ext) {
                         return ext.startsWith('.') ? ext.substring(1) : ext;
                       }).toList();
-                      fp.FilePickerResult? picked =
-                          await fp.FilePicker.platform.pickFiles(
+                      FilePickerResult? picked =
+                          await FilePicker.platform.pickFiles(
                         allowedExtensions: allowedExtensions,
                         withData: true,
                         type: allowedExtensions != null
-                            ? fp.FileType.custom
-                            : fileType.toFilePicker,
+                            ? FileType.custom
+                            : type.toFilePicker,
                       );
                       if (picked != null) {
                         state
@@ -338,33 +354,5 @@ class _FileFieldState extends FormFieldState<Uint8List> {
     widget.controller?.removeListener(_handleControllerChanged);
     _controller?.dispose();
     super.dispose();
-  }
-}
-
-enum FileType {
-  any,
-  media,
-  image,
-  video,
-  audio,
-  custom,
-}
-
-extension FileTypeExtension on FileType {
-  fp.FileType get toFilePicker {
-    switch (this) {
-      case FileType.any:
-        return fp.FileType.any;
-      case FileType.media:
-        return fp.FileType.media;
-      case FileType.image:
-        return fp.FileType.image;
-      case FileType.video:
-        return fp.FileType.video;
-      case FileType.audio:
-        return fp.FileType.audio;
-      case FileType.custom:
-        return fp.FileType.custom;
-    }
   }
 }
