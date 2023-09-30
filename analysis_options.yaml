@@ -2,6 +2,14 @@ include: package:flutter_lints/flutter.yaml
 
 # https://dart.dev/tools/analysis
 
+analyze:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  strong-mode:
+    implicit-casts: false
+
 # https://dart.dev/tools/linter-rules/all
 linter:
   rules:

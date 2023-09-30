@@ -176,17 +176,7 @@ enum RunningPlatform {
   linux,
   windows,
   macos,
-  fuchsia,
-}
-
-///
-///
-///
-extension RunningPlatformExt on RunningPlatform {
-  ///
-  ///
-  ///
-  String get name => toString().split('.').last.toLowerCase();
+  fuchsia;
 }
 
 ///
