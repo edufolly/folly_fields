@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -216,41 +216,41 @@
 <a name="154"><span class="lineNum">     154 </span>            :       return Duration.zero;</a>
 <a name="155"><span class="lineNum">     155 </span>            :     }</a>
 <a name="156"><span class="lineNum">     156 </span>            : </a>
-<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :     final String input = value.split(' ').join();</span></a>
-<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :     final RegExp onlyNumbers = RegExp(r'\d+');</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :     String input = value.split(' ').join();</span></a>
+<a name="158"><span class="lineNum">     158 </span><span class="lineNoCov">          0 :     RegExp onlyNumbers = RegExp(r'\d+');</span></a>
 <a name="159"><span class="lineNum">     159 </span>            : </a>
-<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     final RegExp yearRegex = RegExp('(\\d)+$yearSuffix');</span></a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :     final RegExp monthRegex = RegExp('(\\d)+$monthSuffix');</span></a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :     final RegExp dayRegex = RegExp('(\\d)+$daySuffix');</span></a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :     final RegExp hourRegex = RegExp('(\\d)+$hourSuffix');</span></a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :     final RegExp minuteRegex = RegExp('(\\d)+$minuteSuffix');</span></a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :     final RegExp secondRegex = RegExp('(\\d)+$secondSuffix');</span></a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :     final RegExp millisecondRegex = RegExp('(\\d)+$millisecondSuffix');</span></a>
+<a name="160"><span class="lineNum">     160 </span><span class="lineNoCov">          0 :     RegExp yearRegex = RegExp('(\\d)+$yearSuffix');</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineNoCov">          0 :     RegExp monthRegex = RegExp('(\\d)+$monthSuffix');</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineNoCov">          0 :     RegExp dayRegex = RegExp('(\\d)+$daySuffix');</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineNoCov">          0 :     RegExp hourRegex = RegExp('(\\d)+$hourSuffix');</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineNoCov">          0 :     RegExp minuteRegex = RegExp('(\\d)+$minuteSuffix');</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineNoCov">          0 :     RegExp secondRegex = RegExp('(\\d)+$secondSuffix');</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineNoCov">          0 :     RegExp millisecondRegex = RegExp('(\\d)+$millisecondSuffix');</span></a>
 <a name="167"><span class="lineNum">     167 </span>            : </a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :     final String yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :     final String monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :     final String daysString = dayRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :     final String hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :     final String minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :     final String secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
-<a name="174"><span class="lineNum">     174 </span>            :     final String millisecondsString =</a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineNoCov">          0 :     String yearsString = yearRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineNoCov">          0 :     String monthsString = monthRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="170"><span class="lineNum">     170 </span><span class="lineNoCov">          0 :     String daysString = dayRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineNoCov">          0 :     String hoursString = hourRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineNoCov">          0 :     String minutesString = minuteRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineNoCov">          0 :     String secondsString = secondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
+<a name="174"><span class="lineNum">     174 </span>            :     String millisecondsString =</a>
 <a name="175"><span class="lineNum">     175 </span><span class="lineNoCov">          0 :         millisecondRegex.firstMatch(input)?.group(0) ?? '';</span></a>
 <a name="176"><span class="lineNum">     176 </span>            : </a>
-<a name="177"><span class="lineNum">     177 </span>            :     final int years =</a>
+<a name="177"><span class="lineNum">     177 </span>            :     int years =</a>
 <a name="178"><span class="lineNum">     178 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(yearsString)?.group(0) ?? '') ?? 0;</span></a>
-<a name="179"><span class="lineNum">     179 </span>            :     final int months =</a>
+<a name="179"><span class="lineNum">     179 </span>            :     int months =</a>
 <a name="180"><span class="lineNum">     180 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(monthsString)?.group(0) ?? '') ?? 0;</span></a>
-<a name="181"><span class="lineNum">     181 </span>            :     final int days =</a>
+<a name="181"><span class="lineNum">     181 </span>            :     int days =</a>
 <a name="182"><span class="lineNum">     182 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(daysString)?.group(0) ?? '') ?? 0;</span></a>
-<a name="183"><span class="lineNum">     183 </span>            :     final int hours =</a>
+<a name="183"><span class="lineNum">     183 </span>            :     int hours =</a>
 <a name="184"><span class="lineNum">     184 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '') ?? 0;</span></a>
-<a name="185"><span class="lineNum">     185 </span>            :     final int minutes =</a>
+<a name="185"><span class="lineNum">     185 </span>            :     int minutes =</a>
 <a name="186"><span class="lineNum">     186 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '') ??</span></a>
 <a name="187"><span class="lineNum">     187 </span>            :             0;</a>
-<a name="188"><span class="lineNum">     188 </span>            :     final int seconds =</a>
+<a name="188"><span class="lineNum">     188 </span>            :     int seconds =</a>
 <a name="189"><span class="lineNum">     189 </span><span class="lineNoCov">          0 :         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '') ??</span></a>
 <a name="190"><span class="lineNum">     190 </span>            :             0;</a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineNoCov">          0 :     final int milliseconds = int.tryParse(</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineNoCov">          0 :     int milliseconds = int.tryParse(</span></a>
 <a name="192"><span class="lineNum">     192 </span><span class="lineNoCov">          0 :           onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',</span></a>
 <a name="193"><span class="lineNum">     193 </span>            :         ) ??</a>
 <a name="194"><span class="lineNum">     194 </span>            :         0;</a>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -75,7 +75,7 @@
 <a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 :       : super(</span></a>
 <a name="14"><span class="lineNum">      14 </span><span class="lineCov">          1 :           &lt;TextInputFormatter&gt;[</span></a>
 <a name="15"><span class="lineNum">      15 </span><span class="lineCov">          1 :             UppercaseMask(</span></a>
-<a name="16"><span class="lineNum">      16 </span>            :               mask: 'AAA-9##9',</a>
+<a name="16"><span class="lineNum">      16 </span>            :               mask: 'AAA-9#99',</a>
 <a name="17"><span class="lineNum">      17 </span><span class="lineCov">          1 :               filter: &lt;String, RegExp&gt;{</span></a>
 <a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :                 'A': RegExp('[a-zA-Z]'),</span></a>
 <a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 :                 '9': RegExp('[0-9]'),</span></a>
@@ -90,7 +90,7 @@
 <a name="28"><span class="lineNum">      28 </span>            :   ///</a>
 <a name="29"><span class="lineNum">      29 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="30"><span class="lineNum">      30 </span><span class="lineCov">          2 :   String format(String value) =&gt; strip(value).replaceAllMapped(</span></a>
-<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          1 :         RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9]{2})([0-9])$'),</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineCov">          1 :         RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9])([0-9]{2})$'),</span></a>
 <a name="32"><span class="lineNum">      32 </span><span class="lineCov">          6 :         (Match m) =&gt; '${m[1]}-${m[2]}${m[3]}${m[4]}',</span></a>
 <a name="33"><span class="lineNum">      33 </span>            :       );</a>
 <a name="34"><span class="lineNum">      34 </span>            : </a>
@@ -105,7 +105,7 @@
 <a name="43"><span class="lineNum">      43 </span>            :   ///</a>
 <a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="45"><span class="lineNum">      45 </span>            :   bool isValid(String value) {</a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">          1 :     final String v = strip(value);</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">          1 :     String v = strip(value);</span></a>
 <a name="47"><span class="lineNum">      47 </span>            : </a>
 <a name="48"><span class="lineNum">      48 </span><span class="lineCov">          2 :     if (v.length != 7) {</span></a>
 <a name="49"><span class="lineNum">      49 </span>            :       return false;</a>

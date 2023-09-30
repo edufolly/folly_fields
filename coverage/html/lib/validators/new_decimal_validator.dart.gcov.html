@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -114,7 +114,7 @@
 <a name="52"><span class="lineNum">      52 </span>            :   ///</a>
 <a name="53"><span class="lineNum">      53 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="54"><span class="lineNum">      54 </span>            :   String format(Decimal decimal) {</a>
-<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :     final List&lt;String&gt; parts = decimal.doubleValue</span></a>
+<a name="55"><span class="lineNum">      55 </span><span class="lineCov">          1 :     List&lt;String&gt; parts = decimal.doubleValue</span></a>
 <a name="56"><span class="lineNum">      56 </span><span class="lineCov">          2 :         .toStringAsFixed(precision)</span></a>
 <a name="57"><span class="lineNum">      57 </span><span class="lineCov">          1 :         .replaceAll('.', '')</span></a>
 <a name="58"><span class="lineNum">      58 </span><span class="lineCov">          1 :         .replaceAll('-', '')</span></a>
@@ -151,17 +151,17 @@
 <a name="89"><span class="lineNum">      89 </span>            :   ///</a>
 <a name="90"><span class="lineNum">      90 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="91"><span class="lineNum">      91 </span>            :   Decimal? parse(String? value) {</a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineCov">          2 :     final Decimal decimal = Decimal(precision: precision);</span></a>
+<a name="92"><span class="lineNum">      92 </span><span class="lineCov">          2 :     Decimal decimal = Decimal(precision: precision);</span></a>
 <a name="93"><span class="lineNum">      93 </span>            : </a>
 <a name="94"><span class="lineNum">      94 </span><span class="lineCov">          1 :     if (value == null || value.isEmpty) {</span></a>
 <a name="95"><span class="lineNum">      95 </span>            :       return decimal;</a>
 <a name="96"><span class="lineNum">      96 </span>            :     }</a>
 <a name="97"><span class="lineNum">      97 </span>            : </a>
-<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          1 :     final bool isNegative = value.startsWith('-');</span></a>
+<a name="98"><span class="lineNum">      98 </span><span class="lineCov">          1 :     bool isNegative = value.startsWith('-');</span></a>
 <a name="99"><span class="lineNum">      99 </span>            : </a>
-<a name="100"><span class="lineNum">     100 </span><span class="lineCov">          1 :     final String newValue = value.replaceAll('-', '');</span></a>
+<a name="100"><span class="lineNum">     100 </span><span class="lineCov">          1 :     String newValue = value.replaceAll('-', '');</span></a>
 <a name="101"><span class="lineNum">     101 </span>            : </a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">          2 :     final int sepPos = newValue.indexOf(decimalSeparator);</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">          2 :     int sepPos = newValue.indexOf(decimalSeparator);</span></a>
 <a name="103"><span class="lineNum">     103 </span>            : </a>
 <a name="104"><span class="lineNum">     104 </span>            :     String integerPart = '0';</a>
 <a name="105"><span class="lineNum">     105 </span>            :     String decimalPart = '0';</a>
@@ -179,7 +179,7 @@
 <a name="117"><span class="lineNum">     117 </span><span class="lineCov">          2 :       decimalPart = decimalPart.substring(0, precision);</span></a>
 <a name="118"><span class="lineNum">     118 </span>            :     }</a>
 <a name="119"><span class="lineNum">     119 </span>            : </a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          1 :     final String str = '${isNegative ? '-' : ''}$integerPart.$decimalPart';</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">          1 :     String str = '${isNegative ? '-' : ''}$integerPart.$decimalPart';</span></a>
 <a name="121"><span class="lineNum">     121 </span>            : </a>
 <a name="122"><span class="lineNum">     122 </span><span class="lineCov">          2 :     decimal.doubleValue = double.tryParse(str) ?? 0;</span></a>
 <a name="123"><span class="lineNum">     123 </span>            : </a>

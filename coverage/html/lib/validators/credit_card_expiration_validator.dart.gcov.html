@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -104,13 +104,13 @@
 <a name="42"><span class="lineNum">      42 </span>            :   ///</a>
 <a name="43"><span class="lineNum">      43 </span><span class="lineCov">          1 :   @override</span></a>
 <a name="44"><span class="lineNum">      44 </span>            :   bool isValid(String value) {</a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          2 :     final String v = value.replaceAll(RegExp(r'\D'), '');</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          2 :     String v = value.replaceAll(RegExp(r'\D'), '');</span></a>
 <a name="46"><span class="lineNum">      46 </span>            : </a>
 <a name="47"><span class="lineNum">      47 </span><span class="lineCov">          2 :     if (v.length != 4) {</span></a>
 <a name="48"><span class="lineNum">      48 </span>            :       return false;</a>
 <a name="49"><span class="lineNum">      49 </span>            :     }</a>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
-<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          2 :     final int? monthNum = int.tryParse(v.substring(0, 2));</span></a>
+<a name="51"><span class="lineNum">      51 </span><span class="lineCov">          2 :     int? monthNum = int.tryParse(v.substring(0, 2));</span></a>
 <a name="52"><span class="lineNum">      52 </span><span class="lineCov">          2 :     if (monthNum == null || monthNum &lt; 1 || monthNum &gt; 12) {</span></a>
 <a name="53"><span class="lineNum">      53 </span>            :       return false;</a>
 <a name="54"><span class="lineNum">      54 </span>            :     }</a>

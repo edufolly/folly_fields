@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -324,8 +324,8 @@
 <a name="262"><span class="lineNum">     262 </span>            :       return false;</a>
 <a name="263"><span class="lineNum">     263 </span>            :     }</a>
 <a name="264"><span class="lineNum">     264 </span>            : </a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          2 :     final String cNum = ccNum.replaceAll(RegExp(r'\D'), '');</span></a>
-<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          2 :     final int mod = cNum.length % 2;</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          2 :     String cNum = ccNum.replaceAll(RegExp(r'\D'), '');</span></a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          2 :     int mod = cNum.length % 2;</span></a>
 <a name="267"><span class="lineNum">     267 </span>            :     int sum = 0;</a>
 <a name="268"><span class="lineNum">     268 </span>            : </a>
 <a name="269"><span class="lineNum">     269 </span>            :     try {</a>
@@ -364,7 +364,7 @@
 <a name="302"><span class="lineNum">     302 </span>            :   ///</a>
 <a name="303"><span class="lineNum">     303 </span>            :   ///</a>
 <a name="304"><span class="lineNum">     304 </span><span class="lineCov">          1 :   static CreditCardType detectType(String ccNum) {</span></a>
-<a name="305"><span class="lineNum">     305 </span><span class="lineCov">          1 :     final String cNum = clearNum(ccNum);</span></a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">          1 :     String cNum = clearNum(ccNum);</span></a>
 <a name="306"><span class="lineNum">     306 </span>            : </a>
 <a name="307"><span class="lineNum">     307 </span><span class="lineCov">          2 :     for (final CreditCardType type in CreditCardType.values) {</span></a>
 <a name="308"><span class="lineNum">     308 </span><span class="lineCov">          2 :       for (final Range range in type.patterns) {</span></a>
@@ -383,63 +383,62 @@
 <a name="321"><span class="lineNum">     321 </span><span class="lineCov">          1 :   static CreditCardType parse(String? value) =&gt;</span></a>
 <a name="322"><span class="lineNum">     322 </span><span class="lineCov">          1 :       CreditCardType.values.firstWhere(</span></a>
 <a name="323"><span class="lineNum">     323 </span><span class="lineCov">          1 :         (CreditCardType type) {</span></a>
-<a name="324"><span class="lineNum">     324 </span>            :           final String? newValue =</a>
-<a name="325"><span class="lineNum">     325 </span><span class="lineCov">          3 :               value?.replaceAll(RegExp(r'\s'), '').toLowerCase();</span></a>
-<a name="326"><span class="lineNum">     326 </span>            : </a>
-<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          3 :           return type.brand.toLowerCase() == newValue ||</span></a>
-<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          2 :               type.extraBrands.fold&lt;bool&gt;(</span></a>
-<a name="329"><span class="lineNum">     329 </span>            :                 false,</a>
-<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          1 :                 (bool previous, String element) =&gt;</span></a>
-<a name="331"><span class="lineNum">     331 </span><span class="lineCov">          2 :                     previous || element.toLowerCase() == newValue,</span></a>
-<a name="332"><span class="lineNum">     332 </span>            :               );</a>
-<a name="333"><span class="lineNum">     333 </span>            :         },</a>
-<a name="334"><span class="lineNum">     334 </span><span class="lineCov">          1 :         orElse: () =&gt; CreditCardType.unknown,</span></a>
-<a name="335"><span class="lineNum">     335 </span>            :       );</a>
-<a name="336"><span class="lineNum">     336 </span>            : }</a>
-<a name="337"><span class="lineNum">     337 </span>            : </a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          3 :           String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();</span></a>
+<a name="325"><span class="lineNum">     325 </span>            : </a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          3 :           return type.brand.toLowerCase() == newValue ||</span></a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          2 :               type.extraBrands.fold&lt;bool&gt;(</span></a>
+<a name="328"><span class="lineNum">     328 </span>            :                 false,</a>
+<a name="329"><span class="lineNum">     329 </span><span class="lineCov">          1 :                 (bool previous, String element) =&gt;</span></a>
+<a name="330"><span class="lineNum">     330 </span><span class="lineCov">          2 :                     previous || element.toLowerCase() == newValue,</span></a>
+<a name="331"><span class="lineNum">     331 </span>            :               );</a>
+<a name="332"><span class="lineNum">     332 </span>            :         },</a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineCov">          1 :         orElse: () =&gt; CreditCardType.unknown,</span></a>
+<a name="334"><span class="lineNum">     334 </span>            :       );</a>
+<a name="335"><span class="lineNum">     335 </span>            : }</a>
+<a name="336"><span class="lineNum">     336 </span>            : </a>
+<a name="337"><span class="lineNum">     337 </span>            : ///</a>
 <a name="338"><span class="lineNum">     338 </span>            : ///</a>
 <a name="339"><span class="lineNum">     339 </span>            : ///</a>
-<a name="340"><span class="lineNum">     340 </span>            : ///</a>
-<a name="341"><span class="lineNum">     341 </span>            : class CreditCardCode {</a>
-<a name="342"><span class="lineNum">     342 </span>            :   final String name;</a>
-<a name="343"><span class="lineNum">     343 </span>            :   final List&lt;int&gt; size;</a>
-<a name="344"><span class="lineNum">     344 </span>            : </a>
+<a name="340"><span class="lineNum">     340 </span>            : class CreditCardCode {</a>
+<a name="341"><span class="lineNum">     341 </span>            :   final String name;</a>
+<a name="342"><span class="lineNum">     342 </span>            :   final List&lt;int&gt; size;</a>
+<a name="343"><span class="lineNum">     343 </span>            : </a>
+<a name="344"><span class="lineNum">     344 </span>            :   ///</a>
 <a name="345"><span class="lineNum">     345 </span>            :   ///</a>
 <a name="346"><span class="lineNum">     346 </span>            :   ///</a>
-<a name="347"><span class="lineNum">     347 </span>            :   ///</a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineCov">          2 :   const CreditCardCode(this.name, this.size);</span></a>
-<a name="349"><span class="lineNum">     349 </span>            : }</a>
-<a name="350"><span class="lineNum">     350 </span>            : </a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">          2 :   const CreditCardCode(this.name, this.size);</span></a>
+<a name="348"><span class="lineNum">     348 </span>            : }</a>
+<a name="349"><span class="lineNum">     349 </span>            : </a>
+<a name="350"><span class="lineNum">     350 </span>            : ///</a>
 <a name="351"><span class="lineNum">     351 </span>            : ///</a>
 <a name="352"><span class="lineNum">     352 </span>            : ///</a>
-<a name="353"><span class="lineNum">     353 </span>            : ///</a>
-<a name="354"><span class="lineNum">     354 </span>            : class Range {</a>
-<a name="355"><span class="lineNum">     355 </span>            :   final int initialValue;</a>
-<a name="356"><span class="lineNum">     356 </span>            :   final int? finalValue;</a>
-<a name="357"><span class="lineNum">     357 </span>            : </a>
-<a name="358"><span class="lineNum">     358 </span><span class="lineCov">          2 :   const Range(this.initialValue, [this.finalValue]);</span></a>
-<a name="359"><span class="lineNum">     359 </span>            : </a>
+<a name="353"><span class="lineNum">     353 </span>            : class Range {</a>
+<a name="354"><span class="lineNum">     354 </span>            :   final int initialValue;</a>
+<a name="355"><span class="lineNum">     355 </span>            :   final int? finalValue;</a>
+<a name="356"><span class="lineNum">     356 </span>            : </a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">          2 :   const Range(this.initialValue, [this.finalValue]);</span></a>
+<a name="358"><span class="lineNum">     358 </span>            : </a>
+<a name="359"><span class="lineNum">     359 </span>            :   ///</a>
 <a name="360"><span class="lineNum">     360 </span>            :   ///</a>
 <a name="361"><span class="lineNum">     361 </span>            :   ///</a>
-<a name="362"><span class="lineNum">     362 </span>            :   ///</a>
-<a name="363"><span class="lineNum">     363 </span><span class="lineCov">          1 :   bool isValid(String ccNum) {</span></a>
-<a name="364"><span class="lineNum">     364 </span><span class="lineCov">          3 :     final int qtd = initialValue.toString().length;</span></a>
-<a name="365"><span class="lineNum">     365 </span>            : </a>
-<a name="366"><span class="lineNum">     366 </span><span class="lineCov">          2 :     if (ccNum.length &lt; qtd) {</span></a>
-<a name="367"><span class="lineNum">     367 </span>            :       return false;</a>
-<a name="368"><span class="lineNum">     368 </span>            :     }</a>
-<a name="369"><span class="lineNum">     369 </span>            : </a>
-<a name="370"><span class="lineNum">     370 </span><span class="lineCov">          2 :     final int? ccInt = int.tryParse(ccNum.substring(0, qtd));</span></a>
-<a name="371"><span class="lineNum">     371 </span>            : </a>
-<a name="372"><span class="lineNum">     372 </span>            :     if (ccInt == null) {</a>
-<a name="373"><span class="lineNum">     373 </span>            :       return false;</a>
-<a name="374"><span class="lineNum">     374 </span>            :     }</a>
-<a name="375"><span class="lineNum">     375 </span>            : </a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          1 :     return finalValue == null</span></a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">          2 :         ? ccInt == initialValue</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">          4 :         : ccInt &gt;= initialValue &amp;&amp; ccInt &lt;= finalValue!;</span></a>
-<a name="379"><span class="lineNum">     379 </span>            :   }</a>
-<a name="380"><span class="lineNum">     380 </span>            : }</a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          1 :   bool isValid(String ccNum) {</span></a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineCov">          3 :     int qtd = initialValue.toString().length;</span></a>
+<a name="364"><span class="lineNum">     364 </span>            : </a>
+<a name="365"><span class="lineNum">     365 </span><span class="lineCov">          2 :     if (ccNum.length &lt; qtd) {</span></a>
+<a name="366"><span class="lineNum">     366 </span>            :       return false;</a>
+<a name="367"><span class="lineNum">     367 </span>            :     }</a>
+<a name="368"><span class="lineNum">     368 </span>            : </a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineCov">          2 :     int? ccInt = int.tryParse(ccNum.substring(0, qtd));</span></a>
+<a name="370"><span class="lineNum">     370 </span>            : </a>
+<a name="371"><span class="lineNum">     371 </span>            :     if (ccInt == null) {</a>
+<a name="372"><span class="lineNum">     372 </span>            :       return false;</a>
+<a name="373"><span class="lineNum">     373 </span>            :     }</a>
+<a name="374"><span class="lineNum">     374 </span>            : </a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          1 :     return finalValue == null</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          2 :         ? ccInt == initialValue</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">          4 :         : ccInt &gt;= initialValue &amp;&amp; ccInt &lt;= finalValue!;</span></a>
+<a name="378"><span class="lineNum">     378 </span>            :   }</a>
+<a name="379"><span class="lineNum">     379 </span>            : }</a>
 </pre>
       </td>
     </tr>

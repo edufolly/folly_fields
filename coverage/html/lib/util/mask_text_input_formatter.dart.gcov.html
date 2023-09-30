@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-08-19 02:19:40</td>
+            <td class="headerValue">2023-09-30 13:38:35</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -122,7 +122,7 @@
 <a name="60"><span class="lineNum">      60 </span>            : </a>
 <a name="61"><span class="lineNum">      61 </span><span class="lineCov">         20 :     _calcMaskLength();</span></a>
 <a name="62"><span class="lineNum">      62 </span>            : </a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">         20 :     final String unmaskedText = getUnmaskedText();</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">         20 :     String unmaskedText = getUnmaskedText();</span></a>
 <a name="64"><span class="lineNum">      64 </span>            :     // final String unmaskedText = clear ? '' : getUnmaskedText();</a>
 <a name="65"><span class="lineNum">      65 </span>            : </a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineCov">         20 :     _resultTextMasked = '';</span></a>
@@ -200,7 +200,7 @@
 <a name="138"><span class="lineNum">     138 </span>            :     TextEditingValue oldValue,</a>
 <a name="139"><span class="lineNum">     139 </span>            :     TextEditingValue newValue,</a>
 <a name="140"><span class="lineNum">     140 </span>            :   ) {</a>
-<a name="141"><span class="lineNum">     141 </span><span class="lineCov">         20 :     final String mask = _mask;</span></a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">         20 :     String mask = _mask;</span></a>
 <a name="142"><span class="lineNum">     142 </span>            : </a>
 <a name="143"><span class="lineNum">     143 </span><span class="lineCov">         20 :     if (mask.isEmpty) {</span></a>
 <a name="144"><span class="lineNum">     144 </span><span class="lineNoCov">          0 :       _resultTextMasked = newValue.text;</span></a>
@@ -209,28 +209,28 @@
 <a name="147"><span class="lineNum">     147 </span>            :       return newValue;</a>
 <a name="148"><span class="lineNum">     148 </span>            :     }</a>
 <a name="149"><span class="lineNum">     149 </span>            : </a>
-<a name="150"><span class="lineNum">     150 </span><span class="lineCov">         20 :     final String beforeText = oldValue.text;</span></a>
-<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         20 :     final String afterText = newValue.text;</span></a>
+<a name="150"><span class="lineNum">     150 </span><span class="lineCov">         20 :     String beforeText = oldValue.text;</span></a>
+<a name="151"><span class="lineNum">     151 </span><span class="lineCov">         20 :     String afterText = newValue.text;</span></a>
 <a name="152"><span class="lineNum">     152 </span>            : </a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">         20 :     final TextSelection beforeSelection = oldValue.selection;</span></a>
-<a name="154"><span class="lineNum">     154 </span>            :     final int beforeSelectionStart =</a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">         20 :     TextSelection beforeSelection = oldValue.selection;</span></a>
+<a name="154"><span class="lineNum">     154 </span>            :     int beforeSelectionStart =</a>
 <a name="155"><span class="lineNum">     155 </span><span class="lineCov">         20 :         beforeSelection.isValid ? beforeSelection.start : 0;</span></a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineCov">         20 :     final int beforeSelectionLength = beforeSelection.isValid</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineCov">         20 :     int beforeSelectionLength = beforeSelection.isValid</span></a>
 <a name="157"><span class="lineNum">     157 </span><span class="lineNoCov">          0 :         ? beforeSelection.end - beforeSelection.start</span></a>
 <a name="158"><span class="lineNum">     158 </span>            :         : 0;</a>
 <a name="159"><span class="lineNum">     159 </span>            : </a>
-<a name="160"><span class="lineNum">     160 </span>            :     final int lengthDifference =</a>
+<a name="160"><span class="lineNum">     160 </span>            :     int lengthDifference =</a>
 <a name="161"><span class="lineNum">     161 </span><span class="lineCov">         80 :         afterText.length - (beforeText.length - beforeSelectionLength);</span></a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">         20 :     final int lengthRemoved = lengthDifference &lt; 0 ? lengthDifference.abs() : 0;</span></a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">         20 :     final int lengthAdded = lengthDifference &gt; 0 ? lengthDifference : 0;</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">         20 :     int lengthRemoved = lengthDifference &lt; 0 ? lengthDifference.abs() : 0;</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">         20 :     int lengthAdded = lengthDifference &gt; 0 ? lengthDifference : 0;</span></a>
 <a name="164"><span class="lineNum">     164 </span>            : </a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         40 :     final int afterChangeStart = max(0, beforeSelectionStart - lengthRemoved);</span></a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">         40 :     final int afterChangeEnd = max(0, afterChangeStart + lengthAdded);</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">         40 :     int afterChangeStart = max(0, beforeSelectionStart - lengthRemoved);</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">         40 :     int afterChangeEnd = max(0, afterChangeStart + lengthAdded);</span></a>
 <a name="167"><span class="lineNum">     167 </span>            : </a>
-<a name="168"><span class="lineNum">     168 </span><span class="lineCov">         40 :     final int beforeReplaceStart = max(0, beforeSelectionStart - lengthRemoved);</span></a>
-<a name="169"><span class="lineNum">     169 </span><span class="lineCov">         20 :     final int beforeReplaceLength = beforeSelectionLength + lengthRemoved;</span></a>
+<a name="168"><span class="lineNum">     168 </span><span class="lineCov">         40 :     int beforeReplaceStart = max(0, beforeSelectionStart - lengthRemoved);</span></a>
+<a name="169"><span class="lineNum">     169 </span><span class="lineCov">         20 :     int beforeReplaceLength = beforeSelectionLength + lengthRemoved;</span></a>
 <a name="170"><span class="lineNum">     170 </span>            : </a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineCov">         40 :     final int beforeResultTextLength = _resultTextArray.length;</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">         40 :     int beforeResultTextLength = _resultTextArray.length;</span></a>
 <a name="172"><span class="lineNum">     172 </span>            : </a>
 <a name="173"><span class="lineNum">     173 </span><span class="lineCov">         40 :     int currentResultTextLength = _resultTextArray.length;</span></a>
 <a name="174"><span class="lineNum">     174 </span>            :     int currentResultSelectionStart = 0;</a>
@@ -250,7 +250,7 @@
 <a name="188"><span class="lineNum">     188 </span>            :       }</a>
 <a name="189"><span class="lineNum">     189 </span>            :     }</a>
 <a name="190"><span class="lineNum">     190 </span>            : </a>
-<a name="191"><span class="lineNum">     191 </span>            :     final String replacementText =</a>
+<a name="191"><span class="lineNum">     191 </span>            :     String replacementText =</a>
 <a name="192"><span class="lineNum">     192 </span><span class="lineCov">         20 :         afterText.substring(afterChangeStart, afterChangeEnd);</span></a>
 <a name="193"><span class="lineNum">     193 </span>            :     int targetCursorPosition = currentResultSelectionStart;</a>
 <a name="194"><span class="lineNum">     194 </span><span class="lineCov">         20 :     if (replacementText.isEmpty) {</span></a>
@@ -286,15 +286,15 @@
 <a name="224"><span class="lineNum">     224 </span>            :     int nonMaskedCount = 0;</a>
 <a name="225"><span class="lineNum">     225 </span>            : </a>
 <a name="226"><span class="lineNum">     226 </span><span class="lineCov">         40 :     while (maskPos &lt; mask.length) {</span></a>
-<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         20 :       final String curMaskChar = mask[maskPos];</span></a>
-<a name="228"><span class="lineNum">     228 </span><span class="lineCov">         40 :       final bool isMaskChar = _maskChars.contains(curMaskChar);</span></a>
+<a name="227"><span class="lineNum">     227 </span><span class="lineCov">         20 :       String curMaskChar = mask[maskPos];</span></a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">         40 :       bool isMaskChar = _maskChars.contains(curMaskChar);</span></a>
 <a name="229"><span class="lineNum">     229 </span>            : </a>
 <a name="230"><span class="lineNum">     230 </span><span class="lineCov">         60 :       bool curTextInRange = curTextPos &lt; _resultTextArray.length;</span></a>
 <a name="231"><span class="lineNum">     231 </span>            : </a>
 <a name="232"><span class="lineNum">     232 </span>            :       String? curTextChar;</a>
 <a name="233"><span class="lineNum">     233 </span>            :       if (isMaskChar &amp;&amp; curTextInRange) {</a>
 <a name="234"><span class="lineNum">     234 </span>            :         while (curTextChar == null &amp;&amp; curTextInRange) {</a>
-<a name="235"><span class="lineNum">     235 </span><span class="lineNoCov">          0 :           final String potentialTextChar = _resultTextArray[curTextPos];</span></a>
+<a name="235"><span class="lineNum">     235 </span><span class="lineNoCov">          0 :           String potentialTextChar = _resultTextArray[curTextPos];</span></a>
 <a name="236"><span class="lineNum">     236 </span><span class="lineNoCov">          0 :           if (_maskFilter[curMaskChar]!.hasMatch(potentialTextChar)) {</span></a>
 <a name="237"><span class="lineNum">     237 </span>            :             curTextChar = potentialTextChar;</a>
 <a name="238"><span class="lineNum">     238 </span>            :           } else {</a>
@@ -345,7 +345,7 @@
 <a name="283"><span class="lineNum">     283 </span><span class="lineNoCov">          0 :       _resultTextArray.removeRange(_maskLength, _resultTextArray.length);</span></a>
 <a name="284"><span class="lineNum">     284 </span>            :     }</a>
 <a name="285"><span class="lineNum">     285 </span>            : </a>
-<a name="286"><span class="lineNum">     286 </span>            :     final int finalCursorPosition =</a>
+<a name="286"><span class="lineNum">     286 </span>            :     int finalCursorPosition =</a>
 <a name="287"><span class="lineNum">     287 </span><span class="lineCov">         20 :         cursorPos &lt; 0 ? _resultTextMasked.length : cursorPos;</span></a>
 <a name="288"><span class="lineNum">     288 </span>            : </a>
 <a name="289"><span class="lineNum">     289 </span><span class="lineCov">         20 :     return TextEditingValue(</span></a>
@@ -365,7 +365,7 @@
 <a name="303"><span class="lineNum">     303 </span>            :   ///</a>
 <a name="304"><span class="lineNum">     304 </span><span class="lineCov">         20 :   void _calcMaskLength() {</span></a>
 <a name="305"><span class="lineNum">     305 </span><span class="lineCov">         20 :     _maskLength = 0;</span></a>
-<a name="306"><span class="lineNum">     306 </span><span class="lineCov">         20 :     final String mask = _mask;</span></a>
+<a name="306"><span class="lineNum">     306 </span><span class="lineCov">         20 :     String mask = _mask;</span></a>
 <a name="307"><span class="lineNum">     307 </span><span class="lineCov">         60 :     for (int pos = 0; pos &lt; mask.length; pos++) {</span></a>
 <a name="308"><span class="lineNum">     308 </span><span class="lineCov">         60 :       if (_maskChars.contains(mask[pos])) {</span></a>
 <a name="309"><span class="lineNum">     309 </span><span class="lineCov">         40 :         _maskLength++;</span></a>
@@ -505,8 +505,8 @@
 <a name="443"><span class="lineNum">     443 </span>            :     TextEditingValue oldValue,</a>
 <a name="444"><span class="lineNum">     444 </span>            :     TextEditingValue newValue,</a>
 <a name="445"><span class="lineNum">     445 </span>            :   ) {</a>
-<a name="446"><span class="lineNum">     446 </span><span class="lineCov">          6 :     final int oldLength = oldValue.text.length;</span></a>
-<a name="447"><span class="lineNum">     447 </span><span class="lineCov">          6 :     final int newLength = newValue.text.length;</span></a>
+<a name="446"><span class="lineNum">     446 </span><span class="lineCov">          6 :     int oldLength = oldValue.text.length;</span></a>
+<a name="447"><span class="lineNum">     447 </span><span class="lineCov">          6 :     int newLength = newValue.text.length;</span></a>
 <a name="448"><span class="lineNum">     448 </span>            : </a>
 <a name="449"><span class="lineNum">     449 </span>            :     TextEditingValue value = oldValue;</a>
 <a name="450"><span class="lineNum">     450 </span>            : </a>
