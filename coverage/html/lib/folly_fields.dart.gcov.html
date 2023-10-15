@@ -32,12 +32,12 @@
             <td></td>
             <td class="headerItem">Lines:</td>
             <td class="headerCovTableEntry">38</td>
-            <td class="headerCovTableEntry">104</td>
-            <td class="headerCovTableEntryLo">36.5 %</td>
+            <td class="headerCovTableEntry">103</td>
+            <td class="headerCovTableEntryLo">36.9 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-30 13:38:35</td>
+            <td class="headerValue">2023-10-15 13:44:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -238,271 +238,261 @@
 <a name="176"><span class="lineNum">     176 </span>            :   linux,</a>
 <a name="177"><span class="lineNum">     177 </span>            :   windows,</a>
 <a name="178"><span class="lineNum">     178 </span>            :   macos,</a>
-<a name="179"><span class="lineNum">     179 </span>            :   fuchsia,</a>
+<a name="179"><span class="lineNum">     179 </span>            :   fuchsia;</a>
 <a name="180"><span class="lineNum">     180 </span>            : }</a>
 <a name="181"><span class="lineNum">     181 </span>            : </a>
 <a name="182"><span class="lineNum">     182 </span>            : ///</a>
 <a name="183"><span class="lineNum">     183 </span>            : ///</a>
 <a name="184"><span class="lineNum">     184 </span>            : ///</a>
-<a name="185"><span class="lineNum">     185 </span>            : extension RunningPlatformExt on RunningPlatform {</a>
-<a name="186"><span class="lineNum">     186 </span>            :   ///</a>
-<a name="187"><span class="lineNum">     187 </span>            :   ///</a>
-<a name="188"><span class="lineNum">     188 </span>            :   ///</a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineNoCov">          0 :   String get name =&gt; toString().split('.').last.toLowerCase();</span></a>
-<a name="190"><span class="lineNum">     190 </span>            : }</a>
-<a name="191"><span class="lineNum">     191 </span>            : </a>
-<a name="192"><span class="lineNum">     192 </span>            : ///</a>
-<a name="193"><span class="lineNum">     193 </span>            : ///</a>
-<a name="194"><span class="lineNum">     194 </span>            : ///</a>
-<a name="195"><span class="lineNum">     195 </span>            : typedef FollyDateParse = int? Function(dynamic value);</a>
-<a name="196"><span class="lineNum">     196 </span>            : </a>
-<a name="197"><span class="lineNum">     197 </span>            : ///</a>
-<a name="198"><span class="lineNum">     198 </span>            : ///</a>
-<a name="199"><span class="lineNum">     199 </span>            : ///</a>
-<a name="200"><span class="lineNum">     200 </span>            : abstract class _InternalConfig {</a>
+<a name="185"><span class="lineNum">     185 </span>            : typedef FollyDateParse = int? Function(dynamic value);</a>
+<a name="186"><span class="lineNum">     186 </span>            : </a>
+<a name="187"><span class="lineNum">     187 </span>            : ///</a>
+<a name="188"><span class="lineNum">     188 </span>            : ///</a>
+<a name="189"><span class="lineNum">     189 </span>            : ///</a>
+<a name="190"><span class="lineNum">     190 </span>            : abstract class _InternalConfig {</a>
+<a name="191"><span class="lineNum">     191 </span>            :   ///</a>
+<a name="192"><span class="lineNum">     192 </span>            :   ///</a>
+<a name="193"><span class="lineNum">     193 </span>            :   ///</a>
+<a name="194"><span class="lineNum">     194 </span>            :   bool get isOnline;</a>
+<a name="195"><span class="lineNum">     195 </span>            : </a>
+<a name="196"><span class="lineNum">     196 </span>            :   ///</a>
+<a name="197"><span class="lineNum">     197 </span>            :   ///</a>
+<a name="198"><span class="lineNum">     198 </span>            :   ///</a>
+<a name="199"><span class="lineNum">     199 </span>            :   bool get isOffline;</a>
+<a name="200"><span class="lineNum">     200 </span>            : </a>
 <a name="201"><span class="lineNum">     201 </span>            :   ///</a>
 <a name="202"><span class="lineNum">     202 </span>            :   ///</a>
 <a name="203"><span class="lineNum">     203 </span>            :   ///</a>
-<a name="204"><span class="lineNum">     204 </span>            :   bool get isOnline;</a>
+<a name="204"><span class="lineNum">     204 </span>            :   bool get isWeb;</a>
 <a name="205"><span class="lineNum">     205 </span>            : </a>
 <a name="206"><span class="lineNum">     206 </span>            :   ///</a>
 <a name="207"><span class="lineNum">     207 </span>            :   ///</a>
 <a name="208"><span class="lineNum">     208 </span>            :   ///</a>
-<a name="209"><span class="lineNum">     209 </span>            :   bool get isOffline;</a>
+<a name="209"><span class="lineNum">     209 </span>            :   bool get isNotWeb;</a>
 <a name="210"><span class="lineNum">     210 </span>            : </a>
 <a name="211"><span class="lineNum">     211 </span>            :   ///</a>
 <a name="212"><span class="lineNum">     212 </span>            :   ///</a>
 <a name="213"><span class="lineNum">     213 </span>            :   ///</a>
-<a name="214"><span class="lineNum">     214 </span>            :   bool get isWeb;</a>
+<a name="214"><span class="lineNum">     214 </span>            :   bool get isMobile;</a>
 <a name="215"><span class="lineNum">     215 </span>            : </a>
 <a name="216"><span class="lineNum">     216 </span>            :   ///</a>
 <a name="217"><span class="lineNum">     217 </span>            :   ///</a>
 <a name="218"><span class="lineNum">     218 </span>            :   ///</a>
-<a name="219"><span class="lineNum">     219 </span>            :   bool get isNotWeb;</a>
+<a name="219"><span class="lineNum">     219 </span>            :   bool get isNotMobile;</a>
 <a name="220"><span class="lineNum">     220 </span>            : </a>
 <a name="221"><span class="lineNum">     221 </span>            :   ///</a>
 <a name="222"><span class="lineNum">     222 </span>            :   ///</a>
 <a name="223"><span class="lineNum">     223 </span>            :   ///</a>
-<a name="224"><span class="lineNum">     224 </span>            :   bool get isMobile;</a>
+<a name="224"><span class="lineNum">     224 </span>            :   bool get isDesktop;</a>
 <a name="225"><span class="lineNum">     225 </span>            : </a>
 <a name="226"><span class="lineNum">     226 </span>            :   ///</a>
 <a name="227"><span class="lineNum">     227 </span>            :   ///</a>
 <a name="228"><span class="lineNum">     228 </span>            :   ///</a>
-<a name="229"><span class="lineNum">     229 </span>            :   bool get isNotMobile;</a>
+<a name="229"><span class="lineNum">     229 </span>            :   bool get isNotDesktop;</a>
 <a name="230"><span class="lineNum">     230 </span>            : </a>
 <a name="231"><span class="lineNum">     231 </span>            :   ///</a>
 <a name="232"><span class="lineNum">     232 </span>            :   ///</a>
 <a name="233"><span class="lineNum">     233 </span>            :   ///</a>
-<a name="234"><span class="lineNum">     234 </span>            :   bool get isDesktop;</a>
+<a name="234"><span class="lineNum">     234 </span>            :   String get platform;</a>
 <a name="235"><span class="lineNum">     235 </span>            : </a>
 <a name="236"><span class="lineNum">     236 </span>            :   ///</a>
 <a name="237"><span class="lineNum">     237 </span>            :   ///</a>
 <a name="238"><span class="lineNum">     238 </span>            :   ///</a>
-<a name="239"><span class="lineNum">     239 </span>            :   bool get isNotDesktop;</a>
+<a name="239"><span class="lineNum">     239 </span>            :   String get modelIdKey;</a>
 <a name="240"><span class="lineNum">     240 </span>            : </a>
 <a name="241"><span class="lineNum">     241 </span>            :   ///</a>
 <a name="242"><span class="lineNum">     242 </span>            :   ///</a>
 <a name="243"><span class="lineNum">     243 </span>            :   ///</a>
-<a name="244"><span class="lineNum">     244 </span>            :   String get platform;</a>
+<a name="244"><span class="lineNum">     244 </span>            :   String get modelUpdatedAtKey;</a>
 <a name="245"><span class="lineNum">     245 </span>            : </a>
 <a name="246"><span class="lineNum">     246 </span>            :   ///</a>
 <a name="247"><span class="lineNum">     247 </span>            :   ///</a>
 <a name="248"><span class="lineNum">     248 </span>            :   ///</a>
-<a name="249"><span class="lineNum">     249 </span>            :   String get modelIdKey;</a>
+<a name="249"><span class="lineNum">     249 </span>            :   String get modelDeletedAtKey;</a>
 <a name="250"><span class="lineNum">     250 </span>            : </a>
 <a name="251"><span class="lineNum">     251 </span>            :   ///</a>
 <a name="252"><span class="lineNum">     252 </span>            :   ///</a>
 <a name="253"><span class="lineNum">     253 </span>            :   ///</a>
-<a name="254"><span class="lineNum">     254 </span>            :   String get modelUpdatedAtKey;</a>
+<a name="254"><span class="lineNum">     254 </span>            :   FollyDateParse? get dateParseUpdate;</a>
 <a name="255"><span class="lineNum">     255 </span>            : </a>
 <a name="256"><span class="lineNum">     256 </span>            :   ///</a>
 <a name="257"><span class="lineNum">     257 </span>            :   ///</a>
 <a name="258"><span class="lineNum">     258 </span>            :   ///</a>
-<a name="259"><span class="lineNum">     259 </span>            :   String get modelDeletedAtKey;</a>
+<a name="259"><span class="lineNum">     259 </span>            :   FollyDateParse? get dateParseDelete;</a>
 <a name="260"><span class="lineNum">     260 </span>            : </a>
 <a name="261"><span class="lineNum">     261 </span>            :   ///</a>
 <a name="262"><span class="lineNum">     262 </span>            :   ///</a>
 <a name="263"><span class="lineNum">     263 </span>            :   ///</a>
-<a name="264"><span class="lineNum">     264 </span>            :   FollyDateParse? get dateParseUpdate;</a>
-<a name="265"><span class="lineNum">     265 </span>            : </a>
-<a name="266"><span class="lineNum">     266 </span>            :   ///</a>
-<a name="267"><span class="lineNum">     267 </span>            :   ///</a>
-<a name="268"><span class="lineNum">     268 </span>            :   ///</a>
-<a name="269"><span class="lineNum">     269 </span>            :   FollyDateParse? get dateParseDelete;</a>
-<a name="270"><span class="lineNum">     270 </span>            : </a>
-<a name="271"><span class="lineNum">     271 </span>            :   ///</a>
-<a name="272"><span class="lineNum">     272 </span>            :   ///</a>
-<a name="273"><span class="lineNum">     273 </span>            :   ///</a>
-<a name="274"><span class="lineNum">     274 </span>            :   List&lt;double&gt; get responsiveSizes;</a>
-<a name="275"><span class="lineNum">     275 </span>            : }</a>
-<a name="276"><span class="lineNum">     276 </span>            : </a>
-<a name="277"><span class="lineNum">     277 </span>            : ///</a>
-<a name="278"><span class="lineNum">     278 </span>            : ///</a>
-<a name="279"><span class="lineNum">     279 </span>            : ///</a>
-<a name="280"><span class="lineNum">     280 </span>            : abstract class AbstractConfig implements _InternalConfig {</a>
-<a name="281"><span class="lineNum">     281 </span>            :   bool _started = false;</a>
-<a name="282"><span class="lineNum">     282 </span>            :   bool _online = false;</a>
-<a name="283"><span class="lineNum">     283 </span>            :   RunningPlatform _platform = RunningPlatform.unknown;</a>
-<a name="284"><span class="lineNum">     284 </span>            :   String _modelIdKey = 'id';</a>
-<a name="285"><span class="lineNum">     285 </span>            :   String _modelUpdatedAtKey = 'updatedAt';</a>
-<a name="286"><span class="lineNum">     286 </span>            :   String _modelDeletedAtKey = 'deletedAt';</a>
-<a name="287"><span class="lineNum">     287 </span>            :   FollyDateParse? _dateParseUpdate;</a>
-<a name="288"><span class="lineNum">     288 </span>            :   FollyDateParse? _dateParseDelete;</a>
-<a name="289"><span class="lineNum">     289 </span>            :   List&lt;double&gt; _responsiveSizes = const &lt;double&gt;[540, 720, 960, 1140];</a>
-<a name="290"><span class="lineNum">     290 </span>            : </a>
-<a name="291"><span class="lineNum">     291 </span>            :   ///</a>
-<a name="292"><span class="lineNum">     292 </span>            :   ///</a>
+<a name="264"><span class="lineNum">     264 </span>            :   List&lt;double&gt; get responsiveSizes;</a>
+<a name="265"><span class="lineNum">     265 </span>            : }</a>
+<a name="266"><span class="lineNum">     266 </span>            : </a>
+<a name="267"><span class="lineNum">     267 </span>            : ///</a>
+<a name="268"><span class="lineNum">     268 </span>            : ///</a>
+<a name="269"><span class="lineNum">     269 </span>            : ///</a>
+<a name="270"><span class="lineNum">     270 </span>            : abstract class AbstractConfig implements _InternalConfig {</a>
+<a name="271"><span class="lineNum">     271 </span>            :   bool _started = false;</a>
+<a name="272"><span class="lineNum">     272 </span>            :   bool _online = false;</a>
+<a name="273"><span class="lineNum">     273 </span>            :   RunningPlatform _platform = RunningPlatform.unknown;</a>
+<a name="274"><span class="lineNum">     274 </span>            :   String _modelIdKey = 'id';</a>
+<a name="275"><span class="lineNum">     275 </span>            :   String _modelUpdatedAtKey = 'updatedAt';</a>
+<a name="276"><span class="lineNum">     276 </span>            :   String _modelDeletedAtKey = 'deletedAt';</a>
+<a name="277"><span class="lineNum">     277 </span>            :   FollyDateParse? _dateParseUpdate;</a>
+<a name="278"><span class="lineNum">     278 </span>            :   FollyDateParse? _dateParseDelete;</a>
+<a name="279"><span class="lineNum">     279 </span>            :   List&lt;double&gt; _responsiveSizes = const &lt;double&gt;[540, 720, 960, 1140];</a>
+<a name="280"><span class="lineNum">     280 </span>            : </a>
+<a name="281"><span class="lineNum">     281 </span>            :   ///</a>
+<a name="282"><span class="lineNum">     282 </span>            :   ///</a>
+<a name="283"><span class="lineNum">     283 </span>            :   ///</a>
+<a name="284"><span class="lineNum">     284 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="285"><span class="lineNum">     285 </span><span class="lineNoCov">          0 :   bool get isOnline =&gt; _online;</span></a>
+<a name="286"><span class="lineNum">     286 </span>            : </a>
+<a name="287"><span class="lineNum">     287 </span>            :   ///</a>
+<a name="288"><span class="lineNum">     288 </span>            :   ///</a>
+<a name="289"><span class="lineNum">     289 </span>            :   ///</a>
+<a name="290"><span class="lineNum">     290 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="291"><span class="lineNum">     291 </span><span class="lineNoCov">          0 :   bool get isOffline =&gt; !_online;</span></a>
+<a name="292"><span class="lineNum">     292 </span>            : </a>
 <a name="293"><span class="lineNum">     293 </span>            :   ///</a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="295"><span class="lineNum">     295 </span><span class="lineNoCov">          0 :   bool get isOnline =&gt; _online;</span></a>
-<a name="296"><span class="lineNum">     296 </span>            : </a>
-<a name="297"><span class="lineNum">     297 </span>            :   ///</a>
-<a name="298"><span class="lineNum">     298 </span>            :   ///</a>
+<a name="294"><span class="lineNum">     294 </span>            :   ///</a>
+<a name="295"><span class="lineNum">     295 </span>            :   ///</a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineNoCov">          0 :   bool get isWeb =&gt; _platform == RunningPlatform.web;</span></a>
+<a name="298"><span class="lineNum">     298 </span>            : </a>
 <a name="299"><span class="lineNum">     299 </span>            :   ///</a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="301"><span class="lineNum">     301 </span><span class="lineNoCov">          0 :   bool get isOffline =&gt; !_online;</span></a>
-<a name="302"><span class="lineNum">     302 </span>            : </a>
-<a name="303"><span class="lineNum">     303 </span>            :   ///</a>
-<a name="304"><span class="lineNum">     304 </span>            :   ///</a>
+<a name="300"><span class="lineNum">     300 </span>            :   ///</a>
+<a name="301"><span class="lineNum">     301 </span>            :   ///</a>
+<a name="302"><span class="lineNum">     302 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="303"><span class="lineNum">     303 </span><span class="lineNoCov">          0 :   bool get isNotWeb =&gt; !isWeb;</span></a>
+<a name="304"><span class="lineNum">     304 </span>            : </a>
 <a name="305"><span class="lineNum">     305 </span>            :   ///</a>
-<a name="306"><span class="lineNum">     306 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="307"><span class="lineNum">     307 </span><span class="lineNoCov">          0 :   bool get isWeb =&gt; _platform == RunningPlatform.web;</span></a>
-<a name="308"><span class="lineNum">     308 </span>            : </a>
-<a name="309"><span class="lineNum">     309 </span>            :   ///</a>
-<a name="310"><span class="lineNum">     310 </span>            :   ///</a>
-<a name="311"><span class="lineNum">     311 </span>            :   ///</a>
-<a name="312"><span class="lineNum">     312 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="313"><span class="lineNum">     313 </span><span class="lineNoCov">          0 :   bool get isNotWeb =&gt; !isWeb;</span></a>
-<a name="314"><span class="lineNum">     314 </span>            : </a>
-<a name="315"><span class="lineNum">     315 </span>            :   ///</a>
-<a name="316"><span class="lineNum">     316 </span>            :   ///</a>
-<a name="317"><span class="lineNum">     317 </span>            :   ///</a>
-<a name="318"><span class="lineNum">     318 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="319"><span class="lineNum">     319 </span>            :   bool get isMobile =&gt;</a>
-<a name="320"><span class="lineNum">     320 </span><span class="lineNoCov">          0 :       _platform == RunningPlatform.android || _platform == RunningPlatform.ios;</span></a>
-<a name="321"><span class="lineNum">     321 </span>            : </a>
-<a name="322"><span class="lineNum">     322 </span>            :   ///</a>
-<a name="323"><span class="lineNum">     323 </span>            :   ///</a>
+<a name="306"><span class="lineNum">     306 </span>            :   ///</a>
+<a name="307"><span class="lineNum">     307 </span>            :   ///</a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="309"><span class="lineNum">     309 </span>            :   bool get isMobile =&gt;</a>
+<a name="310"><span class="lineNum">     310 </span><span class="lineNoCov">          0 :       _platform == RunningPlatform.android || _platform == RunningPlatform.ios;</span></a>
+<a name="311"><span class="lineNum">     311 </span>            : </a>
+<a name="312"><span class="lineNum">     312 </span>            :   ///</a>
+<a name="313"><span class="lineNum">     313 </span>            :   ///</a>
+<a name="314"><span class="lineNum">     314 </span>            :   ///</a>
+<a name="315"><span class="lineNum">     315 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="316"><span class="lineNum">     316 </span><span class="lineNoCov">          0 :   bool get isNotMobile =&gt; !isMobile;</span></a>
+<a name="317"><span class="lineNum">     317 </span>            : </a>
+<a name="318"><span class="lineNum">     318 </span>            :   ///</a>
+<a name="319"><span class="lineNum">     319 </span>            :   ///</a>
+<a name="320"><span class="lineNum">     320 </span>            :   ///</a>
+<a name="321"><span class="lineNum">     321 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="322"><span class="lineNum">     322 </span><span class="lineNoCov">          0 :   bool get isDesktop =&gt; !isWeb &amp;&amp; !isMobile;</span></a>
+<a name="323"><span class="lineNum">     323 </span>            : </a>
 <a name="324"><span class="lineNum">     324 </span>            :   ///</a>
-<a name="325"><span class="lineNum">     325 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="326"><span class="lineNum">     326 </span><span class="lineNoCov">          0 :   bool get isNotMobile =&gt; !isMobile;</span></a>
-<a name="327"><span class="lineNum">     327 </span>            : </a>
-<a name="328"><span class="lineNum">     328 </span>            :   ///</a>
-<a name="329"><span class="lineNum">     329 </span>            :   ///</a>
+<a name="325"><span class="lineNum">     325 </span>            :   ///</a>
+<a name="326"><span class="lineNum">     326 </span>            :   ///</a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="328"><span class="lineNum">     328 </span><span class="lineNoCov">          0 :   bool get isNotDesktop =&gt; !isDesktop;</span></a>
+<a name="329"><span class="lineNum">     329 </span>            : </a>
 <a name="330"><span class="lineNum">     330 </span>            :   ///</a>
-<a name="331"><span class="lineNum">     331 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="332"><span class="lineNum">     332 </span><span class="lineNoCov">          0 :   bool get isDesktop =&gt; !isWeb &amp;&amp; !isMobile;</span></a>
-<a name="333"><span class="lineNum">     333 </span>            : </a>
-<a name="334"><span class="lineNum">     334 </span>            :   ///</a>
-<a name="335"><span class="lineNum">     335 </span>            :   ///</a>
+<a name="331"><span class="lineNum">     331 </span>            :   ///</a>
+<a name="332"><span class="lineNum">     332 </span>            :   ///</a>
+<a name="333"><span class="lineNum">     333 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="334"><span class="lineNum">     334 </span><span class="lineNoCov">          0 :   String get platform =&gt; _platform.name;</span></a>
+<a name="335"><span class="lineNum">     335 </span>            : </a>
 <a name="336"><span class="lineNum">     336 </span>            :   ///</a>
-<a name="337"><span class="lineNum">     337 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="338"><span class="lineNum">     338 </span><span class="lineNoCov">          0 :   bool get isNotDesktop =&gt; !isDesktop;</span></a>
-<a name="339"><span class="lineNum">     339 </span>            : </a>
-<a name="340"><span class="lineNum">     340 </span>            :   ///</a>
-<a name="341"><span class="lineNum">     341 </span>            :   ///</a>
+<a name="337"><span class="lineNum">     337 </span>            :   ///</a>
+<a name="338"><span class="lineNum">     338 </span>            :   ///</a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">          5 :   @override</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">          5 :   String get modelIdKey =&gt; _modelIdKey;</span></a>
+<a name="341"><span class="lineNum">     341 </span>            : </a>
 <a name="342"><span class="lineNum">     342 </span>            :   ///</a>
-<a name="343"><span class="lineNum">     343 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="344"><span class="lineNum">     344 </span><span class="lineNoCov">          0 :   String get platform =&gt; _platform.name;</span></a>
-<a name="345"><span class="lineNum">     345 </span>            : </a>
-<a name="346"><span class="lineNum">     346 </span>            :   ///</a>
-<a name="347"><span class="lineNum">     347 </span>            :   ///</a>
+<a name="343"><span class="lineNum">     343 </span>            :   ///</a>
+<a name="344"><span class="lineNum">     344 </span>            :   ///</a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          5 :   @override</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">          5 :   String get modelUpdatedAtKey =&gt; _modelUpdatedAtKey;</span></a>
+<a name="347"><span class="lineNum">     347 </span>            : </a>
 <a name="348"><span class="lineNum">     348 </span>            :   ///</a>
-<a name="349"><span class="lineNum">     349 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineCov">          5 :   String get modelIdKey =&gt; _modelIdKey;</span></a>
-<a name="351"><span class="lineNum">     351 </span>            : </a>
-<a name="352"><span class="lineNum">     352 </span>            :   ///</a>
-<a name="353"><span class="lineNum">     353 </span>            :   ///</a>
+<a name="349"><span class="lineNum">     349 </span>            :   ///</a>
+<a name="350"><span class="lineNum">     350 </span>            :   ///</a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">          5 :   @override</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">          5 :   String get modelDeletedAtKey =&gt; _modelDeletedAtKey;</span></a>
+<a name="353"><span class="lineNum">     353 </span>            : </a>
 <a name="354"><span class="lineNum">     354 </span>            :   ///</a>
-<a name="355"><span class="lineNum">     355 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="356"><span class="lineNum">     356 </span><span class="lineCov">          5 :   String get modelUpdatedAtKey =&gt; _modelUpdatedAtKey;</span></a>
-<a name="357"><span class="lineNum">     357 </span>            : </a>
-<a name="358"><span class="lineNum">     358 </span>            :   ///</a>
-<a name="359"><span class="lineNum">     359 </span>            :   ///</a>
+<a name="355"><span class="lineNum">     355 </span>            :   ///</a>
+<a name="356"><span class="lineNum">     356 </span>            :   ///</a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="358"><span class="lineNum">     358 </span><span class="lineNoCov">          0 :   FollyDateParse? get dateParseUpdate =&gt; _dateParseUpdate;</span></a>
+<a name="359"><span class="lineNum">     359 </span>            : </a>
 <a name="360"><span class="lineNum">     360 </span>            :   ///</a>
-<a name="361"><span class="lineNum">     361 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          5 :   String get modelDeletedAtKey =&gt; _modelDeletedAtKey;</span></a>
-<a name="363"><span class="lineNum">     363 </span>            : </a>
-<a name="364"><span class="lineNum">     364 </span>            :   ///</a>
-<a name="365"><span class="lineNum">     365 </span>            :   ///</a>
+<a name="361"><span class="lineNum">     361 </span>            :   ///</a>
+<a name="362"><span class="lineNum">     362 </span>            :   ///</a>
+<a name="363"><span class="lineNum">     363 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="364"><span class="lineNum">     364 </span><span class="lineNoCov">          0 :   FollyDateParse? get dateParseDelete =&gt; _dateParseDelete;</span></a>
+<a name="365"><span class="lineNum">     365 </span>            : </a>
 <a name="366"><span class="lineNum">     366 </span>            :   ///</a>
-<a name="367"><span class="lineNum">     367 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="368"><span class="lineNum">     368 </span><span class="lineNoCov">          0 :   FollyDateParse? get dateParseUpdate =&gt; _dateParseUpdate;</span></a>
-<a name="369"><span class="lineNum">     369 </span>            : </a>
-<a name="370"><span class="lineNum">     370 </span>            :   ///</a>
-<a name="371"><span class="lineNum">     371 </span>            :   ///</a>
+<a name="367"><span class="lineNum">     367 </span>            :   ///</a>
+<a name="368"><span class="lineNum">     368 </span>            :   ///</a>
+<a name="369"><span class="lineNum">     369 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineNoCov">          0 :   List&lt;double&gt; get responsiveSizes =&gt; _responsiveSizes;</span></a>
+<a name="371"><span class="lineNum">     371 </span>            : </a>
 <a name="372"><span class="lineNum">     372 </span>            :   ///</a>
-<a name="373"><span class="lineNum">     373 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineNoCov">          0 :   FollyDateParse? get dateParseDelete =&gt; _dateParseDelete;</span></a>
-<a name="375"><span class="lineNum">     375 </span>            : </a>
-<a name="376"><span class="lineNum">     376 </span>            :   ///</a>
-<a name="377"><span class="lineNum">     377 </span>            :   ///</a>
-<a name="378"><span class="lineNum">     378 </span>            :   ///</a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineNoCov">          0 :   @override</span></a>
-<a name="380"><span class="lineNum">     380 </span><span class="lineNoCov">          0 :   List&lt;double&gt; get responsiveSizes =&gt; _responsiveSizes;</span></a>
-<a name="381"><span class="lineNum">     381 </span>            : </a>
-<a name="382"><span class="lineNum">     382 </span>            :   ///</a>
-<a name="383"><span class="lineNum">     383 </span>            :   ///</a>
-<a name="384"><span class="lineNum">     384 </span>            :   ///</a>
-<a name="385"><span class="lineNum">     385 </span><span class="lineCov">          5 :   Future&lt;void&gt; _start({</span></a>
-<a name="386"><span class="lineNum">     386 </span>            :     required String modelIdKey,</a>
-<a name="387"><span class="lineNum">     387 </span>            :     required String modelUpdatedAtKey,</a>
-<a name="388"><span class="lineNum">     388 </span>            :     required String modelDeletedAtKey,</a>
-<a name="389"><span class="lineNum">     389 </span>            :     required List&lt;double&gt; responsiveSizes,</a>
-<a name="390"><span class="lineNum">     390 </span>            :     FollyDateParse? dateParseUpdate,</a>
-<a name="391"><span class="lineNum">     391 </span>            :     FollyDateParse? dateParseDelete,</a>
-<a name="392"><span class="lineNum">     392 </span>            :     Connectivity? connectivity,</a>
-<a name="393"><span class="lineNum">     393 </span>            :   }) async {</a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          5 :     if (_started) {</span></a>
-<a name="395"><span class="lineNum">     395 </span>            :       if (kDebugMode) {</a>
-<a name="396"><span class="lineNum">     396 </span><span class="lineNoCov">          0 :         print('Folly Fields already started, ignoring...');</span></a>
-<a name="397"><span class="lineNum">     397 </span>            :       }</a>
-<a name="398"><span class="lineNum">     398 </span>            :     } else {</a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          5 :       _started = true;</span></a>
-<a name="400"><span class="lineNum">     400 </span>            :       if (kDebugMode) {</a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          5 :         print('Folly Fields Started.');</span></a>
-<a name="402"><span class="lineNum">     402 </span>            :       }</a>
-<a name="403"><span class="lineNum">     403 </span>            : </a>
-<a name="404"><span class="lineNum">     404 </span><span class="lineCov">          5 :       _modelIdKey = modelIdKey;</span></a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          5 :       _modelUpdatedAtKey = modelUpdatedAtKey;</span></a>
-<a name="406"><span class="lineNum">     406 </span><span class="lineCov">          5 :       _modelDeletedAtKey = modelDeletedAtKey;</span></a>
-<a name="407"><span class="lineNum">     407 </span>            : </a>
-<a name="408"><span class="lineNum">     408 </span><span class="lineCov">          5 :       _dateParseUpdate = dateParseUpdate;</span></a>
-<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          5 :       _dateParseDelete = dateParseDelete;</span></a>
-<a name="410"><span class="lineNum">     410 </span>            : </a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineCov">          5 :       _responsiveSizes = responsiveSizes;</span></a>
-<a name="412"><span class="lineNum">     412 </span>            : </a>
-<a name="413"><span class="lineNum">     413 </span>            :       if (kIsWeb) {</a>
-<a name="414"><span class="lineNum">     414 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.web;</span></a>
-<a name="415"><span class="lineNum">     415 </span><span class="lineCov">          5 :       } else if (Platform.isAndroid) {</span></a>
-<a name="416"><span class="lineNum">     416 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.android;</span></a>
-<a name="417"><span class="lineNum">     417 </span><span class="lineCov">          5 :       } else if (Platform.isIOS) {</span></a>
-<a name="418"><span class="lineNum">     418 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.ios;</span></a>
-<a name="419"><span class="lineNum">     419 </span><span class="lineCov">          5 :       } else if (Platform.isLinux) {</span></a>
-<a name="420"><span class="lineNum">     420 </span><span class="lineCov">          5 :         _platform = RunningPlatform.linux;</span></a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineNoCov">          0 :       } else if (Platform.isWindows) {</span></a>
-<a name="422"><span class="lineNum">     422 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.windows;</span></a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineNoCov">          0 :       } else if (Platform.isMacOS) {</span></a>
-<a name="424"><span class="lineNum">     424 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.macos;</span></a>
-<a name="425"><span class="lineNum">     425 </span><span class="lineNoCov">          0 :       } else if (Platform.isFuchsia) {</span></a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.fuchsia;</span></a>
-<a name="427"><span class="lineNum">     427 </span>            :       }</a>
-<a name="428"><span class="lineNum">     428 </span>            : </a>
-<a name="429"><span class="lineNum">     429 </span><span class="lineNoCov">          0 :       connectivity ??= Connectivity();</span></a>
-<a name="430"><span class="lineNum">     430 </span>            : </a>
-<a name="431"><span class="lineNum">     431 </span><span class="lineCov">          5 :       ConnectivityResult result = await connectivity.checkConnectivity();</span></a>
-<a name="432"><span class="lineNum">     432 </span>            : </a>
-<a name="433"><span class="lineNum">     433 </span><span class="lineCov">         10 :       _online = result != ConnectivityResult.none;</span></a>
-<a name="434"><span class="lineNum">     434 </span>            : </a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineCov">         15 :       connectivity.onConnectivityChanged.listen((ConnectivityResult result) {</span></a>
-<a name="436"><span class="lineNum">     436 </span><span class="lineCov">         10 :         _online = result != ConnectivityResult.none;</span></a>
-<a name="437"><span class="lineNum">     437 </span>            :         if (kDebugMode) {</a>
-<a name="438"><span class="lineNum">     438 </span><span class="lineCov">         15 :           print('Connectivity Changed: $_online');</span></a>
-<a name="439"><span class="lineNum">     439 </span>            :         }</a>
-<a name="440"><span class="lineNum">     440 </span>            :       });</a>
-<a name="441"><span class="lineNum">     441 </span>            :     }</a>
-<a name="442"><span class="lineNum">     442 </span>            :   }</a>
-<a name="443"><span class="lineNum">     443 </span>            : }</a>
+<a name="373"><span class="lineNum">     373 </span>            :   ///</a>
+<a name="374"><span class="lineNum">     374 </span>            :   ///</a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          5 :   Future&lt;void&gt; _start({</span></a>
+<a name="376"><span class="lineNum">     376 </span>            :     required String modelIdKey,</a>
+<a name="377"><span class="lineNum">     377 </span>            :     required String modelUpdatedAtKey,</a>
+<a name="378"><span class="lineNum">     378 </span>            :     required String modelDeletedAtKey,</a>
+<a name="379"><span class="lineNum">     379 </span>            :     required List&lt;double&gt; responsiveSizes,</a>
+<a name="380"><span class="lineNum">     380 </span>            :     FollyDateParse? dateParseUpdate,</a>
+<a name="381"><span class="lineNum">     381 </span>            :     FollyDateParse? dateParseDelete,</a>
+<a name="382"><span class="lineNum">     382 </span>            :     Connectivity? connectivity,</a>
+<a name="383"><span class="lineNum">     383 </span>            :   }) async {</a>
+<a name="384"><span class="lineNum">     384 </span><span class="lineCov">          5 :     if (_started) {</span></a>
+<a name="385"><span class="lineNum">     385 </span>            :       if (kDebugMode) {</a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineNoCov">          0 :         print('Folly Fields already started, ignoring...');</span></a>
+<a name="387"><span class="lineNum">     387 </span>            :       }</a>
+<a name="388"><span class="lineNum">     388 </span>            :     } else {</a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">          5 :       _started = true;</span></a>
+<a name="390"><span class="lineNum">     390 </span>            :       if (kDebugMode) {</a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">          5 :         print('Folly Fields Started.');</span></a>
+<a name="392"><span class="lineNum">     392 </span>            :       }</a>
+<a name="393"><span class="lineNum">     393 </span>            : </a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          5 :       _modelIdKey = modelIdKey;</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">          5 :       _modelUpdatedAtKey = modelUpdatedAtKey;</span></a>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">          5 :       _modelDeletedAtKey = modelDeletedAtKey;</span></a>
+<a name="397"><span class="lineNum">     397 </span>            : </a>
+<a name="398"><span class="lineNum">     398 </span><span class="lineCov">          5 :       _dateParseUpdate = dateParseUpdate;</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          5 :       _dateParseDelete = dateParseDelete;</span></a>
+<a name="400"><span class="lineNum">     400 </span>            : </a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          5 :       _responsiveSizes = responsiveSizes;</span></a>
+<a name="402"><span class="lineNum">     402 </span>            : </a>
+<a name="403"><span class="lineNum">     403 </span>            :       if (kIsWeb) {</a>
+<a name="404"><span class="lineNum">     404 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.web;</span></a>
+<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          5 :       } else if (Platform.isAndroid) {</span></a>
+<a name="406"><span class="lineNum">     406 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.android;</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          5 :       } else if (Platform.isIOS) {</span></a>
+<a name="408"><span class="lineNum">     408 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.ios;</span></a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          5 :       } else if (Platform.isLinux) {</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">          5 :         _platform = RunningPlatform.linux;</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineNoCov">          0 :       } else if (Platform.isWindows) {</span></a>
+<a name="412"><span class="lineNum">     412 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.windows;</span></a>
+<a name="413"><span class="lineNum">     413 </span><span class="lineNoCov">          0 :       } else if (Platform.isMacOS) {</span></a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.macos;</span></a>
+<a name="415"><span class="lineNum">     415 </span><span class="lineNoCov">          0 :       } else if (Platform.isFuchsia) {</span></a>
+<a name="416"><span class="lineNum">     416 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.fuchsia;</span></a>
+<a name="417"><span class="lineNum">     417 </span>            :       }</a>
+<a name="418"><span class="lineNum">     418 </span>            : </a>
+<a name="419"><span class="lineNum">     419 </span><span class="lineNoCov">          0 :       connectivity ??= Connectivity();</span></a>
+<a name="420"><span class="lineNum">     420 </span>            : </a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          5 :       ConnectivityResult result = await connectivity.checkConnectivity();</span></a>
+<a name="422"><span class="lineNum">     422 </span>            : </a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">         10 :       _online = result != ConnectivityResult.none;</span></a>
+<a name="424"><span class="lineNum">     424 </span>            : </a>
+<a name="425"><span class="lineNum">     425 </span><span class="lineCov">         15 :       connectivity.onConnectivityChanged.listen((ConnectivityResult result) {</span></a>
+<a name="426"><span class="lineNum">     426 </span><span class="lineCov">         10 :         _online = result != ConnectivityResult.none;</span></a>
+<a name="427"><span class="lineNum">     427 </span>            :         if (kDebugMode) {</a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">         15 :           print('Connectivity Changed: $_online');</span></a>
+<a name="429"><span class="lineNum">     429 </span>            :         }</a>
+<a name="430"><span class="lineNum">     430 </span>            :       });</a>
+<a name="431"><span class="lineNum">     431 </span>            :     }</a>
+<a name="432"><span class="lineNum">     432 </span>            :   }</a>
+<a name="433"><span class="lineNum">     433 </span>            : }</a>
 </pre>
       </td>
     </tr>
