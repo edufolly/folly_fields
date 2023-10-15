@@ -1,3 +1,8 @@
+## [2.3.0] - 2023-10-15
+
+* Updating Ipv4Address tests.
+* Updating plugins.
+
 ## [2.2.1] - 2023-09-30
 
 * Fixing LicencePlateValidator.
