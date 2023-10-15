@@ -1,3 +1,7 @@
+## [2.3.X]
+
+* Creating FollyCell.textHeaderRight.
+
 ## [2.3.0] - 2023-10-15
 
 * Updating Ipv4Address tests.
