@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
-/// Gerado para: font_awesome_flutter: 10.3.0
+/// Gerado para: font_awesome_flutter: 10.6.0
 ///
 class IconHelper {
   ///
@@ -740,6 +740,7 @@ class IconHelper {
     'dailymotion': FontAwesomeIcons.dailymotion,
     'dashcube': FontAwesomeIcons.dashcube,
     'database': FontAwesomeIcons.database,
+    'debian': FontAwesomeIcons.debian,
     'deezer': FontAwesomeIcons.deezer,
     'deleteLeft': FontAwesomeIcons.deleteLeft,
     'backspace': FontAwesomeIcons.deleteLeft,
@@ -2288,6 +2289,7 @@ class IconHelper {
     'snapchatSquare': FontAwesomeIcons.squareSnapchat,
     'squareSteam': FontAwesomeIcons.squareSteam,
     'steamSquare': FontAwesomeIcons.squareSteam,
+    'squareThreads': FontAwesomeIcons.squareThreads,
     'squareTumblr': FontAwesomeIcons.squareTumblr,
     'tumblrSquare': FontAwesomeIcons.squareTumblr,
     'squareTwitter': FontAwesomeIcons.squareTwitter,
@@ -2301,6 +2303,7 @@ class IconHelper {
     'squareVirus': FontAwesomeIcons.squareVirus,
     'squareWhatsapp': FontAwesomeIcons.squareWhatsapp,
     'whatsappSquare': FontAwesomeIcons.squareWhatsapp,
+    'squareXTwitter': FontAwesomeIcons.squareXTwitter,
     'squareXing': FontAwesomeIcons.squareXing,
     'xingSquare': FontAwesomeIcons.squareXing,
     'squareXmark': FontAwesomeIcons.squareXmark,
@@ -2448,6 +2451,7 @@ class IconHelper {
     'themeisle': FontAwesomeIcons.themeisle,
     'thermometer': FontAwesomeIcons.thermometer,
     'thinkPeaks': FontAwesomeIcons.thinkPeaks,
+    'threads': FontAwesomeIcons.threads,
     'solidThumbsDown': FontAwesomeIcons.solidThumbsDown,
     'thumbsDown': FontAwesomeIcons.thumbsDown,
     'solidThumbsUp': FontAwesomeIcons.solidThumbsUp,
@@ -2723,6 +2727,7 @@ class IconHelper {
     'wrench': FontAwesomeIcons.wrench,
     'x': FontAwesomeIcons.x,
     'xRay': FontAwesomeIcons.xRay,
+    'xTwitter': FontAwesomeIcons.xTwitter,
     'xbox': FontAwesomeIcons.xbox,
     'xing': FontAwesomeIcons.xing,
     'xmark': FontAwesomeIcons.xmark,
