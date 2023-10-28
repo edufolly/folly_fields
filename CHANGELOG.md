@@ -1,6 +1,7 @@
 ## [2.3.X]
 
 * Creating FollyCell.textHeaderRight.
+* Updating plugins.
 
 ## [2.3.0] - 2023-10-15
 
