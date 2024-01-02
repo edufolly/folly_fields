@@ -2,6 +2,7 @@
 
 * Creating FollyCell.textHeaderRight.
 * Updating plugins.
+* Creating FollyIterableExtension for Enums.
 
 ## [2.3.0] - 2023-10-15
 
