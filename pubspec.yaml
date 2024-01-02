@@ -59,10 +59,10 @@ dev_dependencies:
     sdk: flutter
 
   # https://pub.dev/packages/http
-  http: ^1.1.0
+  http: ^1.1.2
 
   # https://pub.dev/packages/yaml
-  yaml: ^3.1.0
+  yaml: ^3.1.2
 
 flutter:
   uses-material-design: true
