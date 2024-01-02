@@ -204,7 +204,7 @@ jobs:
 
       - name: Compress Flutter Build
         working-directory: example
-        run: Compress-Archive build/windows/runner/Release/* folly-fields-example-windows.zip
+        run: Compress-Archive build/windows/x64/runner/Release/* folly-fields-example-windows.zip
 
       - name: Adding Zip to GitHub Release
         uses: ncipollo/release-action@v1
