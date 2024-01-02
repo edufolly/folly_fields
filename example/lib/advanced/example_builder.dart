@@ -33,7 +33,7 @@ class ExampleBuilder extends AbstractUIBuilder<ExampleModel, int> {
   @override
   Widget getLeading(_, ExampleModel model) => Icon(
         FontAwesomeIcons.solidCircle,
-        color: (model.integer).isEven ? Colors.red : Colors.green,
+        color: model.integer.isEven ? Colors.red : Colors.green,
       );
 
   ///

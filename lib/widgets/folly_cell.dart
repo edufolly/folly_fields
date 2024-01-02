@@ -63,7 +63,7 @@ class FollyCell extends StatelessWidget {
     EdgeInsets padding = EdgeInsets.zero,
     Alignment align = Alignment.bottomLeft,
     Color color = Colors.transparent,
-    TextAlign textAlign = TextAlign.start,
+    TextAlign textAlign = TextAlign.left,
     TextStyle style = const TextStyle(
       fontWeight: FontWeight.bold,
     ),
@@ -104,6 +104,31 @@ class FollyCell extends StatelessWidget {
           selectable: selectable,
           key: key,
         );
+
+  ///
+  ///
+  ///
+  FollyCell.textHeaderRight(
+      String text, {
+        EdgeInsets padding = EdgeInsets.zero,
+        Alignment align = Alignment.bottomRight,
+        Color color = Colors.transparent,
+        TextAlign textAlign = TextAlign.right,
+        TextStyle style = const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        bool selectable = false,
+        Key? key,
+      }) : this._text(
+    text,
+    padding: padding,
+    align: align,
+    color: color,
+    textAlign: textAlign,
+    style: style,
+    selectable: selectable,
+    key: key,
+  );
 
   ///
   ///

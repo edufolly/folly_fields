@@ -1,3 +1,14 @@
+## [2.4.0] - 2024-010-02
+
+* Creating FollyCell.textHeaderRight.
+* Updating plugins.
+* Creating FollyIterableExtension for Enums.
+* Adding exitWithoutSaveMessage to AbstractEdit.
+* Adding saveErrorText to AbstractEdit.
+* Updating to PopScope.
+* Adding onDeleteError to AbstractList class.
+* Adding onSaveError to AbstractEdit class.
+
 ## [2.3.0] - 2023-10-15
 
 * Updating Ipv4Address tests.
