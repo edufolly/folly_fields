@@ -13,6 +13,7 @@ import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 ///
@@ -35,6 +36,8 @@ abstract class AbstractEdit<
     required BuildContext context,
     required T model,
   })? actions;
+  final String exitWithoutSaveMessage;
+  final String saveErrorText;
 
   ///
   ///
@@ -49,6 +52,9 @@ abstract class AbstractEdit<
     this.appBarLeading,
     this.afterSave,
     this.actions,
+    this.exitWithoutSaveMessage = 'Modificações foram realizadas.\n\n'
+        'Deseja sair mesmo assim?',
+    this.saveErrorText = 'Ocorreu um erro ao tentar salvar:\n%s',
     super.key,
   });
 
@@ -68,6 +74,21 @@ abstract class AbstractEdit<
   ///
   @override
   List<String> get routeName => consumer.routeName;
+
+  ///
+  ///
+  ///
+  Future<void> onSaveError(
+    BuildContext context,
+    T? model,
+    Exception e,
+    StackTrace s,
+  ) async {
+    await FollyDialogs.dialogMessage(
+      context: context,
+      message: sprintf(saveErrorText, <String>[e.toString()]),
+    );
+  }
 
   ///
   ///
@@ -92,6 +113,7 @@ class AbstractEditState<
 
   late T _model;
   int _initialHash = 0;
+  bool _alreadyPopped = false;
 
   ///
   ///
@@ -161,24 +183,39 @@ class AbstractEditState<
         _model,
         Form(
           key: _formKey,
-          onWillPop: () async {
+          canPop: false,
+          onPopInvoked: (_) {
+            if (_alreadyPopped) {
+              return;
+            }
+
             if (!widget.edit) {
-              return true;
+              _alreadyPopped = true;
+              Navigator.of(context).pop();
             }
 
             _formKey.currentState!.save();
             int currentHash = _model.hashCode;
 
-            bool go = true;
             if (_initialHash != currentHash) {
-              go = await FollyDialogs.yesNoDialog(
+              if (kDebugMode) {
+                print('Hash: $_initialHash - $currentHash');
+              }
+
+              FollyDialogs.yesNoDialog(
                 context: context,
                 message: 'Modificações foram realizadas.\n\n'
                     'Deseja sair mesmo assim?',
-              );
+              ).then((bool go) {
+                if (go) {
+                  _alreadyPopped = true;
+                  Navigator.of(context).pop();
+                }
+              });
+            } else {
+              _alreadyPopped = true;
+              Navigator.of(context).pop();
             }
-
-            return go;
           },
           child: SafeStreamBuilder<bool>(
             stream: _controller.stream,
@@ -258,10 +295,7 @@ class AbstractEditState<
         print('$e\n$s');
       }
 
-      await FollyDialogs.dialogMessage(
-        context: context,
-        message: 'Ocorreu um erro ao tentar salvar:\n$e',
-      );
+      await widget.onSaveError(context, model, e, s);
     }
   }
 

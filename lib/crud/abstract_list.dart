@@ -159,6 +159,21 @@ abstract class AbstractList<
   ///
   ///
   ///
+  Future<void> onDeleteError(
+    BuildContext context,
+    T model,
+    Exception e,
+    StackTrace s,
+  ) async {
+    await FollyDialogs.dialogMessage(
+      context: context,
+      message: sprintf(deleteErrorText, <dynamic>[e.toString()]),
+    );
+  }
+
+  ///
+  ///
+  ///
   @override
   AbstractListState<T, UI, C, ID> createState() =>
       AbstractListState<T, UI, C, ID>();
@@ -754,10 +769,7 @@ class AbstractListState<
         print('$e\n$s');
       }
 
-      await FollyDialogs.dialogMessage(
-        context: context,
-        message: sprintf(widget.deleteErrorText, <dynamic>[e.toString()]),
-      );
+      await widget.onDeleteError(context, model, e, s);
     }
 
     return !ask;
