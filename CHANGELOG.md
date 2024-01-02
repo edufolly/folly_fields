@@ -1,4 +1,8 @@
-## [2.4.0] - 2024-010-02
+## [2.4.1] - 2024-01-02
+
+* Fixing CircularWaiting.
+
+## [2.4.0] - 2024-01-02
 
 * Creating FollyCell.textHeaderRight.
 * Updating plugins.

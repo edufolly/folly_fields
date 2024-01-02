@@ -121,6 +121,7 @@ class CircularWaiting {
   ///
   void close() {
     if (_show) {
+      _alreadyPopped = true;
       _show = false;
       _closeable = true;
       Navigator.of(context).pop();
