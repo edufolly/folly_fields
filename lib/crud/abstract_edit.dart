@@ -280,6 +280,7 @@ class AbstractEditState<
         if (go) {
           _initialHash = _model.hashCode;
           if (widget.afterSave == null) {
+            _alreadyPopped = true;
             Navigator.of(context).pop(model);
           } else {
             widget.afterSave?.call(context, model);

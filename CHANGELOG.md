@@ -1,3 +1,7 @@
+## [2.4.2] - 2024-01-04
+
+* Fixing AbstractEdit model return.
+
 ## [2.4.1] - 2024-01-02
 
 * Fixing CircularWaiting.
