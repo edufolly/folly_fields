@@ -1,3 +1,7 @@
+## [2.4.3] - 2024-01-19
+
+* Creating FollyIterableExtension.byNameOrNull method.
+
 ## [2.4.2] - 2024-01-04
 
 * Fixing AbstractEdit model return.
