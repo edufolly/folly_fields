@@ -8,9 +8,17 @@ extension FollyIterableExtension<T extends Enum> on Iterable<T> {
   T byNameOrDefault(
     String? name, {
     required T defaultValue,
-  }) {
+  }) =>
+      byNameOrNull(name) ?? defaultValue;
+
+  ///
+  ///
+  ///
+  T? byNameOrNull(
+    String? name,
+  ) {
     if (name == null) {
-      return defaultValue;
+      return null;
     }
 
     for (final T value in this) {
@@ -19,6 +27,6 @@ extension FollyIterableExtension<T extends Enum> on Iterable<T> {
       }
     }
 
-    return defaultValue;
+    return null;
   }
 }
