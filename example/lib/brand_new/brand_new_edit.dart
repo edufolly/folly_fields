@@ -21,7 +21,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
   ///
   const BrandNewEdit(
     super.model,
-    super.uiBuilder,
+    super.builder,
     super.consumer, {
     required super.edit,
     super.key,
@@ -41,7 +41,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
     return <Responsive>[
       /// Name
       StringField(
-        labelPrefix: uiBuilder.labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Nome*',
         enabled: edit,
         initialValue: model.name,
@@ -51,7 +51,7 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
 
       /// Type
       DropdownField<BrandNewEnum>(
-        labelPrefix: uiBuilder.labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Tipo*',
         enabled: edit,
         items: BrandNewEnum.items,

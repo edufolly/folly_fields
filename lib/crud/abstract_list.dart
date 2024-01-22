@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -21,7 +21,7 @@ import 'package:sprintf/sprintf.dart';
 ///
 abstract class AbstractList<
     T extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<T, ID>,
+    B extends AbstractBuilder<T, ID>,
     C extends AbstractConsumer<T, ID>,
     ID> extends AbstractRoute {
   final bool selection;
@@ -29,31 +29,29 @@ abstract class AbstractList<
   final bool invertSelection;
   final bool forceOffline;
   final C consumer;
-  final UI uiBuilder;
+  final B builder;
   final Future<Widget?> Function(
     BuildContext context,
-    UI uiBuilder,
+    B builder,
     C consumer,
   )? onAdd;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
-    UI uiBuilder,
+    B builder,
     C consumer, {
     required bool edit,
   })? onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-
   final Future<Widget?> Function(
     BuildContext context,
     T model,
-    UI uiBuilder,
+    B builder,
     C consumer, {
     required bool edit,
   })? onLongPress;
-
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -79,12 +77,16 @@ abstract class AbstractList<
   final Widget? Function(BuildContext context)? appBarLeading;
   final List<Widget> Function(
     BuildContext context,
+    B builder,
+    C consumer,
     Map<String, String> qsParam, {
     required bool selection,
   })? actions;
   final List<Widget> Function(
     BuildContext context,
     T model,
+    B builder,
+    C consumer,
     Map<String, String> qsParam,
     void Function({bool clear})? refresh, {
     required bool selection,
@@ -104,7 +106,7 @@ abstract class AbstractList<
     required this.selection,
     required this.multipleSelection,
     required this.consumer,
-    required this.uiBuilder,
+    required this.builder,
     this.invertSelection = false,
     this.forceOffline = false,
     this.onAdd,
@@ -175,8 +177,8 @@ abstract class AbstractList<
   ///
   ///
   @override
-  AbstractListState<T, UI, C, ID> createState() =>
-      AbstractListState<T, UI, C, ID>();
+  AbstractListState<T, B, C, ID> createState() =>
+      AbstractListState<T, B, C, ID>();
 }
 
 ///
@@ -184,7 +186,7 @@ abstract class AbstractList<
 ///
 class AbstractListState<
     T extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<T, ID>,
+    UI extends AbstractBuilder<T, ID>,
     C extends AbstractConsumer<T, ID>,
     ID> extends State<AbstractList<T, UI, C, ID>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -310,9 +312,9 @@ class AbstractListState<
         widget.selection
             ? sprintf(
                 widget.selectionText,
-                <dynamic>[widget.uiBuilder.superSingle(context)],
+                <dynamic>[widget.builder.superSingle(context)],
               )
-            : widget.uiBuilder.superPlural(context),
+            : widget.builder.superPlural(context),
       );
 
   ///
@@ -351,7 +353,7 @@ class AbstractListState<
             IconButton(
               tooltip: sprintf(
                 widget.searchButtonText,
-                <dynamic>[widget.uiBuilder.superSingle(context)],
+                <dynamic>[widget.builder.superSingle(context)],
               ),
               icon: const Icon(Icons.search),
               onPressed: _search,
@@ -370,7 +372,7 @@ class AbstractListState<
             IconButton(
               tooltip: sprintf(
                 widget.selectionText,
-                <dynamic>[widget.uiBuilder.superPlural(context)],
+                <dynamic>[widget.builder.superPlural(context)],
               ),
               icon: const FaIcon(FontAwesomeIcons.check),
               onPressed: () =>
@@ -379,7 +381,13 @@ class AbstractListState<
 
           /// Actions
           if (!widget.selection && widget.actions != null)
-            ...widget.actions!(context, _qsParam, selection: widget.selection),
+            ...widget.actions!(
+              context,
+              widget.builder,
+              widget.consumer,
+              _qsParam,
+              selection: widget.selection,
+            ),
 
           /// Add Button
           if (!FollyFields().isMobile && !widget.selection)
@@ -390,7 +398,7 @@ class AbstractListState<
                     ? IconButton(
                         tooltip: sprintf(
                           widget.addText,
-                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                          <dynamic>[widget.builder.superSingle(context)],
                         ),
                         icon: const FaIcon(FontAwesomeIcons.plus),
                         onPressed: _addEntity,
@@ -401,10 +409,10 @@ class AbstractListState<
 
           /// Legend Button
           if (!widget.selection &&
-              widget.uiBuilder.listLegend(context).isNotEmpty)
+              widget.builder.listLegend(context).isNotEmpty)
             IconButton(
-              tooltip: widget.uiBuilder.listLegendTitle(context),
-              icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
+              tooltip: widget.builder.listLegendTitle(context),
+              icon: FaIcon(widget.builder.listLegendIcon(context)),
               onPressed: _showListLegend,
             ),
         ],
@@ -417,7 +425,7 @@ class AbstractListState<
                     ? FloatingActionButton(
                         tooltip: sprintf(
                           widget.addText,
-                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                          <dynamic>[widget.builder.superSingle(context)],
                         ),
                         onPressed: _addEntity,
                         child: const FaIcon(FontAwesomeIcons.plus),
@@ -426,8 +434,8 @@ class AbstractListState<
               },
             )
           : null,
-      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildListBody(
+      bottomNavigationBar: widget.builder.buildBottomNavigationBar(context),
+      body: widget.builder.buildListBody(
         context,
         SafeFutureBuilder<bool>(
           future: _loadPermissions(context),
@@ -480,7 +488,7 @@ class AbstractListState<
                           sprintf(
                             widget.listEmpty,
                             <dynamic>[
-                              widget.uiBuilder
+                              widget.builder
                                   .superPlural(context)
                                   .toLowerCase(),
                             ],
@@ -583,7 +591,7 @@ class AbstractListState<
         extraParams: widget.qsParam,
         forceOffline: widget.forceOffline,
         itemsPerPage: widget.itemsPerPage,
-        uiBuilder: widget.uiBuilder,
+        builder: widget.builder,
         consumer: widget.consumer,
         searchFieldLabel: widget.searchFieldLabel,
         searchFieldStyle: widget.searchFieldStyle,
@@ -625,11 +633,11 @@ class AbstractListState<
           if (widget.multipleSelection && onTap == null)
             FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
           else
-            widget.uiBuilder.getLeading(context, model),
+            widget.builder.getLeading(context, model),
         ],
       ),
-      title: widget.uiBuilder.getTitle(context, model),
-      subtitle: widget.uiBuilder.getSubtitle(context, model),
+      title: widget.builder.getTitle(context, model),
+      subtitle: widget.builder.getSubtitle(context, model),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -639,6 +647,8 @@ class AbstractListState<
             ...widget.rowActions!(
               context,
               model,
+              widget.builder,
+              widget.consumer,
               _qsParam,
               ({bool clear = true}) => _loadData(context, clear: clear),
               selection: widget.selection,
@@ -672,7 +682,7 @@ class AbstractListState<
         await widget.onLongPress?.call(
           context,
           model,
-          widget.uiBuilder,
+          widget.builder,
           widget.consumer,
           edit: _update,
         ),
@@ -684,7 +694,7 @@ class AbstractListState<
   Future<void> _addEntity() async => _push(
         await widget.onAdd?.call(
           context,
-          widget.uiBuilder,
+          widget.builder,
           widget.consumer,
         ),
       );
@@ -711,7 +721,7 @@ class AbstractListState<
       Widget? next = await widget.onUpdate?.call(
         context,
         model,
-        widget.uiBuilder,
+        widget.builder,
         widget.consumer,
         edit: _update,
       );
@@ -787,17 +797,17 @@ class AbstractListState<
   ///
   ///
   void _showListLegend() {
-    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
+    Map<String, Color> listLegend = widget.builder.listLegend(context);
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Row(
           children: <Widget>[
-            FaIcon(widget.uiBuilder.listLegendIcon(context)),
+            FaIcon(widget.builder.listLegendIcon(context)),
             const SizedBox(
               width: 8,
             ),
-            Text(widget.uiBuilder.listLegendTitle(context)),
+            Text(widget.builder.listLegendTitle(context)),
           ],
         ),
         content: SingleChildScrollView(
@@ -818,7 +828,7 @@ class AbstractListState<
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(widget.uiBuilder.listLegendButtonText(context)),
+            child: Text(widget.builder.listLegendButtonText(context)),
           ),
         ],
       ),
@@ -852,10 +862,10 @@ enum AbstractListStateEnum {
 ///
 class InternalSearch<
     W extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<W, ID>,
+    UI extends AbstractBuilder<W, ID>,
     C extends AbstractConsumer<W, ID>,
     ID> extends SearchDelegate<W?> {
-  final UI uiBuilder;
+  final UI builder;
   final C consumer;
 
   final Widget Function({
@@ -883,7 +893,7 @@ class InternalSearch<
   ///
   ///
   InternalSearch({
-    required this.uiBuilder,
+    required this.builder,
     required this.consumer,
     required this.buildResultItem,
     required this.canDelete,
@@ -951,7 +961,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildSearchBody(
+            child: builder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -961,7 +971,7 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context) ??
+          builder.buildBottomNavigationBar(context) ??
               const SizedBox.shrink(),
         ],
       );
@@ -981,7 +991,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildSearchBody(
+            child: builder.buildSearchBody(
               context,
               SafeFutureBuilder<List<W>>(
                 future: consumer.list(
@@ -1012,7 +1022,7 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context) ??
+          builder.buildBottomNavigationBar(context) ??
               const SizedBox.shrink(),
         ],
       );
@@ -1028,7 +1038,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildSearchBody(
+            child: builder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -1038,7 +1048,7 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context) ??
+          builder.buildBottomNavigationBar(context) ??
               const SizedBox.shrink(),
         ],
       );
@@ -1059,7 +1069,7 @@ class InternalSearch<
         _lastWidget = Column(
           children: <Widget>[
             Expanded(
-              child: uiBuilder.buildSearchBody(
+              child: builder.buildSearchBody(
                 context,
                 SafeFutureBuilder<List<W>>(
                   future: consumer.list(
@@ -1092,11 +1102,11 @@ class InternalSearch<
                                   W model = data[index];
 
                                   return ListTile(
-                                    title: uiBuilder.getSuggestionTitle(
+                                    title: builder.getSuggestionTitle(
                                       context,
                                       model,
                                     ),
-                                    subtitle: uiBuilder.getSuggestionSubtitle(
+                                    subtitle: builder.getSuggestionSubtitle(
                                       context,
                                       model,
                                     ),
@@ -1116,7 +1126,7 @@ class InternalSearch<
                 ),
               ),
             ),
-            uiBuilder.buildBottomNavigationBar(context) ??
+            builder.buildBottomNavigationBar(context) ??
                 const SizedBox.shrink(),
           ],
         );

@@ -57,30 +57,72 @@ class ModelUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Create tests.
+  static T? fromJsonProducerMap<T>(
+    dynamic value, {
+    required T Function(Map<String, dynamic> e) producer,
+  }) =>
+      value != null ? producer(value) : null;
+
+  ///
+  ///
+  ///
+  // TODO(edufolly): Create tests.
+  static List<T> fromJsonListProducerMap<T>(
+    dynamic value, {
+    required T Function(Map<String, dynamic> e) producer,
+  }) =>
+      switch (value) {
+        null => <T>[],
+        Iterable<dynamic> _ =>
+          value.map<T>((dynamic e) => producer(e)).toList(),
+        _ => <T>[producer(value)],
+      };
+
+  ///
+  ///
+  ///
+  // TODO(edufolly): Create tests.
+  static Set<T> fromJsonSetProducerMap<T>(
+    dynamic value, {
+    required T Function(Map<String, dynamic> e) producer,
+  }) =>
+      switch (value) {
+        null => <T>{},
+        Iterable<dynamic> _ => value.map<T>((dynamic e) => producer(e)).toSet(),
+        _ => <T>{producer(value)},
+      };
+
+  ///
+  ///
+  ///
+  @Deprecated('Use fromJsonListProducerMap instead. Will be removed in v2.6.0')
   static List<T> fromJsonList<T extends AbstractModel<ID>, ID>(
     List<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
   ) =>
-      fromJsonSafeList<T, Map<String, dynamic>>(
+      fromJsonSafeList<T>(
         value,
-        producer: (Map<String, dynamic> e) => consumer.fromJson(e),
+        producer: (dynamic e) => consumer.fromJson(e),
       );
 
   ///
   ///
   ///
+  @Deprecated('Use fromJsonSetProducerMap instead. Will be removed in v2.6.0')
   static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
     Set<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
   ) =>
-      fromJsonSafeSet<T, Map<String, dynamic>>(
+      fromJsonSafeSet<T>(
         value,
-        producer: (Map<String, dynamic> e) => consumer.fromJson(e),
+        producer: (dynamic e) => consumer.fromJson(e),
       );
 
   ///
   ///
   ///
+  @Deprecated('Use fromJsonProducerMap instead. Will be removed in v2.6.0')
   static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
     Map<String, dynamic>? map,
     AbstractConsumer<T, ID> consumer,
@@ -113,22 +155,13 @@ class ModelUtils {
   ///
   ///
   ///
-  static Iterable<T> _fromJsonRawIterable<T, P>(
-    Iterable<P> value, {
-    required T Function(P e) producer,
-  }) =>
-      value.map<T>(producer);
-
-  ///
-  ///
-  ///
-  static Map<T, U> fromJsonRawMap<T, U, K, V>(
-    Map<K, V>? value, {
-    required T Function(K k) keyProducer,
-    required U Function(V v) valueProducer,
+  static Map<T, U> fromJsonRawMap<T, U>(
+    Map<dynamic, dynamic>? value, {
+    required T Function(dynamic k) keyProducer,
+    required U Function(dynamic v) valueProducer,
   }) =>
       value?.map<T, U>(
-        (K key, V value) => MapEntry<T, U>(
+        (dynamic key, dynamic value) => MapEntry<T, U>(
           keyProducer(key),
           valueProducer(value),
         ),
@@ -154,50 +187,34 @@ class ModelUtils {
   ///
   ///
   ///
-  // TODO(edufolly): Create tests.
-  static T? fromProducer<T, P>(
+  static List<T> fromJsonSafeList<T>(
     dynamic value, {
-    required T Function(P e) producer,
-  }) =>
-      value is P ? producer(value) : null;
-
-  ///
-  ///
-  ///
-  static List<T> fromJsonSafeList<T, P>(
-    dynamic value, {
-    required T Function(P e) producer,
+    required T Function(dynamic e) producer,
   }) =>
       switch (value) {
         null => <T>[],
-        Iterable<P> _ =>
-          _fromJsonRawIterable<T, P>(value, producer: producer).toList(),
-        P _ => <T>[producer(value)],
-        // TODO(edufolly): Create test for this exception.
-        _ => throw Exception('Invalid value type: ${value.runtimeType}')
+        Iterable<dynamic> _ => value.map(producer).toList(),
+        _ => <T>[producer(value)],
       };
 
   ///
   ///
   ///
-  static Set<T> fromJsonSafeSet<T, P>(
+  static Set<T> fromJsonSafeSet<T>(
     dynamic value, {
-    required T Function(P e) producer,
+    required T Function(dynamic e) producer,
   }) =>
       switch (value) {
         null => <T>{},
-        Iterable<P> _ =>
-          _fromJsonRawIterable<T, P>(value, producer: producer).toSet(),
-        P _ => <T>{producer(value)},
-      // TODO(edufolly): Create test for this exception.
-        _ => throw Exception('Invalid value type: ${value.runtimeType}')
+        Iterable<dynamic> _ => value.map(producer).toSet(),
+        _ => <T>{producer(value)},
       };
 
   ///
   ///
   ///
   static List<String> fromJsonSafeStringList(dynamic value) =>
-      fromJsonSafeList<String, dynamic>(
+      fromJsonSafeList<String>(
         value,
         producer: stringProducer,
       );
@@ -206,14 +223,16 @@ class ModelUtils {
   ///
   ///
   static Set<String> fromJsonSafeStringSet(dynamic value) =>
-      fromJsonSafeSet<String, dynamic>(
+      fromJsonSafeSet<String>(
         value,
         producer: stringProducer,
       );
 
+
   ///
   ///
   ///
+  @Deprecated('Will be removed in v2.6.0')
   static Iterable<T> _fromJsonSafeEnumIterable<T extends Enum>(
     Iterable<dynamic> value,
     Iterable<T> values,
@@ -223,6 +242,7 @@ class ModelUtils {
   ///
   ///
   ///
+  @Deprecated('Will be removed in v2.6.0')
   static List<T> fromJsonSafeEnumList<T extends Enum>(
     dynamic value,
     Iterable<T> values,
@@ -237,6 +257,7 @@ class ModelUtils {
   ///
   ///
   ///
+  @Deprecated('Will be removed in v2.6.0')
   static Set<T> fromJsonSafeEnumSet<T extends Enum>(
     dynamic value,
     Iterable<T> values,

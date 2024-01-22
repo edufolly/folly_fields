@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class ExampleBuilder extends AbstractUIBuilder<ExampleModel, int> {
+class ExampleBuilder extends AbstractBuilder<ExampleModel, int> {
   ///
   ///
   ///

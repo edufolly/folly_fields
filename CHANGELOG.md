@@ -1,7 +1,23 @@
+## [2.5.1] - 2024-01-22
+
+* Rolling back ModelUtils.
+* "Renaming uiBuilder to builder.
+* Adding builder and consumer to actions and rowActions attributes in
+  AbstractList.
+* Creating ModelUtils methods:
+    * fromJsonProducerMap
+    * fromJsonListProducerMap
+    * fromJsonSetProducerMap
+* Deprecating ModelUtils methods:
+    * fromJsonModel
+    * fromJsonList
+    * fromJsonSet
+    * fromJsonSafeEnumSet
+    * fromJsonSafeEnumList
+
 ## [2.5.0] - 2024-01-22
 
 * Creating ModelUtils.fromProducer method.
-
 * Adding types for ModelUtils methods:
     * fromJsonList (internal type)
     * fromJsonSet (internal type)
