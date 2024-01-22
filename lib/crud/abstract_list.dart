@@ -45,7 +45,6 @@ abstract class AbstractList<
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-
   final Future<Widget?> Function(
     BuildContext context,
     T model,
@@ -53,7 +52,6 @@ abstract class AbstractList<
     C consumer, {
     required bool edit,
   })? onLongPress;
-
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -79,12 +77,16 @@ abstract class AbstractList<
   final Widget? Function(BuildContext context)? appBarLeading;
   final List<Widget> Function(
     BuildContext context,
+    UI builder,
+    C consumer,
     Map<String, String> qsParam, {
     required bool selection,
   })? actions;
   final List<Widget> Function(
     BuildContext context,
     T model,
+    UI builder,
+    C consumer,
     Map<String, String> qsParam,
     void Function({bool clear})? refresh, {
     required bool selection,
@@ -379,7 +381,13 @@ class AbstractListState<
 
           /// Actions
           if (!widget.selection && widget.actions != null)
-            ...widget.actions!(context, _qsParam, selection: widget.selection),
+            ...widget.actions!(
+              context,
+              widget.uiBuilder,
+              widget.consumer,
+              _qsParam,
+              selection: widget.selection,
+            ),
 
           /// Add Button
           if (!FollyFields().isMobile && !widget.selection)
@@ -639,6 +647,8 @@ class AbstractListState<
             ...widget.rowActions!(
               context,
               model,
+              widget.uiBuilder,
+              widget.consumer,
               _qsParam,
               ({bool clear = true}) => _loadData(context, clear: clear),
               selection: widget.selection,

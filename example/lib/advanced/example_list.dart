@@ -52,6 +52,8 @@ class ExampleList
               ExampleEdit(model, uiBuilder, consumer, edit: edit),
           actions: (
             BuildContext context,
+            ExampleBuilder uiBuilder,
+            ExampleConsumer consumer,
             Map<String, String> qsParam, {
             required bool selection,
           }) {
@@ -73,6 +75,8 @@ class ExampleList
           rowActions: (
             BuildContext context,
             ExampleModel model,
+            ExampleBuilder uiBuilder,
+            ExampleConsumer consumer,
             Map<String, String> qsParam,
             void Function({bool clear})? refresh, {
             required bool selection,

@@ -35,7 +35,7 @@ void main() {
         test(
           '$key // $value',
           () => expect(
-            ModelUtils.fromJsonRawMap<String, dynamic, dynamic, dynamic>(
+            ModelUtils.fromJsonRawMap<String, dynamic>(
               key,
               keyProducer: (dynamic k) => k.toString(),
               valueProducer: (dynamic v) => v,
