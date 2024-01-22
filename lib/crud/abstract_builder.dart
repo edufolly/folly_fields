@@ -5,14 +5,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 ///
 ///
 ///
-abstract class AbstractUIBuilder<T extends AbstractModel<ID>, ID> {
+abstract class AbstractBuilder<T extends AbstractModel<ID>, ID> {
   final String? labelPrefix;
   final String? labelSuffix;
 
   ///
   ///
   ///
-  const AbstractUIBuilder({
+  const AbstractBuilder({
     this.labelPrefix,
     this.labelSuffix,
   });
@@ -20,11 +20,12 @@ abstract class AbstractUIBuilder<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///
-  String superSingle(BuildContext context) => <String>[
+  String superSingle(BuildContext context, {String separator = ' - '}) =>
+      <String>[
         if (labelPrefix?.isNotEmpty ?? false) ...<String>[labelPrefix ?? ''],
         single(context),
         if (labelSuffix?.isNotEmpty ?? false) ...<String>[labelSuffix ?? ''],
-      ].join(' - ');
+      ].join(separator);
 
   ///
   ///
@@ -34,11 +35,12 @@ abstract class AbstractUIBuilder<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///
-  String superPlural(BuildContext context) => <String>[
+  String superPlural(BuildContext context, {String separator = ' - '}) =>
+      <String>[
         if (labelPrefix?.isNotEmpty ?? false) ...<String>[labelPrefix ?? ''],
         plural(context),
         if (labelSuffix?.isNotEmpty ?? false) ...<String>[labelSuffix ?? ''],
-      ].join(' - ');
+      ].join(separator);
 
   ///
   ///

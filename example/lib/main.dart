@@ -859,7 +859,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ListField<ExampleModel, ExampleBuilder, int>(
                         enabled: edit,
                         initialValue: list,
-                        uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
+                        builder: ExampleBuilder(labelPrefix: labelPrefix),
                         beforeDelete: (
                           BuildContext context,
                           int index,

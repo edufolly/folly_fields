@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_builder.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
@@ -27,7 +27,7 @@ class TableField<T extends AbstractModel<ID>, ID>
   ///
   TableField({
     required List<T> super.initialValue,
-    required AbstractUIBuilder<T, ID> uiBuilder,
+    required AbstractBuilder<T, ID> builder,
     required AbstractConsumer<T, ID> consumer,
     required List<Responsive> Function(
       BuildContext context,
@@ -88,7 +88,7 @@ class TableField<T extends AbstractModel<ID>, ID>
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.superPlural(field.context),
+                      labelText: builder.superPlural(field.context),
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -107,7 +107,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                     height: 75,
                     child: Center(
                       child: Text(
-                        'Sem ${uiBuilder.superPlural(field.context)} '
+                        'Sem ${builder.superPlural(field.context)} '
                         'até o momento.',
                       ),
                     ),
@@ -281,7 +281,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                   TableButton(
                     enabled: enabled,
                     iconData: FontAwesomeIcons.plus,
-                    label: 'Adicionar ${uiBuilder.superSingle(field.context)}',
+                    label: 'Adicionar ${builder.superSingle(field.context)}',
                     onPressed: () async {
                       if (beforeAdd != null) {
                         bool go = await beforeAdd(field.context, field.value!);

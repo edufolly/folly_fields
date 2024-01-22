@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/util/child_builder.dart';
@@ -17,17 +17,17 @@ import 'package:sprintf/sprintf.dart';
 // TODO(edufolly): Create controller?
 class ListField<
     T extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<T, ID>,
+    B extends AbstractBuilder<T, ID>,
     ID> extends ResponsiveFormField<List<T>> {
   ///
   ///
   ///
   ListField({
     required List<T> super.initialValue,
-    required UI uiBuilder,
-    required Widget Function(BuildContext context, UI uiBuilder)
+    required B builder,
+    required Widget Function(BuildContext context, B builder)
         routeAddBuilder,
-    Function(BuildContext context, T model, UI uiBuilder, {required bool edit})?
+    Function(BuildContext context, T model, B builder, {required bool edit})?
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
     String? Function(List<T> value)? validator,
@@ -77,7 +77,7 @@ class ListField<
           builder: (FormFieldState<List<T>> field) {
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: uiBuilder.superPlural(field.context),
+                      labelText: builder.superPlural(field.context),
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -93,7 +93,7 @@ class ListField<
 
             String emptyText = sprintf(
               emptyListText,
-              <dynamic>[uiBuilder.superPlural(field.context)],
+              <dynamic>[builder.superPlural(field.context)],
             );
 
             Future<void> add() async {
@@ -107,7 +107,7 @@ class ListField<
               dynamic selected = await Navigator.of(field.context).push(
                 MaterialPageRoute<dynamic>(
                   builder: (BuildContext context) =>
-                      routeAddBuilder(context, uiBuilder),
+                      routeAddBuilder(context, builder),
                 ),
               );
 
@@ -204,7 +204,7 @@ class ListField<
                                               message: sprintf(
                                                 clearText,
                                                 <dynamic>[
-                                                  uiBuilder.superSingle(
+                                                  builder.superSingle(
                                                     field.context,
                                                   ),
                                                 ],
@@ -255,11 +255,11 @@ class ListField<
                             else
                               ...field.value!.asMap().entries.map(
                                     (MapEntry<int, T> entry) =>
-                                        _MyListTile<T, UI, ID>(
+                                        _MyListTile<T, B, ID>(
                                       field: field,
                                       index: entry.key,
                                       model: entry.value,
-                                      uiBuilder: uiBuilder,
+                                      builder: builder,
                                       removeText: removeText,
                                       enabled: enabled,
                                       beforeEdit: beforeEdit,
@@ -279,7 +279,7 @@ class ListField<
                                 label: sprintf(
                                   addText,
                                   <dynamic>[
-                                    uiBuilder.superSingle(field.context),
+                                    builder.superSingle(field.context),
                                   ],
                                 ).toUpperCase(),
                                 onPressed: add,
@@ -300,11 +300,11 @@ class ListField<
 ///
 ///
 class _MyListTile<T extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<T, ID>, ID> extends StatelessWidget {
+    B extends AbstractBuilder<T, ID>, ID> extends StatelessWidget {
   final FormFieldState<List<T>> field;
   final int index;
   final T model;
-  final UI uiBuilder;
+  final B builder;
   final String removeText;
   final bool enabled;
   final Future<bool> Function(BuildContext context, int index, T model)?
@@ -312,7 +312,7 @@ class _MyListTile<T extends AbstractModel<ID>,
   final Function(
     BuildContext context,
     T model,
-    UI uiBuilder, {
+    B builder, {
     required bool edit,
   })? routeEditBuilder;
   final Future<bool> Function(BuildContext context, int index, T model)?
@@ -328,7 +328,7 @@ class _MyListTile<T extends AbstractModel<ID>,
     required this.field,
     required this.index,
     required this.model,
-    required this.uiBuilder,
+    required this.builder,
     required this.removeText,
     required this.enabled,
     required this.beforeEdit,
@@ -351,11 +351,11 @@ class _MyListTile<T extends AbstractModel<ID>,
         leading: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            uiBuilder.getLeading(context, model),
+            builder.getLeading(context, model),
           ],
         ),
-        title: uiBuilder.getTitle(context, model),
-        subtitle: uiBuilder.getSubtitle(context, model),
+        title: builder.getTitle(context, model),
+        subtitle: builder.getSubtitle(context, model),
         trailing: Visibility(
           visible: FollyFields().isNotMobile && enabled && showDeleteButton,
           child: IconButton(
@@ -383,7 +383,7 @@ class _MyListTile<T extends AbstractModel<ID>,
                 builder: (BuildContext context) => routeEditBuilder!(
                   context,
                   model,
-                  uiBuilder,
+                  builder,
                   edit: enabled,
                 ),
               ),
@@ -462,7 +462,7 @@ class _MyListTile<T extends AbstractModel<ID>,
         context: context,
         message: sprintf(
           removeText,
-          <dynamic>[uiBuilder.superSingle(context)],
+          <dynamic>[builder.superSingle(context)],
         ),
       );
     }

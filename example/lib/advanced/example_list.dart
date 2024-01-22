@@ -27,7 +27,7 @@ class ExampleList
           forceOffline: false,
           showRefreshButton: true,
           consumer: const ExampleConsumer(),
-          uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
+          builder: ExampleBuilder(labelPrefix: labelPrefix),
           onAdd: (
             BuildContext context,
             ExampleBuilder uiBuilder,

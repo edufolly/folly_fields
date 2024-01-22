@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/safe_builder.dart';
@@ -20,12 +20,12 @@ import 'package:sprintf/sprintf.dart';
 ///
 abstract class AbstractEdit<
     T extends AbstractModel<ID>,
-    UI extends AbstractUIBuilder<T, ID>,
+    B extends AbstractBuilder<T, ID>,
     C extends AbstractConsumer<T, ID>,
     E extends AbstractEditController<T, ID>,
     ID> extends AbstractRoute {
   final T model;
-  final UI uiBuilder;
+  final B builder;
   final C consumer;
   final bool edit;
   final E? editController;
@@ -44,7 +44,7 @@ abstract class AbstractEdit<
   ///
   const AbstractEdit(
     this.model,
-    this.uiBuilder,
+    this.builder,
     this.consumer, {
     required this.edit,
     this.editController,
@@ -94,8 +94,8 @@ abstract class AbstractEdit<
   ///
   ///
   @override
-  AbstractEditState<T, UI, C, E, ID> createState() =>
-      AbstractEditState<T, UI, C, E, ID>();
+  AbstractEditState<T, B, C, E, ID> createState() =>
+      AbstractEditState<T, B, C, E, ID>();
 }
 
 ///
@@ -103,7 +103,7 @@ abstract class AbstractEdit<
 ///
 class AbstractEditState<
         T extends AbstractModel<ID>,
-        UI extends AbstractUIBuilder<T, ID>,
+        UI extends AbstractBuilder<T, ID>,
         C extends AbstractConsumer<T, ID>,
         E extends AbstractEditController<T, ID>,
         ID> extends State<AbstractEdit<T, UI, C, E, ID>>
@@ -155,7 +155,7 @@ class AbstractEditState<
         leading: widget.appBarLeading == null
             ? null
             : widget.appBarLeading!(context),
-        title: Text(widget.uiBuilder.superSingle(context)),
+        title: Text(widget.builder.superSingle(context)),
         actions: <Widget>[
           /// Actions
           if (widget.actions != null)
@@ -177,8 +177,8 @@ class AbstractEditState<
             ),
         ],
       ),
-      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildEditBody(
+      bottomNavigationBar: widget.builder.buildBottomNavigationBar(context),
+      body: widget.builder.buildEditBody(
         context,
         _model,
         Form(

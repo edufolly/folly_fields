@@ -1,6 +1,7 @@
 ## [2.5.1] - 2024-01-22
 
 * Rolling back ModelUtils.
+* "Renaming uiBuilder to builder.
 * Adding builder and consumer to actions and rowActions attributes in
   AbstractList.
 * Creating ModelUtils methods:
