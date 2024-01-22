@@ -75,7 +75,7 @@ class ModelUtils {
   ) =>
       fromJsonSafeSet<T, Map<String, dynamic>>(
         value,
-        producer: (dynamic e) => consumer.fromJson(e),
+        producer: (Map<String, dynamic> e) => consumer.fromJson(e),
       );
 
   ///
@@ -122,13 +122,13 @@ class ModelUtils {
   ///
   ///
   ///
-  static Map<T, U> fromJsonRawMap<T, U>(
-    Map<dynamic, dynamic>? value, {
-    required T Function(dynamic k) keyProducer,
-    required U Function(dynamic v) valueProducer,
+  static Map<T, U> fromJsonRawMap<T, U, K, V>(
+    Map<K, V>? value, {
+    required T Function(K k) keyProducer,
+    required U Function(V v) valueProducer,
   }) =>
       value?.map<T, U>(
-        (dynamic key, dynamic value) => MapEntry<T, U>(
+        (K key, V value) => MapEntry<T, U>(
           keyProducer(key),
           valueProducer(value),
         ),
@@ -154,6 +154,16 @@ class ModelUtils {
   ///
   ///
   ///
+  // TODO(edufolly): Create tests.
+  static T? fromProducer<T, P>(
+    dynamic value, {
+    required T Function(P e) producer,
+  }) =>
+      value is P ? producer(value) : null;
+
+  ///
+  ///
+  ///
   static List<T> fromJsonSafeList<T, P>(
     dynamic value, {
     required T Function(P e) producer,
@@ -162,7 +172,9 @@ class ModelUtils {
         null => <T>[],
         Iterable<P> _ =>
           _fromJsonRawIterable<T, P>(value, producer: producer).toList(),
-        _ => <T>[producer(value)],
+        P _ => <T>[producer(value)],
+        // TODO(edufolly): Create test for this exception.
+        _ => throw Exception('Invalid value type: ${value.runtimeType}')
       };
 
   ///
@@ -177,6 +189,7 @@ class ModelUtils {
         Iterable<P> _ =>
           _fromJsonRawIterable<T, P>(value, producer: producer).toSet(),
         P _ => <T>{producer(value)},
+      // TODO(edufolly): Create test for this exception.
         _ => throw Exception('Invalid value type: ${value.runtimeType}')
       };
 
