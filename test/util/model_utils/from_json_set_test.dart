@@ -25,8 +25,8 @@ void main() {
       Map<Set<dynamic>?, Set<MockStringModel>> domain =
           <Set<dynamic>?, Set<MockStringModel>>{
         null: <MockStringModel>{},
-        <dynamic>{}: <MockStringModel>{},
-        <dynamic>{
+        <Map<String, dynamic>>{}: <MockStringModel>{},
+        <Map<String, dynamic>>{
           <String, dynamic>{},
           <String, dynamic>{},
         }: <MockStringModel>{
@@ -39,20 +39,20 @@ void main() {
             <MockStringModel>{value},
           ),
         ),
-        <dynamic>{
+        <Map<String, dynamic>>{
           MockStringModel.alineMap,
           MockStringModel.kateMap,
         }: <MockStringModel>{
           MockStringModel.alineModel,
           MockStringModel.kateModel,
         },
-        <dynamic>{
+        <Map<String, dynamic>>{
           MockStringModel.alineMap,
           MockStringModel.alineMap,
         }: <MockStringModel>{
           MockStringModel.alineModel,
         },
-        <dynamic>{
+        <Map<String, dynamic>>{
           MockStringModel.alineMap,
           <String, dynamic>{},
         }: <MockStringModel>{
@@ -73,6 +73,8 @@ void main() {
           },
         );
       }
+
+      // TODO(edufolly): Test the exception case.
     },
   );
 }

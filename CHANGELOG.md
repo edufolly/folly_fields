@@ -1,3 +1,17 @@
+## [2.5.0] - 2024-01-22
+
+* Creating ModelUtils.fromProducer method.
+
+* Adding types for ModelUtils methods:
+    * fromJsonList (internal type)
+    * fromJsonSet (internal type)
+    * _fromJsonRawIterable (private method)
+    * fromJsonRawMap
+    * fromJsonSafeList
+    * fromJsonSafeSet
+    * fromJsonSafeStringList (internal type)
+    * fromJsonSafeStringSet (internal type)
+
 ## [2.4.3] - 2024-01-19
 
 * Creating FollyIterableExtension.byNameOrNull method.

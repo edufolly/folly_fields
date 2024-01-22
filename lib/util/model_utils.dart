@@ -61,9 +61,9 @@ class ModelUtils {
     List<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
   ) =>
-      fromJsonSafeList<T>(
+      fromJsonSafeList<T, Map<String, dynamic>>(
         value,
-        producer: (dynamic e) => consumer.fromJson(e),
+        producer: (Map<String, dynamic> e) => consumer.fromJson(e),
       );
 
   ///
@@ -73,9 +73,9 @@ class ModelUtils {
     Set<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
   ) =>
-      fromJsonSafeSet<T>(
+      fromJsonSafeSet<T, Map<String, dynamic>>(
         value,
-        producer: (dynamic e) => consumer.fromJson(e),
+        producer: (Map<String, dynamic> e) => consumer.fromJson(e),
       );
 
   ///
@@ -113,22 +113,22 @@ class ModelUtils {
   ///
   ///
   ///
-  static Iterable<T> _fromJsonRawIterable<T>(
-    Iterable<dynamic> value, {
-    required T Function(dynamic e) producer,
+  static Iterable<T> _fromJsonRawIterable<T, P>(
+    Iterable<P> value, {
+    required T Function(P e) producer,
   }) =>
       value.map<T>(producer);
 
   ///
   ///
   ///
-  static Map<T, U> fromJsonRawMap<T, U>(
-    Map<dynamic, dynamic>? value, {
-    required T Function(dynamic k) keyProducer,
-    required U Function(dynamic v) valueProducer,
+  static Map<T, U> fromJsonRawMap<T, U, K, V>(
+    Map<K, V>? value, {
+    required T Function(K k) keyProducer,
+    required U Function(V v) valueProducer,
   }) =>
       value?.map<T, U>(
-        (dynamic key, dynamic value) => MapEntry<T, U>(
+        (K key, V value) => MapEntry<T, U>(
           keyProducer(key),
           valueProducer(value),
         ),
@@ -154,36 +154,50 @@ class ModelUtils {
   ///
   ///
   ///
-  static List<T> fromJsonSafeList<T>(
+  // TODO(edufolly): Create tests.
+  static T? fromProducer<T, P>(
     dynamic value, {
-    required T Function(dynamic e) producer,
+    required T Function(P e) producer,
+  }) =>
+      value is P ? producer(value) : null;
+
+  ///
+  ///
+  ///
+  static List<T> fromJsonSafeList<T, P>(
+    dynamic value, {
+    required T Function(P e) producer,
   }) =>
       switch (value) {
         null => <T>[],
-        Iterable<dynamic> _ =>
-          _fromJsonRawIterable<T>(value, producer: producer).toList(),
-        _ => <T>[producer(value)],
+        Iterable<P> _ =>
+          _fromJsonRawIterable<T, P>(value, producer: producer).toList(),
+        P _ => <T>[producer(value)],
+        // TODO(edufolly): Create test for this exception.
+        _ => throw Exception('Invalid value type: ${value.runtimeType}')
       };
 
   ///
   ///
   ///
-  static Set<T> fromJsonSafeSet<T>(
+  static Set<T> fromJsonSafeSet<T, P>(
     dynamic value, {
-    required T Function(dynamic e) producer,
+    required T Function(P e) producer,
   }) =>
       switch (value) {
         null => <T>{},
-        Iterable<dynamic> _ =>
-          _fromJsonRawIterable<T>(value, producer: producer).toSet(),
-        _ => <T>{producer(value)},
+        Iterable<P> _ =>
+          _fromJsonRawIterable<T, P>(value, producer: producer).toSet(),
+        P _ => <T>{producer(value)},
+      // TODO(edufolly): Create test for this exception.
+        _ => throw Exception('Invalid value type: ${value.runtimeType}')
       };
 
   ///
   ///
   ///
   static List<String> fromJsonSafeStringList(dynamic value) =>
-      fromJsonSafeList<String>(
+      fromJsonSafeList<String, dynamic>(
         value,
         producer: stringProducer,
       );
@@ -192,11 +206,14 @@ class ModelUtils {
   ///
   ///
   static Set<String> fromJsonSafeStringSet(dynamic value) =>
-      fromJsonSafeSet<String>(
+      fromJsonSafeSet<String, dynamic>(
         value,
         producer: stringProducer,
       );
 
+  ///
+  ///
+  ///
   static Iterable<T> _fromJsonSafeEnumIterable<T extends Enum>(
     Iterable<dynamic> value,
     Iterable<T> values,
