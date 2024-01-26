@@ -793,11 +793,18 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/dropdown_field.dart',
                       child:
                           // [DropdownField]
-                          DropdownField<ExampleEnum>(
+                          DropdownField<ExampleEnum, Widget>(
                         labelPrefix: labelPrefix,
                         label: 'Ordinal',
                         enabled: edit,
-                        items: ExampleEnum.items,
+                        items: ExampleEnum.values.asMap().map(
+                          (_, ExampleEnum value) {
+                            return MapEntry<ExampleEnum, Widget>(
+                              value,
+                              Text(value.value),
+                            );
+                          },
+                        ),
                         initialValue: model.ordinal,
                         validator: FollyValidators.notNull,
                         onSaved: (ExampleEnum? value) => model.ordinal = value!,

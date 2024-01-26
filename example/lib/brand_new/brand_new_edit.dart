@@ -50,11 +50,14 @@ class BrandNewEdit extends AbstractEdit<BrandNewModel, BrandNewBuilder,
       ),
 
       /// Type
-      DropdownField<BrandNewEnum>(
+      DropdownField<BrandNewEnum, Widget>(
         labelPrefix: builder.labelPrefix,
         label: 'Tipo*',
         enabled: edit,
-        items: BrandNewEnum.items,
+        items: BrandNewEnum.values.asMap().map(
+              (_, BrandNewEnum value) =>
+                  MapEntry<BrandNewEnum, Widget>(value, Text(value.name)),
+            ),
         initialValue: model.type,
         validator: FollyValidators.notNull,
         onChanged: (BrandNewEnum? value) {

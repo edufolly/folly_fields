@@ -18,12 +18,4 @@ enum BrandNewEnum {
         (BrandNewEnum e) => e.name == value,
         orElse: () => defaultItem,
       );
-
-  ///
-  ///
-  ///
-  static Map<BrandNewEnum, String> get items => values.asMap().map(
-        (int key, BrandNewEnum value) =>
-            MapEntry<BrandNewEnum, String>(value, value.name),
-      );
 }
