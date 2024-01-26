@@ -348,11 +348,14 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
       ),
 
       /// Dropdown
-      DropdownField<ExampleEnum>(
+      DropdownField<ExampleEnum, Widget>(
         labelPrefix: builder.labelPrefix,
         label: 'Ordinal',
         enabled: edit,
-        items: ExampleEnum.items,
+        items: ExampleEnum.values.asMap().map(
+              (_, ExampleEnum value) =>
+                  MapEntry<ExampleEnum, Widget>(value, Text(value.value)),
+            ),
         initialValue: model.ordinal,
         validator: FollyValidators.notNull,
         onSaved: (ExampleEnum? value) => model.ordinal = value!,

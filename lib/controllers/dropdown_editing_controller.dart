@@ -3,32 +3,33 @@ import 'package:flutter/material.dart';
 ///
 ///
 ///
-class DropdownEditingController<T> extends ValueNotifier<T?> {
-  Map<T, String>? _items;
+class DropdownEditingController<T, I extends Widget> extends ValueNotifier<T?> {
+  Map<T, I>? _items;
 
   ///
   ///
   ///
-  DropdownEditingController({Map<T, String>? items, T? value})
+  DropdownEditingController({Map<T, I>? items, T? value})
       : _items = items,
         super(value);
 
   ///
   ///
   ///
-  DropdownEditingController.fromValue(DropdownEditingController<T> controller)
-      : _items = controller.items,
+  DropdownEditingController.fromValue(
+    DropdownEditingController<T, I> controller,
+  )   : _items = controller.items,
         super(controller.value);
 
   ///
   ///
   ///
-  Map<T, String>? get items => _items;
+  Map<T, I>? get items => _items;
 
   ///
   ///
   ///
-  set items(Map<T, String>? items) {
+  set items(Map<T, I>? items) {
     _items = items;
     super.notifyListeners();
   }
@@ -36,15 +37,12 @@ class DropdownEditingController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  List<DropdownMenuItem<T>> getDropdownItems() =>
-      _items == null || _items!.isEmpty
-          ? <DropdownMenuItem<T>>[]
-          : _items!.entries
-              .map(
-                (MapEntry<T, String> entry) => DropdownMenuItem<T>(
-                  value: entry.key,
-                  child: Text(entry.value),
-                ),
-              )
-              .toList();
+  List<DropdownMenuItem<T>> getDropdownItems() => _items == null ||
+          _items!.isEmpty
+      ? <DropdownMenuItem<T>>[]
+      : _items!.entries.map(
+          (MapEntry<T, I> entry) {
+            return DropdownMenuItem<T>(value: entry.key, child: entry.value);
+          },
+        ).toList();
 }

@@ -5,9 +5,9 @@ import 'package:folly_fields/responsive/responsive_form_field.dart';
 ///
 ///
 ///
-class DropdownField<T> extends ResponsiveFormField<T> {
-  final DropdownEditingController<T>? controller;
-  final Map<T, String>? items;
+class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
+  final DropdownEditingController<T, I>? controller;
+  final Map<T, I>? items;
 
   ///
   ///
@@ -76,7 +76,8 @@ class DropdownField<T> extends ResponsiveFormField<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            _DropdownFieldState<T> state = field as _DropdownFieldState<T>;
+            _DropdownFieldState<T, I> state =
+                field as _DropdownFieldState<T, I>;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -151,25 +152,25 @@ class DropdownField<T> extends ResponsiveFormField<T> {
   ///
   ///
   @override
-  FormFieldState<T> createState() => _DropdownFieldState<T>();
+  FormFieldState<T> createState() => _DropdownFieldState<T, I>();
 }
 
 ///
 ///
 ///
-class _DropdownFieldState<T> extends FormFieldState<T> {
-  DropdownEditingController<T>? _controller;
+class _DropdownFieldState<T, I extends Widget> extends FormFieldState<T> {
+  DropdownEditingController<T, I>? _controller;
 
   ///
   ///
   ///
   @override
-  DropdownField<T> get widget => super.widget as DropdownField<T>;
+  DropdownField<T, I> get widget => super.widget as DropdownField<T, I>;
 
   ///
   ///
   ///
-  DropdownEditingController<T> get _effectiveController =>
+  DropdownEditingController<T, I> get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -179,7 +180,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DropdownEditingController<T>(
+      _controller = DropdownEditingController<T, I>(
         value: widget.initialValue,
         items: widget.items,
       );
@@ -192,7 +193,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   @override
-  void didUpdateWidget(DropdownField<T> oldWidget) {
+  void didUpdateWidget(DropdownField<T, I> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -200,7 +201,7 @@ class _DropdownFieldState<T> extends FormFieldState<T> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = DropdownEditingController<T>.fromValue(
+        _controller = DropdownEditingController<T, I>.fromValue(
           oldWidget.controller!,
         );
       }

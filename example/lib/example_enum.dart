@@ -32,14 +32,6 @@ enum ExampleEnum {
   ///
   ///
   ///
-  static Map<ExampleEnum, String> get items => values.asMap().map(
-        (int key, ExampleEnum value) =>
-            MapEntry<ExampleEnum, String>(value, value.value),
-      );
-
-  ///
-  ///
-  ///
   static ExampleEnum get random =>
       values.elementAt(Random().nextInt(values.length));
 }
