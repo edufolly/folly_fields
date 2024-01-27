@@ -1,3 +1,7 @@
+## [2.6.1] - 2024-01-27
+
+* Adding counterText to fields.
+
 ## [2.6.0] - 2024-01-26
 
 * Adding widget to DropdownField child.

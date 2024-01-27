@@ -96,7 +96,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonListProducerMap instead. Will be removed in v2.6.0')
+  @Deprecated('Use fromJsonListProducerMap instead. Will be removed in v2.7.0')
   static List<T> fromJsonList<T extends AbstractModel<ID>, ID>(
     List<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
@@ -109,7 +109,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonSetProducerMap instead. Will be removed in v2.6.0')
+  @Deprecated('Use fromJsonSetProducerMap instead. Will be removed in v2.7.0')
   static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
     Set<dynamic>? value,
     AbstractConsumer<T, ID> consumer,
@@ -122,7 +122,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Use fromJsonProducerMap instead. Will be removed in v2.6.0')
+  @Deprecated('Use fromJsonProducerMap instead. Will be removed in v2.7.0')
   static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
     Map<String, dynamic>? map,
     AbstractConsumer<T, ID> consumer,
@@ -232,7 +232,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Will be removed in v2.6.0')
+  @Deprecated('Will be removed in v2.7.0')
   static Iterable<T> _fromJsonSafeEnumIterable<T extends Enum>(
     Iterable<dynamic> value,
     Iterable<T> values,
@@ -242,7 +242,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Will be removed in v2.6.0')
+  @Deprecated('Will be removed in v2.7.0')
   static List<T> fromJsonSafeEnumList<T extends Enum>(
     dynamic value,
     Iterable<T> values,
@@ -257,7 +257,7 @@ class ModelUtils {
   ///
   ///
   ///
-  @Deprecated('Will be removed in v2.6.0')
+  @Deprecated('Will be removed in v2.7.0')
   static Set<T> fromJsonSafeEnumSet<T extends Enum>(
     dynamic value,
     Iterable<T> values,
