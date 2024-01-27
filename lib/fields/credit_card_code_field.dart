@@ -41,6 +41,7 @@ class CreditCardCodeField extends StringField {
     super.decoration,
     super.padding,
     super.contentPadding,
+    super.counterText,
     super.prefix,
     super.prefixIcon,
     super.suffix,

@@ -32,6 +32,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   final String? hintText;
   final EdgeInsets? contentPadding;
   final int? maxLength;
+  final String? counterText;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget Function(
@@ -75,6 +76,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
     this.hintText,
     this.contentPadding,
     this.maxLength,
+    this.counterText = '',
     this.prefix,
     this.prefixIcon,
     this.updatePrefixIcon,
@@ -224,7 +226,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                       ? widget.label
                       : '${widget.labelPrefix} - ${widget.label}',
               border: const OutlineInputBorder(),
-              counterText: '',
+              counterText: widget.counterText,
               enabled: widget.enabled,
               filled: widget.filled,
               fillColor: widget.fillColor,

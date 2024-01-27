@@ -41,6 +41,7 @@ class MultilineField extends StringField {
     super.padding,
     super.hintText,
     super.contentPadding,
+    super.counterText,
     super.prefix,
     super.prefixIcon,
     super.suffix,

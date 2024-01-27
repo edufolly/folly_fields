@@ -822,6 +822,8 @@ class MyHomePageState extends State<MyHomePage> {
                           MultilineField(
                         labelPrefix: labelPrefix,
                         label: 'Multiline*',
+                        counterText: null,
+                        maxLength: 600,
                         enabled: edit,
                         initialValue: model.multiline,
                         validator: FollyValidators.stringNotEmpty,

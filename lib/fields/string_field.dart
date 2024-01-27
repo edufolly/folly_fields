@@ -40,6 +40,7 @@ class StringField extends ResponsiveStateless {
   final EdgeInsets padding;
   final String? hintText;
   final EdgeInsets? contentPadding;
+  final String? counterText;
   final Widget? prefix;
   final Widget? prefixIcon;
   final Widget? suffix;
@@ -85,6 +86,7 @@ class StringField extends ResponsiveStateless {
     this.padding = const EdgeInsets.all(8),
     this.hintText,
     this.contentPadding,
+    this.counterText = '',
     this.prefix,
     this.prefixIcon,
     this.suffix,
@@ -132,7 +134,7 @@ class StringField extends ResponsiveStateless {
                   ? label
                   : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
-              counterText: '',
+              counterText: counterText,
               enabled: enabled,
               filled: filled,
               fillColor: fillColor,
