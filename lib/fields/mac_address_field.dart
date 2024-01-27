@@ -40,6 +40,7 @@ class MacAddressField extends ValidatorField {
     super.padding,
     super.hintText,
     super.contentPadding,
+    super.counterText,
     super.prefix,
     super.prefixIcon,
     super.suffix,

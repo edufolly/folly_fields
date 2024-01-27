@@ -41,6 +41,7 @@ class NewDecimalField
     super.padding = const EdgeInsets.all(8),
     super.hintText,
     super.contentPadding,
+    super.counterText,
     super.prefix,
     super.prefixIcon,
     super.suffix,
