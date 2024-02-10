@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/fields/choice_chip_field.dart';
 
 ///
 ///
 ///
 class ChoiceChipFieldController<T> extends ValueNotifier<T?> {
-  Map<T, String>? _items;
+  Map<T, ChipEntry>? _items;
 
   ///
   ///
   ///
-  ChoiceChipFieldController({Map<T, String>? items, T? value})
+  ChoiceChipFieldController({Map<T, ChipEntry>? items, T? value})
       : _items = items,
         super(value);
 
@@ -23,12 +24,12 @@ class ChoiceChipFieldController<T> extends ValueNotifier<T?> {
   ///
   ///
   ///
-  Map<T, String>? get items => _items;
+  Map<T, ChipEntry>? get items => _items;
 
   ///
   ///
   ///
-  set items(Map<T, String>? items) {
+  set items(Map<T, ChipEntry>? items) {
     _items = items;
     super.notifyListeners();
   }

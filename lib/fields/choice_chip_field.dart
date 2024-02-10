@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/choice_chip_field_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 
 ///
 ///
 ///
 class ChoiceChipField<T> extends ResponsiveFormField<T> {
   final ChoiceChipFieldController<T>? controller;
-  final Map<T, String>? items;
+  final Map<T, ChipEntry>? items;
 
   ///
   ///
@@ -23,14 +24,13 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     this.items,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    Function(T? value)? onChanged,
+    Function(T? value, {required bool selected})? onChanged,
     bool filled = false,
     Color? fillColor,
     Color? focusColor,
+    bool? showCheckMark,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    Color? selectedColor,
-    Color? selectedTextColor,
     WrapAlignment wrapAlignment = WrapAlignment.spaceEvenly,
     WrapCrossAlignment wrapCrossAlignment = WrapCrossAlignment.center,
     String? hintText,
@@ -38,7 +38,6 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     Widget? prefix,
     Widget? suffix,
     EdgeInsets chipExternalPadding = EdgeInsets.zero,
-    EdgeInsets? chipInternalPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -60,12 +59,6 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
             _ChoiceChipFieldState<T> state = field as _ChoiceChipFieldState<T>;
-
-            Color effectiveSelectedColor =
-                selectedColor ?? Theme.of(state.context).colorScheme.primary;
-
-            Color effectiveSelectedTextColor = selectedTextColor ??
-                Theme.of(state.context).colorScheme.onPrimary;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -97,34 +90,67 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                   builder: (BuildContext context, T? value, _) => Wrap(
                     alignment: wrapAlignment,
                     crossAxisAlignment: wrapCrossAlignment,
-                    children: state._effectiveController.items!.entries
-                        .map<Widget>(
-                          (MapEntry<T, String> e) => Padding(
-                            padding: chipExternalPadding,
-                            child: ChoiceChip(
-                              label: Text(e.value),
-                              padding: chipInternalPadding,
-                              selected: value == e.key,
-                              selectedColor: effectiveSelectedColor,
-                              labelStyle: value == e.key
-                                  ? TextStyle(color: effectiveSelectedTextColor)
-                                  : null,
-                              onSelected: (_) {
-                                state.didChange(e.key);
-                                if (onChanged != null) {
-                                  onChanged(e.key);
-                                }
-                              },
+                    children:
+                        state._effectiveController.items!.entries.map<Widget>(
+                      (MapEntry<T, ChipEntry> e) {
+                        Color? labelColor = _getLabelColor(
+                          context: context,
+                          entry: e.value,
+                          selected: value == e.key,
+                        );
+
+                        return Padding(
+                          padding: chipExternalPadding,
+                          child: FilterChip(
+                            label: Text(e.value.label),
+                            padding: e.value.padding,
+                            backgroundColor: e.value.color,
+                            selected: value == e.key,
+                            selectedColor: e.value.selectedColor ??
+                                Theme.of(state.context).colorScheme.primary,
+                            showCheckmark: showCheckMark,
+                            checkmarkColor: labelColor,
+                            labelStyle: TextStyle(
+                              color: labelColor,
                             ),
+                            onSelected: (bool selected) {
+                              state.didChange(selected ? e.key : null);
+                              if (onChanged != null) {
+                                onChanged(e.key, selected: selected);
+                              }
+                            },
                           ),
-                        )
-                        .toList(),
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ),
             );
           },
         );
+
+  ///
+  ///
+  ///
+  static Color? _getLabelColor({
+    required BuildContext context,
+    required ChipEntry entry,
+    required bool selected,
+  }) {
+    if (selected) {
+      return entry.selectedTextColor ??
+          (entry.selectedColor != null
+              ? FollyUtils.textColorByLuminance(entry.selectedColor!)
+              : Theme.of(context).colorScheme.onPrimary);
+    } else if (entry.textColor != null) {
+      return entry.textColor;
+    } else if (entry.textColor == null && entry.color != null) {
+      return FollyUtils.textColorByLuminance(entry.color!);
+    }
+
+    return null;
+  }
 
   ///
   ///
@@ -232,4 +258,28 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
     _controller?.dispose();
     super.dispose();
   }
+}
+
+///
+///
+///
+class ChipEntry {
+  final String label;
+  final Color? color;
+  final Color? textColor;
+  final EdgeInsets? padding;
+  final Color? selectedColor;
+  final Color? selectedTextColor;
+
+  ///
+  ///
+  ///
+  const ChipEntry(
+    this.label, {
+    this.color,
+    this.textColor,
+    this.padding,
+    this.selectedColor,
+    this.selectedTextColor,
+  });
 }
