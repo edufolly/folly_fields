@@ -4,6 +4,8 @@
 * Updating analysis_options.yaml.
 * Updating ChoiceChipField style.
 * Fixing Hashable mixin.
+* Deprecating FileField and FileEditingController for new desktop
+  implementation.
 
 ## [2.6.1] - 2024-01-27
 

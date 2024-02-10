@@ -1,3 +1,6 @@
+// TODO(edufolly): Remove this line after the next release of the package.
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
