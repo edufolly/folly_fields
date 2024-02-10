@@ -3,6 +3,7 @@
 * Updating to Font Awesome 10.7.0.
 * Updating analysis_options.yaml.
 * Updating ChoiceChipField style.
+* Fixing Hashable mixin.
 
 ## [2.6.1] - 2024-01-27
 
