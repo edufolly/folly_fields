@@ -4,15 +4,15 @@ import 'package:folly_fields/fields/choice_chip_field.dart';
 ///
 ///
 ///
-class ChoiceChipFieldController<T> extends ValueNotifier<T?> {
+class ChoiceChipFieldController<T> extends ValueNotifier<Set<T>> {
   Map<T, ChipEntry>? _items;
 
   ///
   ///
   ///
-  ChoiceChipFieldController({Map<T, ChipEntry>? items, T? value})
+  ChoiceChipFieldController({Map<T, ChipEntry>? items, Set<T>? value})
       : _items = items,
-        super(value);
+        super(value ?? <T>{});
 
   ///
   ///

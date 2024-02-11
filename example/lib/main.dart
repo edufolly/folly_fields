@@ -962,8 +962,9 @@ class MyHomePageState extends State<MyHomePage> {
                             // ignore: avoid_print
                             print('ChoiceChipField $value is'
                                 '${selected ? '' : ' NOT'} selected'),
-                        validator: FollyValidators.notNull,
-                        onSaved: (int? value) => model.fruitIndex = value,
+                        validator: FollyValidators.notEmpty,
+                        onSaved: (Set<int>? value) =>
+                            model.fruitIndex = value!.first,
                       ),
                       // [/ChoiceChipField]
                     ),

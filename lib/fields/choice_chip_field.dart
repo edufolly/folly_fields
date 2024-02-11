@@ -6,7 +6,7 @@ import 'package:folly_fields/util/folly_utils.dart';
 ///
 ///
 ///
-class ChoiceChipField<T> extends ResponsiveFormField<T> {
+class ChoiceChipField<T> extends ResponsiveFormField<Set<T>> {
   final ChoiceChipFieldController<T>? controller;
   final Map<T, ChipEntry>? items;
 
@@ -18,9 +18,9 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     String? label,
     Widget? labelWidget,
     this.controller,
-    FormFieldValidator<T?>? validator,
+    FormFieldValidator<Set<T>?>? validator,
     super.onSaved,
-    T? initialValue,
+    Set<T>? initialValue,
     this.items,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
@@ -38,6 +38,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     Widget? prefix,
     Widget? suffix,
     EdgeInsets chipExternalPadding = EdgeInsets.zero,
+    bool multiple = false,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -57,7 +58,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
           initialValue: controller != null ? controller.value : initialValue,
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<T?> field) {
+          builder: (FormFieldState<Set<T>?> field) {
             _ChoiceChipFieldState<T> state = field as _ChoiceChipFieldState<T>;
 
             InputDecoration effectiveDecoration = (decoration ??
@@ -85,18 +86,20 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                   errorText: enabled ? field.errorText : null,
                   enabled: enabled,
                 ),
-                child: ValueListenableBuilder<T?>(
+                child: ValueListenableBuilder<Set<T>>(
                   valueListenable: state._effectiveController,
-                  builder: (BuildContext context, T? value, _) => Wrap(
+                  builder: (BuildContext context, Set<T> value, _) => Wrap(
                     alignment: wrapAlignment,
                     crossAxisAlignment: wrapCrossAlignment,
                     children:
                         state._effectiveController.items!.entries.map<Widget>(
                       (MapEntry<T, ChipEntry> e) {
+                        bool selected = value.contains(e.key);
+
                         Color? labelColor = _getLabelColor(
                           context: context,
                           entry: e.value,
-                          selected: value == e.key,
+                          selected: selected,
                         );
 
                         return Padding(
@@ -105,7 +108,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                             label: Text(e.value.label),
                             padding: e.value.padding,
                             backgroundColor: e.value.color,
-                            selected: value == e.key,
+                            selected: selected,
                             selectedColor: e.value.selectedColor ??
                                 Theme.of(state.context).colorScheme.primary,
                             showCheckmark: showCheckMark,
@@ -114,7 +117,8 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                               color: labelColor,
                             ),
                             onSelected: (bool selected) {
-                              state.didChange(selected ? e.key : null);
+                              state.update(e.key,
+                                  selected: selected, multiple: multiple);
                               if (onChanged != null) {
                                 onChanged(e.key, selected: selected);
                               }
@@ -156,13 +160,13 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
   ///
   ///
   @override
-  FormFieldState<T> createState() => _ChoiceChipFieldState<T>();
+  FormFieldState<Set<T>> createState() => _ChoiceChipFieldState<T>();
 }
 
 ///
 ///
 ///
-class _ChoiceChipFieldState<T> extends FormFieldState<T> {
+class _ChoiceChipFieldState<T> extends FormFieldState<Set<T>> {
   ChoiceChipFieldController<T>? _controller;
 
   ///
@@ -223,11 +227,34 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
   ///
   ///
   ///
+  void update(
+    T element, {
+    required bool selected,
+    required bool multiple,
+  }) {
+    Set<T> value = Set<T>.from(_effectiveController.value);
+
+    if (!multiple) {
+      value.clear();
+    }
+
+    if (selected) {
+      value.add(element);
+    } else {
+      value.remove(element);
+    }
+
+    didChange(value);
+  }
+
+  ///
+  ///
+  ///
   @override
-  void didChange(T? value) {
+  void didChange(Set<T>? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
-      _effectiveController.value = value;
+      _effectiveController.value = value ?? <T>{};
     }
   }
 
@@ -237,7 +264,7 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
   @override
   void reset() {
     super.reset();
-    setState(() => _effectiveController.value = widget.initialValue);
+    setState(() => _effectiveController.value = widget.initialValue ?? <T>{});
   }
 
   ///
@@ -263,6 +290,7 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
 ///
 ///
 ///
+@immutable
 class ChipEntry {
   final String label;
   final Color? color;
