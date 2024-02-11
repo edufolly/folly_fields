@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/choice_chip_field_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+import 'package:folly_fields/util/folly_utils.dart';
 
 ///
 ///
 ///
-class ChoiceChipField<T> extends ResponsiveFormField<T> {
+class ChoiceChipField<T> extends ResponsiveFormField<Set<T>> {
   final ChoiceChipFieldController<T>? controller;
-  final Map<T, String>? items;
+  final Map<T, ChipEntry>? items;
 
   ///
   ///
@@ -17,20 +18,19 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     String? label,
     Widget? labelWidget,
     this.controller,
-    FormFieldValidator<T?>? validator,
+    FormFieldValidator<Set<T>?>? validator,
     super.onSaved,
-    T? initialValue,
+    Set<T>? initialValue,
     this.items,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    Function(T? value)? onChanged,
+    Function(T? value, {required bool selected})? onChanged,
     bool filled = false,
     Color? fillColor,
     Color? focusColor,
+    bool? showCheckMark,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    Color? selectedColor,
-    Color? selectedTextColor,
     WrapAlignment wrapAlignment = WrapAlignment.spaceEvenly,
     WrapCrossAlignment wrapCrossAlignment = WrapCrossAlignment.center,
     String? hintText,
@@ -38,7 +38,7 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
     Widget? prefix,
     Widget? suffix,
     EdgeInsets chipExternalPadding = EdgeInsets.zero,
-    EdgeInsets? chipInternalPadding,
+    bool multiple = false,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -58,14 +58,8 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
           initialValue: controller != null ? controller.value : initialValue,
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
-          builder: (FormFieldState<T?> field) {
+          builder: (FormFieldState<Set<T>?> field) {
             _ChoiceChipFieldState<T> state = field as _ChoiceChipFieldState<T>;
-
-            Color effectiveSelectedColor =
-                selectedColor ?? Theme.of(state.context).colorScheme.primary;
-
-            Color effectiveSelectedTextColor = selectedTextColor ??
-                Theme.of(state.context).colorScheme.onPrimary;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -92,33 +86,50 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
                   errorText: enabled ? field.errorText : null,
                   enabled: enabled,
                 ),
-                child: ValueListenableBuilder<T?>(
+                child: ValueListenableBuilder<Set<T>>(
                   valueListenable: state._effectiveController,
-                  builder: (BuildContext context, T? value, _) => Wrap(
+                  builder: (BuildContext context, Set<T> value, _) => Wrap(
                     alignment: wrapAlignment,
                     crossAxisAlignment: wrapCrossAlignment,
-                    children: state._effectiveController.items!.entries
-                        .map<Widget>(
-                          (MapEntry<T, String> e) => Padding(
-                            padding: chipExternalPadding,
-                            child: ChoiceChip(
-                              label: Text(e.value),
-                              padding: chipInternalPadding,
-                              selected: value == e.key,
-                              selectedColor: effectiveSelectedColor,
-                              labelStyle: value == e.key
-                                  ? TextStyle(color: effectiveSelectedTextColor)
-                                  : null,
-                              onSelected: (_) {
-                                state.didChange(e.key);
-                                if (onChanged != null) {
-                                  onChanged(e.key);
-                                }
-                              },
+                    children:
+                        state._effectiveController.items!.entries.map<Widget>(
+                      (MapEntry<T, ChipEntry> e) {
+                        bool selected = value.contains(e.key);
+
+                        Color? labelColor = _getLabelColor(
+                          context: context,
+                          entry: e.value,
+                          selected: selected,
+                        );
+
+                        return Padding(
+                          padding: chipExternalPadding,
+                          child: FilterChip(
+                            label: Text(e.value.label),
+                            padding: e.value.padding,
+                            backgroundColor: e.value.color,
+                            selected: selected,
+                            selectedColor: e.value.selectedColor ??
+                                Theme.of(state.context).colorScheme.primary,
+                            showCheckmark: showCheckMark,
+                            checkmarkColor: labelColor,
+                            labelStyle: TextStyle(
+                              color: labelColor,
                             ),
+                            onSelected: (bool selected) {
+                              state.update(
+                                e.key,
+                                selected: selected,
+                                multiple: multiple,
+                              );
+                              if (onChanged != null) {
+                                onChanged(e.key, selected: selected);
+                              }
+                            },
                           ),
-                        )
-                        .toList(),
+                        );
+                      },
+                    ).toList(),
                   ),
                 ),
               ),
@@ -129,14 +140,36 @@ class ChoiceChipField<T> extends ResponsiveFormField<T> {
   ///
   ///
   ///
+  static Color? _getLabelColor({
+    required BuildContext context,
+    required ChipEntry entry,
+    required bool selected,
+  }) {
+    if (selected) {
+      return entry.selectedTextColor ??
+          (entry.selectedColor != null
+              ? FollyUtils.textColorByLuminance(entry.selectedColor!)
+              : Theme.of(context).colorScheme.onPrimary);
+    } else if (entry.textColor != null) {
+      return entry.textColor;
+    } else if (entry.textColor == null && entry.color != null) {
+      return FollyUtils.textColorByLuminance(entry.color!);
+    }
+
+    return null;
+  }
+
+  ///
+  ///
+  ///
   @override
-  FormFieldState<T> createState() => _ChoiceChipFieldState<T>();
+  FormFieldState<Set<T>> createState() => _ChoiceChipFieldState<T>();
 }
 
 ///
 ///
 ///
-class _ChoiceChipFieldState<T> extends FormFieldState<T> {
+class _ChoiceChipFieldState<T> extends FormFieldState<Set<T>> {
   ChoiceChipFieldController<T>? _controller;
 
   ///
@@ -197,11 +230,34 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
   ///
   ///
   ///
+  void update(
+    T element, {
+    required bool selected,
+    required bool multiple,
+  }) {
+    Set<T> value = Set<T>.from(_effectiveController.value);
+
+    if (!multiple) {
+      value.clear();
+    }
+
+    if (selected) {
+      value.add(element);
+    } else {
+      value.remove(element);
+    }
+
+    didChange(value);
+  }
+
+  ///
+  ///
+  ///
   @override
-  void didChange(T? value) {
+  void didChange(Set<T>? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
-      _effectiveController.value = value;
+      _effectiveController.value = value ?? <T>{};
     }
   }
 
@@ -211,7 +267,7 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
   @override
   void reset() {
     super.reset();
-    setState(() => _effectiveController.value = widget.initialValue);
+    setState(() => _effectiveController.value = widget.initialValue ?? <T>{});
   }
 
   ///
@@ -232,4 +288,29 @@ class _ChoiceChipFieldState<T> extends FormFieldState<T> {
     _controller?.dispose();
     super.dispose();
   }
+}
+
+///
+///
+///
+@immutable
+class ChipEntry {
+  final String label;
+  final Color? color;
+  final Color? textColor;
+  final EdgeInsets? padding;
+  final Color? selectedColor;
+  final Color? selectedTextColor;
+
+  ///
+  ///
+  ///
+  const ChipEntry(
+    this.label, {
+    this.color,
+    this.textColor,
+    this.padding,
+    this.selectedColor,
+    this.selectedTextColor,
+  });
 }

@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 ///
 ///
 void main() async {
-  const String version = '10.6.0';
+  const String version = '10.7.0';
 
   Response response = await get(
     Uri.parse(

@@ -1,3 +1,12 @@
+## [2.7.0] - 2024-02-11
+
+* Updating to Font Awesome 10.7.0.
+* Updating analysis_options.yaml.
+* Updating ChoiceChipField style and adding multiple selection.
+* Fixing Hashable mixin.
+* Deprecating FileField and FileEditingController for new desktop
+  implementation.
+
 ## [2.6.1] - 2024-01-27
 
 * Adding counterText to fields.

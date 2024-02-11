@@ -7,6 +7,7 @@ import 'package:folly_fields/responsive/responsive_form_field.dart';
 ///
 ///
 ///
+@Deprecated('Will be removed in the next version.')
 enum FileFieldType {
   any(FileType.any),
   media(FileType.media),
@@ -17,18 +18,21 @@ enum FileFieldType {
 
   final FileType toFilePicker;
 
+  @Deprecated('Will be removed in the next version.')
   const FileFieldType(this.toFilePicker);
 }
 
 ///
 ///
 ///
+@Deprecated('Will be removed in the next version.')
 class FileField extends ResponsiveFormField<Uint8List> {
   final FileFieldController? controller;
 
   ///
   ///
   ///
+  @Deprecated('Will be removed in the next version.')
   FileField({
     String? labelPrefix,
     String? label,
@@ -259,6 +263,7 @@ class FileField extends ResponsiveFormField<Uint8List> {
 ///
 ///
 ///
+@Deprecated('Will be removed in the next version.')
 class _FileFieldState extends FormFieldState<Uint8List> {
   FileFieldController? _controller;
   String? _filename;

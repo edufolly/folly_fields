@@ -1,3 +1,6 @@
+// TODO(edufolly): Remove this line after the next release of the package.
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -938,16 +941,30 @@ class MyHomePageState extends State<MyHomePage> {
                           ChoiceChipField<int>(
                         label: 'Frutas',
                         enabled: edit,
-                        items: const <int, String>{
-                          0: 'Banana',
-                          1: 'Maça',
-                          2: 'Laranja',
+                        items: const <int, ChipEntry>{
+                          0: ChipEntry(
+                            '🍎Maça',
+                            color: Colors.red,
+                            selectedColor: Colors.redAccent,
+                          ),
+                          1: ChipEntry(
+                            '🍌Banana',
+                            color: Colors.yellow,
+                            selectedColor: Colors.yellowAccent,
+                          ),
+                          2: ChipEntry(
+                            '🍊Tangerina',
+                            color: Colors.orange,
+                            selectedColor: Colors.orangeAccent,
+                          ),
                         },
-                        onChanged: (int? value) =>
+                        onChanged: (int? value, {required bool selected}) =>
                             // ignore: avoid_print
-                            print('ChoiceChipField changed to $value'),
-                        validator: FollyValidators.notNull,
-                        onSaved: (int? value) => model.fruitIndex = value,
+                            print('ChoiceChipField $value is'
+                                '${selected ? '' : ' NOT'} selected'),
+                        validator: FollyValidators.notEmpty,
+                        onSaved: (Set<int>? value) =>
+                            model.fruitIndex = value!.first,
                       ),
                       // [/ChoiceChipField]
                     ),
