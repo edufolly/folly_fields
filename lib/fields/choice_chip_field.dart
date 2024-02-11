@@ -117,8 +117,11 @@ class ChoiceChipField<T> extends ResponsiveFormField<Set<T>> {
                               color: labelColor,
                             ),
                             onSelected: (bool selected) {
-                              state.update(e.key,
-                                  selected: selected, multiple: multiple);
+                              state.update(
+                                e.key,
+                                selected: selected,
+                                multiple: multiple,
+                              );
                               if (onChanged != null) {
                                 onChanged(e.key, selected: selected);
                               }
