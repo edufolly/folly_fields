@@ -1,3 +1,7 @@
+## [3.0.1] - 2024-03-31
+
+* Updating Connectivity Plus to ^6.0.1.
+
 ## [3.0.0] - 2024-03-31
 
 * Upgrade to Flutter 3.19.0 and Dart 3.3.0.

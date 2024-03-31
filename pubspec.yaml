@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 3.0.0
+version: 3.0.1
 repository: https://github.com/edufolly/folly_fields/
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: ^6.0.0
+  connectivity_plus: ^6.0.1
 
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
