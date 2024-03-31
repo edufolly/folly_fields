@@ -418,12 +418,19 @@ abstract class AbstractConfig implements _InternalConfig {
 
       connectivity ??= Connectivity();
 
-      ConnectivityResult result = await connectivity.checkConnectivity();
+      List<ConnectivityResult> result = await connectivity.checkConnectivity();
 
-      _online = result != ConnectivityResult.none;
+      _online = result.fold(
+        false,
+        (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
+      );
 
-      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-        _online = result != ConnectivityResult.none;
+      connectivity.onConnectivityChanged
+          .listen((List<ConnectivityResult> result) {
+        _online = result.fold(
+          false,
+          (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
+        );
         if (kDebugMode) {
           print('Connectivity Changed: $_online');
         }

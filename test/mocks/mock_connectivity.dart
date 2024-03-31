@@ -6,25 +6,30 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 ///
 ///
 class MockConnectivity implements Connectivity {
-  ConnectivityResult defaultResult;
+  List<ConnectivityResult> defaultResult;
 
   ///
   ///
   ///
-  MockConnectivity({this.defaultResult = ConnectivityResult.ethernet});
+  MockConnectivity({
+    this.defaultResult = const <ConnectivityResult>[
+      ConnectivityResult.mobile,
+      ConnectivityResult.wifi,
+    ],
+  });
 
   ///
   ///
   ///
   @override
-  Future<ConnectivityResult> checkConnectivity() async => defaultResult;
+  Future<List<ConnectivityResult>> checkConnectivity() async => defaultResult;
 
   ///
   ///
   ///
   @override
-  Stream<ConnectivityResult> get onConnectivityChanged =>
-      Stream<ConnectivityResult>.fromIterable(
-        <ConnectivityResult>{defaultResult},
+  Stream<List<ConnectivityResult>> get onConnectivityChanged =>
+      Stream<List<ConnectivityResult>>.fromIterable(
+        <List<ConnectivityResult>>{defaultResult},
       );
 }

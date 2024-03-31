@@ -10,7 +10,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: ^5.0.0
+  connectivity_plus: ^6.0.0
 
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
@@ -28,7 +28,7 @@ dependencies:
   # https://pub.dev/packages/file_selector
 
   # https://pub.dev/packages/file_picker
-  file_picker: ^5.5.0
+  file_picker: ^5.5.0 # 8.0.0
 
   # https://flutter.dev/
   flutter:
