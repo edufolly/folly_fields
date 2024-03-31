@@ -1,3 +1,9 @@
+## [3.0.0] - 2024-03-31
+
+* Upgrade to Flutter 3.19.0 and Dart 3.3.0.
+* Updating Connectivity Plus to ^6.0.0.
+* Removing FileField and FileEditingController.
+
 ## [2.7.0] - 2024-02-11
 
 * Updating to Font Awesome 10.7.0.

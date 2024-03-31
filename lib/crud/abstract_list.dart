@@ -494,10 +494,10 @@ class AbstractListState<
                             ],
                           ),
                         )
-                      : RawKeyboardListener(
+                      : KeyboardListener(
                           autofocus: true,
                           focusNode: keyboardFocusNode,
-                          onKey: (RawKeyEvent event) {
+                          onKeyEvent: (KeyEvent event) {
                             if (widget.showSearchButton &&
                                 event.character != null) {
                               _search(event.character);

@@ -1,6 +1,3 @@
-// TODO(edufolly): Remove this line after the next release of the package.
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -19,7 +16,6 @@ import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/duration_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
-import 'package:folly_fields/fields/file_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/ipv4_field.dart';
@@ -909,26 +905,6 @@ class MyHomePageState extends State<MyHomePage> {
                             print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
-                    ),
-
-                    CodeLink(
-                      code: code,
-                      tag: 'FileField',
-                      source: 'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/file_field.dart',
-                      child:
-                          // [FileField]
-                          FileField(
-                        label: 'Arquivo(imagem)',
-                        enabled: edit,
-                        onSaved: (Uint8List? newValue) {
-                          model.blob = newValue ?? Uint8List(0);
-                        },
-                        thumbnailSize: const Size(256, 256),
-                        showImageThumbnail: true,
-                        type: FileFieldType.image,
-                      ),
-                      // [/FileField]
                     ),
 
                     CodeLink(
