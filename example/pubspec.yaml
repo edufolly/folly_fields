@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 3.0.1+210
+version: 3.0.2+211
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -11,7 +11,7 @@ environment:
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 6.0.1
+  connectivity_plus: 6.0.2
 
   flutter:
     sdk: flutter
@@ -37,7 +37,7 @@ dependencies:
   http: 1.2.1
 
   # https://pub.dev/packages/url_launcher
-  url_launcher: 6.2.5
+  url_launcher: 6.2.6
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
