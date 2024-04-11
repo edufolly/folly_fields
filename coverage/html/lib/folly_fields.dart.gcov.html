@@ -31,13 +31,13 @@
             <td class="headerValue">Folly Fields</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">38</td>
-            <td class="headerCovTableEntry">103</td>
-            <td class="headerCovTableEntryLo">36.9 %</td>
+            <td class="headerCovTableEntry">41</td>
+            <td class="headerCovTableEntry">106</td>
+            <td class="headerCovTableEntryLo">38.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-02-11 17:19:06</td>
+            <td class="headerValue">2024-04-11 20:38:05</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -480,19 +480,26 @@
 <a name="418"><span class="lineNum">     418 </span>            : </a>
 <a name="419"><span class="lineNum">     419 </span><span class="lineNoCov">          0 :       connectivity ??= Connectivity();</span></a>
 <a name="420"><span class="lineNum">     420 </span>            : </a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          5 :       ConnectivityResult result = await connectivity.checkConnectivity();</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          5 :       List&lt;ConnectivityResult&gt; result = await connectivity.checkConnectivity();</span></a>
 <a name="422"><span class="lineNum">     422 </span>            : </a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">         10 :       _online = result != ConnectivityResult.none;</span></a>
-<a name="424"><span class="lineNum">     424 </span>            : </a>
-<a name="425"><span class="lineNum">     425 </span><span class="lineCov">         15 :       connectivity.onConnectivityChanged.listen((ConnectivityResult result) {</span></a>
-<a name="426"><span class="lineNum">     426 </span><span class="lineCov">         10 :         _online = result != ConnectivityResult.none;</span></a>
-<a name="427"><span class="lineNum">     427 </span>            :         if (kDebugMode) {</a>
-<a name="428"><span class="lineNum">     428 </span><span class="lineCov">         15 :           print('Connectivity Changed: $_online');</span></a>
-<a name="429"><span class="lineNum">     429 </span>            :         }</a>
-<a name="430"><span class="lineNum">     430 </span>            :       });</a>
-<a name="431"><span class="lineNum">     431 </span>            :     }</a>
-<a name="432"><span class="lineNum">     432 </span>            :   }</a>
-<a name="433"><span class="lineNum">     433 </span>            : }</a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">         10 :       _online = result.fold(</span></a>
+<a name="424"><span class="lineNum">     424 </span>            :         false,</a>
+<a name="425"><span class="lineNum">     425 </span><span class="lineCov">         10 :         (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
+<a name="426"><span class="lineNum">     426 </span>            :       );</a>
+<a name="427"><span class="lineNum">     427 </span>            : </a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">          5 :       connectivity.onConnectivityChanged</span></a>
+<a name="429"><span class="lineNum">     429 </span><span class="lineCov">         10 :           .listen((List&lt;ConnectivityResult&gt; result) {</span></a>
+<a name="430"><span class="lineNum">     430 </span><span class="lineCov">         10 :         _online = result.fold(</span></a>
+<a name="431"><span class="lineNum">     431 </span>            :           false,</a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">         10 :           (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
+<a name="433"><span class="lineNum">     433 </span>            :         );</a>
+<a name="434"><span class="lineNum">     434 </span>            :         if (kDebugMode) {</a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">         15 :           print('Connectivity Changed: $_online');</span></a>
+<a name="436"><span class="lineNum">     436 </span>            :         }</a>
+<a name="437"><span class="lineNum">     437 </span>            :       });</a>
+<a name="438"><span class="lineNum">     438 </span>            :     }</a>
+<a name="439"><span class="lineNum">     439 </span>            :   }</a>
+<a name="440"><span class="lineNum">     440 </span>            : }</a>
 </pre>
       </td>
     </tr>
