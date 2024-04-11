@@ -1,3 +1,7 @@
+## [3.0.2] - 2024-04-11
+
+* Adding leadingWidth to AbstractEdit and AbstractList.
+
 ## [3.0.1] - 2024-03-31
 
 * Updating Connectivity Plus to ^6.0.1.

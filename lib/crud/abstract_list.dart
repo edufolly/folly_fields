@@ -91,6 +91,7 @@ abstract class AbstractList<
     void Function({bool clear})? refresh, {
     required bool selection,
   })? rowActions;
+  final double? leadingWidth;
 
   ///
   ///
@@ -141,6 +142,7 @@ abstract class AbstractList<
     this.appBarLeading,
     this.actions,
     this.rowActions,
+    this.leadingWidth,
     super.key,
   }) : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
@@ -327,6 +329,7 @@ class AbstractListState<
         leading: widget.appBarLeading == null
             ? null
             : widget.appBarLeading!(context),
+        leadingWidth: widget.leadingWidth,
         title: _getScaffoldTitle(context),
         actions: <Widget>[
           /// Select All Button
@@ -488,9 +491,7 @@ class AbstractListState<
                           sprintf(
                             widget.listEmpty,
                             <dynamic>[
-                              widget.builder
-                                  .superPlural(context)
-                                  .toLowerCase(),
+                              widget.builder.superPlural(context).toLowerCase(),
                             ],
                           ),
                         )
@@ -971,8 +972,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
@@ -1022,8 +1022,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     }
@@ -1048,8 +1047,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
