@@ -38,6 +38,7 @@ abstract class AbstractEdit<
   })? actions;
   final String exitWithoutSaveMessage;
   final String saveErrorText;
+  final double? leadingWidth;
 
   ///
   ///
@@ -55,6 +56,7 @@ abstract class AbstractEdit<
     this.exitWithoutSaveMessage = 'Modificações foram realizadas.\n\n'
         'Deseja sair mesmo assim?',
     this.saveErrorText = 'Ocorreu um erro ao tentar salvar:\n%s',
+    this.leadingWidth,
     super.key,
   });
 
@@ -155,6 +157,7 @@ class AbstractEditState<
         leading: widget.appBarLeading == null
             ? null
             : widget.appBarLeading!(context),
+        leadingWidth: widget.leadingWidth,
         title: Text(widget.builder.superSingle(context)),
         actions: <Widget>[
           /// Actions
