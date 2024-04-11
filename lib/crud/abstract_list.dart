@@ -491,9 +491,7 @@ class AbstractListState<
                           sprintf(
                             widget.listEmpty,
                             <dynamic>[
-                              widget.builder
-                                  .superPlural(context)
-                                  .toLowerCase(),
+                              widget.builder.superPlural(context).toLowerCase(),
                             ],
                           ),
                         )
@@ -974,8 +972,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
@@ -1025,8 +1022,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     }
@@ -1051,8 +1047,7 @@ class InternalSearch<
               ),
             ),
           ),
-          builder.buildBottomNavigationBar(context) ??
-              const SizedBox.shrink(),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
