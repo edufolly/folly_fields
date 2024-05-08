@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/crud/abstract_builder.dart';
-import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_builder.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
@@ -9,43 +6,43 @@ import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/widgets/empty_button.dart';
 import 'package:folly_fields/widgets/field_group.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
-import 'package:folly_fields/widgets/header_cell.dart';
 import 'package:folly_fields/widgets/table_button.dart';
 import 'package:folly_fields/widgets/table_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 ///
 ///
-// TODO(edufolly): Test layout with DataTable.
-// TODO(edufolly): Customize messages.
-// TODO(edufolly): Create controller??
-class TableField<T extends AbstractModel<ID>, ID>
-    extends ResponsiveFormField<List<T>> {
+class TableField<T> extends ResponsiveFormField<List<T>> {
   ///
   ///
   ///
   TableField({
     required List<T> super.initialValue,
-    required AbstractBuilder<T, ID> builder,
-    required AbstractConsumer<T, ID> consumer,
+    required String plural,
+    required String single,
+    required T Function() create,
     required List<Responsive> Function(
       BuildContext context,
       T row,
       int index,
-      List<T> data,
-      List<String> columnsHeaders, {
+      List<T> data, {
+      required bool isCard,
       required bool enabled,
+      required Function(List<T> value) didChange,
     }) buildRow,
-    List<String> columnHeaders = const <String>[],
+    List<Widget> columnHeaders = const <Widget>[],
     List<int>? columnsFlex,
     Future<bool> Function(BuildContext context, List<T> data)? beforeAdd,
     Future<bool> Function(BuildContext context, T row, int index, List<T> data)?
         removeRow,
-    FormFieldSetter<List<T>>? onSaved,
-    FormFieldValidator<List<T>>? validator,
+    String? Function(List<T>)? validator,
+    void Function(List<T>)? onSaved,
     super.enabled,
     bool showAddButton = true,
+    bool showTopAddButton = true,
+    bool withDivider = true,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Widget Function(
       BuildContext context,
@@ -62,6 +59,9 @@ class TableField<T extends AbstractModel<ID>, ID>
     super.minHeight,
     ResponsiveSize? changeToCard,
     double? elevation,
+    String emptyListText = 'Sem %s até o momento.',
+    String removeText = 'Remover %s',
+    String addText = 'Adicionar %s',
     super.key,
   })  : assert(
           columnsFlex == null || columnsFlex.length == columnHeaders.length,
@@ -70,25 +70,16 @@ class TableField<T extends AbstractModel<ID>, ID>
         ),
         super(
           onSaved: enabled && onSaved != null
-              ? (List<T>? value) => onSaved(value)
+              ? (List<T>? value) => onSaved(value!)
               : null,
           validator: enabled && validator != null
-              ? (List<T>? value) => validator(value)
+              ? (List<T>? value) => validator(value!)
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<List<T>> field) {
-            TextStyle? columnHeaderTheme =
-                Theme.of(field.context).textTheme.titleSmall;
-
-            if (columnHeaderTheme != null && !enabled) {
-              columnHeaderTheme = columnHeaderTheme.copyWith(
-                color: Theme.of(field.context).disabledColor,
-              );
-            }
-
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
-                      labelText: builder.superPlural(field.context),
+                      labelText: plural,
                       border: const OutlineInputBorder(),
                       counterText: '',
                       enabled: enabled,
@@ -100,21 +91,17 @@ class TableField<T extends AbstractModel<ID>, ID>
               padding: padding,
               decoration: effectiveDecoration,
               children: <Widget>[
-                if (field.value!.isEmpty)
-
-                  /// Empty table
+                /// Empty
+                if (field.value?.isEmpty ?? true)
                   SizedBox(
                     height: 75,
                     child: Center(
-                      child: Text(
-                        'Sem ${builder.superPlural(field.context)} '
-                        'até o momento.',
-                      ),
+                      child: Text(sprintf(emptyListText, <dynamic>[plural])),
                     ),
                   )
-                else
 
-                  /// Table
+                /// Table
+                else
                   ResponsiveBuilder(
                     builder: (
                       BuildContext context,
@@ -123,12 +110,13 @@ class TableField<T extends AbstractModel<ID>, ID>
                       bool isCard = false;
                       List<Widget> columnData = <Widget>[];
 
+                      /// Card
                       if (changeToCard != null &&
                           responsiveSize <= changeToCard) {
                         isCard = true;
 
-                        /// Table data
-                        for (final MapEntry<int, T> (:int key, :T value)
+                        /// Card data
+                        for (final MapEntry<int, T>(:int key, :T value)
                             in field.value!.asMap().entries) {
                           columnData.add(
                             Padding(
@@ -144,8 +132,9 @@ class TableField<T extends AbstractModel<ID>, ID>
                                       value,
                                       key,
                                       field.value!,
-                                      columnHeaders,
+                                      isCard: isCard,
                                       enabled: enabled,
+                                      didChange: field.didChange,
                                     ),
 
                                     /// Delete button
@@ -154,7 +143,10 @@ class TableField<T extends AbstractModel<ID>, ID>
                                         enabled: enabled,
                                         iconData: FontAwesomeIcons.trashCan,
                                         padding: const EdgeInsets.all(8),
-                                        label: 'REMOVER ITEM',
+                                        label: sprintf(
+                                          removeText,
+                                          <dynamic>[single],
+                                        ).toUpperCase(),
                                         onPressed: () async {
                                           bool go = await removeRow(
                                             field.context,
@@ -176,6 +168,8 @@ class TableField<T extends AbstractModel<ID>, ID>
                             ),
                           );
                         }
+
+                        /// Table
                       } else {
                         /// Header
                         if (columnHeaders.isNotEmpty) {
@@ -184,30 +178,62 @@ class TableField<T extends AbstractModel<ID>, ID>
                               children: <Widget>[
                                 /// Columns Names
                                 ...columnHeaders.asMap().entries.map<Widget>(
-                                      (MapEntry<int, String> entry) =>
-                                          HeaderCell(
-                                        flex: columnsFlex?[entry.key] ?? 1,
-                                        child: Text(
-                                          entry.value,
-                                          style: columnHeaderTheme,
-                                        ),
+                                  (MapEntry<int, Widget> entry) {
+                                    int flex = columnsFlex?[entry.key] ?? 1;
+
+                                    if (flex < 1) {
+                                      return entry.value;
+                                    }
+
+                                    return Flexible(
+                                      flex: flex,
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: entry.value,
                                       ),
-                                    ),
+                                    );
+                                  },
+                                ),
 
                                 /// Empty column to delete button
-                                if (removeRow != null) const EmptyButton(),
+                                if (removeRow != null)
+                                  showTopAddButton
+                                      ? TableIconButton(
+                                          enabled: enabled,
+                                          iconData: FontAwesomeIcons.plus,
+                                          tooltip: sprintf(
+                                            addText,
+                                            <dynamic>[single],
+                                          ),
+                                          onPressed: () async {
+                                            if (beforeAdd != null) {
+                                              bool go = await beforeAdd(
+                                                field.context,
+                                                field.value!,
+                                              );
+                                              if (!go) {
+                                                return;
+                                              }
+                                            }
+
+                                            field.value!.insert(0, create());
+                                            field.didChange(field.value);
+                                          },
+                                        )
+                                      : const EmptyButton(),
                               ],
                             ),
                           );
                         }
 
                         /// Table data
-                        for (final MapEntry<int, T> (:int key, :T value)
+                        for (final MapEntry<int, T>(:int key, :T value)
                             in field.value!.asMap().entries) {
                           columnData.addAll(
                             <Widget>[
                               /// Divider
-                              FollyDivider(enabled: enabled),
+                              if (withDivider || key == 0)
+                                FollyDivider(enabled: enabled),
 
                               /// Row
                               Row(
@@ -219,27 +245,36 @@ class TableField<T extends AbstractModel<ID>, ID>
                                     value,
                                     key,
                                     field.value!,
-                                    List<String>.filled(
-                                      columnHeaders.length,
-                                      '',
-                                    ),
+                                    isCard: isCard,
                                     enabled: enabled,
+                                    didChange: field.didChange,
                                   ).asMap().entries.map<Widget>(
-                                        (MapEntry<int, Widget> entry) =>
-                                            Flexible(
-                                          flex: columnsFlex?[entry.key] ?? 1,
-                                          child: SizedBox(
-                                            width: double.infinity,
-                                            child: entry.value,
-                                          ),
+                                    (MapEntry<int, Widget> entry) {
+                                      int flex = columnsFlex?[entry.key] ?? 1;
+
+                                      if (flex < 1) {
+                                        return entry.value;
+                                      }
+
+                                      return Flexible(
+                                        flex: flex,
+                                        child: SizedBox(
+                                          width: double.infinity,
+                                          child: entry.value,
                                         ),
-                                      ),
+                                      );
+                                    },
+                                  ),
 
                                   /// Delete button
                                   if (removeRow != null)
                                     TableIconButton(
                                       enabled: enabled,
                                       iconData: FontAwesomeIcons.trashCan,
+                                      tooltip: sprintf(
+                                        removeText,
+                                        <dynamic>[single],
+                                      ),
                                       onPressed: () async {
                                         bool go = await removeRow(
                                           field.context,
@@ -281,7 +316,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                   TableButton(
                     enabled: enabled,
                     iconData: FontAwesomeIcons.plus,
-                    label: 'Adicionar ${builder.superSingle(field.context)}',
+                    label: sprintf(addText, <dynamic>[single]).toUpperCase(),
                     onPressed: () async {
                       if (beforeAdd != null) {
                         bool go = await beforeAdd(field.context, field.value!);
@@ -290,7 +325,7 @@ class TableField<T extends AbstractModel<ID>, ID>
                         }
                       }
 
-                      field.value!.add(consumer.fromJson(<String, dynamic>{}));
+                      field.value!.add(create());
                       field.didChange(field.value);
                     },
                   ),
