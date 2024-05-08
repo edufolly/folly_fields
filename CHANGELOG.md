@@ -1,3 +1,9 @@
+## [3.1.0] - 2024-05-08
+
+* Updating TableField.
+* Renaming HeaderCell to HeaderText.
+* Adding new properties to TableIconButton.
+
 ## [3.0.2] - 2024-04-11
 
 * Adding leadingWidth to AbstractEdit and AbstractList.

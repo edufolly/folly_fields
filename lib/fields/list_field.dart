@@ -14,7 +14,6 @@ import 'package:sprintf/sprintf.dart';
 ///
 ///
 ///
-// TODO(edufolly): Create controller?
 class ListField<
     T extends AbstractModel<ID>,
     B extends AbstractBuilder<T, ID>,

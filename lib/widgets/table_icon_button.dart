@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class TableIconButton extends StatelessWidget {
+class TableIconButton extends ResponsiveStateless {
   final VoidCallback onPressed;
   final bool enabled;
   final IconData iconData;
+  final String? tooltip;
 
   ///
   ///
@@ -16,6 +18,13 @@ class TableIconButton extends StatelessWidget {
     required this.onPressed,
     required this.enabled,
     required this.iconData,
+    this.tooltip,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
     super.key,
   });
 
@@ -39,6 +48,7 @@ class TableIconButton extends StatelessWidget {
           top: 12,
         ),
         child: IconButton(
+          tooltip: tooltip,
           icon: FaIcon(
             iconData,
             color: iconColor,
