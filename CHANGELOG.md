@@ -1,3 +1,13 @@
+## [3.1.1] - 2024-05-13
+
+* Updating decorators from:
+    * BoolField
+    * ListField
+    * TableField
+    * ModelField
+* Removing deprecate methods from ModelUtils.
+* Adding EmptyButton to ResponsiveStateless.
+
 ## [3.1.0] - 2024-05-08
 
 * Updating TableField.

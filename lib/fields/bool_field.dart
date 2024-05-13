@@ -101,6 +101,7 @@ class BoolField extends ResponsiveFormField<bool> {
                     child: InputDecorator(
                       decoration: effectiveDecoration.copyWith(
                         errorText: enabled ? field.errorText : null,
+                        enabled: enabled,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
