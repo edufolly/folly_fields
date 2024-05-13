@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-05-08 22:27:58</td>
+            <td class="headerValue">2024-05-13 17:51:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -71,12 +71,12 @@
 <a name="9"><span class="lineNum">       9 </span>            : ///</a>
 <a name="10"><span class="lineNum">      10 </span>            : ///</a>
 <a name="11"><span class="lineNum">      11 </span>            : class FollyFields implements _InternalConfig {</a>
-<a name="12"><span class="lineNum">      12 </span><span class="lineCov">         15 :   static final FollyFields _singleton = FollyFields._internal();</span></a>
+<a name="12"><span class="lineNum">      12 </span><span class="lineCov">          6 :   static final FollyFields _singleton = FollyFields._internal();</span></a>
 <a name="13"><span class="lineNum">      13 </span>            : </a>
 <a name="14"><span class="lineNum">      14 </span>            :   ///</a>
 <a name="15"><span class="lineNum">      15 </span>            :   ///</a>
 <a name="16"><span class="lineNum">      16 </span>            :   ///</a>
-<a name="17"><span class="lineNum">      17 </span><span class="lineCov">          5 :   static void start(</span></a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineCov">          2 :   static void start(</span></a>
 <a name="18"><span class="lineNum">      18 </span>            :     AbstractConfig holder, {</a>
 <a name="19"><span class="lineNum">      19 </span>            :     String modelIdKey = 'id',</a>
 <a name="20"><span class="lineNum">      20 </span>            :     String modelUpdatedAtKey = 'updatedAt',</a>
@@ -86,8 +86,8 @@
 <a name="24"><span class="lineNum">      24 </span>            :     FollyDateParse? dateParseDelete,</a>
 <a name="25"><span class="lineNum">      25 </span>            :     Connectivity? connectivity,</a>
 <a name="26"><span class="lineNum">      26 </span>            :   }) =&gt;</a>
-<a name="27"><span class="lineNum">      27 </span><span class="lineCov">         10 :       FollyFields()._holder = holder</span></a>
-<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          5 :         .._start(</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">          4 :       FollyFields()._holder = holder</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          2 :         .._start(</span></a>
 <a name="29"><span class="lineNum">      29 </span>            :           modelIdKey: modelIdKey,</a>
 <a name="30"><span class="lineNum">      30 </span>            :           modelUpdatedAtKey: modelUpdatedAtKey,</a>
 <a name="31"><span class="lineNum">      31 </span>            :           modelDeletedAtKey: modelDeletedAtKey,</a>
@@ -102,14 +102,14 @@
 <a name="40"><span class="lineNum">      40 </span>            :   ///</a>
 <a name="41"><span class="lineNum">      41 </span>            :   ///</a>
 <a name="42"><span class="lineNum">      42 </span>            :   ///</a>
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          5 :   factory FollyFields() {</span></a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          5 :     return _singleton;</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          2 :   factory FollyFields() {</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          2 :     return _singleton;</span></a>
 <a name="45"><span class="lineNum">      45 </span>            :   }</a>
 <a name="46"><span class="lineNum">      46 </span>            : </a>
 <a name="47"><span class="lineNum">      47 </span>            :   ///</a>
 <a name="48"><span class="lineNum">      48 </span>            :   ///</a>
 <a name="49"><span class="lineNum">      49 </span>            :   ///</a>
-<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          5 :   FollyFields._internal();</span></a>
+<a name="50"><span class="lineNum">      50 </span><span class="lineCov">          2 :   FollyFields._internal();</span></a>
 <a name="51"><span class="lineNum">      51 </span>            : </a>
 <a name="52"><span class="lineNum">      52 </span>            :   ///</a>
 <a name="53"><span class="lineNum">      53 </span>            :   ///</a>
@@ -168,20 +168,20 @@
 <a name="106"><span class="lineNum">     106 </span>            :   ///</a>
 <a name="107"><span class="lineNum">     107 </span>            :   ///</a>
 <a name="108"><span class="lineNum">     108 </span>            :   ///</a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="110"><span class="lineNum">     110 </span><span class="lineCov">         10 :   String get modelIdKey =&gt; _holder.modelIdKey;</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">          4 :   String get modelIdKey =&gt; _holder.modelIdKey;</span></a>
 <a name="111"><span class="lineNum">     111 </span>            : </a>
 <a name="112"><span class="lineNum">     112 </span>            :   ///</a>
 <a name="113"><span class="lineNum">     113 </span>            :   ///</a>
 <a name="114"><span class="lineNum">     114 </span>            :   ///</a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">         10 :   String get modelUpdatedAtKey =&gt; _holder.modelUpdatedAtKey;</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">          4 :   String get modelUpdatedAtKey =&gt; _holder.modelUpdatedAtKey;</span></a>
 <a name="117"><span class="lineNum">     117 </span>            : </a>
 <a name="118"><span class="lineNum">     118 </span>            :   ///</a>
 <a name="119"><span class="lineNum">     119 </span>            :   ///</a>
 <a name="120"><span class="lineNum">     120 </span>            :   ///</a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="122"><span class="lineNum">     122 </span><span class="lineCov">         10 :   String get modelDeletedAtKey =&gt; _holder.modelDeletedAtKey;</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">          4 :   String get modelDeletedAtKey =&gt; _holder.modelDeletedAtKey;</span></a>
 <a name="123"><span class="lineNum">     123 </span>            : </a>
 <a name="124"><span class="lineNum">     124 </span>            :   ///</a>
 <a name="125"><span class="lineNum">     125 </span>            :   ///</a>
@@ -398,20 +398,20 @@
 <a name="336"><span class="lineNum">     336 </span>            :   ///</a>
 <a name="337"><span class="lineNum">     337 </span>            :   ///</a>
 <a name="338"><span class="lineNum">     338 </span>            :   ///</a>
-<a name="339"><span class="lineNum">     339 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="340"><span class="lineNum">     340 </span><span class="lineCov">          5 :   String get modelIdKey =&gt; _modelIdKey;</span></a>
+<a name="339"><span class="lineNum">     339 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="340"><span class="lineNum">     340 </span><span class="lineCov">          2 :   String get modelIdKey =&gt; _modelIdKey;</span></a>
 <a name="341"><span class="lineNum">     341 </span>            : </a>
 <a name="342"><span class="lineNum">     342 </span>            :   ///</a>
 <a name="343"><span class="lineNum">     343 </span>            :   ///</a>
 <a name="344"><span class="lineNum">     344 </span>            :   ///</a>
-<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="346"><span class="lineNum">     346 </span><span class="lineCov">          5 :   String get modelUpdatedAtKey =&gt; _modelUpdatedAtKey;</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">          2 :   String get modelUpdatedAtKey =&gt; _modelUpdatedAtKey;</span></a>
 <a name="347"><span class="lineNum">     347 </span>            : </a>
 <a name="348"><span class="lineNum">     348 </span>            :   ///</a>
 <a name="349"><span class="lineNum">     349 </span>            :   ///</a>
 <a name="350"><span class="lineNum">     350 </span>            :   ///</a>
-<a name="351"><span class="lineNum">     351 </span><span class="lineCov">          5 :   @override</span></a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">          5 :   String get modelDeletedAtKey =&gt; _modelDeletedAtKey;</span></a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">          2 :   @override</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">          2 :   String get modelDeletedAtKey =&gt; _modelDeletedAtKey;</span></a>
 <a name="353"><span class="lineNum">     353 </span>            : </a>
 <a name="354"><span class="lineNum">     354 </span>            :   ///</a>
 <a name="355"><span class="lineNum">     355 </span>            :   ///</a>
@@ -434,7 +434,7 @@
 <a name="372"><span class="lineNum">     372 </span>            :   ///</a>
 <a name="373"><span class="lineNum">     373 </span>            :   ///</a>
 <a name="374"><span class="lineNum">     374 </span>            :   ///</a>
-<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          5 :   Future&lt;void&gt; _start({</span></a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">          2 :   Future&lt;void&gt; _start({</span></a>
 <a name="376"><span class="lineNum">     376 </span>            :     required String modelIdKey,</a>
 <a name="377"><span class="lineNum">     377 </span>            :     required String modelUpdatedAtKey,</a>
 <a name="378"><span class="lineNum">     378 </span>            :     required String modelDeletedAtKey,</a>
@@ -443,33 +443,33 @@
 <a name="381"><span class="lineNum">     381 </span>            :     FollyDateParse? dateParseDelete,</a>
 <a name="382"><span class="lineNum">     382 </span>            :     Connectivity? connectivity,</a>
 <a name="383"><span class="lineNum">     383 </span>            :   }) async {</a>
-<a name="384"><span class="lineNum">     384 </span><span class="lineCov">          5 :     if (_started) {</span></a>
+<a name="384"><span class="lineNum">     384 </span><span class="lineCov">          2 :     if (_started) {</span></a>
 <a name="385"><span class="lineNum">     385 </span>            :       if (kDebugMode) {</a>
 <a name="386"><span class="lineNum">     386 </span><span class="lineNoCov">          0 :         print('Folly Fields already started, ignoring...');</span></a>
 <a name="387"><span class="lineNum">     387 </span>            :       }</a>
 <a name="388"><span class="lineNum">     388 </span>            :     } else {</a>
-<a name="389"><span class="lineNum">     389 </span><span class="lineCov">          5 :       _started = true;</span></a>
+<a name="389"><span class="lineNum">     389 </span><span class="lineCov">          2 :       _started = true;</span></a>
 <a name="390"><span class="lineNum">     390 </span>            :       if (kDebugMode) {</a>
-<a name="391"><span class="lineNum">     391 </span><span class="lineCov">          5 :         print('Folly Fields Started.');</span></a>
+<a name="391"><span class="lineNum">     391 </span><span class="lineCov">          2 :         print('Folly Fields Started.');</span></a>
 <a name="392"><span class="lineNum">     392 </span>            :       }</a>
 <a name="393"><span class="lineNum">     393 </span>            : </a>
-<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          5 :       _modelIdKey = modelIdKey;</span></a>
-<a name="395"><span class="lineNum">     395 </span><span class="lineCov">          5 :       _modelUpdatedAtKey = modelUpdatedAtKey;</span></a>
-<a name="396"><span class="lineNum">     396 </span><span class="lineCov">          5 :       _modelDeletedAtKey = modelDeletedAtKey;</span></a>
+<a name="394"><span class="lineNum">     394 </span><span class="lineCov">          2 :       _modelIdKey = modelIdKey;</span></a>
+<a name="395"><span class="lineNum">     395 </span><span class="lineCov">          2 :       _modelUpdatedAtKey = modelUpdatedAtKey;</span></a>
+<a name="396"><span class="lineNum">     396 </span><span class="lineCov">          2 :       _modelDeletedAtKey = modelDeletedAtKey;</span></a>
 <a name="397"><span class="lineNum">     397 </span>            : </a>
-<a name="398"><span class="lineNum">     398 </span><span class="lineCov">          5 :       _dateParseUpdate = dateParseUpdate;</span></a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          5 :       _dateParseDelete = dateParseDelete;</span></a>
+<a name="398"><span class="lineNum">     398 </span><span class="lineCov">          2 :       _dateParseUpdate = dateParseUpdate;</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          2 :       _dateParseDelete = dateParseDelete;</span></a>
 <a name="400"><span class="lineNum">     400 </span>            : </a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          5 :       _responsiveSizes = responsiveSizes;</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">          2 :       _responsiveSizes = responsiveSizes;</span></a>
 <a name="402"><span class="lineNum">     402 </span>            : </a>
 <a name="403"><span class="lineNum">     403 </span>            :       if (kIsWeb) {</a>
 <a name="404"><span class="lineNum">     404 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.web;</span></a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          5 :       } else if (Platform.isAndroid) {</span></a>
+<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          2 :       } else if (Platform.isAndroid) {</span></a>
 <a name="406"><span class="lineNum">     406 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.android;</span></a>
-<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          5 :       } else if (Platform.isIOS) {</span></a>
+<a name="407"><span class="lineNum">     407 </span><span class="lineCov">          2 :       } else if (Platform.isIOS) {</span></a>
 <a name="408"><span class="lineNum">     408 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.ios;</span></a>
-<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          5 :       } else if (Platform.isLinux) {</span></a>
-<a name="410"><span class="lineNum">     410 </span><span class="lineCov">          5 :         _platform = RunningPlatform.linux;</span></a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          2 :       } else if (Platform.isLinux) {</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">          2 :         _platform = RunningPlatform.linux;</span></a>
 <a name="411"><span class="lineNum">     411 </span><span class="lineNoCov">          0 :       } else if (Platform.isWindows) {</span></a>
 <a name="412"><span class="lineNum">     412 </span><span class="lineNoCov">          0 :         _platform = RunningPlatform.windows;</span></a>
 <a name="413"><span class="lineNum">     413 </span><span class="lineNoCov">          0 :       } else if (Platform.isMacOS) {</span></a>
@@ -480,21 +480,21 @@
 <a name="418"><span class="lineNum">     418 </span>            : </a>
 <a name="419"><span class="lineNum">     419 </span><span class="lineNoCov">          0 :       connectivity ??= Connectivity();</span></a>
 <a name="420"><span class="lineNum">     420 </span>            : </a>
-<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          5 :       List&lt;ConnectivityResult&gt; result = await connectivity.checkConnectivity();</span></a>
+<a name="421"><span class="lineNum">     421 </span><span class="lineCov">          2 :       List&lt;ConnectivityResult&gt; result = await connectivity.checkConnectivity();</span></a>
 <a name="422"><span class="lineNum">     422 </span>            : </a>
-<a name="423"><span class="lineNum">     423 </span><span class="lineCov">         10 :       _online = result.fold(</span></a>
+<a name="423"><span class="lineNum">     423 </span><span class="lineCov">          4 :       _online = result.fold(</span></a>
 <a name="424"><span class="lineNum">     424 </span>            :         false,</a>
-<a name="425"><span class="lineNum">     425 </span><span class="lineCov">         10 :         (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
+<a name="425"><span class="lineNum">     425 </span><span class="lineCov">          4 :         (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
 <a name="426"><span class="lineNum">     426 </span>            :       );</a>
 <a name="427"><span class="lineNum">     427 </span>            : </a>
-<a name="428"><span class="lineNum">     428 </span><span class="lineCov">          5 :       connectivity.onConnectivityChanged</span></a>
-<a name="429"><span class="lineNum">     429 </span><span class="lineCov">         10 :           .listen((List&lt;ConnectivityResult&gt; result) {</span></a>
-<a name="430"><span class="lineNum">     430 </span><span class="lineCov">         10 :         _online = result.fold(</span></a>
+<a name="428"><span class="lineNum">     428 </span><span class="lineCov">          2 :       connectivity.onConnectivityChanged</span></a>
+<a name="429"><span class="lineNum">     429 </span><span class="lineCov">          4 :           .listen((List&lt;ConnectivityResult&gt; result) {</span></a>
+<a name="430"><span class="lineNum">     430 </span><span class="lineCov">          4 :         _online = result.fold(</span></a>
 <a name="431"><span class="lineNum">     431 </span>            :           false,</a>
-<a name="432"><span class="lineNum">     432 </span><span class="lineCov">         10 :           (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
+<a name="432"><span class="lineNum">     432 </span><span class="lineCov">          4 :           (bool p, ConnectivityResult e) =&gt; p || e != ConnectivityResult.none,</span></a>
 <a name="433"><span class="lineNum">     433 </span>            :         );</a>
 <a name="434"><span class="lineNum">     434 </span>            :         if (kDebugMode) {</a>
-<a name="435"><span class="lineNum">     435 </span><span class="lineCov">         15 :           print('Connectivity Changed: $_online');</span></a>
+<a name="435"><span class="lineNum">     435 </span><span class="lineCov">          6 :           print('Connectivity Changed: $_online');</span></a>
 <a name="436"><span class="lineNum">     436 </span>            :         }</a>
 <a name="437"><span class="lineNum">     437 </span>            :       });</a>
 <a name="438"><span class="lineNum">     438 </span>            :     }</a>
