@@ -14,9 +14,7 @@ import 'package:sprintf/sprintf.dart';
 ///
 ///
 ///
-class ListField<
-    T extends AbstractModel<ID>,
-    B extends AbstractBuilder<T, ID>,
+class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
     ID> extends ResponsiveFormField<List<T>> {
   ///
   ///
@@ -24,8 +22,7 @@ class ListField<
   ListField({
     required List<T> super.initialValue,
     required B builder,
-    required Widget Function(BuildContext context, B builder)
-        routeAddBuilder,
+    required Widget Function(BuildContext context, B builder) routeAddBuilder,
     Function(BuildContext context, T model, B builder, {required bool edit})?
         routeEditBuilder,
     void Function(List<T> value)? onSaved,
@@ -145,7 +142,10 @@ class ListField<
             }
 
             return FieldGroup(
-              decoration: effectiveDecoration,
+              decoration: effectiveDecoration.copyWith(
+                errorText: enabled ? field.errorText : null,
+                enabled: enabled,
+              ),
               padding: padding,
               children: <Widget>[
                 ExpandableNotifier(
@@ -298,8 +298,8 @@ class ListField<
 ///
 ///
 ///
-class _MyListTile<T extends AbstractModel<ID>,
-    B extends AbstractBuilder<T, ID>, ID> extends StatelessWidget {
+class _MyListTile<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
+    ID> extends StatelessWidget {
   final FormFieldState<List<T>> field;
   final int index;
   final T model;

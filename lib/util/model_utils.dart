@@ -1,5 +1,4 @@
 import 'package:flutter/painting.dart';
-import 'package:folly_fields/crud/abstract_consumer.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
@@ -92,42 +91,6 @@ class ModelUtils {
         Iterable<dynamic> _ => value.map<T>((dynamic e) => producer(e)).toSet(),
         _ => <T>{producer(value)},
       };
-
-  ///
-  ///
-  ///
-  @Deprecated('Use fromJsonListProducerMap instead. Will be removed in v2.7.0')
-  static List<T> fromJsonList<T extends AbstractModel<ID>, ID>(
-    List<dynamic>? value,
-    AbstractConsumer<T, ID> consumer,
-  ) =>
-      fromJsonSafeList<T>(
-        value,
-        producer: (dynamic e) => consumer.fromJson(e),
-      );
-
-  ///
-  ///
-  ///
-  @Deprecated('Use fromJsonSetProducerMap instead. Will be removed in v2.7.0')
-  static Set<T> fromJsonSet<T extends AbstractModel<ID>, ID>(
-    Set<dynamic>? value,
-    AbstractConsumer<T, ID> consumer,
-  ) =>
-      fromJsonSafeSet<T>(
-        value,
-        producer: (dynamic e) => consumer.fromJson(e),
-      );
-
-  ///
-  ///
-  ///
-  @Deprecated('Use fromJsonProducerMap instead. Will be removed in v2.7.0')
-  static T? fromJsonModel<T extends AbstractModel<ID>, ID>(
-    Map<String, dynamic>? map,
-    AbstractConsumer<T, ID> consumer,
-  ) =>
-      map != null ? consumer.fromJson(map) : null;
 
   ///
   ///
@@ -227,46 +190,6 @@ class ModelUtils {
         value,
         producer: stringProducer,
       );
-
-
-  ///
-  ///
-  ///
-  @Deprecated('Will be removed in v2.7.0')
-  static Iterable<T> _fromJsonSafeEnumIterable<T extends Enum>(
-    Iterable<dynamic> value,
-    Iterable<T> values,
-  ) =>
-      value.map((dynamic e) => values.byName(e.toString()));
-
-  ///
-  ///
-  ///
-  @Deprecated('Will be removed in v2.7.0')
-  static List<T> fromJsonSafeEnumList<T extends Enum>(
-    dynamic value,
-    Iterable<T> values,
-  ) =>
-      switch (value) {
-        null => <T>[],
-        Iterable<dynamic> _ =>
-          _fromJsonSafeEnumIterable(value, values).toList(),
-        _ => <T>[values.byName(value.toString())],
-      };
-
-  ///
-  ///
-  ///
-  @Deprecated('Will be removed in v2.7.0')
-  static Set<T> fromJsonSafeEnumSet<T extends Enum>(
-    dynamic value,
-    Iterable<T> values,
-  ) =>
-      switch (value) {
-        null => <T>{},
-        Iterable<dynamic> _ => _fromJsonSafeEnumIterable(value, values).toSet(),
-        _ => <T>{values.byName(value.toString())},
-      };
 
   ///
   ///

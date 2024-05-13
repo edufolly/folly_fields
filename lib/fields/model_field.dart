@@ -106,6 +106,7 @@ class ModelField<T extends AbstractModel<ID>, ID>
                 controller: state._effectiveController,
                 decoration: effectiveDecoration.copyWith(
                   errorText: enabled ? field.errorText : null,
+                  enabled: enabled,
                 ),
                 keyboardType: TextInputType.datetime,
                 minLines: 1,

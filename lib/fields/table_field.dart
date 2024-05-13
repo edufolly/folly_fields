@@ -58,17 +58,13 @@ class TableField<T> extends ResponsiveFormField<List<T>> {
     super.sizeExtraLarge,
     super.minHeight,
     ResponsiveSize? changeToCard,
-    double? elevation,
+    double? cardElevation,
+    Color? cardColor,
     String emptyListText = 'Sem %s até o momento.',
     String removeText = 'Remover %s',
     String addText = 'Adicionar %s',
     super.key,
-  })  : assert(
-          columnsFlex == null || columnsFlex.length == columnHeaders.length,
-          'columnsFlex must be null or columnsFlex.length equals to '
-          'columnHeaders.length.',
-        ),
-        super(
+  }) : super(
           onSaved: enabled && onSaved != null
               ? (List<T>? value) => onSaved(value!)
               : null,
@@ -82,14 +78,15 @@ class TableField<T> extends ResponsiveFormField<List<T>> {
                       labelText: plural,
                       border: const OutlineInputBorder(),
                       counterText: '',
-                      enabled: enabled,
-                      errorText: field.errorText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             return FieldGroup(
               padding: padding,
-              decoration: effectiveDecoration,
+              decoration: effectiveDecoration.copyWith(
+                errorText: enabled ? field.errorText : null,
+                enabled: enabled,
+              ),
               children: <Widget>[
                 /// Empty
                 if (field.value?.isEmpty ?? true)
@@ -107,22 +104,26 @@ class TableField<T> extends ResponsiveFormField<List<T>> {
                       BuildContext context,
                       ResponsiveSize responsiveSize,
                     ) {
-                      bool isCard = false;
+                      bool isCard = changeToCard != null &&
+                          responsiveSize <= changeToCard;
+
                       List<Widget> columnData = <Widget>[];
 
                       /// Card
-                      if (changeToCard != null &&
-                          responsiveSize <= changeToCard) {
-                        isCard = true;
-
+                      if (isCard) {
                         /// Card data
                         for (final MapEntry<int, T>(:int key, :T value)
                             in field.value!.asMap().entries) {
+                          if (withDivider || key == 0) {
+                            columnData.add(FollyDivider(enabled: enabled));
+                          }
+
                           columnData.add(
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Card(
-                                elevation: elevation,
+                                color: cardColor,
+                                elevation: cardElevation,
                                 child: ResponsiveGrid(
                                   margin: const EdgeInsets.all(4),
                                   children: <Responsive>[
@@ -232,7 +233,8 @@ class TableField<T> extends ResponsiveFormField<List<T>> {
                           columnData.addAll(
                             <Widget>[
                               /// Divider
-                              if (withDivider || key == 0)
+                              if (withDivider ||
+                                  (key == 0 && columnHeaders.isNotEmpty))
                                 FollyDivider(enabled: enabled),
 
                               /// Row

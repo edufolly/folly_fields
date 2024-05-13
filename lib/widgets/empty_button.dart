@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class EmptyButton extends StatelessWidget {
+class EmptyButton extends ResponsiveStateless {
   ///
   ///
   ///
-  const EmptyButton({super.key});
+  const EmptyButton({
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
+    super.key,
+  });
 
   ///
   ///
@@ -19,7 +28,7 @@ class EmptyButton extends StatelessWidget {
       flex: 0,
       child: IconButton(
         icon: FaIcon(
-          FontAwesomeIcons.trashCan,
+          FontAwesomeIcons.square,
           color: Colors.transparent,
         ),
         onPressed: null,
