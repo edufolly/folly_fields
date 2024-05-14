@@ -65,6 +65,8 @@ class CodeLink extends StatelessWidget {
 
     showDialog(
       context: context,
+      barrierDismissible: true,
+      useSafeArea: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(tag),
