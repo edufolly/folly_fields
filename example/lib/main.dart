@@ -897,7 +897,7 @@ class MyHomePageState extends State<MyHomePage> {
                           edit: edit,
                         ),
                         expandable: true,
-                        clearAllButton: true,
+                        showClearAllButton: true,
                         showCounter: true,
                         showTopAddButton: true,
                         onChanged: (List<ExampleModel> value) =>

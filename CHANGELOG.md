@@ -1,3 +1,10 @@
+## [3.1.2] - 2024-05-14
+* Changing getLeading method from AbstractBuilder to be able to return null.
+* Updating ListField:
+    * Fixing component's alignment.
+    * Adding properties to configure the icons.
+    * Feature to manual sort the list.
+
 ## [3.1.1] - 2024-05-13
 
 * Updating decorators from:

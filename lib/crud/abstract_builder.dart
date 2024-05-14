@@ -50,8 +50,7 @@ abstract class AbstractBuilder<T extends AbstractModel<ID>, ID> {
   ///
   ///
   ///
-  Widget getLeading(BuildContext context, T model) =>
-      const FaIcon(FontAwesomeIcons.solidCircle);
+  Widget? getLeading(BuildContext context, T model) => null;
 
   ///
   ///
