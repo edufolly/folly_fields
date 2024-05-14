@@ -43,11 +43,14 @@ class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
     int Function(T a, T b)? listSort,
     bool expandable = false,
     bool initialExpanded = true,
-    bool clearAllButton = false,
+    bool showClearAllButton = false,
+    Icon clearAllIcon = const Icon(FontAwesomeIcons.solidTrashCan),
     Widget Function(BuildContext context, List<T> value)? onCollapsed,
     bool showCounter = false,
     bool showTopAddButton = false,
+    Icon topAddIcon = const Icon(FontAwesomeIcons.plus),
     bool showDeleteButton = true,
+    Icon deleteIcon = const Icon(FontAwesomeIcons.trashCan),
     bool showAddButton = true,
     String? hintText,
     EdgeInsets? contentPadding,
@@ -55,6 +58,7 @@ class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
     Widget? prefixIcon,
     Widget? suffix,
     Widget? suffixIcon,
+    bool sortable = false,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -129,10 +133,9 @@ class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
                 }
 
                 if (changed) {
-                  field.value!.sort(
-                    listSort ??
-                        (T a, T b) => a.toString().compareTo(b.toString()),
-                  );
+                  if (listSort != null && !sortable) {
+                    field.value?.sort(listSort);
+                  }
 
                   onChanged?.call(field.value!);
 
@@ -153,78 +156,91 @@ class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
                   child: Column(
                     children: <Widget>[
                       /// Top Bar
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                /// Counter
-                                if (showCounter)
-                                  Chip(
-                                    label: Text(field.value!.length.toString()),
-                                  ),
+                      if (showCounter ||
+                          showTopAddButton ||
+                          expandable ||
+                          showClearAllButton)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 24, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              /// Left
+                              if (showCounter || showTopAddButton)
+                                Row(
+                                  children: <Widget>[
+                                    /// Top Add Button
+                                    if (showTopAddButton)
+                                      IconButton(
+                                        onPressed: add,
+                                        icon: topAddIcon,
+                                      ),
 
-                                /// Top Add Button
-                                if (showTopAddButton)
-                                  IconButton(
-                                    onPressed: add,
-                                    icon: const Icon(FontAwesomeIcons.plus),
-                                  ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                /// Expand Button
-                                if (expandable)
-                                  ExpandableButton(
-                                    child: ExpandableIcon(
-                                      theme: ExpandableThemeData(
-                                        iconColor: Theme.of(field.context)
-                                            .iconTheme
-                                            .color,
-                                        collapseIcon: FontAwesomeIcons.compress,
-                                        expandIcon: FontAwesomeIcons.expand,
-                                        iconSize: 24,
-                                        iconPadding: const EdgeInsets.all(4),
+                                    /// Counter
+                                    if (showCounter)
+                                      Chip(
+                                        label: Text(
+                                          field.value!.length.toString(),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+
+                              /// Right
+                              Row(
+                                children: <Widget>[
+                                  /// Expand Button
+                                  if (expandable)
+                                    ExpandableButton(
+                                      child: ExpandableIcon(
+                                        theme: ExpandableThemeData(
+                                          iconColor: Theme.of(field.context)
+                                              .iconTheme
+                                              .color,
+                                          collapseIcon:
+                                              FontAwesomeIcons.compress,
+                                          expandIcon: FontAwesomeIcons.expand,
+                                          iconSize: 24,
+                                          iconPadding: const EdgeInsets.all(8),
+                                        ),
                                       ),
                                     ),
-                                  ),
 
-                                /// Clear All Button
-                                if (clearAllButton)
-                                  IconButton(
-                                    onPressed: field.value!.isEmpty
-                                        ? null
-                                        : () {
-                                            FollyDialogs.yesNoDialog(
-                                              context: field.context,
-                                              message: sprintf(
-                                                clearText,
-                                                <dynamic>[
-                                                  builder.superSingle(
-                                                    field.context,
-                                                  ),
-                                                ],
-                                              ),
-                                            ).then(
-                                              (bool del) {
-                                                if (del) {
-                                                  field.value!.clear();
-                                                  onChanged?.call(field.value!);
-                                                  field.didChange(field.value);
-                                                }
-                                              },
-                                            );
-                                          },
-                                    icon: const Icon(FontAwesomeIcons.trashCan),
-                                  ),
-                              ],
-                            ),
-                          ],
+                                  /// Clear All Button
+                                  if (showClearAllButton)
+                                    IconButton(
+                                      onPressed: field.value!.isEmpty
+                                          ? null
+                                          : () {
+                                              FollyDialogs.yesNoDialog(
+                                                context: field.context,
+                                                message: sprintf(
+                                                  clearText,
+                                                  <dynamic>[
+                                                    builder.superSingle(
+                                                      field.context,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ).then(
+                                                (bool del) {
+                                                  if (del) {
+                                                    field.value!.clear();
+                                                    onChanged
+                                                        ?.call(field.value!);
+                                                    field
+                                                        .didChange(field.value);
+                                                  }
+                                                },
+                                              );
+                                            },
+                                      icon: clearAllIcon,
+                                    ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       Expandable(
                         collapsed: field.value!.isEmpty
                             ? Padding(
@@ -267,6 +283,8 @@ class ListField<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
                                       listSort: listSort,
                                       onChanged: onChanged,
                                       showDeleteButton: showDeleteButton,
+                                      deleteIcon: deleteIcon,
+                                      sortable: sortable,
                                     ),
                                   ),
 
@@ -319,6 +337,8 @@ class _MyListTile<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
   final int Function(T a, T b)? listSort;
   final void Function(List<T> value)? onChanged;
   final bool showDeleteButton;
+  final Icon deleteIcon;
+  final bool sortable;
 
   ///
   ///
@@ -336,6 +356,8 @@ class _MyListTile<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
     required this.listSort,
     required this.onChanged,
     required this.showDeleteButton,
+    required this.deleteIcon,
+    required this.sortable,
     super.key,
   });
 
@@ -344,21 +366,57 @@ class _MyListTile<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
   ///
   @override
   Widget build(BuildContext context) {
+    Widget? leading = builder.getLeading(context, model);
+
     return ChildBuilder(
       child: ListTile(
         enabled: enabled,
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            builder.getLeading(context, model),
-          ],
-        ),
+        leading: (sortable || leading != null)
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      if (sortable)
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.arrowUp),
+                          onPressed: (enabled && index == 0)
+                              ? null
+                              : () {
+                                  T? element = field.value?.removeAt(index);
+                                  if (element != null) {
+                                    field.value?.insert(index - 1, element);
+                                    field.didChange(field.value);
+                                  }
+                                },
+                        ),
+                      if (sortable)
+                        IconButton(
+                          icon: const Icon(FontAwesomeIcons.arrowDown),
+                          onPressed: (enabled &&
+                                  index == (field.value?.length ?? 1) - 1)
+                              ? null
+                              : () {
+                                  T? element = field.value?.removeAt(index);
+                                  if (element != null) {
+                                    field.value?.insert(index + 1, element);
+                                    field.didChange(field.value);
+                                  }
+                                },
+                        ),
+                      if (leading != null) leading,
+                    ],
+                  ),
+                ],
+              )
+            : null,
         title: builder.getTitle(context, model),
         subtitle: builder.getSubtitle(context, model),
         trailing: Visibility(
           visible: FollyFields().isNotMobile && enabled && showDeleteButton,
           child: IconButton(
-            icon: const Icon(FontAwesomeIcons.trashCan),
+            icon: deleteIcon,
             onPressed: enabled
                 ? () => _delete(context, index, model, ask: true)
                 : null,

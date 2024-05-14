@@ -17,14 +17,11 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@v4
 
-      - name: Get Pubspec Version
+      - name: Check Pubspec Version
         id: version-step
         run: |
-          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
+          VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Check if version is used
-        run: |
           URL=$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/releases/latest
           LATEST=$(curl --silent "$URL" | jq -r .name)
           if [ "$LATEST" == "v$VERSION" ]; then

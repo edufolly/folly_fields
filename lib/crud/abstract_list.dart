@@ -627,16 +627,21 @@ class AbstractListState<
     Future<void> Function()? afterDeleteRefresh,
     Function(T model)? onTap,
   }) {
+    Widget? leading = widget.builder.getLeading(context, model);
+    bool multipleSelection = widget.multipleSelection && onTap == null;
+
     return ListTile(
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          if (widget.multipleSelection && onTap == null)
-            FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
-          else
-            widget.builder.getLeading(context, model),
-        ],
-      ),
+      leading: (leading != null || multipleSelection)
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (multipleSelection)
+                  FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
+                else
+                  leading!,
+              ],
+            )
+          : null,
       title: widget.builder.getTitle(context, model),
       subtitle: widget.builder.getSubtitle(context, model),
       trailing: Row(

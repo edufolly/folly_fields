@@ -1,3 +1,12 @@
+## [3.2.0] - 2024-05-14
+
+* Updating to Flutter 3.22.0 and Dart 3.4.0.
+* Changing getLeading method from AbstractBuilder to be able to return null.
+* Updating ListField:
+    * Fixing component's alignment.
+    * Adding properties to configure the icons.
+    * Feature to manual sort the list.
+
 ## [3.1.1] - 2024-05-13
 
 * Updating decorators from:
