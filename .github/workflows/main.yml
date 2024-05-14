@@ -154,7 +154,7 @@ jobs:
         run: flutter build web --base-href /folly_fields/
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: folly-fields-test-coverage
           path: example/build/web
