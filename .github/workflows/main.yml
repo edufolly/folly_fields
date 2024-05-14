@@ -47,7 +47,8 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
+          flutter-version: 3.19.6
           cache: false
 
       - name: Install lcov
@@ -137,7 +138,8 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
+          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
@@ -186,7 +188,8 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
+          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
@@ -236,7 +239,8 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
+          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
