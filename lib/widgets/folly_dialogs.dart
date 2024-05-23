@@ -59,7 +59,6 @@ class FollyDialogs {
 
     String? value = await showDialog(
       context: context,
-      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title),

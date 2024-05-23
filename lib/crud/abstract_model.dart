@@ -89,7 +89,7 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   @override
-  int get hashCode => hashIterable(toMap().values, debug: true);
+  int get hashCode => hashIterable(toMap().values);
 
   ///
   ///

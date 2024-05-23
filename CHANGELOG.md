@@ -1,6 +1,9 @@
-## [3.1.2] - 2024-05-14
+## [3.2.0] - 2024-05-23
 
 * Updating to Flutter 3.22.0 and Dart 3.4.0.
+
+## [3.1.2] - 2024-05-14
+
 * Changing getLeading method from AbstractBuilder to be able to return null.
 * Updating ListField:
     * Fixing component's alignment.
