@@ -16,7 +16,10 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
 
   # https://pub.dev/packages/dial_picker
-  dial_picker: ^1.0.1
+  # dial_picker: ^1.0.1
+
+  # https://pub.dev/packages/duration_picker
+  # duration_picker: ^1.2.0
 
   # https://pub.dev/packages/email_validator
   email_validator: ^2.1.17

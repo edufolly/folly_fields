@@ -73,14 +73,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  cupertino_icons:
-    dependency: transitive
-    description:
-      name: cupertino_icons
-      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
   dbus:
     dependency: transitive
     description:
@@ -89,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.10"
-  dial_picker:
-    dependency: "direct main"
-    description:
-      name: dial_picker
-      sha256: "6b4ed4b7303b973526d85da4c34b745e316fbd09b5f265b87ecb86e9fb35e1cf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1+1"
   email_validator:
     dependency: "direct main"
     description:
