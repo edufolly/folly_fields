@@ -48,7 +48,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.6
           cache: false
 
       - name: Install lcov
@@ -106,7 +105,7 @@ jobs:
           skipTests: true
           format: false
           flutter: true
-          flutterBranch: 3.19.6
+          flutterBranch: stable
 
       - name: Creating a GitHub Tag
         uses: mathieudutour/github-tag-action@v6.2
@@ -140,7 +139,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
@@ -190,7 +188,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
@@ -241,7 +238,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.6
           cache: false
 
       - name: Flutter Config
