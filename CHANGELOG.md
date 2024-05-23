@@ -1,3 +1,7 @@
+## [3.2.2]  - 2024-05-23
+
+* Removing duration field.
+
 ## [3.2.1] - 2024-05-23
 
 * Updating to Flutter 3.22.0 and Dart 3.4.0.
