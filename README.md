@@ -23,22 +23,6 @@ Basic form fields and utilities. Maybe a humble boilerplate.
   </span>
 </div>
 
-## Flutter 3.13 - Break Changes
-
-Version 2.2.0 needs Flutter 3.13.0 and Dart 3.1.0
-
-## Flutter 3.10 - Break Changes
-
-Version 1.0.0 needs Flutter 3.10.0 and Dart 3.0.0
-
-## Flutter 3.7 - Break Changes
-
-Version 0.18.0 needs Flutter 3.7.0 and Dart 2.19.0
-
-## Flutter 3.0 - Break Changes
-
-Version 0.10.0 needs Flutter 3.0.0 and Dart 2.17.0
-
 ## Example
 
 ### Demo
