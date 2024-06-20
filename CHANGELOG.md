@@ -1,4 +1,9 @@
-## [3.2.2]  - 2024-05-23
+## [3.2.3] - 2024-06-20
+
+* Adding translations for AbstractEdit.
+* Updating analysis_options.yaml.
+
+## [3.2.2] - 2024-05-23
 
 * Removing duration field.
 

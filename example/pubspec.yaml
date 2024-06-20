@@ -37,7 +37,7 @@ dependencies:
   http: 1.2.1
 
   # https://pub.dev/packages/url_launcher
-  url_launcher: 6.2.6
+  url_launcher: 6.3.0
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
