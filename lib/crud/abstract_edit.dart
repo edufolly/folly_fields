@@ -38,6 +38,8 @@ abstract class AbstractEdit<
   })? actions;
   final String exitWithoutSaveMessage;
   final String saveErrorText;
+  final String saveTooltip;
+  final String waitingMessage;
   final double? leadingWidth;
 
   ///
@@ -56,6 +58,8 @@ abstract class AbstractEdit<
     this.exitWithoutSaveMessage = 'Modificações foram realizadas.\n\n'
         'Deseja sair mesmo assim?',
     this.saveErrorText = 'Ocorreu um erro ao tentar salvar:\n%s',
+    this.saveTooltip = 'Salvar',
+    this.waitingMessage = 'Consultando...',
     this.leadingWidth,
     super.key,
   });
@@ -170,7 +174,7 @@ class AbstractEditState<
           /// Save Button
           if (widget.edit)
             IconButton(
-              tooltip: 'Salvar',
+              tooltip: widget.saveTooltip,
               icon: FaIcon(
                 widget.consumer.routeName.isEmpty
                     ? FontAwesomeIcons.check
@@ -207,8 +211,7 @@ class AbstractEditState<
 
               FollyDialogs.yesNoDialog(
                 context: context,
-                message: 'Modificações foram realizadas.\n\n'
-                    'Deseja sair mesmo assim?',
+                message: widget.exitWithoutSaveMessage,
               ).then((bool go) {
                 if (go) {
                   _alreadyPopped = true;
@@ -222,7 +225,7 @@ class AbstractEditState<
           },
           child: SafeStreamBuilder<bool>(
             stream: _controller.stream,
-            waitingMessage: 'Consultando...',
+            waitingMessage: widget.waitingMessage,
             builder: (
               BuildContext context,
               bool data,
