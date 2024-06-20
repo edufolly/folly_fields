@@ -72,7 +72,6 @@ linter:
     avoid_types_on_closure_parameters: false
 
     avoid_unnecessary_containers: true
-    # avoid_unstable_final_fields: true
     avoid_unused_constructor_parameters: true
     avoid_void_async: true
     avoid_web_libraries_in_flutter: true
@@ -119,6 +118,7 @@ linter:
     lines_longer_than_80_chars: true
     literal_only_boolean_expressions: true
     matching_super_parameters: true
+    missing_code_block_language_in_doc_comment: true
     missing_whitespace_between_adjacent_strings: true
     no_adjacent_strings_in_list: true
     no_default_cases: true
@@ -240,6 +240,7 @@ linter:
     unnecessary_lambdas: true
     unnecessary_late: true
     unnecessary_library_directive: true
+    unnecessary_library_name: true
     unnecessary_new: true
     unnecessary_null_aware_assignments: true
     unnecessary_null_aware_operator_on_extension_on_nullable: true
