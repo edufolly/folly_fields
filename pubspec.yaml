@@ -22,7 +22,7 @@ dependencies:
   # duration_picker: ^1.2.0
 
   # https://pub.dev/packages/email_validator
-  email_validator: ^2.1.17
+  email_validator: ^3.0.0
 
   # https://pub.dev/packages/expandable
   expandable: ^5.0.1

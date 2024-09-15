@@ -46,6 +46,8 @@ class CircularWaiting {
       barrierDismissible: barrierDismissible,
       builder: (BuildContext context) => PopScope(
         canPop: false,
+        // TODO(edufolly): Check onPopInvokedWithResult
+        // ignore: deprecated_member_use
         onPopInvoked: (_) {
           if (_alreadyPopped) {
             return;

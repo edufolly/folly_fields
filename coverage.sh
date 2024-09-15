@@ -6,7 +6,7 @@ rm -rf coverage
 
 fvm flutter test --coverage \
   -r github \
-  -j $(grep -c processor /proc/cpuinfo)
+  -j "$(grep -c processor /proc/cpuinfo)"
 
 genhtml coverage/lcov.info \
   --output-directory coverage/html \
