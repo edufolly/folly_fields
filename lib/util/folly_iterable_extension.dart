@@ -1,7 +1,17 @@
 ///
 ///
 ///
-extension FollyIterableExtension<T extends Enum> on Iterable<T> {
+extension FollyIterableExtension<T> on Iterable<T?> {
+  ///
+  ///
+  ///
+  Iterable<T> get removeNulls => where((T? e) => e != null).map((T? e) => e!);
+}
+
+///
+///
+///
+extension FollyIterableEnumExtension<T extends Enum> on Iterable<T> {
   ///
   ///
   ///

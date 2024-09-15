@@ -191,6 +191,8 @@ class AbstractEditState<
         Form(
           key: _formKey,
           canPop: false,
+          // TODO(edufolly): Check onPopInvokedWithResult
+          // ignore: deprecated_member_use
           onPopInvoked: (_) {
             if (_alreadyPopped) {
               return;

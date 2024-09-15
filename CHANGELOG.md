@@ -1,3 +1,21 @@
+## [3.3.0] - 2024-09-15
+
+* Bumping EmailValidator to ^3.0.0.
+* Adding removeNulls method to FollyIterableExtension.
+* Renaming FollyIterableExtension<T extends Enum> to
+  FollyIterableEnumExtension<T extends Enum>
+* Adding normalize method to FollyStringExtension.
+* Moving methods above to FollyStringExtension.
+    * isPascalCase
+    * isCamelCase
+    * isSnakeCase
+    * camel2Snake
+    * pascal2Camel
+    * camel2Pascal
+    * snake2Pascal
+    * snake2Camel
+    * pascal2Snake
+
 ## [3.2.3] - 2024-06-20
 
 * Adding translations for AbstractEdit.
