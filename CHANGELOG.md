@@ -1,3 +1,7 @@
+## [3.3.1] - 2024-09-19
+
+* Fixing FollyMenuHeader text color.
+
 ## [3.3.0] - 2024-09-15
 
 * Bumping EmailValidator to ^3.0.0.
