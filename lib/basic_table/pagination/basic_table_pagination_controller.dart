@@ -30,6 +30,11 @@ class BasicTablePaginationController {
   ///
   ///
   ///
+  void reset() => _controller.text = '1';
+
+  ///
+  ///
+  ///
   void dispose() {
     _controller.dispose();
   }

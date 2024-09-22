@@ -11,7 +11,7 @@ class BasicTablePaginationWidget extends StatefulWidget {
   final BasicTablePaginationController controller;
   final double paginationIconSize;
   final int totalPages;
-  final Function(int page)? onPageChanged;
+  final Function(int page) onPageChanged;
 
   ///
   ///
@@ -51,7 +51,7 @@ class _BasicTablePaginationWidgetState
           onPressed: widget.controller.currentPage > 1
               ? () => setState(() {
                     widget.controller.currentPage = 1;
-                    widget.onPageChanged?.call(widget.controller.currentPage);
+                    widget.onPageChanged.call(widget.controller.currentPage);
                   })
               : null,
           icon: const FaIcon(FontAwesomeIcons.anglesLeft),
@@ -64,7 +64,7 @@ class _BasicTablePaginationWidgetState
           onPressed: widget.controller.currentPage > 1
               ? () => setState(() {
                     widget.controller.currentPage--;
-                    widget.onPageChanged?.call(widget.controller.currentPage);
+                    widget.onPageChanged.call(widget.controller.currentPage);
                   })
               : null,
           icon: const FaIcon(FontAwesomeIcons.angleLeft),
@@ -97,7 +97,7 @@ class _BasicTablePaginationWidgetState
 
               setState(() {
                 widget.controller.currentPage = page;
-                widget.onPageChanged?.call(widget.controller.currentPage);
+                widget.onPageChanged.call(widget.controller.currentPage);
               });
             },
           ),
@@ -115,7 +115,7 @@ class _BasicTablePaginationWidgetState
           onPressed: widget.controller.currentPage < widget.totalPages
               ? () => setState(() {
                     widget.controller.currentPage++;
-                    widget.onPageChanged?.call(widget.controller.currentPage);
+                    widget.onPageChanged.call(widget.controller.currentPage);
                   })
               : null,
           icon: const FaIcon(FontAwesomeIcons.angleRight),
@@ -128,7 +128,7 @@ class _BasicTablePaginationWidgetState
           onPressed: widget.controller.currentPage < widget.totalPages
               ? () => setState(() {
                     widget.controller.currentPage = widget.totalPages;
-                    widget.onPageChanged?.call(widget.controller.currentPage);
+                    widget.onPageChanged.call(widget.controller.currentPage);
                   })
               : null,
           icon: const FaIcon(FontAwesomeIcons.anglesRight),

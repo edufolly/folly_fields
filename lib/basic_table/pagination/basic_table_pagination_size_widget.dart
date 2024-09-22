@@ -8,7 +8,7 @@ class BasicTablePaginationSizeWidget extends StatefulWidget {
   final BasicTablePaginationController controller;
   final List<int> pageSizes;
   final int? initialPageSize;
-  final Function(int size)? onPageSizeChanged;
+  final Function(int size, int page) onPageSizeChanged;
 
   ///
   ///
@@ -68,8 +68,11 @@ class _BasicTablePaginationSizeWidgetState
             if (size != null && _currentPageSize != size) {
               setState(() {
                 _currentPageSize = size;
-                widget.controller.currentPage = 1;
-                widget.onPageSizeChanged?.call(_currentPageSize);
+                widget.controller.reset();
+                widget.onPageSizeChanged.call(
+                  _currentPageSize,
+                  widget.controller.currentPage,
+                );
               });
             }
           },

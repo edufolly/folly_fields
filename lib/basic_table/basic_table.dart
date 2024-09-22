@@ -38,7 +38,7 @@ class BasicTable extends StatefulWidget {
   final EdgeInsetsGeometry paginationPadding;
   final List<int> pageSizes;
   final int? initialPageSize;
-  final Function(int size)? onPageSizeChanged;
+  final Function(int size, int page)? onPageSizeChanged;
   final double paginationIconSize;
   final int totalPages;
   final Function(int page)? onPageChanged;
@@ -95,10 +95,10 @@ class _BasicTableState extends State<BasicTable> {
   @override
   Widget build(BuildContext context) {
     final Color rowBackgroundOdd = widget.rowBackgroundOdd ??
-        Theme.of(context).colorScheme.surfaceContainerLow;
+        Theme.of(context).colorScheme.surfaceContainerHighest;
 
     final Color rowBackgroundEven = widget.rowBackgroundEven ??
-        Theme.of(context).colorScheme.surfaceContainerHighest;
+        Theme.of(context).colorScheme.surfaceContainerLow;
 
     final TextStyle headerTextStyle = widget.headerTextStyle ??
         (Theme.of(context).textTheme.bodyLarge ?? const TextStyle()).copyWith(
@@ -289,7 +289,7 @@ class _BasicTableState extends State<BasicTable> {
                             controller: _pageController,
                             pageSizes: widget.pageSizes,
                             initialPageSize: widget.initialPageSize,
-                            onPageSizeChanged: widget.onPageSizeChanged,
+                            onPageSizeChanged: widget.onPageSizeChanged!,
                           )
                         else
                           const SizedBox.shrink(),
@@ -300,7 +300,7 @@ class _BasicTableState extends State<BasicTable> {
                             controller: _pageController,
                             paginationIconSize: widget.paginationIconSize,
                             totalPages: widget.totalPages,
-                            onPageChanged: widget.onPageChanged,
+                            onPageChanged: widget.onPageChanged!,
                           ),
                       ],
                     ),

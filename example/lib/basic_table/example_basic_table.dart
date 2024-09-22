@@ -3,6 +3,7 @@ import 'package:folly_fields/basic_table/basic_table.dart';
 import 'package:folly_fields/basic_table/basic_table_column_builder.dart';
 import 'package:folly_fields/basic_table/cells/basic_table_cell_header.dart';
 import 'package:folly_fields/basic_table/cells/basic_table_cell_text.dart';
+import 'package:folly_fields/util/folly_num_extension.dart';
 
 ///
 ///
@@ -40,7 +41,7 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
       body: Padding(
         padding: const EdgeInsets.all(32),
         child: BasicTable(
-          rowsCount: _size,
+          rowsCount: _size.min(_count - ((_page - 1) * _size)),
           headerHeight: 32,
           rowHeight: 32,
           columnBuilders: <BasicTableColumnBuilder>[
@@ -85,16 +86,12 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
             ),
           ],
           initialPageSize: _size,
-          onPageSizeChanged: (int pageSize) {
-            setState(() {
-              _size = pageSize;
-              _page = 0;
-            });
-          },
+          onPageSizeChanged: (int size, int page) => setState(() {
+            _size = size;
+            _page = page;
+          }),
           totalPages: (_count / _size).ceil(),
-          onPageChanged: (int page) {
-            setState(() => _page = page);
-          },
+          onPageChanged: (int page) => setState(() => _page = page),
         ),
       ),
     );
