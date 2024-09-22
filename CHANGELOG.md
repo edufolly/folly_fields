@@ -1,3 +1,7 @@
+## [3.4.0] - 2024-09-22
+
+* Adding BasicTable.
+
 ## [3.3.1] - 2024-09-19
 
 * Fixing FollyMenuHeader text color.
@@ -6,8 +10,8 @@
 
 * Bumping EmailValidator to ^3.0.0.
 * Adding removeNulls method to FollyIterableExtension.
-* Renaming FollyIterableExtension<T extends Enum> to
-  FollyIterableEnumExtension<T extends Enum>
+* Renaming `FollyIterableExtension<T extends Enum>` to
+  `FollyIterableEnumExtension<T extends Enum>`
 * Adding normalize method to FollyStringExtension.
 * Moving methods above to FollyStringExtension.
     * isPascalCase

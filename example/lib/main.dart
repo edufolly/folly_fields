@@ -44,6 +44,7 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
+import 'package:folly_fields_example/basic_table/example_basic_table.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
 import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const MyHomePage(),
+        // TODO(edufolly): This route was deprecated.
         '/table': (_) => const ExampleTable(),
         '/list': (_) => ExampleList(),
         '/edit': (_) => ExampleEdit(
@@ -111,6 +113,7 @@ class MyApp extends StatelessWidget {
             ),
         '/four_images': (_) => const FourImages(),
         '/credit_card': (_) => const CreditCard(),
+        '/basic_table': (_) => const ExampleBasicTable(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         ...GlobalMaterialLocalizations.delegates,
@@ -229,7 +232,7 @@ class MyHomePageState extends State<MyHomePage> {
       MyMenuItem(
         iconData: FontAwesomeIcons.table,
         onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/table'),
+            Navigator.of(context).pushNamed('/basic_table'),
         name: 'Tabela',
       ),
 

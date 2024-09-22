@@ -25,6 +25,7 @@ class FollyTableColumnBuilder {
 ///
 ///
 ///
+@Deprecated('Use BasicTable instead.')
 class FollyTable extends StatefulWidget {
   final int rowsCount;
   final List<FollyTableColumnBuilder> columnBuilders;
@@ -42,6 +43,7 @@ class FollyTable extends StatefulWidget {
   ///
   ///
   ///
+  @Deprecated('Use BasicTable instead.')
   const FollyTable({
     required this.rowsCount,
     required this.columnBuilders,
@@ -68,6 +70,7 @@ class FollyTable extends StatefulWidget {
 ///
 ///
 ///
+@Deprecated('Use BasicTable instead.')
 class FollyTableState extends State<FollyTable> {
   final ScrollController _horizontalController = ScrollController();
   final ScrollController _verticalController = ScrollController();
