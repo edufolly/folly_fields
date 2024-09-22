@@ -38,7 +38,7 @@ class BasicTable extends StatefulWidget {
   final EdgeInsetsGeometry paginationPadding;
   final List<int> pageSizes;
   final int? initialPageSize;
-  final Function(int size, int page)? onPageSizeChanged;
+  final Function(int size)? onPageSizeChanged;
   final int totalPages;
   final int initialPage;
   final Function(int page)? onPageChanged;
@@ -332,10 +332,8 @@ class _BasicTableState extends State<BasicTable> {
                                     setState(() {
                                       _currentPageSize = size;
                                       _currentPage = 1;
-                                      widget.onPageSizeChanged?.call(
-                                        _currentPageSize,
-                                        _currentPage,
-                                      );
+                                      widget.onPageSizeChanged
+                                          ?.call(_currentPageSize);
                                     });
                                   }
                                 },
@@ -381,7 +379,7 @@ class _BasicTableState extends State<BasicTable> {
 
                               /// Current Page
                               SizedBox(
-                                width: widget.totalPages.log10.ceil() * 10 + 10,
+                                width: widget.totalPages.log10.ceil() * 10 + 20,
                                 child: TextField(
                                   decoration: const InputDecoration(
                                     isDense: true,

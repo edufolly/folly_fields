@@ -86,13 +86,14 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
             ),
           ],
           initialPageSize: _size,
-          onPageSizeChanged: (int pageSize, int page) {
+          onPageSizeChanged: (int pageSize) {
             setState(() {
               _size = pageSize;
-              _page = page;
+              _page = 0;
             });
           },
           totalPages: (_count / _size).ceil(),
+          initialPage: _page,
           onPageChanged: (int page) {
             setState(() {
               _page = page;
