@@ -1,7 +1,8 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:folly_fields/basic_table/basic_table_column_builder.dart';
+import 'package:folly_fields/util/folly_num_extension.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
@@ -10,11 +11,16 @@ class BasicTable extends StatefulWidget {
   final int rowsCount;
   final List<BasicTableColumnBuilder> columnBuilders;
 
-// Table Properties
+  // Table Properties
   final Decoration? decoration;
   final double dividerHeight;
   final Color dividerColor;
   final double scrollBarThickness;
+
+  // Commands Properties
+  final double commandsHeight;
+  final MainAxisAlignment commandsAlignment;
+  final List<Widget>? commands;
 
   // Header Properties
   final double headerHeight;
@@ -26,6 +32,17 @@ class BasicTable extends StatefulWidget {
   final Color? rowBackgroundOdd;
   final Color? rowBackgroundEven;
 
+  // Pagination Properties
+  final double paginationHeight;
+  final double paginationIconSize;
+  final EdgeInsetsGeometry paginationPadding;
+  final List<int> pageSizes;
+  final int? initialPageSize;
+  final Function(int size, int page)? onPageSizeChanged;
+  final int totalPages;
+  final int initialPage;
+  final Function(int page)? onPageChanged;
+
   ///
   ///
   ///
@@ -36,12 +53,24 @@ class BasicTable extends StatefulWidget {
     this.dividerHeight = 1,
     this.dividerColor = Colors.grey,
     this.scrollBarThickness = 6,
+    this.commandsHeight = 0,
+    this.commandsAlignment = MainAxisAlignment.end,
+    this.commands,
     this.headerHeight = 26,
     this.headerTextStyle,
     this.headerBackground,
     this.rowHeight = 26,
     this.rowBackgroundOdd,
     this.rowBackgroundEven,
+    this.paginationHeight = 46,
+    this.paginationIconSize = 12,
+    this.paginationPadding = const EdgeInsets.symmetric(horizontal: 8),
+    this.initialPageSize,
+    this.pageSizes = const <int>[10, 25, 50, 100],
+    this.onPageSizeChanged,
+    this.totalPages = 0,
+    this.initialPage = 1,
+    this.onPageChanged,
     super.key,
   });
 
@@ -58,6 +87,29 @@ class BasicTable extends StatefulWidget {
 class _BasicTableState extends State<BasicTable> {
   final ScrollController _horizontalController = ScrollController();
   final ScrollController _verticalController = ScrollController();
+  final TextEditingController _pageController = TextEditingController();
+
+  int _currentPageSize = 0;
+
+  ///
+  ///
+  ///
+  int get _currentPage => int.tryParse(_pageController.text) ?? 1;
+
+  ///
+  ///
+  ///
+  set _currentPage(int value) => _pageController.text = value.toString();
+
+  ///
+  ///
+  ///
+  @override
+  void initState() {
+    super.initState();
+    _currentPageSize = widget.initialPageSize ?? widget.pageSizes.first;
+    _pageController.text = widget.initialPage.toString();
+  }
 
   ///
   ///
@@ -79,7 +131,6 @@ class _BasicTableState extends State<BasicTable> {
     final Decoration decoration = widget.decoration ??
         BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHigh,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           border: Border.all(
             color: widget.dividerColor,
             width: widget.dividerHeight,
@@ -112,18 +163,29 @@ class _BasicTableState extends State<BasicTable> {
 
         final bool hasHorizontalScrollBar = ratio <= 1.003;
 
-        final double tableHeight = math.min(
+        final bool hasCommands = widget.commandsHeight > 0 &&
+            widget.commands != null &&
+            widget.commands!.isNotEmpty;
+
+        final bool hasHeader = widget.headerHeight > 0;
+
+        final bool hasPagination =
+            widget.onPageSizeChanged != null || widget.onPageChanged != null;
+
+        final double tableHeight = (widget.rowsCount * widget.rowHeight +
+                (widget.rowsCount - 1) * widget.dividerHeight)
+            .min(
           constraints.maxHeight -
-              // (widget.dividerHeight * 5) -
-              (widget.dividerHeight * 3) -
-              // widget.commandsHeight -
+              (widget.dividerHeight * 2) -
+              (hasHeader ? widget.dividerHeight : 0) -
+              (hasCommands ? widget.commandsHeight + widget.dividerHeight : 0) -
               widget.headerHeight -
-              // widget.paginationHeight -
+              (hasPagination
+                  ? widget.paginationHeight + widget.dividerHeight
+                  : 0) -
               (hasHorizontalScrollBar
                   ? widget.dividerHeight + widget.scrollBarThickness + 4
                   : 0),
-          widget.rowsCount * widget.rowHeight +
-              (widget.rowsCount - 1) * widget.dividerHeight,
         );
 
         final Widget divider = Container(
@@ -140,26 +202,21 @@ class _BasicTableState extends State<BasicTable> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               /// Commands
-              // SizedBox(
-              //   width: width,
-              //   height: widget.commandsHeight,
-              //   child: Row(
-              //     children: <Widget>[
-              //       Text(
-              //         'Commands',
-              //         style: Theme.of(context).textTheme.headlineSmall,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
-              /// Divider
-              // divider,
+              if (widget.commandsHeight > 0) ...<Widget>[
+                SizedBox(
+                  width: width,
+                  height: widget.commandsHeight,
+                  child: Row(
+                    mainAxisAlignment: widget.commandsAlignment,
+                    children: widget.commands!,
+                  ),
+                ),
+                divider,
+              ],
 
               /// Table
               Scrollbar(
                 controller: _horizontalController,
-                radius: Radius.zero,
                 thumbVisibility: true,
                 thickness: widget.scrollBarThickness,
                 child: SingleChildScrollView(
@@ -169,30 +226,31 @@ class _BasicTableState extends State<BasicTable> {
                   child: Column(
                     children: <Widget>[
                       /// Table header
-                      ColoredBox(
-                        color: widget.headerBackground ??
-                            Theme.of(context).appBarTheme.backgroundColor ??
-                            Colors.transparent,
-                        child: DefaultTextStyle(
-                          style: headerTextStyle,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: widget.columnBuilders.map(
-                              (BasicTableColumnBuilder e) {
-                                // TODO(edufolly): Implements sorting.
-                                return SizedBox(
-                                  width: e.flexible ? ratio * e.width : e.width,
-                                  height: widget.headerHeight,
-                                  child: e.header?.call(context),
-                                );
-                              },
-                            ).toList(),
+                      if (hasHeader) ...<Widget>[
+                        ColoredBox(
+                          color: widget.headerBackground ??
+                              Theme.of(context).appBarTheme.backgroundColor ??
+                              Colors.transparent,
+                          child: DefaultTextStyle(
+                            style: headerTextStyle,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: widget.columnBuilders.map(
+                                (BasicTableColumnBuilder e) {
+                                  // TODO(edufolly): Implements sorting.
+                                  return SizedBox(
+                                    width:
+                                        e.flexible ? ratio * e.width : e.width,
+                                    height: widget.headerHeight,
+                                    child: e.header?.call(context),
+                                  );
+                                },
+                              ).toList(),
+                            ),
                           ),
                         ),
-                      ),
-
-                      /// Divider
-                      divider,
+                        divider,
+                      ],
 
                       /// Table rows
                       SizedBox(
@@ -213,7 +271,12 @@ class _BasicTableState extends State<BasicTable> {
                                     width:
                                         e.flexible ? ratio * e.width : e.width,
                                     height: widget.rowHeight,
-                                    child: e.builder(context, index),
+                                    child: e.builder(
+                                      context,
+                                      index,
+                                      _currentPage,
+                                      _currentPageSize,
+                                    ),
                                   );
                                 },
                               ).toList(),
@@ -236,22 +299,159 @@ class _BasicTableState extends State<BasicTable> {
                 ),
               ),
 
-              /// Divider
-              // divider,
-
               /// Pagination
-              // SizedBox(
-              //   width: width,
-              //   height: widget.paginationHeight,
-              //   child: Row(
-              //     children: <Widget>[
-              //       Text(
-              //         'Pagination',
-              //         style: Theme.of(context).textTheme.headlineSmall,
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              if (hasPagination) ...<Widget>[
+                divider,
+                SizedBox(
+                  width: width,
+                  height: widget.paginationHeight,
+                  child: Padding(
+                    padding: widget.paginationPadding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        /// Page Size
+                        if (widget.onPageSizeChanged != null)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              const Text('Rows per page:'),
+                              const SizedBox(width: 8),
+                              DropdownButton<int>(
+                                isDense: true,
+                                value: _currentPageSize,
+                                items: widget.pageSizes.map((int value) {
+                                  return DropdownMenuItem<int>(
+                                    value: value,
+                                    child: Text(value.toString()),
+                                  );
+                                }).toList(),
+                                onChanged: (int? size) {
+                                  if (size != null &&
+                                      _currentPageSize != size) {
+                                    setState(() {
+                                      _currentPageSize = size;
+                                      _currentPage = 1;
+                                      widget.onPageSizeChanged?.call(
+                                        _currentPageSize,
+                                        _currentPage,
+                                      );
+                                    });
+                                  }
+                                },
+                              ),
+                            ],
+                          )
+                        else
+                          const SizedBox.shrink(),
+
+                        /// Pagination
+                        if (widget.onPageChanged != null)
+                          Row(
+                            // mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              /// First Page
+                              IconButton(
+                                tooltip: 'First',
+                                onPressed: _currentPage > 1
+                                    ? () => setState(() {
+                                          _currentPage = 1;
+                                          widget.onPageChanged
+                                              ?.call(_currentPage);
+                                        })
+                                    : null,
+                                icon: const FaIcon(FontAwesomeIcons.anglesLeft),
+                                iconSize: widget.paginationIconSize,
+                              ),
+
+                              /// Previous Page
+                              IconButton(
+                                tooltip: 'Previous',
+                                onPressed: _currentPage > 1
+                                    ? () => setState(() {
+                                          _currentPage--;
+                                          widget.onPageChanged
+                                              ?.call(_currentPage);
+                                        })
+                                    : null,
+                                icon: const FaIcon(FontAwesomeIcons.angleLeft),
+                                iconSize: widget.paginationIconSize,
+                              ),
+
+                              /// Current Page
+                              SizedBox(
+                                width: widget.totalPages.log10.ceil() * 10 + 10,
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  controller: _pageController,
+                                  textAlign: TextAlign.center,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  onSubmitted: (String value) {
+                                    int page = int.tryParse(value) ?? 1;
+
+                                    if (page < 1) {
+                                      page = 1;
+                                    }
+
+                                    if (page > widget.totalPages) {
+                                      page = widget.totalPages;
+                                    }
+
+                                    setState(() {
+                                      _currentPage = page;
+                                      widget.onPageChanged?.call(_currentPage);
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 4, 2),
+                                child: Text(
+                                  'of ${widget.totalPages}',
+                                ),
+                              ),
+
+                              /// Next Page
+                              IconButton(
+                                tooltip: 'Next',
+                                onPressed: _currentPage < widget.totalPages
+                                    ? () => setState(() {
+                                          _currentPage++;
+                                          widget.onPageChanged
+                                              ?.call(_currentPage);
+                                        })
+                                    : null,
+                                icon: const FaIcon(FontAwesomeIcons.angleRight),
+                                iconSize: widget.paginationIconSize,
+                              ),
+
+                              /// First Page
+                              IconButton(
+                                tooltip: 'Last',
+                                onPressed: _currentPage < widget.totalPages
+                                    ? () => setState(() {
+                                          _currentPage = widget.totalPages;
+                                          widget.onPageChanged
+                                              ?.call(_currentPage);
+                                        })
+                                    : null,
+                                icon:
+                                    const FaIcon(FontAwesomeIcons.anglesRight),
+                                iconSize: widget.paginationIconSize,
+                              ),
+                            ],
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         );

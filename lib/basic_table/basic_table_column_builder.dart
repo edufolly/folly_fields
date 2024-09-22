@@ -7,7 +7,12 @@ import 'package:folly_fields/basic_table/basic_table_cell_header.dart';
 ///
 class BasicTableColumnBuilder {
   final double width;
-  final BasicTableAbstractCell Function(BuildContext context, int row) builder;
+  final BasicTableAbstractCell Function(
+    BuildContext context,
+    int row,
+    int page,
+    int size,
+  ) builder;
   final BasicTableCellHeader? Function(BuildContext context)? header;
   final bool flexible;
 
