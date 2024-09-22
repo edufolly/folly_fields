@@ -1,6 +1,6 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 3.3.1
+version: 3.4.0
 repository: https://github.com/edufolly/folly_fields/
 homepage: https://edufolly.github.io/folly_fields/
 
@@ -14,12 +14,6 @@ dependencies:
 
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
-
-  # https://pub.dev/packages/dial_picker
-  # dial_picker: ^1.0.1
-
-  # https://pub.dev/packages/duration_picker
-  # duration_picker: ^1.2.0
 
   # https://pub.dev/packages/email_validator
   email_validator: ^3.0.0
