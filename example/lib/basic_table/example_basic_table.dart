@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/basic_table/basic_table.dart';
-import 'package:folly_fields/basic_table/basic_table_cell_header.dart';
-import 'package:folly_fields/basic_table/basic_table_cell_text.dart';
 import 'package:folly_fields/basic_table/basic_table_column_builder.dart';
+import 'package:folly_fields/basic_table/cells/basic_table_cell_header.dart';
+import 'package:folly_fields/basic_table/cells/basic_table_cell_text.dart';
 
 ///
 ///
@@ -26,7 +26,6 @@ class ExampleBasicTable extends StatefulWidget {
 class _ExampleBasicTableState extends State<ExampleBasicTable> {
   final int _count = 33;
   int _size = 10;
-  // ignore: unused_field
   int _page = 1;
 
   ///
@@ -50,9 +49,9 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
               width: 100,
               header: (BuildContext context) =>
                   const BasicTableCellHeader.center('First Column'),
-              builder: (BuildContext context, int row, int page, int size) =>
+              builder: (BuildContext context, int row) =>
                   BasicTableCellText.center('Column 1 - '
-                      'Row ${row + 1 + ((page - 1) * size)}'),
+                      'Row ${row + 1 + ((_page - 1) * _size)}'),
             ),
 
             /// Second Column
@@ -60,9 +59,9 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
               width: 150,
               header: (BuildContext context) =>
                   const BasicTableCellHeader.center('Second Column'),
-              builder: (BuildContext context, int row, int page, int size) =>
+              builder: (BuildContext context, int row) =>
                   BasicTableCellText.center('Column 2 - '
-                      'Row ${row + 1 + ((page - 1) * size)}'),
+                      'Row ${row + 1 + ((_page - 1) * _size)}'),
             ),
 
             /// Third Column
@@ -70,9 +69,9 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
               width: 110,
               header: (BuildContext context) =>
                   const BasicTableCellHeader.center('Third Column'),
-              builder: (BuildContext context, int row, int page, int size) =>
+              builder: (BuildContext context, int row) =>
                   BasicTableCellText.center('Column 3 - '
-                      'Row ${row + 1 + ((page - 1) * size)}'),
+                      'Row ${row + 1 + ((_page - 1) * _size)}'),
             ),
 
             /// Fourth Column
@@ -80,9 +79,9 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
               width: 120,
               header: (BuildContext context) =>
                   const BasicTableCellHeader.center('Fourth Column'),
-              builder: (BuildContext context, int row, int page, int size) =>
+              builder: (BuildContext context, int row) =>
                   BasicTableCellText.center('Column 4 - '
-                      'Row ${row + 1 + ((page - 1) * size)}'),
+                      'Row ${row + 1 + ((_page - 1) * _size)}'),
             ),
           ],
           initialPageSize: _size,
@@ -93,11 +92,8 @@ class _ExampleBasicTableState extends State<ExampleBasicTable> {
             });
           },
           totalPages: (_count / _size).ceil(),
-          initialPage: _page,
           onPageChanged: (int page) {
-            setState(() {
-              _page = page;
-            });
+            setState(() => _page = page);
           },
         ),
       ),

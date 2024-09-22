@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:folly_fields/basic_table/basic_table_cell_text.dart';
+import 'package:folly_fields/basic_table/cells/basic_table_cell_text.dart';
 
 ///
 ///
