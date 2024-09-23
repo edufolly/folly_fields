@@ -37,6 +37,15 @@ void main() {
       expect(range.copyWith(first: 1, last: 6), const Range(1, 6));
     });
 
+    test('Plus operator', () {
+      expect(const Range(0, 5) + const Range(6, 10), const Range(0, 10));
+      expect(const Range(0, 5) + const Range(10, 10), const Range(0, 10));
+      expect(const Range(0, 5) + const Range(10, 11), const Range(0, 11));
+      expect(const Range(-1, 3) + const Range(4, 11), const Range(-1, 11));
+      expect(const Range(-1, 3) + const Range(-3, 2), const Range(-3, 3));
+      expect(const Range(0, 4) + const Range(1, 3), const Range(0, 4));
+    });
+
     test('Constructor assert error', () {
       expect(() => Range(3, 2), throwsAssertionError);
     });

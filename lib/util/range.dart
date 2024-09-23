@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:folly_fields/util/folly_num_extension.dart';
 
 ///
 ///
@@ -76,4 +77,10 @@ class Range {
   ///
   bool intersects(Range other) =>
       _first <= other._last && _last >= other._first;
+
+  ///
+  ///
+  ///
+  Range operator +(Range other) =>
+      Range(_first.min(other.first), _last.max(other.last));
 }
