@@ -12,7 +12,7 @@ enum CreditCardType {
     lengths: [16, 18, 19],
     code: CreditCardCode('CVV', [3]),
     patterns: {
-      Range(4),
+      CreditCardRange(4),
     },
   ),
 
@@ -23,12 +23,12 @@ enum CreditCardType {
     lengths: [16],
     code: CreditCardCode('CVC', [3]),
     patterns: {
-      Range(51, 55),
-      Range(2221, 2229),
-      Range(223, 229),
-      Range(23, 26),
-      Range(270, 271),
-      Range(2720),
+      CreditCardRange(51, 55),
+      CreditCardRange(2221, 2229),
+      CreditCardRange(223, 229),
+      CreditCardRange(23, 26),
+      CreditCardRange(270, 271),
+      CreditCardRange(2720),
     },
     extraBrands: ['mastercard'],
   ),
@@ -40,8 +40,8 @@ enum CreditCardType {
     lengths: [15],
     code: CreditCardCode('CID', [4]),
     patterns: {
-      Range(34),
-      Range(37),
+      CreditCardRange(34),
+      CreditCardRange(37),
     },
     extraBrands: ['americanexpress'],
   ),
@@ -53,10 +53,10 @@ enum CreditCardType {
     lengths: [14, 16, 19],
     code: CreditCardCode('CVV', [3]),
     patterns: {
-      Range(300, 305),
-      Range(36),
-      Range(38),
-      Range(39),
+      CreditCardRange(300, 305),
+      CreditCardRange(36),
+      CreditCardRange(38),
+      CreditCardRange(39),
     },
     extraBrands: ['dinersclub'],
   ),
@@ -68,9 +68,9 @@ enum CreditCardType {
     lengths: [16, 19],
     code: CreditCardCode('CID', [3]),
     patterns: {
-      Range(6011),
-      Range(644, 649),
-      Range(65),
+      CreditCardRange(6011),
+      CreditCardRange(644, 649),
+      CreditCardRange(65),
     },
   ),
 
@@ -81,9 +81,9 @@ enum CreditCardType {
     lengths: [16, 17, 18, 19],
     code: CreditCardCode('CVV', [3]),
     patterns: {
-      Range(2131),
-      Range(1800),
-      Range(3528, 3589),
+      CreditCardRange(2131),
+      CreditCardRange(1800),
+      CreditCardRange(3528, 3589),
     },
   ),
 
@@ -94,28 +94,28 @@ enum CreditCardType {
     lengths: [14, 15, 16, 17, 18, 19],
     code: CreditCardCode('CVN', [3]),
     patterns: {
-      Range(620),
-      Range(62100, 62182),
-      Range(62184, 62187),
-      Range(62185, 62197),
-      Range(62200, 62205),
-      Range(622010, 622999),
-      Range(622018),
-      Range(62207, 62209),
-      Range(623, 626),
-      Range(6270),
-      Range(6272),
-      Range(6276),
-      Range(627700, 627779),
-      Range(627781, 627799),
-      Range(6282, 6289),
-      Range(6291),
-      Range(6292),
-      Range(810),
-      Range(8110, 8131),
-      Range(8132, 8151),
-      Range(8152, 8163),
-      Range(8164, 8171),
+      CreditCardRange(620),
+      CreditCardRange(62100, 62182),
+      CreditCardRange(62184, 62187),
+      CreditCardRange(62185, 62197),
+      CreditCardRange(62200, 62205),
+      CreditCardRange(622010, 622999),
+      CreditCardRange(622018),
+      CreditCardRange(62207, 62209),
+      CreditCardRange(623, 626),
+      CreditCardRange(6270),
+      CreditCardRange(6272),
+      CreditCardRange(6276),
+      CreditCardRange(627700, 627779),
+      CreditCardRange(627781, 627799),
+      CreditCardRange(6282, 6289),
+      CreditCardRange(6291),
+      CreditCardRange(6292),
+      CreditCardRange(810),
+      CreditCardRange(8110, 8131),
+      CreditCardRange(8132, 8151),
+      CreditCardRange(8152, 8163),
+      CreditCardRange(8164, 8171),
     },
     checkLuhn: false,
   ),
@@ -127,14 +127,14 @@ enum CreditCardType {
     lengths: [12, 13, 14, 15, 16, 17, 18, 19],
     code: CreditCardCode('CVC', [3]),
     patterns: {
-      Range(493698),
-      Range(500000, 504174),
-      Range(504176, 506698),
-      Range(506779, 508999),
-      Range(56, 59),
-      Range(63),
-      Range(67),
-      Range(6),
+      CreditCardRange(493698),
+      CreditCardRange(500000, 504174),
+      CreditCardRange(504176, 506698),
+      CreditCardRange(506779, 508999),
+      CreditCardRange(56, 59),
+      CreditCardRange(63),
+      CreditCardRange(67),
+      CreditCardRange(6),
     },
   ),
 
@@ -145,31 +145,31 @@ enum CreditCardType {
     lengths: [16],
     code: CreditCardCode('CVE', [3]),
     patterns: {
-      Range(401178),
-      Range(401179),
-      Range(438935),
-      Range(457631),
-      Range(457632),
-      Range(431274),
-      Range(451416),
-      Range(457393),
-      Range(504175),
-      Range(506699, 506778),
-      Range(509000, 509999),
-      Range(627780),
-      Range(636297),
-      Range(636368),
-      Range(650031, 650033),
-      Range(650035, 650051),
-      Range(650405, 650439),
-      Range(650485, 650538),
-      Range(650541, 650598),
-      Range(650700, 650718),
-      Range(650720, 650727),
-      Range(650901, 650978),
-      Range(651652, 651679),
-      Range(655000, 655019),
-      Range(655021, 655058),
+      CreditCardRange(401178),
+      CreditCardRange(401179),
+      CreditCardRange(438935),
+      CreditCardRange(457631),
+      CreditCardRange(457632),
+      CreditCardRange(431274),
+      CreditCardRange(451416),
+      CreditCardRange(457393),
+      CreditCardRange(504175),
+      CreditCardRange(506699, 506778),
+      CreditCardRange(509000, 509999),
+      CreditCardRange(627780),
+      CreditCardRange(636297),
+      CreditCardRange(636368),
+      CreditCardRange(650031, 650033),
+      CreditCardRange(650035, 650051),
+      CreditCardRange(650405, 650439),
+      CreditCardRange(650485, 650538),
+      CreditCardRange(650541, 650598),
+      CreditCardRange(650700, 650718),
+      CreditCardRange(650720, 650727),
+      CreditCardRange(650901, 650978),
+      CreditCardRange(651652, 651679),
+      CreditCardRange(655000, 655019),
+      CreditCardRange(655021, 655058),
     },
   ),
 
@@ -180,7 +180,7 @@ enum CreditCardType {
     lengths: [16, 17, 18, 19],
     code: CreditCardCode('CVP2', [3]),
     patterns: {
-      Range(2200, 2204),
+      CreditCardRange(2200, 2204),
     },
   ),
 
@@ -191,13 +191,13 @@ enum CreditCardType {
     lengths: [16],
     code: CreditCardCode('CVC', [3]),
     patterns: {
-      Range(637095),
-      Range(63737423),
-      Range(63743358),
-      Range(637568),
-      Range(637599),
-      Range(637609),
-      Range(637612),
+      CreditCardRange(637095),
+      CreditCardRange(63737423),
+      CreditCardRange(63743358),
+      CreditCardRange(637568),
+      CreditCardRange(637599),
+      CreditCardRange(637609),
+      CreditCardRange(637612),
     },
   ),
 
@@ -208,7 +208,7 @@ enum CreditCardType {
     lengths: [16],
     code: CreditCardCode('CVC', [3]),
     patterns: {
-      Range(606282),
+      CreditCardRange(606282),
     },
   ),
 
@@ -228,7 +228,7 @@ enum CreditCardType {
   final String mask;
   final List<int> lengths;
   final CreditCardCode code;
-  final Set<Range> patterns;
+  final Set<CreditCardRange> patterns;
   final bool checkLuhn;
   final List<String> extraBrands;
 
@@ -305,7 +305,7 @@ enum CreditCardType {
     String cNum = clearNum(ccNum);
 
     for (final CreditCardType type in CreditCardType.values) {
-      for (final Range range in type.patterns) {
+      for (final CreditCardRange range in type.patterns) {
         if (range.isValid(cNum)) {
           return type;
         }
@@ -350,11 +350,11 @@ class CreditCardCode {
 ///
 ///
 ///
-class Range {
+class CreditCardRange {
   final int initialValue;
   final int? finalValue;
 
-  const Range(this.initialValue, [this.finalValue]);
+  const CreditCardRange(this.initialValue, [this.finalValue]);
 
   ///
   ///
