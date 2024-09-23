@@ -33,7 +33,7 @@ void main() {
       expect(range.toString(), 'Range(0, 5)');
       expect(range.hashCode, 968375619);
       expect(range == const Range(0, 5), true);
-      expect(range == const Range(1, 5), false);
+      expect(range == const Range.exclusive(0, 5), false);
       expect(range.copyWith(first: 1, last: 6), const Range(1, 6));
     });
 
