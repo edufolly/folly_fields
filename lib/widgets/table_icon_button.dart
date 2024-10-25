@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class TableIconButton extends StatelessWidget {
+class TableIconButton extends ResponsiveStateless {
   final VoidCallback onPressed;
   final bool enabled;
   final IconData iconData;
+  final String? tooltip;
 
   ///
   ///
@@ -16,6 +18,13 @@ class TableIconButton extends StatelessWidget {
     required this.onPressed,
     required this.enabled,
     required this.iconData,
+    this.tooltip,
+    super.sizeExtraSmall,
+    super.sizeSmall,
+    super.sizeMedium,
+    super.sizeLarge,
+    super.sizeExtraLarge,
+    super.minHeight,
     super.key,
   });
 
@@ -24,22 +33,13 @@ class TableIconButton extends StatelessWidget {
   ///
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     ListTileThemeData tileTheme = ListTileTheme.of(context);
 
-    Color? iconColor = Colors.black45;
-    if (tileTheme.iconColor != null) {
-      iconColor = tileTheme.iconColor;
-    } else {
-      switch (theme.brightness) {
-        case Brightness.light:
-          iconColor = Colors.black45;
-          break;
-        case Brightness.dark:
-          iconColor = null;
-          break;
-      }
-    }
+    Color? iconColor = tileTheme.iconColor ??
+        switch (Theme.of(context).brightness) {
+          Brightness.light => Colors.black45,
+          Brightness.dark => null
+        };
 
     return Flexible(
       flex: 0,
@@ -48,6 +48,7 @@ class TableIconButton extends StatelessWidget {
           top: 12,
         ),
         child: IconButton(
+          tooltip: tooltip,
           icon: FaIcon(
             iconData,
             color: iconColor,

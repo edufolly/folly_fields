@@ -1,18 +1,20 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
-class BoolField extends FormFieldResponsive<bool> {
-  final BoolEditingController? controller;
-  final Function(bool)? onChanged;
+class BoolField extends ResponsiveFormField<bool> {
+  final ValueNotifier<bool>? controller;
+  final Function(bool value)? onChanged;
 
   ///
   ///
   ///
   BoolField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -28,13 +30,17 @@ class BoolField extends FormFieldResponsive<bool> {
     Color? activeColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    String? hintText,
+    EdgeInsets? contentPadding,
+    TextOverflow textOverflow = TextOverflow.ellipsis,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
     super.sizeLarge,
     super.sizeExtraLarge,
     super.minHeight,
-    TextOverflow textOverflow = TextOverflow.ellipsis,
     super.key,
   })  : assert(
           initialValue == null || controller == null,
@@ -54,7 +60,7 @@ class BoolField extends FormFieldResponsive<bool> {
               : null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<bool> field) {
-            BoolFieldState state = field as BoolFieldState;
+            _BoolFieldState state = field as _BoolFieldState;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -63,19 +69,23 @@ class BoolField extends FormFieldResponsive<bool> {
                       fillColor: fillColor,
                       counterText: '',
                       enabled: enabled,
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 8,
-                      ),
+                      contentPadding: contentPadding ??
+                          const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 8,
+                          ),
+                      prefixIcon: prefixIcon,
+                      suffixIcon: suffixIcon,
+                      hintText: hintText,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
             Color? textColor =
-                Theme.of(field.context).textTheme.subtitle1!.color;
+                Theme.of(field.context).textTheme.titleMedium?.color;
 
             TextStyle textStyle =
-                Theme.of(field.context).textTheme.subtitle1!.copyWith(
-                      color: textColor!.withOpacity(enabled ? 1 : 0.4),
+                Theme.of(field.context).textTheme.titleMedium!.copyWith(
+                      color: textColor?.withOpacity(enabled ? 1 : 0.4),
                       overflow: textOverflow,
                     );
 
@@ -91,6 +101,7 @@ class BoolField extends FormFieldResponsive<bool> {
                     child: InputDecorator(
                       decoration: effectiveDecoration.copyWith(
                         errorText: enabled ? field.errorText : null,
+                        enabled: enabled,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +114,7 @@ class BoolField extends FormFieldResponsive<bool> {
                               child: label == null
                                   ? labelWidget
                                   : Text(
-                                      labelPrefix.isEmpty
+                                      labelPrefix?.isEmpty ?? true
                                           ? label
                                           : '$labelPrefix - $label',
                                       style: textStyle,
@@ -136,14 +147,14 @@ class BoolField extends FormFieldResponsive<bool> {
   ///
   ///
   @override
-  BoolFieldState createState() => BoolFieldState();
+  FormFieldState<bool> createState() => _BoolFieldState();
 }
 
 ///
 ///
 ///
-class BoolFieldState extends FormFieldState<bool> {
-  BoolEditingController? _controller;
+class _BoolFieldState extends FormFieldState<bool> {
+  ValueNotifier<bool>? _controller;
 
   ///
   ///
@@ -154,7 +165,7 @@ class BoolFieldState extends FormFieldState<bool> {
   ///
   ///
   ///
-  BoolEditingController get _effectiveController =>
+  ValueNotifier<bool> get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -164,9 +175,7 @@ class BoolFieldState extends FormFieldState<bool> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = BoolEditingController(
-        value: widget.initialValue ?? false,
-      );
+      _controller = ValueNotifier<bool>(widget.initialValue ?? false);
     } else {
       widget.controller?.addListener(_handleControllerChanged);
     }
@@ -184,9 +193,7 @@ class BoolFieldState extends FormFieldState<bool> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = BoolEditingController(
-          value: oldWidget.controller!.value,
-        );
+        _controller = ValueNotifier<bool>(oldWidget.controller!.value);
       }
 
       if (widget.controller != null) {
@@ -237,14 +244,4 @@ class BoolFieldState extends FormFieldState<bool> {
     widget.controller?.removeListener(_handleControllerChanged);
     super.dispose();
   }
-}
-
-///
-///
-///
-class BoolEditingController extends ValueNotifier<bool> {
-  ///
-  ///
-  ///
-  BoolEditingController({bool value = false}) : super(value);
 }

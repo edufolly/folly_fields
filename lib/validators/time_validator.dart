@@ -7,8 +7,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class TimeValidator extends AbstractValidator<TimeOfDay>
-    implements AbstractParser<TimeOfDay> {
+class TimeValidator extends AbstractParserValidator<TimeOfDay> {
   ///
   ///
   ///
@@ -30,8 +29,8 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
   ///
   ///
   @override
-  String format(TimeOfDay time) => '${time.hour.toString().padLeft(2, '0')}'
-      ':${time.minute.toString().padLeft(2, '0')}';
+  String format(TimeOfDay value) => '${value.hour.toString().padLeft(2, '0')}'
+      ':${value.minute.toString().padLeft(2, '0')}';
 
   ///
   ///
@@ -60,11 +59,12 @@ class TimeValidator extends AbstractValidator<TimeOfDay>
       List<String> parts = value.split(':');
       if (parts.length == 2) {
         return TimeOfDay(
-          hour: int.parse(parts[0]),
-          minute: int.parse(parts[1]),
+          hour: int.parse(parts.first),
+          minute: int.parse(parts.last),
         );
       }
     }
+
     return null;
   }
 

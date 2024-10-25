@@ -1,14 +1,27 @@
 # FollyFields
 
-![FollyFields](https://github.com/edufolly/folly_fields/actions/workflows/main.yml/badge.svg)
+[![Build With Love](https://img.shields.io/badge/%20built%20with-%20%E2%9D%A4-ff69b4.svg)](https://github.com/edufolly/folly_fields/stargazers)
+[![Version](https://img.shields.io/pub/v/folly_fields?color=orange)](https://pub.dev/packages/folly_fields)
+[![Licence](https://img.shields.io/github/license/edufolly/folly_fields?color=blue)](https://github.com/edufolly/folly_fields/blob/main/LICENSE)
+[![Build](https://img.shields.io/github/actions/workflow/status/edufolly/folly_fields/main.yml?branch=main)](https://github.com/edufolly/folly_fields/releases/latest)
+[![Coverage Report](https://img.shields.io/badge/coverage-report-C08EA1)](https://edufolly.github.io/folly_fields/coverage/html/)
 
 Basic form fields and utilities. Maybe a humble boilerplate.
 
-Please :star: to support the project.
+## Funding
 
-## Flutter 3.0 - Break Changes
+[![BuyMeACoffee](https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg)](https://www.buymeacoffee.com/edufolly)
 
-Version 0.10.0 needs Flutter 3.0.0 and Dart 2.17.0
+## Community
+
+<div>
+  <span>
+    <div>Join our official Discord server</div>
+    <a href="https://discord.gg/q67sGqkpvH">
+      <img alt="discord" src="https://img.shields.io/badge/Discord-7289da?style=for-the-badge&logo=discord&logoColor=FFFFFF"/>
+    </a>
+  </span>
+</div>
 
 ## Example
 
@@ -25,15 +38,32 @@ https://github.com/edufolly/folly_fields/tree/main/example/lib
 ### pubspec.yaml
 
 ``` yaml
+dependencies:
+
+  flutter:
+    sdk: flutter
+  
+  flutter_localizations:
+    sdk: flutter
+
+  # https://pub.dev/packages/folly_fields
+  folly_fields: x.y.z # lastest pub.dev release
+```
+
+Check [pub.dev latest release](https://pub.dev/packages/folly_fields).
+
+For edge builds, replace pub.dev version to git repo:
+
+``` yaml
 # https://github.com/edufolly/folly_fields
 folly_fields:
   git:
-    url: git://github.com/edufolly/folly_fields.git
-    ref: # lastest release
+    url: https://github.com/edufolly/folly_fields.git
+    ref: v0.0.1 # latest release or branch name
 ```
 
 Use **ref** to avoid breaking changes.
-Check [latest release](https://github.com/edufolly/folly_fields/releases).
+Check [GitHub latest release](https://github.com/edufolly/folly_fields/releases).
 
 ### config.dart
 
@@ -43,11 +73,11 @@ https://github.com/edufolly/folly_fields/blob/main/example/lib/config.dart
 class Config extends AbstractConfig {
   static final Config _singleton = Config._internal();
 
-  Config._internal();
-
   factory Config() {
     return _singleton;
   }
+
+  Config._internal();
 
 /// Content...
 }
@@ -81,8 +111,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(),
-      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+      home: const MyHomePage(),
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,

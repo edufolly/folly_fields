@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/email_validator.dart';
 
@@ -11,6 +10,7 @@ class EmailField extends ValidatorField {
   ///
   ///
   EmailField({
+    EmailValidator? emailValidator,
     super.validatorMessage = 'Informe o e-mail.',
     super.labelPrefix,
     super.label,
@@ -20,7 +20,7 @@ class EmailField extends ValidatorField {
     super.inputFormatter,
     super.textAlign,
     super.maxLength,
-    void Function(String value)? onSaved,
+    super.onSaved,
     super.initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -39,6 +39,14 @@ class EmailField extends ValidatorField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
+    super.contentPadding,
+    super.counterText,
+    super.prefix,
+    super.prefixIcon,
+    super.suffix,
+    super.suffixIcon,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -55,9 +63,7 @@ class EmailField extends ValidatorField {
           'label or labelWidget must be null.',
         ),
         super(
-          abstractValidator: EmailValidator(),
-          onSaved:
-              onSaved != null ? (String? value) => onSaved(value ?? '') : null,
+          abstractValidator: emailValidator ?? EmailValidator(),
           textCapitalization: TextCapitalization.none,
         );
 }

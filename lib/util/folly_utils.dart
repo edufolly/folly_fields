@@ -1,97 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 
 ///
 ///
 ///
 class FollyUtils {
-  ///
-  ///
-  ///
-  static TimeOfDay? getTime(DateTime? dateTime) =>
-      dateTime == null ? null : TimeOfDay.fromDateTime(dateTime);
-
-  ///
-  ///
-  ///
-  static DateTime? dateTimeMergeStart({
-    required DateTime? date,
-    int second = 0,
-    int millisecond = 0,
-  }) =>
-      dateMergeStart(
-        date: date,
-        time: getTime(date),
-        second: second,
-        millisecond: millisecond,
-      );
-
-  ///
-  ///
-  ///
-  static DateTime? dateMergeStart({
-    required DateTime? date,
-    TimeOfDay? time,
-    int second = 0,
-    int millisecond = 0,
-  }) {
-    if (date == null) {
-      return null;
-    }
-
-    time ??= const TimeOfDay(hour: 0, minute: 0);
-
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-      second,
-      millisecond,
-    );
-  }
-
-  ///
-  ///
-  ///
-  static DateTime? dateTimeMergeEnd({
-    required DateTime? date,
-    int second = 59,
-    int millisecond = 999,
-  }) =>
-      dateMergeEnd(
-        date: date,
-        time: getTime(date),
-        second: second,
-        millisecond: millisecond,
-      );
-
-  ///
-  ///
-  ///
-  static DateTime? dateMergeEnd({
-    required DateTime? date,
-    TimeOfDay? time,
-    int second = 59,
-    int millisecond = 999,
-  }) {
-    if (date == null) {
-      return null;
-    }
-
-    time ??= const TimeOfDay(hour: 23, minute: 59);
-
-    return DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-      second,
-      millisecond,
-    );
-  }
-
   ///
   ///
   ///
@@ -121,24 +34,11 @@ class FollyUtils {
     }
 
     int? day = int.tryParse(parts[0]);
-    if (day == null || day < 1 || day > getDaysInMonth(year, month)) {
+    if (day == null || day < 1 || day > DateTime(year, month).daysInMonth) {
       return 'Dia inválido.';
     }
 
     return null;
-  }
-
-  ///
-  ///
-  ///
-  static int getDaysInMonth(int year, int month) {
-    if (month == DateTime.february) {
-      return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)
-          ? 29
-          : 28;
-    }
-    List<int> days = <int>[31, -1, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return days[month - 1];
   }
 
   ///
@@ -173,84 +73,6 @@ class FollyUtils {
   ///
   ///
   ///
-  static bool isPascalCase(String value) =>
-      !(value.isEmpty ||
-          value.contains(RegExp('[^a-zA-Z0-9]+')) ||
-          value.startsWith(RegExp('[0-9]+'))) &&
-      value[0].toUpperCase() == value[0];
-
-  ///
-  ///
-  ///
-  static bool isCamelCase(String value) =>
-      !(value.isEmpty ||
-          value.contains(RegExp('[^a-zA-Z0-9]+')) ||
-          value.startsWith(RegExp('[0-9]+'))) &&
-      value[0].toLowerCase() == value[0];
-
-  ///
-  ///
-  ///
-  static bool isSnakeCase(String value) => !(value.isEmpty ||
-      value.contains(RegExp('[^_a-z0-9]+')) ||
-      value.startsWith(RegExp('[0-9]+')));
-
-  ///
-  ///
-  ///
-  static String camel2Snake(String camel, {bool internal = false}) =>
-      internal || isCamelCase(camel)
-          ? camel.splitMapJoin(
-              RegExp('[A-Z]'),
-              onMatch: (Match m) => '_${m.group(0)!.toLowerCase()}',
-              onNonMatch: (String n) => n,
-            )
-          : '';
-
-  ///
-  ///
-  ///
-  static String snake2Camel(String snake) => isSnakeCase(snake)
-      ? pascal2Camel(snake2Pascal(snake, internal: true), internal: true)
-      : '';
-
-  ///
-  ///
-  ///
-  static String pascal2Camel(String pascal, {bool internal = false}) =>
-      internal || isPascalCase(pascal)
-          ? pascal[0].toLowerCase() + pascal.substring(1)
-          : '';
-
-  ///
-  ///
-  ///
-  static String camel2Pascal(String camel) =>
-      isCamelCase(camel) ? camel[0].toUpperCase() + camel.substring(1) : '';
-
-  ///
-  ///
-  ///
-  static String pascal2Snake(String pascal) => isPascalCase(pascal)
-      ? camel2Snake(pascal, internal: true).substring(1)
-      : '';
-
-  ///
-  ///
-  ///
-  static String snake2Pascal(String snake, {bool internal = false}) =>
-      internal || isSnakeCase(snake)
-          ? snake.toLowerCase().splitMapJoin(
-                RegExp('_'),
-                onMatch: (Match m) => '',
-                onNonMatch: (String n) =>
-                    n.substring(0, 1).toUpperCase() + n.substring(1),
-              )
-          : '';
-
-  ///
-  ///
-  ///
   static Color textColorByLuminance(
     Color color, {
     Color darkColor = Colors.black,
@@ -270,9 +92,41 @@ class FollyUtils {
   ///
   ///
   ///
-  @Deprecated('Use createMaterialColor(intColor).')
-  static MaterialColor fakeMaterialColor(int intColor) =>
-      createMaterialColor(intColor: intColor)!;
+  static String colorHex(Color color) =>
+      color.value.toRadixString(16).toUpperCase().padLeft(8, '0');
+
+  ///
+  ///
+  ///
+  static Color? colorParse(String? text) {
+    try {
+      String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
+      if (!t.startsWith('0x')) {
+        if (t.length < 3) {
+          throw Exception('Length less than 3.');
+        }
+
+        t = switch (t.length) {
+          3 => 'ff${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}',
+          4 => '${t[0]}${t[0]}${t[1]}${t[1]}${t[2]}${t[2]}${t[3]}${t[3]}',
+          5 => '',
+          6 => 'ff$t',
+          7 => '',
+          _ => t
+        };
+
+        t = '0x$t';
+      }
+
+      if (t.length > 10) {
+        t = t.substring(0, 10);
+      }
+
+      return Color(int.parse(t));
+    } on Exception catch (_) {
+      return null;
+    }
+  }
 
   ///
   ///

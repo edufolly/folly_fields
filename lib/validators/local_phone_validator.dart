@@ -38,20 +38,15 @@ class LocalPhoneValidator extends AbstractValidator<String> {
   ///
   ///
   @override
-  bool isValid(String phone) {
-    phone = strip(phone);
-
-    /// phone must be defined
-    if (phone.isEmpty) {
-      return false;
-    }
+  bool isValid(String value) {
+    String v = strip(value);
 
     /// phone must have 10 or 11 chars
-    if (phone.length < 8 || phone.length > 9) {
+    if (v.length < 8 || v.length > 9) {
       return false;
     }
 
     /// Números de 9 dígitos sempre iniciam com 9.
-    return !(phone.length == 9 && phone[0] != '9');
+    return !(v.length == 9 && v[0] != '9');
   }
 }

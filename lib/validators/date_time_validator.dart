@@ -7,19 +7,18 @@ import 'package:intl/intl.dart';
 ///
 ///
 ///
-class DateTimeValidator extends AbstractValidator<DateTime>
-    implements AbstractParser<DateTime> {
-  final DateFormat dateFormat;
+class DateTimeValidator extends AbstractParserValidator<DateTime> {
+  final String locale;
+  final String dateFormat;
 
   ///
   ///
   ///
   DateTimeValidator({
-    String format = 'dd/MM/yyyy HH:mm',
-    String locale = 'pt_br',
+    this.locale = 'pt_br',
+    this.dateFormat = 'dd/MM/yyyy HH:mm',
     String mask = 'B#/D#/#### A#:C#',
-  })  : dateFormat = DateFormat(format, locale),
-        super(
+  }) : super(
           <TextInputFormatter>[
             MaskTextInputFormatter(
               mask: mask,
@@ -38,7 +37,7 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   ///
   @override
-  String format(DateTime value) => dateFormat.format(value);
+  String format(DateTime value) => DateFormat(dateFormat, locale).format(value);
 
   ///
   ///
@@ -63,15 +62,15 @@ class DateTimeValidator extends AbstractValidator<DateTime>
   ///
   @override
   DateTime? parse(String? text) {
-    if (text == null || text.isEmpty) {
-      return null;
-    } else {
+    if (text != null && isValid(text)) {
       try {
-        return dateFormat.parse(text);
+        return DateFormat(dateFormat, locale).parse(text);
       } on Exception catch (_) {
-        return null;
+        // Do nothing
       }
     }
+
+    return null;
   }
 
   ///
@@ -83,12 +82,13 @@ class DateTimeValidator extends AbstractValidator<DateTime>
       return 'Data e Hora inválidas.';
     }
 
-    List<String> p = value.split(' ');
+    List<String> parts = value.split(' ');
 
-    if (p.length != 2) {
+    if (parts.length != 2) {
       return 'Partes da Data e Hora inválidas.';
     }
 
-    return FollyUtils.validDate(p.first) ?? FollyUtils.validTime(p.last);
+    return FollyUtils.validDate(parts.first) ??
+        FollyUtils.validTime(parts.last);
   }
 }

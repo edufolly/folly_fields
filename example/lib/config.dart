@@ -9,15 +9,15 @@ class Config extends AbstractConfig {
   ///
   ///
   ///
-  Config._internal();
-
-  ///
-  ///
-  ///
   ///
   factory Config() {
     return _singleton;
   }
+
+  ///
+  ///
+  ///
+  Config._internal();
 
   ///
   ///

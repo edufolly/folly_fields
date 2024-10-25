@@ -65,7 +65,6 @@ class CodeLink extends StatelessWidget {
 
     showDialog(
       context: context,
-      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(tag),
@@ -112,7 +111,7 @@ class CodeLink extends StatelessWidget {
                   (_) {
                     Future<void>.delayed(
                       const Duration(seconds: 2),
-                      () => wait.close(),
+                      wait.close,
                     );
                   },
                 ).catchError(
@@ -132,7 +131,6 @@ class CodeLink extends StatelessWidget {
           ],
         );
       },
-      useSafeArea: true,
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
 ///
@@ -40,6 +39,14 @@ class MultilineField extends StringField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
+    super.contentPadding,
+    super.counterText,
+    super.prefix,
+    super.prefixIcon,
+    super.suffix,
+    super.suffixIcon,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

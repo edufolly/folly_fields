@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/controllers/integer_editing_controller.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
 ///
@@ -17,7 +18,7 @@ class IntegerField extends StringField {
     FormFieldValidator<int?>? validator,
     super.textAlign = TextAlign.end,
     super.maxLength,
-    FormFieldSetter<int>? onSaved,
+    FormFieldSetter<int?>? onSaved,
     int? initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -34,6 +35,14 @@ class IntegerField extends StringField {
     super.style,
     super.decoration,
     super.padding,
+    super.hintText,
+    super.contentPadding,
+    super.counterText,
+    super.prefix,
+    super.prefixIcon,
+    super.suffix,
+    super.suffixIcon,
+    super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -55,13 +64,14 @@ class IntegerField extends StringField {
             if (enabled && validator != null) {
               return validator(int.tryParse(value ?? ''));
             }
+
             return null;
           },
           minLines: 1,
           maxLines: 1,
           obscureText: false,
           inputFormatter: <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
+            FilteringTextInputFormatter.allow(RegExp('^-?[0-9]*')),
           ],
           onSaved: (String? value) {
             if (enabled && onSaved != null) {
@@ -73,19 +83,4 @@ class IntegerField extends StringField {
           enableSuggestions: false,
           textCapitalization: TextCapitalization.none,
         );
-}
-
-///
-///
-///
-class IntegerEditingController extends TextEditingController {
-  ///
-  ///
-  ///
-  int? get integer => int.tryParse(text);
-
-  ///
-  ///
-  ///
-  set integer(int? integer) => text = integer.toString();
 }

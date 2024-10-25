@@ -3,17 +3,17 @@ import 'package:flutter/foundation.dart';
 ///
 ///
 ///
-abstract class Hashable {
+mixin Hashable {
   ///
   ///
   ///
   int hashIterable(
     Iterable<dynamic> iterable, {
-    int deep = 1,
+    int deep = 0,
     bool debug = false,
   }) {
-    int it = iterable.fold(
-      0,
+    int iterated = iterable.fold(
+      -1,
       (int h, dynamic i) {
         int hash;
         if (i is List) {
@@ -21,50 +21,52 @@ abstract class Hashable {
         } else if (i is Map) {
           hash = hashIterable(i.values, deep: deep + 1, debug: debug);
         } else if (i == null) {
-          hash = 0;
+          hash = -2;
         } else {
           hash = i.hashCode;
         }
 
-        int c = combine(h, hash);
+        int comb = combine(h, hash);
 
-        if (debug) {
-          if (kDebugMode) {
-            print(
-              '${' ' * deep * 2}h: $h => (${i.runtimeType}) $i: $hash => c: $c',
-            );
+        if (kDebugMode) {
+          if (debug) {
+            print('${' ' * deep * 2}h: $h => '
+                '(${i.runtimeType}) $i: $hash => comb: $comb');
           }
         }
-        return c;
+
+        return comb;
       },
     );
 
-    int f = finish(it);
+    int finished = finish(iterated);
 
-    if (debug) {
-      if (kDebugMode) {
-        print('finish: $f');
+    if (kDebugMode) {
+      if (debug) {
+        print('finish: $finished');
       }
     }
 
-    return f;
+    return finished;
   }
 
   ///
   ///
   ///
   int combine(int hash, int value) {
-    hash = 0x1fffffff & (hash + value);
-    hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
-    return hash ^ (hash >> 6);
+    int h = 0x1fffffff & (hash + value);
+    h = 0x1fffffff & (h + ((0x0007ffff & h) << 10));
+
+    return h ^ (h >> 6);
   }
 
   ///
   ///
   ///
   int finish(int hash) {
-    hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    hash = hash ^ (hash >> 11);
-    return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+    int h = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+    h = h ^ (h >> 11);
+
+    return 0x1fffffff & (h + ((0x00003fff & h) << 15));
   }
 }

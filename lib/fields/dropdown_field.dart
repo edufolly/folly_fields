@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/controllers/dropdown_editing_controller.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 
 ///
 ///
 ///
-class DropdownField<T> extends FormFieldResponsive<T> {
-  final DropdownEditingController<T>? controller;
-  final Map<T, String>? items;
+class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
+  final DropdownEditingController<T, I>? controller;
+  final Map<T, I>? items;
 
   ///
   ///
   ///
   DropdownField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -23,7 +24,6 @@ class DropdownField<T> extends FormFieldResponsive<T> {
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     Function(T? value)? onChanged,
-    // ValueChanged<String> onFieldSubmitted,
     bool filled = false,
     Color? fillColor,
     DropdownButtonBuilder? selectedItemBuilder,
@@ -44,6 +44,8 @@ class DropdownField<T> extends FormFieldResponsive<T> {
     Color? dropdownColor,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
+    String? hintText,
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -74,7 +76,8 @@ class DropdownField<T> extends FormFieldResponsive<T> {
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            DropdownFieldState<T> state = field as DropdownFieldState<T>;
+            _DropdownFieldState<T, I> state =
+                field as _DropdownFieldState<T, I>;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -82,10 +85,13 @@ class DropdownField<T> extends FormFieldResponsive<T> {
                       filled: filled,
                       fillColor: fillColor,
                       label: labelWidget,
-                      labelText:
-                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+                      labelText: (labelPrefix?.isEmpty ?? true)
+                          ? label
+                          : '$labelPrefix - $label',
                       counterText: '',
                       focusColor: focusColor,
+                      hintText: hintText,
+                      contentPadding: contentPadding,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
 
@@ -146,25 +152,25 @@ class DropdownField<T> extends FormFieldResponsive<T> {
   ///
   ///
   @override
-  DropdownFieldState<T> createState() => DropdownFieldState<T>();
+  FormFieldState<T> createState() => _DropdownFieldState<T, I>();
 }
 
 ///
 ///
 ///
-class DropdownFieldState<T> extends FormFieldState<T> {
-  DropdownEditingController<T>? _controller;
+class _DropdownFieldState<T, I extends Widget> extends FormFieldState<T> {
+  DropdownEditingController<T, I>? _controller;
 
   ///
   ///
   ///
   @override
-  DropdownField<T> get widget => super.widget as DropdownField<T>;
+  DropdownField<T, I> get widget => super.widget as DropdownField<T, I>;
 
   ///
   ///
   ///
-  DropdownEditingController<T> get _effectiveController =>
+  DropdownEditingController<T, I> get _effectiveController =>
       widget.controller ?? _controller!;
 
   ///
@@ -174,7 +180,7 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   void initState() {
     super.initState();
     if (widget.controller == null) {
-      _controller = DropdownEditingController<T>(
+      _controller = DropdownEditingController<T, I>(
         value: widget.initialValue,
         items: widget.items,
       );
@@ -187,7 +193,7 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   ///
   ///
   @override
-  void didUpdateWidget(DropdownField<T> oldWidget) {
+  void didUpdateWidget(DropdownField<T, I> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -195,7 +201,7 @@ class DropdownFieldState<T> extends FormFieldState<T> {
       widget.controller?.addListener(_handleControllerChanged);
 
       if (oldWidget.controller != null && widget.controller == null) {
-        _controller = DropdownEditingController<T>.fromValue(
+        _controller = DropdownEditingController<T, I>.fromValue(
           oldWidget.controller!,
         );
       }
@@ -245,55 +251,7 @@ class DropdownFieldState<T> extends FormFieldState<T> {
   @override
   void dispose() {
     widget.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
     super.dispose();
   }
-}
-
-///
-///
-///
-class DropdownEditingController<T> extends ValueNotifier<T?> {
-  Map<T, String>? _items;
-
-  ///
-  ///
-  ///
-  DropdownEditingController.fromValue(DropdownEditingController<T> controller)
-      : _items = controller.items,
-        super(controller.value);
-
-  ///
-  ///
-  ///
-  DropdownEditingController({T? value, Map<T, String>? items})
-      : _items = items,
-        super(value);
-
-  ///
-  ///
-  ///
-  Map<T, String>? get items => _items;
-
-  ///
-  ///
-  ///
-  set items(Map<T, String>? items) {
-    _items = items;
-    super.notifyListeners();
-  }
-
-  ///
-  ///
-  ///
-  List<DropdownMenuItem<T>> getDropdownItems() =>
-      _items == null || _items!.isEmpty
-          ? <DropdownMenuItem<T>>[]
-          : _items!.entries
-              .map(
-                (MapEntry<T, String> entry) => DropdownMenuItem<T>(
-                  value: entry.key,
-                  child: Text(entry.value),
-                ),
-              )
-              .toList();
 }

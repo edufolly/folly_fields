@@ -1,11 +1,169 @@
-library folly_fields;
-
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
+
+///
+///
+///
+class FollyFields implements _InternalConfig {
+  static final FollyFields _singleton = FollyFields._internal();
+
+  ///
+  ///
+  ///
+  static void start(
+    AbstractConfig holder, {
+    String modelIdKey = 'id',
+    String modelUpdatedAtKey = 'updatedAt',
+    String modelDeletedAtKey = 'deletedAt',
+    List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
+    FollyDateParse? dateParseUpdate,
+    FollyDateParse? dateParseDelete,
+    Connectivity? connectivity,
+  }) =>
+      FollyFields()._holder = holder
+        .._start(
+          modelIdKey: modelIdKey,
+          modelUpdatedAtKey: modelUpdatedAtKey,
+          modelDeletedAtKey: modelDeletedAtKey,
+          dateParseUpdate: dateParseUpdate,
+          dateParseDelete: dateParseDelete,
+          responsiveSizes: responsiveSizes,
+          connectivity: connectivity,
+        );
+
+  late AbstractConfig _holder;
+
+  ///
+  ///
+  ///
+  factory FollyFields() {
+    return _singleton;
+  }
+
+  ///
+  ///
+  ///
+  FollyFields._internal();
+
+  ///
+  ///
+  ///
+  @override
+  bool get isOffline => _holder.isOffline;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isOnline => _holder.isOnline;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isWeb => _holder.isWeb;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotWeb => _holder.isNotWeb;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isMobile => _holder.isMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotMobile => _holder.isNotMobile;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isDesktop => _holder.isDesktop;
+
+  ///
+  ///
+  ///
+  @override
+  bool get isNotDesktop => _holder.isNotDesktop;
+
+  ///
+  ///
+  ///
+  @override
+  String get platform => _holder.platform;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelIdKey => _holder.modelIdKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelUpdatedAtKey => _holder.modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  String get modelDeletedAtKey => _holder.modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseUpdate => _holder.dateParseUpdate;
+
+  ///
+  ///
+  ///
+  @override
+  FollyDateParse? get dateParseDelete => _holder.dateParseDelete;
+
+  ///
+  ///
+  ///
+  @override
+  List<double> get responsiveSizes => _holder.responsiveSizes;
+
+  ///
+  ///
+  ///
+  ResponsiveSize checkResponsiveSize(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    if (width < responsiveSizes[0]) {
+      return ResponsiveSize.extraSmall;
+    }
+
+    if (width >= responsiveSizes[0] && width < responsiveSizes[1]) {
+      return ResponsiveSize.small;
+    }
+
+    if (width >= responsiveSizes[1] && width < responsiveSizes[2]) {
+      return ResponsiveSize.medium;
+    }
+
+    if (width >= responsiveSizes[2] && width < responsiveSizes[3]) {
+      return ResponsiveSize.large;
+    }
+
+    return ResponsiveSize.extraLarge;
+  }
+}
 
 ///
 ///
@@ -18,17 +176,7 @@ enum RunningPlatform {
   linux,
   windows,
   macos,
-  fuchsia,
-}
-
-///
-///
-///
-extension RunningPlatformExt on RunningPlatform {
-  ///
-  ///
-  ///
-  String get name => toString().split('.').last.toLowerCase();
+  fuchsia;
 }
 
 ///
@@ -114,166 +262,6 @@ abstract class _InternalConfig {
   ///
   ///
   List<double> get responsiveSizes;
-}
-
-///
-///
-///
-class FollyFields implements _InternalConfig {
-  static final FollyFields _singleton = FollyFields._internal();
-
-  ///
-  ///
-  ///
-  static void start(
-    AbstractConfig holder, {
-    String modelIdKey = 'id',
-    String modelUpdatedAtKey = 'updatedAt',
-    String modelDeletedAtKey = 'deletedAt',
-    List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
-    FollyDateParse? dateParseUpdate,
-    FollyDateParse? dateParseDelete,
-    Connectivity? connectivity,
-  }) =>
-      FollyFields()._holder = holder
-        .._start(
-          modelIdKey: modelIdKey,
-          modelUpdatedAtKey: modelUpdatedAtKey,
-          modelDeletedAtKey: modelDeletedAtKey,
-          dateParseUpdate: dateParseUpdate,
-          dateParseDelete: dateParseDelete,
-          responsiveSizes: responsiveSizes,
-          connectivity: connectivity,
-        );
-
-  AbstractConfig? _holder;
-
-  ///
-  ///
-  ///
-  factory FollyFields() {
-    return _singleton;
-  }
-
-  ///
-  ///
-  ///
-  FollyFields._internal();
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOffline => _holder!.isOffline;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOnline => _holder!.isOnline;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isWeb => _holder!.isWeb;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isNotWeb => _holder!.isNotWeb;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isMobile => _holder!.isMobile;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isNotMobile => _holder!.isNotMobile;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isDesktop => _holder!.isDesktop;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isNotDesktop => _holder!.isNotDesktop;
-
-  ///
-  ///
-  ///
-  @override
-  String get platform => _holder!.platform;
-
-  ///
-  ///
-  ///
-  @override
-  String get modelIdKey => _holder!.modelIdKey;
-
-  ///
-  ///
-  ///
-  @override
-  String get modelUpdatedAtKey => _holder!.modelUpdatedAtKey;
-
-  ///
-  ///
-  ///
-  @override
-  String get modelDeletedAtKey => _holder!.modelDeletedAtKey;
-
-  ///
-  ///
-  ///
-  @override
-  FollyDateParse? get dateParseUpdate => _holder!.dateParseUpdate;
-
-  ///
-  ///
-  ///
-  @override
-  FollyDateParse? get dateParseDelete => _holder!.dateParseDelete;
-
-  ///
-  ///
-  ///
-  @override
-  List<double> get responsiveSizes => _holder!.responsiveSizes;
-
-  ///
-  ///
-  ///
-  ResponsiveSize checkResponsiveSize(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
-    if (width < responsiveSizes[0]) {
-      return ResponsiveSize.extraSmall;
-    }
-
-    if (width >= responsiveSizes[0] && width < responsiveSizes[1]) {
-      return ResponsiveSize.small;
-    }
-
-    if (width >= responsiveSizes[1] && width < responsiveSizes[2]) {
-      return ResponsiveSize.medium;
-    }
-
-    if (width >= responsiveSizes[2] && width < responsiveSizes[3]) {
-      return ResponsiveSize.large;
-    }
-
-    return ResponsiveSize.extraLarge;
-  }
 }
 
 ///
@@ -430,12 +418,19 @@ abstract class AbstractConfig implements _InternalConfig {
 
       connectivity ??= Connectivity();
 
-      ConnectivityResult result = await connectivity.checkConnectivity();
+      List<ConnectivityResult> result = await connectivity.checkConnectivity();
 
-      _online = result != ConnectivityResult.none;
+      _online = result.fold(
+        false,
+        (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
+      );
 
-      connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-        _online = result != ConnectivityResult.none;
+      connectivity.onConnectivityChanged
+          .listen((List<ConnectivityResult> result) {
+        _online = result.fold(
+          false,
+          (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
+        );
         if (kDebugMode) {
           print('Connectivity Changed: $_online');
         }

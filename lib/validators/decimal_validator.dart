@@ -5,8 +5,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 ///
 ///
 ///
-class DecimalValidator extends AbstractValidator<Decimal>
-    implements AbstractParser<Decimal> {
+class DecimalValidator extends AbstractParserValidator<Decimal> {
   final String decimalSeparator;
   final String thousandSeparator;
   final int precision;
@@ -44,8 +43,8 @@ class DecimalValidator extends AbstractValidator<Decimal>
       start = 3;
     }
 
-    for (int i = start; parts.length > i; i += 4) {
-      parts.insert(i, thousandSeparator);
+    for (int pos = start; parts.length > pos; pos += 4) {
+      parts.insert(pos, thousandSeparator);
     }
 
     return parts.reversed.join();
@@ -87,7 +86,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
 
     List<String> parts = _internalStrip(value).split('').toList(growable: true);
 
-    for (int i = parts.length; i <= precision; i++) {
+    for (int pos = parts.length; pos <= precision; pos++) {
       parts.insert(0, '0');
     }
 
@@ -95,9 +94,7 @@ class DecimalValidator extends AbstractValidator<Decimal>
       parts.insert(parts.length - precision, '.');
     }
 
-    double d = double.parse(parts.join());
-
-    decimal.doubleValue = d;
+    decimal.doubleValue = double.parse(parts.join());
 
     return decimal;
   }

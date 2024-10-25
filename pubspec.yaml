@@ -1,24 +1,22 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 0.10.10+135
-# author:
+version: 3.4.0
+repository: https://github.com/edufolly/folly_fields/
 homepage: https://edufolly.github.io/folly_fields/
 
-publish_to: 'none' # TODO - Remove to publish
-
 environment:
-  sdk: ">=2.17.0 <3.0.0"
-  flutter: ">=3.0.0"
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
 
 dependencies:
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: ^2.0.0
+  connectivity_plus: ^6.0.1
 
   # https://pub.dev/packages/cpf_cnpj_validator
   cpf_cnpj_validator: ^2.0.0
 
   # https://pub.dev/packages/email_validator
-  email_validator: ^2.0.1
+  email_validator: ^3.0.0
 
   # https://pub.dev/packages/expandable
   expandable: ^5.0.1
@@ -28,25 +26,34 @@ dependencies:
     sdk: flutter
 
   # https://pub.dev/packages/flutter_colorpicker
-  flutter_colorpicker: ^1.0.2
+  flutter_colorpicker: ^1.1.0
 
   # https://flutter.dev/
   flutter_localizations:
     sdk: flutter
 
   # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: 10.1.0
+  font_awesome_flutter: ^10.7.0
+
+  # https://pub.dev/packages/intl
+  intl: ^0.19.0
 
   # https://pub.dev/packages/sprintf
-  sprintf: ^6.0.0
+  sprintf: ^7.0.0
 
 dev_dependencies:
   # https://pub.dev/packages/flutter_lints
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 
   # https://flutter.dev/
   flutter_test:
     sdk: flutter
+
+  # https://pub.dev/packages/http
+  http: ^1.2.0
+
+  # https://pub.dev/packages/yaml
+  yaml: ^3.1.2
 
 flutter:
   uses-material-design: true

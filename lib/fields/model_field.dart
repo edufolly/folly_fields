@@ -1,22 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/model_editing_controller.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
-import 'package:folly_fields/responsive/responsive.dart';
+import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
 ///
 ///
-class ModelField<T extends AbstractModel<Object>>
-    extends FormFieldResponsive<T?> {
-  final ModelEditingController<T>? controller;
+class ModelField<T extends AbstractModel<ID>, ID>
+    extends ResponsiveFormField<T?> {
+  final ModelEditingController<T, ID>? controller;
 
   ///
   ///
   ///
   ModelField({
-    String labelPrefix = '',
+    String? labelPrefix,
     String? label,
     Widget? labelWidget,
     this.controller,
@@ -28,7 +29,7 @@ class ModelField<T extends AbstractModel<Object>>
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     // TODO(edufolly): onChanged
     TextInputAction? textInputAction,
-    ValueChanged<String>? onFieldSubmitted,
+    ValueChanged<String?>? onFieldSubmitted,
     EdgeInsets scrollPadding = const EdgeInsets.all(20),
     bool filled = false,
     Color? fillColor,
@@ -39,6 +40,12 @@ class ModelField<T extends AbstractModel<Object>>
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
     bool clearOnCancel = true,
+    String? hintText,
+    EdgeInsets? contentPadding,
+    Widget? prefix,
+    Widget? prefixIcon,
+    Widget? suffix,
+    Widget? suffixIcon,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -59,7 +66,7 @@ class ModelField<T extends AbstractModel<Object>>
           validator: enabled ? validator : (_) => null,
           autovalidateMode: autoValidateMode,
           builder: (FormFieldState<T?> field) {
-            ModelFieldState<T> state = field as ModelFieldState<T>;
+            _ModelFieldState<T, ID> state = field as _ModelFieldState<T, ID>;
 
             InputDecoration effectiveDecoration = (decoration ??
                     InputDecoration(
@@ -67,20 +74,28 @@ class ModelField<T extends AbstractModel<Object>>
                       filled: filled,
                       fillColor: fillColor,
                       label: labelWidget,
-                      labelText:
-                          labelPrefix.isEmpty ? label : '$labelPrefix - $label',
+                      labelText: (labelPrefix?.isEmpty ?? true)
+                          ? label
+                          : '$labelPrefix - $label',
                       counterText: '',
+                      hintText: hintText,
+                      contentPadding: contentPadding,
+                      prefix: prefix,
+                      prefixIcon: prefixIcon,
+                      suffix: suffix,
+                      suffixIcon: suffixIcon,
                     ))
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme)
                 .copyWith(
                   suffixIcon: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      enabled && routeBuilder != null
-                          ? const FaIcon(FontAwesomeIcons.magnifyingGlass)
-                          : tapToVisualize != null
-                              ? const FaIcon(FontAwesomeIcons.chevronRight)
-                              : Container(width: 0),
+                      if (enabled && routeBuilder != null)
+                        const FaIcon(FontAwesomeIcons.magnifyingGlass)
+                      else
+                        tapToVisualize != null
+                            ? const FaIcon(FontAwesomeIcons.chevronRight)
+                            : Container(width: 0),
                     ],
                   ),
                 );
@@ -91,6 +106,7 @@ class ModelField<T extends AbstractModel<Object>>
                 controller: state._effectiveController,
                 decoration: effectiveDecoration.copyWith(
                   errorText: enabled ? field.errorText : null,
+                  enabled: enabled,
                 ),
                 keyboardType: TextInputType.datetime,
                 minLines: 1,
@@ -103,7 +119,7 @@ class ModelField<T extends AbstractModel<Object>>
                 scrollPadding: scrollPadding,
                 style: enabled
                     ? null
-                    : Theme.of(field.context).textTheme.subtitle1!.copyWith(
+                    : Theme.of(field.context).textTheme.titleMedium!.copyWith(
                           color: Theme.of(field.context).disabledColor,
                         ),
                 readOnly: true,
@@ -169,27 +185,26 @@ class ModelField<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  ModelFieldState<T> createState() => ModelFieldState<T>();
+  FormFieldState<T?> createState() => _ModelFieldState<T, ID>();
 }
 
 ///
 ///
 ///
-class ModelFieldState<T extends AbstractModel<Object>>
+class _ModelFieldState<T extends AbstractModel<ID>, ID>
     extends FormFieldState<T?> {
-  ModelEditingController<T>? _controller;
+  ModelEditingController<T, ID>? _controller;
 
   ///
   ///
   ///
-  @override
-  ModelField<T> get widget => super.widget as ModelField<T>;
+  ModelField<T, ID> get _modelField => super.widget as ModelField<T, ID>;
 
   ///
   ///
   ///
-  ModelEditingController<T> get _effectiveController =>
-      widget.controller ?? _controller!;
+  ModelEditingController<T, ID> get _effectiveController =>
+      _modelField.controller ?? _controller!;
 
   ///
   ///
@@ -197,10 +212,12 @@ class ModelFieldState<T extends AbstractModel<Object>>
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
-      _controller = ModelEditingController<T>(model: widget.initialValue);
+    if (_modelField.controller == null) {
+      _controller = ModelEditingController<T, ID>(
+        model: _modelField.initialValue,
+      );
     } else {
-      widget.controller!.addListener(_handleControllerChanged);
+      _modelField.controller!.addListener(_handleControllerChanged);
     }
   }
 
@@ -208,36 +225,27 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   ///
   @override
-  void didUpdateWidget(ModelField<T> oldWidget) {
+  void didUpdateWidget(ModelField<T, ID> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
+    if (_modelField.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
+      _modelField.controller?.addListener(_handleControllerChanged);
 
-      widget.controller?.addListener(_handleControllerChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
-        _controller = ModelEditingController<T>(
+      if (oldWidget.controller != null && _modelField.controller == null) {
+        _controller = ModelEditingController<T, ID>(
           model: oldWidget.controller!.model,
         );
       }
 
-      if (widget.controller != null) {
-        setValue(widget.controller!.model);
+      if (_modelField.controller != null) {
+        setValue(_modelField.controller!.model);
 
         if (oldWidget.controller == null) {
+          _controller!.dispose();
           _controller = null;
         }
       }
     }
-  }
-
-  ///
-  ///
-  ///
-  @override
-  void dispose() {
-    widget.controller?.removeListener(_handleControllerChanged);
-    super.dispose();
   }
 
   ///
@@ -256,8 +264,8 @@ class ModelFieldState<T extends AbstractModel<Object>>
   ///
   @override
   void reset() {
+    _effectiveController.model = _modelField.initialValue;
     super.reset();
-    setState(() => _effectiveController.model = widget.initialValue);
   }
 
   ///
@@ -268,41 +276,14 @@ class ModelFieldState<T extends AbstractModel<Object>>
       didChange(_effectiveController.model);
     }
   }
-}
-
-///
-///
-///
-class ModelEditingController<T extends AbstractModel<Object>>
-    extends TextEditingController {
-  T? _model;
-
-  ///
-  ///
-  ///
-  ModelEditingController({T? model})
-      : _model = model,
-        super(text: (model ?? '').toString());
-
-  ///
-  ///
-  ///
-  T? get model => _model;
-
-  ///
-  ///
-  ///
-  set model(T? model) {
-    value = TextEditingValue(
-      text: (model ?? '').toString(),
-    );
-    _model = model;
-    notifyListeners();
-  }
 
   ///
   ///
   ///
   @override
-  String get text => (_model ?? '').toString();
+  void dispose() {
+    _modelField.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
+    super.dispose();
+  }
 }

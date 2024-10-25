@@ -17,6 +17,7 @@ class CircularWaiting {
 
   bool _closeable = false;
   bool _show = false;
+  bool _alreadyPopped = false;
 
   ///
   ///
@@ -43,8 +44,21 @@ class CircularWaiting {
     showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (BuildContext context) => WillPopScope(
-        onWillPop: _onWillPop,
+      builder: (BuildContext context) => PopScope(
+        canPop: false,
+        // TODO(edufolly): Check onPopInvokedWithResult
+        // ignore: deprecated_member_use
+        onPopInvoked: (_) {
+          if (_alreadyPopped) {
+            return;
+          }
+
+          if (_closeable) {
+            _streamController.close();
+            _alreadyPopped = true;
+            Navigator.of(context).pop();
+          }
+        },
         child: Dialog(
           child: StreamBuilder<Map<String, dynamic>>(
             stream: _streamController.stream,
@@ -109,6 +123,7 @@ class CircularWaiting {
   ///
   void close() {
     if (_show) {
+      _alreadyPopped = true;
       _show = false;
       _closeable = true;
       Navigator.of(context).pop();
@@ -141,15 +156,5 @@ class CircularWaiting {
         'value': value,
       });
     }
-  }
-
-  ///
-  ///
-  ///
-  Future<bool> _onWillPop() async {
-    if (_closeable) {
-      await _streamController.close();
-    }
-    return _closeable;
   }
 }

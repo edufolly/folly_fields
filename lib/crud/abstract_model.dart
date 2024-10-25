@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
+
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/hashable.dart';
@@ -6,12 +8,6 @@ import 'package:folly_fields/util/hashable.dart';
 ///
 ///
 abstract class AbstractModel<A> with Hashable {
-  static final String modelIdKey = FollyFields().modelIdKey;
-  static final String modelUpdatedAtKey = FollyFields().modelUpdatedAtKey;
-  static final String modelDeletedAtKey = FollyFields().modelDeletedAtKey;
-  static final FollyDateParse? dateParseUpdate = FollyFields().dateParseUpdate;
-  static final FollyDateParse? dateParseDelete = FollyFields().dateParseDelete;
-
   A? id;
   int? updatedAt;
   int? deletedAt;
@@ -26,6 +22,31 @@ abstract class AbstractModel<A> with Hashable {
     this.deletedAt,
     this.selected = false,
   });
+
+  ///
+  ///
+  ///
+  String get modelIdKey => FollyFields().modelIdKey;
+
+  ///
+  ///
+  ///
+  String get modelUpdatedAtKey => FollyFields().modelUpdatedAtKey;
+
+  ///
+  ///
+  ///
+  String get modelDeletedAtKey => FollyFields().modelDeletedAtKey;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseUpdate => FollyFields().dateParseUpdate;
+
+  ///
+  ///
+  ///
+  FollyDateParse? get dateParseDelete => FollyFields().dateParseDelete;
 
   ///
   ///
@@ -55,6 +76,7 @@ abstract class AbstractModel<A> with Hashable {
     if (id != null) {
       map[modelIdKey] = id;
     }
+
     return map;
   }
 
@@ -83,11 +105,17 @@ abstract class AbstractModel<A> with Hashable {
   ///
   ///
   ///
+  String get dropdownText => toString();
+
+  ///
+  ///
+  ///
   static Map<String, dynamic> fromMultiMap(Map<String, dynamic> map) {
     Map<String, dynamic> newMap = <String, dynamic>{};
-    for (MapEntry<String, dynamic> entry in map.entries) {
+    for (final MapEntry<String, dynamic> entry in map.entries) {
       _multiMapEntry(entry, newMap);
     }
+
     return newMap;
   }
 
@@ -101,11 +129,10 @@ abstract class AbstractModel<A> with Hashable {
     List<String> parts = entry.key.split('_');
     if (parts.length > 1 && parts.first.isNotEmpty) {
       Map<String, dynamic> internalMap;
-      if (newMap.containsKey(parts[0])) {
-        internalMap = newMap[parts[0]];
-      } else {
-        internalMap = <String, dynamic>{};
-      }
+
+      internalMap = newMap.containsKey(parts.first)
+          ? newMap[parts.first]
+          : <String, dynamic>{};
 
       String internalKey = parts.getRange(1, parts.length).join('_');
 
@@ -114,7 +141,7 @@ abstract class AbstractModel<A> with Hashable {
         internalMap,
       );
 
-      newMap[parts[0]] = internalMap;
+      newMap[parts.first] = internalMap;
     } else {
       newMap[entry.key] = entry.value;
     }

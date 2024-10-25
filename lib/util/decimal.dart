@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 import 'dart:math';
 
 import 'package:folly_fields/util/hashable.dart';
@@ -7,7 +8,7 @@ import 'package:folly_fields/util/hashable.dart';
 ///
 class Decimal with Hashable {
   final int precision;
-  double doubleValue;
+  double _doubleValue;
 
   ///
   ///
@@ -21,21 +22,32 @@ class Decimal with Hashable {
           intValue == null || doubleValue == null,
           'intValue or doubleValue must be null',
         ),
-        doubleValue =
-            doubleValue ?? (intValue ?? 0).toDouble() / pow(10, precision);
+        _doubleValue =
+            double.tryParse(doubleValue?.toStringAsFixed(precision) ?? '') ??
+                (intValue ?? 0).toDouble() / pow(10, precision);
+
+  ///
+  ///
+  ///
+  double get doubleValue => _doubleValue;
+
+  ///
+  ///
+  ///
+  set doubleValue(double value) =>
+      _doubleValue = double.parse(value.toStringAsFixed(precision));
 
   ///
   ///
   ///
   int get intValue =>
-      int.parse((doubleValue * pow(10, precision)).toStringAsFixed(0));
+      int.parse((_doubleValue * pow(10, precision)).toStringAsFixed(0));
 
   ///
   ///
   ///
-  // TODO(edufolly): Formatar corretamente.
   @override
-  String toString() => doubleValue.toStringAsFixed(precision);
+  String toString() => _doubleValue.toStringAsFixed(precision);
 
   ///
   ///

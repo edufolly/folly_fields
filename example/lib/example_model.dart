@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/util/folly_utils.dart';
+import 'package:folly_fields/util/folly_date_time_extension.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/model_utils.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
@@ -18,7 +20,6 @@ import 'package:folly_fields_example/example_enum.dart';
 ///
 class ExampleModel extends AbstractModel<int> {
   static final TimeValidator _timeValidator = TimeValidator();
-  static const ExampleEnumParser _exampleEnumParser = ExampleEnumParser();
   static final ColorValidator _colorValidator = ColorValidator();
   static final Random rnd = Random();
 
@@ -27,24 +28,31 @@ class ExampleModel extends AbstractModel<int> {
   String text = '';
   String email = '';
   String password = '';
+  String visiblePassword = '';
   String cpf = '';
   String cnpj = '';
   String document = '';
   String phone = '';
   String localPhone = '';
+  String mobilePhone = '';
   DateTime dateTime = DateTime.now();
   DateTime? date;
-  TimeOfDay time =  TimeOfDay.now();
+  TimeOfDay time = TimeOfDay.now();
+  Duration duration = Duration.zero;
   String? macAddress;
   String? ncm;
   String? cest;
   String? cnae;
+  String? licencePlate;
   String? cep;
-  ExampleEnum ordinal = _exampleEnumParser.defaultItem;
+  ExampleEnum ordinal = ExampleEnum.defaultItem;
   Color? color;
   bool active = true;
   IconData? icon;
   String multiline = '';
+  Uint8List blob = Uint8List(0);
+  int? fruitIndex;
+  String? ipv4;
 
   ///
   ///
@@ -56,29 +64,36 @@ class ExampleModel extends AbstractModel<int> {
   ///
   @override
   ExampleModel.fromJson(super.map)
-      : decimal = ModelUtils.fromJsonDecimal(map['decimal'], 2),
+      : decimal = ModelUtils.fromJsonDecimalInt(map['decimal'], 2),
         integer = map['integer'] ?? 0,
         text = map['text'] ?? '',
         email = map['email'] ?? '',
         password = map['password'] ?? '',
+        visiblePassword = map['visiblePassword'] ?? '',
         cpf = map['cpf'] ?? '',
         cnpj = map['cnpj'] ?? '',
         document = map['document'] ?? '',
         phone = map['phone'] ?? '',
         localPhone = map['localPhone'] ?? '',
+        mobilePhone = map['mobilePhone'] ?? '',
         dateTime = ModelUtils.fromJsonDateMillis(map['dateTime']),
         date = ModelUtils.fromJsonNullableDateMillis(map['date']),
         time = _timeValidator.parse(map['time']) ?? TimeOfDay.now(),
+        duration = Duration(microseconds: map['duration'] ?? 0),
         macAddress = map['macAddress'],
         ncm = map['ncm'],
         cest = map['cest'],
         cnae = map['cnae'],
+        licencePlate = map['licencePlate'],
         cep = map['cep'],
-        ordinal = _exampleEnumParser.fromJson(map['ordinal']),
+        ordinal = ExampleEnum.fromJson(map['ordinal']),
         color = _colorValidator.parse(map['color']),
         active = map['active'] ?? true,
         icon = map['icon'] == null ? null : IconHelper.iconData(map['icon']),
         multiline = map['multiline'] ?? '',
+        blob = base64.decode(map['blob'] ?? ''),
+        fruitIndex = map['fruitIndex'],
+        ipv4 = map['ipv4'],
         super.fromJson();
 
   ///
@@ -87,25 +102,29 @@ class ExampleModel extends AbstractModel<int> {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = super.toMap();
-    map['decimal'] = ModelUtils.toMapDecimal(decimal);
+    map['decimal'] = ModelUtils.toMapDecimalInt(decimal);
     map['integer'] = integer;
     map['text'] = text;
     map['email'] = email;
     map['password'] = password;
+    map['visiblePassword'] = visiblePassword;
     map['cpf'] = cpf;
     map['cnpj'] = cnpj;
     map['document'] = document;
     map['phone'] = phone;
     map['localPhone'] = localPhone;
+    map['mobilePhone'] = mobilePhone;
     map['dateTime'] = ModelUtils.toMapDateMillis(dateTime);
     map['date'] = ModelUtils.toMapNullableDateMillis(date);
     map['time'] = _timeValidator.format(time);
+    map['duration'] = duration.inMicroseconds;
     map['macAddress'] = macAddress;
     map['ncm'] = ncm;
     map['cest'] = cest;
     map['cnae'] = cnae;
+    map['licencePlate'] = licencePlate;
     map['cep'] = cep;
-    map['ordinal'] = _exampleEnumParser.toMap(ordinal);
+    map['ordinal'] = ordinal.name;
     if (color != null) {
       map['color'] = _colorValidator.format(color!);
     }
@@ -114,6 +133,13 @@ class ExampleModel extends AbstractModel<int> {
       map['icon'] = IconHelper.iconName(icon!);
     }
     map['multiline'] = multiline;
+    map['blob'] = base64.encode(blob);
+    if (fruitIndex != null) {
+      map['fruitIndex'] = fruitIndex;
+    }
+    if (ipv4 != null) {
+      map['ipv4'] = ipv4;
+    }
     return map;
   }
 
@@ -144,22 +170,24 @@ class ExampleModel extends AbstractModel<int> {
     text = 'Exemplo $ms';
     email = 'exemplo$ms@exemplo.com.br';
     password = '123456$ms';
+    visiblePassword = 'aBc$ms';
     cpf = CpfValidator.generate();
     cnpj = CnpjValidator.generate();
     document = ms.isEven ? CpfValidator.generate() : CnpjValidator.generate();
     phone = '889${complete(8)}';
     localPhone = '9${complete(8)}';
+    mobilePhone = '119${complete(8)}';
     date = DateTime(now.year, now.month, now.day);
-    time = TimeOfDay(hour: now.hour, minute: now.minute) ;
-    dateTime =
-        FollyUtils.dateMergeStart(date: date, time: time) ?? DateTime.now();
+    time = TimeOfDay(hour: now.hour, minute: now.minute);
+    dateTime = (date ?? now).mergeStart(time: time);
     macAddress = MacAddressValidator.generate();
     ncm = complete(8);
     cest = complete(7);
     cnae = complete(7);
+    licencePlate = '${generateUpperString(3)}${complete(4)}';
     cep = complete(8);
     color = randomColor;
-    ordinal = _exampleEnumParser.random;
+    ordinal = ExampleEnum.random;
     active = ms.isEven;
 
     int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
@@ -173,13 +201,30 @@ class ExampleModel extends AbstractModel<int> {
         'rhoncus consequat nisi. Praesent tempor fringilla leo. Aliquam id '
         'ipsum eu sapien tincidunt eleifend. Nullam convallis iaculis mattis. '
         'Sed semper nunc eget dui sagittis commodo.';
+
+    ipv4 = '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}.'
+        '${complete(1, max: 256)}';
   }
 
   ///
   ///
   ///
-  static String complete(int length) =>
-      List<String>.generate(length, (_) => rnd.nextInt(10).toString()).join();
+  static String complete(int length, {int max = 10}) =>
+      List<String>.generate(length, (_) => rnd.nextInt(max).toString()).join();
+
+  ///
+  ///
+  ///
+  static String generateUpperString(
+    int length, {
+    String domain = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  }) =>
+      List<String>.generate(
+        length,
+        (_) => domain[rnd.nextInt(domain.length)],
+      ).join();
 
   ///
   ///

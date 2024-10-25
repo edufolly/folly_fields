@@ -1,3 +1,5 @@
+// ignore_for_file: type_literal_in_constant_pattern
+
 import 'package:flutter/cupertino.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 
@@ -5,7 +7,7 @@ import 'package:folly_fields/crud/abstract_model.dart';
 ///
 ///
 @immutable
-abstract class AbstractConsumer<T extends AbstractModel<Object>> {
+abstract class AbstractConsumer<T extends AbstractModel<ID>, ID> {
   final List<String> routeName;
   final String? offlineTableName;
   final String? offlineWhere;
@@ -17,7 +19,6 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
-  @mustCallSuper
   const AbstractConsumer(
     this.routeName, {
     this.offlineTableName,
@@ -36,6 +37,15 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   ///
+  ID? idFrom(dynamic value) => switch (ID) {
+        String => value?.toString(),
+        int => int.tryParse(value.toString()),
+        _ => throw UnsupportedError('Type $ID not supported in idFrom')
+      } as ID?;
+
+  ///
+  ///
+  ///
   Future<ConsumerPermission> checkPermission(
     BuildContext context,
     List<String> paths,
@@ -45,9 +55,12 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   ///
   Future<List<T>> list(
-    BuildContext context,
-    Map<String, String> qsParam, {
-    required bool forceOffline,
+    BuildContext context, {
+    // TODO(edufolly): @QueryParam("sort") List<String> sortQuery
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
+    bool forceOffline = false,
   });
 
   ///
@@ -55,45 +68,67 @@ abstract class AbstractConsumer<T extends AbstractModel<Object>> {
   ///
   Future<Map<T, String>> dropdownMap(
     BuildContext context, {
-    Map<String, String> qsParam = const <String, String>{},
-  }) async {
-    List<T> sList = await list(context, qsParam, forceOffline: false);
-    return <T, String>{for (T e in sList) e: e.toString()};
-  }
+    int page = 0,
+    int size = 20,
+    Map<String, String> extraParams = const <String, String>{},
+    bool forceOffline = false,
+  }) async =>
+      (await list(
+        context,
+        page: page,
+        size: size,
+        extraParams: extraParams,
+        forceOffline: forceOffline,
+      ))
+          .asMap()
+          .map((_, T item) => MapEntry<T, String>(item, item.dropdownText));
 
   ///
   ///
   ///
-  Future<T> getById(
+  Future<T?> getById(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 
   ///
   ///
   ///
-  Future<bool> beforeDelete(BuildContext context, T model) async => true;
+  Future<bool> beforeDelete(
+    BuildContext context,
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
 
   ///
   ///
   ///
   Future<bool> delete(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 
   ///
   ///
   ///
-  Future<bool> beforeSaveOrUpdate(BuildContext context, T model) async => true;
-
-  ///
-  ///
-  ///
-  Future<bool> saveOrUpdate(
+  Future<bool> beforeSaveOrUpdate(
     BuildContext context,
-    T model,
-  );
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  }) async =>
+      true;
+
+  ///
+  ///
+  ///
+  Future<T?> saveOrUpdate(
+    BuildContext context,
+    T model, {
+    Map<String, String> extraParams = const <String, String>{},
+  });
 }
 
 ///
@@ -121,6 +156,18 @@ class ConsumerPermission {
     this.iconName = 'solidCircle',
     this.name = '',
   });
+
+  ///
+  ///
+  ///
+  const ConsumerPermission.allowAll({String? name, String? iconName})
+      : menu = true,
+        view = true,
+        insert = true,
+        update = true,
+        delete = true,
+        iconName = iconName ?? 'solidCircle',
+        name = name ?? '';
 
   ///
   ///

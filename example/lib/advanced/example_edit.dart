@@ -15,6 +15,7 @@ import 'package:folly_fields/fields/decimal_field.dart';
 import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/ipv4_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
@@ -36,13 +37,13 @@ import 'package:google_fonts/google_fonts.dart';
 ///
 ///
 class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
-    ExampleConsumer, EmptyEditController<ExampleModel>> {
+    ExampleConsumer, EmptyEditController<ExampleModel, int>, int> {
   ///
   ///
   ///
   const ExampleEdit(
     super.model,
-    super.uiBuilder,
+    super.builder,
     super.consumer, {
     required super.edit,
     super.key,
@@ -54,24 +55,22 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
   @override
   List<Responsive> formContent(
     BuildContext context,
-    ExampleModel model,
-    String labelPrefix,
-    Function(bool refresh) refresh,
-    _,
-    __, {
+    ExampleModel model, {
     required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
   }) {
     return <Responsive>[
       /// Texto
       StringField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Texto*',
         enabled: edit,
         initialValue: model.text,
-        validator: (String? value) => value == null || value.isEmpty
+        validator: (String? value) => (value?.isEmpty ?? true)
             ? 'O campo texto precisa ser informado.'
             : null,
-        onSaved: (String value) => model.text = value,
+        onSaved: (String? value) => model.text = value ?? '',
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -80,11 +79,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// E-mail
       EmailField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'E-mail*',
         enabled: edit,
         initialValue: model.email,
-        onSaved: (String value) => model.email = value,
+        onSaved: (String? value) => model.email = value ?? '',
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -93,13 +92,13 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Senha
       PasswordField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Senha*',
         enabled: edit,
-        validator: (String? value) => value == null || value.isEmpty
+        validator: (String? value) => (value?.isEmpty ?? true)
             ? 'O campo senha precisa ser informado.'
             : null,
-        onSaved: (String value) => model.password = value,
+        onSaved: (String? value) => model.password = value ?? '',
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -108,11 +107,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Decimal
       DecimalField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Decimal*',
         enabled: edit,
         initialValue: model.decimal,
-        onSaved: (Decimal value) => model.decimal = value,
+        onSaved: (Decimal? value) => model.decimal = value!,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -121,7 +120,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Integer
       IntegerField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Integer*',
         enabled: edit,
         initialValue: model.integer,
@@ -134,11 +133,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF
       CpfField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CPF*',
         enabled: edit,
         initialValue: model.cpf,
-        onSaved: (String value) => model.cpf = value,
+        onSaved: (String? value) => model.cpf = value!,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -147,11 +146,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CNPJ
       CnpjField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CNPJ*',
         enabled: edit,
         initialValue: model.cnpj,
-        onSaved: (String value) => model.cnpj = value,
+        onSaved: (String? value) => model.cnpj = value!,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -160,11 +159,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CPF ou CNPJ
       CpfCnpjField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CPF ou CNPJ*',
         enabled: edit,
         initialValue: model.document,
-        onSaved: (String value) => model.document = value,
+        onSaved: (String? value) => model.document = value!,
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -173,11 +172,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone
       PhoneField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Telefone*',
         enabled: edit,
         initialValue: model.phone,
-        onSaved: (String value) => model.phone = value,
+        onSaved: (String? value) => model.phone = value ?? '',
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -186,11 +185,11 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Telefone sem DDD
       LocalPhoneField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Telefone sem DDD*',
         enabled: edit,
         initialValue: model.localPhone,
-        onSaved: (String value) => model.localPhone = value,
+        onSaved: (String? value) => model.localPhone = value ?? '',
         sizeSmall: 12,
         sizeMedium: 6,
         sizeLarge: 4,
@@ -199,7 +198,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data e Hora
       DateTimeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Data e Hora*',
         enabled: edit,
         initialValue: model.dateTime,
@@ -215,7 +214,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Data
       DateField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Data*',
         enabled: edit,
         initialValue: model.date,
@@ -228,7 +227,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Hora
       TimeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Hora*',
         enabled: edit,
         initialValue: model.time,
@@ -243,7 +242,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Mac Address
       MacAddressField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Mac Address*',
         enabled: edit,
         initialValue: model.macAddress,
@@ -256,7 +255,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Ncm
       NcmField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'NCM*',
         enabled: edit,
         initialValue: model.ncm,
@@ -269,7 +268,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cest
       CestField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CEST*',
         enabled: edit,
         initialValue: model.cest,
@@ -282,7 +281,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Cnae
       CnaeField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CNAE*',
         enabled: edit,
         initialValue: model.cnae,
@@ -295,7 +294,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// CEP
       CepField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'CEP*',
         enabled: edit,
         initialValue: model.cep,
@@ -308,7 +307,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Bool
       BoolField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Campo Boleano',
         enabled: edit,
         initialValue: model.active,
@@ -324,7 +323,7 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Color
       ColorField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Cor*',
         enabled: edit,
         initialValue: model.color,
@@ -335,12 +334,28 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
         sizeExtraLarge: 3,
       ),
 
+      /// IPv4
+      Ipv4Field(
+        labelPrefix: builder.labelPrefix,
+        label: 'IPv4*',
+        enabled: edit,
+        initialValue: model.ipv4,
+        onSaved: (String? value) => model.ipv4 = value,
+        sizeSmall: 12,
+        sizeMedium: 6,
+        sizeLarge: 4,
+        sizeExtraLarge: 3,
+      ),
+
       /// Dropdown
-      DropdownField<ExampleEnum>(
-        labelPrefix: labelPrefix,
+      DropdownField<ExampleEnum, Widget>(
+        labelPrefix: builder.labelPrefix,
         label: 'Ordinal',
         enabled: edit,
-        items: const ExampleEnumParser().items,
+        items: ExampleEnum.values.asMap().map(
+              (_, ExampleEnum value) =>
+                  MapEntry<ExampleEnum, Widget>(value, Text(value.value)),
+            ),
         initialValue: model.ordinal,
         validator: FollyValidators.notNull,
         onSaved: (ExampleEnum? value) => model.ordinal = value!,
@@ -350,15 +365,16 @@ class ExampleEdit extends AbstractEdit<ExampleModel, ExampleBuilder,
 
       /// Multiline
       MultilineField(
-        labelPrefix: labelPrefix,
+        labelPrefix: builder.labelPrefix,
         label: 'Multiline*',
         enabled: edit,
         initialValue: model.multiline,
-        validator: (String value) =>
-            value.isEmpty ? 'O campo multiline precisa ser informado.' : null,
-        onSaved: (String value) => model.multiline = value,
+        validator: (String? value) => value == null || value.isEmpty
+            ? 'O campo multiline precisa ser informado.'
+            : null,
+        onSaved: (String? value) => model.multiline = value ?? '',
         style: GoogleFonts.firaMono(
-          textStyle: Theme.of(context).textTheme.bodyText2,
+          textStyle: Theme.of(context).textTheme.bodyMedium,
         ),
         sizeMedium: 12,
         sizeLarge: 6,

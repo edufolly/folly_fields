@@ -5,27 +5,27 @@ import 'package:folly_fields/responsive/responsive.dart';
 ///
 ///
 ///
-class StringField extends StatelessResponsive {
-  final String labelPrefix;
+class StringField extends ResponsiveStateless {
+  final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
   final TextInputType keyboard;
-  final String? Function(String value)? validator;
+  final String? Function(String? value)? validator;
   final int minLines;
   final int maxLines;
   final bool obscureText;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
   final int? maxLength;
-  final void Function(String value)? onSaved;
+  final void Function(String? value)? onSaved;
   final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String?>? onChanged;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
-  final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String?>? onFieldSubmitted;
   final bool autocorrect;
   final bool enableSuggestions;
   final TextCapitalization textCapitalization;
@@ -38,13 +38,21 @@ class StringField extends StatelessResponsive {
   final TextStyle? style;
   final InputDecoration? decoration;
   final EdgeInsets padding;
+  final String? hintText;
+  final EdgeInsets? contentPadding;
+  final String? counterText;
+  final Widget? prefix;
+  final Widget? prefixIcon;
+  final Widget? suffix;
+  final Widget? suffixIcon;
   final bool trimOnSaved;
+  final void Function()? onTap;
 
   ///
   ///
   ///
   const StringField({
-    this.labelPrefix = '',
+    this.labelPrefix,
     this.label,
     this.labelWidget,
     this.controller,
@@ -76,7 +84,15 @@ class StringField extends StatelessResponsive {
     this.style,
     this.decoration,
     this.padding = const EdgeInsets.all(8),
+    this.hintText,
+    this.contentPadding,
+    this.counterText = '',
+    this.prefix,
+    this.prefixIcon,
+    this.suffix,
+    this.suffixIcon,
     this.trimOnSaved = true,
+    this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -98,7 +114,8 @@ class StringField extends StatelessResponsive {
   ///
   @override
   Widget build(BuildContext context) {
-    TextStyle effectiveStyle = style ?? Theme.of(context).textTheme.subtitle1!;
+    TextStyle effectiveStyle =
+        style ?? Theme.of(context).textTheme.titleMedium!;
 
     if (!enabled || readOnly) {
       effectiveStyle = effectiveStyle.copyWith(
@@ -108,17 +125,21 @@ class StringField extends StatelessResponsive {
 
     InputDecoration effectiveDecoration = (decoration ??
             InputDecoration(
+              prefix: prefix,
+              prefixIcon: prefixIcon,
+              suffix: suffix,
+              suffixIcon: suffixIcon,
               label: labelWidget,
-              labelText: label == null
-                  ? null
-                  : labelPrefix.isEmpty
-                      ? label
-                      : '$labelPrefix - $label',
+              labelText: (labelPrefix?.isEmpty ?? true)
+                  ? label
+                  : '$labelPrefix - $label',
               border: const OutlineInputBorder(),
-              counterText: '',
+              counterText: counterText,
               enabled: enabled,
               filled: filled,
               fillColor: fillColor,
+              hintText: hintText,
+              contentPadding: contentPadding,
             ))
         .applyDefaults(Theme.of(context).inputDecorationTheme);
 
@@ -130,7 +151,7 @@ class StringField extends StatelessResponsive {
         decoration: effectiveDecoration,
         validator: enabled && validator != null
             ? (String? value) => validator!(value ?? '')
-            : (_) => null,
+            : null,
         minLines: minLines,
         maxLines: maxLines,
         obscureText: obscureText,
@@ -152,6 +173,7 @@ class StringField extends StatelessResponsive {
         enableInteractiveSelection: enableInteractiveSelection,
         autofillHints: readOnly ? null : autofillHints,
         readOnly: readOnly,
+        onTap: onTap,
         style: effectiveStyle,
       ),
     );
@@ -160,13 +182,6 @@ class StringField extends StatelessResponsive {
   ///
   ///
   ///
-  void _internalSave(String? value) {
-    String val = value ?? '';
-
-    if (trimOnSaved) {
-      val = val.trim();
-    }
-
-    onSaved?.call(val);
-  }
+  void _internalSave(String? value) =>
+      onSaved?.call(trimOnSaved ? value?.trim() : value);
 }

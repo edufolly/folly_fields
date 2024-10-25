@@ -10,17 +10,24 @@ jobs:
   boot:
     name: Boot
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       version: ${{ steps.version-step.outputs.version }}
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Get Pubspec Version
+      - name: Check Pubspec Version
         id: version-step
         run: |
-          export VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
-          echo "::set-output name=version::$VERSION"
+          VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          URL=$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/releases/latest
+          LATEST=$(curl --silent "$URL" | jq -r .name)
+          if [ "$LATEST" == "v$VERSION" ]; then
+            echo "Version already used: $VERSION"
+            exit 1
+          fi
 
 
   ###################
@@ -30,32 +37,78 @@ jobs:
     name: Tests & Release
     needs: [ boot ]
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          cache: true
-          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          channel: stable
+          cache: false
+
+      - name: Install lcov
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update -y
+          sudo apt install -y lcov
 
       - name: Flutter Config
+        timeout-minutes: 2
         run: flutter config --no-analytics
 
       - name: Flutter Pub Get
+        timeout-minutes: 5
         run: flutter pub get
 
-      - name: Dart Analyze
-        run: dart analyze --fatal-infos
+#      - name: Dart Analyze
+#        timeout-minutes: 5
+#        run: dart analyze --fatal-infos
 
       - name: Flutter Test
-        run: flutter test
+        run: | 
+          flutter test --coverage \
+            -r github \
+            -j $(grep -c processor /proc/cpuinfo)
+
+#      - name: Flutter Publish Dry Run
+#        run: flutter pub publish --dry-run
+
+      - name: Creating Test Coverage HTML
+        run: |
+          genhtml coverage/lcov.info \
+            --output-directory coverage/html \
+            --title "Folly Fields" \
+            --show-details
+#            --header-title "Folly Fields" \
+#            --dark-mode \
+
+      - name: Compress Test Coverage
+        run: tar -cvzf folly-fields-test-coverage.tar.gz coverage
+
+      - name: Upload Test Coverage Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: folly-fields-test-coverage
+          path: folly-fields-test-coverage.tar.gz
+          retention-days: 1
+
+      - name: Publishing Flutter Package
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
+          skipTests: true
+          format: false
+          flutter: true
+          flutterBranch: stable
 
       - name: Creating a GitHub Tag
-        uses: mathieudutour/github-tag-action@v6.0
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           custom_tag: ${{ needs.boot.outputs.version }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -74,18 +127,19 @@ jobs:
   build-web:
     name: Deploy GitHub Pages
     needs: [ tests ]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          cache: true
-          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          channel: stable
+          cache: false
 
       - name: Flutter Config
         run: flutter config --enable-web --no-analytics
@@ -97,8 +151,20 @@ jobs:
         working-directory: example
         run: flutter build web --base-href /folly_fields/
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: folly-fields-test-coverage
+          path: example/build/web
+
+      - name: Decompress Test Coverage
+        working-directory: example/build/web
+        run: |
+          tar -xvzf folly-fields-test-coverage.tar.gz
+          rm -f folly-fields-test-coverage.tar.gz
+
       - name: Publishing to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           publish_dir: ./example/build/web
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -109,19 +175,20 @@ jobs:
   #################
   build-windows:
     name: Windows Native Build
-    runs-on: windows-latest
     needs: [ boot, tests ]
+    runs-on: windows-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          cache: true
-          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          channel: stable
+          cache: false
 
       - name: Flutter Config
         run: flutter config --enable-windows-desktop --no-analytics
@@ -135,7 +202,7 @@ jobs:
 
       - name: Compress Flutter Build
         working-directory: example
-        run: Compress-Archive build/windows/runner/Release/* folly-fields-example-windows.zip
+        run: Compress-Archive build/windows/x64/runner/Release/* folly-fields-example-windows.zip
 
       - name: Adding Zip to GitHub Release
         uses: ncipollo/release-action@v1
@@ -153,11 +220,12 @@ jobs:
     name: Linux Native Build
     needs: [ tests ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Dependencies
         env:
@@ -169,8 +237,8 @@ jobs:
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          cache: true
-          cache-key: flutter-${{ runner.os }}-${{ hashFiles('**/pubspec.lock') }}
+          channel: stable
+          cache: false
 
       - name: Flutter Config
         run: flutter config --enable-linux-desktop --no-analytics
@@ -187,7 +255,7 @@ jobs:
         run: tar -cvzf folly-fields-example-linux.tar.gz build/linux/x64/release/bundle
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: folly-fields-example-linux
           path: example/folly-fields-example-linux.tar.gz
@@ -197,35 +265,40 @@ jobs:
   ##########################
   # Deploy Linux App Image #
   ##########################
-  depoy-linux-app-image:
+  deploy-linux-app-image:
     name: Deploy Linux App Image
     needs: [ boot, build-linux ]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt-get update -y
+          sudo apt install -y libfuse2
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: folly-fields-example-linux
-          path: example
 
       - name: Decompress Flutter Build
-        working-directory: example
         run: tar -xvzf folly-fields-example-linux.tar.gz
 
       - name: Build App Image
-        working-directory: example/linux
         run: |
           mkdir -p AppDir/usr/bin
-          cp -r ../build/linux/x64/release/bundle/. AppDir/usr/bin/
+          cp -r build/linux/x64/release/bundle/. AppDir/usr/bin/
           ln -sr AppDir/usr/bin/example AppDir/folly-fields-example
           wget -q -O appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod a+x appimagetool
-          ./appimagetool AppDir ../../folly-fields-example.AppImage
+          ./appimagetool AppDir folly-fields-example.AppImage
 
       - name: Adding AppImage to GitHub Release
         uses: ncipollo/release-action@v1

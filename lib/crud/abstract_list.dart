@@ -2,18 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
 import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields/widgets/folly_divider.dart';
-import 'package:folly_fields/widgets/map_function_button.dart';
-import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:folly_fields/widgets/text_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,39 +20,38 @@ import 'package:sprintf/sprintf.dart';
 ///
 ///
 abstract class AbstractList<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends AbstractRoute {
+    T extends AbstractModel<ID>,
+    B extends AbstractBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    ID> extends AbstractRoute {
   final bool selection;
   final bool multipleSelection;
   final bool invertSelection;
   final bool forceOffline;
   final C consumer;
-  final UI uiBuilder;
+  final B builder;
   final Future<Widget?> Function(
     BuildContext context,
-    UI uiBuilder,
+    B builder,
     C consumer,
   )? onAdd;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
-    UI uiBuilder,
-    C consumer,
-    bool edit,
-  )? onUpdate;
+    B builder,
+    C consumer, {
+    required bool edit,
+  })? onUpdate;
   final Map<String, String> qsParam;
   final int itemsPerPage;
   final int qtdSuggestions;
-  final List<AbstractMapFunction>? mapFunctions;
   final Future<Widget?> Function(
     BuildContext context,
     T model,
-    UI uiBuilder,
-    C consumer,
-    bool edit,
-  )? onLongPress;
-  final List<AbstractModelFunction<T>>? modelFunctions;
+    B builder,
+    C consumer, {
+    required bool edit,
+  })? onLongPress;
   final String? searchFieldLabel;
   final TextStyle? searchFieldStyle;
   final InputDecorationTheme? searchFieldDecorationTheme;
@@ -78,6 +74,24 @@ abstract class AbstractList<
   final String listEmpty;
   final bool showRefreshButton;
   final String refreshButtonText;
+  final Widget? Function(BuildContext context)? appBarLeading;
+  final List<Widget> Function(
+    BuildContext context,
+    B builder,
+    C consumer,
+    Map<String, String> qsParam, {
+    required bool selection,
+  })? actions;
+  final List<Widget> Function(
+    BuildContext context,
+    T model,
+    B builder,
+    C consumer,
+    Map<String, String> qsParam,
+    void Function({bool clear})? refresh, {
+    required bool selection,
+  })? rowActions;
+  final double? leadingWidth;
 
   ///
   ///
@@ -93,7 +107,7 @@ abstract class AbstractList<
     required this.selection,
     required this.multipleSelection,
     required this.consumer,
-    required this.uiBuilder,
+    required this.builder,
     this.invertSelection = false,
     this.forceOffline = false,
     this.onAdd,
@@ -101,9 +115,7 @@ abstract class AbstractList<
     this.qsParam = const <String, String>{},
     this.itemsPerPage = 50,
     this.qtdSuggestions = 15,
-    this.mapFunctions,
     this.onLongPress,
-    this.modelFunctions,
     this.searchFieldLabel,
     this.searchFieldStyle,
     this.searchFieldDecorationTheme,
@@ -127,6 +139,10 @@ abstract class AbstractList<
     this.listEmpty = 'Sem %s até o momento.',
     this.showRefreshButton = false,
     this.refreshButtonText = 'Atualizar',
+    this.appBarLeading,
+    this.actions,
+    this.rowActions,
+    this.leadingWidth,
     super.key,
   }) : assert(
           searchFieldStyle == null || searchFieldDecorationTheme == null,
@@ -147,29 +163,42 @@ abstract class AbstractList<
   ///
   ///
   ///
+  Future<void> onDeleteError(
+    BuildContext context,
+    T model,
+    Exception e,
+    StackTrace s,
+  ) async {
+    await FollyDialogs.dialogMessage(
+      context: context,
+      message: sprintf(deleteErrorText, <dynamic>[e.toString()]),
+    );
+  }
+
+  ///
+  ///
+  ///
   @override
-  AbstractListState<T, UI, C> createState() => AbstractListState<T, UI, C>();
+  AbstractListState<T, B, C, ID> createState() =>
+      AbstractListState<T, B, C, ID>();
 }
 
 ///
 ///
 ///
 class AbstractListState<
-    T extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<T>,
-    C extends AbstractConsumer<T>> extends State<AbstractList<T, UI, C>> {
+    T extends AbstractModel<ID>,
+    UI extends AbstractBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    ID> extends State<AbstractList<T, UI, C, ID>> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
   final ScrollController _scrollController = ScrollController();
-  final StreamController<int> _streamController = StreamController<int>();
+  final StreamController<AbstractListStateEnum> _streamController =
+      StreamController<AbstractListStateEnum>();
 
   final ValueNotifier<bool> _insertNotifier = ValueNotifier<bool>(false);
-  final ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>
-      _mapFunctionsNotifier =
-      ValueNotifier<Map<ConsumerPermission, AbstractMapFunction>>(
-    <ConsumerPermission, AbstractMapFunction>{},
-  );
 
   List<T> _globalItems = <T>[];
   bool _loading = false;
@@ -177,14 +206,12 @@ class AbstractListState<
 
   bool _update = false;
   bool _delete = false;
+  bool _initiallyFilled = false;
 
-  Map<Object, T> selections = <Object, T>{};
+  final Map<Object, T> _selections = <Object, T>{};
 
   final Map<String, String> _qsParam = <String, String>{};
-
-  final Map<ConsumerPermission, AbstractModelFunction<T>>
-      effectiveModelFunctions =
-      <ConsumerPermission, AbstractModelFunction<T>>{};
+  final List<String> _qsKeys = <String>[];
 
   FocusNode keyboardFocusNode = FocusNode();
 
@@ -197,7 +224,10 @@ class AbstractListState<
 
     if (widget.qsParam.isNotEmpty) {
       _qsParam.addAll(widget.qsParam);
+      _qsKeys.addAll(widget.qsParam.keys);
     }
+
+    _qsKeys.addAll(<String>['s']);
   }
 
   ///
@@ -214,42 +244,14 @@ class AbstractListState<
     }
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.hasContentDimensions &&
+          _scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent) {
         if (!_loading && _page >= 0) {
           _loadData(context, clear: false);
         }
       }
     });
-
-    if (widget.mapFunctions != null) {
-      Map<ConsumerPermission, AbstractMapFunction> effectiveMapFunctions =
-          <ConsumerPermission, AbstractMapFunction>{};
-
-      for (AbstractMapFunction headerFunction in widget.mapFunctions!) {
-        ConsumerPermission permission = await widget.consumer
-            .checkPermission(context, headerFunction.routeName);
-
-        if (permission.view) {
-          effectiveMapFunctions[permission] = headerFunction;
-        }
-      }
-
-      if (effectiveMapFunctions.isNotEmpty) {
-        _mapFunctionsNotifier.value = effectiveMapFunctions;
-      }
-    }
-
-    if (widget.modelFunctions != null) {
-      for (AbstractModelFunction<T> rowFunction in widget.modelFunctions!) {
-        ConsumerPermission permission = await widget.consumer
-            .checkPermission(context, rowFunction.routeName);
-
-        if (permission.view) {
-          effectiveModelFunctions[permission] = rowFunction;
-        }
-      }
-    }
 
     await _loadData(context);
 
@@ -259,44 +261,49 @@ class AbstractListState<
   ///
   ///
   ///
-  Future<void> _loadData(
+  /// Returns the amount of fetched items.
+  Future<int> _loadData(
     BuildContext context, {
     bool clear = true,
   }) async {
     if (clear) {
       _globalItems = <T>[];
       _page = 0;
-      _streamController.add(-2);
+      _streamController.add(AbstractListStateEnum.loadingMessage);
     } else {
       _loading = true;
-      _streamController.add(-1);
+      _streamController.add(AbstractListStateEnum.incrementalLoading);
     }
 
     try {
-      _qsParam['f'] = '${_page * widget.itemsPerPage}';
-      _qsParam['q'] = '${widget.itemsPerPage}';
       _qsParam['s'] = '${widget.selection}';
 
       List<T> result = await widget.consumer.list(
         context,
-        _qsParam,
+        page: _page,
+        size: widget.itemsPerPage,
+        extraParams: _qsParam,
         forceOffline: widget.forceOffline,
       );
 
       if (result.isEmpty) {
-        _streamController.add(0);
+        _streamController.add(AbstractListStateEnum.finishLoading);
       } else {
         _page++;
         _globalItems.addAll(result);
       }
 
-      _streamController.add(_page);
+      _streamController.add(AbstractListStateEnum.finishLoading);
       _loading = false;
+
+      return result.length;
     } on Exception catch (e, s) {
       if (kDebugMode) {
         print('$e\n$s');
       }
       _streamController.addError(e, s);
+
+      return 0;
     }
   }
 
@@ -307,9 +314,9 @@ class AbstractListState<
         widget.selection
             ? sprintf(
                 widget.selectionText,
-                <dynamic>[widget.uiBuilder.superSingle(context)],
+                <dynamic>[widget.builder.superSingle(context)],
               )
-            : widget.uiBuilder.superPlural(context),
+            : widget.builder.superPlural(context),
       );
 
   ///
@@ -319,24 +326,28 @@ class AbstractListState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: widget.appBarLeading == null
+            ? null
+            : widget.appBarLeading!(context),
+        leadingWidth: widget.leadingWidth,
         title: _getScaffoldTitle(context),
         actions: <Widget>[
           /// Select All Button
-          if (widget.selection == true &&
-              widget.multipleSelection == true &&
-              widget.invertSelection == true)
+          if (widget.selection &&
+              widget.multipleSelection &&
+              widget.invertSelection)
             IconButton(
               tooltip: widget.invertSelectionText,
               icon: const Icon(Icons.select_all),
               onPressed: () {
-                for (T model in _globalItems) {
-                  if (selections.containsKey(model.id)) {
-                    selections.remove(model.id);
+                for (final T model in _globalItems) {
+                  if (_selections.containsKey(model.id)) {
+                    _selections.remove(model.id);
                   } else {
-                    selections[model.id!] = model;
+                    _selections[model.id!] = model;
                   }
                 }
-                setState(() {});
+                _streamController.add(AbstractListStateEnum.finishLoading);
               },
             ),
 
@@ -345,7 +356,7 @@ class AbstractListState<
             IconButton(
               tooltip: sprintf(
                 widget.searchButtonText,
-                <dynamic>[widget.uiBuilder.superSingle(context)],
+                <dynamic>[widget.builder.superSingle(context)],
               ),
               icon: const Icon(Icons.search),
               onPressed: _search,
@@ -364,48 +375,21 @@ class AbstractListState<
             IconButton(
               tooltip: sprintf(
                 widget.selectionText,
-                <dynamic>[widget.uiBuilder.superPlural(context)],
+                <dynamic>[widget.builder.superPlural(context)],
               ),
               icon: const FaIcon(FontAwesomeIcons.check),
               onPressed: () =>
-                  Navigator.of(context).pop(List<T>.from(selections.values)),
+                  Navigator.of(context).pop(List<T>.of(_selections.values)),
             ),
 
-          /// Action Routes
-          if (!widget.selection)
-            ValueListenableBuilder<
-                Map<ConsumerPermission, AbstractMapFunction>>(
-              valueListenable: _mapFunctionsNotifier,
-              builder: (
-                BuildContext context,
-                Map<ConsumerPermission, AbstractMapFunction> mapFunctions,
-                _,
-              ) {
-                if (mapFunctions.isEmpty) {
-                  return const SizedBox.shrink();
-                }
-
-                return Row(
-                  children: mapFunctions.entries
-                      .map(
-                        (
-                          MapEntry<ConsumerPermission, AbstractMapFunction>
-                              entry,
-                        ) =>
-                            MapFunctionButton(
-                          mapFunction: entry.value,
-                          permission: entry.key,
-                          qsParam: _qsParam,
-                          selection: widget.selection,
-                          callback: (Map<String, String> map) {
-                            _qsParam.addAll(map);
-                            _loadData(context);
-                          },
-                        ),
-                      )
-                      .toList(),
-                );
-              },
+          /// Actions
+          if (!widget.selection && widget.actions != null)
+            ...widget.actions!(
+              context,
+              widget.builder,
+              widget.consumer,
+              _qsParam,
+              selection: widget.selection,
             ),
 
           /// Add Button
@@ -417,7 +401,7 @@ class AbstractListState<
                     ? IconButton(
                         tooltip: sprintf(
                           widget.addText,
-                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                          <dynamic>[widget.builder.superSingle(context)],
                         ),
                         icon: const FaIcon(FontAwesomeIcons.plus),
                         onPressed: _addEntity,
@@ -428,10 +412,10 @@ class AbstractListState<
 
           /// Legend Button
           if (!widget.selection &&
-              widget.uiBuilder.listLegend(context).isNotEmpty)
+              widget.builder.listLegend(context).isNotEmpty)
             IconButton(
-              tooltip: widget.uiBuilder.listLegendTitle(context),
-              icon: FaIcon(widget.uiBuilder.listLegendIcon(context)),
+              tooltip: widget.builder.listLegendTitle(context),
+              icon: FaIcon(widget.builder.listLegendIcon(context)),
               onPressed: _showListLegend,
             ),
         ],
@@ -444,7 +428,7 @@ class AbstractListState<
                     ? FloatingActionButton(
                         tooltip: sprintf(
                           widget.addText,
-                          <dynamic>[widget.uiBuilder.superSingle(context)],
+                          <dynamic>[widget.builder.superSingle(context)],
                         ),
                         onPressed: _addEntity,
                         child: const FaIcon(FontAwesomeIcons.plus),
@@ -453,25 +437,50 @@ class AbstractListState<
               },
             )
           : null,
-      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildBackgroundContainer(
+      bottomNavigationBar: widget.builder.buildBottomNavigationBar(context),
+      body: widget.builder.buildListBody(
         context,
         SafeFutureBuilder<bool>(
           future: _loadPermissions(context),
           waitingMessage: widget.waitingText,
-          builder: (BuildContext context, bool value) {
-            return SafeStreamBuilder<int>(
+          builder: (BuildContext context, bool value, _) {
+            return SafeStreamBuilder<AbstractListStateEnum>(
               stream: _streamController.stream,
               waitingMessage: widget.waitingText,
-              builder: (BuildContext context, int data) {
-                if (data < -1) {
+              builder: (BuildContext context, AbstractListStateEnum event, _) {
+                if (event == AbstractListStateEnum.loadingMessage) {
                   return WaitingMessage(message: widget.waitingText);
                 }
 
-                /// CircularProgressIndicator at list final.
+                /// CircularProgressIndicator will be at the list bottom,
+                /// so we make space here with an extra index if
+                /// event is incrementalLoading
                 int itemCount = _globalItems.length;
-                if (data == -1) {
+                if (event == AbstractListStateEnum.incrementalLoading) {
                   itemCount++;
+                }
+
+                /// If this is the first 'finishLoading' event and the
+                /// scrollbar hasn't even appeared yet, we won't be able to
+                /// scroll further.
+                /// This callback will be called after building this widget.
+                if (event == AbstractListStateEnum.finishLoading &&
+                    !_initiallyFilled) {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (_) async {
+                      if (_scrollController.positions.isNotEmpty &&
+                          _scrollController.position.hasContentDimensions &&
+                          _scrollController.position.maxScrollExtent == 0) {
+                        int extraAmount =
+                            await _loadData(context, clear: false);
+                        if (extraAmount == 0) {
+                          // This flags that we won't try further '_loadData'
+                          // calls
+                          _initiallyFilled = true;
+                        }
+                      }
+                    },
+                  );
                 }
 
                 return RefreshIndicator(
@@ -482,16 +491,14 @@ class AbstractListState<
                           sprintf(
                             widget.listEmpty,
                             <dynamic>[
-                              widget.uiBuilder
-                                  .superPlural(context)
-                                  .toLowerCase(),
+                              widget.builder.superPlural(context).toLowerCase(),
                             ],
                           ),
                         )
-                      : RawKeyboardListener(
+                      : KeyboardListener(
                           autofocus: true,
                           focusNode: keyboardFocusNode,
-                          onKey: (RawKeyEvent event) {
+                          onKeyEvent: (KeyEvent event) {
                             if (widget.showSearchButton &&
                                 event.character != null) {
                               _search(event.character);
@@ -518,42 +525,44 @@ class AbstractListState<
 
                                 T model = _globalItems[index];
 
-                                if (_delete &&
-                                    FollyFields().isMobile &&
-                                    widget.canDelete(model)) {
-                                  return Dismissible(
-                                    key: Key('key_${model.id}'),
-                                    direction: DismissDirection.endToStart,
-                                    background: Container(
-                                      color: Colors.red,
-                                      alignment: Alignment.centerRight,
-                                      padding: const EdgeInsets.only(right: 16),
-                                      child: const FaIcon(
-                                        FontAwesomeIcons.trashCan,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    confirmDismiss:
-                                        (DismissDirection direction) =>
-                                            _askDelete(),
-                                    onDismissed: (DismissDirection direction) =>
-                                        _deleteEntity(model),
-                                    child: _buildResultItem(
-                                      model: model,
-                                      selection:
-                                          selections.containsKey(model.id),
-                                      canDelete: false,
-                                    ),
-                                  );
-                                } else {
-                                  return _buildResultItem(
-                                    model: model,
-                                    selection: selections.containsKey(model.id),
-                                    canDelete: _delete &&
-                                        FollyFields().isNotMobile &&
-                                        widget.canDelete(model),
-                                  );
-                                }
+                                return _delete &&
+                                        FollyFields().isMobile &&
+                                        widget.canDelete(model)
+                                    ? Dismissible(
+                                        key: Key('key_${model.id}'),
+                                        direction: DismissDirection.endToStart,
+                                        background: Container(
+                                          color: Colors.red,
+                                          alignment: Alignment.centerRight,
+                                          padding: const EdgeInsets.only(
+                                            right: 16,
+                                          ),
+                                          child: const FaIcon(
+                                            FontAwesomeIcons.trashCan,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        confirmDismiss:
+                                            (DismissDirection direction) =>
+                                                _askDelete(),
+                                        onDismissed:
+                                            (DismissDirection direction) =>
+                                                _deleteEntity(model),
+                                        child: _buildResultItem(
+                                          model: model,
+                                          selected:
+                                              _selections.containsKey(model.id),
+                                          canDelete: false,
+                                        ),
+                                      )
+                                    : _buildResultItem(
+                                        model: model,
+                                        selected:
+                                            _selections.containsKey(model.id),
+                                        canDelete: _delete &&
+                                            FollyFields().isNotMobile &&
+                                            widget.canDelete(model),
+                                      );
                               },
                               separatorBuilder: (_, __) => const FollyDivider(),
                               itemCount: itemCount,
@@ -576,14 +585,14 @@ class AbstractListState<
     showSearch<T?>(
       context: context,
       query: query,
-      delegate: InternalSearch<T, UI, C>(
+      delegate: InternalSearch<T, UI, C, ID>(
         buildResultItem: _buildResultItem,
         canDelete: (T model) =>
             _delete && FollyFields().isNotMobile && widget.canDelete(model),
-        qsParam: widget.qsParam,
+        extraParams: widget.qsParam,
         forceOffline: widget.forceOffline,
         itemsPerPage: widget.itemsPerPage,
-        uiBuilder: widget.uiBuilder,
+        builder: widget.builder,
         consumer: widget.consumer,
         searchFieldLabel: widget.searchFieldLabel,
         searchFieldStyle: widget.searchFieldStyle,
@@ -600,8 +609,8 @@ class AbstractListState<
       (T? entity) {
         if (entity != null) {
           _internalRoute(
-            entity,
-            !selections.containsKey(entity.id),
+            model: entity,
+            selected: _selections.containsKey(entity.id),
           );
         }
       },
@@ -613,40 +622,43 @@ class AbstractListState<
   ///
   Widget _buildResultItem({
     required T model,
-    required bool selection,
+    required bool selected,
     required bool canDelete,
     Future<void> Function()? afterDeleteRefresh,
     Function(T model)? onTap,
   }) {
+    Widget? leading = widget.builder.getLeading(context, model);
+    bool multipleSelection = widget.multipleSelection && onTap == null;
+
     return ListTile(
-      leading: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          widget.multipleSelection && onTap == null
-              ? FaIcon(selection ? widget.selectedIcon : widget.unselectedIcon)
-              : widget.uiBuilder.getLeading(context, model),
-        ],
-      ),
-      title: widget.uiBuilder.getTitle(context, model),
-      subtitle: widget.uiBuilder.getSubtitle(context, model),
+      leading: (leading != null || multipleSelection)
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                if (multipleSelection)
+                  FaIcon(selected ? widget.selectedIcon : widget.unselectedIcon)
+                else
+                  leading!,
+              ],
+            )
+          : null,
+      title: widget.builder.getTitle(context, model),
+      subtitle: widget.builder.getSubtitle(context, model),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          /// Item Buttons
-          ...effectiveModelFunctions.entries.map(
-            (
-              MapEntry<ConsumerPermission, AbstractModelFunction<T>> entry,
-            ) =>
-                ModelFunctionButton<T>(
-              rowFunction: entry.value,
-              permission: entry.key,
-              model: model,
+          /// Row Actions
+          if (widget.rowActions != null)
+            ...widget.rowActions!(
+              context,
+              model,
+              widget.builder,
+              widget.consumer,
+              _qsParam,
+              ({bool clear = true}) => _loadData(context, clear: clear),
               selection: widget.selection,
-              qsParam: _qsParam,
-              callback: (Object? object) => _loadData(context),
             ),
-          ),
 
           /// Delete Button
           if (canDelete)
@@ -661,9 +673,9 @@ class AbstractListState<
             ),
         ],
       ),
-      onTap: onTap != null
+      onTap: onTap != null && !widget.selection
           ? () => onTap(model)
-          : () => _internalRoute(model, !selection),
+          : () => _internalRoute(model: model, selected: selected),
       onLongPress:
           widget.onLongPress == null ? null : () => _internalLongPress(model),
     );
@@ -673,12 +685,12 @@ class AbstractListState<
   ///
   ///
   Future<void> _internalLongPress(T model) async => _push(
-        await widget.onLongPress!(
+        await widget.onLongPress?.call(
           context,
           model,
-          widget.uiBuilder,
+          widget.builder,
           widget.consumer,
-          _update,
+          edit: _update,
         ),
       );
 
@@ -686,9 +698,9 @@ class AbstractListState<
   ///
   ///
   Future<void> _addEntity() async => _push(
-        await widget.onAdd!(
+        await widget.onAdd?.call(
           context,
-          widget.uiBuilder,
+          widget.builder,
           widget.consumer,
         ),
       );
@@ -696,27 +708,28 @@ class AbstractListState<
   ///
   ///
   ///
-  Future<void> _internalRoute(T model, bool selected) async {
+  Future<void> _internalRoute({
+    required T model,
+    required bool selected,
+  }) async {
     if (widget.selection) {
       if (widget.multipleSelection) {
         if (selected) {
-          selections[model.id!] = model;
+          _selections.remove(model.id);
         } else {
-          selections.remove(model.id);
+          _selections[model.id!] = model;
         }
-        if (mounted) {
-          setState(() {});
-        }
+        _streamController.add(AbstractListStateEnum.finishLoading);
       } else {
         Navigator.of(context).pop(model);
       }
     } else {
-      Widget? next = await widget.onUpdate!(
+      Widget? next = await widget.onUpdate?.call(
         context,
         model,
-        widget.uiBuilder,
+        widget.builder,
         widget.consumer,
-        _update,
+        edit: _update,
       );
 
       await _push(next);
@@ -729,10 +742,12 @@ class AbstractListState<
   Future<void> _push(Widget? widget, [bool clear = true]) async {
     if (widget != null) {
       await Navigator.of(context).push(
-        MaterialPageRoute<T>(builder: (_) => widget),
+        MaterialPageRoute<dynamic>(builder: (_) => widget),
       );
 
-      await _loadData(context, clear: clear);
+      if (mounted) {
+        await _loadData(context, clear: clear);
+      }
     }
   }
 
@@ -770,11 +785,9 @@ class AbstractListState<
         print('$e\n$s');
       }
 
-      await FollyDialogs.dialogMessage(
-        context: context,
-        message: sprintf(widget.deleteErrorText, <dynamic>[e.toString()]),
-      );
+      await widget.onDeleteError(context, model, e, s);
     }
+
     return !ask;
   }
 
@@ -790,17 +803,17 @@ class AbstractListState<
   ///
   ///
   void _showListLegend() {
-    Map<String, Color> listLegend = widget.uiBuilder.listLegend(context);
+    Map<String, Color> listLegend = widget.builder.listLegend(context);
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: Row(
           children: <Widget>[
-            FaIcon(widget.uiBuilder.listLegendIcon(context)),
+            FaIcon(widget.builder.listLegendIcon(context)),
             const SizedBox(
               width: 8,
             ),
-            Text(widget.uiBuilder.listLegendTitle(context)),
+            Text(widget.builder.listLegendTitle(context)),
           ],
         ),
         content: SingleChildScrollView(
@@ -821,7 +834,7 @@ class AbstractListState<
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(widget.uiBuilder.listLegendButtonText(context)),
+            child: Text(widget.builder.listLegendButtonText(context)),
           ),
         ],
       ),
@@ -834,9 +847,9 @@ class AbstractListState<
   @override
   void dispose() {
     keyboardFocusNode.dispose();
-    _mapFunctionsNotifier.dispose();
     _insertNotifier.dispose();
     _streamController.close();
+    _scrollController.dispose();
     super.dispose();
   }
 }
@@ -844,23 +857,33 @@ class AbstractListState<
 ///
 ///
 ///
+enum AbstractListStateEnum {
+  finishLoading, // Gotta show only current list items
+  loadingMessage, // Gotta show only a waiting message
+  incrementalLoading, // Gotta show list items and a loading indicator at bottom
+}
+
+///
+///
+///
 class InternalSearch<
-    W extends AbstractModel<Object>,
-    UI extends AbstractUIBuilder<W>,
-    C extends AbstractConsumer<W>> extends SearchDelegate<W?> {
-  final UI uiBuilder;
+    W extends AbstractModel<ID>,
+    UI extends AbstractBuilder<W, ID>,
+    C extends AbstractConsumer<W, ID>,
+    ID> extends SearchDelegate<W?> {
+  final UI builder;
   final C consumer;
 
   final Widget Function({
     required W model,
-    required bool selection,
+    required bool selected,
     required bool canDelete,
     Future<void> Function()? afterDeleteRefresh,
     Function(W model)? onTap,
   }) buildResultItem;
 
   final bool Function(W) canDelete;
-  final Map<String, String> qsParam;
+  final Map<String, String> extraParams;
   final bool forceOffline;
   final int itemsPerPage;
   final int minLengthToSearch;
@@ -876,11 +899,11 @@ class InternalSearch<
   ///
   ///
   InternalSearch({
-    required this.uiBuilder,
+    required this.builder,
     required this.consumer,
     required this.buildResultItem,
     required this.canDelete,
-    required this.qsParam,
+    required this.extraParams,
     required this.forceOffline,
     required this.itemsPerPage,
     required this.minLengthToSearch,
@@ -931,9 +954,7 @@ class InternalSearch<
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
+      onPressed: () => close(context, null),
     );
   }
 
@@ -946,7 +967,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: builder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -956,54 +977,57 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
-      Map<String, String> param = <String, String>{};
+      Map<String, String> newParams = <String, String>{};
 
-      if (qsParam.isNotEmpty) {
-        param.addAll(qsParam);
+      if (extraParams.isNotEmpty) {
+        newParams.addAll(extraParams);
       }
 
       if (query.contains('%')) {
         query = query.replaceAll('%', '');
       }
 
-      param['t'] = query;
+      newParams['t'] = query;
 
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: builder.buildSearchBody(
               context,
               SafeFutureBuilder<List<W>>(
                 future: consumer.list(
                   context,
-                  param,
+                  // TODO(edufolly): Page implementation.
+                  size: itemsPerPage,
+                  extraParams: newParams,
                   forceOffline: forceOffline,
                 ),
                 waitingMessage: waitingText,
-                builder: (BuildContext context, List<W> data) => data.isNotEmpty
-                    ? ListView.separated(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16),
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildResultItem(
-                          model: data[index],
-                          selection: false,
-                          canDelete: canDelete(data[index]),
-                          onTap: (W entity) => close(context, entity),
-                          afterDeleteRefresh: () async => query += '%',
-                        ),
-                        separatorBuilder: (_, __) => const FollyDivider(),
-                        itemCount: data.length,
-                      )
-                    : Center(child: Text(searchListEmpty)),
+                builder: (BuildContext context, List<W> data, _) =>
+                    data.isNotEmpty
+                        ? ListView.separated(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(16),
+                            itemBuilder: (BuildContext context, int index) =>
+                                buildResultItem(
+                              model: data[index],
+                              selected: false,
+                              canDelete: canDelete(data[index]),
+                              onTap: (W entity) => close(context, entity),
+                              afterDeleteRefresh: () async => query += '%',
+                            ),
+                            separatorBuilder: (_, __) => const FollyDivider(),
+                            itemCount: data.length,
+                          )
+                        : Center(child: Text(searchListEmpty)),
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     }
@@ -1018,7 +1042,7 @@ class InternalSearch<
       return Column(
         children: <Widget>[
           Expanded(
-            child: uiBuilder.buildBackgroundContainer(
+            child: builder.buildSearchBody(
               context,
               Center(
                 child: Text(
@@ -1028,7 +1052,7 @@ class InternalSearch<
               ),
             ),
           ),
-          uiBuilder.buildBottomNavigationBar(context),
+          builder.buildBottomNavigationBar(context) ?? const SizedBox.shrink(),
         ],
       );
     } else {
@@ -1039,27 +1063,27 @@ class InternalSearch<
 
         _lastQuery = query;
 
-        if (qsParam.isNotEmpty) {
-          param.addAll(qsParam);
+        if (extraParams.isNotEmpty) {
+          param.addAll(extraParams);
         }
 
         param['t'] = query.replaceAll('%', '');
 
-        param['q'] = itemsPerPage.toString();
-
         _lastWidget = Column(
           children: <Widget>[
             Expanded(
-              child: uiBuilder.buildBackgroundContainer(
+              child: builder.buildSearchBody(
                 context,
                 SafeFutureBuilder<List<W>>(
                   future: consumer.list(
                     context,
-                    param,
+                    // TODO(edufolly): Page implementation.
+                    size: itemsPerPage,
+                    extraParams: param,
                     forceOffline: forceOffline,
                   ),
                   waitingMessage: waitingText,
-                  builder: (BuildContext context, List<W> data) => data
+                  builder: (BuildContext context, List<W> data, _) => data
                           .isNotEmpty
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1081,11 +1105,11 @@ class InternalSearch<
                                   W model = data[index];
 
                                   return ListTile(
-                                    title: uiBuilder.getSuggestionTitle(
+                                    title: builder.getSuggestionTitle(
                                       context,
                                       model,
                                     ),
-                                    subtitle: uiBuilder.getSuggestionSubtitle(
+                                    subtitle: builder.getSuggestionSubtitle(
                                       context,
                                       model,
                                     ),
@@ -1105,7 +1129,8 @@ class InternalSearch<
                 ),
               ),
             ),
-            uiBuilder.buildBottomNavigationBar(context),
+            builder.buildBottomNavigationBar(context) ??
+                const SizedBox.shrink(),
           ],
         );
 

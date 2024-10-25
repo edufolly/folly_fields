@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/bool_field.dart';
 import 'package:folly_fields/fields/cep_field.dart';
 import 'package:folly_fields/fields/cest_field.dart';
+import 'package:folly_fields/fields/choice_chip_field.dart';
 import 'package:folly_fields/fields/cnae_field.dart';
 import 'package:folly_fields/fields/cnpj_field.dart';
 import 'package:folly_fields/fields/color_field.dart';
@@ -16,13 +17,18 @@ import 'package:folly_fields/fields/dropdown_field.dart';
 import 'package:folly_fields/fields/email_field.dart';
 import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
+import 'package:folly_fields/fields/ipv4_field.dart';
+import 'package:folly_fields/fields/licence_plate_field.dart';
 import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
+import 'package:folly_fields/fields/mobile_phone_field.dart';
 import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
+import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
+import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
@@ -38,7 +44,7 @@ import 'package:folly_fields_example/advanced/example_builder.dart';
 import 'package:folly_fields_example/advanced/example_consumer.dart';
 import 'package:folly_fields_example/advanced/example_edit.dart';
 import 'package:folly_fields_example/advanced/example_list.dart';
-import 'package:folly_fields_example/advanced/example_map_function_route.dart';
+import 'package:folly_fields_example/basic_table/example_basic_table.dart';
 import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
 import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
 import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
@@ -48,6 +54,7 @@ import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:folly_fields_example/example_table.dart';
+import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +68,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   FollyFields.start(Config());
-
   runApp(const MyApp());
 }
 
@@ -84,17 +90,18 @@ class MyApp extends StatelessWidget {
       title: 'Folly Fields Example',
       theme: ThemeData(
         colorSchemeSeed: Colors.deepOrange,
+        useMaterial3: true,
         brightness: Brightness.dark,
-        toggleableActiveColor: Colors.deepOrange,
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const MyHomePage(),
+        // TODO(edufolly): This route was deprecated.
         '/table': (_) => const ExampleTable(),
         '/list': (_) => ExampleList(),
         '/edit': (_) => ExampleEdit(
               ExampleModel.generate(),
-              ExampleBuilder(),
+              const ExampleBuilder(),
               const ExampleConsumer(),
               edit: true,
             ),
@@ -105,8 +112,8 @@ class MyApp extends StatelessWidget {
               edit: true,
             ),
         '/four_images': (_) => const FourImages(),
-        const ExampleMapFunctionRoute().path: (_) =>
-            const ExampleMapFunctionRoute(),
+        '/credit_card': (_) => const CreditCard(),
+        '/basic_table': (_) => const ExampleBasicTable(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         ...GlobalMaterialLocalizations.delegates,
@@ -174,7 +181,7 @@ class MyHomePageState extends State<MyHomePage> {
             (_) {
               Future<void>.delayed(
                 const Duration(seconds: 2),
-                () => wait.close(),
+                wait.close,
               );
             },
           ).catchError(
@@ -201,7 +208,7 @@ class MyHomePageState extends State<MyHomePage> {
 
           Future<void>.delayed(
             const Duration(seconds: 3),
-            () => wait.close(),
+            wait.close,
           );
         },
       ),
@@ -214,11 +221,18 @@ class MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).pushNamed('/four_images'),
       ),
 
+      MyMenuItem(
+        name: 'Credit Card',
+        iconData: FontAwesomeIcons.creditCard,
+        onPressed: (BuildContext context) =>
+            Navigator.of(context).pushNamed('/credit_card'),
+      ),
+
       /// Table
       MyMenuItem(
         iconData: FontAwesomeIcons.table,
         onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/table'),
+            Navigator.of(context).pushNamed('/basic_table'),
         name: 'Tabela',
       ),
 
@@ -245,7 +259,7 @@ class MyHomePageState extends State<MyHomePage> {
                       )
                       .toList(),
                   onSelected: (MyMenuItem item) => item.onPressed(context),
-                )
+                ),
               ]
             : menuItems
                 .map((MyMenuItem item) => item.iconButton(context))
@@ -259,7 +273,7 @@ class MyHomePageState extends State<MyHomePage> {
               '/folly_fields/main/example/lib/main.dart',
             ),
           ),
-          builder: (BuildContext context, Response response) {
+          builder: (BuildContext context, Response response, _) {
             int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');
@@ -280,7 +294,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Formulário Básico',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
 
@@ -297,9 +311,10 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Texto*',
                         enabled: edit,
                         initialValue: model.text,
-                        validator: (String value) => value.isEmpty
-                            ? 'O campo texto precisa ser informado.'
-                            : null,
+                        validator: (String? value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo texto precisa ser informado.'
+                                : null,
                         onSaved: (String? value) => model.text = value!,
                       ),
                       // [/StringField]
@@ -317,7 +332,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'E-mail*',
                         enabled: edit,
                         initialValue: model.email,
-                        onSaved: (String value) => model.email = value,
+                        onSaved: (String? value) => model.email = value ?? '',
                       ),
                       // [/EmailField]
                     ),
@@ -333,12 +348,33 @@ class MyHomePageState extends State<MyHomePage> {
                         labelPrefix: labelPrefix,
                         label: 'Senha*',
                         enabled: edit,
-                        validator: (String value) => value.isEmpty
-                            ? 'O campo senha precisa ser informado.'
-                            : null,
-                        onSaved: (String value) => model.password = value,
+                        validator: (String? value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo senha precisa ser informado.'
+                                : null,
+                        onSaved: (String? value) => model.password = value!,
                       ),
                       // [/PasswordField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'PasswordVisibleField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/password_visible_field.dart',
+                      child:
+                          // [PasswordVisibleField]
+                          PasswordVisibleField(
+                        labelPrefix: labelPrefix,
+                        label: 'Senha Visível*',
+                        enabled: edit,
+                        validator: (String? value) =>
+                            value == null || value.isEmpty
+                                ? 'O campo senha visível precisa ser informado.'
+                                : null,
+                        onSaved: (String? value) => model.password = value!,
+                      ),
+                      // [/PasswordVisibleField]
                     ),
 
                     CodeLink(
@@ -353,9 +389,26 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Decimal*',
                         enabled: edit,
                         initialValue: model.decimal,
-                        onSaved: (Decimal value) => model.decimal = value,
+                        onSaved: (Decimal? value) => model.decimal = value!,
                       ),
                       // [/DecimalField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'NewDecimalField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/new_decimal_field.dart',
+                      child:
+                          // [NewDecimalField]
+                          NewDecimalField(
+                        labelPrefix: labelPrefix,
+                        label: 'New Decimal*',
+                        enabled: edit,
+                        initialValue: model.decimal,
+                        onSaved: (Decimal? value) => model.decimal = value!,
+                      ),
+                      // [/NewDecimalField]
                     ),
 
                     CodeLink(
@@ -370,6 +423,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Integer*',
                         enabled: edit,
                         initialValue: model.integer,
+                        validator: FollyValidators.intGTZero,
                         onSaved: (int? value) => model.integer = value ?? 0,
                       ),
                       // [/IntegerField]
@@ -406,7 +460,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CPF*',
                         enabled: edit,
                         initialValue: model.cpf,
-                        onSaved: (String value) => model.cpf = value,
+                        onSaved: (String? value) => model.cpf = value!,
                       ),
                       // [/CpfField]
                     ),
@@ -423,7 +477,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CNPJ*',
                         enabled: edit,
                         initialValue: model.cnpj,
-                        onSaved: (String value) => model.cnpj = value,
+                        onSaved: (String? value) => model.cnpj = value!,
                       ),
                       // [/CnpjField]
                     ),
@@ -440,7 +494,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CPF ou CNPJ*',
                         enabled: edit,
                         initialValue: model.document,
-                        onSaved: (String value) => model.document = value,
+                        onSaved: (String? value) => model.document = value!,
                       ),
                       // [/CpfCnpjField]
                     ),
@@ -457,7 +511,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Telefone*',
                         enabled: edit,
                         initialValue: model.phone,
-                        onSaved: (String value) => model.phone = value,
+                        onSaved: (String? value) => model.phone = value ?? '',
                       ),
                       // [/PhoneField]
                     ),
@@ -474,9 +528,28 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Telefone sem DDD*',
                         enabled: edit,
                         initialValue: model.localPhone,
-                        onSaved: (String value) => model.localPhone = value,
+                        onSaved: (String? value) =>
+                            model.localPhone = value ?? '',
                       ),
                       // [/LocalPhoneField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'MobilePhoneField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/mobile_local_phone_field.dart',
+                      child:
+                          // [MobilePhoneField]
+                          MobilePhoneField(
+                        labelPrefix: labelPrefix,
+                        label: 'Celular*',
+                        enabled: edit,
+                        initialValue: model.mobilePhone,
+                        onSaved: (String? value) =>
+                            model.mobilePhone = value ?? '',
+                      ),
+                      // [/MobilePhoneField]
                     ),
 
                     CodeLink(
@@ -547,7 +620,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'Mac Address*',
                         enabled: edit,
                         initialValue: model.macAddress,
-                        onSaved: (String value) => model.macAddress = value,
+                        onSaved: (String? value) => model.macAddress = value,
                       ),
                       // [/MacAddressField]
                     ),
@@ -564,7 +637,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'NCM*',
                         enabled: edit,
                         initialValue: model.ncm,
-                        onSaved: (String value) => model.ncm = value,
+                        onSaved: (String? value) => model.ncm = value,
                       ),
                       // [/NcmField]
                     ),
@@ -581,7 +654,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CEST*',
                         enabled: edit,
                         initialValue: model.cest,
-                        onSaved: (String value) => model.cest = value,
+                        onSaved: (String? value) => model.cest = value,
                       ),
                       // [/CestField]
                     ),
@@ -598,7 +671,7 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CNAE*',
                         enabled: edit,
                         initialValue: model.cnae,
-                        onSaved: (String value) => model.cnae = value,
+                        onSaved: (String? value) => model.cnae = value,
                       ),
                       // [/CnaeField]
                     ),
@@ -615,9 +688,43 @@ class MyHomePageState extends State<MyHomePage> {
                         label: 'CEP*',
                         enabled: edit,
                         initialValue: model.cep,
-                        onSaved: (String value) => model.cep = value,
+                        onSaved: (String? value) => model.cep = value,
                       ),
                       // [/CepField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'LicencePlateField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/licence_plate_field.dart',
+                      child:
+                          // [LicencePlateField]
+                          LicencePlateField(
+                        labelPrefix: labelPrefix,
+                        label: 'Licence Plate*',
+                        enabled: edit,
+                        initialValue: model.licencePlate,
+                        onSaved: (String? value) => model.licencePlate = value,
+                      ),
+                      // [/LicencePlateField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'Ipv4Field',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/ipv4_field.dart',
+                      child:
+                          // [Ipv4Field]
+                          Ipv4Field(
+                        labelPrefix: labelPrefix,
+                        label: 'IPv4*',
+                        enabled: edit,
+                        initialValue: model.ipv4,
+                        onSaved: (String? value) => model.ipv4 = value,
+                      ),
+                      // [/Ipv4Field]
                     ),
 
                     CodeLink(
@@ -667,11 +774,18 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/dropdown_field.dart',
                       child:
                           // [DropdownField]
-                          DropdownField<ExampleEnum>(
+                          DropdownField<ExampleEnum, Widget>(
                         labelPrefix: labelPrefix,
                         label: 'Ordinal',
                         enabled: edit,
-                        items: const ExampleEnumParser().items,
+                        items: ExampleEnum.values.asMap().map(
+                          (_, ExampleEnum value) {
+                            return MapEntry<ExampleEnum, Widget>(
+                              value,
+                              Text(value.value),
+                            );
+                          },
+                        ),
                         initialValue: model.ordinal,
                         validator: FollyValidators.notNull,
                         onSaved: (ExampleEnum? value) => model.ordinal = value!,
@@ -689,12 +803,15 @@ class MyHomePageState extends State<MyHomePage> {
                           MultilineField(
                         labelPrefix: labelPrefix,
                         label: 'Multiline*',
+                        counterText: null,
+                        maxLength: 600,
                         enabled: edit,
                         initialValue: model.multiline,
                         validator: FollyValidators.stringNotEmpty,
-                        onSaved: (String value) => model.multiline = value,
+                        onSaved: (String? value) =>
+                            model.multiline = value ?? '',
                         style: GoogleFonts.firaMono(
-                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          textStyle: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                       // [/MultilineField]
@@ -707,7 +824,7 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/model_field.dart',
                       child:
                           // [ModelField]
-                          ModelField<ExampleModel>(
+                          ModelField<ExampleModel, int>(
                         labelPrefix: labelPrefix,
                         label: 'Example Model*',
                         enabled: edit,
@@ -729,32 +846,87 @@ class MyHomePageState extends State<MyHomePage> {
                           'blob/main/lib/fields/list_field.dart',
                       child:
                           // [ListField]
-                          ListField<ExampleModel, ExampleBuilder>(
+                          ListField<ExampleModel, ExampleBuilder, int>(
                         enabled: edit,
                         initialValue: list,
-                        uiBuilder: ExampleBuilder(labelPrefix: labelPrefix),
-                        routeAddBuilder:
-                            (BuildContext context, ExampleBuilder uiBuilder) =>
-                                ExampleList(
+                        builder: ExampleBuilder(labelPrefix: labelPrefix),
+                        beforeDelete: (
+                          BuildContext context,
+                          int index,
+                          ExampleModel model,
+                        ) async =>
+                            model.integer.isEven,
+                        routeAddBuilder: (
+                          BuildContext context,
+                          ExampleBuilder uiBuilder,
+                        ) =>
+                            ExampleList(
                           labelPrefix: labelPrefix,
                           selection: true,
                           multipleSelection: true,
+                          invertSelection: true,
                         ),
                         routeEditBuilder: (
                           BuildContext context,
                           ExampleModel model,
-                          ExampleBuilder uiBuilder,
-                          bool edit,
-                        ) =>
+                          ExampleBuilder uiBuilder, {
+                          required bool edit,
+                        }) =>
                             ExampleEdit(
                           model,
                           uiBuilder,
                           const ExampleConsumer(),
                           edit: edit,
                         ),
+                        expandable: true,
+                        showClearAllButton: true,
+                        showCounter: true,
+                        showTopAddButton: true,
+                        onChanged: (List<ExampleModel> value) =>
+                            // ignore: avoid_print
+                            print('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
                     ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'ChoiceChipField',
+                      source: 'https://github.com/edufolly/folly_fields/'
+                          'blob/main/lib/fields/choice_chip_field.dart',
+                      child:
+                          // [ChoiceChipField]
+                          ChoiceChipField<int>(
+                        label: 'Frutas',
+                        enabled: edit,
+                        items: const <int, ChipEntry>{
+                          0: ChipEntry(
+                            '🍎Maça',
+                            color: Colors.red,
+                            selectedColor: Colors.redAccent,
+                          ),
+                          1: ChipEntry(
+                            '🍌Banana',
+                            color: Colors.yellow,
+                            selectedColor: Colors.yellowAccent,
+                          ),
+                          2: ChipEntry(
+                            '🍊Tangerina',
+                            color: Colors.orange,
+                            selectedColor: Colors.orangeAccent,
+                          ),
+                        },
+                        onChanged: (int? value, {required bool selected}) =>
+                            // ignore: avoid_print
+                            print('ChoiceChipField $value is'
+                                '${selected ? '' : ' NOT'} selected'),
+                        validator: FollyValidators.notEmpty,
+                        onSaved: (Set<int>? value) =>
+                            model.fruitIndex = value!.first,
+                      ),
+                      // [/ChoiceChipField]
+                    ),
+
                     // [/RootCode]
 
                     /// Botão Enviar
@@ -792,7 +964,7 @@ class MyHomePageState extends State<MyHomePage> {
 
       FollyDialogs.dialogMessage(
         context: context,
-        title: 'Resultado do método toMap()',
+        title: 'Resultado do método toMap(). O blob é mostrado como base64.',
         message: model.toMap().toString(),
       );
     }

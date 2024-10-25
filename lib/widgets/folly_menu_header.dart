@@ -37,6 +37,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color localForeground = color ?? Theme.of(context).colorScheme.onPrimary;
+
     Color localBackground = background ?? Theme.of(context).colorScheme.primary;
 
     return Container(
@@ -181,7 +182,10 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     name,
-                    style: Theme.of(context).primaryTextTheme.bodyText1,
+                    style:
+                        Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(
+                              color: foreground,
+                            ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -205,7 +209,10 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     email,
-                    style: Theme.of(context).primaryTextTheme.bodyText2,
+                    style:
+                        Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(
+                              color: foreground,
+                            ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -235,7 +242,12 @@ class FollyUserHeader<O> extends StatelessWidget {
                   Expanded(
                     child: Text(
                       companyName,
-                      style: Theme.of(context).primaryTextTheme.bodyText2,
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .bodyMedium
+                          ?.copyWith(
+                            color: foreground,
+                          ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -260,6 +272,7 @@ class FollyUserHeader<O> extends StatelessWidget {
       if (email.length < 2) {
         return '??';
       }
+
       return email.substring(0, 2);
     }
 

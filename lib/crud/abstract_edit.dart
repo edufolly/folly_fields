@@ -2,50 +2,77 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:folly_fields/crud/abstract_builder.dart';
 import 'package:folly_fields/crud/abstract_consumer.dart';
-import 'package:folly_fields/crud/abstract_edit_content.dart';
 import 'package:folly_fields/crud/abstract_edit_controller.dart';
-import 'package:folly_fields/crud/abstract_function.dart';
 import 'package:folly_fields/crud/abstract_model.dart';
 import 'package:folly_fields/crud/abstract_route.dart';
-import 'package:folly_fields/crud/abstract_ui_builder.dart';
-import 'package:folly_fields/crud/empty_edit_controller.dart';
+import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
-import 'package:folly_fields/widgets/model_function_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sprintf/sprintf.dart';
 
 ///
 ///
 ///
 abstract class AbstractEdit<
-        T extends AbstractModel<Object>,
-        UI extends AbstractUIBuilder<T>,
-        C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>> extends AbstractRoute
-    implements AbstractEditContent<T, E> {
+    T extends AbstractModel<ID>,
+    B extends AbstractBuilder<T, ID>,
+    C extends AbstractConsumer<T, ID>,
+    E extends AbstractEditController<T, ID>,
+    ID> extends AbstractRoute {
   final T model;
-  final UI uiBuilder;
+  final B builder;
   final C consumer;
   final bool edit;
   final E? editController;
   final CrossAxisAlignment rowCrossAxisAlignment;
-  final List<AbstractModelFunction<T>>? modelFunctions;
+  final Widget? Function(BuildContext context)? appBarLeading;
+  final void Function(BuildContext context, T? model)? afterSave;
+  final List<Widget> Function({
+    required BuildContext context,
+    required T model,
+  })? actions;
+  final String exitWithoutSaveMessage;
+  final String saveErrorText;
+  final String saveTooltip;
+  final String waitingMessage;
+  final double? leadingWidth;
 
   ///
   ///
   ///
   const AbstractEdit(
     this.model,
-    this.uiBuilder,
+    this.builder,
     this.consumer, {
     required this.edit,
     this.editController,
     this.rowCrossAxisAlignment = CrossAxisAlignment.start,
-    this.modelFunctions,
+    this.appBarLeading,
+    this.afterSave,
+    this.actions,
+    this.exitWithoutSaveMessage = 'Modificações foram realizadas.\n\n'
+        'Deseja sair mesmo assim?',
+    this.saveErrorText = 'Ocorreu um erro ao tentar salvar:\n%s',
+    this.saveTooltip = 'Salvar',
+    this.waitingMessage = 'Consultando...',
+    this.leadingWidth,
     super.key,
+  });
+
+  ///
+  ///
+  ///
+  List<Responsive> formContent(
+    BuildContext context,
+    T model, {
+    required bool edit,
+    bool Function()? formValidate,
+    void Function({required bool refresh})? refresh,
   });
 
   ///
@@ -57,28 +84,42 @@ abstract class AbstractEdit<
   ///
   ///
   ///
+  Future<void> onSaveError(
+    BuildContext context,
+    T? model,
+    Exception e,
+    StackTrace s,
+  ) async {
+    await FollyDialogs.dialogMessage(
+      context: context,
+      message: sprintf(saveErrorText, <String>[e.toString()]),
+    );
+  }
+
+  ///
+  ///
+  ///
   @override
-  AbstractEditState<T, UI, C, E> createState() =>
-      AbstractEditState<T, UI, C, E>();
+  AbstractEditState<T, B, C, E, ID> createState() =>
+      AbstractEditState<T, B, C, E, ID>();
 }
 
 ///
 ///
 ///
 class AbstractEditState<
-        T extends AbstractModel<Object>,
-        UI extends AbstractUIBuilder<T>,
-        C extends AbstractConsumer<T>,
-        E extends AbstractEditController<T>>
-    extends State<AbstractEdit<T, UI, C, E>>
+        T extends AbstractModel<ID>,
+        UI extends AbstractBuilder<T, ID>,
+        C extends AbstractConsumer<T, ID>,
+        E extends AbstractEditController<T, ID>,
+        ID> extends State<AbstractEdit<T, UI, C, E, ID>>
     with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final StreamController<bool> _controller = StreamController<bool>();
-  final StreamController<bool> _controllerModelFunctions =
-      StreamController<bool>();
 
   late T _model;
   int _initialHash = 0;
+  bool _alreadyPopped = false;
 
   ///
   ///
@@ -94,14 +135,10 @@ class AbstractEditState<
   ///
   Future<void> _loadData() async {
     try {
-      if (widget.model.id == null || widget.consumer.routeName.isEmpty) {
-        _model = widget.consumer.fromJson(widget.model.toMap());
-      } else {
-        _model = await widget.consumer.getById(context, widget.model);
-      }
+      _model = widget.consumer.fromJson(widget.model.toMap());
 
-      if (widget.modelFunctions != null) {
-        _controllerModelFunctions.add(true);
+      if (widget.model.id != null && widget.consumer.routeName.isNotEmpty) {
+        _model = await widget.consumer.getById(context, widget.model) ?? _model;
       }
 
       await widget.editController?.init(context, _model);
@@ -121,58 +158,23 @@ class AbstractEditState<
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.uiBuilder.superSingle(context)),
+        leading: widget.appBarLeading == null
+            ? null
+            : widget.appBarLeading!(context),
+        leadingWidth: widget.leadingWidth,
+        title: Text(widget.builder.superSingle(context)),
         actions: <Widget>[
-          SilentStreamBuilder<bool>(
-            stream: _controllerModelFunctions.stream,
-            initialData: false,
-            builder: (BuildContext context, bool data) => data
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: widget.modelFunctions!
-                        .asMap()
-                        .map(
-                          (
-                            int index,
-                            AbstractModelFunction<T> editFunction,
-                          ) =>
-                              MapEntry<int, Widget>(
-                            index,
-                            SilentFutureBuilder<ConsumerPermission>(
-                              future: widget.consumer.checkPermission(
-                                context,
-                                editFunction.routeName,
-                              ),
-                              builder: (
-                                BuildContext context,
-                                ConsumerPermission permission,
-                              ) {
-                                if (permission.view) {
-                                  _formKey.currentState!.save();
-
-                                  return ModelFunctionButton<T>(
-                                    rowFunction: editFunction,
-                                    permission: permission,
-                                    model: _model,
-                                    callback: (Object? object) =>
-                                        _controller.add(true),
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                        )
-                        .values
-                        .toList(),
-                  )
-                : const SizedBox.shrink(),
-          ),
+          /// Actions
+          if (widget.actions != null)
+            ...widget.actions!(
+              context: context,
+              model: _model,
+            ),
 
           /// Save Button
           if (widget.edit)
             IconButton(
-              tooltip: 'Salvar',
+              tooltip: widget.saveTooltip,
               icon: FaIcon(
                 widget.consumer.routeName.isEmpty
                     ? FontAwesomeIcons.check
@@ -182,35 +184,54 @@ class AbstractEditState<
             ),
         ],
       ),
-      bottomNavigationBar: widget.uiBuilder.buildBottomNavigationBar(context),
-      body: widget.uiBuilder.buildBackgroundContainer(
+      bottomNavigationBar: widget.builder.buildBottomNavigationBar(context),
+      body: widget.builder.buildEditBody(
         context,
+        _model,
         Form(
           key: _formKey,
-          onWillPop: () async {
+          canPop: false,
+          // TODO(edufolly): Check onPopInvokedWithResult
+          // ignore: deprecated_member_use
+          onPopInvoked: (_) {
+            if (_alreadyPopped) {
+              return;
+            }
+
             if (!widget.edit) {
-              return true;
+              _alreadyPopped = true;
+              Navigator.of(context).pop();
             }
 
             _formKey.currentState!.save();
             int currentHash = _model.hashCode;
 
-            bool go = true;
             if (_initialHash != currentHash) {
-              go = await FollyDialogs.yesNoDialog(
+              if (kDebugMode) {
+                print('Hash: $_initialHash - $currentHash');
+              }
+
+              FollyDialogs.yesNoDialog(
                 context: context,
-                message: 'Modificações foram realizadas.\n\n'
-                    'Deseja sair mesmo assim?',
-              );
+                message: widget.exitWithoutSaveMessage,
+              ).then((bool go) {
+                if (go) {
+                  _alreadyPopped = true;
+                  Navigator.of(context).pop();
+                }
+              });
+            } else {
+              _alreadyPopped = true;
+              Navigator.of(context).pop();
             }
-            return go;
           },
           child: SafeStreamBuilder<bool>(
             stream: _controller.stream,
-            waitingMessage: 'Consultando...',
+            waitingMessage: widget.waitingMessage,
             builder: (
               BuildContext context,
               bool data,
+              _,
             ) =>
                 SingleChildScrollView(
               padding: const EdgeInsets.all(24),
@@ -219,11 +240,10 @@ class AbstractEditState<
                 children: widget.formContent(
                   context,
                   _model,
-                  widget.uiBuilder.labelPrefix,
-                  _controller.add,
-                  _formKey.currentState!.validate,
-                  widget.editController ?? (EmptyEditController<T>() as E),
                   edit: widget.edit,
+                  formValidate: _formKey.currentState?.validate,
+                  refresh: ({required bool refresh}) =>
+                      _controller.add(refresh),
                 ),
               ),
             ),
@@ -238,7 +258,7 @@ class AbstractEditState<
   ///
   Future<void> _save() async {
     CircularWaiting wait = CircularWaiting(context);
-
+    T? model = _model;
     try {
       wait.show();
 
@@ -253,20 +273,26 @@ class AbstractEditState<
       }
 
       if (_formKey.currentState!.validate()) {
-        bool ok = true;
+        bool go = true;
 
         if (widget.consumer.routeName.isNotEmpty) {
-          ok = await widget.consumer.beforeSaveOrUpdate(context, _model);
-          if (ok) {
-            ok = await widget.consumer.saveOrUpdate(context, _model);
+          go = await widget.consumer.beforeSaveOrUpdate(context, _model);
+          if (go) {
+            model = await widget.consumer.saveOrUpdate(context, _model);
+            go = model != null;
           }
         }
 
         wait.close();
 
-        if (ok) {
+        if (go) {
           _initialHash = _model.hashCode;
-          Navigator.of(context).pop(_model);
+          if (widget.afterSave == null) {
+            _alreadyPopped = true;
+            Navigator.of(context).pop(model);
+          } else {
+            widget.afterSave?.call(context, model);
+          }
         }
       } else {
         wait.close();
@@ -278,10 +304,7 @@ class AbstractEditState<
         print('$e\n$s');
       }
 
-      await FollyDialogs.dialogMessage(
-        context: context,
-        message: 'Ocorreu um erro ao tentar salvar:\n$e',
-      );
+      await widget.onSaveError(context, model, e, s);
     }
   }
 
@@ -292,7 +315,6 @@ class AbstractEditState<
   void dispose() {
     widget.editController?.dispose(context);
     _controller.close();
-    _controllerModelFunctions.close();
     super.dispose();
   }
 }

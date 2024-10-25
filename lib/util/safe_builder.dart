@@ -1,3 +1,4 @@
+// ignore_for_file: prefer-match-file-name
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/widgets/error_message.dart';
@@ -16,12 +17,20 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-          onWait: (_, __) => const SizedBox.shrink(),
-          onError: (Object? error, StackTrace? stackTrace, _) {
+          onWait: (ConnectionState connectionState, Widget widget) =>
+              const SizedBox.shrink(),
+          onError: (
+            Object? error,
+            StackTrace? stackTrace,
+            Widget widget,
+            ConnectionState connectionState,
+          ) {
             if (kDebugMode) {
+              print(connectionState);
               print(error);
               print(stackTrace);
             }
+
             return const SizedBox.shrink();
           },
         );
@@ -33,11 +42,16 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
 class SafeFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
   final T? initialData;
-  final Widget Function(BuildContext context, T data) builder;
+  final Widget Function(
+    BuildContext context,
+    T data,
+    ConnectionState connectionState,
+  ) builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
+    ConnectionState connectionState,
   )? onError;
   final Widget Function(
     ConnectionState connectionState,
@@ -56,7 +70,7 @@ class SafeFutureBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     super.key,
-  })  : assert(
+  }) : assert(
           onWait == null || waitingMessage == null,
           'onWait or waitingMessage must be null.',
         );
@@ -76,24 +90,25 @@ class SafeFutureBuilder<T> extends StatelessWidget {
             stackTrace: snapshot.stackTrace,
           );
 
-          if (onError != null) {
-            return onError!(snapshot.error, snapshot.stackTrace, child);
-          } else {
-            return child;
-          }
+          return onError != null
+              ? onError!(
+                  snapshot.error,
+                  snapshot.stackTrace,
+                  child,
+                  snapshot.connectionState,
+                )
+              : child;
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
+          return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);
 
-        if (onWait != null) {
-          return onWait!(snapshot.connectionState, child);
-        } else {
-          return child;
-        }
+        return onWait != null
+            ? onWait!(snapshot.connectionState, child)
+            : child;
       },
     );
   }
@@ -112,12 +127,20 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-          onWait: (_, __) => const SizedBox.shrink(),
-          onError: (Object? error, StackTrace? stackTrace, _) {
+          onWait: (ConnectionState connectionState, Widget widget) =>
+              const SizedBox.shrink(),
+          onError: (
+            Object? error,
+            StackTrace? stackTrace,
+            Widget widget,
+            ConnectionState connectionState,
+          ) {
             if (kDebugMode) {
+              print(connectionState);
               print(error);
               print(stackTrace);
             }
+
             return const SizedBox.shrink();
           },
         );
@@ -129,11 +152,16 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
 class SafeStreamBuilder<T> extends StatelessWidget {
   final Stream<T>? stream;
   final T? initialData;
-  final Widget Function(BuildContext context, T data) builder;
+  final Widget Function(
+    BuildContext context,
+    T data,
+    ConnectionState connectionState,
+  ) builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
+    ConnectionState connectionState,
   )? onError;
   final Widget Function(
     ConnectionState connectionState,
@@ -152,7 +180,7 @@ class SafeStreamBuilder<T> extends StatelessWidget {
     this.onWait,
     this.waitingMessage,
     super.key,
-  })  : assert(
+  }) : assert(
           onWait == null || waitingMessage == null,
           'onWait or waitingMessage must be null.',
         );
@@ -172,24 +200,25 @@ class SafeStreamBuilder<T> extends StatelessWidget {
             stackTrace: snapshot.stackTrace,
           );
 
-          if (onError != null) {
-            return onError!(snapshot.error, snapshot.stackTrace, child);
-          } else {
-            return child;
-          }
+          return onError != null
+              ? onError!(
+                  snapshot.error,
+                  snapshot.stackTrace,
+                  child,
+                  snapshot.connectionState,
+                )
+              : child;
         }
 
         if (snapshot.hasData) {
-          return builder(context, snapshot.data as T);
+          return builder(context, snapshot.data as T, snapshot.connectionState);
         }
 
         Widget child = WaitingMessage(message: waitingMessage);
 
-        if (onWait != null) {
-          return onWait!(snapshot.connectionState, child);
-        } else {
-          return child;
-        }
+        return onWait != null
+            ? onWait!(snapshot.connectionState, child)
+            : child;
       },
     );
   }
