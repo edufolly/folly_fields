@@ -200,7 +200,7 @@ class AbstractEditState<
 
             if (!widget.edit) {
               _alreadyPopped = true;
-              Navigator.of(context).pop();
+              Navigator.maybePop(context);
             }
 
             _formKey.currentState!.save();
@@ -217,12 +217,12 @@ class AbstractEditState<
               ).then((bool go) {
                 if (go) {
                   _alreadyPopped = true;
-                  Navigator.of(context).pop();
+                  Navigator.maybePop(context);
                 }
               });
             } else {
               _alreadyPopped = true;
-              Navigator.of(context).pop();
+              Navigator.maybePop(context);
             }
           },
           child: SafeStreamBuilder<bool>(
