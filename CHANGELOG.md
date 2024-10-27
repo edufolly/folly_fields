@@ -1,3 +1,7 @@
+## [3.4.1] - 2024-10-27
+
+* Fixing AbstractEdit Navigator pop, by [rilpires](https://github.com/rilpires).
+
 ## [3.4.0] - 2024-09-22
 
 * Adding BasicTable.
