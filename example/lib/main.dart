@@ -247,7 +247,7 @@ class MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Folly Fields'),
+        title: Text('Folly Fields ${Config().version}'),
         actions: Config().isMobile
             ? <PopupMenuButton<MyMenuItem>>[
                 PopupMenuButton<MyMenuItem>(
