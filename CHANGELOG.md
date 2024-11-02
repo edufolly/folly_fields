@@ -1,3 +1,7 @@
+## [3.5.0] - 2024-11-02
+
+* Adding package_info_plus to provide version string in AbstractConfig.
+
 ## [3.4.1] - 2024-10-27
 
 * Fixing AbstractEdit Navigator pop, by [rilpires](https://github.com/rilpires).
