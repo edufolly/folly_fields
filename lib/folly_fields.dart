@@ -24,6 +24,7 @@ class FollyFields implements _InternalConfig {
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
     Connectivity? connectivity,
+    PackageInfo? packageInfo,
   }) =>
       FollyFields()._holder = holder
         .._start(
@@ -34,6 +35,7 @@ class FollyFields implements _InternalConfig {
           dateParseDelete: dateParseDelete,
           responsiveSizes: responsiveSizes,
           connectivity: connectivity,
+          packageInfo: packageInfo,
         );
 
   late AbstractConfig _holder;
@@ -399,6 +401,7 @@ abstract class AbstractConfig implements _InternalConfig {
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
     Connectivity? connectivity,
+    PackageInfo? packageInfo,
   }) async {
     if (_started) {
       if (kDebugMode) {
@@ -435,7 +438,7 @@ abstract class AbstractConfig implements _InternalConfig {
         _platform = RunningPlatform.fuchsia;
       }
 
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      packageInfo ??= await PackageInfo.fromPlatform();
 
       _version = packageInfo.version;
 
