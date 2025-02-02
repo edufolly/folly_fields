@@ -77,23 +77,15 @@ class FollyUtils {
     Color color, {
     Color darkColor = Colors.black,
     Color lightColor = Colors.white,
-    double redFactor = 0.299,
-    double greenFactor = 0.587,
-    double blueFactor = 0.114,
-    double threshold = 186,
+    double threshold = 0.183,
   }) =>
-      color.red * redFactor +
-                  color.green * greenFactor +
-                  color.blue * blueFactor >
-              threshold
-          ? darkColor
-          : lightColor;
+      color.computeLuminance() > threshold ? darkColor : lightColor;
 
   ///
   ///
   ///
   static String colorHex(Color color) =>
-      color.value.toRadixString(16).toUpperCase().padLeft(8, '0');
+      colorToInt(color).toRadixString(16).toUpperCase().padLeft(8, '0');
 
   ///
   ///
@@ -144,7 +136,7 @@ class FollyUtils {
     }
 
     return MaterialColor(
-      color.value,
+      colorToInt(color),
       <int, Color>{
         50: color,
         100: color,
@@ -158,5 +150,16 @@ class FollyUtils {
         900: color,
       },
     );
+  }
+
+  static int _floatToInt8(double x) {
+    return (x * 255.0).round() & 0xff;
+  }
+
+  static int colorToInt(Color color) {
+    return _floatToInt8(color.a) << 24 |
+        _floatToInt8(color.r) << 16 |
+        _floatToInt8(color.g) << 8 |
+        _floatToInt8(color.b) << 0;
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///
-/// Gerado para: font_awesome_flutter: 10.6.0
+/// Gerado para: font_awesome_flutter: 10.8.0
 ///
 class IconHelper {
   ///
@@ -293,6 +293,7 @@ class IconHelper {
     'blog': FontAwesomeIcons.blog,
     'blogger': FontAwesomeIcons.blogger,
     'bloggerB': FontAwesomeIcons.bloggerB,
+    'bluesky': FontAwesomeIcons.bluesky,
     'bluetooth': FontAwesomeIcons.bluetooth,
     'bluetoothB': FontAwesomeIcons.bluetoothB,
     'bold': FontAwesomeIcons.bold,
@@ -740,6 +741,7 @@ class IconHelper {
     'dAndD': FontAwesomeIcons.dAndD,
     'dAndDBeyond': FontAwesomeIcons.dAndDBeyond,
     'dailymotion': FontAwesomeIcons.dailymotion,
+    'dartLang': FontAwesomeIcons.dartLang,
     'dashcube': FontAwesomeIcons.dashcube,
     'database': FontAwesomeIcons.database,
     'debian': FontAwesomeIcons.debian,
@@ -1132,6 +1134,7 @@ class IconHelper {
     'floppyDisk': FontAwesomeIcons.floppyDisk,
     'save': FontAwesomeIcons.floppyDisk,
     'florinSign': FontAwesomeIcons.florinSign,
+    'flutter': FontAwesomeIcons.flutter,
     'fly': FontAwesomeIcons.fly,
     'solidFolder': FontAwesomeIcons.solidFolder,
     'solidFolderBlank': FontAwesomeIcons.solidFolder,
@@ -1503,6 +1506,7 @@ class IconHelper {
     'js': FontAwesomeIcons.js,
     'jsfiddle': FontAwesomeIcons.jsfiddle,
     'jugDetergent': FontAwesomeIcons.jugDetergent,
+    'jxl': FontAwesomeIcons.jxl,
     'k': FontAwesomeIcons.k,
     'kaaba': FontAwesomeIcons.kaaba,
     'kaggle': FontAwesomeIcons.kaggle,
@@ -1513,6 +1517,7 @@ class IconHelper {
     'keycdn': FontAwesomeIcons.keycdn,
     'khanda': FontAwesomeIcons.khanda,
     'kickstarter': FontAwesomeIcons.kickstarter,
+    'squareKickstarter': FontAwesomeIcons.kickstarter,
     'kickstarterK': FontAwesomeIcons.kickstarterK,
     'kipSign': FontAwesomeIcons.kipSign,
     'kitMedical': FontAwesomeIcons.kitMedical,
@@ -2305,11 +2310,14 @@ class IconHelper {
     'twitterSquare': FontAwesomeIcons.squareTwitter,
     'squareUpRight': FontAwesomeIcons.squareUpRight,
     'externalLinkSquareAlt': FontAwesomeIcons.squareUpRight,
+    'squareUpwork': FontAwesomeIcons.squareUpwork,
     'squareViadeo': FontAwesomeIcons.squareViadeo,
     'viadeoSquare': FontAwesomeIcons.squareViadeo,
     'squareVimeo': FontAwesomeIcons.squareVimeo,
     'vimeoSquare': FontAwesomeIcons.squareVimeo,
     'squareVirus': FontAwesomeIcons.squareVirus,
+    'squareWebAwesome': FontAwesomeIcons.squareWebAwesome,
+    'squareWebAwesomeStroke': FontAwesomeIcons.squareWebAwesomeStroke,
     'squareWhatsapp': FontAwesomeIcons.squareWhatsapp,
     'whatsappSquare': FontAwesomeIcons.squareWhatsapp,
     'squareXTwitter': FontAwesomeIcons.squareXTwitter,
@@ -2386,8 +2394,11 @@ class IconHelper {
     'table': FontAwesomeIcons.table,
     'tableCells': FontAwesomeIcons.tableCells,
     'th': FontAwesomeIcons.tableCells,
+    'tableCellsColumnLock': FontAwesomeIcons.tableCellsColumnLock,
     'tableCellsLarge': FontAwesomeIcons.tableCellsLarge,
     'thLarge': FontAwesomeIcons.tableCellsLarge,
+    'tableCellsRowLock': FontAwesomeIcons.tableCellsRowLock,
+    'tableCellsRowUnlock': FontAwesomeIcons.tableCellsRowUnlock,
     'tableColumns': FontAwesomeIcons.tableColumns,
     'columns': FontAwesomeIcons.tableColumns,
     'tableList': FontAwesomeIcons.tableList,
@@ -2467,6 +2478,8 @@ class IconHelper {
     'thumbsUp': FontAwesomeIcons.thumbsUp,
     'thumbtack': FontAwesomeIcons.thumbtack,
     'thumbTack': FontAwesomeIcons.thumbtack,
+    'thumbtackSlash': FontAwesomeIcons.thumbtackSlash,
+    'thumbTackSlash': FontAwesomeIcons.thumbtackSlash,
     'ticket': FontAwesomeIcons.ticket,
     'ticketSimple': FontAwesomeIcons.ticketSimple,
     'ticketAlt': FontAwesomeIcons.ticketSimple,
@@ -2685,6 +2698,8 @@ class IconHelper {
     'swimmingPool': FontAwesomeIcons.waterLadder,
     'waveSquare': FontAwesomeIcons.waveSquare,
     'waze': FontAwesomeIcons.waze,
+    'solidWebAwesome': FontAwesomeIcons.solidWebAwesome,
+    'brandsWebAwesome': FontAwesomeIcons.brandsWebAwesome,
     'webflow': FontAwesomeIcons.webflow,
     'weebly': FontAwesomeIcons.weebly,
     'weibo': FontAwesomeIcons.weibo,

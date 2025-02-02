@@ -1,3 +1,11 @@
+## [3.6.0] - 2025-02-02
+
+* Updating to Flutter 3.27.0 and Dart 3.6.0.
+* Removing connectivity_plus plugin.
+* Updating FontAwesome to 10.8.0.
+* Updating FollyUtils.textColorByLuminance to use Colors.computeLuminance.
+* Fixing deprecated methods.
+
 ## [3.5.0] - 2024-11-02
 
 * Adding package_info_plus to provide version string in AbstractConfig.

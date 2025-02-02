@@ -5,7 +5,6 @@ import 'package:folly_fields/util/model_utils.dart';
 import '../../mocks/crud/mock_string_consumer.dart';
 import '../../mocks/crud/mock_string_model.dart';
 import '../../mocks/mock_config.dart';
-import '../../mocks/mock_connectivity.dart';
 import '../../mocks/mock_package_info.dart';
 
 ///
@@ -18,7 +17,6 @@ void main() {
     () {
       FollyFields.start(
         MockConfig(),
-        connectivity: MockConnectivity(),
         packageInfo: MockPackageInfo(),
       );
 
