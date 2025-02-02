@@ -40,7 +40,7 @@ class AnimatedSearchState extends State<AnimatedSearch> {
       width: expanded ? widget.maxSize : 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +71,10 @@ class AnimatedSearchState extends State<AnimatedSearch> {
               padding: const EdgeInsets.fromLTRB(0, 12, 8, 12),
               child: Icon(
                 FontAwesomeIcons.magnifyingGlass,
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6),
               ),
             ),
           ),

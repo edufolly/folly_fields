@@ -12,7 +12,7 @@ void main() {
   const Color staticColor = Colors.black;
 
   MaterialColor staticMaterialColor = MaterialColor(
-    staticColor.value,
+    FollyUtils.colorToInt(staticColor),
     const <int, Color>{
       50: staticColor,
       100: staticColor,
@@ -46,7 +46,9 @@ void main() {
       test(
         'Testing Integer Color',
         () => expect(
-          FollyUtils.createMaterialColor(intColor: staticColor.value),
+          FollyUtils.createMaterialColor(
+            intColor: FollyUtils.colorToInt(staticColor),
+          ),
           staticMaterialColor,
         ),
       );

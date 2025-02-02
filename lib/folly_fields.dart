@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
@@ -23,7 +22,6 @@ class FollyFields implements _InternalConfig {
     List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
-    Connectivity? connectivity,
     PackageInfo? packageInfo,
   }) =>
       FollyFields()._holder = holder
@@ -34,7 +32,6 @@ class FollyFields implements _InternalConfig {
           dateParseUpdate: dateParseUpdate,
           dateParseDelete: dateParseDelete,
           responsiveSizes: responsiveSizes,
-          connectivity: connectivity,
           packageInfo: packageInfo,
         );
 
@@ -57,18 +54,6 @@ class FollyFields implements _InternalConfig {
   ///
   @override
   String get version => _holder.version;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOffline => _holder.isOffline;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOnline => _holder.isOnline;
 
   ///
   ///
@@ -205,16 +190,6 @@ abstract class _InternalConfig {
   ///
   ///
   ///
-  bool get isOnline;
-
-  ///
-  ///
-  ///
-  bool get isOffline;
-
-  ///
-  ///
-  ///
   bool get isWeb;
 
   ///
@@ -284,7 +259,6 @@ abstract class _InternalConfig {
 abstract class AbstractConfig implements _InternalConfig {
   bool _started = false;
   String _version = '0.0.0';
-  bool _online = false;
   RunningPlatform _platform = RunningPlatform.unknown;
   String _modelIdKey = 'id';
   String _modelUpdatedAtKey = 'updatedAt';
@@ -298,18 +272,6 @@ abstract class AbstractConfig implements _InternalConfig {
   ///
   @override
   String get version => _version;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOnline => _online;
-
-  ///
-  ///
-  ///
-  @override
-  bool get isOffline => !_online;
 
   ///
   ///
@@ -400,7 +362,6 @@ abstract class AbstractConfig implements _InternalConfig {
     required List<double> responsiveSizes,
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
-    Connectivity? connectivity,
     PackageInfo? packageInfo,
   }) async {
     if (_started) {
@@ -441,26 +402,6 @@ abstract class AbstractConfig implements _InternalConfig {
       packageInfo ??= await PackageInfo.fromPlatform();
 
       _version = packageInfo.version;
-
-      connectivity ??= Connectivity();
-
-      List<ConnectivityResult> result = await connectivity.checkConnectivity();
-
-      _online = result.fold(
-        false,
-        (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
-      );
-
-      connectivity.onConnectivityChanged
-          .listen((List<ConnectivityResult> result) {
-        _online = result.fold(
-          false,
-          (bool p, ConnectivityResult e) => p || e != ConnectivityResult.none,
-        );
-        if (kDebugMode) {
-          print('Connectivity Changed: $_online');
-        }
-      });
     }
   }
 }

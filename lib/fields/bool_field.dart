@@ -85,7 +85,7 @@ class BoolField extends ResponsiveFormField<bool> {
 
             TextStyle textStyle =
                 Theme.of(field.context).textTheme.titleMedium!.copyWith(
-                      color: textColor?.withOpacity(enabled ? 1 : 0.4),
+                      color: textColor?.withValues(alpha: enabled ? 1 : 0.4),
                       overflow: textOverflow,
                     );
 
