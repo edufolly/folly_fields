@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Folly Fields - lib/validators/lib/validators/phone_validator.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">lib/validators/lib/validators</a> - phone_validator.dart<span style="font-size: 80%;"> (source / <a href="phone_validator.dart.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Folly Fields</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">71.4&nbsp;%</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntry">10</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-02-02 23:55:07</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:flutter/services.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:folly_fields/util/mask_text_input_formatter.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:folly_fields/validators/abstract_validator.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : </span>
+<span id="L5"><span class="lineNum">       5</span>              : ///</span>
+<span id="L6"><span class="lineNum">       6</span>              : ///</span>
+<span id="L7"><span class="lineNum">       7</span>              : ///</span>
+<span id="L8"><span class="lineNum">       8</span>              : class PhoneValidator extends AbstractValidator&lt;String&gt; {</span>
+<span id="L9"><span class="lineNum">       9</span>              :   ///</span>
+<span id="L10"><span class="lineNum">      10</span>              :   ///</span>
+<span id="L11"><span class="lineNum">      11</span>              :   ///</span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC tlaBgGNC">           1 :   PhoneValidator()</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :       : super(</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           1 :           &lt;TextInputFormatter&gt;[</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :             ChangeMask(</span></span>
+<span id="L16"><span class="lineNum">      16</span>              :               firstMask: '(##) ####-####',</span>
+<span id="L17"><span class="lineNum">      17</span>              :               secondMask: '(##) #####-####',</span>
+<span id="L18"><span class="lineNum">      18</span>              :             ),</span>
+<span id="L19"><span class="lineNum">      19</span>              :           ],</span>
+<span id="L20"><span class="lineNum">      20</span>              :         );</span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span>              :   ///</span>
+<span id="L23"><span class="lineNum">      23</span>              :   ///</span>
+<span id="L24"><span class="lineNum">      24</span>              :   ///</span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :   String format(String value) =&gt; strip(value).replaceAllMapped(</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         RegExp(r'^(\d{2})(\d{4,5})(\d{4})$'),</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :         (Match m) =&gt; '(${m[1]}) ${m[2]}-${m[3]}',</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :       );</span>
+<span id="L30"><span class="lineNum">      30</span>              : </span>
+<span id="L31"><span class="lineNum">      31</span>              :   ///</span>
+<span id="L32"><span class="lineNum">      32</span>              :   ///</span>
+<span id="L33"><span class="lineNum">      33</span>              :   ///</span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
+<span id="L35"><span class="lineNum">      35</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
+<span id="L36"><span class="lineNum">      36</span>              : </span>
+<span id="L37"><span class="lineNum">      37</span>              :   ///</span>
+<span id="L38"><span class="lineNum">      38</span>              :   ///</span>
+<span id="L39"><span class="lineNum">      39</span>              :   ///</span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L41"><span class="lineNum">      41</span>              :   bool isValid(String value) {</span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           1 :     String v = strip(value);</span></span>
+<span id="L43"><span class="lineNum">      43</span>              : </span>
+<span id="L44"><span class="lineNum">      44</span>              :     /// phone must have 10 or 11 chars</span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           4 :     if (v.length &lt; 10 || v.length &gt; 11) {</span></span>
+<span id="L46"><span class="lineNum">      46</span>              :       return false;</span>
+<span id="L47"><span class="lineNum">      47</span>              :     }</span>
+<span id="L48"><span class="lineNum">      48</span>              : </span>
+<span id="L49"><span class="lineNum">      49</span>              :     /// Não existe DDD com zero.</span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           4 :     if (v[0] == '0' || v[1] == '0') {</span></span>
+<span id="L51"><span class="lineNum">      51</span>              :       return false;</span>
+<span id="L52"><span class="lineNum">      52</span>              :     }</span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              :     /// Telefones celulares sempre iniciam com 9.</span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           4 :     return !(v.length == 11 &amp;&amp; v[2] != '9');</span></span>
+<span id="L56"><span class="lineNum">      56</span>              :   }</span>
+<span id="L57"><span class="lineNum">      57</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
