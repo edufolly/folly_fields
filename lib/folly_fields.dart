@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 ///
 ///
@@ -22,7 +21,6 @@ class FollyFields implements _InternalConfig {
     List<double> responsiveSizes = const <double>[540, 720, 960, 1140],
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
-    PackageInfo? packageInfo,
   }) =>
       FollyFields()._holder = holder
         .._start(
@@ -32,7 +30,6 @@ class FollyFields implements _InternalConfig {
           dateParseUpdate: dateParseUpdate,
           dateParseDelete: dateParseDelete,
           responsiveSizes: responsiveSizes,
-          packageInfo: packageInfo,
         );
 
   late AbstractConfig _holder;
@@ -48,12 +45,6 @@ class FollyFields implements _InternalConfig {
   ///
   ///
   FollyFields._internal();
-
-  ///
-  ///
-  ///
-  @override
-  String get version => _holder.version;
 
   ///
   ///
@@ -185,11 +176,6 @@ abstract class _InternalConfig {
   ///
   ///
   ///
-  String get version;
-
-  ///
-  ///
-  ///
   bool get isWeb;
 
   ///
@@ -258,7 +244,6 @@ abstract class _InternalConfig {
 ///
 abstract class AbstractConfig implements _InternalConfig {
   bool _started = false;
-  String _version = '0.0.0';
   RunningPlatform _platform = RunningPlatform.unknown;
   String _modelIdKey = 'id';
   String _modelUpdatedAtKey = 'updatedAt';
@@ -266,12 +251,6 @@ abstract class AbstractConfig implements _InternalConfig {
   FollyDateParse? _dateParseUpdate;
   FollyDateParse? _dateParseDelete;
   List<double> _responsiveSizes = const <double>[540, 720, 960, 1140];
-
-  ///
-  ///
-  ///
-  @override
-  String get version => _version;
 
   ///
   ///
@@ -362,7 +341,6 @@ abstract class AbstractConfig implements _InternalConfig {
     required List<double> responsiveSizes,
     FollyDateParse? dateParseUpdate,
     FollyDateParse? dateParseDelete,
-    PackageInfo? packageInfo,
   }) async {
     if (_started) {
       if (kDebugMode) {
@@ -398,10 +376,6 @@ abstract class AbstractConfig implements _InternalConfig {
       } else if (Platform.isFuchsia) {
         _platform = RunningPlatform.fuchsia;
       }
-
-      packageInfo ??= await PackageInfo.fromPlatform();
-
-      _version = packageInfo.version;
     }
   }
 }
