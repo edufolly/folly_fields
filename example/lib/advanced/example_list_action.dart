@@ -98,7 +98,7 @@ class _ExampleListActionState extends State<ExampleListAction> {
                         '${widget.model.originalMap.values.elementAt(index)}',
                       ),
                     ),
-                    separatorBuilder: (_, __) => const FollyDivider(),
+                    separatorBuilder: (_, _) => const FollyDivider(),
                     itemCount: widget.model.originalMap.keys.length,
                   )
                 : const Center(
