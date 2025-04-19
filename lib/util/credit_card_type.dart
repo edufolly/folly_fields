@@ -1,5 +1,3 @@
-// ignore_for_file: always_specify_types
-
 ///
 ///
 /// https://github.com/braintree/credit-card-type/blob/main/src/lib/card-types.ts
@@ -9,20 +7,18 @@ enum CreditCardType {
   visa(
     brand: 'Visa',
     mask: '#### #### #### #### ###',
-    lengths: [16, 18, 19],
-    code: CreditCardCode('CVV', [3]),
-    patterns: {
-      Range(4),
-    },
+    lengths: <int>[16, 18, 19],
+    code: CreditCardCode('CVV', <int>[3]),
+    patterns: <Range>{Range(4)},
   ),
 
   /// Mastercard
   mastercard(
     brand: 'Master',
     mask: '#### #### #### ####',
-    lengths: [16],
-    code: CreditCardCode('CVC', [3]),
-    patterns: {
+    lengths: <int>[16],
+    code: CreditCardCode('CVC', <int>[3]),
+    patterns: <Range>{
       Range(51, 55),
       Range(2221, 2229),
       Range(223, 229),
@@ -30,70 +26,54 @@ enum CreditCardType {
       Range(270, 271),
       Range(2720),
     },
-    extraBrands: ['mastercard'],
+    extraBrands: <String>['mastercard'],
   ),
 
   /// American Express
   amex(
     brand: 'Amex',
     mask: '#### ###### #####',
-    lengths: [15],
-    code: CreditCardCode('CID', [4]),
-    patterns: {
-      Range(34),
-      Range(37),
-    },
-    extraBrands: ['americanexpress'],
+    lengths: <int>[15],
+    code: CreditCardCode('CID', <int>[4]),
+    patterns: <Range>{Range(34), Range(37)},
+    extraBrands: <String>['americanexpress'],
   ),
 
   /// Diners Club
   dinersclub(
     brand: 'Diners',
     mask: '#### ###### #########',
-    lengths: [14, 16, 19],
-    code: CreditCardCode('CVV', [3]),
-    patterns: {
-      Range(300, 305),
-      Range(36),
-      Range(38),
-      Range(39),
-    },
-    extraBrands: ['dinersclub'],
+    lengths: <int>[14, 16, 19],
+    code: CreditCardCode('CVV', <int>[3]),
+    patterns: <Range>{Range(300, 305), Range(36), Range(38), Range(39)},
+    extraBrands: <String>['dinersclub'],
   ),
 
   /// Discover
   discover(
     brand: 'Discover',
     mask: '#### #### #### #### ###',
-    lengths: [16, 19],
-    code: CreditCardCode('CID', [3]),
-    patterns: {
-      Range(6011),
-      Range(644, 649),
-      Range(65),
-    },
+    lengths: <int>[16, 19],
+    code: CreditCardCode('CID', <int>[3]),
+    patterns: <Range>{Range(6011), Range(644, 649), Range(65)},
   ),
 
   /// JCB
   jcb(
     brand: 'JCB',
     mask: '#### #### #### #### ###',
-    lengths: [16, 17, 18, 19],
-    code: CreditCardCode('CVV', [3]),
-    patterns: {
-      Range(2131),
-      Range(1800),
-      Range(3528, 3589),
-    },
+    lengths: <int>[16, 17, 18, 19],
+    code: CreditCardCode('CVV', <int>[3]),
+    patterns: <Range>{Range(2131), Range(1800), Range(3528, 3589)},
   ),
 
   /// UnionPay
   unionpay(
     brand: 'UnionPay',
     mask: '#### #### #### #### ###',
-    lengths: [14, 15, 16, 17, 18, 19],
-    code: CreditCardCode('CVN', [3]),
-    patterns: {
+    lengths: <int>[14, 15, 16, 17, 18, 19],
+    code: CreditCardCode('CVN', <int>[3]),
+    patterns: <Range>{
       Range(620),
       Range(62100, 62182),
       Range(62184, 62187),
@@ -124,9 +104,9 @@ enum CreditCardType {
   maestro(
     brand: 'Maestro',
     mask: '#### #### #### #### ###',
-    lengths: [12, 13, 14, 15, 16, 17, 18, 19],
-    code: CreditCardCode('CVC', [3]),
-    patterns: {
+    lengths: <int>[12, 13, 14, 15, 16, 17, 18, 19],
+    code: CreditCardCode('CVC', <int>[3]),
+    patterns: <Range>{
       Range(493698),
       Range(500000, 504174),
       Range(504176, 506698),
@@ -142,9 +122,9 @@ enum CreditCardType {
   elo(
     brand: 'Elo',
     mask: '#### #### #### ####',
-    lengths: [16],
-    code: CreditCardCode('CVE', [3]),
-    patterns: {
+    lengths: <int>[16],
+    code: CreditCardCode('CVE', <int>[3]),
+    patterns: <Range>{
       Range(401178),
       Range(401179),
       Range(438935),
@@ -177,20 +157,18 @@ enum CreditCardType {
   mir(
     brand: 'Mir',
     mask: '#### #### #### #### ###',
-    lengths: [16, 17, 18, 19],
-    code: CreditCardCode('CVP2', [3]),
-    patterns: {
-      Range(2200, 2204),
-    },
+    lengths: <int>[16, 17, 18, 19],
+    code: CreditCardCode('CVP2', <int>[3]),
+    patterns: <Range>{Range(2200, 2204)},
   ),
 
   /// Hiper
   hiper(
     brand: 'Hiper',
     mask: '#### #### #### ####',
-    lengths: [16],
-    code: CreditCardCode('CVC', [3]),
-    patterns: {
+    lengths: <int>[16],
+    code: CreditCardCode('CVC', <int>[3]),
+    patterns: <Range>{
       Range(637095),
       Range(63737423),
       Range(63743358),
@@ -205,20 +183,18 @@ enum CreditCardType {
   hipercard(
     brand: 'Hipercard',
     mask: '#### #### #### ####',
-    lengths: [16],
-    code: CreditCardCode('CVC', [3]),
-    patterns: {
-      Range(606282),
-    },
+    lengths: <int>[16],
+    code: CreditCardCode('CVC', <int>[3]),
+    patterns: <Range>{Range(606282)},
   ),
 
   /// Unknown
   unknown(
     brand: 'Unknown',
     mask: '#### #### #### #### ###',
-    lengths: [12, 13, 14, 15, 16, 17, 18, 19],
-    code: CreditCardCode('CVV', [3, 4]),
-    patterns: {},
+    lengths: <int>[12, 13, 14, 15, 16, 17, 18, 19],
+    code: CreditCardCode('CVV', <int>[3, 4]),
+    patterns: <Range>{},
   );
 
   ///
@@ -318,20 +294,22 @@ enum CreditCardType {
   ///
   ///
   ///
-  static CreditCardType parse(String? value) =>
-      CreditCardType.values.firstWhere(
-        (CreditCardType type) {
-          String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
+  static CreditCardType parse(String? value) {
+    return CreditCardType.values.firstWhere(
+      (CreditCardType type) {
+        String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
 
-          return type.brand.toLowerCase() == newValue ||
-              type.extraBrands.fold<bool>(
-                false,
-                (bool previous, String element) =>
-                    previous || element.toLowerCase() == newValue,
-              );
-        },
-        orElse: () => CreditCardType.unknown,
-      );
+        return type.brand.toLowerCase() == newValue ||
+            type.extraBrands.fold<bool>(
+              false,
+              (bool previous, String element) =>
+                  previous || element.toLowerCase() == newValue,
+            );
+      },
+      // Unknown card type
+      orElse: () => CreditCardType.unknown,
+    );
+  }
 }
 
 ///

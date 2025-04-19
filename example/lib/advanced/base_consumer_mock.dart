@@ -38,7 +38,7 @@ abstract class BaseConsumerMock<T extends AbstractModel<int>>
     int size = 20,
     Map<String, String> extraParams = const <String, String>{},
     bool forceOffline = false,
-  }) async {
+  }) {
     if (kDebugMode) {
       print('Page: $page - Size: $size - Extra Params: $extraParams');
     }

@@ -4,6 +4,7 @@
 * Adding List extension intersperse.
 * Removing PackageInfo plugin and version attribute.
 * Updating to Flutter 3.29.0 and Dart 3.7.0.
+* Updating analysis_options.
 
 ## [3.6.0] - 2025-02-02
 

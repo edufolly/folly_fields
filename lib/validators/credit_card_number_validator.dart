@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_getters_setters
-
 import 'package:flutter/services.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
@@ -15,14 +13,8 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
   ///
   ///
   CreditCardNumberValidator({CreditCardType type = CreditCardType.unknown})
-      : _type = type,
-        super(
-          <TextInputFormatter>[
-            MaskTextInputFormatter(
-              mask: type.mask,
-            ),
-          ],
-        );
+    : _type = type,
+      super(<TextInputFormatter>[MaskTextInputFormatter(mask: type.mask)]);
 
   ///
   ///
@@ -35,8 +27,9 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
   set type(CreditCardType value) {
     _type = value;
 
-    (inputFormatters!.first as MaskTextInputFormatter)
-        .updateMask(mask: type.mask);
+    (inputFormatters!.first as MaskTextInputFormatter).updateMask(
+      mask: type.mask,
+    );
   }
 
   ///

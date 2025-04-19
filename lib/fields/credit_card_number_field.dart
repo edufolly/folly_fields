@@ -48,6 +48,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   final bool trimOnSaved;
   final Function(CreditCardType creditCardType)? onTypeChange;
 
+  // Force the implementation.
   // ignore: avoid_positional_boolean_parameters
   final Function(bool valid)? onValid;
   final String validatorMessage;
