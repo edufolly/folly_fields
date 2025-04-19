@@ -5,8 +5,18 @@ extension FollyIterableExtension<T> on Iterable<T?> {
   ///
   ///
   ///
+  @Deprecated('Use nonNulls.')
   Iterable<T> get removeNulls => where((T? e) => e != null).map((T? e) => e!);
 }
+
+///
+///
+///
+extension ListExtension<T> on List<T> {
+  List<T> intersperse(T item) =>
+      expand((T e) => <T>[e, item]).toList()..removeLast();
+}
+
 
 ///
 ///

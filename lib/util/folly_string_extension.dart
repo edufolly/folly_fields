@@ -5,6 +5,12 @@ extension FollyStringExtension on String {
   ///
   ///
   ///
+  String repeat(int length) =>
+      List<String>.generate(length, (_) => this).join();
+
+  ///
+  ///
+  ///
   String get capitalize =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 

@@ -1,3 +1,7 @@
+## [3.7.0] - 2025-04-19
+* Adding String extension repeat.
+* Adding List extension intersperse.
+
 ## [3.6.0] - 2025-02-02
 
 * Updating to Flutter 3.27.0 and Dart 3.6.0.
