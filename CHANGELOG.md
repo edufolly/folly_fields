@@ -1,4 +1,4 @@
-## [3.7.0] - 2025-04-19
+## [3.7.0] - 2025-04-21
 
 * Adding String extension repeat.
 * Adding List extension intersperse.
