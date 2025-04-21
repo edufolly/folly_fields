@@ -1,3 +1,11 @@
+## [3.7.0] - 2025-04-21
+
+* Adding String extension repeat.
+* Adding List extension intersperse.
+* Removing PackageInfo plugin and version attribute.
+* Updating to Flutter 3.29.0 and Dart 3.7.0.
+* Updating analysis_options.
+
 ## [3.6.0] - 2025-02-02
 
 * Updating to Flutter 3.27.0 and Dart 3.6.0.

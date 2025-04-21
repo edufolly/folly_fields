@@ -247,7 +247,7 @@ class MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Folly Fields ${Config().version}'),
+        title: const Text('Folly Fields'),
         actions: Config().isMobile
             ? <PopupMenuButton<MyMenuItem>>[
                 PopupMenuButton<MyMenuItem>(
@@ -883,8 +883,7 @@ class MyHomePageState extends State<MyHomePage> {
                         showCounter: true,
                         showTopAddButton: true,
                         onChanged: (List<ExampleModel> value) =>
-                            // ignore: avoid_print
-                            print('Examples in list: ${value.length}'),
+                            debugPrint('Examples in list: ${value.length}'),
                       ),
                       // [/ListField]
                     ),
@@ -917,8 +916,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         },
                         onChanged: (int? value, {required bool selected}) =>
-                            // ignore: avoid_print
-                            print('ChoiceChipField $value is'
+                            debugPrint('ChoiceChipField $value is'
                                 '${selected ? '' : ' NOT'} selected'),
                         validator: FollyValidators.notEmpty,
                         onSaved: (Set<int>? value) =>

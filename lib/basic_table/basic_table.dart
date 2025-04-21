@@ -255,7 +255,7 @@ class _BasicTableState extends State<BasicTable> {
                               ).toList(),
                             );
                           },
-                          separatorBuilder: (_, __) => divider,
+                          separatorBuilder: (_, _) => divider,
                         ),
                       ),
 

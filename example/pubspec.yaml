@@ -3,11 +3,11 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 3.5.0+222
+version: 3.7.0+224
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
-  flutter: ">=3.22.0"
+  sdk: ">=3.7.0 <4.0.0"
+  flutter: ">=3.29.0"
 
 dependencies:
   flutter:

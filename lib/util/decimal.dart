@@ -1,3 +1,4 @@
+// This is a structure problem.
 // ignore_for_file: avoid_equals_and_hash_code_on_mutable_classes
 import 'dart:math';
 

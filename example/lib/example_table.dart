@@ -75,6 +75,7 @@ class ExampleTableState extends State<ExampleTable> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
+        // Really remove this class?
         // ignore: deprecated_member_use
         child: FollyTable(
           rowsCount: list.length,

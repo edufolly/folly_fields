@@ -564,7 +564,7 @@ class AbstractListState<
                                             widget.canDelete(model),
                                       );
                               },
-                              separatorBuilder: (_, __) => const FollyDivider(),
+                              separatorBuilder: (_, _) => const FollyDivider(),
                               itemCount: itemCount,
                             ),
                           ),
@@ -1020,7 +1020,7 @@ class InternalSearch<
                               onTap: (W entity) => close(context, entity),
                               afterDeleteRefresh: () async => query += '%',
                             ),
-                            separatorBuilder: (_, __) => const FollyDivider(),
+                            separatorBuilder: (_, _) => const FollyDivider(),
                             itemCount: data.length,
                           )
                         : Center(child: Text(searchListEmpty)),
