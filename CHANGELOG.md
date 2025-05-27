@@ -1,3 +1,7 @@
+## [3.8.0] - 2025-05-27
+* Updating to Flutter 3.32.0 and Dart 3.8.0
+* Updating plugins.
+
 ## [3.7.0] - 2025-04-21
 
 * Adding String extension repeat.
