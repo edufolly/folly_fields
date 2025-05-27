@@ -405,7 +405,7 @@ class _MyListTile<T extends AbstractModel<ID>, B extends AbstractBuilder<T, ID>,
                                   }
                                 },
                         ),
-                      if (leading != null) leading,
+                      ?leading,
                     ],
                   ),
                 ],

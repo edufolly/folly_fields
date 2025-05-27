@@ -153,6 +153,7 @@ linter:
 
     # Incompatible with:
     # always_specify_types
+    # type_annotate_public_apis
     omit_obvious_property_types: false
 
     one_member_abstracts: true
@@ -243,10 +244,15 @@ linter:
 
     specify_nonobvious_property_types: true
     strict_top_level_inference: true
+    # switch_on_type: true
     test_types_in_equals: true
     throw_in_finally: true
     tighten_type_of_initializing_formals: true
+
+    # Incompatible with:
+    # omit_obvious_property_types
     type_annotate_public_apis: true
+
     type_init_formals: true
     type_literal_in_constant_pattern: true
     unawaited_futures: true
@@ -265,6 +271,7 @@ linter:
     unnecessary_final: false
 
     unnecessary_getters_setters: true
+    unnecessary_ignore: true
     unnecessary_lambdas: true
     unnecessary_late: true
     unnecessary_library_directive: true
@@ -283,6 +290,7 @@ linter:
     unnecessary_string_interpolations: true
     unnecessary_this: true
     unnecessary_to_list_in_spreads: true
+    # unnecessary_unawaited: true
     unnecessary_underscores: true
     unreachable_from_main: true
     unrelated_type_equality_checks: true
@@ -298,6 +306,7 @@ linter:
     use_key_in_widget_constructors: true
     use_late_for_private_fields_and_variables: true
     use_named_constants: true
+    use_null_aware_elements: true
     use_raw_strings: true
     use_rethrow_when_possible: true
     use_setters_to_change_properties: true
