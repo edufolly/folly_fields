@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2

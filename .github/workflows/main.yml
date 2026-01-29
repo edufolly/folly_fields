@@ -15,7 +15,7 @@ jobs:
       version: ${{ steps.version-step.outputs.version }}
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Check Pubspec Version
         id: version-step
@@ -42,7 +42,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -65,9 +65,9 @@ jobs:
         timeout-minutes: 5
         run: flutter pub get
 
-#      - name: Dart Analyze
-#        timeout-minutes: 5
-#        run: dart analyze --fatal-infos
+      - name: Dart Analyze
+        timeout-minutes: 5
+        run: dart analyze --fatal-infos
 
       - name: Flutter Test
         run: | 
@@ -91,7 +91,7 @@ jobs:
         run: tar -cvzf folly-fields-test-coverage.tar.gz coverage
 
       - name: Upload Test Coverage Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: folly-fields-test-coverage
           path: folly-fields-test-coverage.tar.gz
@@ -133,7 +133,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -152,7 +152,7 @@ jobs:
         run: flutter build web --base-href /folly_fields/
 
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: folly-fields-test-coverage
           path: example/build/web
@@ -182,7 +182,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
@@ -225,7 +225,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Dependencies
         env:
@@ -255,7 +255,7 @@ jobs:
         run: tar -cvzf folly-fields-example-linux.tar.gz build/linux/x64/release/bundle
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: folly-fields-example-linux
           path: example/folly-fields-example-linux.tar.gz
@@ -274,7 +274,7 @@ jobs:
       contents: write
     steps:
       - name: Code Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install Dependencies
         env:
@@ -284,7 +284,7 @@ jobs:
           sudo apt install -y libfuse2
 
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: folly-fields-example-linux
 
