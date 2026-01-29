@@ -3,21 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-///
-///
-///
+@Deprecated('Refactor this class.')
 class ConfigUtils {
   final BuildContext context;
   final Map<String, dynamic> configJson = <String, dynamic>{};
 
-  ///
-  ///
-  ///
   ConfigUtils(this.context);
 
-  ///
-  ///
-  ///
   Future<void> loadFromAsset(
     String assetPath, {
     bool removeEnvSubst = true,
@@ -25,8 +17,9 @@ class ConfigUtils {
     configJson.clear();
 
     try {
-      String configString =
-          await DefaultAssetBundle.of(context).loadString(assetPath);
+      String configString = await DefaultAssetBundle.of(
+        context,
+      ).loadString(assetPath);
 
       Map<String, dynamic> localConfig = json.decode(configString);
 
@@ -45,32 +38,20 @@ class ConfigUtils {
     }
   }
 
-  ///
-  ///
-  ///
   String stringOrDefault(String key, String defaultValue) =>
       configJson[key] ?? defaultValue;
 
-  ///
-  ///
-  ///
   bool boolOrDefault(String key, {required bool defaultValue}) =>
       configJson.containsKey(key)
-          ? configJson[key].toString().toLowerCase() == 'true'
-          : defaultValue;
+      ? configJson[key].toString().toLowerCase() == 'true'
+      : defaultValue;
 
-  ///
-  ///
-  ///
   int intOrDefault(String key, int defaultValue) => configJson.containsKey(key)
       ? int.tryParse(configJson[key]) ?? defaultValue
       : defaultValue;
 
-  ///
-  ///
-  ///
   double doubleOrDefault(String key, double defaultValue) =>
       configJson.containsKey(key)
-          ? double.tryParse(configJson[key].toString()) ?? defaultValue
-          : defaultValue;
+      ? double.tryParse(configJson[key].toString()) ?? defaultValue
+      : defaultValue;
 }

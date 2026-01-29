@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/util/folly_string_extension.dart';
+import 'package:folly_fields/extensions/folly_string_extension.dart';
 
 ///
 ///

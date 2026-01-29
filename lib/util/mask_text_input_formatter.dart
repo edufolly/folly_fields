@@ -2,9 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/services.dart';
 
-///
-///
-///
 class MaskTextInputFormatter implements TextInputFormatter {
   String _mask = '';
   List<String> _maskChars = <String>[];
@@ -17,9 +14,6 @@ class MaskTextInputFormatter implements TextInputFormatter {
   TextEditingValue? _lastResValue;
   TextEditingValue? _lastNewValue;
 
-  ///
-  ///
-  ///
   MaskTextInputFormatter({
     String mask = '',
     Map<String, RegExp>? filter,
@@ -27,11 +21,9 @@ class MaskTextInputFormatter implements TextInputFormatter {
   }) {
     updateMask(
       mask: mask,
-      filter: filter ??
-          <String, RegExp>{
-            '#': RegExp('[0-9]'),
-            'A': RegExp('[^0-9]'),
-          },
+      filter:
+          filter ??
+          <String, RegExp>{'#': RegExp('[0-9]'), 'A': RegExp('[^0-9]')},
     );
 
     formatEditUpdate(
@@ -40,9 +32,6 @@ class MaskTextInputFormatter implements TextInputFormatter {
     );
   }
 
-  ///
-  ///
-  ///
   TextEditingValue updateMask({
     String mask = '',
     Map<String, RegExp>? filter,
@@ -77,47 +66,26 @@ class MaskTextInputFormatter implements TextInputFormatter {
     );
   }
 
-  ///
-  ///
-  ///
   String getMask() => _mask;
 
-  ///
-  ///
-  ///
   String getMaskedText() => _resultTextMasked;
 
-  ///
-  ///
-  ///
   String getUnmaskedText() => _resultTextArray.toString();
 
-  ///
-  ///
-  ///
   bool isFill() => _resultTextArray.length == _maskLength;
 
-  ///
-  ///
-  ///
   String maskText(String text) => MaskTextInputFormatter(
-        mask: _mask,
-        filter: _maskFilter,
-        initialText: text,
-      ).getMaskedText();
+    mask: _mask,
+    filter: _maskFilter,
+    initialText: text,
+  ).getMaskedText();
 
-  ///
-  ///
-  ///
   String unmaskText(String text) => MaskTextInputFormatter(
-        mask: _mask,
-        filter: _maskFilter,
-        initialText: text,
-      ).getUnmaskedText();
+    mask: _mask,
+    filter: _maskFilter,
+    initialText: text,
+  ).getUnmaskedText();
 
-  ///
-  ///
-  ///
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -126,14 +94,12 @@ class MaskTextInputFormatter implements TextInputFormatter {
     if (_lastResValue == oldValue && newValue == _lastNewValue) {
       return oldValue;
     }
+
     _lastNewValue = newValue;
 
     return _lastResValue = _format(oldValue, newValue);
   }
 
-  ///
-  ///
-  ///
   TextEditingValue _format(
     TextEditingValue oldValue,
     TextEditingValue newValue,
@@ -151,8 +117,9 @@ class MaskTextInputFormatter implements TextInputFormatter {
     String afterText = newValue.text;
 
     TextSelection beforeSelection = oldValue.selection;
-    int beforeSelectionStart =
-        beforeSelection.isValid ? beforeSelection.start : 0;
+    int beforeSelectionStart = beforeSelection.isValid
+        ? beforeSelection.start
+        : 0;
     int beforeSelectionLength = beforeSelection.isValid
         ? beforeSelection.end - beforeSelection.start
         : 0;
@@ -174,9 +141,11 @@ class MaskTextInputFormatter implements TextInputFormatter {
     int currentResultSelectionStart = 0;
     int currentResultSelectionLength = 0;
 
-    for (int pos = 0;
-        pos < min(beforeReplaceStart + beforeReplaceLength, mask.length);
-        pos++) {
+    for (
+      int pos = 0;
+      pos < min(beforeReplaceStart + beforeReplaceLength, mask.length);
+      pos++
+    ) {
       if (_maskChars.contains(mask[pos]) && currentResultTextLength > 0) {
         currentResultTextLength -= 1;
         if (pos < beforeReplaceStart) {
@@ -188,8 +157,10 @@ class MaskTextInputFormatter implements TextInputFormatter {
       }
     }
 
-    String replacementText =
-        afterText.substring(afterChangeStart, afterChangeEnd);
+    String replacementText = afterText.substring(
+      afterChangeStart,
+      afterChangeEnd,
+    );
     int targetCursorPosition = currentResultSelectionStart;
     if (replacementText.isEmpty) {
       _resultTextArray.removeRange(
@@ -283,8 +254,9 @@ class MaskTextInputFormatter implements TextInputFormatter {
       _resultTextArray.removeRange(_maskLength, _resultTextArray.length);
     }
 
-    int finalCursorPosition =
-        cursorPos < 0 ? _resultTextMasked.length : cursorPos;
+    int finalCursorPosition = cursorPos < 0
+        ? _resultTextMasked.length
+        : cursorPos;
 
     return TextEditingValue(
       text: _resultTextMasked,
@@ -298,9 +270,6 @@ class MaskTextInputFormatter implements TextInputFormatter {
     );
   }
 
-  ///
-  ///
-  ///
   void _calcMaskLength() {
     _maskLength = 0;
     String mask = _mask;
@@ -311,70 +280,37 @@ class MaskTextInputFormatter implements TextInputFormatter {
     }
   }
 
-  ///
-  ///
-  ///
   void _updateFilter(Map<String, RegExp> filter) {
     _maskFilter = filter;
     _maskChars = _maskFilter.keys.toList(growable: false);
   }
 }
 
-///
-///
-///
 class _TextMatcher {
   final List<String> _symbolArray = <String>[];
 
-  ///
-  ///
-  ///
   int get length =>
       _symbolArray.fold(0, (int prev, String match) => prev + match.length);
 
-  ///
-  ///
-  ///
   void removeRange(int start, int end) => _symbolArray.removeRange(start, end);
 
-  ///
-  ///
-  ///
   void insert(int start, String substring) {
     for (int pos = 0; pos < substring.length; pos++) {
       _symbolArray.insert(start + pos, substring[pos]);
     }
   }
 
-  ///
-  ///
-  ///
   bool get isEmpty => _symbolArray.isEmpty;
 
-  ///
-  ///
-  ///
   void removeAt(int index) => _symbolArray.removeAt(index);
 
-  ///
-  ///
-  ///
   String operator [](int index) => _symbolArray[index];
 
-  ///
-  ///
-  ///
   void clear() => _symbolArray.clear();
 
-  ///
-  ///
-  ///
   @override
   String toString() => _symbolArray.join();
 
-  ///
-  ///
-  ///
   void set(String text) {
     _symbolArray.clear();
     for (int pos = 0; pos < text.length; pos++) {
@@ -383,61 +319,37 @@ class _TextMatcher {
   }
 }
 
-///
-///
-///
 class UppercaseMask extends MaskTextInputFormatter {
-  ///
-  ///
-  ///
-  UppercaseMask({
-    super.mask,
-    super.filter,
-    super.initialText,
-  }) : assert(mask.isNotEmpty, 'mask must be not empty.');
+  UppercaseMask({super.mask, super.filter, super.initialText})
+    : assert(mask.isNotEmpty, 'mask must be not empty.');
 
-  ///
-  ///
-  ///
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
-  ) =>
-      super.formatEditUpdate(
-        oldValue,
-        newValue.copyWith(text: newValue.text.toUpperCase()),
-      );
+  ) => super.formatEditUpdate(
+    oldValue,
+    newValue.copyWith(text: newValue.text.toUpperCase()),
+  );
 }
 
-///
-///
-///
 class ChangeMask extends MaskTextInputFormatter {
   final String firstMask;
   final String secondMask;
 
-  ///
-  ///
-  ///
   ChangeMask({
     required this.firstMask,
     required this.secondMask,
     super.filter,
     super.initialText,
-  })  : assert(firstMask.isNotEmpty, 'firstMask must be not empty.'),
-        assert(secondMask.isNotEmpty, 'secondMask must be not empty.'),
-        assert(
-          firstMask.length < secondMask.length,
-          'firstMask length must be lower than secondMask length.',
-        ),
-        super(
-          mask: firstMask,
-        );
+  }) : assert(firstMask.isNotEmpty, 'firstMask must be not empty.'),
+       assert(secondMask.isNotEmpty, 'secondMask must be not empty.'),
+       assert(
+         firstMask.length < secondMask.length,
+         'firstMask length must be lower than secondMask length.',
+       ),
+       super(mask: firstMask);
 
-  ///
-  ///
-  ///
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,

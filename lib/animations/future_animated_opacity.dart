@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class FutureAnimatedOpacity extends StatelessWidget {
   final Duration delay;
   final double initialOpacity;
@@ -13,9 +10,6 @@ class FutureAnimatedOpacity extends StatelessWidget {
   final bool alwaysIncludeSemantics;
   final Widget child;
 
-  ///
-  ///
-  ///
   const FutureAnimatedOpacity({
     required this.child,
     required this.delay,
@@ -28,9 +22,6 @@ class FutureAnimatedOpacity extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<double>(
@@ -50,13 +41,7 @@ class FutureAnimatedOpacity extends StatelessWidget {
   }
 }
 
-///
-///
-///
 class FutureAppear extends FutureAnimatedOpacity {
-  ///
-  ///
-  ///
   const FutureAppear({
     required super.child,
     required super.delay,
@@ -65,19 +50,10 @@ class FutureAppear extends FutureAnimatedOpacity {
     super.onEnd,
     super.alwaysIncludeSemantics,
     super.key,
-  }) : super(
-          initialOpacity: 0,
-          finalOpacity: 1,
-        );
+  }) : super(initialOpacity: 0, finalOpacity: 1);
 }
 
-///
-///
-///
 class FutureDisappear extends FutureAnimatedOpacity {
-  ///
-  ///
-  ///
   const FutureDisappear({
     required super.child,
     required super.delay,
@@ -86,8 +62,5 @@ class FutureDisappear extends FutureAnimatedOpacity {
     super.onEnd,
     super.alwaysIncludeSemantics,
     super.key,
-  }) : super(
-          initialOpacity: 1,
-          finalOpacity: 0,
-        );
+  }) : super(initialOpacity: 1, finalOpacity: 0);
 }

@@ -126,13 +126,19 @@ class BoolField extends ResponsiveFormField<bool> {
                             Switch.adaptive(
                               value: state._effectiveController.value,
                               onChanged: enabled ? state.didChange : null,
-                              activeColor: activeColor,
+                              // TODO(edufolly): Use activeThumbColor or
+                              //  activeTrackColor instead.
+                              activeThumbColor: activeColor,
+                              activeTrackColor: activeColor,
                             )
                           else
                             Switch(
                               value: state._effectiveController.value,
                               onChanged: enabled ? state.didChange : null,
-                              activeColor: activeColor,
+                              // TODO(edufolly): Use activeThumbColor or
+                              //  activeTrackColor instead.
+                              activeThumbColor: activeColor,
+                              activeTrackColor: activeColor,
                             ),
                         ],
                       ),

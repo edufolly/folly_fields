@@ -22,12 +22,10 @@ class PopupIconMenuItem<O> {
   ///
   ///
   PopupMenuItem<O> get widget => PopupMenuItem<O>(
-        value: operation,
-        child: ListTile(
-          leading: IconHelper.faIcon(
-            iconName,
-          ),
-          title: Text(name),
-        ),
-      );
+    value: operation,
+    child: ListTile(
+      leading: Icon(IconHelper.iconData(iconName)),
+      title: Text(name),
+    ),
+  );
 }

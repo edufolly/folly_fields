@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:folly_fields/util/folly_date_time_extension.dart';
+import 'package:folly_fields/extensions/folly_date_time_extension.dart';
 
 ///
 ///

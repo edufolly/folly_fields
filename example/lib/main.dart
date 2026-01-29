@@ -57,7 +57,7 @@ import 'package:folly_fields_example/example_table.dart';
 import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart' hide Config;
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -100,17 +100,17 @@ class MyApp extends StatelessWidget {
         '/table': (_) => const ExampleTable(),
         '/list': (_) => ExampleList(),
         '/edit': (_) => ExampleEdit(
-              ExampleModel.generate(),
-              const ExampleBuilder(),
-              const ExampleConsumer(),
-              edit: true,
-            ),
+          ExampleModel.generate(),
+          const ExampleBuilder(),
+          const ExampleConsumer(),
+          edit: true,
+        ),
         '/brandnew': (_) => BrandNewEdit(
-              BrandNewModel(),
-              const BrandNewBuilder(),
-              BrandNewConsumer(),
-              edit: true,
-            ),
+          BrandNewModel(),
+          const BrandNewBuilder(),
+          BrandNewConsumer(),
+          edit: true,
+        ),
         '/four_images': (_) => const FourImages(),
         '/credit_card': (_) => const CreditCard(),
         '/basic_table': (_) => const ExampleBasicTable(),
@@ -119,9 +119,7 @@ class MyApp extends StatelessWidget {
         ...GlobalMaterialLocalizations.delegates,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const <Locale>[
-        Locale('pt', 'BR'),
-      ],
+      supportedLocales: const <Locale>[Locale('pt', 'BR')],
     );
   }
 }
@@ -175,23 +173,18 @@ class MyHomePageState extends State<MyHomePage> {
           CircularWaiting wait = CircularWaiting(context)..show();
 
           launchUrlString(
-            'https://github.com/edufolly/folly_fields/',
-            mode: LaunchMode.externalApplication,
-          ).then(
-            (_) {
-              Future<void>.delayed(
-                const Duration(seconds: 2),
-                wait.close,
-              );
-            },
-          ).catchError(
-            (dynamic e, StackTrace s) {
-              if (kDebugMode) {
-                print(e);
-                print(s);
-              }
-            },
-          );
+                'https://github.com/edufolly/folly_fields/',
+                mode: LaunchMode.externalApplication,
+              )
+              .then((_) {
+                Future<void>.delayed(const Duration(seconds: 2), wait.close);
+              })
+              .catchError((dynamic e, StackTrace s) {
+                if (kDebugMode) {
+                  print(e);
+                  print(s);
+                }
+              });
         },
       ),
 
@@ -206,10 +199,7 @@ class MyHomePageState extends State<MyHomePage> {
             subtitle: 'Wait 3 seconds...',
           )..show();
 
-          Future<void>.delayed(
-            const Duration(seconds: 3),
-            wait.close,
-          );
+          Future<void>.delayed(const Duration(seconds: 3), wait.close);
         },
       ),
 
@@ -262,8 +252,8 @@ class MyHomePageState extends State<MyHomePage> {
                 ),
               ]
             : menuItems
-                .map((MyMenuItem item) => item.iconButton(context))
-                .toList(),
+                  .map((MyMenuItem item) => item.iconButton(context))
+                  .toList(),
       ),
       body: SafeArea(
         child: SafeFutureBuilder<Response>(
@@ -302,626 +292,667 @@ class MyHomePageState extends State<MyHomePage> {
                     CodeLink(
                       code: code,
                       tag: 'StringField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/string_field.dart',
                       child:
                           // [StringField]
                           StringField(
-                        labelPrefix: labelPrefix,
-                        label: 'Texto*',
-                        enabled: edit,
-                        initialValue: model.text,
-                        validator: (String? value) =>
-                            value == null || value.isEmpty
+                            labelPrefix: labelPrefix,
+                            label: 'Texto*',
+                            enabled: edit,
+                            initialValue: model.text,
+                            validator: (String? value) =>
+                                value == null || value.isEmpty
                                 ? 'O campo texto precisa ser informado.'
                                 : null,
-                        onSaved: (String? value) => model.text = value!,
-                      ),
+                            onSaved: (String? value) => model.text = value!,
+                          ),
                       // [/StringField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'EmailField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/email_field.dart',
                       child:
                           // [EmailField]
                           EmailField(
-                        labelPrefix: labelPrefix,
-                        label: 'E-mail*',
-                        enabled: edit,
-                        initialValue: model.email,
-                        onSaved: (String? value) => model.email = value ?? '',
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'E-mail*',
+                            enabled: edit,
+                            initialValue: model.email,
+                            onSaved: (String? value) =>
+                                model.email = value ?? '',
+                          ),
                       // [/EmailField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'PasswordField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/password_field.dart',
                       child:
                           // [PasswordField]
                           PasswordField(
-                        labelPrefix: labelPrefix,
-                        label: 'Senha*',
-                        enabled: edit,
-                        validator: (String? value) =>
-                            value == null || value.isEmpty
+                            labelPrefix: labelPrefix,
+                            label: 'Senha*',
+                            enabled: edit,
+                            validator: (String? value) =>
+                                value == null || value.isEmpty
                                 ? 'O campo senha precisa ser informado.'
                                 : null,
-                        onSaved: (String? value) => model.password = value!,
-                      ),
+                            onSaved: (String? value) => model.password = value!,
+                          ),
                       // [/PasswordField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'PasswordVisibleField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/password_visible_field.dart',
                       child:
                           // [PasswordVisibleField]
                           PasswordVisibleField(
-                        labelPrefix: labelPrefix,
-                        label: 'Senha Visível*',
-                        enabled: edit,
-                        validator: (String? value) =>
-                            value == null || value.isEmpty
+                            labelPrefix: labelPrefix,
+                            label: 'Senha Visível*',
+                            enabled: edit,
+                            validator: (String? value) =>
+                                value == null || value.isEmpty
                                 ? 'O campo senha visível precisa ser informado.'
                                 : null,
-                        onSaved: (String? value) => model.password = value!,
-                      ),
+                            onSaved: (String? value) => model.password = value!,
+                          ),
                       // [/PasswordVisibleField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'DecimalField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/decimal_field.dart',
                       child:
                           // [DecimalField]
                           DecimalField(
-                        labelPrefix: labelPrefix,
-                        label: 'Decimal*',
-                        enabled: edit,
-                        initialValue: model.decimal,
-                        onSaved: (Decimal? value) => model.decimal = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Decimal*',
+                            enabled: edit,
+                            initialValue: model.decimal,
+                            onSaved: (Decimal? value) => model.decimal = value!,
+                          ),
                       // [/DecimalField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'NewDecimalField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/new_decimal_field.dart',
                       child:
                           // [NewDecimalField]
                           NewDecimalField(
-                        labelPrefix: labelPrefix,
-                        label: 'New Decimal*',
-                        enabled: edit,
-                        initialValue: model.decimal,
-                        onSaved: (Decimal? value) => model.decimal = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'New Decimal*',
+                            enabled: edit,
+                            initialValue: model.decimal,
+                            onSaved: (Decimal? value) => model.decimal = value!,
+                          ),
                       // [/NewDecimalField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'IntegerField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/integer_field.dart',
                       child:
                           // [IntegerField]
                           IntegerField(
-                        labelPrefix: labelPrefix,
-                        label: 'Integer*',
-                        enabled: edit,
-                        initialValue: model.integer,
-                        validator: FollyValidators.intGTZero,
-                        onSaved: (int? value) => model.integer = value ?? 0,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Integer*',
+                            enabled: edit,
+                            initialValue: model.integer,
+                            validator: FollyValidators.intGTZero,
+                            onSaved: (int? value) => model.integer = value ?? 0,
+                          ),
                       // [/IntegerField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'ColorField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/color_field.dart',
                       child:
                           // [ColorField]
                           ColorField(
-                        labelPrefix: labelPrefix,
-                        label: 'Cor',
-                        enabled: edit,
-                        initialValue: model.color,
-                        validator: FollyValidators.notNull,
-                        onSaved: (Color? value) => model.color = value,
-                        clearOnCancel: false,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Cor',
+                            enabled: edit,
+                            initialValue: model.color,
+                            validator: FollyValidators.notNull,
+                            onSaved: (Color? value) => model.color = value,
+                            clearOnCancel: false,
+                          ),
                       // [/ColorField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CpfField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cpf_field.dart',
                       child:
                           // [CpfField]
                           CpfField(
-                        labelPrefix: labelPrefix,
-                        label: 'CPF*',
-                        enabled: edit,
-                        initialValue: model.cpf,
-                        onSaved: (String? value) => model.cpf = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CPF*',
+                            enabled: edit,
+                            initialValue: model.cpf,
+                            onSaved: (String? value) => model.cpf = value!,
+                          ),
                       // [/CpfField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CnpjField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cnpj_field.dart',
                       child:
                           // [CnpjField]
                           CnpjField(
-                        labelPrefix: labelPrefix,
-                        label: 'CNPJ*',
-                        enabled: edit,
-                        initialValue: model.cnpj,
-                        onSaved: (String? value) => model.cnpj = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CNPJ*',
+                            enabled: edit,
+                            initialValue: model.cnpj,
+                            onSaved: (String? value) => model.cnpj = value!,
+                          ),
                       // [/CnpjField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CpfCnpjField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cpf_cnpj_field.dart',
                       child:
                           // [CpfCnpjField]
                           CpfCnpjField(
-                        labelPrefix: labelPrefix,
-                        label: 'CPF ou CNPJ*',
-                        enabled: edit,
-                        initialValue: model.document,
-                        onSaved: (String? value) => model.document = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CPF ou CNPJ*',
+                            enabled: edit,
+                            initialValue: model.document,
+                            onSaved: (String? value) => model.document = value!,
+                          ),
                       // [/CpfCnpjField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'PhoneField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/phone_field.dart',
                       child:
                           // [PhoneField]
                           PhoneField(
-                        labelPrefix: labelPrefix,
-                        label: 'Telefone*',
-                        enabled: edit,
-                        initialValue: model.phone,
-                        onSaved: (String? value) => model.phone = value ?? '',
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Telefone*',
+                            enabled: edit,
+                            initialValue: model.phone,
+                            onSaved: (String? value) =>
+                                model.phone = value ?? '',
+                          ),
                       // [/PhoneField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'LocalPhoneField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/local_phone_field.dart',
                       child:
                           // [LocalPhoneField]
                           LocalPhoneField(
-                        labelPrefix: labelPrefix,
-                        label: 'Telefone sem DDD*',
-                        enabled: edit,
-                        initialValue: model.localPhone,
-                        onSaved: (String? value) =>
-                            model.localPhone = value ?? '',
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Telefone sem DDD*',
+                            enabled: edit,
+                            initialValue: model.localPhone,
+                            onSaved: (String? value) =>
+                                model.localPhone = value ?? '',
+                          ),
                       // [/LocalPhoneField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'MobilePhoneField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/mobile_local_phone_field.dart',
                       child:
                           // [MobilePhoneField]
                           MobilePhoneField(
-                        labelPrefix: labelPrefix,
-                        label: 'Celular*',
-                        enabled: edit,
-                        initialValue: model.mobilePhone,
-                        onSaved: (String? value) =>
-                            model.mobilePhone = value ?? '',
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Celular*',
+                            enabled: edit,
+                            initialValue: model.mobilePhone,
+                            onSaved: (String? value) =>
+                                model.mobilePhone = value ?? '',
+                          ),
                       // [/MobilePhoneField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'DateTimeField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/date_time_field.dart',
                       child:
                           // [DateTimeField]
                           DateTimeField(
-                        labelPrefix: labelPrefix,
-                        label: 'Data e Hora*',
-                        enabled: edit,
-                        initialValue: model.dateTime,
-                        validator: (DateTime? value) =>
-                            value == null ? 'Informe uma data' : null,
-                        onSaved: (DateTime? value) => model.dateTime = value!,
-                        clearOnCancel: false,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Data e Hora*',
+                            enabled: edit,
+                            initialValue: model.dateTime,
+                            validator: (DateTime? value) =>
+                                value == null ? 'Informe uma data' : null,
+                            onSaved: (DateTime? value) =>
+                                model.dateTime = value!,
+                            clearOnCancel: false,
+                          ),
                       // [/DateTimeField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'DateField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/date_field.dart',
                       child:
                           // [DateField]
                           DateField(
-                        labelPrefix: labelPrefix,
-                        label: 'Data*',
-                        enabled: edit,
-                        initialValue: model.date,
-                        onSaved: (DateTime? value) => model.date = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Data*',
+                            enabled: edit,
+                            initialValue: model.date,
+                            onSaved: (DateTime? value) => model.date = value,
+                          ),
                       // [/DateField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'TimeField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/time_field.dart',
                       child:
                           // [TimeField]
                           TimeField(
-                        labelPrefix: labelPrefix,
-                        label: 'Hora*',
-                        enabled: edit,
-                        initialValue: model.time,
-                        validator: FollyValidators.notNull,
-                        onSaved: (TimeOfDay? value) => model.time = value!,
-                        clearOnCancel: false,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Hora*',
+                            enabled: edit,
+                            initialValue: model.time,
+                            validator: FollyValidators.notNull,
+                            onSaved: (TimeOfDay? value) => model.time = value!,
+                            clearOnCancel: false,
+                          ),
                       // [/TimeField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'MacAddressField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/mac_address_field.dart',
                       child:
                           // [MacAddressField]
                           MacAddressField(
-                        labelPrefix: labelPrefix,
-                        label: 'Mac Address*',
-                        enabled: edit,
-                        initialValue: model.macAddress,
-                        onSaved: (String? value) => model.macAddress = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Mac Address*',
+                            enabled: edit,
+                            initialValue: model.macAddress,
+                            onSaved: (String? value) =>
+                                model.macAddress = value,
+                          ),
                       // [/MacAddressField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'NcmField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/ncm_field.dart',
                       child:
                           // [NcmField]
                           NcmField(
-                        labelPrefix: labelPrefix,
-                        label: 'NCM*',
-                        enabled: edit,
-                        initialValue: model.ncm,
-                        onSaved: (String? value) => model.ncm = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'NCM*',
+                            enabled: edit,
+                            initialValue: model.ncm,
+                            onSaved: (String? value) => model.ncm = value,
+                          ),
                       // [/NcmField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CestField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cest_field.dart',
                       child:
                           // [CestField]
                           CestField(
-                        labelPrefix: labelPrefix,
-                        label: 'CEST*',
-                        enabled: edit,
-                        initialValue: model.cest,
-                        onSaved: (String? value) => model.cest = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CEST*',
+                            enabled: edit,
+                            initialValue: model.cest,
+                            onSaved: (String? value) => model.cest = value,
+                          ),
                       // [/CestField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CnaeField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cnae_field.dart',
                       child:
                           // [CnaeField]
                           CnaeField(
-                        labelPrefix: labelPrefix,
-                        label: 'CNAE*',
-                        enabled: edit,
-                        initialValue: model.cnae,
-                        onSaved: (String? value) => model.cnae = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CNAE*',
+                            enabled: edit,
+                            initialValue: model.cnae,
+                            onSaved: (String? value) => model.cnae = value,
+                          ),
                       // [/CnaeField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'CepField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/cep_field.dart',
                       child:
                           // [CepField]
                           CepField(
-                        labelPrefix: labelPrefix,
-                        label: 'CEP*',
-                        enabled: edit,
-                        initialValue: model.cep,
-                        onSaved: (String? value) => model.cep = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'CEP*',
+                            enabled: edit,
+                            initialValue: model.cep,
+                            onSaved: (String? value) => model.cep = value,
+                          ),
                       // [/CepField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'LicencePlateField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/licence_plate_field.dart',
                       child:
                           // [LicencePlateField]
                           LicencePlateField(
-                        labelPrefix: labelPrefix,
-                        label: 'Licence Plate*',
-                        enabled: edit,
-                        initialValue: model.licencePlate,
-                        onSaved: (String? value) => model.licencePlate = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Licence Plate*',
+                            enabled: edit,
+                            initialValue: model.licencePlate,
+                            onSaved: (String? value) =>
+                                model.licencePlate = value,
+                          ),
                       // [/LicencePlateField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'Ipv4Field',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/ipv4_field.dart',
                       child:
                           // [Ipv4Field]
                           Ipv4Field(
-                        labelPrefix: labelPrefix,
-                        label: 'IPv4*',
-                        enabled: edit,
-                        initialValue: model.ipv4,
-                        onSaved: (String? value) => model.ipv4 = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'IPv4*',
+                            enabled: edit,
+                            initialValue: model.ipv4,
+                            onSaved: (String? value) => model.ipv4 = value,
+                          ),
                       // [/Ipv4Field]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'BoolField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/bool_field.dart',
                       child:
                           // [BoolField]
                           BoolField(
-                        labelPrefix: labelPrefix,
-                        label: 'Campo Boleano',
-                        enabled: edit,
-                        initialValue: model.active,
-                        validator: (bool value) => !value
-                            ? 'Para testes, este campo deve ser sempre '
-                                'verdadeiro.'
-                            : null,
-                        onSaved: (bool value) => model.active = value,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Campo Boleano',
+                            enabled: edit,
+                            initialValue: model.active,
+                            validator: (bool value) => !value
+                                ? 'Para testes, este campo deve ser sempre '
+                                      'verdadeiro.'
+                                : null,
+                            onSaved: (bool value) => model.active = value,
+                          ),
                       // [/BoolField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'IconDataField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/icon_data_field.dart',
                       child:
                           // [IconDataField]
                           IconDataField(
-                        labelPrefix: labelPrefix,
-                        label: 'Ícone*',
-                        enabled: edit,
-                        icons: IconHelper.data,
-                        initialValue: model.icon,
-                        validator: FollyValidators.notNull,
-                        onSaved: (IconData? iconData) => model.icon = iconData,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Ícone*',
+                            enabled: edit,
+                            icons: IconHelper.data,
+                            initialValue: model.icon,
+                            validator: FollyValidators.notNull,
+                            onSaved: (IconData? iconData) =>
+                                model.icon = iconData,
+                          ),
                       // [/IconDataField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'DropdownField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/dropdown_field.dart',
                       child:
                           // [DropdownField]
                           DropdownField<ExampleEnum, Widget>(
-                        labelPrefix: labelPrefix,
-                        label: 'Ordinal',
-                        enabled: edit,
-                        items: ExampleEnum.values.asMap().map(
-                          (_, ExampleEnum value) {
-                            return MapEntry<ExampleEnum, Widget>(
-                              value,
-                              Text(value.value),
-                            );
-                          },
-                        ),
-                        initialValue: model.ordinal,
-                        validator: FollyValidators.notNull,
-                        onSaved: (ExampleEnum? value) => model.ordinal = value!,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Ordinal',
+                            enabled: edit,
+                            items: ExampleEnum.values.asMap().map((
+                              _,
+                              ExampleEnum value,
+                            ) {
+                              return MapEntry<ExampleEnum, Widget>(
+                                value,
+                                Text(value.value),
+                              );
+                            }),
+                            initialValue: model.ordinal,
+                            validator: FollyValidators.notNull,
+                            onSaved: (ExampleEnum? value) =>
+                                model.ordinal = value!,
+                          ),
                       // [/DropdownField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'MultilineField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/multiline_field.dart',
                       child:
                           // [MultilineField]
                           MultilineField(
-                        labelPrefix: labelPrefix,
-                        label: 'Multiline*',
-                        counterText: null,
-                        maxLength: 600,
-                        enabled: edit,
-                        initialValue: model.multiline,
-                        validator: FollyValidators.stringNotEmpty,
-                        onSaved: (String? value) =>
-                            model.multiline = value ?? '',
-                        style: GoogleFonts.firaMono(
-                          textStyle: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Multiline*',
+                            counterText: null,
+                            maxLength: 600,
+                            enabled: edit,
+                            initialValue: model.multiline,
+                            validator: FollyValidators.stringNotEmpty,
+                            onSaved: (String? value) =>
+                                model.multiline = value ?? '',
+                            style: GoogleFonts.firaMono(
+                              textStyle: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
                       // [/MultilineField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'ModelField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/model_field.dart',
                       child:
                           // [ModelField]
                           ModelField<ExampleModel, int>(
-                        labelPrefix: labelPrefix,
-                        label: 'Example Model*',
-                        enabled: edit,
-                        initialValue: ExampleModel.generate(),
-                        routeBuilder: (BuildContext context) => ExampleList(
-                          labelPrefix: labelPrefix,
-                          selection: true,
-                        ),
-                        validator: FollyValidators.notNull,
-                        clearOnCancel: false,
-                      ),
+                            labelPrefix: labelPrefix,
+                            label: 'Example Model*',
+                            enabled: edit,
+                            initialValue: ExampleModel.generate(),
+                            routeBuilder: (BuildContext context) => ExampleList(
+                              labelPrefix: labelPrefix,
+                              selection: true,
+                            ),
+                            validator: FollyValidators.notNull,
+                            clearOnCancel: false,
+                          ),
                       // [/ModelField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'ListField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/list_field.dart',
                       child:
                           // [ListField]
                           ListField<ExampleModel, ExampleBuilder, int>(
-                        enabled: edit,
-                        initialValue: list,
-                        builder: ExampleBuilder(labelPrefix: labelPrefix),
-                        beforeDelete: (
-                          BuildContext context,
-                          int index,
-                          ExampleModel model,
-                        ) async =>
-                            model.integer.isEven,
-                        routeAddBuilder: (
-                          BuildContext context,
-                          ExampleBuilder uiBuilder,
-                        ) =>
-                            ExampleList(
-                          labelPrefix: labelPrefix,
-                          selection: true,
-                          multipleSelection: true,
-                          invertSelection: true,
-                        ),
-                        routeEditBuilder: (
-                          BuildContext context,
-                          ExampleModel model,
-                          ExampleBuilder uiBuilder, {
-                          required bool edit,
-                        }) =>
-                            ExampleEdit(
-                          model,
-                          uiBuilder,
-                          const ExampleConsumer(),
-                          edit: edit,
-                        ),
-                        expandable: true,
-                        showClearAllButton: true,
-                        showCounter: true,
-                        showTopAddButton: true,
-                        onChanged: (List<ExampleModel> value) =>
-                            debugPrint('Examples in list: ${value.length}'),
-                      ),
+                            enabled: edit,
+                            initialValue: list,
+                            builder: ExampleBuilder(labelPrefix: labelPrefix),
+                            beforeDelete:
+                                (
+                                  BuildContext context,
+                                  int index,
+                                  ExampleModel model,
+                                ) async => model.integer.isEven,
+                            routeAddBuilder:
+                                (
+                                  BuildContext context,
+                                  ExampleBuilder uiBuilder,
+                                ) => ExampleList(
+                                  labelPrefix: labelPrefix,
+                                  selection: true,
+                                  multipleSelection: true,
+                                  invertSelection: true,
+                                ),
+                            routeEditBuilder:
+                                (
+                                  BuildContext context,
+                                  ExampleModel model,
+                                  ExampleBuilder uiBuilder, {
+                                  required bool edit,
+                                }) => ExampleEdit(
+                                  model,
+                                  uiBuilder,
+                                  const ExampleConsumer(),
+                                  edit: edit,
+                                ),
+                            expandable: true,
+                            showClearAllButton: true,
+                            showCounter: true,
+                            showTopAddButton: true,
+                            onChanged: (List<ExampleModel> value) =>
+                                debugPrint('Examples in list: ${value.length}'),
+                          ),
                       // [/ListField]
                     ),
 
                     CodeLink(
                       code: code,
                       tag: 'ChoiceChipField',
-                      source: 'https://github.com/edufolly/folly_fields/'
+                      source:
+                          'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/choice_chip_field.dart',
                       child:
                           // [ChoiceChipField]
                           ChoiceChipField<int>(
-                        label: 'Frutas',
-                        enabled: edit,
-                        items: const <int, ChipEntry>{
-                          0: ChipEntry(
-                            '🍎Maça',
-                            color: Colors.red,
-                            selectedColor: Colors.redAccent,
+                            label: 'Frutas',
+                            enabled: edit,
+                            items: const <int, ChipEntry>{
+                              0: ChipEntry(
+                                '🍎Maça',
+                                color: Colors.red,
+                                selectedColor: Colors.redAccent,
+                              ),
+                              1: ChipEntry(
+                                '🍌Banana',
+                                color: Colors.yellow,
+                                selectedColor: Colors.yellowAccent,
+                              ),
+                              2: ChipEntry(
+                                '🍊Tangerina',
+                                color: Colors.orange,
+                                selectedColor: Colors.orangeAccent,
+                              ),
+                            },
+                            onChanged: (int? value, {required bool selected}) =>
+                                debugPrint(
+                                  'ChoiceChipField $value is'
+                                  '${selected ? '' : ' NOT'} selected',
+                                ),
+                            validator: FollyValidators.notEmpty,
+                            onSaved: (Set<int>? value) =>
+                                model.fruitIndex = value!.first,
                           ),
-                          1: ChipEntry(
-                            '🍌Banana',
-                            color: Colors.yellow,
-                            selectedColor: Colors.yellowAccent,
-                          ),
-                          2: ChipEntry(
-                            '🍊Tangerina',
-                            color: Colors.orange,
-                            selectedColor: Colors.orangeAccent,
-                          ),
-                        },
-                        onChanged: (int? value, {required bool selected}) =>
-                            debugPrint('ChoiceChipField $value is'
-                                '${selected ? '' : ' NOT'} selected'),
-                        validator: FollyValidators.notEmpty,
-                        onSaved: (Set<int>? value) =>
-                            model.fruitIndex = value!.first,
-                      ),
                       // [/ChoiceChipField]
                     ),
 
@@ -990,24 +1021,24 @@ class MyMenuItem {
   ///
   ///
   IconButton iconButton(BuildContext context) => IconButton(
-        icon: Icon(iconData),
-        onPressed: () => onPressed(context),
-        tooltip: name,
-      );
+    icon: Icon(iconData),
+    onPressed: () => onPressed(context),
+    tooltip: name,
+  );
 
   ///
   ///
   ///
   PopupMenuItem<MyMenuItem> get popupMenuItem => PopupMenuItem<MyMenuItem>(
-        value: this,
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Icon(iconData),
-            ),
-            Text(name),
-          ],
+    value: this,
+    child: Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 16),
+          child: Icon(iconData),
         ),
-      );
+        Text(name),
+      ],
+    ),
+  );
 }

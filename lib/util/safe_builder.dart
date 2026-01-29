@@ -4,41 +4,35 @@ import 'package:flutter/widgets.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 
-///
-///
-///
+@Deprecated('Refactor this class.')
 class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
-  ///
-  ///
-  ///
   SilentFutureBuilder({
     required super.builder,
     super.future,
     super.initialData,
     super.key,
   }) : super(
-          onWait: (ConnectionState connectionState, Widget widget) =>
-              const SizedBox.shrink(),
-          onError: (
-            Object? error,
-            StackTrace? stackTrace,
-            Widget widget,
-            ConnectionState connectionState,
-          ) {
-            if (kDebugMode) {
-              print(connectionState);
-              print(error);
-              print(stackTrace);
-            }
+         onWait: (ConnectionState connectionState, Widget widget) =>
+             const SizedBox.shrink(),
+         onError:
+             (
+               Object? error,
+               StackTrace? stackTrace,
+               Widget widget,
+               ConnectionState connectionState,
+             ) {
+               if (kDebugMode) {
+                 print(connectionState);
+                 print(error);
+                 print(stackTrace);
+               }
 
-            return const SizedBox.shrink();
-          },
-        );
+               return const SizedBox.shrink();
+             },
+       );
 }
 
-///
-///
-///
+@Deprecated('Refactor this class.')
 class SafeFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
   final T? initialData;
@@ -46,22 +40,18 @@ class SafeFutureBuilder<T> extends StatelessWidget {
     BuildContext context,
     T data,
     ConnectionState connectionState,
-  ) builder;
+  )
+  builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
     ConnectionState connectionState,
-  )? onError;
-  final Widget Function(
-    ConnectionState connectionState,
-    Widget child,
-  )? onWait;
+  )?
+  onError;
+  final Widget Function(ConnectionState connectionState, Widget child)? onWait;
   final String? waitingMessage;
 
-  ///
-  ///
-  ///
   const SafeFutureBuilder({
     required this.builder,
     this.future,
@@ -71,13 +61,10 @@ class SafeFutureBuilder<T> extends StatelessWidget {
     this.waitingMessage,
     super.key,
   }) : assert(
-          onWait == null || waitingMessage == null,
-          'onWait or waitingMessage must be null.',
-        );
+         onWait == null || waitingMessage == null,
+         'onWait or waitingMessage must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<T>(
@@ -114,41 +101,35 @@ class SafeFutureBuilder<T> extends StatelessWidget {
   }
 }
 
-///
-///
-///
+@Deprecated('Refactor this class.')
 class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
-  ///
-  ///
-  ///
   SilentStreamBuilder({
     required super.builder,
     super.stream,
     super.initialData,
     super.key,
   }) : super(
-          onWait: (ConnectionState connectionState, Widget widget) =>
-              const SizedBox.shrink(),
-          onError: (
-            Object? error,
-            StackTrace? stackTrace,
-            Widget widget,
-            ConnectionState connectionState,
-          ) {
-            if (kDebugMode) {
-              print(connectionState);
-              print(error);
-              print(stackTrace);
-            }
+         onWait: (ConnectionState connectionState, Widget widget) =>
+             const SizedBox.shrink(),
+         onError:
+             (
+               Object? error,
+               StackTrace? stackTrace,
+               Widget widget,
+               ConnectionState connectionState,
+             ) {
+               if (kDebugMode) {
+                 print(connectionState);
+                 print(error);
+                 print(stackTrace);
+               }
 
-            return const SizedBox.shrink();
-          },
-        );
+               return const SizedBox.shrink();
+             },
+       );
 }
 
-///
-///
-///
+@Deprecated('Refactor this class.')
 class SafeStreamBuilder<T> extends StatelessWidget {
   final Stream<T>? stream;
   final T? initialData;
@@ -156,22 +137,18 @@ class SafeStreamBuilder<T> extends StatelessWidget {
     BuildContext context,
     T data,
     ConnectionState connectionState,
-  ) builder;
+  )
+  builder;
   final Widget Function(
     Object? error,
     StackTrace? stackTrace,
     Widget child,
     ConnectionState connectionState,
-  )? onError;
-  final Widget Function(
-    ConnectionState connectionState,
-    Widget child,
-  )? onWait;
+  )?
+  onError;
+  final Widget Function(ConnectionState connectionState, Widget child)? onWait;
   final String? waitingMessage;
 
-  ///
-  ///
-  ///
   const SafeStreamBuilder({
     required this.builder,
     this.stream,
@@ -181,13 +158,10 @@ class SafeStreamBuilder<T> extends StatelessWidget {
     this.waitingMessage,
     super.key,
   }) : assert(
-          onWait == null || waitingMessage == null,
-          'onWait or waitingMessage must be null.',
-        );
+         onWait == null || waitingMessage == null,
+         'onWait or waitingMessage must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<T>(

@@ -29,7 +29,9 @@ jobs:
 
       - name: Dart Analyze
         timeout-minutes: 2
-        run: dart analyze --fatal-infos
+        # TODO(edufolly): Enable again.
+        # run: dart analyze --fatal-infos
+        run: dart analyze
 
       - name: Flutter Test
         run: |

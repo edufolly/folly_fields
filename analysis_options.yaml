@@ -94,8 +94,10 @@ linter:
     curly_braces_in_flow_control_structures: true
     dangling_library_doc_comments: true
     depend_on_referenced_packages: true
-    deprecated_consistency: true
-    deprecated_member_use_from_same_package: true
+    # TODO: Only to clean the plugin features.
+    deprecated_consistency: false
+    # TODO: Only to clean the plugin features.
+    deprecated_member_use_from_same_package: false
     diagnostic_describe_all_properties: false
     directives_ordering: true
     discarded_futures: false
@@ -225,7 +227,8 @@ linter:
     prefer_spread_collections: true
     prefer_typing_uninitialized_variables: true
     prefer_void_to_null: true
-    provide_deprecation_message: true
+    # TODO: Only to clean the plugin features.
+    provide_deprecation_message: false
     public_member_api_docs: false
     recursive_getters: true
     require_trailing_commas: true

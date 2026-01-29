@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/basic_table/pagination/basic_table_pagination_controller.dart';
-import 'package:folly_fields/util/folly_num_extension.dart';
+import 'package:folly_fields/extensions/folly_num_extension.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 ///

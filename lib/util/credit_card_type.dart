@@ -197,9 +197,6 @@ enum CreditCardType {
     patterns: <Range>{},
   );
 
-  ///
-  ///
-  ///
   final String brand;
   final String mask;
   final List<int> lengths;
@@ -208,9 +205,6 @@ enum CreditCardType {
   final bool checkLuhn;
   final List<String> extraBrands;
 
-  ///
-  ///
-  ///
   const CreditCardType({
     required this.brand,
     required this.mask,
@@ -221,14 +215,8 @@ enum CreditCardType {
     this.extraBrands = const <String>[],
   });
 
-  ///
-  ///
-  ///
   bool validLength(String ccNum) => lengths.contains(clearNum(ccNum).length);
 
-  ///
-  ///
-  ///
   bool validNumber(String ccNum) {
     if (!checkLuhn) {
       return true;
@@ -262,21 +250,12 @@ enum CreditCardType {
     }
   }
 
-  ///
-  ///
-  ///
   bool cvvCheck(String cvv) =>
       code.size.contains(cvv.length) &&
       code.size.contains(clearNum(cvv).length);
 
-  ///
-  ///
-  ///
   static String clearNum(String ccNum) => ccNum.replaceAll(RegExp(r'\D'), '');
 
-  ///
-  ///
-  ///
   static CreditCardType detectType(String ccNum) {
     String cNum = clearNum(ccNum);
 
@@ -291,9 +270,7 @@ enum CreditCardType {
     return CreditCardType.unknown;
   }
 
-  ///
-  ///
-  ///
+  // TODO(edufolly): Create a factory.
   static CreditCardType parse(String? value) {
     return CreditCardType.values.firstWhere(
       (CreditCardType type) {
@@ -312,31 +289,19 @@ enum CreditCardType {
   }
 }
 
-///
-///
-///
 class CreditCardCode {
   final String name;
   final List<int> size;
 
-  ///
-  ///
-  ///
   const CreditCardCode(this.name, this.size);
 }
 
-///
-///
-///
 class Range {
   final int initialValue;
   final int? finalValue;
 
   const Range(this.initialValue, [this.finalValue]);
 
-  ///
-  ///
-  ///
   bool isValid(String ccNum) {
     int qtd = initialValue.toString().length;
 
