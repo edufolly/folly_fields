@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/extensions/folly_date_time_extension.dart';
+import 'package:folly_fields/extensions/date_time_extension.dart';
 
 // TODO(edufolly): Review this class.
 class FollyUtils {
-  static String? validDate(String value) {
+  static String? validDate(final String value) {
     if (value.isEmpty) {
       return 'Informe uma data.';
     }
@@ -36,7 +36,7 @@ class FollyUtils {
     return null;
   }
 
-  static String? validTime(String value) {
+  static String? validTime(final String value) {
     if (value.length != 5) {
       return 'Informe uma hora.';
     }
@@ -63,16 +63,16 @@ class FollyUtils {
   }
 
   static Color textColorByLuminance(
-    Color color, {
-    Color darkColor = Colors.black,
-    Color lightColor = Colors.white,
-    double threshold = 0.183,
+    final Color color, {
+    final Color darkColor = Colors.black,
+    final Color lightColor = Colors.white,
+    final double threshold = 0.183,
   }) => color.computeLuminance() > threshold ? darkColor : lightColor;
 
-  static String colorHex(Color color) =>
+  static String colorHex(final Color color) =>
       colorToInt(color).toRadixString(16).toUpperCase().padLeft(8, '0');
 
-  static Color? colorParse(String? text) {
+  static Color? colorParse(final String? text) {
     try {
       String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
       if (!t.startsWith('0x')) {
@@ -102,7 +102,10 @@ class FollyUtils {
     }
   }
 
-  static MaterialColor? createMaterialColor({int? intColor, Color? color}) {
+  static MaterialColor? createMaterialColor({
+    final int? intColor,
+    Color? color,
+  }) {
     if (intColor != null) {
       color = Color(intColor);
     }
@@ -125,11 +128,11 @@ class FollyUtils {
     });
   }
 
-  static int _floatToInt8(double x) {
+  static int _floatToInt8(final double x) {
     return (x * 255.0).round() & 0xff;
   }
 
-  static int colorToInt(Color color) {
+  static int colorToInt(final Color color) {
     return _floatToInt8(color.a) << 24 |
         _floatToInt8(color.r) << 16 |
         _floatToInt8(color.g) << 8 |

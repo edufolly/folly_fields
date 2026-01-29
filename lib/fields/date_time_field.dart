@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/date_time_editing_controller.dart';
-import 'package:folly_fields/extensions/folly_date_time_extension.dart';
+import 'package:folly_fields/extensions/date_time_extension.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class DateTimeField
     extends BaseStatefulField<DateTime, DateTimeEditingController> {
   final TimePickerEntryMode initialTimeEntryMode;
@@ -18,9 +15,6 @@ class DateTimeField
   final String dateFormat;
   final String mask;
 
-  ///
-  ///
-  ///
   const DateTimeField({
     this.initialTimeEntryMode = TimePickerEntryMode.dial,
     this.initialDateEntryMode = DatePickerEntryMode.calendar,
@@ -70,24 +64,18 @@ class DateTimeField
     super.key,
   }) : super(maxLength: mask.length);
 
-  ///
-  ///
-  ///
   @override
   DateTimeEditingController createController() => DateTimeEditingController(
-        value: initialValue,
-        locale: locale,
-        dateFormat: dateFormat,
-        mask: mask,
-      );
+    value: initialValue,
+    locale: locale,
+    dateFormat: dateFormat,
+    mask: mask,
+  );
 
-  ///
-  ///
-  ///
   @override
   Future<DateTime?> selectData({
-    required BuildContext context,
-    required DateTimeEditingController controller,
+    required final BuildContext context,
+    required final DateTimeEditingController controller,
   }) async {
     DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -105,9 +93,7 @@ class DateTimeField
     TimeOfDay initialTime = TimeOfDay.now();
 
     try {
-      initialTime = TimeOfDay.fromDateTime(
-        controller.data ?? DateTime.now(),
-      );
+      initialTime = TimeOfDay.fromDateTime(controller.data ?? DateTime.now());
     } on Exception catch (_) {
       // Do nothing.
     }

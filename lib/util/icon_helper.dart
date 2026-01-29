@@ -1,27 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
 /// Gerado para: font_awesome_flutter: 10.12.0
-///
+
 class IconHelper {
-  ///
-  ///
-  ///
   static IconData iconData(
-    String iconName, {
-    IconData defaultIconData = FontAwesomeIcons.solidCircle,
+    final String iconName, {
+    final IconData defaultIconData = FontAwesomeIcons.solidCircle,
   }) => data[iconName] ?? defaultIconData;
 
-  ///
-  ///
-  ///
-  static String iconName(IconData iconData) =>
-      data.keys.firstWhere((String key) => data[key] == iconData);
+  static String iconName(final IconData iconData) =>
+      data.keys.firstWhere((final String key) => data[key] == iconData);
 
-  ///
-  ///
-  ///
   static final Map<String, IconData> data = <String, IconData>{
     'zero': FontAwesomeIcons.zero,
     'one': FontAwesomeIcons.one,

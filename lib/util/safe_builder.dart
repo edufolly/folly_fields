@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 
-@Deprecated('Refactor this class.')
 class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
   SilentFutureBuilder({
     required super.builder,
@@ -12,14 +11,14 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-         onWait: (ConnectionState connectionState, Widget widget) =>
+         onWait: (final ConnectionState connectionState, final Widget widget) =>
              const SizedBox.shrink(),
          onError:
              (
-               Object? error,
-               StackTrace? stackTrace,
-               Widget widget,
-               ConnectionState connectionState,
+               final Object? error,
+               final StackTrace? stackTrace,
+               final Widget widget,
+               final ConnectionState connectionState,
              ) {
                if (kDebugMode) {
                  print(connectionState);
@@ -32,7 +31,6 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
        );
 }
 
-@Deprecated('Refactor this class.')
 class SafeFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
   final T? initialData;
@@ -66,11 +64,11 @@ class SafeFutureBuilder<T> extends StatelessWidget {
        );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder<T>(
       future: future,
       initialData: initialData,
-      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+      builder: (final BuildContext context, final AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
           Widget child = ErrorMessage(
             error: snapshot.error,
@@ -101,7 +99,6 @@ class SafeFutureBuilder<T> extends StatelessWidget {
   }
 }
 
-@Deprecated('Refactor this class.')
 class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
   SilentStreamBuilder({
     required super.builder,
@@ -109,14 +106,14 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-         onWait: (ConnectionState connectionState, Widget widget) =>
+         onWait: (final ConnectionState connectionState, final Widget widget) =>
              const SizedBox.shrink(),
          onError:
              (
-               Object? error,
-               StackTrace? stackTrace,
-               Widget widget,
-               ConnectionState connectionState,
+               final Object? error,
+               final StackTrace? stackTrace,
+               final Widget widget,
+               final ConnectionState connectionState,
              ) {
                if (kDebugMode) {
                  print(connectionState);
@@ -129,7 +126,6 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
        );
 }
 
-@Deprecated('Refactor this class.')
 class SafeStreamBuilder<T> extends StatelessWidget {
   final Stream<T>? stream;
   final T? initialData;
@@ -163,11 +159,11 @@ class SafeStreamBuilder<T> extends StatelessWidget {
        );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return StreamBuilder<T>(
       stream: stream,
       initialData: initialData,
-      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
+      builder: (final BuildContext context, final AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
           Widget child = ErrorMessage(
             error: snapshot.error,

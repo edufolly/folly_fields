@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 
-///
-///
-///
 void main() {
   const Color red = Color(0xFFFF0000);
   const Color green = Color(0xFF00FF00);
@@ -47,18 +44,10 @@ void main() {
     '#00F': blue,
   };
 
-  group(
-    'colorParse',
-    () {
-      for (final MapEntry<String?, Color?>(
-            :String? key,
-            :Color? value,
-          ) in domain.entries) {
-        test(
-          'Testing $key',
-          () => expect(FollyUtils.colorParse(key), value),
-        );
-      }
-    },
-  );
+  group('colorParse', () {
+    for (final MapEntry<String?, Color?>(:String? key, :Color? value)
+        in domain.entries) {
+      test('Testing $key', () => expect(FollyUtils.colorParse(key), value));
+    }
+  });
 }

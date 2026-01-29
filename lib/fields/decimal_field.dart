@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/decimal_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
+
 import 'package:folly_fields/util/decimal.dart';
 
-///
-///
-///
-class DecimalField
-    extends BaseStatefulField<Decimal, DecimalEditingController> {
+class NewDecimalField
+    extends BaseStatefulField<Decimal, NewDecimalEditingController> {
   final String decimalSeparator;
   final String thousandSeparator;
 
-  ///
-  ///
-  ///
-  const DecimalField({
+  const NewDecimalField({
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
     super.labelPrefix,
@@ -58,13 +53,10 @@ class DecimalField
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  DecimalEditingController createController() => DecimalEditingController(
-        initialValue!,
-        decimalSeparator: decimalSeparator,
-        thousandSeparator: thousandSeparator,
-      );
+  NewDecimalEditingController createController() => NewDecimalEditingController(
+    initialValue!,
+    decimalSeparator: decimalSeparator,
+    thousandSeparator: thousandSeparator,
+  );
 }

@@ -1,26 +1,13 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class HeaderText extends StatelessWidget {
   final String text;
   final bool enabled;
 
-  ///
-  ///
-  ///
-  const HeaderText(
-    this.text, {
-    this.enabled = true,
-    super.key,
-  });
+  const HeaderText(this.text, {this.enabled = true, super.key});
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     TextStyle? columnHeaderTheme = Theme.of(context).textTheme.titleSmall;
 
     if (columnHeaderTheme != null && !enabled) {

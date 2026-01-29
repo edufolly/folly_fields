@@ -1,9 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 class ResponsiveValueListenableBuilder<T> extends ValueListenableBuilder<T>
     with Responsive {
   @override
@@ -24,9 +21,6 @@ class ResponsiveValueListenableBuilder<T> extends ValueListenableBuilder<T>
   @override
   final double? minHeight;
 
-  ///
-  ///
-  ///
   const ResponsiveValueListenableBuilder({
     required super.valueListenable,
     required super.builder,

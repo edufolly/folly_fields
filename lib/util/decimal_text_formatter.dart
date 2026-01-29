@@ -14,8 +14,8 @@ class DecimalTextFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) {
     // print('old: ${oldValue.toJSON()}');
     // print('new: ${newValue.toJSON()}');

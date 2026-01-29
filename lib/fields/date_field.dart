@@ -3,9 +3,6 @@ import 'package:folly_fields/controllers/date_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   final DatePickerEntryMode initialEntryMode;
   final DatePickerMode initialDatePickerMode;
@@ -15,9 +12,6 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   final String dateFormat;
   final String mask;
 
-  ///
-  ///
-  ///
   const DateField({
     this.initialEntryMode = DatePickerEntryMode.calendar,
     this.initialDatePickerMode = DatePickerMode.day,
@@ -66,31 +60,24 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     super.key,
   }) : super(maxLength: mask.length);
 
-  ///
-  ///
-  ///
   @override
   DateEditingController createController() => DateEditingController(
-        value: initialValue,
-        locale: locale,
-        dateFormat: dateFormat,
-        mask: mask,
-      );
+    value: initialValue,
+    locale: locale,
+    dateFormat: dateFormat,
+    mask: mask,
+  );
 
-  ///
-  ///
-  ///
   @override
   Future<DateTime?> selectData({
-    required BuildContext context,
-    required DateEditingController controller,
-  }) =>
-      showDatePicker(
-        context: context,
-        initialDate: controller.data ?? DateTime.now(),
-        firstDate: firstDate ?? DateTime(1900),
-        lastDate: lastDate ?? DateTime(2100),
-        initialEntryMode: initialEntryMode,
-        initialDatePickerMode: initialDatePickerMode,
-      );
+    required final BuildContext context,
+    required final DateEditingController controller,
+  }) => showDatePicker(
+    context: context,
+    initialDate: controller.data ?? DateTime.now(),
+    firstDate: firstDate ?? DateTime(1900),
+    lastDate: lastDate ?? DateTime(2100),
+    initialEntryMode: initialEntryMode,
+    initialDatePickerMode: initialDatePickerMode,
+  );
 }

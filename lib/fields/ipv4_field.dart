@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/ipv4_validator.dart';
 
-///
-///
-///
 class Ipv4Field extends ValidatorField {
-  ///
-  ///
-  ///
   Ipv4Field({
-    Ipv4Validator? ipv4Validator,
+    final Ipv4Validator? ipv4Validator,
     super.validatorMessage = 'IPv4 inválido.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class Ipv4Field extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: ipv4Validator ?? Ipv4Validator(),
-          maxLength: 15,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: ipv4Validator ?? Ipv4Validator(),
+         maxLength: 15,
+         textCapitalization: TextCapitalization.none,
+       );
 }

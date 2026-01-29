@@ -7,18 +7,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-///
-///
-///
+
+
+
 class CodeLink extends StatelessWidget {
   final String code;
   final String tag;
   final String source;
   final Widget child;
 
-  ///
-  ///
-  ///
+
+
+
   const CodeLink({
     required this.code,
     required this.tag,
@@ -27,23 +27,18 @@ class CodeLink extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
+
+
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Flexible(
-          child: child,
-        ),
+        Flexible(child: child),
         IconButton(
           icon: const Text(
             '?',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           onPressed: () => _showCode(context),
         ),
@@ -51,9 +46,9 @@ class CodeLink extends StatelessWidget {
     );
   }
 
-  ///
-  ///
-  ///
+
+
+
   void _showCode(BuildContext context) {
     String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
         .firstMatch(code)!
@@ -104,24 +99,19 @@ class CodeLink extends StatelessWidget {
               onPressed: () {
                 CircularWaiting wait = CircularWaiting(context)..show();
 
-                launchUrlString(
-                  source,
-                  mode: LaunchMode.externalApplication,
-                ).then(
-                  (_) {
-                    Future<void>.delayed(
-                      const Duration(seconds: 2),
-                      wait.close,
-                    );
-                  },
-                ).catchError(
-                  (dynamic e, StackTrace s) {
-                    if (kDebugMode) {
-                      print(e);
-                      print(s);
-                    }
-                  },
-                );
+                launchUrlString(source, mode: LaunchMode.externalApplication)
+                    .then((_) {
+                      Future<void>.delayed(
+                        const Duration(seconds: 2),
+                        wait.close,
+                      );
+                    })
+                    .catchError((dynamic e, StackTrace s) {
+                      if (kDebugMode) {
+                        print(e);
+                        print(s);
+                      }
+                    });
               },
             ),
             ElevatedButton(
@@ -134,9 +124,9 @@ class CodeLink extends StatelessWidget {
     );
   }
 
-  ///
-  ///
-  ///
+
+
+
   static const Map<String, TextStyle> myTheme = <String, TextStyle>{
     'root': TextStyle(
       color: Color(0xffa9b7c6),

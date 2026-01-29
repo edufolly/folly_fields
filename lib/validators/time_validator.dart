@@ -4,57 +4,35 @@ import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class TimeValidator extends AbstractParserValidator<TimeOfDay> {
-  ///
-  ///
-  ///
   TimeValidator()
-      : super(
-          <TextInputFormatter>[
-            MaskTextInputFormatter(
-              mask: 'AB:CB',
-              filter: <String, RegExp>{
-                'A': RegExp('[0-2]'),
-                'B': RegExp('[0-9]'),
-                'C': RegExp('[0-5]'),
-              },
-            ),
-          ],
-        );
+    : super(<TextInputFormatter>[
+        MaskTextInputFormatter(
+          mask: 'AB:CB',
+          filter: <String, RegExp>{
+            'A': RegExp('[0-2]'),
+            'B': RegExp('[0-9]'),
+            'C': RegExp('[0-5]'),
+          },
+        ),
+      ]);
 
-  ///
-  ///
-  ///
   @override
-  String format(TimeOfDay value) => '${value.hour.toString().padLeft(2, '0')}'
+  String format(final TimeOfDay value) =>
+      '${value.hour.toString().padLeft(2, '0')}'
       ':${value.minute.toString().padLeft(2, '0')}';
 
-  ///
-  ///
-  ///
   @override
-  String strip(String value) => value;
+  String strip(final String value) => value;
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) => valid(value) == null;
+  bool isValid(final String value) => valid(value) == null;
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.datetime;
 
-  ///
-  ///
-  ///
   @override
-  TimeOfDay? parse(String? value) {
+  TimeOfDay? parse(final String? value) {
     if (value != null && isValid(value)) {
       List<String> parts = value.split(':');
       if (parts.length == 2) {
@@ -68,15 +46,9 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
     return null;
   }
 
-  ///
-  ///
-  ///
   @override
-  String? valid(String value) => FollyUtils.validTime(value);
+  String? valid(final String value) => FollyUtils.validTime(value);
 
-  ///
-  ///
-  ///
-  String formatDateTime(DateTime dateTime) =>
+  String formatDateTime(final DateTime dateTime) =>
       format(TimeOfDay.fromDateTime(dateTime));
 }

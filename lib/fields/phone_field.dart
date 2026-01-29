@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/phone_validator.dart';
 
-///
-///
-///
 class PhoneField extends ValidatorField {
-  ///
-  ///
-  ///
   PhoneField({
-    PhoneValidator? phoneValidator,
+    final PhoneValidator? phoneValidator,
     super.validatorMessage = 'Informe o telefone.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class PhoneField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: phoneValidator ?? PhoneValidator(),
-          maxLength: 15,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: phoneValidator ?? PhoneValidator(),
+         maxLength: 15,
+         textCapitalization: TextCapitalization.none,
+       );
 }

@@ -2,9 +2,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 
-///
-///
-///
 void main() {
   Map<int, int> domain = <int, int>{
     0xFF000000: 0xFFFFFFFF,
@@ -17,18 +14,12 @@ void main() {
     0xFFFFFFFF: 0xFF000000,
   };
 
-  group(
-    'textColorByLuminance',
-    () {
-      for (final MapEntry<int, int>(:int key, :int value) in domain.entries) {
-        test(
-          'Testing ${key.toRadixString(16)} - ${Color(key).computeLuminance()}',
-          () => expect(
-            FollyUtils.textColorByLuminance(Color(key)),
-            Color(value),
-          ),
-        );
-      }
-    },
-  );
+  group('textColorByLuminance', () {
+    for (final MapEntry<int, int>(:int key, :int value) in domain.entries) {
+      test(
+        'Testing ${key.toRadixString(16)} - ${Color(key).computeLuminance()}',
+        () => expect(FollyUtils.textColorByLuminance(Color(key)), Color(value)),
+      );
+    }
+  });
 }

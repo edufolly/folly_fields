@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
-///
-///
-///
 class PasswordField extends StringField {
-  ///
-  ///
-  ///
   const PasswordField({
     super.labelPrefix,
     super.label,
@@ -51,10 +45,10 @@ class PasswordField extends StringField {
     super.minHeight,
     super.key,
   }) : super(
-          keyboard: TextInputType.visiblePassword,
-          minLines: 1,
-          maxLines: 1,
-          obscureText: true,
-          trimOnSaved: false,
-        );
+         keyboard: TextInputType.visiblePassword,
+         minLines: 1,
+         maxLines: 1,
+         obscureText: true,
+         trimOnSaved: false,
+       );
 }

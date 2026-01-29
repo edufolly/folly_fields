@@ -1,22 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 
-///
-///
-///
 class IntegerEditingController extends TextEditingController {
-  ///
-  ///
-  ///
-  IntegerEditingController({int? value})
-      : super(text: value == null ? '' : value.toString());
+  IntegerEditingController({final int? value})
+    : super(text: value?.let(toString) ?? '');
 
-  ///
-  ///
-  ///
   int? get integer => int.tryParse(text);
 
-  ///
-  ///
-  ///
-  set integer(int? integer) => text = integer == null ? '' : integer.toString();
+  set integer(final int? value) => text = value?.let(toString) ?? '';
 }

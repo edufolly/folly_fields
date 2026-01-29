@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/validator_editing_controller.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
     extends ResponsiveStateful {
   final String? labelPrefix;
@@ -35,11 +32,8 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   final String? counterText;
   final Widget? prefix;
   final Widget? prefixIcon;
-  final Widget Function(
-    BuildContext context,
-    T? value,
-    Widget? prefixIcon,
-  )? updatePrefixIcon;
+  final Widget Function(BuildContext context, T? value, Widget? prefixIcon)?
+  updatePrefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
   final IconData? suffixIconData;
@@ -48,9 +42,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
   final bool required;
   final bool clearOnCancel;
 
-  ///
-  ///
-  ///
   const BaseStatefulField({
     this.labelPrefix = '',
     this.label,
@@ -94,40 +85,27 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       );
 
-  ///
-  ///
-  ///
   C createController();
 
-  ///
-  ///
-  ///
   Future<T?> selectData({
-    required BuildContext context,
-    required C controller,
-  }) async =>
-      null;
+    required final BuildContext context,
+    required final C controller,
+  }) async => null;
 
-  ///
-  ///
-  ///
   @override
   State<BaseStatefulField<T, C>> createState() =>
       _BaseStatefulFieldState<T, C>();
 }
 
-///
-///
-///
 class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     extends State<BaseStatefulField<T, C>> {
   C? _controller;
@@ -136,19 +114,10 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
   ValueNotifier<T?>? _updatePrefixIconNotifier;
   bool fromButton = false;
 
-  ///
-  ///
-  ///
   C get _effectiveController => widget.controller ?? _controller!;
 
-  ///
-  ///
-  ///
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
-  ///
-  ///
-  ///
   @override
   void initState() {
     super.initState();
@@ -170,16 +139,10 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     }
   }
 
-  ///
-  ///
-  ///
   void _controllerListener() {
     _updatePrefixIconNotifier?.value = _effectiveController.data;
   }
 
-  ///
-  ///
-  ///
   void _handleFocus() {
     if (_effectiveFocusNode.hasFocus) {
       _effectiveController.selection = TextSelection(
@@ -195,11 +158,8 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     }
   }
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     TextStyle effectiveStyle =
         widget.style ?? Theme.of(context).textTheme.titleMedium!;
 
@@ -209,31 +169,37 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
       );
     }
 
-    InputDecoration effectiveDecoration = (widget.decoration ??
-            InputDecoration(
-              prefix: widget.prefix,
-              prefixIcon: _updatePrefixIconNotifier != null
-                  ? ValueListenableBuilder<T?>(
-                      valueListenable: _updatePrefixIconNotifier!,
-                      builder: (BuildContext context, T? value, _) => widget
-                          .updatePrefixIcon!(context, value, widget.prefixIcon),
-                    )
-                  : widget.prefixIcon,
-              label: widget.labelWidget,
-              labelText: widget.label == null
-                  ? null
-                  : widget.labelPrefix?.isEmpty ?? true
+    InputDecoration effectiveDecoration =
+        (widget.decoration ??
+                InputDecoration(
+                  prefix: widget.prefix,
+                  prefixIcon: _updatePrefixIconNotifier != null
+                      ? ValueListenableBuilder<T?>(
+                          valueListenable: _updatePrefixIconNotifier!,
+                          builder:
+                              (final BuildContext context, final T? value, _) =>
+                                  widget.updatePrefixIcon!(
+                                    context,
+                                    value,
+                                    widget.prefixIcon,
+                                  ),
+                        )
+                      : widget.prefixIcon,
+                  label: widget.labelWidget,
+                  labelText: widget.label == null
+                      ? null
+                      : widget.labelPrefix?.isEmpty ?? true
                       ? widget.label
                       : '${widget.labelPrefix} - ${widget.label}',
-              border: const OutlineInputBorder(),
-              counterText: widget.counterText,
-              enabled: widget.enabled,
-              filled: widget.filled,
-              fillColor: widget.fillColor,
-              hintText: widget.hintText,
-              contentPadding: widget.contentPadding,
-            ))
-        .applyDefaults(Theme.of(context).inputDecorationTheme);
+                  border: const OutlineInputBorder(),
+                  counterText: widget.counterText,
+                  enabled: widget.enabled,
+                  filled: widget.filled,
+                  fillColor: widget.fillColor,
+                  hintText: widget.hintText,
+                  contentPadding: widget.contentPadding,
+                ))
+            .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     /// Add suffix icon button
     effectiveDecoration = widget.suffixIconData != null
@@ -277,7 +243,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
         keyboardType: _effectiveController.validator.keyboard,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (String? value) {
+            ? (final String? value) {
                 if (!widget.required && (value == null || value.isEmpty)) {
                   return null;
                 }
@@ -289,8 +255,9 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                 }
 
                 if (widget.validator != null) {
-                  return widget
-                      .validator!(_effectiveController.validator.parse(value));
+                  return widget.validator!(
+                    _effectiveController.validator.parse(value),
+                  );
                 }
 
                 return null;
@@ -300,7 +267,8 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
         inputFormatters: _effectiveController.validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.maxLength,
-        onSaved: (String? value) => widget.enabled && widget.onSaved != null
+        onSaved: (final String? value) =>
+            widget.enabled && widget.onSaved != null
             ? widget.onSaved!(_effectiveController.validator.parse(value))
             : null,
         enabled: widget.enabled,
@@ -319,9 +287,6 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
     );
   }
 
-  ///
-  ///
-  ///
   @override
   void dispose() {
     _effectiveController.removeListener(_controllerListener);

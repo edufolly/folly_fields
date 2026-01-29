@@ -7,5 +7,5 @@ class ChildBuilder extends StatelessWidget {
   const ChildBuilder({required this.child, required this.builder, super.key});
 
   @override
-  Widget build(BuildContext context) => builder(context, child);
+  Widget build(final BuildContext context) => builder(context, child);
 }

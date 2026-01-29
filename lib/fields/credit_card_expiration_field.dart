@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/credit_card_expiration_validator.dart';
 
-///
-///
-///
 class CreditCardExpirationField extends ValidatorField {
-  ///
-  ///
-  ///
   CreditCardExpirationField({
-    CreditCardExpirationValidator? creditCardExpirationValidator,
+    final CreditCardExpirationValidator? creditCardExpirationValidator,
     super.validatorMessage = 'Informe a validade.',
     super.labelPrefix,
     super.label,
@@ -53,18 +47,18 @@ class CreditCardExpirationField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator:
-              creditCardExpirationValidator ?? CreditCardExpirationValidator(),
-          maxLength: 5,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator:
+             creditCardExpirationValidator ?? CreditCardExpirationValidator(),
+         maxLength: 5,
+         textCapitalization: TextCapitalization.none,
+       );
 }

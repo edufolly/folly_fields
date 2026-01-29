@@ -215,9 +215,10 @@ enum CreditCardType {
     this.extraBrands = const <String>[],
   });
 
-  bool validLength(String ccNum) => lengths.contains(clearNum(ccNum).length);
+  bool validLength(final String ccNum) =>
+      lengths.contains(clearNum(ccNum).length);
 
-  bool validNumber(String ccNum) {
+  bool validNumber(final String ccNum) {
     if (!checkLuhn) {
       return true;
     }
@@ -250,13 +251,14 @@ enum CreditCardType {
     }
   }
 
-  bool cvvCheck(String cvv) =>
+  bool cvvCheck(final String cvv) =>
       code.size.contains(cvv.length) &&
       code.size.contains(clearNum(cvv).length);
 
-  static String clearNum(String ccNum) => ccNum.replaceAll(RegExp(r'\D'), '');
+  static String clearNum(final String ccNum) =>
+      ccNum.replaceAll(RegExp(r'\D'), '');
 
-  static CreditCardType detectType(String ccNum) {
+  static CreditCardType detectType(final String ccNum) {
     String cNum = clearNum(ccNum);
 
     for (final CreditCardType type in CreditCardType.values) {
@@ -271,15 +273,15 @@ enum CreditCardType {
   }
 
   // TODO(edufolly): Create a factory.
-  static CreditCardType parse(String? value) {
+  static CreditCardType parse(final String? value) {
     return CreditCardType.values.firstWhere(
-      (CreditCardType type) {
+      (final CreditCardType type) {
         String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
 
         return type.brand.toLowerCase() == newValue ||
             type.extraBrands.fold<bool>(
               false,
-              (bool previous, String element) =>
+              (final bool previous, final String element) =>
                   previous || element.toLowerCase() == newValue,
             );
       },
@@ -302,7 +304,7 @@ class Range {
 
   const Range(this.initialValue, [this.finalValue]);
 
-  bool isValid(String ccNum) {
+  bool isValid(final String ccNum) {
     int qtd = initialValue.toString().length;
 
     if (ccNum.length < qtd) {

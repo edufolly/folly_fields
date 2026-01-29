@@ -4,17 +4,24 @@ import 'package:flutter/foundation.dart';
 class Ipv4Address {
   final int _ip;
 
-  const Ipv4Address(int ip) : _ip = ip;
+  const Ipv4Address(final int ip) : _ip = ip;
 
-  const Ipv4Address.fromDecimals(int oc1, int oc2, int oc3, int oc4)
-    : assert(oc1 >= 0 && oc1 <= 255, 'First octet must be between 0 and 255'),
+  const Ipv4Address.fromDecimals(
+    final int oc1,
+    final int oc2,
+    final int oc3,
+    final int oc4,
+  ) : assert(oc1 >= 0 && oc1 <= 255, 'First octet must be between 0 and 255'),
       assert(oc2 >= 0 && oc2 <= 255, 'Second octet must be between 0 and 255'),
       assert(oc3 >= 0 && oc3 <= 255, 'Third octet must be between 0 and 255'),
       assert(oc4 >= 0 && oc4 <= 255, 'Fourth octet must be between 0 and 255'),
       _ip = (oc1 << 24) + (oc2 << 16) + (oc3 << 8) + oc4;
 
   // TODO(edufolly): Refactor this code!
-  factory Ipv4Address.fromList(List<dynamic> list, {String separator = '.'}) {
+  factory Ipv4Address.fromList(
+    final List<dynamic> list, {
+    final String separator = '.',
+  }) {
     if (list.length != 4) {
       throw ArgumentError('invalidIpAddress');
     }
@@ -23,7 +30,10 @@ class Ipv4Address {
   }
 
   // TODO(edufolly): Refactor this code!
-  factory Ipv4Address.fromString(String? value, {String separator = '.'}) {
+  factory Ipv4Address.fromString(
+    final String? value, {
+    final String separator = '.',
+  }) {
     if (value == null || value.isEmpty) {
       throw ArgumentError('invalidIpAddress');
     }
@@ -58,17 +68,17 @@ class Ipv4Address {
   int get integer => _ip;
 
   @override
-  String toString({String separator = '.'}) =>
+  String toString({final String separator = '.'}) =>
       <int>[dot1, dot2, dot3, dot4].join(separator);
 
   @override
   int get hashCode => _ip;
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(final Object other) =>
       other is Ipv4Address && _ip == other.integer;
 
-  Ipv4Address operator +(int value) {
+  Ipv4Address operator +(final int value) {
     int newValue = _ip + value;
     if (newValue > 4294967295) {
       throw ArgumentError('invalidIpAddress');
@@ -77,7 +87,7 @@ class Ipv4Address {
     return Ipv4Address(newValue);
   }
 
-  Ipv4Address operator -(int value) {
+  Ipv4Address operator -(final int value) {
     int newValue = _ip - value;
     if (newValue < 0) {
       throw ArgumentError('invalidIpAddress');
@@ -86,11 +96,11 @@ class Ipv4Address {
     return Ipv4Address(newValue);
   }
 
-  bool operator >(Ipv4Address value) => _ip > value.integer;
+  bool operator >(final Ipv4Address value) => _ip > value.integer;
 
-  bool operator <(Ipv4Address value) => _ip < value.integer;
+  bool operator <(final Ipv4Address value) => _ip < value.integer;
 
-  bool operator >=(Ipv4Address value) => _ip >= value.integer;
+  bool operator >=(final Ipv4Address value) => _ip >= value.integer;
 
-  bool operator <=(Ipv4Address value) => _ip <= value.integer;
+  bool operator <=(final Ipv4Address value) => _ip <= value.integer;
 }

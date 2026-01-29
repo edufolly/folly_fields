@@ -23,20 +23,21 @@ class FutureAnimatedOpacity extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return FutureBuilder<double>(
       initialData: initialOpacity,
       future: Future<double>.delayed(delay, () => finalOpacity),
-      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-        return AnimatedOpacity(
-          opacity: snapshot.data ?? initialOpacity,
-          duration: animationDuration,
-          curve: curve,
-          onEnd: onEnd,
-          alwaysIncludeSemantics: alwaysIncludeSemantics,
-          child: child,
-        );
-      },
+      builder:
+          (final BuildContext context, final AsyncSnapshot<double> snapshot) {
+            return AnimatedOpacity(
+              opacity: snapshot.data ?? initialOpacity,
+              duration: animationDuration,
+              curve: curve,
+              onEnd: onEnd,
+              alwaysIncludeSemantics: alwaysIncludeSemantics,
+              child: child,
+            );
+          },
     );
   }
 }

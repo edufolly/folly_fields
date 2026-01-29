@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
 
-///
-///
-///
 class MacAddressField extends ValidatorField {
-  ///
-  ///
-  ///
   MacAddressField({
-    MacAddressValidator? macAddressValidator,
+    final MacAddressValidator? macAddressValidator,
     super.validatorMessage = 'Informe o MAC Address.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class MacAddressField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: macAddressValidator ?? MacAddressValidator(),
-          maxLength: 17,
-          textCapitalization: TextCapitalization.characters,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: macAddressValidator ?? MacAddressValidator(),
+         maxLength: 17,
+         textCapitalization: TextCapitalization.characters,
+       );
 }

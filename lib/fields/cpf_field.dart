@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 
-///
-///
-///
 class CpfField extends ValidatorField {
-  ///
-  ///
-  ///
   CpfField({
-    CpfValidator? cpfValidator,
+    final CpfValidator? cpfValidator,
     super.validatorMessage = 'Informe o CPF.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class CpfField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: cpfValidator ?? CpfValidator(),
-          maxLength: 14,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: cpfValidator ?? CpfValidator(),
+         maxLength: 14,
+         textCapitalization: TextCapitalization.none,
+       );
 }

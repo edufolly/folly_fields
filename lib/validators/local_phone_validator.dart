@@ -2,43 +2,23 @@ import 'package:flutter/services.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class LocalPhoneValidator extends AbstractValidator<String> {
-  ///
-  ///
-  ///
   LocalPhoneValidator()
-      : super(
-          <TextInputFormatter>[
-            ChangeMask(
-              firstMask: '####-####',
-              secondMask: '#####-####',
-            ),
-          ],
-        );
+    : super(<TextInputFormatter>[
+        ChangeMask(firstMask: '####-####', secondMask: '#####-####'),
+      ]);
 
-  ///
-  ///
-  ///
   @override
-  String format(String value) => strip(value).replaceAllMapped(
-        RegExp(r'^(\d{4,5})(\d{4})$'),
-        (Match m) => '${m[1]}-${m[2]}',
-      );
+  String format(final String value) => strip(value).replaceAllMapped(
+    RegExp(r'^(\d{4,5})(\d{4})$'),
+    (final Match m) => '${m[1]}-${m[2]}',
+  );
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.number;
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) {
+  bool isValid(final String value) {
     String v = strip(value);
 
     /// phone must have 10 or 11 chars

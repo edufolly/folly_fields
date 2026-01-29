@@ -19,41 +19,25 @@ import 'package:folly_fields/fields/icon_data_field.dart';
 import 'package:folly_fields/fields/integer_field.dart';
 import 'package:folly_fields/fields/ipv4_field.dart';
 import 'package:folly_fields/fields/licence_plate_field.dart';
-import 'package:folly_fields/fields/list_field.dart';
 import 'package:folly_fields/fields/local_phone_field.dart';
 import 'package:folly_fields/fields/mac_address_field.dart';
 import 'package:folly_fields/fields/mobile_phone_field.dart';
-import 'package:folly_fields/fields/model_field.dart';
 import 'package:folly_fields/fields/multiline_field.dart';
 import 'package:folly_fields/fields/ncm_field.dart';
-import 'package:folly_fields/fields/new_decimal_field.dart';
 import 'package:folly_fields/fields/password_field.dart';
 import 'package:folly_fields/fields/password_visible_field.dart';
 import 'package:folly_fields/fields/phone_field.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/fields/time_field.dart';
-import 'package:folly_fields/folly_fields.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/error_message.dart';
-import 'package:folly_fields/widgets/folly_dialogs.dart';
-import 'package:folly_fields_example/advanced/example_builder.dart';
-import 'package:folly_fields_example/advanced/example_consumer.dart';
-import 'package:folly_fields_example/advanced/example_edit.dart';
-import 'package:folly_fields_example/advanced/example_list.dart';
-import 'package:folly_fields_example/basic_table/example_basic_table.dart';
-import 'package:folly_fields_example/brand_new/brand_new_builder.dart';
-import 'package:folly_fields_example/brand_new/brand_new_consumer.dart';
-import 'package:folly_fields_example/brand_new/brand_new_edit.dart';
-import 'package:folly_fields_example/brand_new/brand_new_model.dart';
 import 'package:folly_fields_example/code_link.dart';
-import 'package:folly_fields_example/config.dart';
 import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
-import 'package:folly_fields_example/example_table.dart';
 import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -61,28 +45,15 @@ import 'package:google_fonts/google_fonts.dart' hide Config;
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-///
-///
-///
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  FollyFields.start(Config());
   runApp(const MyApp());
 }
 
-///
-///
-///
 class MyApp extends StatelessWidget {
-  ///
-  ///
-  ///
   const MyApp({super.key});
 
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -96,24 +67,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const MyHomePage(),
-        // TODO(edufolly): This route was deprecated.
-        '/table': (_) => const ExampleTable(),
-        '/list': (_) => ExampleList(),
-        '/edit': (_) => ExampleEdit(
-          ExampleModel.generate(),
-          const ExampleBuilder(),
-          const ExampleConsumer(),
-          edit: true,
-        ),
-        '/brandnew': (_) => BrandNewEdit(
-          BrandNewModel(),
-          const BrandNewBuilder(),
-          BrandNewConsumer(),
-          edit: true,
-        ),
         '/four_images': (_) => const FourImages(),
         '/credit_card': (_) => const CreditCard(),
-        '/basic_table': (_) => const ExampleBasicTable(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         ...GlobalMaterialLocalizations.delegates,
@@ -124,31 +79,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-///
-///
-///
 class MyHomePage extends StatefulWidget {
-  ///
-  ///
-  ///
   const MyHomePage({super.key});
 
-  ///
-  ///
-  ///
   @override
   MyHomePageState createState() => MyHomePageState();
 }
 
-///
-///
-///
 class MyHomePageState extends State<MyHomePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   /// Prefixo utilizado no label dos campos.
   /// O conteúdo está no arquivo de configurações.
-  String labelPrefix = Config().labelPrefix;
+  String labelPrefix = '';
 
   /// Habilita ou desabilita os campos.
   bool edit = true;
@@ -156,12 +99,6 @@ class MyHomePageState extends State<MyHomePage> {
   /// Modelo padrão para o exemplo.
   ExampleModel model = ExampleModel.generate();
 
-  /// Para o campo de lista.
-  List<ExampleModel> list = <ExampleModel>[];
-
-  ///
-  ///
-  ///
   @override
   Widget build(BuildContext context) {
     List<MyMenuItem> menuItems = <MyMenuItem>[
@@ -217,43 +154,23 @@ class MyHomePageState extends State<MyHomePage> {
         onPressed: (BuildContext context) =>
             Navigator.of(context).pushNamed('/credit_card'),
       ),
-
-      /// Table
-      MyMenuItem(
-        iconData: FontAwesomeIcons.table,
-        onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/basic_table'),
-        name: 'Tabela',
-      ),
-
-      /// AbstractList
-      MyMenuItem(
-        iconData: FontAwesomeIcons.list,
-        onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/list'),
-        name: 'Lista',
-      ),
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Folly Fields'),
-        actions: Config().isMobile
-            ? <PopupMenuButton<MyMenuItem>>[
-                PopupMenuButton<MyMenuItem>(
-                  tooltip: 'Menu',
-                  icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-                  itemBuilder: (BuildContext context) => menuItems
-                      .map<PopupMenuEntry<MyMenuItem>>(
-                        (MyMenuItem e) => e.popupMenuItem,
-                      )
-                      .toList(),
-                  onSelected: (MyMenuItem item) => item.onPressed(context),
-                ),
-              ]
-            : menuItems
-                  .map((MyMenuItem item) => item.iconButton(context))
-                  .toList(),
+        actions: <PopupMenuButton<MyMenuItem>>[
+          PopupMenuButton<MyMenuItem>(
+            tooltip: 'Menu',
+            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+            itemBuilder: (BuildContext context) => menuItems
+                .map<PopupMenuEntry<MyMenuItem>>(
+                  (MyMenuItem e) => e.popupMenuItem,
+                )
+                .toList(),
+            onSelected: (MyMenuItem item) => item.onPressed(context),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SafeFutureBuilder<Response>(
@@ -306,7 +223,7 @@ class MyHomePageState extends State<MyHomePage> {
                                 value == null || value.isEmpty
                                 ? 'O campo texto precisa ser informado.'
                                 : null,
-                            onSaved: (String? value) => model.text = value!,
+                            onSaved: (String? value) => model.text = value,
                           ),
                       // [/StringField]
                     ),
@@ -346,7 +263,7 @@ class MyHomePageState extends State<MyHomePage> {
                                 value == null || value.isEmpty
                                 ? 'O campo senha precisa ser informado.'
                                 : null,
-                            onSaved: (String? value) => model.password = value!,
+                            onSaved: (String? value) => model.password = value,
                           ),
                       // [/PasswordField]
                     ),
@@ -367,7 +284,7 @@ class MyHomePageState extends State<MyHomePage> {
                                 value == null || value.isEmpty
                                 ? 'O campo senha visível precisa ser informado.'
                                 : null,
-                            onSaved: (String? value) => model.password = value!,
+                            onSaved: (String? value) => model.password = value,
                           ),
                       // [/PasswordVisibleField]
                     ),
@@ -379,31 +296,13 @@ class MyHomePageState extends State<MyHomePage> {
                           'https://github.com/edufolly/folly_fields/'
                           'blob/main/lib/fields/decimal_field.dart',
                       child:
-                          // [DecimalField]
-                          DecimalField(
+                          // [NewDecimalField]
+                          NewDecimalField(
                             labelPrefix: labelPrefix,
                             label: 'Decimal*',
                             enabled: edit,
                             initialValue: model.decimal,
-                            onSaved: (Decimal? value) => model.decimal = value!,
-                          ),
-                      // [/DecimalField]
-                    ),
-
-                    CodeLink(
-                      code: code,
-                      tag: 'NewDecimalField',
-                      source:
-                          'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/new_decimal_field.dart',
-                      child:
-                          // [NewDecimalField]
-                          NewDecimalField(
-                            labelPrefix: labelPrefix,
-                            label: 'New Decimal*',
-                            enabled: edit,
-                            initialValue: model.decimal,
-                            onSaved: (Decimal? value) => model.decimal = value!,
+                            onSaved: (Decimal? value) => model.decimal = value,
                           ),
                       // [/NewDecimalField]
                     ),
@@ -460,7 +359,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CPF*',
                             enabled: edit,
                             initialValue: model.cpf,
-                            onSaved: (String? value) => model.cpf = value!,
+                            onSaved: (String? value) => model.cpf = value,
                           ),
                       // [/CpfField]
                     ),
@@ -478,7 +377,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CNPJ*',
                             enabled: edit,
                             initialValue: model.cnpj,
-                            onSaved: (String? value) => model.cnpj = value!,
+                            onSaved: (String? value) => model.cnpj = value,
                           ),
                       // [/CnpjField]
                     ),
@@ -496,7 +395,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CPF ou CNPJ*',
                             enabled: edit,
                             initialValue: model.document,
-                            onSaved: (String? value) => model.document = value!,
+                            onSaved: (String? value) => model.document = value,
                           ),
                       // [/CpfCnpjField]
                     ),
@@ -574,7 +473,7 @@ class MyHomePageState extends State<MyHomePage> {
                             validator: (DateTime? value) =>
                                 value == null ? 'Informe uma data' : null,
                             onSaved: (DateTime? value) =>
-                                model.dateTime = value!,
+                                model.dateTime = value,
                             clearOnCancel: false,
                           ),
                       // [/DateTimeField]
@@ -612,7 +511,7 @@ class MyHomePageState extends State<MyHomePage> {
                             enabled: edit,
                             initialValue: model.time,
                             validator: FollyValidators.notNull,
-                            onSaved: (TimeOfDay? value) => model.time = value!,
+                            onSaved: (TimeOfDay? value) => model.time = value,
                             clearOnCancel: false,
                           ),
                       // [/TimeField]
@@ -719,7 +618,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [LicencePlateField]
                           LicencePlateField(
                             labelPrefix: labelPrefix,
-                            label: 'Licence Plate*',
+                            label: 'Placa de Veiculo*',
                             enabled: edit,
                             initialValue: model.licencePlate,
                             onSaved: (String? value) =>
@@ -813,7 +712,7 @@ class MyHomePageState extends State<MyHomePage> {
                             initialValue: model.ordinal,
                             validator: FollyValidators.notNull,
                             onSaved: (ExampleEnum? value) =>
-                                model.ordinal = value!,
+                                model.ordinal = value,
                           ),
                       // [/DropdownField]
                     ),
@@ -841,79 +740,6 @@ class MyHomePageState extends State<MyHomePage> {
                             ),
                           ),
                       // [/MultilineField]
-                    ),
-
-                    CodeLink(
-                      code: code,
-                      tag: 'ModelField',
-                      source:
-                          'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/model_field.dart',
-                      child:
-                          // [ModelField]
-                          ModelField<ExampleModel, int>(
-                            labelPrefix: labelPrefix,
-                            label: 'Example Model*',
-                            enabled: edit,
-                            initialValue: ExampleModel.generate(),
-                            routeBuilder: (BuildContext context) => ExampleList(
-                              labelPrefix: labelPrefix,
-                              selection: true,
-                            ),
-                            validator: FollyValidators.notNull,
-                            clearOnCancel: false,
-                          ),
-                      // [/ModelField]
-                    ),
-
-                    CodeLink(
-                      code: code,
-                      tag: 'ListField',
-                      source:
-                          'https://github.com/edufolly/folly_fields/'
-                          'blob/main/lib/fields/list_field.dart',
-                      child:
-                          // [ListField]
-                          ListField<ExampleModel, ExampleBuilder, int>(
-                            enabled: edit,
-                            initialValue: list,
-                            builder: ExampleBuilder(labelPrefix: labelPrefix),
-                            beforeDelete:
-                                (
-                                  BuildContext context,
-                                  int index,
-                                  ExampleModel model,
-                                ) async => model.integer.isEven,
-                            routeAddBuilder:
-                                (
-                                  BuildContext context,
-                                  ExampleBuilder uiBuilder,
-                                ) => ExampleList(
-                                  labelPrefix: labelPrefix,
-                                  selection: true,
-                                  multipleSelection: true,
-                                  invertSelection: true,
-                                ),
-                            routeEditBuilder:
-                                (
-                                  BuildContext context,
-                                  ExampleModel model,
-                                  ExampleBuilder uiBuilder, {
-                                  required bool edit,
-                                }) => ExampleEdit(
-                                  model,
-                                  uiBuilder,
-                                  const ExampleConsumer(),
-                                  edit: edit,
-                                ),
-                            expandable: true,
-                            showClearAllButton: true,
-                            showCounter: true,
-                            showTopAddButton: true,
-                            onChanged: (List<ExampleModel> value) =>
-                                debugPrint('Examples in list: ${value.length}'),
-                          ),
-                      // [/ListField]
                     ),
 
                     CodeLink(
@@ -980,55 +806,34 @@ class MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ///
-  ///
-  ///
   void _send() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      if (kDebugMode) {
-        print(model.toMap());
-      }
-
-      FollyDialogs.dialogMessage(
-        context: context,
-        title: 'Resultado do método toMap(). O blob é mostrado como base64.',
-        message: model.toMap().toString(),
-      );
-    }
+    // if (_formKey.currentState!.validate()) {
+    //   _formKey.currentState!.save();
+    //
+    //   if (kDebugMode) {
+    //     print(model.toMap());
+    //   }
+    //
+    //   FollyDialogs.dialogMessage(
+    //     context: context,
+    //     title: 'Result of toMap().',
+    //     message: model.toMap().toString(),
+    //   );
+    // }
   }
 }
 
-///
-///
-///
 class MyMenuItem {
   final String name;
   final IconData iconData;
   final Function(BuildContext context) onPressed;
 
-  ///
-  ///
-  ///
   MyMenuItem({
     required this.name,
     required this.iconData,
     required this.onPressed,
   });
 
-  ///
-  ///
-  ///
-  IconButton iconButton(BuildContext context) => IconButton(
-    icon: Icon(iconData),
-    onPressed: () => onPressed(context),
-    tooltip: name,
-  );
-
-  ///
-  ///
-  ///
   PopupMenuItem<MyMenuItem> get popupMenuItem => PopupMenuItem<MyMenuItem>(
     value: this,
     child: Row(

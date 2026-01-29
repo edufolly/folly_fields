@@ -1,24 +1,12 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class WaitingMessage extends StatelessWidget {
   final String? message;
 
-  ///
-  ///
-  ///
-  const WaitingMessage({
-    this.message,
-    super.key,
-  });
+  const WaitingMessage({this.message, super.key});
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -26,9 +14,7 @@ class WaitingMessage extends StatelessWidget {
           padding: EdgeInsets.all(12),
           child: CircularProgressIndicator(),
         ),
-        Center(
-          child: Text(message ?? 'Aguarde...'),
-        ),
+        Center(child: Text(message ?? 'Aguarde...')),
       ],
     );
   }

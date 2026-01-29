@@ -7,7 +7,7 @@ class TextMessage extends StatelessWidget {
   const TextMessage(this.message, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Center(child: Text(message, textAlign: TextAlign.center)),

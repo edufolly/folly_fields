@@ -15,9 +15,9 @@ class MaskTextInputFormatter implements TextInputFormatter {
   TextEditingValue? _lastNewValue;
 
   MaskTextInputFormatter({
-    String mask = '',
-    Map<String, RegExp>? filter,
-    String initialText = '',
+    final String mask = '',
+    final Map<String, RegExp>? filter,
+    final String initialText = '',
   }) {
     updateMask(
       mask: mask,
@@ -33,8 +33,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
   }
 
   TextEditingValue updateMask({
-    String mask = '',
-    Map<String, RegExp>? filter,
+    final String mask = '',
+    final Map<String, RegExp>? filter,
     // bool clear = false,
   }) {
     _mask = mask;
@@ -74,13 +74,13 @@ class MaskTextInputFormatter implements TextInputFormatter {
 
   bool isFill() => _resultTextArray.length == _maskLength;
 
-  String maskText(String text) => MaskTextInputFormatter(
+  String maskText(final String text) => MaskTextInputFormatter(
     mask: _mask,
     filter: _maskFilter,
     initialText: text,
   ).getMaskedText();
 
-  String unmaskText(String text) => MaskTextInputFormatter(
+  String unmaskText(final String text) => MaskTextInputFormatter(
     mask: _mask,
     filter: _maskFilter,
     initialText: text,
@@ -88,8 +88,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) {
     if (_lastResValue == oldValue && newValue == _lastNewValue) {
       return oldValue;
@@ -101,8 +101,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
   }
 
   TextEditingValue _format(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) {
     String mask = _mask;
 
@@ -280,7 +280,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     }
   }
 
-  void _updateFilter(Map<String, RegExp> filter) {
+  void _updateFilter(final Map<String, RegExp> filter) {
     _maskFilter = filter;
     _maskChars = _maskFilter.keys.toList(growable: false);
   }
@@ -289,12 +289,15 @@ class MaskTextInputFormatter implements TextInputFormatter {
 class _TextMatcher {
   final List<String> _symbolArray = <String>[];
 
-  int get length =>
-      _symbolArray.fold(0, (int prev, String match) => prev + match.length);
+  int get length => _symbolArray.fold(
+    0,
+    (final int prev, final String match) => prev + match.length,
+  );
 
-  void removeRange(int start, int end) => _symbolArray.removeRange(start, end);
+  void removeRange(final int start, final int end) =>
+      _symbolArray.removeRange(start, end);
 
-  void insert(int start, String substring) {
+  void insert(final int start, final String substring) {
     for (int pos = 0; pos < substring.length; pos++) {
       _symbolArray.insert(start + pos, substring[pos]);
     }
@@ -302,16 +305,16 @@ class _TextMatcher {
 
   bool get isEmpty => _symbolArray.isEmpty;
 
-  void removeAt(int index) => _symbolArray.removeAt(index);
+  void removeAt(final int index) => _symbolArray.removeAt(index);
 
-  String operator [](int index) => _symbolArray[index];
+  String operator [](final int index) => _symbolArray[index];
 
   void clear() => _symbolArray.clear();
 
   @override
   String toString() => _symbolArray.join();
 
-  void set(String text) {
+  void set(final String text) {
     _symbolArray.clear();
     for (int pos = 0; pos < text.length; pos++) {
       _symbolArray.add(text[pos]);
@@ -325,8 +328,8 @@ class UppercaseMask extends MaskTextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) => super.formatEditUpdate(
     oldValue,
     newValue.copyWith(text: newValue.text.toUpperCase()),
@@ -352,8 +355,8 @@ class ChangeMask extends MaskTextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) {
     int oldLength = oldValue.text.length;
     int newLength = newValue.text.length;

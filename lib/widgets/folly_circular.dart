@@ -1,26 +1,13 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class FollyCircular extends StatelessWidget {
   final Color? color;
   final double size;
 
-  ///
-  ///
-  ///
-  const FollyCircular({
-    super.key,
-    this.color,
-    this.size = 16.0,
-  });
+  const FollyCircular({super.key, this.color, this.size = 16.0});
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: SizedBox(

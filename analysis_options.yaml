@@ -45,7 +45,7 @@ linter:
 
     # Incompatible with:
     # prefer_final_parameters
-    avoid_final_parameters: true
+    avoid_final_parameters: false
 
     avoid_function_literals_in_foreach_calls: true
     avoid_futureor_void: true
@@ -53,7 +53,7 @@ linter:
     avoid_init_to_null: true
     avoid_js_rounded_ints: true
     avoid_multiple_declarations_per_line: true
-    avoid_null_checks_in_equality_operators: true
+    # avoid_null_checks_in_equality_operators: true
     avoid_positional_boolean_parameters: true
     avoid_print: true
     avoid_private_typedef_functions: true
@@ -195,7 +195,7 @@ linter:
     # Incompatible with:
     # unnecessary_final
     # avoid_final_parameters
-    prefer_final_parameters: false
+    prefer_final_parameters: true
 
     prefer_for_elements_to_map_fromIterable: true
     prefer_foreach: true
@@ -231,8 +231,10 @@ linter:
     provide_deprecation_message: false
     public_member_api_docs: false
     recursive_getters: true
+    # remove_deprecations_in_breaking_versions: true
     require_trailing_commas: true
     secure_pubspec_urls: true
+    # simplify_variable_pattern: true
     sized_box_for_whitespace: true
     sized_box_shrink_expand: true
     slash_for_doc_comments: true
@@ -247,7 +249,7 @@ linter:
 
     specify_nonobvious_property_types: true
     strict_top_level_inference: true
-    # switch_on_type: true
+    switch_on_type: true
     test_types_in_equals: true
     throw_in_finally: true
     tighten_type_of_initializing_formals: true
@@ -293,7 +295,7 @@ linter:
     unnecessary_string_interpolations: true
     unnecessary_this: true
     unnecessary_to_list_in_spreads: true
-    # unnecessary_unawaited: true
+    unnecessary_unawaited: true
     unnecessary_underscores: true
     unreachable_from_main: true
     unrelated_type_equality_checks: true
@@ -304,7 +306,7 @@ linter:
     use_enums: true
     use_full_hex_values_for_flutter_colors: true
     use_function_type_syntax_for_parameters: true
-    use_if_null_to_convert_nulls_to_bools: true
+    # use_if_null_to_convert_nulls_to_bools: true
     use_is_even_rather_than_modulo: true
     use_key_in_widget_constructors: true
     use_late_for_private_fields_and_variables: true

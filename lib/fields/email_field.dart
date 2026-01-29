@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/email_validator.dart';
 
-///
-///
-///
 class EmailField extends ValidatorField {
-  ///
-  ///
-  ///
   EmailField({
-    EmailValidator? emailValidator,
+    final EmailValidator? emailValidator,
     super.validatorMessage = 'Informe o e-mail.',
     super.labelPrefix,
     super.label,
@@ -54,16 +48,16 @@ class EmailField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: emailValidator ?? EmailValidator(),
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: emailValidator ?? EmailValidator(),
+         textCapitalization: TextCapitalization.none,
+       );
 }

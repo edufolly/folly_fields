@@ -2,9 +2,6 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class FollyMenuGroup extends StatelessWidget {
   final String? label;
   final IconData? iconData;
@@ -14,9 +11,6 @@ class FollyMenuGroup extends StatelessWidget {
   final Color? color;
   final Color backgroundColor;
 
-  ///
-  ///
-  ///
   const FollyMenuGroup({
     required this.items,
     this.label,
@@ -28,12 +22,10 @@ class FollyMenuGroup extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
-    Color accentColor = color ??
+  Widget build(final BuildContext context) {
+    Color accentColor =
+        color ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
@@ -47,7 +39,8 @@ class FollyMenuGroup extends StatelessWidget {
         iconPadding: const EdgeInsets.only(right: 5),
       ),
       child: ExpandableNotifier(
-        controller: controller ??
+        controller:
+            controller ??
             ExpandableController(initialExpanded: initialExpanded),
         child: Column(
           children: <Widget>[
@@ -55,10 +48,7 @@ class FollyMenuGroup extends StatelessWidget {
               child: ListTile(
                 leading: iconData == null
                     ? null
-                    : Icon(
-                        iconData,
-                        color: accentColor,
-                      ),
+                    : Icon(iconData, color: accentColor),
                 title: Text(
                   label ?? '',
                   style: TextStyle(
@@ -75,9 +65,7 @@ class FollyMenuGroup extends StatelessWidget {
               collapsed: Container(),
               expanded: Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  children: items,
-                ),
+                child: Column(children: items),
               ),
             ),
           ],
