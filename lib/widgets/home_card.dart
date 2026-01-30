@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/popup_icon_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class HomeCard<T, O> extends StatelessWidget {
   final T item;
   final String name;
@@ -19,9 +16,6 @@ class HomeCard<T, O> extends StatelessWidget {
   final double iconSize;
   final BoxShadow boxShadow;
 
-  ///
-  ///
-  ///
   const HomeCard({
     required this.item,
     required this.name,
@@ -42,12 +36,10 @@ class HomeCard<T, O> extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
-    Color effectiveColor = color ??
+  Widget build(final BuildContext context) {
+    Color effectiveColor =
+        color ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
@@ -75,10 +67,7 @@ class HomeCard<T, O> extends StatelessWidget {
                     width: iconSize,
                     child: FittedBox(
                       fit: BoxFit.fitHeight,
-                      child: FaIcon(
-                        iconData,
-                        color: effectiveColor,
-                      ),
+                      child: FaIcon(iconData, color: effectiveColor),
                     ),
                   ),
                 ),
@@ -91,10 +80,10 @@ class HomeCard<T, O> extends StatelessWidget {
                         FontAwesomeIcons.ellipsisVertical,
                         color: Colors.black12,
                       ),
-                      itemBuilder: (BuildContext context) => menuItems!
-                          .map((PopupIconMenuItem<O> item) => item.widget)
+                      itemBuilder: (final BuildContext context) => menuItems!
+                          .map((final PopupIconMenuItem<O> item) => item.widget)
                           .toList(),
-                      onSelected: (O operation) =>
+                      onSelected: (final O operation) =>
                           onMenuSelect?.call(item, operation),
                     ),
                   ),

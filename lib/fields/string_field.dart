@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 class StringField extends ResponsiveStateless {
   final String? labelPrefix;
   final String? label;
@@ -48,9 +45,6 @@ class StringField extends ResponsiveStateless {
   final bool trimOnSaved;
   final void Function()? onTap;
 
-  ///
-  ///
-  ///
   const StringField({
     this.labelPrefix,
     this.label,
@@ -100,20 +94,17 @@ class StringField extends ResponsiveStateless {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     TextStyle effectiveStyle =
         style ?? Theme.of(context).textTheme.titleMedium!;
 
@@ -123,25 +114,26 @@ class StringField extends ResponsiveStateless {
       );
     }
 
-    InputDecoration effectiveDecoration = (decoration ??
-            InputDecoration(
-              prefix: prefix,
-              prefixIcon: prefixIcon,
-              suffix: suffix,
-              suffixIcon: suffixIcon,
-              label: labelWidget,
-              labelText: (labelPrefix?.isEmpty ?? true)
-                  ? label
-                  : '$labelPrefix - $label',
-              border: const OutlineInputBorder(),
-              counterText: counterText,
-              enabled: enabled,
-              filled: filled,
-              fillColor: fillColor,
-              hintText: hintText,
-              contentPadding: contentPadding,
-            ))
-        .applyDefaults(Theme.of(context).inputDecorationTheme);
+    InputDecoration effectiveDecoration =
+        (decoration ??
+                InputDecoration(
+                  prefix: prefix,
+                  prefixIcon: prefixIcon,
+                  suffix: suffix,
+                  suffixIcon: suffixIcon,
+                  label: labelWidget,
+                  labelText: (labelPrefix?.isEmpty ?? true)
+                      ? label
+                      : '$labelPrefix - $label',
+                  border: const OutlineInputBorder(),
+                  counterText: counterText,
+                  enabled: enabled,
+                  filled: filled,
+                  fillColor: fillColor,
+                  hintText: hintText,
+                  contentPadding: contentPadding,
+                ))
+            .applyDefaults(Theme.of(context).inputDecorationTheme);
 
     return Padding(
       padding: padding,
@@ -150,7 +142,7 @@ class StringField extends ResponsiveStateless {
         keyboardType: keyboard,
         decoration: effectiveDecoration,
         validator: enabled && validator != null
-            ? (String? value) => validator!(value ?? '')
+            ? (final String? value) => validator!(value ?? '')
             : null,
         minLines: minLines,
         maxLines: maxLines,
@@ -179,9 +171,6 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  ///
-  ///
-  ///
-  void _internalSave(String? value) =>
+  void _internalSave(final String? value) =>
       onSaved?.call(trimOnSaved ? value?.trim() : value);
 }

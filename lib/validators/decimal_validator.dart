@@ -1,40 +1,42 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields/util/decimal.dart';
+import 'package:folly_fields/util/decimal_text_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class DecimalValidator extends AbstractParserValidator<Decimal> {
+  final int precision;
   final String decimalSeparator;
   final String thousandSeparator;
-  final int precision;
 
-  ///
-  ///
-  ///
   DecimalValidator(
     this.precision, {
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
-  })  : assert(precision >= 0, 'precision must be positive or zero.'),
-        super(
-          <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-        );
+  }) : assert(precision >= 0, 'precision must be equals or greater than zero.'),
+       super(<TextInputFormatter>[
+         DecimalTextFormatter(
+           precision: precision,
+           decimalSeparator: decimalSeparator,
+           thousandSeparator: thousandSeparator,
+         ),
+       ]);
 
-  ///
-  ///
-  ///
   @override
-  String format(Decimal decimal) {
+  TextInputType get keyboard => TextInputType.number;
+
+  @override
+  String strip(final String value) => value;
+
+  @override
+  String format(final Decimal decimal) {
     List<String> parts = decimal.doubleValue
         .toStringAsFixed(precision)
         .replaceAll('.', '')
+        .replaceAll('-', '')
         .split('')
         .reversed
-        .toList(growable: true);
+        .toList();
 
     int start = precision + 4;
     if (precision > 0) {
@@ -47,61 +49,52 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
       parts.insert(pos, thousandSeparator);
     }
 
+    if (decimal.doubleValue < 0) {
+      parts.add('-');
+    }
+
     return parts.reversed.join();
   }
 
-  ///
-  ///
-  ///
   @override
-  String strip(String value) => value;
+  bool isValid(final String decimal) => valid(decimal) == null;
 
-  ///
-  ///
-  ///
-  String _internalStrip(String value) => super.strip(value);
-
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) => valid(value) == null;
-
-  ///
-  ///
-  ///
-  @override
-  TextInputType get keyboard => TextInputType.number;
-
-  ///
-  ///
-  ///
-  @override
-  Decimal? parse(String? value) {
-    Decimal decimal = Decimal(precision: precision);
-
-    if (value == null || value.isEmpty) {
-      return decimal;
+  Decimal? parse(final String? value) {
+    if (value.isNullOrBlank) {
+      return null;
     }
 
-    List<String> parts = _internalStrip(value).split('').toList(growable: true);
+    bool isNegative = value!.startsWith('-');
 
-    for (int pos = parts.length; pos <= precision; pos++) {
-      parts.insert(0, '0');
+    String newValue = value.replaceAll('-', '');
+
+    int sepPos = newValue.indexOf(decimalSeparator);
+
+    String integerPart = '0';
+    String decimalPart = '0';
+
+    if (sepPos < 0) {
+      integerPart = newValue;
+    } else if (sepPos == 0) {
+      decimalPart = super.strip(newValue);
+    } else {
+      integerPart = super.strip(newValue.substring(0, sepPos));
+      decimalPart = super.strip(newValue.substring(sepPos));
     }
 
-    if (precision > 0) {
-      parts.insert(parts.length - precision, '.');
+    if (decimalPart.length > precision) {
+      decimalPart = decimalPart.substring(0, precision);
     }
 
-    decimal.doubleValue = double.parse(parts.join());
+    String str = '${isNegative ? '-' : ''}$integerPart.$decimalPart';
 
-    return decimal;
+    return Decimal(
+      precision: precision,
+      doubleValue: double.tryParse(str) ?? 0,
+    );
   }
 
-  ///
-  ///
-  ///
   @override
-  String? valid(String value) => null;
+  String? valid(final String value) => null;
 }

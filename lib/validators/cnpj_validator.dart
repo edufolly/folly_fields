@@ -3,43 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class CnpjValidator extends AbstractValidator<String> {
-  ///
-  ///
-  ///
   CnpjValidator()
-      : super(
-          <TextInputFormatter>[
-            MaskTextInputFormatter(
-              mask: '##.###.###/####-##',
-            ),
-          ],
-        );
+    : super(<TextInputFormatter>[
+        MaskTextInputFormatter(mask: '##.###.###/####-##'),
+      ]);
 
-  ///
-  ///
-  ///
   @override
-  String format(String value) => CNPJValidator.format(value);
+  String format(final String value) => CNPJValidator.format(value);
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) => CNPJValidator.isValid(value);
+  bool isValid(final String value) => CNPJValidator.isValid(value);
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.number;
 
-  ///
-  ///
-  ///
-  static String generate({bool format = false}) =>
+  static String generate({final bool format = false}) =>
       CNPJValidator.generate(format);
 }

@@ -5,9 +5,6 @@ import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:folly_fields/validators/credit_card_number_validator.dart';
 
-///
-///
-///
 class CreditCardNumberField extends ResponsiveStateful {
   final String? labelPrefix;
   final String? label;
@@ -54,9 +51,6 @@ class CreditCardNumberField extends ResponsiveStateful {
   final String validatorMessage;
   final void Function()? onTap;
 
-  ///
-  ///
-  ///
   const CreditCardNumberField({
     this.labelPrefix,
     this.label,
@@ -107,34 +101,22 @@ class CreditCardNumberField extends ResponsiveStateful {
     super.minHeight,
     super.key,
   }) : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        );
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
   State<CreditCardNumberField> createState() => _CreditCardNumberFieldState();
 }
 
-///
-///
-///
 class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   final CreditCardNumberValidator validator = CreditCardNumberValidator();
   TextEditingController? _stateController;
   bool isValid = false;
 
-  ///
-  ///
-  ///
   TextEditingController get effectiveController =>
       widget.controller ?? _stateController!;
 
-  ///
-  ///
-  ///
   @override
   void initState() {
     super.initState();
@@ -146,9 +128,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
     effectiveController.addListener(onTextChange);
   }
 
-  ///
-  ///
-  ///
   void onTextChange() {
     CreditCardType type = CreditCardType.detectType(effectiveController.text);
     if (validator.type != type) {
@@ -163,11 +142,8 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
     }
   }
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return ValidatorField(
       abstractValidator: validator,
       validatorMessage: widget.validatorMessage,
@@ -212,9 +188,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
     );
   }
 
-  ///
-  ///
-  ///
   @override
   void dispose() {
     effectiveController.removeListener(onTextChange);

@@ -3,23 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:folly_fields/controllers/integer_editing_controller.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
-///
-///
-///
 class IntegerField extends StringField {
-  ///
-  ///
-  ///
   IntegerField({
     super.labelPrefix,
     super.label,
     super.labelWidget,
     IntegerEditingController? super.controller,
-    FormFieldValidator<int?>? validator,
+    final FormFieldValidator<int?>? validator,
     super.textAlign = TextAlign.end,
     super.maxLength,
-    FormFieldSetter<int?>? onSaved,
-    int? initialValue,
+    final FormFieldSetter<int?>? onSaved,
+    final int? initialValue,
     super.enabled,
     super.autoValidateMode,
     super.onChanged,
@@ -50,37 +44,37 @@ class IntegerField extends StringField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          keyboard: TextInputType.number,
-          validator: (String? value) {
-            if (enabled && validator != null) {
-              return validator(int.tryParse(value ?? ''));
-            }
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         keyboard: TextInputType.number,
+         validator: (final String? value) {
+           if (enabled && validator != null) {
+             return validator(int.tryParse(value ?? ''));
+           }
 
-            return null;
-          },
-          minLines: 1,
-          maxLines: 1,
-          obscureText: false,
-          inputFormatter: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp('^-?[0-9]*')),
-          ],
-          onSaved: (String? value) {
-            if (enabled && onSaved != null) {
-              return onSaved(int.tryParse(value ?? ''));
-            }
-          },
-          initialValue: initialValue?.toString(),
-          autocorrect: false,
-          enableSuggestions: false,
-          textCapitalization: TextCapitalization.none,
-        );
+           return null;
+         },
+         minLines: 1,
+         maxLines: 1,
+         obscureText: false,
+         inputFormatter: <TextInputFormatter>[
+           FilteringTextInputFormatter.allow(RegExp('^-?[0-9]*')),
+         ],
+         onSaved: (final String? value) {
+           if (enabled && onSaved != null) {
+             return onSaved(int.tryParse(value ?? ''));
+           }
+         },
+         initialValue: initialValue?.toString(),
+         autocorrect: false,
+         enableSuggestions: false,
+         textCapitalization: TextCapitalization.none,
+       );
 }

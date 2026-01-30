@@ -11,18 +11,18 @@ import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
+
+
+
 class CreditCardModel {
   String? number;
   String? expiration;
   String? code;
   String? holder;
 
-  ///
-  ///
-  ///
+
+
+
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
     map['number'] = number;
@@ -33,21 +33,21 @@ class CreditCardModel {
   }
 }
 
-///
-///
-///
+
+
+
 class CreditCardChange {
   final CreditCardType creditCardType;
   final bool isValid;
 
-  ///
-  ///
-  ///
+
+
+
   const CreditCardChange({required this.creditCardType, required this.isValid});
 
-  ///
-  ///
-  ///
+
+
+
   CreditCardChange copy({CreditCardType? creditCardType, bool? isValid}) =>
       CreditCardChange(
         creditCardType: creditCardType ?? this.creditCardType,
@@ -55,39 +55,39 @@ class CreditCardChange {
       );
 }
 
-///
-///
-///
+
+
+
 class CreditCard extends StatefulWidget {
-  ///
-  ///
-  ///
+
+
+
   const CreditCard({super.key});
 
-  ///
-  ///
-  ///
+
+
+
   @override
   State<CreditCard> createState() => _CreditCardState();
 }
 
-///
-///
-///
+
+
+
 class _CreditCardState extends State<CreditCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final CreditCardModel model = CreditCardModel();
   final ValueNotifier<CreditCardChange> _notifier =
       ValueNotifier<CreditCardChange>(
-    const CreditCardChange(
-      creditCardType: CreditCardType.unknown,
-      isValid: false,
-    ),
-  );
+        const CreditCardChange(
+          creditCardType: CreditCardType.unknown,
+          isValid: false,
+        ),
+      );
 
-  ///
-  ///
-  ///
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,36 +169,40 @@ class _CreditCardState extends State<CreditCard> {
     );
   }
 
-  ///
-  ///
-  ///
-  Icon getIcon(CreditCardType creditCardType, Color? color) =>
-      switch (creditCardType) {
-        CreditCardType.visa => Icon(FontAwesomeIcons.ccVisa, color: color),
-        CreditCardType.mastercard =>
-          Icon(FontAwesomeIcons.ccMastercard, color: color),
-        CreditCardType.amex => Icon(FontAwesomeIcons.ccAmex, color: color),
-        CreditCardType.dinersclub =>
-          Icon(FontAwesomeIcons.ccDinersClub, color: color),
-        CreditCardType.discover =>
-          Icon(FontAwesomeIcons.ccDiscover, color: color),
-        CreditCardType.jcb => Icon(FontAwesomeIcons.ccJcb, color: color),
-        CreditCardType.unionpay =>
-          Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.maestro =>
-          Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.elo => Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.mir => Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.hiper => Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.hipercard =>
-          Icon(FontAwesomeIcons.creditCard, color: color),
-        CreditCardType.unknown =>
-          Icon(FontAwesomeIcons.solidCreditCard, color: color)
-      };
 
-  ///
-  ///
-  ///
+
+
+  Icon getIcon(
+    CreditCardType creditCardType,
+    Color? color,
+  ) => switch (creditCardType) {
+    CreditCardType.visa => Icon(FontAwesomeIcons.ccVisa, color: color),
+    CreditCardType.mastercard => Icon(
+      FontAwesomeIcons.ccMastercard,
+      color: color,
+    ),
+    CreditCardType.amex => Icon(FontAwesomeIcons.ccAmex, color: color),
+    CreditCardType.dinersclub => Icon(
+      FontAwesomeIcons.ccDinersClub,
+      color: color,
+    ),
+    CreditCardType.discover => Icon(FontAwesomeIcons.ccDiscover, color: color),
+    CreditCardType.jcb => Icon(FontAwesomeIcons.ccJcb, color: color),
+    CreditCardType.unionpay => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.maestro => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.elo => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.mir => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.hiper => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.hipercard => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.unknown => Icon(
+      FontAwesomeIcons.solidCreditCard,
+      color: color,
+    ),
+  };
+
+
+
+
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -210,9 +214,9 @@ class _CreditCardState extends State<CreditCard> {
     }
   }
 
-  ///
-  ///
-  ///
+
+
+
   @override
   void dispose() {
     _notifier.dispose();

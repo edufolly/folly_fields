@@ -3,15 +3,9 @@ import 'package:folly_fields/controllers/time_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   final TimePickerEntryMode initialEntryMode;
 
-  ///
-  ///
-  ///
   const TimeField({
     this.initialEntryMode = TimePickerEntryMode.dial,
     super.maxLength = 5,
@@ -55,24 +49,17 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
   TimeEditingController createController() =>
       TimeEditingController(value: initialValue);
 
-  ///
-  ///
-  ///
   @override
   Future<TimeOfDay?> selectData({
-    required BuildContext context,
-    required TimeEditingController controller,
-  }) =>
-      showTimePicker(
-        context: context,
-        initialTime: controller.data ?? TimeOfDay.now(),
-        initialEntryMode: initialEntryMode,
-      );
+    required final BuildContext context,
+    required final TimeEditingController controller,
+  }) => showTimePicker(
+    context: context,
+    initialTime: controller.data ?? TimeOfDay.now(),
+    initialEntryMode: initialEntryMode,
+  );
 }

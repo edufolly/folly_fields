@@ -2,9 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class CircularWaiting {
   final BuildContext context;
   final bool barrierDismissible;
@@ -19,9 +16,6 @@ class CircularWaiting {
   bool _show = false;
   bool _alreadyPopped = false;
 
-  ///
-  ///
-  ///
   CircularWaiting(
     this.context, {
     this.barrierDismissible = false,
@@ -36,15 +30,12 @@ class CircularWaiting {
     });
   }
 
-  ///
-  ///
-  ///
   void show() {
     _show = true;
     showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (BuildContext context) => PopScope(
+      builder: (final BuildContext context) => PopScope(
         canPop: false,
         // TODO(edufolly): Check onPopInvokedWithResult
         // ignore: deprecated_member_use
@@ -62,65 +53,54 @@ class CircularWaiting {
         child: Dialog(
           child: StreamBuilder<Map<String, dynamic>>(
             stream: _streamController.stream,
-            builder: (
-              BuildContext context,
-              AsyncSnapshot<Map<String, dynamic>> snapshot,
-            ) {
-              String msg = message;
-              String? sub = subtitle;
-              double? dbl;
+            builder:
+                (
+                  final BuildContext context,
+                  final AsyncSnapshot<Map<String, dynamic>> snapshot,
+                ) {
+                  String msg = message;
+                  String? sub = subtitle;
+                  double? dbl;
 
-              if (snapshot.hasData) {
-                msg = snapshot.data!['message'];
-                sub = snapshot.data!['subtitle'];
-                dbl = snapshot.data!['value'];
-              }
+                  if (snapshot.hasData) {
+                    msg = snapshot.data!['message'];
+                    sub = snapshot.data!['subtitle'];
+                    dbl = snapshot.data!['value'];
+                  }
 
-              return Padding(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    CircularProgressIndicator(
-                      value: dbl,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            msg,
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          if (sub != null && sub.isNotEmpty)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 4),
-                              child: Text(
-                                sub,
-                                style: const TextStyle(
-                                  fontSize: 12,
+                  return Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        CircularProgressIndicator(value: dbl),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Column(
+                            children: <Widget>[
+                              Text(msg, style: const TextStyle(fontSize: 20)),
+                              if (sub != null && sub.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Text(
+                                    sub,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
                                 ),
-                              ),
-                            ),
-                        ],
-                      ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
-            },
+                  );
+                },
           ),
         ),
       ),
     );
   }
 
-  ///
-  ///
-  ///
   void close() {
     if (_show) {
       _alreadyPopped = true;
@@ -130,25 +110,16 @@ class CircularWaiting {
     }
   }
 
-  ///
-  ///
-  ///
-  void sendMessage(String msg) {
+  void sendMessage(final String msg) {
     message = msg;
     _send();
   }
 
-  ///
-  ///
-  ///
-  void sendValue(double dbl) {
+  void sendValue(final double dbl) {
     value = dbl;
     _send();
   }
 
-  ///
-  ///
-  ///
   void _send() {
     if (!_streamController.isClosed) {
       _streamController.add(<String, dynamic>{

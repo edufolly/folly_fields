@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class FieldGroup extends StatelessWidget {
   final EdgeInsets padding;
   final bool edit;
@@ -11,9 +8,6 @@ class FieldGroup extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final List<Widget> children;
 
-  ///
-  ///
-  ///
   const FieldGroup({
     required this.children,
     this.decoration,
@@ -24,15 +18,13 @@ class FieldGroup extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: padding,
       child: InputDecorator(
-        decoration: decoration ??
+        decoration:
+            decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               labelText: labelText,

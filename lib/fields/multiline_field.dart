@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
-///
-///
-///
 class MultilineField extends StringField {
-  ///
-  ///
-  ///
   const MultilineField({
     super.labelPrefix,
     super.label,
@@ -54,16 +48,13 @@ class MultilineField extends StringField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          keyboard: TextInputType.multiline,
-          obscureText: false,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(keyboard: TextInputType.multiline, obscureText: false);
 }

@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class EmptyButton extends ResponsiveStateless {
-  ///
-  ///
-  ///
   const EmptyButton({
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -19,18 +13,12 @@ class EmptyButton extends ResponsiveStateless {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return const Flexible(
       flex: 0,
       child: IconButton(
-        icon: FaIcon(
-          FontAwesomeIcons.square,
-          color: Colors.transparent,
-        ),
+        icon: FaIcon(FontAwesomeIcons.square, color: Colors.transparent),
         onPressed: null,
       ),
     );

@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/ncm_validator.dart';
 
-///
-///
-///
 class NcmField extends ValidatorField {
-  ///
-  ///
-  ///
   NcmField({
-    NcmValidator? ncmValidator,
+    final NcmValidator? ncmValidator,
     super.validatorMessage = 'Informe o NCM.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class NcmField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: ncmValidator ?? NcmValidator(),
-          maxLength: 10,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: ncmValidator ?? NcmValidator(),
+         maxLength: 10,
+         textCapitalization: TextCapitalization.none,
+       );
 }

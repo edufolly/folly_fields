@@ -2,25 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class FollyDialogs {
-  ///
-  ///
-  ///
   static Future<void> dialogMessage({
-    required BuildContext context,
-    required String? message,
-    String title = 'Atenção',
-    String buttonText = 'OK',
-    String defaultMessage = 'Ocorreu um erro.',
-    bool scrollable = false,
+    required final BuildContext context,
+    required final String? message,
+    final String title = 'Atenção',
+    final String buttonText = 'OK',
+    final String defaultMessage = 'Ocorreu um erro.',
+    final bool scrollable = false,
   }) {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return AlertDialog(
           title: Text(title),
           content: SelectableText(message ?? defaultMessage),
@@ -36,18 +30,15 @@ class FollyDialogs {
     );
   }
 
-  ///
-  ///
-  ///
   static Future<String> dialogText({
-    required BuildContext context,
-    required String title,
-    required String message,
-    String confirmLabel = 'OK',
-    String cancelLabel = 'CANCELAR',
-    String startString = '',
-    TextInputType keyboardType = TextInputType.text,
-    bool scrollable = false,
+    required final BuildContext context,
+    required final String title,
+    required final String message,
+    final String confirmLabel = 'OK',
+    final String cancelLabel = 'CANCELAR',
+    final String startString = '',
+    final TextInputType keyboardType = TextInputType.text,
+    final bool scrollable = false,
   }) async {
     TextEditingController controller = TextEditingController()
       ..text = startString;
@@ -59,7 +50,7 @@ class FollyDialogs {
 
     String? value = await showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return AlertDialog(
           title: Text(title),
           scrollable: scrollable,
@@ -67,11 +58,7 @@ class FollyDialogs {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                  top: 16,
-                  left: 8,
-                  right: 8,
-                ),
+                padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
                 child: SelectableText(
                   message,
                   style: const TextStyle(fontSize: 18),
@@ -104,17 +91,14 @@ class FollyDialogs {
     return value ?? '';
   }
 
-  ///
-  ///
-  ///
   static Future<bool> yesNoDialog({
-    required BuildContext context,
-    required String message,
-    String title = 'Atenção',
-    String affirmative = 'Sim',
-    String negative = 'Não',
-    bool marked = false,
-    bool scrollable = false,
+    required final BuildContext context,
+    required final String message,
+    final String title = 'Atenção',
+    final String affirmative = 'Sim',
+    final String negative = 'Não',
+    final bool marked = false,
+    final bool scrollable = false,
   }) async {
     Widget aff;
     Widget neg;
@@ -144,7 +128,7 @@ class FollyDialogs {
     bool? value = await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) => AlertDialog(
+      builder: (final BuildContext context) => AlertDialog(
         title: Text(title),
         content: SelectableText(message),
         scrollable: scrollable,

@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/cpf_cnpj_validator.dart';
 
-///
-///
-///
 class CpfCnpjField extends ValidatorField {
-  ///
-  ///
-  ///
   CpfCnpjField({
-    CpfCnpjValidator? cpfCnpjValidator,
+    final CpfCnpjValidator? cpfCnpjValidator,
     super.validatorMessage = 'Informe o CPF ou CNPJ.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class CpfCnpjField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: cpfCnpjValidator ?? CpfCnpjValidator(),
-          maxLength: 18,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: cpfCnpjValidator ?? CpfCnpjValidator(),
+         maxLength: 18,
+         textCapitalization: TextCapitalization.none,
+       );
 }

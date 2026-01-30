@@ -4,9 +4,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-///
-///
-///
 class WidgetImageRenderer<T> extends StatelessWidget {
   final WidgetImageController<T> controller;
   final Widget Function(BuildContext context, T? value, Widget? child) builder;
@@ -15,9 +12,6 @@ class WidgetImageRenderer<T> extends StatelessWidget {
   final double? pixelRatio;
   final ui.ImageByteFormat imageByteFormat;
 
-  ///
-  ///
-  ///
   const WidgetImageRenderer({
     required this.controller,
     required this.builder,
@@ -28,32 +22,27 @@ class WidgetImageRenderer<T> extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return RepaintBoundary(
       key: controller._globalKey,
       child: ValueListenableBuilder<_InternalHolder<T?>>(
         valueListenable: controller,
         child: child,
-        builder: (
-          BuildContext context,
-          _InternalHolder<T?> value,
-          Widget? child,
-        ) {
-          WidgetsBinding.instance.endOfFrame.then((_) => _captureWidget());
+        builder:
+            (
+              final BuildContext context,
+              final _InternalHolder<T?> value,
+              final Widget? child,
+            ) {
+              WidgetsBinding.instance.endOfFrame.then((_) => _captureWidget());
 
-          return builder(context, value.value, child);
-        },
+              return builder(context, value.value, child);
+            },
       ),
     );
   }
 
-  ///
-  ///
-  ///
   Future<void> _captureWidget() async {
     if (controller._process) {
       String errorTag = '';
@@ -92,52 +81,28 @@ class WidgetImageRenderer<T> extends StatelessWidget {
   }
 }
 
-///
-///
-///
 class WidgetImageRenderingException implements Exception {
   final String tag;
 
-  ///
-  ///
-  ///
   const WidgetImageRenderingException(this.tag);
 
-  ///
-  ///
-  ///
   @override
   String toString() => tag;
 }
 
-///
-///
-///
 class _InternalHolder<T> {
   final T? value;
 
-  ///
-  ///
-  ///
   const _InternalHolder(this.value);
 }
 
-///
-///
-///
 class WidgetImageController<T> extends ValueNotifier<_InternalHolder<T>> {
   final GlobalKey _globalKey = GlobalKey();
   bool _process = false;
 
-  ///
-  ///
-  ///
-  WidgetImageController({T? value}) : super(_InternalHolder<T>(value));
+  WidgetImageController({final T? value}) : super(_InternalHolder<T>(value));
 
-  ///
-  ///
-  ///
-  bool process(T value) {
+  bool process(final T value) {
     if (!_process) {
       _process = true;
       this.value = _InternalHolder<T>(value);

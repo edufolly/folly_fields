@@ -13,14 +13,8 @@ import 'package:folly_fields/validators/mac_address_validator.dart';
 import 'package:folly_fields/validators/ncm_validator.dart';
 import 'package:folly_fields/validators/phone_validator.dart';
 
-///
-///
-///
 class ValidatorFactory {
-  ///
-  ///
-  ///
-  static AbstractValidator<String> build(String text) {
+  static AbstractValidator<String> build(final String text) {
     switch (text.toLowerCase()) {
       case 'cep':
         return CepValidator();

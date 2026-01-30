@@ -5,9 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:http/http.dart';
 
-///
-///
-///
 void main() async {
   const int cardTest = 5;
 

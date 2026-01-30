@@ -2,55 +2,30 @@ import 'package:flutter/services.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class Ipv4Validator extends AbstractValidator<String>
     implements AbstractParser<String> {
-  ///
-  ///
-  ///
   Ipv4Validator()
-      : super(
-          <TextInputFormatter>[
-            MaskTextInputFormatter(
-              mask: '###############',
-              filter: <String, RegExp>{
-                '#': RegExp('[0-9.]'),
-              },
-            ),
-          ],
-        );
+    : super(<TextInputFormatter>[
+        MaskTextInputFormatter(
+          mask: '###############',
+          filter: <String, RegExp>{'#': RegExp('[0-9.]')},
+        ),
+      ]);
 
-  ///
-  ///
-  ///
   @override
-  String format(String value) => value;
+  String format(final String value) => value;
 
-  ///
-  ///
-  ///
   @override
-  String strip(String value) => value;
+  String strip(final String value) => value;
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.number;
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) => valid(value) == null;
+  bool isValid(final String value) => valid(value) == null;
 
-  ///
-  ///
-  ///
   @override
-  String? parse(String? value) {
+  String? parse(final String? value) {
     if (value == null || value.isEmpty) {
       return null;
     }
@@ -71,10 +46,7 @@ class Ipv4Validator extends AbstractValidator<String>
     return value;
   }
 
-  ///
-  ///
-  ///
   @override
-  String? valid(String? value) =>
+  String? valid(final String? value) =>
       parse(value) == null ? 'IPv4 inválido.' : null;
 }

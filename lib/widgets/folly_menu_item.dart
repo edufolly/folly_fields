@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-///
-///
-///
 class FollyMenuItem extends StatelessWidget {
   final String label;
   final IconData? iconData;
@@ -11,9 +8,6 @@ class FollyMenuItem extends StatelessWidget {
   final Color? color;
   final Color backgroundColor;
 
-  ///
-  ///
-  ///
   const FollyMenuItem({
     required this.label,
     required this.onTap,
@@ -24,29 +18,17 @@ class FollyMenuItem extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
-    Color accentColor = color ??
+  Widget build(final BuildContext context) {
+    Color accentColor =
+        color ??
         (Theme.of(context).brightness == Brightness.light
             ? Theme.of(context).primaryColor
             : Theme.of(context).colorScheme.onSurface);
 
     return ListTile(
-      leading: iconData == null
-          ? null
-          : Icon(
-              iconData,
-              color: accentColor,
-            ),
-      title: Text(
-        label,
-        style: TextStyle(
-          color: accentColor,
-        ),
-      ),
+      leading: iconData == null ? null : Icon(iconData, color: accentColor),
+      title: Text(label, style: TextStyle(color: accentColor)),
       onTap: onTap,
       onLongPress: onLongPress,
       tileColor: backgroundColor,
