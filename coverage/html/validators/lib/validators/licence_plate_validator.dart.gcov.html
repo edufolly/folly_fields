@@ -11,7 +11,7 @@
 <body>
 
           <table width="100%" border=0 cellspacing=0 cellpadding=0>
-            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="title">Folly Fields</td></tr>
             <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
 
             <tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td class="headerValue">2026-01-30 18:42:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -78,25 +78,26 @@
 <span id="L16"><span class="lineNum">      16</span>              :       ]);</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           2 :   String format(final String value) =&gt; strip(value).replaceAllMapped(</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           2 :   String? format(final String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
 <span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :     RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9])([0-9]{2})$'),</span></span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           6 :     (final Match m) =&gt; '${m[1]}-${m[2]}${m[3]}${m[4]}',</span></span>
 <span id="L22"><span class="lineNum">      22</span>              :   );</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :   String strip(final String value) =&gt; value.replaceAll(RegExp('[^A-Z0-9]'), '');</span></span>
-<span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L28"><span class="lineNum">      28</span>              :   bool isValid(final String value) {</span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :     String v = strip(value);</span></span>
-<span id="L30"><span class="lineNum">      30</span>              : </span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :     if (v.length != 7) {</span></span>
-<span id="L32"><span class="lineNum">      32</span>              :       return false;</span>
-<span id="L33"><span class="lineNum">      33</span>              :     }</span>
-<span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           3 :     return format(v).length == 8;</span></span>
-<span id="L36"><span class="lineNum">      36</span>              :   }</span>
-<span id="L37"><span class="lineNum">      37</span>              : }</span>
+<span id="L25"><span class="lineNum">      25</span>              :   String? strip(final String? value) =&gt;</span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           2 :       value?.replaceAll(RegExp('[^A-Z0-9]'), '');</span></span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :   bool isValid(final String? value) {</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           1 :     String? v = strip(value);</span></span>
+<span id="L31"><span class="lineNum">      31</span>              : </span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           2 :     if (v == null || v.length != 7) {</span></span>
+<span id="L33"><span class="lineNum">      33</span>              :       return false;</span>
+<span id="L34"><span class="lineNum">      34</span>              :     }</span>
+<span id="L35"><span class="lineNum">      35</span>              : </span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           3 :     return format(v)?.length == 8;</span></span>
+<span id="L37"><span class="lineNum">      37</span>              :   }</span>
+<span id="L38"><span class="lineNum">      38</span>              : }</span>
         </pre>
               </td>
             </tr>

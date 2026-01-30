@@ -11,7 +11,7 @@
 <body>
 
           <table width="100%" border=0 cellspacing=0 cellpadding=0>
-            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="title">Folly Fields</td></tr>
             <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
 
             <tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td class="headerValue">2026-01-30 18:42:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -68,17 +68,17 @@
 <span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           1 :   CestValidator()</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           3 :     : super(&lt;TextInputFormatter&gt;[MaskTextInputFormatter(mask: '##.###.##')]);</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :   String format(final String value) =&gt; strip(value).replaceAllMapped(</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :     RegExp(r'^(\d{2})(\d{3})(\d{2})$'),</span></span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :     (final Match m) =&gt; '${m[1]}.${m[2]}.${m[3]}',</span></span>
-<span id="L13"><span class="lineNum">      13</span>              :   );</span>
-<span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
-<span id="L16"><span class="lineNum">      16</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L10"><span class="lineNum">      10</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   String? format(final String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :     RegExp(r'^(\d{2})(\d{3})(\d{2})$'),</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     (final Match m) =&gt; '${m[1]}.${m[2]}.${m[3]}',</span></span>
+<span id="L16"><span class="lineNum">      16</span>              :   );</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   bool isValid(final String value) =&gt; strip(value).length == 7;</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   bool isValid(final String? value) =&gt; strip(value)?.length == 7;</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : }</span>
         </pre>
               </td>

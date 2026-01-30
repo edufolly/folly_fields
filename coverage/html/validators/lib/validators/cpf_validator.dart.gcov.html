@@ -11,7 +11,7 @@
 <body>
 
           <table width="100%" border=0 cellspacing=0 cellpadding=0>
-            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="title">Folly Fields</td></tr>
             <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
 
             <tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td class="headerValue">2026-01-30 18:42:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -62,27 +62,29 @@
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : import 'package:cpf_cnpj_validator/cpf_validator.dart';</span>
 <span id="L2"><span class="lineNum">       2</span>              : import 'package:flutter/services.dart';</span>
-<span id="L3"><span class="lineNum">       3</span>              : import 'package:folly_fields/util/mask_text_input_formatter.dart';</span>
-<span id="L4"><span class="lineNum">       4</span>              : import 'package:folly_fields/validators/abstract_validator.dart';</span>
-<span id="L5"><span class="lineNum">       5</span>              : </span>
-<span id="L6"><span class="lineNum">       6</span>              : class CpfValidator extends AbstractValidator&lt;String&gt; {</span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           1 :   CpfValidator()</span></span>
-<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           2 :     : super(&lt;TextInputFormatter&gt;[</span></span>
-<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 :         MaskTextInputFormatter(mask: '###.###.###-##'),</span></span>
-<span id="L10"><span class="lineNum">      10</span>              :       ]);</span>
-<span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :   String format(final String value) =&gt; CPFValidator.format(value);</span></span>
-<span id="L14"><span class="lineNum">      14</span>              : </span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :   bool isValid(final String value) =&gt; CPFValidator.isValid(value);</span></span>
-<span id="L17"><span class="lineNum">      17</span>              : </span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L19"><span class="lineNum">      19</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
-<span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :   static String generate({final bool format = false}) =&gt;</span></span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :       CPFValidator.generate(format);</span></span>
-<span id="L23"><span class="lineNum">      23</span>              : }</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:folly_fields/extensions/scope_extension.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:folly_fields/util/mask_text_input_formatter.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : import 'package:folly_fields/validators/abstract_validator.dart';</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : class CpfValidator extends AbstractValidator&lt;String&gt; {</span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC tlaBgGNC">           1 :   CpfValidator()</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           2 :     : super(&lt;TextInputFormatter&gt;[</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           1 :         MaskTextInputFormatter(mask: '###.###.###-##'),</span></span>
+<span id="L11"><span class="lineNum">      11</span>              :       ]);</span>
+<span id="L12"><span class="lineNum">      12</span>              : </span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L14"><span class="lineNum">      14</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
+<span id="L15"><span class="lineNum">      15</span>              : </span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :   String? format(final String? value) =&gt; value?.let(CPFValidator.format);</span></span>
+<span id="L18"><span class="lineNum">      18</span>              : </span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L20"><span class="lineNum">      20</span>              :   bool isValid(final String? value) =&gt;</span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :       value?.let(CPFValidator.isValid) ?? false;</span></span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :   static String generate({final bool format = false}) =&gt;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :       CPFValidator.generate(format);</span></span>
+<span id="L25"><span class="lineNum">      25</span>              : }</span>
         </pre>
               </td>
             </tr>

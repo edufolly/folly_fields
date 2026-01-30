@@ -11,7 +11,7 @@
 <body>
 
           <table width="100%" border=0 cellspacing=0 cellpadding=0>
-            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="title">Folly Fields</td></tr>
             <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
 
             <tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td class="headerValue">2026-01-30 18:42:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -61,11 +61,11 @@
 <pre class="sourceHeading">            Line data    Source code</pre>
 <pre class="source">
 <span id="L1"><span class="lineNum">       1</span>              : import 'package:flutter/services.dart';</span>
-<span id="L2"><span class="lineNum">       2</span>              : import 'package:folly_fields/util/mask_text_input_formatter.dart';</span>
-<span id="L3"><span class="lineNum">       3</span>              : import 'package:folly_fields/validators/abstract_validator.dart';</span>
-<span id="L4"><span class="lineNum">       4</span>              : </span>
-<span id="L5"><span class="lineNum">       5</span>              : class Ipv4Validator extends AbstractValidator&lt;String&gt;</span>
-<span id="L6"><span class="lineNum">       6</span>              :     implements AbstractParser&lt;String&gt; {</span>
+<span id="L2"><span class="lineNum">       2</span>              : import 'package:folly_fields/extensions/scope_extension.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import 'package:folly_fields/util/mask_text_input_formatter.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : import 'package:folly_fields/validators/abstract_validator.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              : class Ipv4Validator extends AbstractParserValidator&lt;String&gt; {</span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           1 :   Ipv4Validator()</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           2 :     : super(&lt;TextInputFormatter&gt;[</span></span>
 <span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           1 :         MaskTextInputFormatter(</span></span>
@@ -75,43 +75,44 @@
 <span id="L13"><span class="lineNum">      13</span>              :       ]);</span>
 <span id="L14"><span class="lineNum">      14</span>              : </span>
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L16"><span class="lineNum">      16</span>              :   String format(final String value) =&gt; value;</span>
+<span id="L16"><span class="lineNum">      16</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L19"><span class="lineNum">      19</span>              :   String strip(final String value) =&gt; value;</span>
+<span id="L19"><span class="lineNum">      19</span>              :   String? format(final String? value) =&gt; value;</span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
 <span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L22"><span class="lineNum">      22</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
+<span id="L22"><span class="lineNum">      22</span>              :   String? strip(final String? value) =&gt; value;</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           1 :   bool isValid(final String value) =&gt; valid(value) == null;</span></span>
-<span id="L26"><span class="lineNum">      26</span>              : </span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L28"><span class="lineNum">      28</span>              :   String? parse(final String? value) {</span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :     if (value == null || value.isEmpty) {</span></span>
-<span id="L30"><span class="lineNum">      30</span>              :       return null;</span>
-<span id="L31"><span class="lineNum">      31</span>              :     }</span>
-<span id="L32"><span class="lineNum">      32</span>              : </span>
-<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           1 :     List&lt;String&gt; parts = value.split('.');</span></span>
-<span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :     if (parts.length != 4) {</span></span>
-<span id="L36"><span class="lineNum">      36</span>              :       return null;</span>
-<span id="L37"><span class="lineNum">      37</span>              :     }</span>
-<span id="L38"><span class="lineNum">      38</span>              : </span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           2 :     for (final String part in parts) {</span></span>
-<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           1 :       int? octet = int.tryParse(part);</span></span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           2 :       if (octet == null || octet &lt; 0 || octet &gt; 255) {</span></span>
-<span id="L42"><span class="lineNum">      42</span>              :         return null;</span>
-<span id="L43"><span class="lineNum">      43</span>              :       }</span>
-<span id="L44"><span class="lineNum">      44</span>              :     }</span>
-<span id="L45"><span class="lineNum">      45</span>              : </span>
-<span id="L46"><span class="lineNum">      46</span>              :     return value;</span>
-<span id="L47"><span class="lineNum">      47</span>              :   }</span>
-<span id="L48"><span class="lineNum">      48</span>              : </span>
-<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L50"><span class="lineNum">      50</span>              :   String? valid(final String? value) =&gt;</span>
-<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           1 :       parse(value) == null ? 'IPv4 inválido.' : null;</span></span>
-<span id="L52"><span class="lineNum">      52</span>              : }</span>
+<span id="L25"><span class="lineNum">      25</span>              :   bool isValid(final String? value) =&gt;</span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           4 :       value?.let((final String it) =&gt; isNull(valid(it))) ?? false;</span></span>
+<span id="L27"><span class="lineNum">      27</span>              : </span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :   String? parse(final String? value) {</span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           1 :     if (value == null || value.isEmpty) {</span></span>
+<span id="L31"><span class="lineNum">      31</span>              :       return null;</span>
+<span id="L32"><span class="lineNum">      32</span>              :     }</span>
+<span id="L33"><span class="lineNum">      33</span>              : </span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           1 :     List&lt;String&gt; parts = value.split('.');</span></span>
+<span id="L35"><span class="lineNum">      35</span>              : </span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           2 :     if (parts.length != 4) {</span></span>
+<span id="L37"><span class="lineNum">      37</span>              :       return null;</span>
+<span id="L38"><span class="lineNum">      38</span>              :     }</span>
+<span id="L39"><span class="lineNum">      39</span>              : </span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           2 :     for (final String part in parts) {</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           1 :       int? octet = int.tryParse(part);</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           2 :       if (octet == null || octet &lt; 0 || octet &gt; 255) {</span></span>
+<span id="L43"><span class="lineNum">      43</span>              :         return null;</span>
+<span id="L44"><span class="lineNum">      44</span>              :       }</span>
+<span id="L45"><span class="lineNum">      45</span>              :     }</span>
+<span id="L46"><span class="lineNum">      46</span>              : </span>
+<span id="L47"><span class="lineNum">      47</span>              :     return value;</span>
+<span id="L48"><span class="lineNum">      48</span>              :   }</span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L51"><span class="lineNum">      51</span>              :   String? valid(final String? value) =&gt;</span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           1 :       parse(value) == null ? 'IPv4 inválido.' : null;</span></span>
+<span id="L53"><span class="lineNum">      53</span>              : }</span>
         </pre>
               </td>
             </tr>

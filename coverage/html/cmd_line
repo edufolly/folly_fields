@@ -1,1 +1,1 @@
-genhtml coverage/lcov.info --output-directory coverage/html --title 'Folly Fields' --show-details
+genhtml coverage/lcov.info --output-directory coverage/html --title 'Folly Fields' --show-details --parallel 4 --header-title 'Folly Fields' --dark-mode

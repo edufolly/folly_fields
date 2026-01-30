@@ -11,7 +11,7 @@
 <body>
 
           <table width="100%" border=0 cellspacing=0 cellpadding=0>
-            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="title">Folly Fields</td></tr>
             <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
 
             <tr>
@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td class="headerValue">2026-01-30 18:42:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -277,19 +277,19 @@
 <span id="L215"><span class="lineNum">     215</span>              :     this.extraBrands = const &lt;String&gt;[],</span>
 <span id="L216"><span class="lineNum">     216</span>              :   });</span>
 <span id="L217"><span class="lineNum">     217</span>              : </span>
-<span id="L218"><span class="lineNum">     218</span> <span class="tlaUNC tlaBgUNC">           0 :   bool validLength(final String ccNum) =&gt;</span></span>
-<span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC">           0 :       lengths.contains(clearNum(ccNum).length);</span></span>
+<span id="L218"><span class="lineNum">     218</span> <span class="tlaUNC tlaBgUNC">           0 :   bool validLength(final String? ccNum) =&gt;</span></span>
+<span id="L219"><span class="lineNum">     219</span> <span class="tlaUNC">           0 :       ccNum != null &amp;&amp; lengths.contains(clearNum(ccNum).length);</span></span>
 <span id="L220"><span class="lineNum">     220</span>              : </span>
-<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC tlaBgGNC">           1 :   bool validNumber(final String ccNum) {</span></span>
+<span id="L221"><span class="lineNum">     221</span> <span class="tlaGNC tlaBgGNC">           1 :   bool validNumber(final String? ccNum) {</span></span>
 <span id="L222"><span class="lineNum">     222</span> <span class="tlaGNC">           1 :     if (!checkLuhn) {</span></span>
 <span id="L223"><span class="lineNum">     223</span>              :       return true;</span>
 <span id="L224"><span class="lineNum">     224</span>              :     }</span>
 <span id="L225"><span class="lineNum">     225</span>              : </span>
-<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">           2 :     if (ccNum.length &lt; 2) {</span></span>
+<span id="L226"><span class="lineNum">     226</span> <span class="tlaGNC">           2 :     if (ccNum == null || ccNum.length &lt; 2) {</span></span>
 <span id="L227"><span class="lineNum">     227</span>              :       return false;</span>
 <span id="L228"><span class="lineNum">     228</span>              :     }</span>
 <span id="L229"><span class="lineNum">     229</span>              : </span>
-<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           2 :     String cNum = ccNum.replaceAll(RegExp(r'\D'), '');</span></span>
+<span id="L230"><span class="lineNum">     230</span> <span class="tlaGNC">           1 :     String cNum = clearNum(ccNum);</span></span>
 <span id="L231"><span class="lineNum">     231</span> <span class="tlaGNC">           2 :     int mod = cNum.length % 2;</span></span>
 <span id="L232"><span class="lineNum">     232</span>              :     int sum = 0;</span>
 <span id="L233"><span class="lineNum">     233</span>              : </span>
@@ -313,77 +313,78 @@
 <span id="L251"><span class="lineNum">     251</span>              :     }</span>
 <span id="L252"><span class="lineNum">     252</span>              :   }</span>
 <span id="L253"><span class="lineNum">     253</span>              : </span>
-<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC tlaBgGNC">           1 :   bool cvvCheck(final String cvv) =&gt;</span></span>
-<span id="L255"><span class="lineNum">     255</span> <span class="tlaGNC">           4 :       code.size.contains(cvv.length) &amp;&amp;</span></span>
-<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">           5 :       code.size.contains(clearNum(cvv).length);</span></span>
-<span id="L257"><span class="lineNum">     257</span>              : </span>
-<span id="L258"><span class="lineNum">     258</span> <span class="tlaGNC">           1 :   static String clearNum(final String ccNum) =&gt;</span></span>
-<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">           2 :       ccNum.replaceAll(RegExp(r'\D'), '');</span></span>
-<span id="L260"><span class="lineNum">     260</span>              : </span>
-<span id="L261"><span class="lineNum">     261</span> <span class="tlaGNC">           1 :   static CreditCardType detectType(final String ccNum) {</span></span>
-<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           1 :     String cNum = clearNum(ccNum);</span></span>
-<span id="L263"><span class="lineNum">     263</span>              : </span>
-<span id="L264"><span class="lineNum">     264</span> <span class="tlaGNC">           2 :     for (final CreditCardType type in CreditCardType.values) {</span></span>
-<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">           2 :       for (final Range range in type.patterns) {</span></span>
-<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">           1 :         if (range.isValid(cNum)) {</span></span>
-<span id="L267"><span class="lineNum">     267</span>              :           return type;</span>
-<span id="L268"><span class="lineNum">     268</span>              :         }</span>
-<span id="L269"><span class="lineNum">     269</span>              :       }</span>
-<span id="L270"><span class="lineNum">     270</span>              :     }</span>
-<span id="L271"><span class="lineNum">     271</span>              : </span>
-<span id="L272"><span class="lineNum">     272</span>              :     return CreditCardType.unknown;</span>
-<span id="L273"><span class="lineNum">     273</span>              :   }</span>
-<span id="L274"><span class="lineNum">     274</span>              : </span>
-<span id="L275"><span class="lineNum">     275</span>              :   // TODO(edufolly): Create a factory.</span>
-<span id="L276"><span class="lineNum">     276</span> <span class="tlaGNC">           1 :   static CreditCardType parse(final String? value) {</span></span>
-<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">           1 :     return CreditCardType.values.firstWhere(</span></span>
-<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">           1 :       (final CreditCardType type) {</span></span>
-<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">           3 :         String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();</span></span>
-<span id="L280"><span class="lineNum">     280</span>              : </span>
-<span id="L281"><span class="lineNum">     281</span> <span class="tlaGNC">           3 :         return type.brand.toLowerCase() == newValue ||</span></span>
-<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           2 :             type.extraBrands.fold&lt;bool&gt;(</span></span>
-<span id="L283"><span class="lineNum">     283</span>              :               false,</span>
-<span id="L284"><span class="lineNum">     284</span> <span class="tlaGNC">           1 :               (final bool previous, final String element) =&gt;</span></span>
-<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">           2 :                   previous || element.toLowerCase() == newValue,</span></span>
-<span id="L286"><span class="lineNum">     286</span>              :             );</span>
-<span id="L287"><span class="lineNum">     287</span>              :       },</span>
-<span id="L288"><span class="lineNum">     288</span>              :       // Unknown card type</span>
-<span id="L289"><span class="lineNum">     289</span> <span class="tlaGNC">           1 :       orElse: () =&gt; CreditCardType.unknown,</span></span>
-<span id="L290"><span class="lineNum">     290</span>              :     );</span>
-<span id="L291"><span class="lineNum">     291</span>              :   }</span>
-<span id="L292"><span class="lineNum">     292</span>              : }</span>
-<span id="L293"><span class="lineNum">     293</span>              : </span>
-<span id="L294"><span class="lineNum">     294</span>              : class CreditCardCode {</span>
-<span id="L295"><span class="lineNum">     295</span>              :   final String name;</span>
-<span id="L296"><span class="lineNum">     296</span>              :   final List&lt;int&gt; size;</span>
-<span id="L297"><span class="lineNum">     297</span>              : </span>
-<span id="L298"><span class="lineNum">     298</span> <span class="tlaGNC">           1 :   const CreditCardCode(this.name, this.size);</span></span>
-<span id="L299"><span class="lineNum">     299</span>              : }</span>
-<span id="L300"><span class="lineNum">     300</span>              : </span>
-<span id="L301"><span class="lineNum">     301</span>              : class Range {</span>
-<span id="L302"><span class="lineNum">     302</span>              :   final int initialValue;</span>
-<span id="L303"><span class="lineNum">     303</span>              :   final int? finalValue;</span>
-<span id="L304"><span class="lineNum">     304</span>              : </span>
-<span id="L305"><span class="lineNum">     305</span> <span class="tlaGNC">           1 :   const Range(this.initialValue, [this.finalValue]);</span></span>
-<span id="L306"><span class="lineNum">     306</span>              : </span>
-<span id="L307"><span class="lineNum">     307</span> <span class="tlaGNC">           1 :   bool isValid(final String ccNum) {</span></span>
-<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">           3 :     int qtd = initialValue.toString().length;</span></span>
-<span id="L309"><span class="lineNum">     309</span>              : </span>
-<span id="L310"><span class="lineNum">     310</span> <span class="tlaGNC">           2 :     if (ccNum.length &lt; qtd) {</span></span>
-<span id="L311"><span class="lineNum">     311</span>              :       return false;</span>
-<span id="L312"><span class="lineNum">     312</span>              :     }</span>
-<span id="L313"><span class="lineNum">     313</span>              : </span>
-<span id="L314"><span class="lineNum">     314</span> <span class="tlaGNC">           2 :     int? ccInt = int.tryParse(ccNum.substring(0, qtd));</span></span>
-<span id="L315"><span class="lineNum">     315</span>              : </span>
-<span id="L316"><span class="lineNum">     316</span>              :     if (ccInt == null) {</span>
-<span id="L317"><span class="lineNum">     317</span>              :       return false;</span>
-<span id="L318"><span class="lineNum">     318</span>              :     }</span>
-<span id="L319"><span class="lineNum">     319</span>              : </span>
-<span id="L320"><span class="lineNum">     320</span> <span class="tlaGNC">           1 :     return finalValue == null</span></span>
-<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">           2 :         ? ccInt == initialValue</span></span>
-<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">           4 :         : ccInt &gt;= initialValue &amp;&amp; ccInt &lt;= finalValue!;</span></span>
-<span id="L323"><span class="lineNum">     323</span>              :   }</span>
-<span id="L324"><span class="lineNum">     324</span>              : }</span>
+<span id="L254"><span class="lineNum">     254</span> <span class="tlaGNC tlaBgGNC">           1 :   bool cvvCheck(final String? cvv) =&gt;</span></span>
+<span id="L255"><span class="lineNum">     255</span>              :       cvv != null &amp;&amp;</span>
+<span id="L256"><span class="lineNum">     256</span> <span class="tlaGNC">           4 :       code.size.contains(cvv.length) &amp;&amp;</span></span>
+<span id="L257"><span class="lineNum">     257</span> <span class="tlaGNC">           5 :       code.size.contains(clearNum(cvv).length);</span></span>
+<span id="L258"><span class="lineNum">     258</span>              : </span>
+<span id="L259"><span class="lineNum">     259</span> <span class="tlaGNC">           1 :   static String clearNum(final String ccNum) =&gt;</span></span>
+<span id="L260"><span class="lineNum">     260</span> <span class="tlaGNC">           2 :       ccNum.replaceAll(RegExp(r'\D'), '');</span></span>
+<span id="L261"><span class="lineNum">     261</span>              : </span>
+<span id="L262"><span class="lineNum">     262</span> <span class="tlaGNC">           1 :   static CreditCardType detectType(final String ccNum) {</span></span>
+<span id="L263"><span class="lineNum">     263</span> <span class="tlaGNC">           1 :     String cNum = clearNum(ccNum);</span></span>
+<span id="L264"><span class="lineNum">     264</span>              : </span>
+<span id="L265"><span class="lineNum">     265</span> <span class="tlaGNC">           2 :     for (final CreditCardType type in CreditCardType.values) {</span></span>
+<span id="L266"><span class="lineNum">     266</span> <span class="tlaGNC">           2 :       for (final Range range in type.patterns) {</span></span>
+<span id="L267"><span class="lineNum">     267</span> <span class="tlaGNC">           1 :         if (range.isValid(cNum)) {</span></span>
+<span id="L268"><span class="lineNum">     268</span>              :           return type;</span>
+<span id="L269"><span class="lineNum">     269</span>              :         }</span>
+<span id="L270"><span class="lineNum">     270</span>              :       }</span>
+<span id="L271"><span class="lineNum">     271</span>              :     }</span>
+<span id="L272"><span class="lineNum">     272</span>              : </span>
+<span id="L273"><span class="lineNum">     273</span>              :     return CreditCardType.unknown;</span>
+<span id="L274"><span class="lineNum">     274</span>              :   }</span>
+<span id="L275"><span class="lineNum">     275</span>              : </span>
+<span id="L276"><span class="lineNum">     276</span>              :   // TODO(edufolly): Create a factory.</span>
+<span id="L277"><span class="lineNum">     277</span> <span class="tlaGNC">           1 :   static CreditCardType parse(final String? value) {</span></span>
+<span id="L278"><span class="lineNum">     278</span> <span class="tlaGNC">           1 :     return CreditCardType.values.firstWhere(</span></span>
+<span id="L279"><span class="lineNum">     279</span> <span class="tlaGNC">           1 :       (final CreditCardType type) {</span></span>
+<span id="L280"><span class="lineNum">     280</span> <span class="tlaGNC">           3 :         String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();</span></span>
+<span id="L281"><span class="lineNum">     281</span>              : </span>
+<span id="L282"><span class="lineNum">     282</span> <span class="tlaGNC">           3 :         return type.brand.toLowerCase() == newValue ||</span></span>
+<span id="L283"><span class="lineNum">     283</span> <span class="tlaGNC">           2 :             type.extraBrands.fold&lt;bool&gt;(</span></span>
+<span id="L284"><span class="lineNum">     284</span>              :               false,</span>
+<span id="L285"><span class="lineNum">     285</span> <span class="tlaGNC">           1 :               (final bool previous, final String element) =&gt;</span></span>
+<span id="L286"><span class="lineNum">     286</span> <span class="tlaGNC">           2 :                   previous || element.toLowerCase() == newValue,</span></span>
+<span id="L287"><span class="lineNum">     287</span>              :             );</span>
+<span id="L288"><span class="lineNum">     288</span>              :       },</span>
+<span id="L289"><span class="lineNum">     289</span>              :       // Unknown card type</span>
+<span id="L290"><span class="lineNum">     290</span> <span class="tlaGNC">           1 :       orElse: () =&gt; CreditCardType.unknown,</span></span>
+<span id="L291"><span class="lineNum">     291</span>              :     );</span>
+<span id="L292"><span class="lineNum">     292</span>              :   }</span>
+<span id="L293"><span class="lineNum">     293</span>              : }</span>
+<span id="L294"><span class="lineNum">     294</span>              : </span>
+<span id="L295"><span class="lineNum">     295</span>              : class CreditCardCode {</span>
+<span id="L296"><span class="lineNum">     296</span>              :   final String name;</span>
+<span id="L297"><span class="lineNum">     297</span>              :   final List&lt;int&gt; size;</span>
+<span id="L298"><span class="lineNum">     298</span>              : </span>
+<span id="L299"><span class="lineNum">     299</span> <span class="tlaGNC">           1 :   const CreditCardCode(this.name, this.size);</span></span>
+<span id="L300"><span class="lineNum">     300</span>              : }</span>
+<span id="L301"><span class="lineNum">     301</span>              : </span>
+<span id="L302"><span class="lineNum">     302</span>              : class Range {</span>
+<span id="L303"><span class="lineNum">     303</span>              :   final int initialValue;</span>
+<span id="L304"><span class="lineNum">     304</span>              :   final int? finalValue;</span>
+<span id="L305"><span class="lineNum">     305</span>              : </span>
+<span id="L306"><span class="lineNum">     306</span> <span class="tlaGNC">           1 :   const Range(this.initialValue, [this.finalValue]);</span></span>
+<span id="L307"><span class="lineNum">     307</span>              : </span>
+<span id="L308"><span class="lineNum">     308</span> <span class="tlaGNC">           1 :   bool isValid(final String ccNum) {</span></span>
+<span id="L309"><span class="lineNum">     309</span> <span class="tlaGNC">           3 :     int qtd = initialValue.toString().length;</span></span>
+<span id="L310"><span class="lineNum">     310</span>              : </span>
+<span id="L311"><span class="lineNum">     311</span> <span class="tlaGNC">           2 :     if (ccNum.length &lt; qtd) {</span></span>
+<span id="L312"><span class="lineNum">     312</span>              :       return false;</span>
+<span id="L313"><span class="lineNum">     313</span>              :     }</span>
+<span id="L314"><span class="lineNum">     314</span>              : </span>
+<span id="L315"><span class="lineNum">     315</span> <span class="tlaGNC">           2 :     int? ccInt = int.tryParse(ccNum.substring(0, qtd));</span></span>
+<span id="L316"><span class="lineNum">     316</span>              : </span>
+<span id="L317"><span class="lineNum">     317</span>              :     if (ccInt == null) {</span>
+<span id="L318"><span class="lineNum">     318</span>              :       return false;</span>
+<span id="L319"><span class="lineNum">     319</span>              :     }</span>
+<span id="L320"><span class="lineNum">     320</span>              : </span>
+<span id="L321"><span class="lineNum">     321</span> <span class="tlaGNC">           1 :     return finalValue == null</span></span>
+<span id="L322"><span class="lineNum">     322</span> <span class="tlaGNC">           2 :         ? ccInt == initialValue</span></span>
+<span id="L323"><span class="lineNum">     323</span> <span class="tlaGNC">           4 :         : ccInt &gt;= initialValue &amp;&amp; ccInt &lt;= finalValue!;</span></span>
+<span id="L324"><span class="lineNum">     324</span>              :   }</span>
+<span id="L325"><span class="lineNum">     325</span>              : }</span>
         </pre>
               </td>
             </tr>

@@ -1,28 +1,28 @@
 /* All views: initial background and text color */
 body
 {
-  color: #000000;
-  background-color: #ffffff;
+  color: #e4e4e4;
+  background-color: #000000;
 }
 
 /* All views: standard link format*/
 a:link
 {
-  color: #284fa8;
+  color: #58a6ff;
   text-decoration: underline;
 }
 
 /* All views: standard link - visited format */
 a:visited
 {
-  color: #00cb40;
+  color: #58a6ff;
   text-decoration: underline;
 }
 
 /* All views: standard link - activated format */
 a:active
 {
-  color: #ff0040;
+  color: #66001a;
   text-decoration: underline;
 }
 
@@ -61,7 +61,7 @@ td.headerItem
 td.headerValue
 {
   text-align: left;
-  color: #284fa8;
+  color: #58a6ff;
   font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
@@ -82,59 +82,59 @@ td.headerCovTableHead
 td.headerCovTableEntry
 {
   text-align: right;
-  color: #284fa8;
+  color: #58a6ff;
   font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
   padding-left: 12px;
   padding-right: 4px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
 }
 
 /* All views: header item coverage table entry for high coverage rate */
 td.headerCovTableEntryHi
 {
   text-align: right;
-  color: #000000;
+  color: #e4e4e4;
   font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
   padding-left: 12px;
   padding-right: 4px;
-  background-color: #a7fc9d;
+  background-color: #006600;
 }
 
 /* All views: header item coverage table entry for medium coverage rate */
 td.headerCovTableEntryMed
 {
   text-align: right;
-  color: #000000;
+  color: #e4e4e4;
   font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
   padding-left: 12px;
   padding-right: 4px;
-  background-color: #ffea20;
+  background-color: #796a25;
 }
 
 /* All views: header item coverage table entry for ow coverage rate */
 td.headerCovTableEntryLo
 {
   text-align: right;
-  color: #000000;
+  color: #e4e4e4;
   font-family: sans-serif;
   font-weight: bold;
   white-space: nowrap;
   padding-left: 12px;
   padding-right: 4px;
-  background-color: #ff0000;
+  background-color: #801b18;
 }
 
 /* All views: header legend value for legend entry */
 td.headerValueLeg
 {
   text-align: left;
-  color: #000000;
+  color: #e4e4e4;
   font-family: sans-serif;
   font-size: 80%;
   white-space: nowrap;
@@ -144,7 +144,7 @@ td.headerValueLeg
 /* All views: color of horizontal ruler */
 td.ruler
 {
-  background-color: #6688d4;
+  background-color: #3b4c71;
 }
 
 /* All views: version string format */
@@ -161,8 +161,8 @@ td.versionInfo
 td.tableHead
 {
   text-align: center;
-  color: #ffffff;
-  background-color: #6688d4;
+  color: #000000;
+  background-color: #3b4c71;
   font-family: sans-serif;
   font-size: 120%;
   font-weight: bold;
@@ -182,8 +182,8 @@ td.coverFile
   text-align: left;
   padding-left: 10px;
   padding-right: 20px;
-  color: #284fa8;
-  background-color: #dae7fe;
+  color: #58a6ff;
+  background-color: #1c1e23;
   font-family: monospace;
 }
 
@@ -193,7 +193,7 @@ td.overallOwner
   text-align: center;
   font-weight: bold;
   font-family: sans-serif;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   padding-right: 10px;
   padding-left: 10px;
 }
@@ -214,7 +214,7 @@ td.coverBar
 {
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
 }
 
 /* Directory view/File view (all): bar-graph entry format*/
@@ -228,7 +228,7 @@ td.owner_coverBar
 /* Directory view/File view (all): bar-graph outline color */
 td.coverBarOutline
 {
-  background-color: #000000;
+  background-color: #e4e4e4;
 }
 
 /* Directory view/File view (all): percentage entry for files with
@@ -238,7 +238,7 @@ td.coverPerHi
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #a7fc9d;
+  background-color: #006600;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -260,7 +260,7 @@ td.coverNumDflt
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   white-space: nowrap;
   font-family: sans-serif;
 }
@@ -284,7 +284,7 @@ td.coverNumHi
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #a7fc9d;
+  background-color: #006600;
   white-space: nowrap;
   font-family: sans-serif;
 }
@@ -306,7 +306,7 @@ td.coverPerMed
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #ffea20;
+  background-color: #796a25;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -328,7 +328,7 @@ td.coverNumMed
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #ffea20;
+  background-color: #796a25;
   white-space: nowrap;
   font-family: sans-serif;
 }
@@ -350,7 +350,7 @@ td.coverPerLo
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #ff0000;
+  background-color: #801b18;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -372,7 +372,7 @@ td.coverNumLo
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #ff0000;
+  background-color: #801b18;
   white-space: nowrap;
   font-family: sans-serif;
 }
@@ -390,21 +390,21 @@ td.owner_coverNumLo
 /* File view (all): "show/hide details" link format */
 a.detail:link
 {
-  color: #b8d0ff;
+  color: #495366;
   font-size:80%;
 }
 
 /* File view (all): "show/hide details" link - visited format */
 a.detail:visited
 {
-  color: #b8d0ff;
+  color: #495366;
   font-size:80%;
 }
 
 /* File view (all): "show/hide details" link - activated format */
 a.detail:active
 {
-  color: #ffffff;
+  color: #000000;
   font-size:80%;
 }
 
@@ -413,7 +413,7 @@ td.testName
 {
   text-align: right;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   font-family: sans-serif;
 }
 
@@ -423,7 +423,7 @@ td.testPer
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   font-family: sans-serif;
 }
 
@@ -433,7 +433,7 @@ td.testNum
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   font-family: sans-serif;
 }
 
@@ -451,7 +451,7 @@ td.testDescription
   padding-left: 30px;
   padding-bottom: 10px;
   padding-right: 30px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
 }
 
 /* Source code view: function entry */
@@ -460,8 +460,8 @@ td.coverFn
   text-align: left;
   padding-left: 10px;
   padding-right: 20px;
-  color: #284fa8;
-  background-color: #dae7fe;
+  color: #58a6ff;
+  background-color: #1c1e23;
   font-family: monospace;
 }
 
@@ -471,7 +471,7 @@ td.coverFnLo
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #ff0000;
+  background-color: #801b18;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -482,7 +482,7 @@ td.coverFnHi
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -492,7 +492,7 @@ td.coverFnAlias
   text-align: right;
   padding-left: 10px;
   padding-right: 20px;
-  color: #284fa8;
+  color: #58a6ff;
   /* make this a slightly different color than the leader - otherwise,
      otherwise the alias is hard to distinguish in the table */
   background-color: #E5DBDB; /* very light pale grey/blue */
@@ -515,7 +515,7 @@ td.coverFnAliasHi
   text-align: right;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: #dae7fe;
+  background-color: #1c1e23;
   font-weight: bold;
   font-family: sans-serif;
 }
@@ -531,7 +531,7 @@ pre.source
 /* Source code view: line number format */
 span.lineNum
 {
-  background-color: #efe383;
+  background-color: #202020;
 }
 
 /* Source code view: format for Cov legend */
@@ -540,7 +540,7 @@ span.coverLegendCov
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 2px;
-  background-color: #cad7fe;
+  background-color: #143e4f;
 }
 
 /* Source code view: format for NoCov legend */
@@ -549,7 +549,7 @@ span.coverLegendNoCov
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 2px;
-  background-color: #ff6230;
+  background-color: #772d16;
 }
 
 /* Source code view: format for the source code heading line */
@@ -569,7 +569,7 @@ td.headerValueLegL
   white-space: nowrap;
   padding-left: 4px;
   padding-right: 2px;
-  background-color: #ff0000;
+  background-color: #801b18;
   font-size: 80%;
 }
 
@@ -581,7 +581,7 @@ td.headerValueLegM
   white-space: nowrap;
   padding-left: 2px;
   padding-right: 2px;
-  background-color: #ffea20;
+  background-color: #796a25;
   font-size: 80%;
 }
 
@@ -593,7 +593,7 @@ td.headerValueLegH
   white-space: nowrap;
   padding-left: 2px;
   padding-right: 4px;
-  background-color: #a7fc9d;
+  background-color: #006600;
   font-size: 80%;
 }
 
@@ -603,7 +603,7 @@ span.coverLegendCovLo
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 2px;
-  background-color: #ff0000;
+  background-color: #801b18;
 }
 
 /* All views except source code view: legend format for med coverage */
@@ -612,7 +612,7 @@ span.coverLegendCovMed
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 2px;
-  background-color: #ffea20;
+  background-color: #796a25;
 }
 
 /* All views except source code view: legend format for hi coverage */
@@ -621,17 +621,17 @@ span.coverLegendCovHi
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 2px;
-  background-color: #a7fc9d;
+  background-color: #006600;
 }
 
 a.branchTla:link
 {
-  color: #000000;
+  color: #e4e4e4;
 }
 
 a.branchTla:visited
 {
-  color: #000000;
+  color: #e4e4e4;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered New Code (+ => 0):
@@ -639,10 +639,10 @@ Newly added code is not tested" */
 td.tlaUNC
 {
   text-align: right;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 td.tlaBgUNC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered New Code (+ => 0):
@@ -650,14 +650,14 @@ Newly added code is not tested" */
 span.tlaUNC
 {
   text-align: left;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 span.tlaBgUNC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 a.tlaBgUNC {
-  background-color: #FF6230;
-  color: #000000;
+  background-color: #772D16;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadUNC {
@@ -667,7 +667,7 @@ td.headerCovTableHeadUNC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Lost Baseline Coverage (1 => 0):
@@ -675,10 +675,10 @@ Unchanged code is no longer tested" */
 td.tlaLBC
 {
   text-align: right;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 td.tlaBgLBC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Lost Baseline Coverage (1 => 0):
@@ -686,14 +686,14 @@ Unchanged code is no longer tested" */
 span.tlaLBC
 {
   text-align: left;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 span.tlaBgLBC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 a.tlaBgLBC {
-  background-color: #FF6230;
-  color: #000000;
+  background-color: #772D16;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadLBC {
@@ -703,7 +703,7 @@ td.headerCovTableHeadLBC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered Included Code (# => 0):
@@ -711,10 +711,10 @@ Previously unused code is untested" */
 td.tlaUIC
 {
   text-align: right;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 td.tlaBgUIC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered Included Code (# => 0):
@@ -722,14 +722,14 @@ Previously unused code is untested" */
 span.tlaUIC
 {
   text-align: left;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 span.tlaBgUIC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 a.tlaBgUIC {
-  background-color: #FF6230;
-  color: #000000;
+  background-color: #772D16;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadUIC {
@@ -739,7 +739,7 @@ td.headerCovTableHeadUIC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered Baseline Code (0 => 0):
@@ -747,10 +747,10 @@ Unchanged code was untested before, is untested now" */
 td.tlaUBC
 {
   text-align: right;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 td.tlaBgUBC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Uncovered Baseline Code (0 => 0):
@@ -758,14 +758,14 @@ Unchanged code was untested before, is untested now" */
 span.tlaUBC
 {
   text-align: left;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 span.tlaBgUBC {
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 a.tlaBgUBC {
-  background-color: #FF6230;
-  color: #000000;
+  background-color: #772D16;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadUBC {
@@ -775,7 +775,7 @@ td.headerCovTableHeadUBC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FF6230;
+  background-color: #772D16;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained Baseline Coverage (0 => 1):
@@ -783,10 +783,10 @@ Unchanged code is tested now" */
 td.tlaGBC
 {
   text-align: right;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 td.tlaBgGBC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained Baseline Coverage (0 => 1):
@@ -794,14 +794,14 @@ Unchanged code is tested now" */
 span.tlaGBC
 {
   text-align: left;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 span.tlaBgGBC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 a.tlaBgGBC {
-  background-color: #CAD7FE;
-  color: #000000;
+  background-color: #143E4F;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadGBC {
@@ -811,7 +811,7 @@ td.headerCovTableHeadGBC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained Included Coverage (# => 1):
@@ -819,10 +819,10 @@ Previously unused code is tested now" */
 td.tlaGIC
 {
   text-align: right;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 td.tlaBgGIC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained Included Coverage (# => 1):
@@ -830,14 +830,14 @@ Previously unused code is tested now" */
 span.tlaGIC
 {
   text-align: left;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 span.tlaBgGIC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 a.tlaBgGIC {
-  background-color: #CAD7FE;
-  color: #000000;
+  background-color: #143E4F;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadGIC {
@@ -847,7 +847,7 @@ td.headerCovTableHeadGIC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained New Coverage (+ => 1):
@@ -855,10 +855,10 @@ Newly added code is tested" */
 td.tlaGNC
 {
   text-align: right;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 td.tlaBgGNC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Gained New Coverage (+ => 1):
@@ -866,14 +866,14 @@ Newly added code is tested" */
 span.tlaGNC
 {
   text-align: left;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 span.tlaBgGNC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 a.tlaBgGNC {
-  background-color: #CAD7FE;
-  color: #000000;
+  background-color: #143E4F;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadGNC {
@@ -883,7 +883,7 @@ td.headerCovTableHeadGNC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Covered Baseline Code (1 => 1):
@@ -891,10 +891,10 @@ Unchanged code was tested before and is still tested" */
 td.tlaCBC
 {
   text-align: right;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 td.tlaBgCBC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Covered Baseline Code (1 => 1):
@@ -902,14 +902,14 @@ Unchanged code was tested before and is still tested" */
 span.tlaCBC
 {
   text-align: left;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 span.tlaBgCBC {
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 a.tlaBgCBC {
-  background-color: #CAD7FE;
-  color: #000000;
+  background-color: #143E4F;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadCBC {
@@ -919,7 +919,7 @@ td.headerCovTableHeadCBC {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #CAD7FE;
+  background-color: #143E4F;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Uncovered Baseline (0 => #):
@@ -927,10 +927,10 @@ Previously untested code is unused now" */
 td.tlaEUB
 {
   text-align: right;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 td.tlaBgEUB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Uncovered Baseline (0 => #):
@@ -938,14 +938,14 @@ Previously untested code is unused now" */
 span.tlaEUB
 {
   text-align: left;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 span.tlaBgEUB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 a.tlaBgEUB {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: #000000;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadEUB {
@@ -955,7 +955,7 @@ td.headerCovTableHeadEUB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Covered Baseline (1 => #):
@@ -963,10 +963,10 @@ Previously tested code is unused now" */
 td.tlaECB
 {
   text-align: right;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 td.tlaBgECB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Covered Baseline (1 => #):
@@ -974,14 +974,14 @@ Previously tested code is unused now" */
 span.tlaECB
 {
   text-align: left;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 span.tlaBgECB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 a.tlaBgECB {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: #000000;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadECB {
@@ -991,7 +991,7 @@ td.headerCovTableHeadECB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Uncovered Baseline (0 => -):
@@ -999,10 +999,10 @@ Previously untested code has been deleted" */
 td.tlaDUB
 {
   text-align: right;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 td.tlaBgDUB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Uncovered Baseline (0 => -):
@@ -1010,14 +1010,14 @@ Previously untested code has been deleted" */
 span.tlaDUB
 {
   text-align: left;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 span.tlaBgDUB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 a.tlaBgDUB {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: #000000;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadDUB {
@@ -1027,7 +1027,7 @@ td.headerCovTableHeadDUB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Covered Baseline (1 => -):
@@ -1035,10 +1035,10 @@ Previously tested code has been deleted" */
 td.tlaDCB
 {
   text-align: right;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 td.tlaBgDCB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Covered Baseline (1 => -):
@@ -1046,14 +1046,14 @@ Previously tested code has been deleted" */
 span.tlaDCB
 {
   text-align: left;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 span.tlaBgDCB {
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 a.tlaBgDCB {
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: #000000;
+  color: #e4e4e4;
 }
 
 td.headerCovTableHeadDCB {
@@ -1063,11 +1063,11 @@ td.headerCovTableHeadDCB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #FFFFFF;
+  background-color: #000000;
 }
 
 /* Source code view: format for date/owner bin that is not hit */
 span.missBins
 {
-  background-color: #ff0000 /* red */
+  background-color: #801b18 /* red */
 }
