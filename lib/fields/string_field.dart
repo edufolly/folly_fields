@@ -142,7 +142,7 @@ class StringField extends ResponsiveStateless {
         keyboardType: keyboard,
         decoration: effectiveDecoration,
         validator: enabled && validator != null
-            ? (final String? value) => validator!(value ?? '')
+            ? (final String? value) => validator!(value)
             : null,
         minLines: minLines,
         maxLines: maxLines,

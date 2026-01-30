@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
@@ -25,6 +26,7 @@ class ColorValidator extends AbstractParserValidator<Color> {
   Color? parse(final String? text) => FollyUtils.colorParse(text);
 
   @override
-  String? valid(final String? value) =>
-      parse(value) == null ? 'Cor inválida.' : null;
+  String? valid(final String? value) => value?.let(
+    (final String it) => parse(it) == null ? 'Cor inválida.' : null,
+  );
 }
