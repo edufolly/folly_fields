@@ -41,14 +41,13 @@ class CreditCardNumberField extends ResponsiveStateful {
   final Widget? prefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
-  final bool trimOnSaved;
   final Function(CreditCardType creditCardType)? onTypeChange;
+  final String validatorMessage;
+  final void Function()? onTap;
 
   // Force the implementation.
   // ignore: avoid_positional_boolean_parameters
   final Function(bool valid)? onValid;
-  final String validatorMessage;
-  final void Function()? onTap;
 
   const CreditCardNumberField({
     this.labelPrefix,
@@ -86,7 +85,6 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.prefixIcon,
     this.suffix,
     this.suffixIcon,
-    this.trimOnSaved = true,
     this.onTypeChange,
     this.onValid,
     this.validatorMessage = 'Informe o número do cartão de crédito.',
@@ -180,7 +178,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       prefixIcon: widget.prefixIcon,
       suffix: widget.suffix,
       suffixIcon: widget.suffixIcon,
-      trimOnSaved: widget.trimOnSaved,
       onTap: widget.onTap,
     );
   }

@@ -16,3 +16,5 @@ extension ScopeExtension<T> on T {
 String parseString(final dynamic it) => it.toString();
 
 bool isNull(final dynamic it) => it == null;
+
+bool isNotNull(final dynamic it) => it != null;

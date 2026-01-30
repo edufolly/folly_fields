@@ -27,6 +27,7 @@ class MobilePhoneField extends ValidatorField {
     super.enableInteractiveSelection,
     super.filled,
     super.fillColor,
+    super.required,
     super.autofillHints,
     super.style,
     super.decoration,

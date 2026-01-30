@@ -195,6 +195,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [EmailField]
                           EmailField(
                             label: 'E-mail',
+                            required: false,
                             initialValue: model.email,
                             onSaved: (String? value) => model.email = value,
                           ),
@@ -278,6 +279,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [CpfField]
                           CpfField(
                             label: 'CPF',
+                            required: false,
                             initialValue: model.cpf,
                             onSaved: (String? value) => model.cpf = value,
                           ),
@@ -292,6 +294,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [CnpjField]
                           CnpjField(
                             label: 'CNPJ',
+                            required: false,
                             initialValue: model.cnpj,
                             onSaved: (String? value) => model.cnpj = value,
                           ),
@@ -306,6 +309,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [CpfCnpjField]
                           CpfCnpjField(
                             label: 'CPF ou CNPJ',
+                            required: false,
                             initialValue: model.document,
                             onSaved: (String? value) => model.document = value,
                           ),
@@ -320,6 +324,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [PhoneField]
                           PhoneField(
                             label: 'Telefone',
+                            required: false,
                             initialValue: model.phone,
                             onSaved: (String? value) => model.phone = value,
                           ),
@@ -334,9 +339,10 @@ class MyHomePageState extends State<MyHomePage> {
                           // [MobilePhoneField]
                           MobilePhoneField(
                             label: 'Celular',
+                            required: false,
                             initialValue: model.mobilePhone,
                             onSaved: (String? value) =>
-                                model.mobilePhone = value ?? '',
+                                model.mobilePhone = value,
                           ),
                       // [/MobilePhoneField]
                     ),
@@ -350,6 +356,7 @@ class MyHomePageState extends State<MyHomePage> {
                           DateTimeField(
                             label: 'Data e Hora',
                             required: false,
+                            clearOnCancel: true,
                             initialValue: model.dateTime,
                             onSaved: (DateTime? value) =>
                                 model.dateTime = value,
@@ -366,6 +373,7 @@ class MyHomePageState extends State<MyHomePage> {
                           DateField(
                             label: 'Data',
                             required: false,
+                            clearOnCancel: true,
                             initialValue: model.date,
                             onSaved: (DateTime? value) => model.date = value,
                           ),
@@ -381,6 +389,7 @@ class MyHomePageState extends State<MyHomePage> {
                           TimeField(
                             label: 'Hora',
                             required: false,
+                            clearOnCancel: true,
                             initialValue: model.time,
                             onSaved: (TimeOfDay? value) => model.time = value,
                           ),
@@ -395,6 +404,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [MacAddressField]
                           MacAddressField(
                             label: 'Mac Address',
+                            required: false,
                             initialValue: model.macAddress,
                             onSaved: (String? value) =>
                                 model.macAddress = value,
@@ -410,6 +420,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [NcmField]
                           NcmField(
                             label: 'NCM',
+                            required: false,
                             initialValue: model.ncm,
                             onSaved: (String? value) => model.ncm = value,
                           ),
@@ -424,6 +435,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [CestField]
                           CestField(
                             label: 'CEST',
+                            required: false,
                             initialValue: model.cest,
                             onSaved: (String? value) => model.cest = value,
                           ),
@@ -437,6 +449,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child:
                           // [CnaeField]
                           CnaeField(
+                            required: false,
                             label: 'CNAE',
                             initialValue: model.cnae,
                             onSaved: (String? value) => model.cnae = value,
@@ -452,6 +465,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [CepField]
                           CepField(
                             label: 'CEP',
+                            required: false,
                             initialValue: model.cep,
                             onSaved: (String? value) => model.cep = value,
                           ),
@@ -466,6 +480,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [LicencePlateField]
                           LicencePlateField(
                             label: 'Placa de Veiculo',
+                            required: false,
                             initialValue: model.licencePlate,
                             onSaved: (String? value) =>
                                 model.licencePlate = value,
@@ -481,6 +496,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [Ipv4Field]
                           Ipv4Field(
                             label: 'IPv4',
+                            required: false,
                             initialValue: model.ipv4,
                             onSaved: (String? value) => model.ipv4 = value,
                           ),
@@ -625,7 +641,11 @@ class MyHomePageState extends State<MyHomePage> {
       FollyDialogs.dialogMessage(
         context: context,
         title: 'Result of toMap().',
-        message: model.toMap().entries.map(parseString).join('\n'),
+        message: model
+            .toMap()
+            .entries
+            .map((it) => '${it.key}: ${it.value}')
+            .join(',\n'),
       );
     }
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
+import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
 class StringField extends ResponsiveStateless {
@@ -43,6 +45,7 @@ class StringField extends ResponsiveStateless {
   final Widget? suffix;
   final Widget? suffixIcon;
   final bool trimOnSaved;
+  final bool emptyIsNull;
   final void Function()? onTap;
 
   const StringField({
@@ -86,6 +89,7 @@ class StringField extends ResponsiveStateless {
     this.suffix,
     this.suffixIcon,
     this.trimOnSaved = true,
+    this.emptyIsNull = true,
     this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -122,9 +126,7 @@ class StringField extends ResponsiveStateless {
                   suffix: suffix,
                   suffixIcon: suffixIcon,
                   label: labelWidget,
-                  labelText: (labelPrefix?.isEmpty ?? true)
-                      ? label
-                      : '$labelPrefix - $label',
+                  labelText: <String?>[labelPrefix, label].nonNulls.join(' - '),
                   border: const OutlineInputBorder(),
                   counterText: counterText,
                   enabled: enabled,
@@ -141,16 +143,14 @@ class StringField extends ResponsiveStateless {
         controller: controller,
         keyboardType: keyboard,
         decoration: effectiveDecoration,
-        validator: enabled && validator != null
-            ? (final String? value) => validator!(value)
-            : null,
+        validator: enabled && isNotNull(validator) ? _internalValidator : null,
         minLines: minLines,
         maxLines: maxLines,
         obscureText: obscureText,
         inputFormatters: inputFormatter,
         textAlign: textAlign,
         maxLength: maxLength,
-        onSaved: enabled && onSaved != null ? _internalSave : null,
+        onSaved: enabled && isNotNull(onSaved) ? _internalOnSave : null,
         initialValue: initialValue,
         enabled: enabled,
         autovalidateMode: autoValidateMode,
@@ -171,6 +171,15 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  void _internalSave(final String? value) =>
-      onSaved?.call(trimOnSaved ? value?.trim() : value);
+  String? _realValue(final String value) => (emptyIsNull && value.isEmpty)
+      ? null
+      : trimOnSaved
+      ? value.trim()
+      : value;
+
+  String? _internalValidator(final String? value) =>
+      validator?.call(value?.let(_realValue));
+
+  void _internalOnSave(final String? value) =>
+      onSaved?.call(value?.let(_realValue));
 }
