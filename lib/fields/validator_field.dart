@@ -43,7 +43,6 @@ class ValidatorField extends StringField {
     super.prefixIcon,
     super.suffix,
     super.suffixIcon,
-    super.trimOnSaved = false,
     super.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -68,12 +67,12 @@ class ValidatorField extends StringField {
                    return null;
                  }
 
-                 if (value == null || !abstractValidator.isValid(value)) {
-                   return validatorMessage;
-                 }
-
                  if (validator != null) {
                    return validator(value);
+                 }
+
+                 if (!abstractValidator.isValid(value)) {
+                   return validatorMessage;
                  }
 
                  return null;
@@ -89,10 +88,6 @@ class ValidatorField extends StringField {
              ? (String? value) {
                  if (value != null) {
                    value = abstractValidator.strip(value);
-                 }
-
-                 if (!required && value != null && value.isEmpty) {
-                   value = null;
                  }
 
                  onSaved?.call(value);

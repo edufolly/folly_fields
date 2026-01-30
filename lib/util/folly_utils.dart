@@ -3,8 +3,8 @@ import 'package:folly_fields/extensions/date_time_extension.dart';
 
 // TODO(edufolly): Review this class.
 class FollyUtils {
-  static String? validDate(final String value) {
-    if (value.isEmpty) {
+  static String? validDate(final String? value) {
+    if (value == null || value.isEmpty) {
       return 'Informe uma data.';
     }
 
@@ -36,8 +36,8 @@ class FollyUtils {
     return null;
   }
 
-  static String? validTime(final String value) {
-    if (value.length != 5) {
+  static String? validTime(final String? value) {
+    if (value == null || value.length != 5) {
       return 'Informe uma hora.';
     }
 
@@ -73,8 +73,12 @@ class FollyUtils {
       colorToInt(color).toRadixString(16).toUpperCase().padLeft(8, '0');
 
   static Color? colorParse(final String? text) {
+    if (text == null) {
+      return null;
+    }
+
     try {
-      String t = text?.replaceAll('#', '').trim().toLowerCase() ?? '';
+      String t = text.replaceAll('#', '').trim().toLowerCase();
       if (!t.startsWith('0x')) {
         if (t.length < 3) {
           throw Exception('Length less than 3.');

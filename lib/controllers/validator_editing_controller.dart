@@ -6,14 +6,14 @@ class ValidatorEditingController<T> extends TextEditingController {
   final AbstractParserValidator<T> validator;
 
   ValidatorEditingController({required this.validator, final T? value})
-    : super(text: value?.let(validator.format) ?? '');
+    : super(text: value?.let(validator.format));
 
   ValidatorEditingController.fromValue(
     TextEditingValue super.value, {
     required this.validator,
   }) : super.fromValue();
 
-  T? get data => validator.parse(text);
+  T? get data => text.isEmpty ? null : validator.parse(text);
 
   set data(final T? value) => text = value?.let(validator.format) ?? '';
 }

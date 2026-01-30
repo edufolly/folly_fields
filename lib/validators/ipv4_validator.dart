@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-class Ipv4Validator extends AbstractValidator<String>
-    implements AbstractParser<String> {
+class Ipv4Validator extends AbstractParserValidator<String> {
   Ipv4Validator()
     : super(<TextInputFormatter>[
         MaskTextInputFormatter(
@@ -13,16 +13,17 @@ class Ipv4Validator extends AbstractValidator<String>
       ]);
 
   @override
-  String format(final String value) => value;
-
-  @override
-  String strip(final String value) => value;
-
-  @override
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  bool isValid(final String value) => valid(value) == null;
+  String? format(final String? value) => value;
+
+  @override
+  String? strip(final String? value) => value;
+
+  @override
+  bool isValid(final String? value) =>
+      value?.let((final String it) => isNull(valid(it))) ?? false;
 
   @override
   String? parse(final String? value) {

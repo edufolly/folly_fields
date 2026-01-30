@@ -3,7 +3,10 @@ import 'package:folly_fields/validators/cnpj_validator.dart';
 
 void main() {
   group('CnpjValidator isValid', () {
-    Map<String, bool> domain = <String, bool>{
+    Map<String?, bool> domain = <String?, bool>{
+      null: false,
+      '': false,
+      ' ': false,
       '00000000000000': false,
       '11111111111111': false,
       '22222222222222': false,
@@ -44,26 +47,28 @@ void main() {
 
     CnpjValidator validator = CnpjValidator();
 
-    for (final MapEntry<String, bool>(:String key, :bool value)
+    for (final MapEntry<String?, bool>(:String? key, :bool value)
         in domain.entries) {
       test('Testing: $key', () => expect(validator.isValid(key), value));
     }
   });
 
   group('CnpjValidator format', () {
-    Map<String, String> domain = <String, String>{};
+    Map<String?, String> domain = <String?, String>{};
 
     CnpjValidator validator = CnpjValidator();
 
     for (int gen = 0; gen < 10; gen++) {
       String formatted = CnpjValidator.generate(format: true);
-      String striped = validator.strip(formatted);
+      String? striped = validator.strip(formatted);
       domain[striped] = formatted;
     }
 
-    for (final MapEntry<String, String>(:String key, :String value)
-        in domain.entries) {
-      test('Testing: $key', () => expect(validator.format(key), value));
+    for (final MapEntry<String?, String> input in domain.entries) {
+      test(
+        'Testing: ${input.key}',
+        () => expect(validator.format(input.key), input.value),
+      );
     }
   });
 

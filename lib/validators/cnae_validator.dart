@@ -7,14 +7,14 @@ class CnaeValidator extends AbstractValidator<String> {
     : super(<TextInputFormatter>[MaskTextInputFormatter(mask: '####-#/##')]);
 
   @override
-  String format(final String value) => strip(value).replaceAllMapped(
+  TextInputType get keyboard => TextInputType.number;
+
+  @override
+  String? format(final String? value) => strip(value)?.replaceAllMapped(
     RegExp(r'^(\d{4})(\d)(\d{2})$'),
     (final Match m) => '${m[1]}-${m[2]}/${m[3]}',
   );
 
   @override
-  TextInputType get keyboard => TextInputType.number;
-
-  @override
-  bool isValid(final String value) => strip(value).length == 7;
+  bool isValid(final String? value) => strip(value)?.length == 7;
 }

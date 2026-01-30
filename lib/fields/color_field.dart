@@ -66,7 +66,10 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
-              pickerColor: controller.data ?? controller.pickerColor.value,
+              pickerColor:
+                  controller.data ??
+                  controller.pickerColor.value ??
+                  Colors.transparent,
               onColorChanged: (final Color value) =>
                   controller.pickerColor.value = value,
               portraitOnly: true,
