@@ -11,17 +11,11 @@ import 'package:folly_fields/util/folly_validators.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
-
-
 class CreditCardModel {
   String? number;
   String? expiration;
   String? code;
   String? holder;
-
-
-
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = <String, dynamic>{};
@@ -33,20 +27,11 @@ class CreditCardModel {
   }
 }
 
-
-
-
 class CreditCardChange {
   final CreditCardType creditCardType;
   final bool isValid;
 
-
-
-
   const CreditCardChange({required this.creditCardType, required this.isValid});
-
-
-
 
   CreditCardChange copy({CreditCardType? creditCardType, bool? isValid}) =>
       CreditCardChange(
@@ -55,24 +40,12 @@ class CreditCardChange {
       );
 }
 
-
-
-
 class CreditCard extends StatefulWidget {
-
-
-
   const CreditCard({super.key});
-
-
-
 
   @override
   State<CreditCard> createState() => _CreditCardState();
 }
-
-
-
 
 class _CreditCardState extends State<CreditCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -84,9 +57,6 @@ class _CreditCardState extends State<CreditCard> {
           isValid: false,
         ),
       );
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +139,6 @@ class _CreditCardState extends State<CreditCard> {
     );
   }
 
-
-
-
   Icon getIcon(
     CreditCardType creditCardType,
     Color? color,
@@ -200,9 +167,6 @@ class _CreditCardState extends State<CreditCard> {
     ),
   };
 
-
-
-
   void _save() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -213,9 +177,6 @@ class _CreditCardState extends State<CreditCard> {
       );
     }
   }
-
-
-
 
   @override
   void dispose() {

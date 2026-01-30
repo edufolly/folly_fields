@@ -27,7 +27,6 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
   @override
   String? format(final String? value) => strip(value);
 
-
   @override
   bool isValid(final String? value) =>
       _type.validLength(value) && _type.validNumber(value);

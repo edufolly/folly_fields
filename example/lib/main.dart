@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/fields/all_fields.dart';
-import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Folly Fields Example',
@@ -38,16 +36,16 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       initialRoute: '/',
-      routes: <String, WidgetBuilder>{
+      routes: {
         '/': (_) => const MyHomePage(),
         '/four_images': (_) => const FourImages(),
         '/credit_card': (_) => const CreditCard(),
       },
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+      localizationsDelegates: const [
         ...GlobalMaterialLocalizations.delegates,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const <Locale>[Locale('pt', 'BR')],
+      supportedLocales: const [Locale('pt', 'BR')],
     );
   }
 }
@@ -60,23 +58,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class MyHomePageState extends State<MyHomePage> {
-  static const String githubUrl =
+  static const githubUrl =
       'https://github.com/edufolly/folly_fields/blob/main/lib/fields';
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   /// Modelo padrão para o exemplo.
   // ExampleModel model = ExampleModel.generate();
   ExampleModel model = ExampleModel();
 
   @override
-  Widget build(BuildContext context) {
-    List<MyMenuItem> menuItems = <MyMenuItem>[
+  Widget build(context) {
+    List<MyMenuItem> menuItems = [
       /// Github
       MyMenuItem(
         name: 'GitHub',
         iconData: FontAwesomeIcons.github,
-        onPressed: (BuildContext context) {
+        onPressed: (context) {
           CircularWaiting wait = CircularWaiting(context)..show();
 
           launchUrlString(
@@ -86,7 +84,7 @@ class MyHomePageState extends State<MyHomePage> {
               .then((_) {
                 Future<void>.delayed(const Duration(seconds: 2), wait.close);
               })
-              .catchError((dynamic e, StackTrace s) {
+              .catchError((e, s) {
                 debugPrintStack(label: e.toString(), stackTrace: s);
               });
         },
@@ -96,8 +94,8 @@ class MyHomePageState extends State<MyHomePage> {
       MyMenuItem(
         name: 'Circular Waiting',
         iconData: FontAwesomeIcons.spinner,
-        onPressed: (BuildContext context) {
-          CircularWaiting wait = CircularWaiting(
+        onPressed: (context) {
+          final wait = CircularWaiting(
             context,
             message: 'This is the main message.',
             subtitle: 'Wait 3 seconds...',
@@ -111,31 +109,26 @@ class MyHomePageState extends State<MyHomePage> {
       MyMenuItem(
         name: 'Quatro Imagens',
         iconData: FontAwesomeIcons.image,
-        onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/four_images'),
+        onPressed: (context) => Navigator.of(context).pushNamed('/four_images'),
       ),
 
       MyMenuItem(
         name: 'Credit Card',
         iconData: FontAwesomeIcons.creditCard,
-        onPressed: (BuildContext context) =>
-            Navigator.of(context).pushNamed('/credit_card'),
+        onPressed: (context) => Navigator.of(context).pushNamed('/credit_card'),
       ),
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Folly Fields'),
-        actions: <PopupMenuButton<MyMenuItem>>[
+        actions: [
           PopupMenuButton<MyMenuItem>(
             tooltip: 'Menu',
             icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-            itemBuilder: (BuildContext context) => menuItems
-                .map<PopupMenuEntry<MyMenuItem>>(
-                  (MyMenuItem e) => e.popupMenuItem,
-                )
-                .toList(),
-            onSelected: (MyMenuItem item) => item.onPressed(context),
+            itemBuilder: (context) =>
+                menuItems.map((e) => e.popupMenuItem).toList(),
+            onSelected: (item) => item.onPressed(context),
           ),
         ],
       ),
@@ -147,7 +140,7 @@ class MyHomePageState extends State<MyHomePage> {
               '/folly_fields/main/example/lib/main.dart',
             ),
           ),
-          builder: (BuildContext context, Response response, _) {
+          builder: (context, response, _) {
             int statusCode = response.statusCode;
             if (statusCode < 200 || statusCode > 299) {
               return ErrorMessage(error: 'Status code error: $statusCode');
@@ -161,7 +154,7 @@ class MyHomePageState extends State<MyHomePage> {
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
+                  children: [
                     /// Título
                     Padding(
                       padding: const EdgeInsets.all(8),
@@ -182,7 +175,7 @@ class MyHomePageState extends State<MyHomePage> {
                           StringField(
                             label: 'Texto',
                             initialValue: model.text,
-                            onSaved: (String? value) => model.text = value,
+                            onSaved: (value) => model.text = value,
                           ),
                       // [/StringField]
                     ),
@@ -197,7 +190,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'E-mail',
                             required: false,
                             initialValue: model.email,
-                            onSaved: (String? value) => model.email = value,
+                            onSaved: (value) => model.email = value,
                           ),
                       // [/EmailField]
                     ),
@@ -210,7 +203,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [PasswordField]
                           PasswordField(
                             label: 'Senha',
-                            onSaved: (String? value) => model.password = value,
+                            onSaved: (value) => model.password = value,
                           ),
                       // [/PasswordField]
                     ),
@@ -223,7 +216,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [PasswordVisibleField]
                           PasswordVisibleField(
                             label: 'Senha Visível',
-                            onSaved: (String? value) => model.password = value,
+                            onSaved: (value) => model.visiblePassword = value,
                           ),
                       // [/PasswordVisibleField]
                     ),
@@ -237,7 +230,7 @@ class MyHomePageState extends State<MyHomePage> {
                           DecimalField(
                             label: 'Decimal',
                             initialValue: model.decimal,
-                            onSaved: (Decimal? value) => model.decimal = value!,
+                            onSaved: (value) => model.decimal = value!,
                           ),
                       // [/DecimalField]
                     ),
@@ -251,7 +244,7 @@ class MyHomePageState extends State<MyHomePage> {
                           IntegerField(
                             label: 'Integer',
                             initialValue: model.integer,
-                            onSaved: (int? value) => model.integer = value,
+                            onSaved: (value) => model.integer = value,
                           ),
                       // [/IntegerField]
                     ),
@@ -266,7 +259,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Cor',
                             required: false,
                             initialValue: model.color,
-                            onSaved: (Color? value) => model.color = value,
+                            onSaved: (value) => model.color = value,
                           ),
                       // [/ColorField]
                     ),
@@ -281,7 +274,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CPF',
                             required: false,
                             initialValue: model.cpf,
-                            onSaved: (String? value) => model.cpf = value,
+                            onSaved: (value) => model.cpf = value,
                           ),
                       // [/CpfField]
                     ),
@@ -296,7 +289,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CNPJ',
                             required: false,
                             initialValue: model.cnpj,
-                            onSaved: (String? value) => model.cnpj = value,
+                            onSaved: (value) => model.cnpj = value,
                           ),
                       // [/CnpjField]
                     ),
@@ -311,7 +304,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CPF ou CNPJ',
                             required: false,
                             initialValue: model.document,
-                            onSaved: (String? value) => model.document = value,
+                            onSaved: (value) => model.document = value,
                           ),
                       // [/CpfCnpjField]
                     ),
@@ -326,7 +319,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Telefone',
                             required: false,
                             initialValue: model.phone,
-                            onSaved: (String? value) => model.phone = value,
+                            onSaved: (value) => model.phone = value,
                           ),
                       // [/PhoneField]
                     ),
@@ -341,8 +334,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Celular',
                             required: false,
                             initialValue: model.mobilePhone,
-                            onSaved: (String? value) =>
-                                model.mobilePhone = value,
+                            onSaved: (value) => model.mobilePhone = value,
                           ),
                       // [/MobilePhoneField]
                     ),
@@ -358,8 +350,7 @@ class MyHomePageState extends State<MyHomePage> {
                             required: false,
                             clearOnCancel: true,
                             initialValue: model.dateTime,
-                            onSaved: (DateTime? value) =>
-                                model.dateTime = value,
+                            onSaved: (value) => model.dateTime = value,
                           ),
                       // [/DateTimeField]
                     ),
@@ -375,7 +366,7 @@ class MyHomePageState extends State<MyHomePage> {
                             required: false,
                             clearOnCancel: true,
                             initialValue: model.date,
-                            onSaved: (DateTime? value) => model.date = value,
+                            onSaved: (value) => model.date = value,
                           ),
                       // [/DateField]
                     ),
@@ -391,7 +382,7 @@ class MyHomePageState extends State<MyHomePage> {
                             required: false,
                             clearOnCancel: true,
                             initialValue: model.time,
-                            onSaved: (TimeOfDay? value) => model.time = value,
+                            onSaved: (value) => model.time = value,
                           ),
                       // [/TimeField]
                     ),
@@ -406,8 +397,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Mac Address',
                             required: false,
                             initialValue: model.macAddress,
-                            onSaved: (String? value) =>
-                                model.macAddress = value,
+                            onSaved: (value) => model.macAddress = value,
                           ),
                       // [/MacAddressField]
                     ),
@@ -422,7 +412,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'NCM',
                             required: false,
                             initialValue: model.ncm,
-                            onSaved: (String? value) => model.ncm = value,
+                            onSaved: (value) => model.ncm = value,
                           ),
                       // [/NcmField]
                     ),
@@ -437,7 +427,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CEST',
                             required: false,
                             initialValue: model.cest,
-                            onSaved: (String? value) => model.cest = value,
+                            onSaved: (value) => model.cest = value,
                           ),
                       // [/CestField]
                     ),
@@ -452,7 +442,7 @@ class MyHomePageState extends State<MyHomePage> {
                             required: false,
                             label: 'CNAE',
                             initialValue: model.cnae,
-                            onSaved: (String? value) => model.cnae = value,
+                            onSaved: (value) => model.cnae = value,
                           ),
                       // [/CnaeField]
                     ),
@@ -467,7 +457,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'CEP',
                             required: false,
                             initialValue: model.cep,
-                            onSaved: (String? value) => model.cep = value,
+                            onSaved: (value) => model.cep = value,
                           ),
                       // [/CepField]
                     ),
@@ -482,8 +472,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Placa de Veiculo',
                             required: false,
                             initialValue: model.licencePlate,
-                            onSaved: (String? value) =>
-                                model.licencePlate = value,
+                            onSaved: (value) => model.licencePlate = value,
                           ),
                       // [/LicencePlateField]
                     ),
@@ -498,7 +487,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'IPv4',
                             required: false,
                             initialValue: model.ipv4,
-                            onSaved: (String? value) => model.ipv4 = value,
+                            onSaved: (value) => model.ipv4 = value,
                           ),
                       // [/Ipv4Field]
                     ),
@@ -512,7 +501,7 @@ class MyHomePageState extends State<MyHomePage> {
                           BoolField(
                             label: 'Campo Boleano',
                             initialValue: model.active,
-                            onSaved: (bool value) => model.active = value,
+                            onSaved: (value) => model.active = value,
                           ),
                       // [/BoolField]
                     ),
@@ -527,8 +516,7 @@ class MyHomePageState extends State<MyHomePage> {
                             label: 'Ícone',
                             icons: IconHelper.data,
                             initialValue: model.icon,
-                            onSaved: (IconData? iconData) =>
-                                model.icon = iconData,
+                            onSaved: (iconData) => model.icon = iconData,
                           ),
                       // [/IconDataField]
                     ),
@@ -545,14 +533,10 @@ class MyHomePageState extends State<MyHomePage> {
                               _,
                               ExampleEnum value,
                             ) {
-                              return MapEntry<ExampleEnum, Widget>(
-                                value,
-                                Text(value.value),
-                              );
+                              return MapEntry(value, Text(value.value));
                             }),
                             initialValue: model.ordinal,
-                            onSaved: (ExampleEnum? value) =>
-                                model.ordinal = value,
+                            onSaved: (value) => model.ordinal = value,
                           ),
                       // [/DropdownField]
                     ),
@@ -569,7 +553,7 @@ class MyHomePageState extends State<MyHomePage> {
                             counterText: null,
                             maxLength: 600,
                             initialValue: model.multiline,
-                            onSaved: (String? value) => model.multiline = value,
+                            onSaved: (value) => model.multiline = value,
                           ),
                       // [/MultilineField]
                     ),
@@ -582,7 +566,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [ChoiceChipField]
                           ChoiceChipField<int>(
                             label: 'Frutas',
-                            items: const <int, ChipEntry>{
+                            items: const {
                               0: ChipEntry(
                                 '🍎Maça',
                                 color: Colors.red,
@@ -599,13 +583,12 @@ class MyHomePageState extends State<MyHomePage> {
                                 selectedColor: Colors.orangeAccent,
                               ),
                             },
-                            onChanged: (int? value, {required bool selected}) =>
+                            onChanged: (value, {required selected}) =>
                                 debugPrint(
                                   'ChoiceChipField $value is'
                                   '${selected ? '' : ' NOT'} selected',
                                 ),
-                            onSaved: (Set<int>? value) =>
-                                model.fruitIndex = value?.first,
+                            onSaved: (value) => model.fruitIndex = value?.first,
                           ),
                       // [/ChoiceChipField]
                     ),
@@ -618,7 +601,7 @@ class MyHomePageState extends State<MyHomePage> {
                         vertical: 16,
                         horizontal: 8,
                       ),
-                      child: ElevatedButton.icon(
+                      child: FilledButton.icon(
                         icon: const Icon(Icons.send),
                         label: const Text('ENVIAR'),
                         onPressed: _send,

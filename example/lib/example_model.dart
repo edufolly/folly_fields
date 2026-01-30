@@ -45,9 +45,6 @@ class ExampleModel {
 
   ExampleModel();
 
-  @override
-  String toString() => '$text';
-
   /// Geração aleatória de objetos.
   ExampleModel.generate({int seed = 1}) {
     DateTime now = DateTime.now();

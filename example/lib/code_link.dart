@@ -7,17 +7,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-
-
-
 class CodeLink extends StatelessWidget {
   final String code;
   final String tag;
   final String source;
   final Widget child;
-
-
-
 
   const CodeLink({
     required this.code,
@@ -26,9 +20,6 @@ class CodeLink extends StatelessWidget {
     required this.child,
     super.key,
   });
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +36,6 @@ class CodeLink extends StatelessWidget {
       ],
     );
   }
-
-
-
 
   void _showCode(BuildContext context) {
     String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
@@ -124,9 +112,6 @@ class CodeLink extends StatelessWidget {
       },
     );
   }
-
-
-
 
   static const Map<String, TextStyle> myTheme = <String, TextStyle>{
     'root': TextStyle(

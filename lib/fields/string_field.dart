@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
-import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
 class StringField extends ResponsiveStateless {
