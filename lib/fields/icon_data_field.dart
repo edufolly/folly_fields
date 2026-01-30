@@ -9,6 +9,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
   final Map<String, IconData> icons;
 
   IconDataField({
+    required this.icons,
     final String? labelPrefix,
     final String? label,
     final Widget? labelWidget,
@@ -16,7 +17,6 @@ class IconDataField extends ResponsiveFormField<IconData> {
     final FormFieldValidator<IconData>? validator,
     super.onSaved,
     final IconData? initialValue,
-    this.icons = const <String, IconData>{},
     super.enabled,
     final AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
     final bool filled = false,

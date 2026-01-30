@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      # Try to use GitHub env instead of step output.
       version: ${{ steps.version-step.outputs.version }}
     steps:
       - name: Code Checkout
@@ -81,9 +80,10 @@ jobs:
           genhtml coverage/lcov.info \
             --output-directory coverage/html \
             --title "Folly Fields" \
-            --show-details
-      #      --header-title "Folly Fields" \
-      #      --dark-mode \
+            --show-details \
+            --parallel $(grep -c processor /proc/cpuinfo) \
+            --header-title "Folly Fields" \
+            --dark-mode
 
       - name: Compress Test Coverage
         run: tar -cvzf folly-fields-test-coverage.tar.gz coverage

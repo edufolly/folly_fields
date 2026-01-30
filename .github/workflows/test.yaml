@@ -13,12 +13,6 @@ jobs:
       - name: Code Checkout
         uses: actions/checkout@v6
 
-      - name: Check Pubspec Version
-        id: version-step
-        run: |
-          VERSION=$(grep 'version:' pubspec.yaml | cut -c 10- | cut -f 1 -d '+')
-          echo "version=$VERSION" >> $GITHUB_ENV
-
       - name: Flutter Environment
         uses: subosito/flutter-action@v2
         with:
@@ -37,60 +31,11 @@ jobs:
         timeout-minutes: 2
         run: dart analyze --fatal-infos
 
-  #      - name: Flutter Test
-  #        run: |
-  #          flutter test \
-  #            -r github \
-  #            -j $(grep -c processor /proc/cpuinfo)
-  #
-  #      - name: Flutter Publish Dry Run
-  #        run: flutter pub publish --dry-run
-
-  coverage:
-    name: Converage CI
-    needs: [ check ]
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Code Checkout
-        uses: actions/checkout@v6
-
-      - name: Flutter Environment
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: false
-
-      - name: Install lcov
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          echo "${{ env.VERSION }}"
-          sudo apt-get update -y
-          sudo apt install -y lcov
-
-      - name: Flutter Config
-        timeout-minutes: 2
-        run: flutter config --no-analytics
-
-      - name: Flutter Pub Get
-        timeout-minutes: 5
-        run: flutter pub get
-
       - name: Flutter Test
         run: |
-          flutter test --coverage \
+          flutter test \
             -r github \
             -j $(grep -c processor /proc/cpuinfo)
 
-      - name: Coverage HTML Help
-        run: genhtml --help
-
-      - name: Creating Test Coverage HTML
-        run: |
-          genhtml coverage/lcov.info \
-            --output-directory coverage/html \
-            --title "Folly Fields" \
-            --show-details \
-            --header-title "Folly Fields" \
-            --dark-mode
+      - name: Flutter Publish Dry Run
+        run: flutter pub publish --dry-run
