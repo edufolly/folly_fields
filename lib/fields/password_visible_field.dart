@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 class PasswordVisibleField extends ResponsiveStateful {
   final String? labelPrefix;
   final String? label;
@@ -40,9 +37,6 @@ class PasswordVisibleField extends ResponsiveStateful {
   final Widget? prefixIcon;
   final void Function()? onTap;
 
-  ///
-  ///
-  ///
   const PasswordVisibleField({
     this.labelPrefix,
     this.label,
@@ -85,37 +79,25 @@ class PasswordVisibleField extends ResponsiveStateful {
     super.minHeight,
     super.key,
   }) : assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        );
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
   State<PasswordVisibleField> createState() => _PasswordToggleFieldState();
 }
 
-///
-///
-///
 class _PasswordToggleFieldState extends State<PasswordVisibleField> {
   final ValueNotifier<bool?> obscuredNotifier = ValueNotifier<bool?>(null);
 
-  ///
-  ///
-  ///
   @override
   void initState() {
     super.initState();
     obscuredNotifier.value = widget.startObscured;
   }
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     TextStyle effectiveStyle =
         widget.style ?? Theme.of(context).textTheme.titleMedium!;
 
@@ -127,33 +109,36 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
 
     return ValueListenableBuilder<bool?>(
       valueListenable: obscuredNotifier,
-      builder: (BuildContext context, bool? value, _) {
-        InputDecoration effectiveDecoration = (widget.decoration ??
-                InputDecoration(
-                  prefix: widget.prefix,
-                  prefixIcon: widget.prefixIcon,
-                  label: widget.labelWidget,
-                  labelText: widget.label == null
-                      ? null
-                      : (widget.labelPrefix?.isEmpty ?? true)
+      builder: (final BuildContext context, final bool? value, _) {
+        InputDecoration effectiveDecoration =
+            (widget.decoration ??
+                    InputDecoration(
+                      prefix: widget.prefix,
+                      prefixIcon: widget.prefixIcon,
+                      label: widget.labelWidget,
+                      labelText: widget.label == null
+                          ? null
+                          : (widget.labelPrefix?.isEmpty ?? true)
                           ? widget.label
                           : '${widget.labelPrefix} - ${widget.label}',
-                  border: const OutlineInputBorder(),
-                  counterText: widget.counterText,
-                  enabled: widget.enabled,
-                  filled: widget.filled,
-                  fillColor: widget.fillColor,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      value ?? true ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () => obscuredNotifier.value =
-                        !(obscuredNotifier.value ?? true),
-                  ),
-                  hintText: widget.hintText,
-                  contentPadding: widget.contentPadding,
-                ))
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+                      border: const OutlineInputBorder(),
+                      counterText: widget.counterText,
+                      enabled: widget.enabled,
+                      filled: widget.filled,
+                      fillColor: widget.fillColor,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          value ?? true
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () => obscuredNotifier.value =
+                            !(obscuredNotifier.value ?? true),
+                      ),
+                      hintText: widget.hintText,
+                      contentPadding: widget.contentPadding,
+                    ))
+                .applyDefaults(Theme.of(context).inputDecorationTheme);
 
         return Padding(
           padding: widget.padding,
@@ -162,7 +147,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
             keyboardType: TextInputType.visiblePassword,
             decoration: effectiveDecoration,
             validator: widget.enabled && widget.validator != null
-                ? (String? value) => widget.validator!(value)
+                ? (final String? value) => widget.validator!(value)
                 : (_) => null,
             obscureText: value ?? true,
             inputFormatters: widget.inputFormatter,
@@ -191,9 +176,6 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
     );
   }
 
-  ///
-  ///
-  ///
   @override
   void dispose() {
     obscuredNotifier.dispose();

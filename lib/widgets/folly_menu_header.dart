@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/popup_icon_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class FollyMenuHeader<O> extends StatelessWidget {
   final String name;
   final String email;
@@ -16,9 +13,6 @@ class FollyMenuHeader<O> extends StatelessWidget {
   final List<PopupIconMenuItem<O>>? menuItems;
   final Function(O operation)? onMenuSelect;
 
-  ///
-  ///
-  ///
   const FollyMenuHeader({
     required this.name,
     required this.email,
@@ -31,11 +25,8 @@ class FollyMenuHeader<O> extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     Color localForeground = color ?? Theme.of(context).colorScheme.onPrimary;
 
     Color localBackground = background ?? Theme.of(context).colorScheme.primary;
@@ -69,10 +60,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
                           expandable: true,
                         ),
                       ),
-                      Expandable(
-                        collapsed: Container(),
-                        expanded: expanded!,
-                      ),
+                      Expandable(collapsed: Container(), expanded: expanded!),
                     ],
                   ),
                 ),
@@ -91,9 +79,6 @@ class FollyMenuHeader<O> extends StatelessWidget {
   }
 }
 
-///
-///
-///
 class FollyUserHeader<O> extends StatelessWidget {
   final String name;
   final String email;
@@ -104,9 +89,6 @@ class FollyUserHeader<O> extends StatelessWidget {
   final List<PopupIconMenuItem<O>>? menuItems;
   final Function(O operation)? onMenuSelect;
 
-  ///
-  ///
-  ///
   const FollyUserHeader(
     this.name,
     this.email,
@@ -119,11 +101,8 @@ class FollyUserHeader<O> extends StatelessWidget {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 6, 8),
       child: Column(
@@ -158,10 +137,10 @@ class FollyUserHeader<O> extends StatelessWidget {
                     color: foreground,
                     size: 14,
                   ),
-                  itemBuilder: (BuildContext context) => menuItems!
-                      .map((PopupIconMenuItem<O> item) => item.widget)
+                  itemBuilder: (final BuildContext context) => menuItems!
+                      .map((final PopupIconMenuItem<O> item) => item.widget)
                       .toList(),
-                  onSelected: (O operation) => onMenuSelect!(operation),
+                  onSelected: (final O operation) => onMenuSelect!(operation),
                 ),
             ],
           ),
@@ -182,10 +161,9 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     name,
-                    style:
-                        Theme.of(context).primaryTextTheme.bodyLarge?.copyWith(
-                              color: foreground,
-                            ),
+                    style: Theme.of(
+                      context,
+                    ).primaryTextTheme.bodyLarge?.copyWith(color: foreground),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -209,10 +187,9 @@ class FollyUserHeader<O> extends StatelessWidget {
                 Expanded(
                   child: Text(
                     email,
-                    style:
-                        Theme.of(context).primaryTextTheme.bodyMedium?.copyWith(
-                              color: foreground,
-                            ),
+                    style: Theme.of(
+                      context,
+                    ).primaryTextTheme.bodyMedium?.copyWith(color: foreground),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -242,12 +219,8 @@ class FollyUserHeader<O> extends StatelessWidget {
                   Expanded(
                     child: Text(
                       companyName,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyMedium
-                          ?.copyWith(
-                            color: foreground,
-                          ),
+                      style: Theme.of(context).primaryTextTheme.bodyMedium
+                          ?.copyWith(color: foreground),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -264,10 +237,7 @@ class FollyUserHeader<O> extends StatelessWidget {
     );
   }
 
-  ///
-  ///
-  ///
-  String _initials(String name, String email) {
+  String _initials(final String name, final String email) {
     if (name.length < 2) {
       if (email.length < 2) {
         return '??';

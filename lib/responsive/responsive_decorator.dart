@@ -1,15 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 class ResponsiveDecorator extends ResponsiveStateless {
   final Widget child;
 
-  ///
-  ///
-  ///
   const ResponsiveDecorator({
     required this.child,
     super.sizeExtraSmall,
@@ -21,9 +15,6 @@ class ResponsiveDecorator extends ResponsiveStateless {
     super.key,
   });
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) => child;
+  Widget build(final BuildContext context) => child;
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
+@Deprecated('Should I remove?')
 class ResponsiveFutureBuilder<T> extends FutureBuilder<T> with Responsive {
   @override
   final int? sizeExtraSmall;
@@ -23,9 +21,6 @@ class ResponsiveFutureBuilder<T> extends FutureBuilder<T> with Responsive {
   @override
   final double? minHeight;
 
-  ///
-  ///
-  ///
   const ResponsiveFutureBuilder({
     required super.builder,
     super.future,

@@ -2,9 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import 'package:folly_fields/responsive/responsive.dart';
 
-///
-///
-///
 abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
   @override
   final int? sizeExtraSmall;
@@ -24,9 +21,6 @@ abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
   @override
   final double? minHeight;
 
-  ///
-  ///
-  ///
   const ResponsiveFormField({
     required super.builder,
     super.onSaved,
@@ -42,28 +36,28 @@ abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
     this.sizeExtraLarge,
     this.minHeight,
     super.key,
-  })  : assert(
-          sizeExtraSmall == null || sizeExtraSmall > 0,
-          'sizeExtraSmall must be greater than zero.',
-        ),
-        assert(
-          sizeSmall == null || sizeSmall > 0,
-          'sizeSmall must be greater than zero.',
-        ),
-        assert(
-          sizeMedium == null || sizeMedium > 0,
-          'sizeMedium must be greater than zero.',
-        ),
-        assert(
-          sizeLarge == null || sizeLarge > 0,
-          'sizeLarge must be greater than zero.',
-        ),
-        assert(
-          sizeExtraLarge == null || sizeExtraLarge > 0,
-          'sizeExtraLarge must be greater than zero.',
-        ),
-        assert(
-          minHeight == null || minHeight >= 0,
-          'minHeight must be equal or greater than zero.',
-        );
+  }) : assert(
+         sizeExtraSmall == null || sizeExtraSmall > 0,
+         'sizeExtraSmall must be greater than zero.',
+       ),
+       assert(
+         sizeSmall == null || sizeSmall > 0,
+         'sizeSmall must be greater than zero.',
+       ),
+       assert(
+         sizeMedium == null || sizeMedium > 0,
+         'sizeMedium must be greater than zero.',
+       ),
+       assert(
+         sizeLarge == null || sizeLarge > 0,
+         'sizeLarge must be greater than zero.',
+       ),
+       assert(
+         sizeExtraLarge == null || sizeExtraLarge > 0,
+         'sizeExtraLarge must be greater than zero.',
+       ),
+       assert(
+         minHeight == null || minHeight >= 0,
+         'minHeight must be equal or greater than zero.',
+       );
 }

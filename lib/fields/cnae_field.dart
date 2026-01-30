@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/cnae_validator.dart';
 
-///
-///
-///
 class CnaeField extends ValidatorField {
-  ///
-  ///
-  ///
   CnaeField({
-    CnaeValidator? cnaeValidator,
+    final CnaeValidator? cnaeValidator,
     super.validatorMessage = 'Informe o CNAE.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class CnaeField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: cnaeValidator ?? CnaeValidator(),
-          maxLength: 9,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: cnaeValidator ?? CnaeValidator(),
+         maxLength: 9,
+         textCapitalization: TextCapitalization.none,
+       );
 }

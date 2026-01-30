@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/cep_validator.dart';
 
-///
-///
-///
 class CepField extends ValidatorField {
-  ///
-  ///
-  ///
   CepField({
-    CepValidator? cepValidator,
+    final CepValidator? cepValidator,
     super.validatorMessage = 'Informe o CEP.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class CepField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: cepValidator ?? CepValidator(),
-          maxLength: 10,
-          textCapitalization: TextCapitalization.none,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: cepValidator ?? CepValidator(),
+         maxLength: 10,
+         textCapitalization: TextCapitalization.none,
+       );
 }

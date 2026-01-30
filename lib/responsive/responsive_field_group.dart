@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 
-///
-///
-///
 class ResponsiveFieldGroup extends ResponsiveStateless {
   final List<Responsive> children;
   final String? labelText;
@@ -16,9 +13,6 @@ class ResponsiveFieldGroup extends ResponsiveStateless {
   final EdgeInsetsGeometry? gridMargin;
   final EdgeInsetsGeometry? gridPadding;
 
-  ///
-  ///
-  ///
   const ResponsiveFieldGroup({
     required this.children,
     this.labelText,
@@ -37,19 +31,17 @@ class ResponsiveFieldGroup extends ResponsiveStateless {
     super.minHeight,
     super.key,
   }) : assert(
-          labelText == null || decoration == null,
-          'labelText or decoration must be null.',
-        );
+         labelText == null || decoration == null,
+         'labelText or decoration must be null.',
+       );
 
-  ///
-  ///
-  ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Padding(
       padding: padding,
       child: InputDecorator(
-        decoration: decoration ??
+        decoration:
+            decoration ??
             InputDecoration(
               border: const OutlineInputBorder(),
               labelText: labelText,

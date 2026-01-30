@@ -1,9 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class DurationValidator extends AbstractParserValidator<Duration> {
   final String yearSuffix;
   final String monthSuffix;
@@ -13,9 +10,6 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   final String secondSuffix;
   final String millisecondSuffix;
 
-  ///
-  ///
-  ///
   DurationValidator({
     this.yearSuffix = 'y',
     this.monthSuffix = 'M',
@@ -24,22 +18,19 @@ class DurationValidator extends AbstractParserValidator<Duration> {
     this.minuteSuffix = 'm',
     this.secondSuffix = 's',
     this.millisecondSuffix = 'ms',
-  })  : assert(yearSuffix.isNotEmpty, "yearSuffix can't be empty."),
-        assert(monthSuffix.isNotEmpty, "monthSuffix can't be empty."),
-        assert(daySuffix.isNotEmpty, "daySuffix can't be empty."),
-        assert(hourSuffix.isNotEmpty, "hourSuffix can't be empty."),
-        assert(minuteSuffix.isNotEmpty, "minuteSuffix can't be empty."),
-        assert(secondSuffix.isNotEmpty, "secondsSuffix can't be empty."),
-        assert(
-          millisecondSuffix.isNotEmpty,
-          "millisecondSuffix can't be empty.",
-        );
+  }) : assert(yearSuffix.isNotEmpty, "yearSuffix can't be empty."),
+       assert(monthSuffix.isNotEmpty, "monthSuffix can't be empty."),
+       assert(daySuffix.isNotEmpty, "daySuffix can't be empty."),
+       assert(hourSuffix.isNotEmpty, "hourSuffix can't be empty."),
+       assert(minuteSuffix.isNotEmpty, "minuteSuffix can't be empty."),
+       assert(secondSuffix.isNotEmpty, "secondsSuffix can't be empty."),
+       assert(
+         millisecondSuffix.isNotEmpty,
+         "millisecondSuffix can't be empty.",
+       );
 
-  ///
-  ///
-  ///
   @override
-  String format(Duration duration) {
+  String format(final Duration duration) {
     int milliseconds = duration.inMilliseconds;
     int seconds = 0;
     int minutes = 0;
@@ -113,43 +104,28 @@ class DurationValidator extends AbstractParserValidator<Duration> {
     return ret;
   }
 
-  ///
-  ///
-  ///
   @override
-  String strip(String value) => value;
+  String strip(final String value) => value;
 
-  ///
-  ///
-  ///
   RegExp get regExp => RegExp(
-        '(\\d+$yearSuffix)?\\s*'
-        '(\\d+$monthSuffix)?\\s*'
-        '(\\d+$daySuffix)?\\s*'
-        '(\\d+$hourSuffix)?\\s*'
-        '(\\d+$minuteSuffix)?\\s*'
-        '(\\d+$secondSuffix)?\\s*'
-        '(\\d+$millisecondSuffix)?',
-      );
+    '(\\d+$yearSuffix)?\\s*'
+    '(\\d+$monthSuffix)?\\s*'
+    '(\\d+$daySuffix)?\\s*'
+    '(\\d+$hourSuffix)?\\s*'
+    '(\\d+$minuteSuffix)?\\s*'
+    '(\\d+$secondSuffix)?\\s*'
+    '(\\d+$millisecondSuffix)?',
+  );
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) =>
+  bool isValid(final String value) =>
       regExp.firstMatch(value.trim())?.group(0) == value.trim();
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.text;
 
-  ///
-  ///
-  ///
   @override
-  Duration? parse(String? value) {
+  Duration? parse(final String? value) {
     if (value == null || !isValid(value)) {
       return Duration.zero;
     }
@@ -184,11 +160,12 @@ class DurationValidator extends AbstractParserValidator<Duration> {
         int.tryParse(onlyNumbers.firstMatch(hoursString)?.group(0) ?? '') ?? 0;
     int minutes =
         int.tryParse(onlyNumbers.firstMatch(minutesString)?.group(0) ?? '') ??
-            0;
+        0;
     int seconds =
         int.tryParse(onlyNumbers.firstMatch(secondsString)?.group(0) ?? '') ??
-            0;
-    int milliseconds = int.tryParse(
+        0;
+    int milliseconds =
+        int.tryParse(
           onlyNumbers.firstMatch(millisecondsString)?.group(0) ?? '',
         ) ??
         0;
@@ -202,9 +179,6 @@ class DurationValidator extends AbstractParserValidator<Duration> {
     );
   }
 
-  ///
-  ///
-  ///
   @override
-  String? valid(String value) => null;
+  String? valid(final String value) => null;
 }

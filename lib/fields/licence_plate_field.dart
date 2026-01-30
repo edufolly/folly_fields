@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/fields/validator_field.dart';
 import 'package:folly_fields/validators/licence_plate_validator.dart';
 
-///
-///
-///
 class LicencePlateField extends ValidatorField {
-  ///
-  ///
-  ///
   LicencePlateField({
-    LicencePlateValidator? licencePlateValidator,
+    final LicencePlateValidator? licencePlateValidator,
     super.validatorMessage = 'Informe a placa do veículo.',
     super.labelPrefix,
     super.label,
@@ -53,17 +47,17 @@ class LicencePlateField extends ValidatorField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          abstractValidator: licencePlateValidator ?? LicencePlateValidator(),
-          maxLength: 8,
-          textCapitalization: TextCapitalization.characters,
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         abstractValidator: licencePlateValidator ?? LicencePlateValidator(),
+         maxLength: 8,
+         textCapitalization: TextCapitalization.characters,
+       );
 }

@@ -1,47 +1,23 @@
 import 'package:flutter/services.dart';
-import 'package:folly_fields/util/folly_date_time_extension.dart';
+import 'package:folly_fields/extensions/date_time_extension.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
-///
-///
-///
 class CreditCardExpirationValidator extends AbstractValidator<String> {
-  ///
-  ///
-  ///
   CreditCardExpirationValidator()
-      : super(
-          <TextInputFormatter>[
-            MaskTextInputFormatter(
-              mask: '##/##',
-            ),
-          ],
-        );
+    : super(<TextInputFormatter>[MaskTextInputFormatter(mask: '##/##')]);
 
-  ///
-  ///
-  ///
   @override
-  String format(String value) => value;
+  String format(final String value) => value;
 
-  ///
-  ///
-  ///
   @override
-  String strip(String value) => value;
+  String strip(final String value) => value;
 
-  ///
-  ///
-  ///
   @override
   TextInputType get keyboard => TextInputType.number;
 
-  ///
-  ///
-  ///
   @override
-  bool isValid(String value) {
+  bool isValid(final String value) {
     String v = value.replaceAll(RegExp(r'\D'), '');
 
     if (v.length != 4) {

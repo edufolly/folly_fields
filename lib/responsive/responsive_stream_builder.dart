@@ -20,9 +20,6 @@ class ResponsiveStreamBuilder<T> extends StreamBuilder<T> with Responsive {
   @override
   final double? minHeight;
 
-  ///
-  ///
-  ///
   const ResponsiveStreamBuilder({
     required super.builder,
     super.initialData,

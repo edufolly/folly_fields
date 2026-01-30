@@ -1,13 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/string_field.dart';
 
-///
-///
-///
 class UppercaseField extends StringField {
-  ///
-  ///
-  ///
   UppercaseField({
     super.labelPrefix,
     super.label,
@@ -18,7 +12,7 @@ class UppercaseField extends StringField {
     super.minLines,
     super.maxLines,
     super.obscureText,
-    List<TextInputFormatter>? inputFormatter,
+    final List<TextInputFormatter>? inputFormatter,
     super.textAlign,
     super.maxLength,
     super.onSaved,
@@ -57,24 +51,23 @@ class UppercaseField extends StringField {
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  })  : assert(
-          initialValue == null || controller == null,
-          'initialValue or controller must be null.',
-        ),
-        assert(
-          label == null || labelWidget == null,
-          'label or labelWidget must be null.',
-        ),
-        super(
-          inputFormatter: <TextInputFormatter>[
-            TextInputFormatter.withFunction(
-              (
-                TextEditingValue oldValue,
-                TextEditingValue newValue,
-              ) =>
-                  newValue.copyWith(text: newValue.text.toUpperCase()),
-            ),
-            ...inputFormatter ?? <TextInputFormatter>[],
-          ],
-        );
+  }) : assert(
+         initialValue == null || controller == null,
+         'initialValue or controller must be null.',
+       ),
+       assert(
+         label == null || labelWidget == null,
+         'label or labelWidget must be null.',
+       ),
+       super(
+         inputFormatter: <TextInputFormatter>[
+           TextInputFormatter.withFunction(
+             (
+               final TextEditingValue oldValue,
+               final TextEditingValue newValue,
+             ) => newValue.copyWith(text: newValue.text.toUpperCase()),
+           ),
+           ...inputFormatter ?? <TextInputFormatter>[],
+         ],
+       );
 }

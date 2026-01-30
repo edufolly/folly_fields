@@ -8,14 +8,11 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:yaml/yaml.dart';
 
-///
-///
-///
 void main() async {
   Response response = await get(
     Uri.parse(
       'https://raw.githubusercontent.com/dart-lang/site-www'
-      '/main/src/_data/linter_rules.json',
+      '/main/src/data/linter_rules.json',
     ),
   );
 
@@ -25,11 +22,11 @@ void main() async {
           producer: Rule.fromJson,
         )
         ..retainWhere(
-          (Rule rule) =>
+          (final Rule rule) =>
               rule.state != RuleState.removed &&
               rule.state != RuleState.deprecated,
         )
-        ..sort((Rule a, Rule b) => a.name.compareTo(b.name));
+        ..sort((final Rule a, final Rule b) => a.name.compareTo(b.name));
 
   YamlDocument doc = loadYamlDocument(
     File('analysis_options.yaml').readAsStringSync(),
@@ -61,15 +58,14 @@ void main() async {
     }
   }
 
-  StringBuffer sb =
-      StringBuffer()
-        ..writeln('include: package:flutter_lints/flutter.yaml')
-        ..writeln()
-        ..writeln('# https://dart.dev/tools/analysis')
-        ..writeln()
-        ..writeln('# https://dart.dev/tools/linter-rules/all')
-        ..writeln('linter:')
-        ..writeln('  rules:');
+  StringBuffer sb = StringBuffer()
+    ..writeln('include: package:flutter_lints/flutter.yaml')
+    ..writeln()
+    ..writeln('# https://dart.dev/tools/analysis')
+    ..writeln()
+    ..writeln('# https://dart.dev/tools/linter-rules/all')
+    ..writeln('linter:')
+    ..writeln('  rules:');
 
   for (final Rule rule in rules) {
     if (rule.incompatible.isNotEmpty) {
@@ -94,9 +90,6 @@ void main() async {
     ..writeAsStringSync(sb.toString());
 }
 
-///
-///
-///
 class Rule {
   final String name;
   final String description;
@@ -109,9 +102,6 @@ class Rule {
   final String sinceDartSdk;
   bool active = true;
 
-  ///
-  ///
-  ///
   Rule({
     required this.name,
     required this.description,
@@ -124,11 +114,7 @@ class Rule {
     required this.sinceDartSdk,
   });
 
-  ///
-  ///
-  ///
-
-  factory Rule.fromJson(dynamic map) => switch (map) {
+  factory Rule.fromJson(final dynamic map) => switch (map) {
     Map<dynamic, dynamic> _ => Rule(
       name: map['name']?.toString() ?? '',
       description: map['description']?.toString() ?? '',
@@ -144,91 +130,64 @@ class Rule {
   };
 }
 
-///
-///
-///
 class Utils {
-  ///
-  ///
-  ///
   static Iterable<T>? _fromJsonRawIterable<T>(
-    Iterable<dynamic>? value, {
-    required T Function(dynamic e) producer,
+    final Iterable<dynamic>? value, {
+    required final T Function(dynamic e) producer,
   }) => value?.map<T>(producer);
 
-  ///
-  ///
-  ///
   static List<T> fromJsonSafeList<T>(
-    dynamic value, {
-    required T Function(dynamic e) producer,
-  }) =>
-      value == null
-          ? <T>[]
-          : (value is Iterable)
-          ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
-          : <T>[producer(value)];
+    final dynamic value, {
+    required final T Function(dynamic e) producer,
+  }) => value == null
+      ? <T>[]
+      : (value is Iterable)
+      ? _fromJsonRawIterable<T>(value, producer: producer)!.toList()
+      : <T>[producer(value)];
 
-  ///
-  ///
-  ///
   static Set<T> fromJsonSafeSet<T>(
-    dynamic value, {
-    required T Function(dynamic e) producer,
-  }) =>
-      value == null
-          ? <T>{}
-          : (value is Iterable)
-          ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
-          : <T>{producer(value)};
+    final dynamic value, {
+    required final T Function(dynamic e) producer,
+  }) => value == null
+      ? <T>{}
+      : (value is Iterable)
+      ? _fromJsonRawIterable<T>(value, producer: producer)!.toSet()
+      : <T>{producer(value)};
 
-  ///
-  ///
-  ///
   static Set<T> fromJsonSafeEnumSet<T extends Enum>(
-    dynamic value,
-    Iterable<T> values,
+    final dynamic value,
+    final Iterable<T> values,
   ) => switch (value) {
     null => <T>{},
     Iterable<dynamic> _ =>
-      value.map((dynamic e) => values.byName(e.toString())).toSet(),
+      value.map((final dynamic e) => values.byName(e.toString())).toSet(),
     _ => <T>{values.byName(value.toString())},
   };
 
-  ///
-  ///
-  ///
-  static Set<String> fromJsonSafeStringSet(dynamic value) =>
-      fromJsonSafeSet<String>(value, producer: (dynamic e) => e.toString());
+  static Set<String> fromJsonSafeStringSet(final dynamic value) =>
+      fromJsonSafeSet<String>(
+        value,
+        producer: (final dynamic e) => e.toString(),
+      );
 }
 
-///
-///
-///
 enum RuleGroup {
   style,
   pub,
   errors,
   none;
 
-  static RuleGroup parse(dynamic value, {RuleGroup defaultValue = none}) =>
-      RuleGroup.values.firstWhere(
-        (RuleGroup element) => element.name == value.toString().toLowerCase(),
-        orElse: () => defaultValue,
-      );
+  static RuleGroup parse(
+    final dynamic value, {
+    final RuleGroup defaultValue = none,
+  }) => RuleGroup.values.firstWhere(
+    (final RuleGroup element) => element.name == value.toString().toLowerCase(),
+    orElse: () => defaultValue,
+  );
 }
 
-///
-///
-///
 enum RuleState { stable, deprecated, experimental, removed }
 
-///
-///
-///
 enum RuleFixStatus { hasFix, noFix, needsFix, needsEvaluation, unregistered }
 
-///
-///
-///
 enum RuleSet { core, recommended, flutter }

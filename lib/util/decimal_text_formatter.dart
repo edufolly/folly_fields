@@ -1,30 +1,21 @@
 import 'package:flutter/services.dart';
 
-///
-///
-///
 class DecimalTextFormatter extends TextInputFormatter {
   final int precision;
   final String decimalSeparator;
   final String thousandSeparator;
   final RegExp allow;
 
-  ///
-  ///
-  ///
   DecimalTextFormatter({
     required this.precision,
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
   }) : allow = RegExp('[-0-9$decimalSeparator$thousandSeparator]');
 
-  ///
-  ///
-  ///
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
+    final TextEditingValue oldValue,
+    final TextEditingValue newValue,
   ) {
     // print('old: ${oldValue.toJSON()}');
     // print('new: ${newValue.toJSON()}');
@@ -54,8 +45,10 @@ class DecimalTextFormatter extends TextInputFormatter {
       // print('\n');
 
       return TextEditingValue(
-        text: '${isNegative ? '-0' : '0'}$decimalSeparator'
-            .padRight(precision + (isNegative ? 3 : 2), '0'),
+        text: '${isNegative ? '-0' : '0'}$decimalSeparator'.padRight(
+          precision + (isNegative ? 3 : 2),
+          '0',
+        ),
         selection: TextSelection.collapsed(offset: (isNegative ? 2 : 1)),
       );
     }
@@ -114,7 +107,8 @@ class DecimalTextFormatter extends TextInputFormatter {
         newText += decimalSeparator.padRight(precision + 1, '0');
       } else {
         int pos = newText.length - precision;
-        newText = newText.substring(0, pos) +
+        newText =
+            newText.substring(0, pos) +
             decimalSeparator +
             newText.substring(pos);
       }

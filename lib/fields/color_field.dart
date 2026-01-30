@@ -4,13 +4,7 @@ import 'package:folly_fields/controllers/color_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-///
-///
-///
 class ColorField extends BaseStatefulField<Color, ColorEditingController> {
-  ///
-  ///
-  ///
   ColorField({
     super.maxLength = 8,
     super.suffixIconData = FontAwesomeIcons.palette,
@@ -52,35 +46,28 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.minHeight,
     super.key,
   }) : super(
-          updatePrefixIcon: (BuildContext context, Color? color, _) => Icon(
-            FontAwesomeIcons.solidSquare,
-            color: color,
-          ),
-        );
+         updatePrefixIcon:
+             (final BuildContext context, final Color? color, _) =>
+                 Icon(FontAwesomeIcons.solidSquare, color: color),
+       );
 
-  ///
-  ///
-  ///
   @override
   ColorEditingController createController() =>
       ColorEditingController(color: initialValue);
 
-  ///
-  ///
-  ///
   @override
   Future<Color?> selectData({
-    required BuildContext context,
-    required ColorEditingController controller,
+    required final BuildContext context,
+    required final ColorEditingController controller,
   }) {
     return showDialog<Color?>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (final BuildContext context) {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: controller.data ?? controller.pickerColor.value,
-              onColorChanged: (Color value) =>
+              onColorChanged: (final Color value) =>
                   controller.pickerColor.value = value,
               portraitOnly: true,
             ),
