@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - Folly Fields - extensions/lib/extensions/string_extension.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">extensions/lib/extensions</a> - string_extension.dart<span style="font-size: 80%;"> (source / <a href="string_extension.dart.func-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">Folly Fields</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">66.2&nbsp;%</td>
+            <td class="headerCovTableEntry">68</td>
+            <td class="headerCovTableEntry">45</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2026-01-30 00:12:42</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : extension NullableStringExtension on String? {</span>
+<span id="L2"><span class="lineNum">       2</span> <span class="tlaUNC tlaBgUNC">           0 :   bool get isBlank =&gt; this?.trim().isEmpty ?? false;</span></span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span> <span class="tlaGNC tlaBgGNC">           3 :   bool get isNullOrBlank =&gt; this?.trim().isEmpty ?? true;</span></span>
+<span id="L5"><span class="lineNum">       5</span>              : }</span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC tlaBgUNC">           0 : bool isBlank(final String? it) =&gt; it?.trim().isEmpty ?? false;</span></span>
+<span id="L8"><span class="lineNum">       8</span>              : </span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaUNC">           0 : bool isNullOrBlank(final String? it) =&gt; it?.trim().isEmpty ?? true;</span></span>
+<span id="L10"><span class="lineNum">      10</span>              : </span>
+<span id="L11"><span class="lineNum">      11</span>              : extension StringExtension on String {</span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   String repeat(final int length) =&gt;</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :       List&lt;String&gt;.generate(length, (_) =&gt; this).join();</span></span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC tlaBgGNC">           2 :   String get capitalize =&gt;</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">          10 :       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';</span></span>
+<span id="L17"><span class="lineNum">      17</span>              : </span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :   String get capitalizeWords =&gt;</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           6 :       split(' ').map((final String e) =&gt; e.capitalize).toList().join(' ');</span></span>
+<span id="L20"><span class="lineNum">      20</span>              : </span>
+<span id="L21"><span class="lineNum">      21</span>              :   // TODO(edufolly): Add more characters.</span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC tlaBgUNC">           0 :   String get normalize =&gt; splitMapJoin(</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :     RegExp(r'[^a-zA-Z0-9\s]', caseSensitive: false),</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :     onMatch: (final Match e) {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :       return switch (e.group(0)) {</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :         'á' || 'à' || 'ã' || 'â' || 'ä' || 'å' =&gt; 'a',</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         'Á' || 'À' || 'Ã' || 'Â' || 'Ä' || 'Å' =&gt; 'A',</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :         'é' || 'è' || 'ê' || 'ë' =&gt; 'e',</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         'É' || 'È' || 'Ê' || 'Ë' =&gt; 'E',</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :         'í' || 'ì' || 'î' || 'ï' =&gt; 'i',</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :         'Í' || 'Ì' || 'Î' || 'Ï' =&gt; 'I',</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :         'ó' || 'ò' || 'õ' || 'ô' || 'ö' =&gt; 'o',</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :         'Ó' || 'Ò' || 'Õ' || 'Ô' || 'Ö' =&gt; 'O',</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaUNC">           0 :         'ú' || 'ù' || 'û' || 'ü' =&gt; 'u',</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :         'Ú' || 'Ù' || 'Û' || 'Ü' =&gt; 'U',</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaUNC">           0 :         'ç' =&gt; 'c',</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :         'Ç' =&gt; 'C',</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :         _ =&gt; e.group(0) ?? '',</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :       };</span>
+<span id="L40"><span class="lineNum">      40</span>              :     },</span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :     onNonMatch: (final String e) =&gt; e,</span></span>
+<span id="L42"><span class="lineNum">      42</span>              :   );</span>
+<span id="L43"><span class="lineNum">      43</span>              : </span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC tlaBgGNC">           1 :   bool get isPascalCase =&gt;</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           1 :       !(isEmpty ||</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           2 :           contains(RegExp('[^a-zA-Z0-9]+')) ||</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           2 :           startsWith(RegExp('[0-9]+'))) &amp;&amp;</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           4 :       this[0].toUpperCase() == this[0];</span></span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           1 :   bool get isCamelCase =&gt;</span></span>
+<span id="L51"><span class="lineNum">      51</span> <span class="tlaGNC">           1 :       !(isEmpty ||</span></span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           2 :           contains(RegExp('[^a-zA-Z0-9]+')) ||</span></span>
+<span id="L53"><span class="lineNum">      53</span> <span class="tlaGNC">           2 :           startsWith(RegExp('[0-9]+'))) &amp;&amp;</span></span>
+<span id="L54"><span class="lineNum">      54</span> <span class="tlaGNC">           4 :       this[0].toLowerCase() == this[0];</span></span>
+<span id="L55"><span class="lineNum">      55</span>              : </span>
+<span id="L56"><span class="lineNum">      56</span> <span class="tlaGNC">           1 :   bool get isSnakeCase =&gt;</span></span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           1 :       !(isEmpty ||</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           2 :           contains(RegExp('[^_a-z0-9]+')) ||</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           2 :           startsWith(RegExp('[0-9]+')));</span></span>
+<span id="L60"><span class="lineNum">      60</span>              : </span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           2 :   String get _camel2Snake =&gt; splitMapJoin(</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 :     RegExp('[A-Z]'),</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           4 :     onMatch: (final Match m) =&gt; '_${m.group(0)!.toLowerCase()}',</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           1 :     onNonMatch: (final String n) =&gt; n,</span></span>
+<span id="L65"><span class="lineNum">      65</span>              :   );</span>
+<span id="L66"><span class="lineNum">      66</span>              : </span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           3 :   String get _snake2Pascal =&gt; toLowerCase().splitMapJoin(</span></span>
+<span id="L68"><span class="lineNum">      68</span> <span class="tlaGNC">           1 :     RegExp('_'),</span></span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">           1 :     onMatch: (final Match m) =&gt; '',</span></span>
+<span id="L70"><span class="lineNum">      70</span> <span class="tlaGNC">           5 :     onNonMatch: (final String n) =&gt; n[0].toUpperCase() + n.substring(1),</span></span>
+<span id="L71"><span class="lineNum">      71</span>              :   );</span>
+<span id="L72"><span class="lineNum">      72</span>              : </span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           5 :   String get _pascal2Camel =&gt; this[0].toLowerCase() + substring(1);</span></span>
+<span id="L74"><span class="lineNum">      74</span>              : </span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           1 :   String get camel2Snake =&gt;</span></span>
+<span id="L76"><span class="lineNum">      76</span> <span class="tlaGNC">           4 :       isCamelCase ? _camel2Snake : throw Exception('Invalid camel case: $this');</span></span>
+<span id="L77"><span class="lineNum">      77</span>              : </span>
+<span id="L78"><span class="lineNum">      78</span> <span class="tlaGNC">           2 :   String get pascal2Camel =&gt; isPascalCase</span></span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">           1 :       ? _pascal2Camel</span></span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaGNC">           2 :       : throw Exception('Invalid pascal case: $this');</span></span>
+<span id="L81"><span class="lineNum">      81</span>              : </span>
+<span id="L82"><span class="lineNum">      82</span> <span class="tlaGNC">           2 :   String get camel2Pascal =&gt; isCamelCase</span></span>
+<span id="L83"><span class="lineNum">      83</span> <span class="tlaGNC">           4 :       ? this[0].toUpperCase() + substring(1)</span></span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaGNC">           2 :       : throw Exception('Invalid camel case: $this');</span></span>
+<span id="L85"><span class="lineNum">      85</span>              : </span>
+<span id="L86"><span class="lineNum">      86</span> <span class="tlaGNC">           2 :   String get snake2Pascal =&gt; isSnakeCase</span></span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaGNC">           1 :       ? _snake2Pascal</span></span>
+<span id="L88"><span class="lineNum">      88</span> <span class="tlaGNC">           2 :       : throw Exception('Invalid snake case: $this');</span></span>
+<span id="L89"><span class="lineNum">      89</span>              : </span>
+<span id="L90"><span class="lineNum">      90</span> <span class="tlaGNC">           2 :   String get snake2Camel =&gt; isSnakeCase</span></span>
+<span id="L91"><span class="lineNum">      91</span> <span class="tlaGNC">           2 :       ? _snake2Pascal._pascal2Camel</span></span>
+<span id="L92"><span class="lineNum">      92</span> <span class="tlaGNC">           2 :       : throw Exception('Invalid snake case: $this');</span></span>
+<span id="L93"><span class="lineNum">      93</span>              : </span>
+<span id="L94"><span class="lineNum">      94</span> <span class="tlaGNC">           2 :   String get pascal2Snake =&gt; isPascalCase</span></span>
+<span id="L95"><span class="lineNum">      95</span> <span class="tlaGNC">           2 :       ? _camel2Snake.substring(1)</span></span>
+<span id="L96"><span class="lineNum">      96</span> <span class="tlaGNC">           2 :       : throw Exception('Invalid pascal case: $this');</span></span>
+<span id="L97"><span class="lineNum">      97</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.0-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
