@@ -3,29 +3,14 @@ import 'package:folly_fields/responsive/responsive.dart';
 import 'package:folly_fields/responsive/responsive_grid.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
 
-
-
-
 class FourImages extends StatefulWidget {
-
-
-
   const FourImages({super.key});
-
-
-
 
   @override
   State<FourImages> createState() => _FourImagesState();
 }
 
-
-
-
 class _FourImagesState extends State<FourImages> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,14 +54,8 @@ class _FourImagesState extends State<FourImages> {
   }
 }
 
-
-
-
 class ResponsiveNetworkImage extends ResponsiveStateless {
   final String url;
-
-
-
 
   const ResponsiveNetworkImage(
     this.url, {
@@ -88,9 +67,6 @@ class ResponsiveNetworkImage extends ResponsiveStateless {
     super.minHeight,
     super.key,
   });
-
-
-
 
   @override
   Widget build(BuildContext context) {

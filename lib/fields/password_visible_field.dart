@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
 class PasswordVisibleField extends ResponsiveStateful {
@@ -7,6 +8,7 @@ class PasswordVisibleField extends ResponsiveStateful {
   final String? label;
   final Widget? labelWidget;
   final TextEditingController? controller;
+  final TextInputType? keyboard;
   final String? Function(String? value)? validator;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
@@ -35,6 +37,7 @@ class PasswordVisibleField extends ResponsiveStateful {
   final String? counterText;
   final Widget? prefix;
   final Widget? prefixIcon;
+  final bool emptyIsNull;
   final void Function()? onTap;
 
   const PasswordVisibleField({
@@ -42,6 +45,7 @@ class PasswordVisibleField extends ResponsiveStateful {
     this.label,
     this.labelWidget,
     this.controller,
+    this.keyboard,
     this.validator,
     this.inputFormatter,
     this.textAlign = TextAlign.start,
@@ -70,6 +74,7 @@ class PasswordVisibleField extends ResponsiveStateful {
     this.counterText = '',
     this.prefix,
     this.prefixIcon,
+    this.emptyIsNull = true,
     this.onTap,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -144,17 +149,17 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
           padding: widget.padding,
           child: TextFormField(
             controller: widget.controller,
-            keyboardType: TextInputType.visiblePassword,
+            keyboardType: widget.keyboard,
             decoration: effectiveDecoration,
-            validator: widget.enabled && widget.validator != null
-                ? (final String? value) => widget.validator!(value)
-                : (_) => null,
+            validator: widget.enabled && isNotNull(widget.validator)
+                ? _internalValidator
+                : null,
             obscureText: value ?? true,
             inputFormatters: widget.inputFormatter,
             textAlign: widget.textAlign,
             maxLength: widget.maxLength,
-            onSaved: widget.enabled && widget.onSaved != null
-                ? widget.onSaved
+            onSaved: widget.enabled && isNotNull(widget.onSaved)
+                ? _internalOnSave
                 : null,
             enabled: widget.enabled,
             autovalidateMode: widget.autoValidateMode,
@@ -175,6 +180,15 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
       },
     );
   }
+
+  String? _realValue(final String value) =>
+      (widget.emptyIsNull && value.isEmpty) ? null : value;
+
+  String? _internalValidator(final String? value) =>
+      widget.validator?.call(value?.let(_realValue));
+
+  void _internalOnSave(final String? value) =>
+      widget.onSaved?.call(value?.let(_realValue));
 
   @override
   void dispose() {

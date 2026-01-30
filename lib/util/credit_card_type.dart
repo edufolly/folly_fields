@@ -215,19 +215,19 @@ enum CreditCardType {
     this.extraBrands = const <String>[],
   });
 
-  bool validLength(final String ccNum) =>
-      lengths.contains(clearNum(ccNum).length);
+  bool validLength(final String? ccNum) =>
+      ccNum != null && lengths.contains(clearNum(ccNum).length);
 
-  bool validNumber(final String ccNum) {
+  bool validNumber(final String? ccNum) {
     if (!checkLuhn) {
       return true;
     }
 
-    if (ccNum.length < 2) {
+    if (ccNum == null || ccNum.length < 2) {
       return false;
     }
 
-    String cNum = ccNum.replaceAll(RegExp(r'\D'), '');
+    String cNum = clearNum(ccNum);
     int mod = cNum.length % 2;
     int sum = 0;
 
@@ -251,7 +251,8 @@ enum CreditCardType {
     }
   }
 
-  bool cvvCheck(final String cvv) =>
+  bool cvvCheck(final String? cvv) =>
+      cvv != null &&
       code.size.contains(cvv.length) &&
       code.size.contains(clearNum(cvv).length);
 

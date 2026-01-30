@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
@@ -18,15 +19,15 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
       ]);
 
   @override
-  String format(final TimeOfDay value) =>
-      '${value.hour.toString().padLeft(2, '0')}'
-      ':${value.minute.toString().padLeft(2, '0')}';
+  String? format(final TimeOfDay? value) =>
+      '${value?.hour.toString().padLeft(2, '0')}'
+      ':${value?.minute.toString().padLeft(2, '0')}';
 
   @override
-  String strip(final String value) => value;
+  String? strip(final String? value) => value;
 
   @override
-  bool isValid(final String value) => valid(value) == null;
+  bool isValid(final String? value) => valid(value) == null;
 
   @override
   TextInputType get keyboard => TextInputType.datetime;
@@ -47,8 +48,8 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
   }
 
   @override
-  String? valid(final String value) => FollyUtils.validTime(value);
+  String? valid(final String? value) => FollyUtils.validTime(value);
 
-  String formatDateTime(final DateTime dateTime) =>
-      format(TimeOfDay.fromDateTime(dateTime));
+  String? formatDateTime(final DateTime? dateTime) =>
+      dateTime?.let((final DateTime it) => format(TimeOfDay.fromDateTime(it)));
 }

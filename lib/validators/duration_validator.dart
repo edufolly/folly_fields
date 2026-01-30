@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
 
 class DurationValidator extends AbstractParserValidator<Duration> {
@@ -30,7 +30,11 @@ class DurationValidator extends AbstractParserValidator<Duration> {
        );
 
   @override
-  String format(final Duration duration) {
+  String? format(final Duration? duration) {
+    if (duration == null) {
+      return null;
+    }
+
     int milliseconds = duration.inMilliseconds;
     int seconds = 0;
     int minutes = 0;
@@ -105,7 +109,7 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   }
 
   @override
-  String strip(final String value) => value;
+  String? strip(final String? value) => value;
 
   RegExp get regExp => RegExp(
     '(\\d+$yearSuffix)?\\s*'
@@ -118,11 +122,12 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   );
 
   @override
-  bool isValid(final String value) =>
-      regExp.firstMatch(value.trim())?.group(0) == value.trim();
-
-  @override
-  TextInputType get keyboard => TextInputType.text;
+  bool isValid(final String? value) =>
+      value?.let(
+        (final String it) =>
+            regExp.firstMatch(it.trim())?.group(0) == it.trim(),
+      ) ??
+      false;
 
   @override
   Duration? parse(final String? value) {
@@ -180,5 +185,5 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   }
 
   @override
-  String? valid(final String value) => null;
+  String? valid(final String? value) => null;
 }

@@ -4,12 +4,13 @@ import 'package:folly_fields/fields/base_stateful_field.dart';
 
 import 'package:folly_fields/util/decimal.dart';
 
-class NewDecimalField
-    extends BaseStatefulField<Decimal, NewDecimalEditingController> {
+class DecimalField
+    extends BaseStatefulField<Decimal, DecimalEditingController> {
   final String decimalSeparator;
   final String thousandSeparator;
 
-  const NewDecimalField({
+  const DecimalField({
+    required final Decimal initialValue,
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
     super.labelPrefix,
@@ -19,7 +20,7 @@ class NewDecimalField
     super.validator,
     super.textAlign = TextAlign.end,
     super.onSaved,
-    super.initialValue,
+    // super.initialValue,
     super.enabled = true,
     super.autoValidateMode = AutovalidateMode.disabled,
     super.focusNode,
@@ -51,10 +52,10 @@ class NewDecimalField
     super.sizeExtraLarge,
     super.minHeight,
     super.key,
-  });
+  }) : super(initialValue: initialValue);
 
   @override
-  NewDecimalEditingController createController() => NewDecimalEditingController(
+  DecimalEditingController createController() => DecimalEditingController(
     initialValue!,
     decimalSeparator: decimalSeparator,
     thousandSeparator: thousandSeparator,

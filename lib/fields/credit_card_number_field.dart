@@ -29,7 +29,6 @@ class CreditCardNumberField extends ResponsiveStateful {
   final bool enableInteractiveSelection;
   final bool filled;
   final Color? fillColor;
-  final bool required;
   final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
@@ -42,14 +41,13 @@ class CreditCardNumberField extends ResponsiveStateful {
   final Widget? prefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
-  final bool trimOnSaved;
   final Function(CreditCardType creditCardType)? onTypeChange;
+  final String validatorMessage;
+  final void Function()? onTap;
 
   // Force the implementation.
   // ignore: avoid_positional_boolean_parameters
   final Function(bool valid)? onValid;
-  final String validatorMessage;
-  final void Function()? onTap;
 
   const CreditCardNumberField({
     this.labelPrefix,
@@ -75,7 +73,6 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
-    this.required = true,
     this.autofillHints,
     this.readOnly = false,
     this.style,
@@ -88,7 +85,6 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.prefixIcon,
     this.suffix,
     this.suffixIcon,
-    this.trimOnSaved = true,
     this.onTypeChange,
     this.onValid,
     this.validatorMessage = 'Informe o número do cartão de crédito.',
@@ -170,7 +166,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       enableInteractiveSelection: widget.enableInteractiveSelection,
       filled: widget.filled,
       fillColor: widget.fillColor,
-      required: widget.required,
       autofillHints: widget.autofillHints,
       readOnly: widget.readOnly,
       style: widget.style,
@@ -183,7 +178,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       prefixIcon: widget.prefixIcon,
       suffix: widget.suffix,
       suffixIcon: widget.suffixIcon,
-      trimOnSaved: widget.trimOnSaved,
       onTap: widget.onTap,
     );
   }

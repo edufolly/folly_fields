@@ -16,22 +16,23 @@ class LicencePlateValidator extends AbstractValidator<String> {
       ]);
 
   @override
-  String format(final String value) => strip(value).replaceAllMapped(
+  String? format(final String? value) => strip(value)?.replaceAllMapped(
     RegExp(r'^([A-Z]{3})([0-9])([A-Z0-9])([0-9]{2})$'),
     (final Match m) => '${m[1]}-${m[2]}${m[3]}${m[4]}',
   );
 
   @override
-  String strip(final String value) => value.replaceAll(RegExp('[^A-Z0-9]'), '');
+  String? strip(final String? value) =>
+      value?.replaceAll(RegExp('[^A-Z0-9]'), '');
 
   @override
-  bool isValid(final String value) {
-    String v = strip(value);
+  bool isValid(final String? value) {
+    String? v = strip(value);
 
-    if (v.length != 7) {
+    if (v == null || v.length != 7) {
       return false;
     }
 
-    return format(v).length == 8;
+    return format(v)?.length == 8;
   }
 }

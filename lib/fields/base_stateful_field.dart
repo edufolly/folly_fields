@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/validator_editing_controller.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
-abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
+abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     extends ResponsiveStateful {
   final String? labelPrefix;
   final String? label;
@@ -106,7 +105,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T>>
       _BaseStatefulFieldState<T, C>();
 }
 
-class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
+class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
     extends State<BaseStatefulField<T, C>> {
   C? _controller;
   FocusNode? _focusNode;
@@ -223,9 +222,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                           _effectiveFocusNode.requestFocus();
                         }
                       } on Exception catch (e, s) {
-                        if (kDebugMode) {
-                          print('$e\n$s');
-                        }
+                        debugPrintStack(label: e.toString(), stackTrace: s);
                       }
                     }
                   : null,
@@ -248,7 +245,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T>>
                   return null;
                 }
 
-                String? message = _effectiveController.validator.valid(value!);
+                String? message = _effectiveController.validator.valid(value);
 
                 if (message != null) {
                   return message;

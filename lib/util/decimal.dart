@@ -1,8 +1,6 @@
-
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-
 
 // TODO(edufolly): Create an immutable class.
 @immutable

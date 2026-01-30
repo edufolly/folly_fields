@@ -8,19 +8,19 @@ class CreditCardExpirationValidator extends AbstractValidator<String> {
     : super(<TextInputFormatter>[MaskTextInputFormatter(mask: '##/##')]);
 
   @override
-  String format(final String value) => value;
-
-  @override
-  String strip(final String value) => value;
-
-  @override
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  bool isValid(final String value) {
-    String v = value.replaceAll(RegExp(r'\D'), '');
+  String? format(final String? value) => value;
 
-    if (v.length != 4) {
+  @override
+  String? strip(final String? value) => value;
+
+  @override
+  bool isValid(final String? value) {
+    String? v = value?.replaceAll(RegExp(r'\D'), '');
+
+    if (v == null || v.length != 4) {
       return false;
     }
 

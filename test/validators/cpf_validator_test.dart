@@ -3,7 +3,10 @@ import 'package:folly_fields/validators/cpf_validator.dart';
 
 void main() {
   group('CpfValidator isValid', () {
-    Map<String, bool> domain = <String, bool>{
+    Map<String?, bool> domain = <String?, bool>{
+      null: false,
+      '': false,
+      ' ': false,
       '00000000000': false,
       '11111111111': false,
       '22222222222': false,
@@ -44,7 +47,7 @@ void main() {
 
     CpfValidator validator = CpfValidator();
 
-    for (final MapEntry<String, bool> input in domain.entries) {
+    for (final MapEntry<String?, bool> input in domain.entries) {
       test(
         'Testing: ${input.key}',
         () => expect(validator.isValid(input.key), input.value),
@@ -53,17 +56,17 @@ void main() {
   });
 
   group('CpfValidator format', () {
-    Map<String, String> domain = <String, String>{};
+    Map<String?, String> domain = <String?, String>{};
 
     CpfValidator validator = CpfValidator();
 
     for (int gen = 0; gen < 10; gen++) {
       String formatted = CpfValidator.generate(format: true);
-      String striped = validator.strip(formatted);
+      String? striped = validator.strip(formatted);
       domain[striped] = formatted;
     }
 
-    for (final MapEntry<String, String> input in domain.entries) {
+    for (final MapEntry<String?, String> input in domain.entries) {
       test(
         'Testing: ${input.key}',
         () => expect(validator.format(input.key), input.value),
