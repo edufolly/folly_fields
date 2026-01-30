@@ -14,19 +14,18 @@ class ColorValidator extends AbstractParserValidator<Color> {
       ]);
 
   @override
-  String format(final Color value) => FollyUtils.colorHex(value);
+  String format(final Color? value) => value?.let(FollyUtils.colorHex) ?? '';
 
   @override
-  String strip(final String value) => value;
+  String? strip(final String? value) => value;
 
   @override
-  bool isValid(final String value) => valid(value) == null;
+  bool isValid(final String? value) => valid(value) == null;
 
   @override
   Color? parse(final String? text) => FollyUtils.colorParse(text);
 
   @override
-  String? valid(final String? value) => value?.let(
-    (final String it) => parse(it) == null ? 'Cor inválida.' : null,
-  );
+  String? valid(final String? value) =>
+      parse(value) == null ? 'Cor inválida.' : null;
 }

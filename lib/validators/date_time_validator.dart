@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/util/folly_utils.dart';
 import 'package:folly_fields/util/mask_text_input_formatter.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
@@ -26,17 +27,17 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
        ]);
 
   @override
-  String format(final DateTime value) =>
-      DateFormat(dateFormat, locale).format(value);
-
-  @override
-  String strip(final String value) => value;
-
-  @override
-  bool isValid(final String value) => valid(value) == null;
-
-  @override
   TextInputType get keyboard => TextInputType.datetime;
+
+  @override
+  String? format(final DateTime? value) =>
+      value?.let(DateFormat(dateFormat, locale).format);
+
+  @override
+  String? strip(final String? value) => value;
+
+  @override
+  bool isValid(final String? value) => valid(value) == null;
 
   @override
   DateTime? parse(final String? text) {
@@ -52,8 +53,8 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   }
 
   @override
-  String? valid(final String value) {
-    if (value.isEmpty) {
+  String? valid(final String? value) {
+    if (value == null || value.isEmpty) {
       return 'Data e Hora inválidas.';
     }
 

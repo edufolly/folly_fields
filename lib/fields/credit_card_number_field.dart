@@ -29,7 +29,6 @@ class CreditCardNumberField extends ResponsiveStateful {
   final bool enableInteractiveSelection;
   final bool filled;
   final Color? fillColor;
-  final bool required;
   final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
@@ -75,7 +74,6 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.enableInteractiveSelection = true,
     this.filled = false,
     this.fillColor,
-    this.required = true,
     this.autofillHints,
     this.readOnly = false,
     this.style,
@@ -170,7 +168,6 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       enableInteractiveSelection: widget.enableInteractiveSelection,
       filled: widget.filled,
       fillColor: widget.fillColor,
-      required: widget.required,
       autofillHints: widget.autofillHints,
       readOnly: widget.readOnly,
       style: widget.style,

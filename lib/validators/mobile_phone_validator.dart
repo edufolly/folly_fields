@@ -9,20 +9,20 @@ class MobilePhoneValidator extends AbstractValidator<String> {
       ]);
 
   @override
-  String format(final String value) => strip(value).replaceAllMapped(
+  TextInputType get keyboard => TextInputType.number;
+
+  @override
+  String? format(final String? value) => strip(value)?.replaceAllMapped(
     RegExp(r'^(\d{2})(\d{5})(\d{4})$'),
     (final Match m) => '(${m[1]}) ${m[2]}-${m[3]}',
   );
 
   @override
-  TextInputType get keyboard => TextInputType.number;
-
-  @override
-  bool isValid(final String value) {
-    String v = strip(value);
+  bool isValid(final String? value) {
+    String? v = strip(value);
 
     /// phone must be defined
-    if (v.length != 11) {
+    if (v == null || v.length != 11) {
       return false;
     }
 

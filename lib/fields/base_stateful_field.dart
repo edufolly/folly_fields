@@ -245,7 +245,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
                   return null;
                 }
 
-                String? message = _effectiveController.validator.valid(value!);
+                String? message = _effectiveController.validator.valid(value);
 
                 if (message != null) {
                   return message;

@@ -2,6 +2,8 @@ import 'package:folly_fields/util/decimal.dart';
 
 // TODO(edufolly): How to use i18n?
 class FollyValidators {
+  static String? allowAll(final dynamic value) => null;
+
   static String? decimalGTEZero(
     final Decimal? decimal, {
     final String msg = 'O valor deve ser igual ou maior que zero.',

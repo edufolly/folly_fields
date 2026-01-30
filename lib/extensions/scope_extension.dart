@@ -13,4 +13,6 @@ extension ScopeExtension<T> on T {
       condition.call(this) ? null : this;
 }
 
-String toString(final dynamic it) => it.toString();
+String parseString(final dynamic it) => it.toString();
+
+bool isNull(final dynamic it) => it == null;

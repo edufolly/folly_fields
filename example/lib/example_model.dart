@@ -13,7 +13,7 @@ class ExampleModel {
   static final Random rnd = Random();
 
   int? id;
-  Decimal? decimal;
+  Decimal decimal = Decimal(precision: 2);
   int? integer;
   String? text;
   String? email;
@@ -40,8 +40,6 @@ class ExampleModel {
   bool active = true;
   IconData? icon;
   String? multiline;
-
-  // Uint8List blob = Uint8List(0);
   int? fruitIndex;
   String? ipv4;
 
@@ -101,6 +99,39 @@ class ExampleModel {
         '${complete(1, max: 256)}.'
         '${complete(1, max: 256)}';
   }
+
+  Map<String, dynamic> toMap() => <String, dynamic>{
+    'id': id,
+    'decimal': decimal,
+    'integer': integer,
+    'text': text,
+    'email': email,
+    'password': password,
+    'visiblePassword': visiblePassword,
+    'cpf': cpf,
+    'cnpj': cnpj,
+    'document': document,
+    'phone': phone,
+    'localPhone': localPhone,
+    'mobilePhone': mobilePhone,
+    'dateTime': dateTime,
+    'date': date,
+    'time': time,
+    'duration': duration,
+    'macAddress': macAddress,
+    'ncm': ncm,
+    'cest': cest,
+    'cnae': cnae,
+    'licencePlate': licencePlate,
+    'cep': cep,
+    'ordinal': ordinal,
+    'color': color,
+    'active': active,
+    'icon': icon,
+    'multiline': multiline,
+    'fruitIndex': fruitIndex,
+    'ipv4': ipv4,
+  };
 
   static String complete(int length, {int max = 10}) =>
       List<String>.generate(length, (_) => rnd.nextInt(max).toString()).join();

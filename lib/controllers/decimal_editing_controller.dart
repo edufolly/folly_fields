@@ -2,8 +2,8 @@ import 'package:folly_fields/controllers/validator_editing_controller.dart';
 import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/decimal_validator.dart';
 
-class NewDecimalEditingController extends ValidatorEditingController<Decimal> {
-  NewDecimalEditingController(
+class DecimalEditingController extends ValidatorEditingController<Decimal> {
+  DecimalEditingController(
     final Decimal value, {
     final String decimalSeparator = ',',
     final String thousandSeparator = '.',
@@ -18,8 +18,8 @@ class NewDecimalEditingController extends ValidatorEditingController<Decimal> {
   }
 
   set decimal(final Decimal dec) {
-    String masked = validator.format(dec);
-    if (masked != text) {
+    String? masked = validator.format(dec);
+    if (masked != null && masked != text) {
       text = masked;
     }
   }

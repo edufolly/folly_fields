@@ -30,7 +30,6 @@ class ValidatorField extends StringField {
     super.enableInteractiveSelection,
     super.filled,
     super.fillColor,
-    final bool required = true,
     super.autofillHints,
     super.readOnly,
     super.style,
@@ -64,16 +63,12 @@ class ValidatorField extends StringField {
          keyboard: abstractValidator.keyboard,
          validator: enabled
              ? (final String? value) {
-                 if (!required && (value == null || value.isEmpty)) {
-                   return null;
-                 }
-
-                 if (value == null || !abstractValidator.isValid(value)) {
-                   return validatorMessage;
-                 }
-
                  if (validator != null) {
                    return validator(value);
+                 }
+
+                 if (!abstractValidator.isValid(value)) {
+                   return validatorMessage;
                  }
 
                  return null;
@@ -89,10 +84,6 @@ class ValidatorField extends StringField {
              ? (String? value) {
                  if (value != null) {
                    value = abstractValidator.strip(value);
-                 }
-
-                 if (!required && value != null && value.isEmpty) {
-                   value = null;
                  }
 
                  onSaved?.call(value);
