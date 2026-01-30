@@ -1,7 +1,13 @@
+## [4.1.0] - 2026-01-30
+
+* Fix null values from fields.
+
 ## [4.0.0] - 2026-01-29
+
 * Complete refactoring.
 
 ## [3.8.0] - 2025-05-27
+
 * Updating to Flutter 3.32.0 and Dart 3.8.0.
 * Updating plugins.
 
