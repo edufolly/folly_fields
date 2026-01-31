@@ -1,8 +1,12 @@
 extension NullableStringExtension on String? {
+  bool get isNullOrEmpty => this?.isEmpty ?? true;
+
   bool get isBlank => this?.trim().isEmpty ?? false;
 
   bool get isNullOrBlank => this?.trim().isEmpty ?? true;
 }
+
+bool isNullOrEmpty(final String? it) => it?.isEmpty ?? false;
 
 bool isBlank(final String? it) => it?.trim().isEmpty ?? false;
 
