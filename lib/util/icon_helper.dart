@@ -12,6 +12,20 @@ class IconHelper {
   static String iconName(final IconData iconData) =>
       data.keys.firstWhere((final String key) => data[key] == iconData);
 
+  static Map<String, IconData> get unique {
+    final Set<IconData> seen = <IconData>{};
+    final Map<String, IconData> unq = <String, IconData>{};
+
+    for (final MapEntry<String, IconData> entry in data.entries) {
+      if (!seen.contains(entry.value)) {
+        unq[entry.key] = entry.value;
+        seen.add(entry.value);
+      }
+    }
+
+    return unq;
+  }
+
   static final Map<String, IconData> data = <String, IconData>{
     'zero': FontAwesomeIcons.zero,
     'one': FontAwesomeIcons.one,

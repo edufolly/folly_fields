@@ -1,3 +1,8 @@
+## [4.2.0] - 2026-02-02
+
+* Create ListField.
+* Updating IconField and IconData.
+
 ## [4.1.0] - 2026-01-30
 
 * Fix null values from fields.
