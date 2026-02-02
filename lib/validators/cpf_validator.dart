@@ -23,5 +23,5 @@ class CpfValidator extends AbstractValidator<String> {
   static String generate({final bool format = false}) =>
       CPFValidator.generate(format);
 
-  static String? parse(final String? value) => value?.let(CPFValidator.format);
+  static String parse(final String value) => CPFValidator.format(value);
 }

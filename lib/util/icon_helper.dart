@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class IconHelper {
   static IconData iconData(
-    final String iconName, {
+    final String? iconName, {
     final IconData defaultIconData = FontAwesomeIcons.solidCircle,
   }) => data[iconName] ?? defaultIconData;
 
