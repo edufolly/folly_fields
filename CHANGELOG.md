@@ -1,3 +1,9 @@
+## [4.2.0] - 2026-02-03
+
+* Create ListField.
+* Updating IconField and IconData.
+* Expose CNPJ and CPF parsers.
+
 ## [4.1.0] - 2026-01-30
 
 * Fix null values from fields.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/icon_data_field_controller.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,6 +32,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
     final EdgeInsets padding = const EdgeInsets.all(8),
     final String? hintText,
     final EdgeInsets? contentPadding,
+    final bool showClearSelectionButton = true,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -60,9 +62,10 @@ class IconDataField extends ResponsiveFormField<IconData> {
                          filled: filled,
                          fillColor: fillColor,
                          label: labelWidget,
-                         labelText: (labelPrefix?.isEmpty ?? true)
-                             ? label
-                             : '$labelPrefix - $label',
+                         labelText: <String?>[
+                           labelPrefix,
+                           label,
+                         ].nonNulls.join(' - '),
                          counterText: '',
                          hintText: hintText,
                          contentPadding:
@@ -70,11 +73,6 @@ class IconDataField extends ResponsiveFormField<IconData> {
                              const EdgeInsets.fromLTRB(12, 0, 8, 12),
                        ))
                    .applyDefaults(Theme.of(field.context).inputDecorationTheme);
-
-           Map<String, IconData> controllerIcons =
-               state._effectiveController.icons;
-
-           List<String> keys = state.names;
 
            return Padding(
              padding: padding,
@@ -90,7 +88,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
                        crossAxisAlignment: CrossAxisAlignment.end,
                        children: <Widget>[
                          Expanded(
-                           child: state.value == null
+                           child: isNull(state.value)
                                ? Container()
                                : Padding(
                                    padding: const EdgeInsets.only(
@@ -99,15 +97,23 @@ class IconDataField extends ResponsiveFormField<IconData> {
                                    ),
                                    child: Row(
                                      children: <Widget>[
-                                       FaIcon(state.value, size: iconSize),
-                                       Padding(
-                                         padding: const EdgeInsets.only(
-                                           left: 8,
-                                         ),
-                                         child: Text(
+                                       Icon(state.value, size: iconSize),
+                                       const SizedBox(width: 16),
+                                       Chip(
+                                         label: Text(
                                            state._effectiveController.name,
                                          ),
                                        ),
+                                       if (showClearSelectionButton)
+                                         const SizedBox(width: 8),
+                                       if (showClearSelectionButton)
+                                         IconButton(
+                                           icon: const Icon(
+                                             FontAwesomeIcons.xmark,
+                                           ),
+                                           onPressed: () =>
+                                               state.didChange(null),
+                                         ),
                                      ],
                                    ),
                                  ),
@@ -130,17 +136,16 @@ class IconDataField extends ResponsiveFormField<IconData> {
                                  mainAxisSpacing: mainAxisSpacing,
                                  crossAxisSpacing: crossAxisSpacing,
                                ),
-                           itemCount: keys.length,
+                           itemCount: state.names.length,
                            itemBuilder:
                                (final BuildContext context, final int index) {
-                                 IconData iconData =
-                                     controllerIcons[keys[index]]!;
+                                 IconData iconData = state
+                                     ._effectiveController
+                                     .icons[state.names[index]]!;
 
                                  return GestureDetector(
                                    onTap: () => state.didChange(iconData),
-                                   child: Align(
-                                     child: FaIcon(iconData, size: iconSize),
-                                   ),
+                                   child: Icon(iconData, size: iconSize),
                                  );
                                },
                          ),

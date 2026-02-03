@@ -19,6 +19,7 @@ export 'icon_data_field.dart';
 export 'integer_field.dart';
 export 'ipv4_field.dart';
 export 'licence_plate_field.dart';
+export 'list_field.dart';
 export 'mac_address_field.dart';
 export 'mobile_phone_field.dart';
 export 'multiline_field.dart';

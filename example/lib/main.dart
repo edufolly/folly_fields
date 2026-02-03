@@ -514,7 +514,7 @@ class MyHomePageState extends State<MyHomePage> {
                           // [IconDataField]
                           IconDataField(
                             label: 'Ícone',
-                            icons: IconHelper.data,
+                            icons: IconHelper.unique,
                             initialValue: model.icon,
                             onSaved: (iconData) => model.icon = iconData,
                           ),

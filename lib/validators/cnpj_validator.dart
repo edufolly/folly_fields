@@ -22,4 +22,6 @@ class CnpjValidator extends AbstractValidator<String> {
 
   static String generate({final bool format = false}) =>
       CNPJValidator.generate(format);
+
+  static String parse(final String value) => CNPJValidator.format(value);
 }
