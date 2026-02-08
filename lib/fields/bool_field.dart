@@ -49,7 +49,7 @@ class BoolField extends ResponsiveFormField<bool> {
          initialValue: controller != null ? controller.value : initialValue,
          validator: enabled && validator != null
              ? (final bool? value) => validator(value ?? false)
-             : (_) => null,
+             : null,
          onSaved: enabled && onSaved != null
              ? (final bool? value) => onSaved(value ?? false)
              : null,

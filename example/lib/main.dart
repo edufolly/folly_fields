@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/fields/all_fields.dart';
+import 'package:folly_fields/fields/icon_data_external_field.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
@@ -163,6 +164,15 @@ class MyHomePageState extends State<MyHomePage> {
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
+                    ),
+
+                    IconDataExternalField(
+                      label: 'IconDataExternal',
+                      iconLabel: (value) => IconHelper.iconName(value) ?? '',
+                      selection: (context, value) async {
+                        return FontAwesomeIcons.solidCircle;
+                      },
+                      onSaved: (value) => debugPrint(value.toString()),
                     ),
 
                     // [RootCode]

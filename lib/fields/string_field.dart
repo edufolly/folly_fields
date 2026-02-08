@@ -108,13 +108,12 @@ class StringField extends ResponsiveStateless {
 
   @override
   Widget build(final BuildContext context) {
-    TextStyle effectiveStyle =
-        style ?? Theme.of(context).textTheme.titleMedium!;
+    ThemeData theme = Theme.of(context);
+
+    TextStyle? effectiveStyle = style ?? theme.textTheme.titleMedium;
 
     if (!enabled || readOnly) {
-      effectiveStyle = effectiveStyle.copyWith(
-        color: Theme.of(context).disabledColor,
-      );
+      effectiveStyle = effectiveStyle?.copyWith(color: theme.disabledColor);
     }
 
     InputDecoration effectiveDecoration =
@@ -134,7 +133,7 @@ class StringField extends ResponsiveStateless {
                   hintText: hintText,
                   contentPadding: contentPadding,
                 ))
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+            .applyDefaults(theme.inputDecorationTheme);
 
     return Padding(
       padding: padding,
@@ -170,11 +169,17 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  String? _realValue(final String value) => (emptyIsNull && value.isEmpty)
-      ? null
-      : trimOnSaved
-      ? value.trim()
-      : value;
+  String? _realValue(final String value) {
+    if (emptyIsNull && value.isEmpty) {
+      return null;
+    }
+
+    if (trimOnSaved) {
+      return value.trim();
+    }
+
+    return value;
+  }
 
   String? _internalValidator(final String? value) =>
       validator?.call(value?.let(_realValue));

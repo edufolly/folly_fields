@@ -63,7 +63,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
        ),
        super(
          initialValue: controller != null ? controller.value : initialValue,
-         validator: enabled ? validator : (_) => null,
+         validator: enabled ? validator : null,
          autovalidateMode: autoValidateMode,
          builder: (final FormFieldState<List<T>?> field) {
            final _ListFieldState<T> state = field as _ListFieldState<T>;
@@ -187,7 +187,7 @@ class _ListBuilder<T> extends StatelessWidget {
                   icon: Icon(state.widget.deleteIcon),
                   onPressed: () => state.didChange(state.value?..remove(model)),
                 )
-              : Container(),
+              : null,
         );
       },
     );

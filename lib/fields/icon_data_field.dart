@@ -50,7 +50,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
        ),
        super(
          initialValue: controller != null ? controller.value : initialValue,
-         validator: enabled ? validator : (_) => null,
+         validator: enabled ? validator : null,
          autovalidateMode: autoValidateMode,
          builder: (final FormFieldState<IconData> field) {
            _IconDataFieldState state = field as _IconDataFieldState;

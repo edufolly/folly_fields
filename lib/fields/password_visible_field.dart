@@ -121,11 +121,10 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
                       prefix: widget.prefix,
                       prefixIcon: widget.prefixIcon,
                       label: widget.labelWidget,
-                      labelText: widget.label == null
-                          ? null
-                          : (widget.labelPrefix?.isEmpty ?? true)
-                          ? widget.label
-                          : '${widget.labelPrefix} - ${widget.label}',
+                      labelText: <String?>[
+                        widget.labelPrefix,
+                        widget.label,
+                      ].nonNulls.join(' - '),
                       border: const OutlineInputBorder(),
                       counterText: widget.counterText,
                       enabled: widget.enabled,
