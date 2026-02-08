@@ -21,8 +21,8 @@ abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
   @override
   final double? minHeight;
 
-  const ResponsiveFormField({
-    required super.builder,
+  ResponsiveFormField({
+    final FormFieldBuilder<T>? builder,
     super.onSaved,
     super.validator,
     super.initialValue,
@@ -59,5 +59,6 @@ abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
        assert(
          minHeight == null || minHeight >= 0,
          'minHeight must be equal or greater than zero.',
-       );
+       ),
+       super(builder: builder ?? (_) => const SizedBox.shrink());
 }

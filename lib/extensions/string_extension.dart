@@ -98,4 +98,10 @@ extension StringExtension on String {
   String get pascal2Snake => isPascalCase
       ? _camel2Snake.substring(1)
       : throw Exception('Invalid pascal case: $this');
+
+  String get splitCase => splitMapJoin(
+    RegExp('[A-Z]'),
+    onMatch: (final Match m) => ' ${m.group(0)}',
+    onNonMatch: (final String s) => s,
+  );
 }

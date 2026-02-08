@@ -58,7 +58,6 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
        super(
          initialValue: controller?.value ?? initialValue,
          validator: enabled ? validator : null,
-         builder: (_) => const SizedBox.shrink(),
        );
 
   @override
@@ -155,10 +154,9 @@ class _IconDataExternalFieldState extends FormFieldState<IconData> {
               isEmpty: value == null,
               isFocused: _effectiveFocusNode.hasFocus,
               isHovering: _isHovering,
-              child: Text(
-                value == null ? '' : widget.iconLabel(value),
-                style: effectiveStyle,
-              ),
+              child: value == null
+                  ? null
+                  : Text(widget.iconLabel(value), style: effectiveStyle),
             ),
           ),
         ),
