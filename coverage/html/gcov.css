@@ -927,10 +927,10 @@ Previously untested code is unused now" */
 td.tlaEUB
 {
   text-align: right;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 td.tlaBgEUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Uncovered Baseline (0 => #):
@@ -938,13 +938,13 @@ Previously untested code is unused now" */
 span.tlaEUB
 {
   text-align: left;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 span.tlaBgEUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 a.tlaBgEUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
   color: #e4e4e4;
 }
 
@@ -955,7 +955,7 @@ td.headerCovTableHeadEUB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Covered Baseline (1 => #):
@@ -963,10 +963,10 @@ Previously tested code is unused now" */
 td.tlaECB
 {
   text-align: right;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 td.tlaBgECB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Excluded Covered Baseline (1 => #):
@@ -974,13 +974,13 @@ Previously tested code is unused now" */
 span.tlaECB
 {
   text-align: left;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 span.tlaBgECB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 a.tlaBgECB {
-  background-color: #EEEEEE;
+  background-color: #000000;
   color: #e4e4e4;
 }
 
@@ -991,7 +991,7 @@ td.headerCovTableHeadECB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Uncovered Baseline (0 => -):
@@ -999,10 +999,10 @@ Previously untested code has been deleted" */
 td.tlaDUB
 {
   text-align: right;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 td.tlaBgDUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Uncovered Baseline (0 => -):
@@ -1010,13 +1010,13 @@ Previously untested code has been deleted" */
 span.tlaDUB
 {
   text-align: left;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 span.tlaBgDUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 a.tlaBgDUB {
-  background-color: #EEEEEE;
+  background-color: #000000;
   color: #e4e4e4;
 }
 
@@ -1027,7 +1027,7 @@ td.headerCovTableHeadDUB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Covered Baseline (1 => -):
@@ -1035,10 +1035,10 @@ Previously tested code has been deleted" */
 td.tlaDCB
 {
   text-align: right;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 td.tlaBgDCB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view/table entry backround: format for lines classified as "Deleted Covered Baseline (1 => -):
@@ -1046,13 +1046,13 @@ Previously tested code has been deleted" */
 span.tlaDCB
 {
   text-align: left;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 span.tlaBgDCB {
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 a.tlaBgDCB {
-  background-color: #EEEEEE;
+  background-color: #000000;
   color: #e4e4e4;
 }
 
@@ -1063,7 +1063,7 @@ td.headerCovTableHeadDCB {
   padding-bottom: 0px;
   font-family: sans-serif;
   white-space: nowrap;
-  background-color: #EEEEEE;
+  background-color: #000000;
 }
 
 /* Source code view: format for date/owner bin that is not hit */
