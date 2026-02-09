@@ -17,6 +17,10 @@ class BottomSheetGridSelection<Entity extends AbstractBaseModel<Id>, Id>
   final int pageSize;
   final Duration searchDebounce;
   final bool multiple;
+  final EdgeInsets padding;
+  final double maxCrossAxisExtent;
+  final double mainAxisSpacing;
+  final double crossAxisSpacing;
 
   const BottomSheetGridSelection({
     required this.list,
@@ -27,6 +31,10 @@ class BottomSheetGridSelection<Entity extends AbstractBaseModel<Id>, Id>
     this.pageSize = 40,
     this.searchDebounce = const Duration(seconds: 1),
     this.multiple = true,
+    this.padding = const EdgeInsets.all(8),
+    this.maxCrossAxisExtent = 120,
+    this.mainAxisSpacing = 6,
+    this.crossAxisSpacing = 6,
     super.key,
   });
 
@@ -132,16 +140,12 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
         // List
         Expanded(
           child: GridView.builder(
-            // TODO(edufolly): Configurable
-            padding: EdgeInsets.all(8),
+            padding: widget.padding,
             controller: _scrollController,
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              // TODO(edufolly): Configurable
-              maxCrossAxisExtent: 120,
-              // TODO(edufolly): Configurable
-              mainAxisSpacing: 6,
-              // TODO(edufolly): Configurable
-              crossAxisSpacing: 6,
+              maxCrossAxisExtent: widget.maxCrossAxisExtent,
+              mainAxisSpacing: widget.mainAxisSpacing,
+              crossAxisSpacing: widget.crossAxisSpacing,
             ),
             itemCount: _list.length + (_loading ? 1 : 0),
             itemBuilder: (context, index) {

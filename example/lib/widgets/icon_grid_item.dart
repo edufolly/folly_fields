@@ -9,8 +9,7 @@ class IconGridItem extends StatelessWidget {
   const IconGridItem({required this.model, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Tooltip(
+  Widget build(BuildContext context) => Tooltip(
       waitDuration: const Duration(seconds: 2),
       message: model.id,
       child: Padding(
@@ -25,6 +24,7 @@ class IconGridItem extends StatelessWidget {
                 ? null
                 : Text(
                     model.id!.splitCase.capitalizeWords,
+                    style: Theme.of(context).textTheme.bodySmall,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
@@ -33,5 +33,4 @@ class IconGridItem extends StatelessWidget {
         ),
       ),
     );
-  }
 }

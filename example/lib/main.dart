@@ -660,8 +660,8 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _send() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
 
       FollyDialogs.dialogMessage(
         context: context,

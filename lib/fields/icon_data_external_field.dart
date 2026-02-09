@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/icon_data_external_field_controller.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -58,6 +59,82 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
        super(
          initialValue: controller?.value ?? initialValue,
          validator: enabled ? validator : null,
+         builder: (final FormFieldState<IconData> field) {
+           _IconDataExternalFieldState state =
+               field as _IconDataExternalFieldState;
+
+           ThemeData theme = Theme.of(state.context);
+
+           TextStyle? effectiveStyle =
+               style ??
+               theme.textTheme.titleMedium?.copyWith(
+                 color: theme.colorScheme.onSurfaceVariant,
+               );
+
+           if (!enabled) {
+             effectiveStyle = effectiveStyle?.copyWith(
+               color: theme.disabledColor,
+             );
+           }
+
+           final InputDecoration effectiveDecoration =
+               (decoration ??
+                       InputDecoration(
+                         border: const OutlineInputBorder(),
+                         label: labelWidget,
+                         labelText: <String?>[
+                           labelPrefix,
+                           label,
+                         ].nonNulls.join(' - '),
+                         counterText: '',
+                         hintText: hintText,
+                         contentPadding: contentPadding,
+                         suffixIcon: const Icon(
+                           FontAwesomeIcons.magnifyingGlass,
+                         ),
+                       ))
+                   .applyDefaults(theme.inputDecorationTheme)
+                   .copyWith(
+                     prefixIcon: state.value != null
+                         ? Icon(
+                             state.value,
+                             size: iconSize,
+                             color: state._effectiveFocusNode.hasFocus
+                                 ? theme.colorScheme.primary
+                                 : null,
+                           )
+                         : null,
+                     enabled: enabled,
+                     errorText: state.errorText,
+                   );
+
+           return Padding(
+             padding: padding,
+             child: Focus(
+               focusNode: state._effectiveFocusNode,
+               canRequestFocus: enabled,
+               child: MouseRegion(
+                 cursor: enabled
+                     ? SystemMouseCursors.click
+                     : SystemMouseCursors.basic,
+                 onEnter: (_) => state.hovering(enter: true),
+                 onExit: (_) => state.hovering(enter: false),
+                 child: GestureDetector(
+                   onTap: enabled ? state._handleTap : null,
+                   child: InputDecorator(
+                     decoration: effectiveDecoration,
+                     isEmpty: state.value == null,
+                     isFocused: state._effectiveFocusNode.hasFocus,
+                     isHovering: state._isHovering,
+                     child: isNull(state.value)
+                         ? null
+                         : Text(iconLabel(state.value!), style: effectiveStyle),
+                   ),
+                 ),
+               ),
+             ),
+           );
+         },
        );
 
   @override
@@ -91,78 +168,8 @@ class _IconDataExternalFieldState extends FormFieldState<IconData> {
     _effectiveFocusNode.addListener(_handleFocusChanged);
   }
 
-  @override
-  Widget build(final BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
-    TextStyle? effectiveStyle =
-        widget.style ??
-        theme.textTheme.titleMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        );
-
-    if (!widget.enabled) {
-      effectiveStyle = effectiveStyle?.copyWith(color: theme.disabledColor);
-    }
-
-    final IconData? value = _effectiveController.value;
-
-    final InputDecoration effectiveDecoration =
-        (widget.decoration ??
-                InputDecoration(
-                  border: const OutlineInputBorder(),
-                  label: widget.labelWidget,
-                  labelText: <String?>[
-                    widget.labelPrefix,
-                    widget.label,
-                  ].nonNulls.join(' - '),
-                  counterText: '',
-                  hintText: widget.hintText,
-                  contentPadding: widget.contentPadding,
-                  suffixIcon: const Icon(FontAwesomeIcons.magnifyingGlass),
-                ))
-            .applyDefaults(theme.inputDecorationTheme)
-            .copyWith(
-              prefixIcon: value != null
-                  ? Icon(
-                      value,
-                      size: widget.iconSize,
-                      color: _effectiveFocusNode.hasFocus
-                          ? theme.colorScheme.primary
-                          : null,
-                    )
-                  : null,
-              enabled: widget.enabled,
-              errorText: errorText,
-            );
-
-    return Padding(
-      padding: widget.padding,
-      child: Focus(
-        focusNode: _effectiveFocusNode,
-        canRequestFocus: widget.enabled,
-        child: MouseRegion(
-          cursor: widget.enabled
-              ? SystemMouseCursors.click
-              : SystemMouseCursors.basic,
-          onEnter: (_) => setState(() => _isHovering = true),
-          onExit: (_) => setState(() => _isHovering = false),
-          child: GestureDetector(
-            onTap: widget.enabled ? _handleTap : null,
-            child: InputDecorator(
-              decoration: effectiveDecoration,
-              isEmpty: value == null,
-              isFocused: _effectiveFocusNode.hasFocus,
-              isHovering: _isHovering,
-              child: value == null
-                  ? null
-                  : Text(widget.iconLabel(value), style: effectiveStyle),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  void hovering({required final bool enter}) =>
+      setState(() => _isHovering = enter);
 
   Future<void> _handleTap() async {
     _effectiveFocusNode.requestFocus();
