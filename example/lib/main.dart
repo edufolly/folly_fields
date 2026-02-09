@@ -71,8 +71,8 @@ class MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
 
   /// Modelo padrão para o exemplo.
-  // ExampleModel model = ExampleModel.generate();
-  ExampleModel model = ExampleModel();
+  ExampleModel model = ExampleModel.generate();
+  // ExampleModel model = ExampleModel();
 
   @override
   Widget build(context) {

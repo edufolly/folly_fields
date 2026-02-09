@@ -10,37 +10,28 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
   final String Function(IconData value) iconLabel;
   final Future<IconData?> Function(BuildContext context, IconData? data)
   selection;
-  final String? labelPrefix;
-  final String? label;
-  final Widget? labelWidget;
-  final TextStyle? style;
-  final double? iconSize;
-  final InputDecoration? decoration;
-  final EdgeInsets padding;
-  final String? hintText;
-  final EdgeInsets? contentPadding;
   final bool clearOnCancel;
 
   IconDataExternalField({
     required this.iconLabel,
     required this.selection,
-    this.labelPrefix,
-    this.label,
-    this.labelWidget,
     this.controller,
     this.focusNode,
+    this.clearOnCancel = false,
+    final String? labelPrefix,
+    final String? label,
+    final Widget? labelWidget,
     super.onSaved,
     final FormFieldValidator<IconData?>? validator,
     final IconData? initialValue,
     super.enabled = true,
     super.autovalidateMode = AutovalidateMode.disabled,
-    this.style,
-    this.iconSize,
-    this.decoration,
-    this.padding = const EdgeInsets.all(8),
-    this.hintText,
-    this.contentPadding,
-    this.clearOnCancel = false,
+    final TextStyle? style,
+    final double? iconSize,
+    final InputDecoration? decoration,
+    final EdgeInsets padding = const EdgeInsets.all(8),
+    final Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
+    final EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -63,19 +54,22 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
            _IconDataExternalFieldState state =
                field as _IconDataExternalFieldState;
 
-           ThemeData theme = Theme.of(state.context);
+           final ThemeData theme = Theme.of(state.context);
 
-           TextStyle? effectiveStyle =
-               style ??
-               theme.textTheme.titleMedium?.copyWith(
-                 color: theme.colorScheme.onSurfaceVariant,
-               );
+           final bool hasFocus = state._effectiveFocusNode.hasFocus;
 
-           if (!enabled) {
-             effectiveStyle = effectiveStyle?.copyWith(
-               color: theme.disabledColor,
-             );
-           }
+           final Color? color = enabled
+               ? hasFocus
+                     ? theme.colorScheme.primary
+                     : null
+               : theme.disabledColor;
+
+           final TextStyle? effectiveStyle =
+               (style ??
+                       theme.textTheme.titleMedium?.copyWith(
+                         color: theme.colorScheme.onSurfaceVariant,
+                       ))
+                   ?.copyWith(color: color);
 
            final InputDecoration effectiveDecoration =
                (decoration ??
@@ -87,22 +81,13 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
                            label,
                          ].nonNulls.join(' - '),
                          counterText: '',
-                         hintText: hintText,
                          contentPadding: contentPadding,
-                         suffixIcon: const Icon(
-                           FontAwesomeIcons.magnifyingGlass,
-                         ),
+                         suffixIcon: suffixIcon,
                        ))
                    .applyDefaults(theme.inputDecorationTheme)
                    .copyWith(
                      prefixIcon: state.value != null
-                         ? Icon(
-                             state.value,
-                             size: iconSize,
-                             color: state._effectiveFocusNode.hasFocus
-                                 ? theme.colorScheme.primary
-                                 : null,
-                           )
+                         ? Icon(state.value, size: iconSize, color: color)
                          : null,
                      enabled: enabled,
                      errorText: state.errorText,
@@ -113,6 +98,7 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
              child: Focus(
                focusNode: state._effectiveFocusNode,
                canRequestFocus: enabled,
+               skipTraversal: !enabled,
                child: MouseRegion(
                  cursor: enabled
                      ? SystemMouseCursors.click
@@ -124,7 +110,7 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
                    child: InputDecorator(
                      decoration: effectiveDecoration,
                      isEmpty: state.value == null,
-                     isFocused: state._effectiveFocusNode.hasFocus,
+                     isFocused: hasFocus,
                      isHovering: state._isHovering,
                      child: isNull(state.value)
                          ? null
@@ -157,12 +143,12 @@ class _IconDataExternalFieldState extends FormFieldState<IconData> {
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
+    if (isNull(widget.controller)) {
       _controller = IconDataExternalFieldController(value: widget.initialValue);
     }
     _effectiveController.addListener(_handleControllerChanged);
 
-    if (widget.focusNode == null) {
+    if (isNull(widget.focusNode)) {
       _focusNode = FocusNode();
     }
     _effectiveFocusNode.addListener(_handleFocusChanged);
