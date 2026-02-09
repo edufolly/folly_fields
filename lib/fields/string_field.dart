@@ -29,9 +29,6 @@ class StringField extends ResponsiveStateless {
   final TextCapitalization textCapitalization;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
-  final bool filled;
-  final Color? fillColor;
-  final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
   final InputDecoration? decoration;
@@ -73,9 +70,6 @@ class StringField extends ResponsiveStateless {
     this.textCapitalization = TextCapitalization.none,
     this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
-    this.filled = false,
-    this.fillColor,
-    this.autofillHints,
     this.readOnly = false,
     this.style,
     this.decoration,
@@ -128,8 +122,6 @@ class StringField extends ResponsiveStateless {
                   border: const OutlineInputBorder(),
                   counterText: counterText,
                   enabled: enabled,
-                  filled: filled,
-                  fillColor: fillColor,
                   hintText: hintText,
                   contentPadding: contentPadding,
                 ))
@@ -161,7 +153,6 @@ class StringField extends ResponsiveStateless {
         textCapitalization: textCapitalization,
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
-        autofillHints: readOnly ? null : autofillHints,
         readOnly: readOnly,
         onTap: onTap,
         style: effectiveStyle,

@@ -2,6 +2,7 @@
 
 * Create IconDataExternalField.
 * Deprecate IconDataField.
+* Refactor BoolField.
 
 ## [4.2.0] - 2026-02-03
 

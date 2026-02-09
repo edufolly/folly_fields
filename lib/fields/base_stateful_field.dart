@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/validator_editing_controller.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
 abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
@@ -19,8 +20,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
   final ValueChanged<String?>? onFieldSubmitted;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
-  final bool filled;
-  final Color? fillColor;
   final bool readOnly;
   final TextStyle? style;
   final InputDecoration? decoration;
@@ -57,8 +56,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     this.onFieldSubmitted,
     this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
-    this.filled = false,
-    this.fillColor,
     this.readOnly = false,
     this.style,
     this.decoration,
@@ -159,21 +156,23 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
 
   @override
   Widget build(final BuildContext context) {
-    TextStyle effectiveStyle =
-        widget.style ?? Theme.of(context).textTheme.titleMedium!;
+    final ThemeData theme = Theme.of(context);
 
-    if (!widget.enabled || widget.readOnly) {
-      effectiveStyle = effectiveStyle.copyWith(
-        color: Theme.of(context).disabledColor,
-      );
-    }
+    final TextStyle? effectiveStyle =
+        (widget.style ?? theme.textTheme.titleMedium)?.copyWith(
+          color: (!widget.enabled || widget.readOnly)
+              ? theme.disabledColor
+              : null,
+        );
 
     InputDecoration effectiveDecoration =
         (widget.decoration ??
                 InputDecoration(
+                  border: const OutlineInputBorder(),
                   prefix: widget.prefix,
-                  prefixIcon: _updatePrefixIconNotifier != null
-                      ? ValueListenableBuilder<T?>(
+                  prefixIcon: isNull(_updatePrefixIconNotifier)
+                      ? widget.prefixIcon
+                      : ValueListenableBuilder<T?>(
                           valueListenable: _updatePrefixIconNotifier!,
                           builder:
                               (final BuildContext context, final T? value, _) =>
@@ -182,23 +181,18 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
                                     value,
                                     widget.prefixIcon,
                                   ),
-                        )
-                      : widget.prefixIcon,
+                        ),
                   label: widget.labelWidget,
-                  labelText: widget.label == null
-                      ? null
-                      : widget.labelPrefix?.isEmpty ?? true
-                      ? widget.label
-                      : '${widget.labelPrefix} - ${widget.label}',
-                  border: const OutlineInputBorder(),
+                  labelText: <String?>[
+                    widget.labelPrefix,
+                    widget.label,
+                  ].nonNulls.join(' - '),
                   counterText: widget.counterText,
                   enabled: widget.enabled,
-                  filled: widget.filled,
-                  fillColor: widget.fillColor,
                   hintText: widget.hintText,
                   contentPadding: widget.contentPadding,
                 ))
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+            .applyDefaults(theme.inputDecorationTheme);
 
     /// Add suffix icon button
     effectiveDecoration = widget.suffixIconData != null
