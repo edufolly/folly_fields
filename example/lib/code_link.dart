@@ -38,13 +38,15 @@ class CodeLink extends StatelessWidget {
   }
 
   void _showCode(BuildContext context) {
-    String example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
-        .firstMatch(code)!
-        .group(1)!
-        .replaceAll('              ', '')
+    String? example = RegExp('// \\[$tag\\]([\\S\\s]*)// \\[/$tag\\]')
+        .firstMatch(code)
+        ?.group(1)
+        ?.replaceAll('              ', '')
         .replaceAll('            ', '  ')
         .replaceAll('          ', '')
         .trim();
+
+    if (example == null) return;
 
     showDialog(
       context: context,

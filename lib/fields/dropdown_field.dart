@@ -67,7 +67,7 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
        ),
        super(
          initialValue: controller != null ? controller.value : initialValue,
-         validator: enabled ? validator : (_) => null,
+         validator: enabled ? validator : null,
          autovalidateMode: autoValidateMode,
          builder: (final FormFieldState<T?> field) {
            _DropdownFieldState<T, I> state = field as _DropdownFieldState<T, I>;
@@ -79,9 +79,10 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
                          filled: filled,
                          fillColor: fillColor,
                          label: labelWidget,
-                         labelText: (labelPrefix?.isEmpty ?? true)
-                             ? label
-                             : '$labelPrefix - $label',
+                         labelText: <String?>[
+                           labelPrefix,
+                           label,
+                         ].nonNulls.join(' - '),
                          counterText: '',
                          focusColor: focusColor,
                          hintText: hintText,

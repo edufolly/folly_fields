@@ -5,6 +5,7 @@ import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This method will be removed.')
 class IconDataField extends ResponsiveFormField<IconData> {
   final IconDataFieldController? controller;
   final Map<String, IconData> icons;
@@ -50,7 +51,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
        ),
        super(
          initialValue: controller != null ? controller.value : initialValue,
-         validator: enabled ? validator : (_) => null,
+         validator: enabled ? validator : null,
          autovalidateMode: autoValidateMode,
          builder: (final FormFieldState<IconData> field) {
            _IconDataFieldState state = field as _IconDataFieldState;
@@ -163,6 +164,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
   FormFieldState<IconData> createState() => _IconDataFieldState();
 }
 
+@Deprecated('This method will be removed.')
 class _IconDataFieldState extends FormFieldState<IconData> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();

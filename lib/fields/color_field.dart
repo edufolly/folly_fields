@@ -23,8 +23,6 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.onFieldSubmitted,
     super.scrollPadding = const EdgeInsets.all(20),
     super.enableInteractiveSelection = true,
-    super.filled = false,
-    super.fillColor,
     super.readOnly = false,
     super.style,
     super.decoration,

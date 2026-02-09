@@ -62,9 +62,10 @@ class ChoiceChipField<T> extends ResponsiveFormField<Set<T>> {
                          filled: filled,
                          fillColor: fillColor,
                          label: labelWidget,
-                         labelText: (labelPrefix?.isEmpty ?? true)
-                             ? label
-                             : '$labelPrefix - $label',
+                         labelText: <String?>[
+                           labelPrefix,
+                           label,
+                         ].nonNulls.join(' - '),
                          counterText: '',
                          focusColor: focusColor,
                          hintText: hintText,

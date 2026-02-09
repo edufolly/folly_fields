@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/fields/all_fields.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
@@ -9,12 +10,18 @@ import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
+import 'package:folly_fields_example/models/font_awesome_model.dart';
 import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
+import 'package:folly_fields_example/widgets/bottom_sheet_grid_selection.dart';
+import 'package:folly_fields_example/widgets/bottom_sheet_header.dart';
+import 'package:folly_fields_example/widgets/icon_grid_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart' hide Config;
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'consumers/font_awesome_consumer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +71,8 @@ class MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
 
   /// Modelo padrão para o exemplo.
-  // ExampleModel model = ExampleModel.generate();
-  ExampleModel model = ExampleModel();
+  ExampleModel model = ExampleModel.generate();
+  // ExampleModel model = ExampleModel();
 
   @override
   Widget build(context) {
@@ -508,17 +515,52 @@ class MyHomePageState extends State<MyHomePage> {
 
                     CodeLink(
                       code: code,
-                      tag: 'IconDataField',
-                      source: '$githubUrl/icon_data_field.dart',
+                      tag: 'IconDataExternalField',
+                      source: '$githubUrl/icon_data_external_field.dart',
                       child:
-                          // [IconDataField]
-                          IconDataField(
+                          // [IconDataExternalField]
+                          IconDataExternalField(
                             label: 'Ícone',
-                            icons: IconHelper.unique,
+                            clearOnCancel: true,
                             initialValue: model.icon,
-                            onSaved: (iconData) => model.icon = iconData,
+                            iconLabel: (value) =>
+                                IconHelper.iconName(value) ?? '',
+                            selection: (context, value) async {
+                              final list =
+                                  await showModalBottomSheet<
+                                    List<FontAwesomeModel>
+                                  >(
+                                    context: context,
+                                    builder: (context) {
+                                      return BottomSheetGridSelection<
+                                        FontAwesomeModel,
+                                        String
+                                      >(
+                                        selection: [
+                                          if (isNotNull(value))
+                                            FontAwesomeModel(
+                                              id: IconHelper.iconName(value),
+                                              iconData: value,
+                                            ),
+                                        ],
+                                        multiple: false,
+                                        title: BottomSheetHeader(
+                                          'Selecionar Ícone',
+                                        ),
+                                        itemBuilder: (context, model) =>
+                                            IconGridItem(model: model),
+                                        list: FontAwesomeConsumer.list,
+                                      );
+                                    },
+                                  );
+
+                              if (list?.isEmpty ?? true) return null;
+
+                              return list?.first.iconData;
+                            },
+                            onSaved: (value) => model.icon = value,
                           ),
-                      // [/IconDataField]
+                      // [/IconDataExternalField]
                     ),
 
                     CodeLink(
@@ -618,8 +660,8 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   void _send() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
 
       FollyDialogs.dialogMessage(
         context: context,

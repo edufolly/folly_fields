@@ -21,7 +21,7 @@ abstract class ResponsiveFormField<T> extends FormField<T> with Responsive {
   @override
   final double? minHeight;
 
-  const ResponsiveFormField({
+  ResponsiveFormField({
     required super.builder,
     super.onSaved,
     super.validator,

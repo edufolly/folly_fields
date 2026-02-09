@@ -1,3 +1,9 @@
+## [4.3.0] - 2026-02-09
+
+* Create IconDataExternalField.
+* Deprecate IconDataField.
+* Refactor BoolField.
+
 ## [4.2.0] - 2026-02-03
 
 * Create ListField.

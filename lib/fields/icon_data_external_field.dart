@@ -1,32 +1,36 @@
-// To force override parameter.
-// ignore_for_file: avoid_positional_boolean_parameters
-
 import 'package:flutter/material.dart';
+import 'package:folly_fields/controllers/icon_data_external_field_controller.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class BoolField extends ResponsiveFormField<bool> {
-  final ValueNotifier<bool>? controller;
+class IconDataExternalField extends ResponsiveFormField<IconData> {
+  final IconDataExternalFieldController? controller;
   final FocusNode? focusNode;
-  final Function(bool value)? onChanged;
+  final String Function(IconData value) iconLabel;
+  final Future<IconData?> Function(BuildContext context, IconData? data)
+  selection;
+  final bool clearOnCancel;
 
-  BoolField({
+  IconDataExternalField({
+    required this.iconLabel,
+    required this.selection,
     this.controller,
     this.focusNode,
-    this.onChanged,
+    this.clearOnCancel = false,
     final String? labelPrefix,
     final String? label,
     final Widget? labelWidget,
-    final void Function(bool value)? onSaved,
-    final String? Function(bool value)? validator,
-    final bool? initialValue,
+    super.onSaved,
+    final FormFieldValidator<IconData?>? validator,
+    final IconData? initialValue,
     super.enabled = true,
     super.autovalidateMode = AutovalidateMode.disabled,
     final TextStyle? style,
+    final double? iconSize,
     final InputDecoration? decoration,
     final EdgeInsets padding = const EdgeInsets.all(8),
-    final Widget? prefixIcon,
-    final Widget? suffixIcon,
+    final Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
     final EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -45,14 +49,10 @@ class BoolField extends ResponsiveFormField<bool> {
        ),
        super(
          initialValue: controller?.value ?? initialValue,
-         validator: enabled && validator != null
-             ? (final bool? value) => validator(value ?? false)
-             : null,
-         onSaved: enabled && onSaved != null
-             ? (final bool? value) => onSaved(value ?? false)
-             : null,
-         builder: (final FormFieldState<bool> field) {
-           _BoolFieldState state = field as _BoolFieldState;
+         validator: enabled ? validator : null,
+         builder: (final FormFieldState<IconData> field) {
+           _IconDataExternalFieldState state =
+               field as _IconDataExternalFieldState;
 
            final ThemeData theme = Theme.of(state.context);
 
@@ -75,15 +75,23 @@ class BoolField extends ResponsiveFormField<bool> {
                (decoration ??
                        InputDecoration(
                          border: const OutlineInputBorder(),
+                         label: labelWidget,
+                         labelText: <String?>[
+                           labelPrefix,
+                           label,
+                         ].nonNulls.join(' - '),
                          counterText: '',
-                         contentPadding:
-                             contentPadding ??
-                             const EdgeInsets.symmetric(horizontal: 8),
-                         prefixIcon: prefixIcon,
+                         contentPadding: contentPadding,
                          suffixIcon: suffixIcon,
                        ))
                    .applyDefaults(theme.inputDecorationTheme)
-                   .copyWith(enabled: enabled, errorText: state.errorText);
+                   .copyWith(
+                     prefixIcon: state.value != null
+                         ? Icon(state.value, size: iconSize, color: color)
+                         : null,
+                     enabled: enabled,
+                     errorText: state.errorText,
+                   );
 
            return Padding(
              padding: padding,
@@ -101,29 +109,12 @@ class BoolField extends ResponsiveFormField<bool> {
                    onTap: enabled ? state._handleTap : null,
                    child: InputDecorator(
                      decoration: effectiveDecoration,
+                     isEmpty: state.value == null,
                      isFocused: hasFocus,
                      isHovering: state._isHovering,
-                     child: Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: <Widget>[
-                         labelWidget ??
-                             Text(
-                               <String?>[
-                                 labelPrefix,
-                                 label,
-                               ].nonNulls.join(' - '),
-                               style: effectiveStyle,
-                             ),
-                         Switch(
-                           focusNode: state.disabledFocusNode,
-                           padding: EdgeInsets.zero,
-                           value: state.value ?? false,
-                           onChanged: enabled
-                               ? (_) => state._handleTap()
-                               : null,
-                         ),
-                       ],
-                     ),
+                     child: isNull(state.value)
+                         ? null
+                         : Text(iconLabel(state.value!), style: effectiveStyle),
                    ),
                  ),
                ),
@@ -133,24 +124,18 @@ class BoolField extends ResponsiveFormField<bool> {
        );
 
   @override
-  FormFieldState<bool> createState() => _BoolFieldState();
+  FormFieldState<IconData> createState() => _IconDataExternalFieldState();
 }
 
-class _BoolFieldState extends FormFieldState<bool> {
-  final FocusNode disabledFocusNode = FocusNode(
-    canRequestFocus: false,
-    skipTraversal: true,
-  );
-
-  // TODO(edufolly): Create controller.
-  ValueNotifier<bool>? _controller;
+class _IconDataExternalFieldState extends FormFieldState<IconData> {
+  IconDataExternalFieldController? _controller;
   FocusNode? _focusNode;
   bool _isHovering = false;
 
   @override
-  BoolField get widget => super.widget as BoolField;
+  IconDataExternalField get widget => super.widget as IconDataExternalField;
 
-  ValueNotifier<bool> get _effectiveController =>
+  IconDataExternalFieldController get _effectiveController =>
       widget.controller ?? _controller!;
 
   FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
@@ -159,7 +144,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   void initState() {
     super.initState();
     if (isNull(widget.controller)) {
-      _controller = ValueNotifier<bool>(widget.initialValue ?? false);
+      _controller = IconDataExternalFieldController(value: widget.initialValue);
     }
     _effectiveController.addListener(_handleControllerChanged);
 
@@ -172,17 +157,23 @@ class _BoolFieldState extends FormFieldState<bool> {
   void hovering({required final bool enter}) =>
       setState(() => _isHovering = enter);
 
-  void _handleTap() {
+  Future<void> _handleTap() async {
     _effectiveFocusNode.requestFocus();
-    didChange(!(value ?? false));
+
+    final IconData? newValue = await widget.selection(context, value);
+
+    if (newValue == null && !widget.clearOnCancel) {
+      return;
+    }
+
+    didChange(newValue);
   }
 
   @override
-  void didChange(final bool? value) {
+  void didChange(final IconData? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
-      _effectiveController.value = value ?? false;
-      widget.onChanged?.call(value ?? false);
+      _effectiveController.value = value;
     }
   }
 
@@ -197,13 +188,11 @@ class _BoolFieldState extends FormFieldState<bool> {
   @override
   void reset() {
     super.reset();
-    _effectiveController.value = widget.initialValue ?? false;
+    _effectiveController.value = widget.initialValue;
   }
 
   @override
   void dispose() {
-    disabledFocusNode.dispose();
-
     _effectiveController.removeListener(_handleControllerChanged);
     _controller?.dispose();
 

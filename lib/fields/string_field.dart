@@ -29,9 +29,6 @@ class StringField extends ResponsiveStateless {
   final TextCapitalization textCapitalization;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
-  final bool filled;
-  final Color? fillColor;
-  final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
   final InputDecoration? decoration;
@@ -73,9 +70,6 @@ class StringField extends ResponsiveStateless {
     this.textCapitalization = TextCapitalization.none,
     this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
-    this.filled = false,
-    this.fillColor,
-    this.autofillHints,
     this.readOnly = false,
     this.style,
     this.decoration,
@@ -108,13 +102,12 @@ class StringField extends ResponsiveStateless {
 
   @override
   Widget build(final BuildContext context) {
-    TextStyle effectiveStyle =
-        style ?? Theme.of(context).textTheme.titleMedium!;
+    ThemeData theme = Theme.of(context);
+
+    TextStyle? effectiveStyle = style ?? theme.textTheme.titleMedium;
 
     if (!enabled || readOnly) {
-      effectiveStyle = effectiveStyle.copyWith(
-        color: Theme.of(context).disabledColor,
-      );
+      effectiveStyle = effectiveStyle?.copyWith(color: theme.disabledColor);
     }
 
     InputDecoration effectiveDecoration =
@@ -129,12 +122,10 @@ class StringField extends ResponsiveStateless {
                   border: const OutlineInputBorder(),
                   counterText: counterText,
                   enabled: enabled,
-                  filled: filled,
-                  fillColor: fillColor,
                   hintText: hintText,
                   contentPadding: contentPadding,
                 ))
-            .applyDefaults(Theme.of(context).inputDecorationTheme);
+            .applyDefaults(theme.inputDecorationTheme);
 
     return Padding(
       padding: padding,
@@ -162,7 +153,6 @@ class StringField extends ResponsiveStateless {
         textCapitalization: textCapitalization,
         scrollPadding: scrollPadding,
         enableInteractiveSelection: enableInteractiveSelection,
-        autofillHints: readOnly ? null : autofillHints,
         readOnly: readOnly,
         onTap: onTap,
         style: effectiveStyle,
@@ -170,11 +160,17 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  String? _realValue(final String value) => (emptyIsNull && value.isEmpty)
-      ? null
-      : trimOnSaved
-      ? value.trim()
-      : value;
+  String? _realValue(final String value) {
+    if (emptyIsNull && value.isEmpty) {
+      return null;
+    }
+
+    if (trimOnSaved) {
+      return value.trim();
+    }
+
+    return value;
+  }
 
   String? _internalValidator(final String? value) =>
       validator?.call(value?.let(_realValue));

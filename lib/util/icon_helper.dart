@@ -9,8 +9,19 @@ class IconHelper {
     final IconData defaultIconData = FontAwesomeIcons.solidCircle,
   }) => data[iconName] ?? defaultIconData;
 
-  static String iconName(final IconData iconData) =>
-      data.keys.firstWhere((final String key) => data[key] == iconData);
+  static String? iconName(final IconData? iconData) {
+    if (iconData == null) {
+      return null;
+    }
+
+    for (final MapEntry<String, IconData> entry in data.entries) {
+      if (entry.value == iconData) {
+        return entry.key;
+      }
+    }
+
+    return null;
+  }
 
   static Map<String, IconData> get unique {
     final Set<IconData> seen = <IconData>{};
