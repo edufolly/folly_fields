@@ -35,6 +35,7 @@ class PasswordField extends StringField {
     super.suffixIcon,
     super.emptyIsNull = true,
     super.onTap,
+    super.autofillHints,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

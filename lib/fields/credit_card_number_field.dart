@@ -27,9 +27,6 @@ class CreditCardNumberField extends ResponsiveStateful {
   final TextCapitalization textCapitalization;
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
-  final bool filled;
-  final Color? fillColor;
-  final Iterable<String>? autofillHints;
   final bool readOnly;
   final TextStyle? style;
   final InputDecoration? decoration;
@@ -44,6 +41,7 @@ class CreditCardNumberField extends ResponsiveStateful {
   final Function(CreditCardType creditCardType)? onTypeChange;
   final String validatorMessage;
   final void Function()? onTap;
+  final Iterable<String>? autofillHints;
 
   // Force the implementation.
   // ignore: avoid_positional_boolean_parameters
@@ -71,9 +69,6 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.textCapitalization = TextCapitalization.none,
     this.scrollPadding = const EdgeInsets.all(20),
     this.enableInteractiveSelection = true,
-    this.filled = false,
-    this.fillColor,
-    this.autofillHints,
     this.readOnly = false,
     this.style,
     this.decoration,
@@ -89,6 +84,7 @@ class CreditCardNumberField extends ResponsiveStateful {
     this.onValid,
     this.validatorMessage = 'Informe o número do cartão de crédito.',
     this.onTap,
+    this.autofillHints,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -176,6 +172,7 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
       suffix: widget.suffix,
       suffixIcon: widget.suffixIcon,
       onTap: widget.onTap,
+      autofillHints: widget.autofillHints,
     );
   }
 

@@ -22,7 +22,7 @@ class IconDataExternalField extends ResponsiveFormField<IconData> {
     final String? label,
     final Widget? labelWidget,
     super.onSaved,
-    final FormFieldValidator<IconData?>? validator,
+    final FormFieldValidator<IconData>? validator,
     final IconData? initialValue,
     super.enabled = true,
     super.autovalidateMode = AutovalidateMode.disabled,
