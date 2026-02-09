@@ -105,9 +105,11 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
       if (list.length < widget.pageSize) _page = -1;
     } on Exception catch (e, s) {
       debugPrintStack(label: e.toString(), stackTrace: s);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
     } finally {
       setState(() => _loading = false);
     }
