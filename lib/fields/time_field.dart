@@ -35,7 +35,6 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
     super.prefix,
     super.prefixIcon,
     super.onTap,
-    super.lostFocus,
     super.required = true,
     super.clearOnCancel = true,
     super.sizeExtraSmall,
@@ -48,8 +47,8 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   });
 
   @override
-  TimeEditingController createController() =>
-      TimeEditingController(value: initialValue);
+  TimeEditingController createController(final TimeOfDay? value) =>
+      TimeEditingController(value: value);
 
   @override
   Future<TimeOfDay?> selectData({

@@ -33,7 +33,6 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.prefix,
     super.prefixIcon,
     super.onTap,
-    super.lostFocus,
     super.required = true,
     super.clearOnCancel = true,
     super.sizeExtraSmall,
@@ -50,8 +49,8 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
        );
 
   @override
-  ColorEditingController createController() =>
-      ColorEditingController(color: initialValue);
+  ColorEditingController createController(final Color? value) =>
+      ColorEditingController(color: value);
 
   @override
   Future<Color?> selectData({

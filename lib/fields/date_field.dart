@@ -46,7 +46,6 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     super.prefix,
     super.prefixIcon,
     super.onTap,
-    super.lostFocus,
     super.required = true,
     super.clearOnCancel = true,
     super.sizeExtraSmall,
@@ -59,12 +58,13 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   }) : super(maxLength: mask.length);
 
   @override
-  DateEditingController createController() => DateEditingController(
-    value: initialValue,
-    locale: locale,
-    dateFormat: dateFormat,
-    mask: mask,
-  );
+  DateEditingController createController(final DateTime? value) =>
+      DateEditingController(
+        value: value,
+        locale: locale,
+        dateFormat: dateFormat,
+        mask: mask,
+      );
 
   @override
   Future<DateTime?> selectData({
