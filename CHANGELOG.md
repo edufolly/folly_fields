@@ -1,3 +1,7 @@
+## [4.3.1] - 2026-02-10
+
+* Add autofillHints again.
+
 ## [4.3.0] - 2026-02-09
 
 * Create IconDataExternalField.
