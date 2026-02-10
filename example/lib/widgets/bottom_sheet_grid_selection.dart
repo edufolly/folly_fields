@@ -148,7 +148,7 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
               crossAxisSpacing: widget.crossAxisSpacing,
             ),
             itemCount: _list.length + (_loading ? 1 : 0),
-            itemBuilder: (context, index) {
+            itemBuilder: (final BuildContext context, final int index) {
               if (index >= _list.length) {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
@@ -170,7 +170,7 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
                 child: InkWell(
                   onTap: () {
                     if (!widget.multiple) {
-                      Navigator.of(context).pop([model]);
+                      Navigator.of(context).pop(<Entity>[model]);
                       return;
                     }
 

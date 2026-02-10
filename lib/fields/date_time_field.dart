@@ -50,7 +50,6 @@ class DateTimeField
     super.prefix,
     super.prefixIcon,
     super.onTap,
-    super.lostFocus,
     super.required = true,
     super.clearOnCancel = true,
     super.sizeExtraSmall,
@@ -63,12 +62,13 @@ class DateTimeField
   }) : super(maxLength: mask.length);
 
   @override
-  DateTimeEditingController createController() => DateTimeEditingController(
-    value: initialValue,
-    locale: locale,
-    dateFormat: dateFormat,
-    mask: mask,
-  );
+  DateTimeEditingController createController(final DateTime? value) =>
+      DateTimeEditingController(
+        value: value,
+        locale: locale,
+        dateFormat: dateFormat,
+        mask: mask,
+      );
 
   @override
   Future<DateTime?> selectData({

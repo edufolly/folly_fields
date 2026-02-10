@@ -37,6 +37,7 @@ class CnaeField extends ValidatorField {
     super.suffix,
     super.suffixIcon,
     super.onTap,
+    super.autofillHints,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

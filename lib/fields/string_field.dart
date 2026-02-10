@@ -9,14 +9,14 @@ class StringField extends ResponsiveStateless {
   final Widget? labelWidget;
   final TextEditingController? controller;
   final TextInputType keyboard;
-  final String? Function(String? value)? validator;
+  final FormFieldValidator<String>? validator;
   final int minLines;
   final int maxLines;
   final bool obscureText;
   final List<TextInputFormatter>? inputFormatter;
   final TextAlign textAlign;
   final int? maxLength;
-  final void Function(String? value)? onSaved;
+  final FormFieldSetter<String>? onSaved;
   final String? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
@@ -42,7 +42,8 @@ class StringField extends ResponsiveStateless {
   final Widget? suffixIcon;
   final bool trimOnSaved;
   final bool emptyIsNull;
-  final void Function()? onTap;
+  final VoidCallback? onTap;
+  final Iterable<String>? autofillHints;
 
   const StringField({
     this.labelPrefix,
@@ -84,6 +85,7 @@ class StringField extends ResponsiveStateless {
     this.trimOnSaved = true,
     this.emptyIsNull = true,
     this.onTap,
+    this.autofillHints,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -155,6 +157,7 @@ class StringField extends ResponsiveStateless {
         enableInteractiveSelection: enableInteractiveSelection,
         readOnly: readOnly,
         onTap: onTap,
+        autofillHints: autofillHints,
         style: effectiveStyle,
       ),
     );

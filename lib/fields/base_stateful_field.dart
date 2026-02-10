@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/validator_editing_controller.dart';
-import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 
 abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     extends ResponsiveStateful {
+  final bool required;
   final String? labelPrefix;
   final String? label;
   final Widget? labelWidget;
   final C? controller;
+
+  // Keyboard
   final FormFieldValidator<T?>? validator;
+
+  // minLines
+  // maxLines
+  // obscureText
+  // inputFormatter
   final TextAlign textAlign;
+  final int? maxLength;
   final FormFieldSetter<T?>? onSaved;
   final T? initialValue;
   final bool enabled;
   final AutovalidateMode autoValidateMode;
+
+  // onChanged
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String?>? onFieldSubmitted;
+
+  // autocorrect
+  // enableSuggestions
+  // textCapitalization
   final EdgeInsets scrollPadding;
   final bool enableInteractiveSelection;
   final bool readOnly;
@@ -26,27 +40,31 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
   final EdgeInsets padding;
   final String? hintText;
   final EdgeInsets? contentPadding;
-  final int? maxLength;
   final String? counterText;
   final Widget? prefix;
   final Widget? prefixIcon;
+
+  // TODO(edufolly): Document
   final Widget Function(BuildContext context, T? value, Widget? prefixIcon)?
   updatePrefixIcon;
   final Widget? suffix;
   final Widget? suffixIcon;
+
+  // TODO(edufolly): Remove
+  // @Deprecated('Remove this field')
   final IconData? suffixIconData;
-  final void Function()? onTap;
-  final void Function(T?)? lostFocus;
-  final bool required;
+  final VoidCallback? onTap;
   final bool clearOnCancel;
 
   const BaseStatefulField({
-    this.labelPrefix = '',
+    this.required = true,
+    this.labelPrefix,
     this.label,
     this.labelWidget,
     this.controller,
     this.validator,
     this.textAlign = TextAlign.start,
+    this.maxLength,
     this.onSaved,
     this.initialValue,
     this.enabled = true,
@@ -62,7 +80,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     this.padding = const EdgeInsets.all(8),
     this.hintText,
     this.contentPadding,
-    this.maxLength,
     this.counterText = '',
     this.prefix,
     this.prefixIcon,
@@ -71,8 +88,6 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     this.suffixIcon,
     this.suffixIconData,
     this.onTap,
-    this.lostFocus,
-    this.required = true,
     this.clearOnCancel = true,
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -90,7 +105,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
          'label or labelWidget must be null.',
        );
 
-  C createController();
+  C createController(final T? value);
 
   Future<T?> selectData({
     required final BuildContext context,
@@ -119,15 +134,13 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
     super.initState();
 
     if (widget.controller == null) {
-      _controller = widget.createController();
+      _controller = widget.createController(widget.initialValue);
     }
-
     _effectiveController.addListener(_controllerListener);
 
     if (widget.focusNode == null) {
       _focusNode = FocusNode();
     }
-
     _effectiveFocusNode.addListener(_handleFocus);
 
     if (widget.updatePrefixIcon != null) {
@@ -141,17 +154,24 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
 
   void _handleFocus() {
     if (_effectiveFocusNode.hasFocus) {
+      // TODO(edufolly): Create a property to set up.
       _effectiveController.selection = TextSelection(
         baseOffset: 0,
         extentOffset: _effectiveController.text.length,
       );
     }
+  }
 
-    if (!fromButton &&
-        !_effectiveFocusNode.hasFocus &&
-        widget.lostFocus != null) {
-      widget.lostFocus!(_effectiveController.data);
+  Widget? _prefixIcon() {
+    if (_updatePrefixIconNotifier == null) {
+      return widget.prefixIcon;
     }
+
+    return ValueListenableBuilder<T?>(
+      valueListenable: _updatePrefixIconNotifier!,
+      builder: (final BuildContext context, final T? value, _) =>
+          widget.updatePrefixIcon!(context, value, widget.prefixIcon),
+    );
   }
 
   @override
@@ -170,18 +190,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
                 InputDecoration(
                   border: const OutlineInputBorder(),
                   prefix: widget.prefix,
-                  prefixIcon: isNull(_updatePrefixIconNotifier)
-                      ? widget.prefixIcon
-                      : ValueListenableBuilder<T?>(
-                          valueListenable: _updatePrefixIconNotifier!,
-                          builder:
-                              (final BuildContext context, final T? value, _) =>
-                                  widget.updatePrefixIcon!(
-                                    context,
-                                    value,
-                                    widget.prefixIcon,
-                                  ),
-                        ),
+                  prefixIcon: _prefixIcon(),
                   label: widget.labelWidget,
                   labelText: <String?>[
                     widget.labelPrefix,

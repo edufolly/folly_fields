@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/validators/abstract_validator.dart';
@@ -6,16 +7,17 @@ class ValidatorField extends StringField {
   ValidatorField({
     required final AbstractValidator<String> abstractValidator,
     required final String validatorMessage,
+    final bool required = true,
     super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,
-    final String? Function(String? value)? validator,
+    final FormFieldValidator<String>? validator,
     super.obscureText,
     final List<TextInputFormatter>? inputFormatter,
     super.textAlign,
     super.maxLength,
-    final void Function(String?)? onSaved,
+    final FormFieldSetter<String>? onSaved,
     final String? initialValue,
     super.enabled,
     super.autoValidateMode,
@@ -28,7 +30,6 @@ class ValidatorField extends StringField {
     super.textCapitalization,
     super.scrollPadding,
     super.enableInteractiveSelection,
-    final bool required = true,
     super.readOnly,
     super.style,
     super.decoration,
@@ -41,6 +42,7 @@ class ValidatorField extends StringField {
     super.suffix,
     super.suffixIcon,
     super.onTap,
+    super.autofillHints,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
