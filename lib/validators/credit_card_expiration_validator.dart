@@ -11,29 +11,24 @@ class CreditCardExpirationValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => value;
+  String? format(String? value) => value;
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  bool isValid(final String? value) {
+  bool isValid(String? value) {
     String? v = value?.replaceAll(RegExp(r'\D'), '');
 
-    if (v == null || v.length != 4) {
-      return false;
-    }
+    if (v == null || v.length != 4) return false;
 
     int? monthNum = int.tryParse(v.substring(0, 2));
-    if (monthNum == null || monthNum < 1 || monthNum > 12) {
-      return false;
-    }
+
+    if (monthNum == null || monthNum < 1 || monthNum > 12) return false;
 
     int? yearNum = int.tryParse(v.substring(2));
 
-    if (yearNum == null) {
-      return false;
-    }
+    if (yearNum == null) return false;
 
     yearNum += 2000;
 

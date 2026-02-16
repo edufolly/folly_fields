@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/credit_card_expiration_validator.dart';
 
 class CreditCardExpirationField extends ValidatorField {
   CreditCardExpirationField({
-    final CreditCardExpirationValidator? creditCardExpirationValidator,
+    CreditCardExpirationValidator? creditCardExpirationValidator,
     super.validatorMessage = 'Informe a validade.',
     super.labelPrefix,
     super.label,

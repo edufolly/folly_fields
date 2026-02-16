@@ -7,9 +7,9 @@ extension NumExtension on num {
 
   double get log10 => (this == 0) ? 0 : log(this) / ln10;
 
-  double logBase(final num base) => (this == 0) ? 0 : log(this) / log(base);
+  double logBase(num base) => (this == 0) ? 0 : log(this) / log(base);
 
-  T min<T extends num>(final T other) => (this < other ? this : other) as T;
+  T min<T extends num>(T other) => (this < other ? this : other) as T;
 
-  T max<T extends num>(final T other) => (this > other ? this : other) as T;
+  T max<T extends num>(T other) => (this > other ? this : other) as T;
 }

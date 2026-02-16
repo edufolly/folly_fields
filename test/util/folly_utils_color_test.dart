@@ -45,9 +45,11 @@ void main() {
   };
 
   group('colorParse', () {
-    for (final MapEntry<String?, Color?>(:String? key, :Color? value)
-        in domain.entries) {
-      test('Testing $key', () => expect(FollyUtils.colorParse(key), value));
+    for (final MapEntry<String?, Color?> e in domain.entries) {
+      test(
+        'Testing ${e.key}',
+        () => expect(FollyUtils.colorParse(e.key), e.value),
+      );
     }
   });
 }

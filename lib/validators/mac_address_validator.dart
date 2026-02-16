@@ -14,26 +14,21 @@ class MacAddressValidator extends AbstractValidator<String> {
       ]);
 
   @override
-  String? format(final String? value) => strip(value)?.replaceAllMapped(
+  String? format(String? value) => strip(value)?.replaceAllMapped(
     RegExp(
       '^([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})'
       r'([A-F0-9]{2})([A-F0-9]{2})([A-F0-9]{2})$',
     ),
-    (final Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
+    (Match m) => '${m[1]}:${m[2]}:${m[3]}:${m[4]}:${m[5]}:${m[6]}',
   );
 
   @override
-  String? strip(final String? value) =>
-      value?.replaceAll(RegExp('[^A-F0-9]'), '');
+  String? strip(String? value) => value?.replaceAll(RegExp('[^A-F0-9]'), '');
 
   @override
-  bool isValid(final String? value) {
+  bool isValid(String? value) {
     String? v = strip(value);
-
-    if (v == null || v.length != 12) {
-      return false;
-    }
-
+    if (v == null || v.length != 12) return false;
     return format(v)?.length == 17;
   }
 
@@ -41,7 +36,7 @@ class MacAddressValidator extends AbstractValidator<String> {
 
   static String generate() => List<String>.generate(
     17,
-    (final int index) =>
+    (int index) =>
         (index + 1) % 3 == 0 ? ':' : _random.nextInt(16).toRadixString(16),
   ).join().toUpperCase();
 }

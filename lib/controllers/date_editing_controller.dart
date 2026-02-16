@@ -4,9 +4,9 @@ import 'package:folly_fields/validators/date_validator.dart';
 class DateEditingController extends ValidatorEditingController<DateTime> {
   DateEditingController({
     super.value,
-    final String locale = 'pt_br',
-    final String dateFormat = 'dd/MM/yyyy',
-    final String mask = 'B#/D#/####',
+    String locale = 'pt_br',
+    String dateFormat = 'dd/MM/yyyy',
+    String mask = 'B#/D#/####',
   }) : super(
          validator: DateValidator(
            locale: locale,
@@ -17,9 +17,9 @@ class DateEditingController extends ValidatorEditingController<DateTime> {
 
   DateEditingController.fromValue(
     super.value, {
-    final String locale = 'pt_br',
-    final String dateFormat = 'dd/MM/yyyy',
-    final String mask = 'B#/D#/####',
+    String locale = 'pt_br',
+    String dateFormat = 'dd/MM/yyyy',
+    String mask = 'B#/D#/####',
   }) : super.fromValue(
          validator: DateValidator(
            locale: locale,

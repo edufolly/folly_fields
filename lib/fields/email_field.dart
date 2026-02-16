@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/email_validator.dart';
 
 class EmailField extends ValidatorField {
   EmailField({
-    final EmailValidator? emailValidator,
+    EmailValidator? emailValidator,
     super.validatorMessage = 'Informe o e-mail.',
     super.labelPrefix,
     super.label,

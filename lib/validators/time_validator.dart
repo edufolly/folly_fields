@@ -19,21 +19,21 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
       ]);
 
   @override
-  String? format(final TimeOfDay? value) =>
+  String? format(TimeOfDay? value) =>
       '${value?.hour.toString().padLeft(2, '0')}'
       ':${value?.minute.toString().padLeft(2, '0')}';
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  bool isValid(final String? value) => valid(value) == null;
+  bool isValid(String? value) => valid(value) == null;
 
   @override
   TextInputType get keyboard => TextInputType.datetime;
 
   @override
-  TimeOfDay? parse(final String? value) {
+  TimeOfDay? parse(String? value) {
     if (value != null && isValid(value)) {
       List<String> parts = value.split(':');
       if (parts.length == 2) {
@@ -48,8 +48,8 @@ class TimeValidator extends AbstractParserValidator<TimeOfDay> {
   }
 
   @override
-  String? valid(final String? value) => FollyUtils.validTime(value);
+  String? valid(String? value) => FollyUtils.validTime(value);
 
-  String? formatDateTime(final DateTime? dateTime) =>
-      dateTime?.let((final DateTime it) => format(TimeOfDay.fromDateTime(it)));
+  String? formatDateTime(DateTime? dateTime) =>
+      dateTime?.let((DateTime it) => format(TimeOfDay.fromDateTime(it)));
 }

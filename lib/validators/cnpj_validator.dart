@@ -14,14 +14,13 @@ class CnpjValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => value?.let(CNPJValidator.format);
+  String? format(String? value) => value?.let(CNPJValidator.format);
 
   @override
-  bool isValid(final String? value) =>
-      value?.let(CNPJValidator.isValid) ?? false;
+  bool isValid(String? value) => value?.let(CNPJValidator.isValid) ?? false;
 
-  static String generate({final bool format = false}) =>
+  static String generate({bool format = false}) =>
       CNPJValidator.generate(format);
 
-  static String parse(final String value) => CNPJValidator.format(value);
+  static String parse(String value) => CNPJValidator.format(value);
 }

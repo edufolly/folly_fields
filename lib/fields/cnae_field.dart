@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/cnae_validator.dart';
 
 class CnaeField extends ValidatorField {
   CnaeField({
-    final CnaeValidator? cnaeValidator,
+    CnaeValidator? cnaeValidator,
     super.validatorMessage = 'Informe o CNAE.',
     super.labelPrefix,
     super.label,

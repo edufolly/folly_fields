@@ -72,6 +72,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   /// Modelo padrão para o exemplo.
   ExampleModel model = ExampleModel.generate();
+
   // ExampleModel model = ExampleModel();
 
   @override
@@ -155,6 +156,8 @@ class MyHomePageState extends State<MyHomePage> {
 
             String code = response.body;
 
+            final ThemeData theme = Theme.of(context);
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Form(
@@ -168,7 +171,7 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Formulário Básico',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: theme.textTheme.headlineMedium,
                       ),
                     ),
 
@@ -515,11 +518,11 @@ class MyHomePageState extends State<MyHomePage> {
 
                     CodeLink(
                       code: code,
-                      tag: 'IconDataExternalField',
-                      source: '$githubUrl/icon_data_external_field.dart',
+                      tag: 'IconDataField',
+                      source: '$githubUrl/icon_data_field.dart',
                       child:
-                          // [IconDataExternalField]
-                          IconDataExternalField(
+                          // [IconDataField]
+                          IconDataField(
                             label: 'Ícone',
                             clearOnCancel: true,
                             initialValue: model.icon,
@@ -560,7 +563,7 @@ class MyHomePageState extends State<MyHomePage> {
                             },
                             onSaved: (value) => model.icon = value,
                           ),
-                      // [/IconDataExternalField]
+                      // [/IconDataField]
                     ),
 
                     CodeLink(
@@ -633,6 +636,41 @@ class MyHomePageState extends State<MyHomePage> {
                             onSaved: (value) => model.fruitIndex = value?.first,
                           ),
                       // [/ChoiceChipField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'ListField',
+                      source: '$githubUrl/list_field.dart',
+                      child:
+                          // [ListField]
+                          ListField<ExampleModel>(
+                            label: 'Lista',
+                            initialValue: model.list,
+                            getLeading: (_, model, {required enabled}) => Icon(
+                              Icons.circle,
+                              color: !enabled
+                                  ? theme.disabledColor
+                                  : model.active
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                            getTitle: (_, model, {required enabled}) =>
+                                Text(model.text ?? ''),
+                            getSubtitle: (_, model, {required enabled}) =>
+                                model.document?.let(Text.new),
+                            addButtonOnTap: (context, data) async =>
+                                List.of(data)..add(
+                                  ExampleModel.generate(
+                                    seed: DateTime.now().microsecond,
+                                  ),
+                                ),
+                            itemOnTap: (context, model) async => model
+                              ..text = 'NEW EXAMPLE'
+                              ..active = !model.active,
+                            onSaved: (value) => model.list = value ?? [],
+                          ),
+                      // [/ListField]
                     ),
 
                     // [/RootCode]

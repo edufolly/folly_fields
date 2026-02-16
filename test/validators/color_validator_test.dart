@@ -179,11 +179,8 @@ void main() {
 
     ColorValidator validator = ColorValidator();
 
-    for (final MapEntry<String?, Color?> input in domain.entries) {
-      test(
-        'Testing: ${input.key}',
-        () => expect(validator.parse(input.key), input.value),
-      );
+    for (final MapEntry<String?, Color?> e in domain.entries) {
+      test('Testing: ${e.key}', () => expect(validator.parse(e.key), e.value));
     }
   });
 

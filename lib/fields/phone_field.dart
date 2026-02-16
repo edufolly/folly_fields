@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/phone_validator.dart';
 
 class PhoneField extends ValidatorField {
   PhoneField({
-    final PhoneValidator? phoneValidator,
+    PhoneValidator? phoneValidator,
     super.validatorMessage = 'Informe o telefone.',
     super.labelPrefix,
     super.label,

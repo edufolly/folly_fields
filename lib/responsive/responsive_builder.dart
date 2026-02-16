@@ -13,10 +13,10 @@ class ResponsiveBuilder extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) =>
+  Widget build(BuildContext context) =>
       builder(context, _checkResponsiveSize(context));
 
-  ResponsiveSize _checkResponsiveSize(final BuildContext context) {
+  ResponsiveSize _checkResponsiveSize(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     if (width < responsiveSizes[0]) {

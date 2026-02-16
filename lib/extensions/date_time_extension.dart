@@ -7,9 +7,9 @@ extension DateTimeExtension on DateTime {
   TimeOfDay get time => TimeOfDay.fromDateTime(this);
 
   DateTime mergeStartSeconds({
-    final int second = 0,
-    final int millisecond = 0,
-    final int microsecond = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
   }) => copyWith(
     second: second,
     millisecond: millisecond,
@@ -17,10 +17,10 @@ extension DateTimeExtension on DateTime {
   );
 
   DateTime mergeStart({
-    final TimeOfDay? time = const TimeOfDay(hour: 0, minute: 0),
-    final int second = 0,
-    final int millisecond = 0,
-    final int microsecond = 0,
+    TimeOfDay? time = const TimeOfDay(hour: 0, minute: 0),
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
   }) => copyWith(
     hour: time?.hour ?? 0,
     minute: time?.minute ?? 0,
@@ -32,9 +32,9 @@ extension DateTimeExtension on DateTime {
   DateTime get startOfDay => mergeStart();
 
   DateTime mergeEndSeconds({
-    final int second = 59,
-    final int millisecond = 999,
-    final int microsecond = 0,
+    int second = 59,
+    int millisecond = 999,
+    int microsecond = 0,
   }) => copyWith(
     second: second,
     millisecond: millisecond,
@@ -42,10 +42,10 @@ extension DateTimeExtension on DateTime {
   );
 
   DateTime mergeEnd({
-    final TimeOfDay? time = const TimeOfDay(hour: 23, minute: 59),
-    final int second = 59,
-    final int millisecond = 999,
-    final int microsecond = 0,
+    TimeOfDay? time = const TimeOfDay(hour: 23, minute: 59),
+    int second = 59,
+    int millisecond = 999,
+    int microsecond = 0,
   }) => copyWith(
     hour: time?.hour ?? 0,
     minute: time?.minute ?? 0,
@@ -74,24 +74,24 @@ extension DateTimeExtension on DateTime {
 
   DateTime get nextMonthLastDay => nextMonthFirstDay.monthLastDay;
 
-  DateTime weekFirstDay([final int firstDay = DateTime.sunday]) => subtract(
+  DateTime weekFirstDay([int firstDay = DateTime.sunday]) => subtract(
     Duration(days: weekday - firstDay + (weekday - firstDay < 0 ? 7 : 0)),
   ).mergeStart();
 
-  DateTime weekLastDay([final int lastDay = DateTime.saturday]) => add(
+  DateTime weekLastDay([int lastDay = DateTime.saturday]) => add(
     Duration(days: lastDay - weekday + (lastDay - weekday < 0 ? 7 : 0)),
   ).mergeStart();
 
-  DateTime prevWeekFirstDay([final int firstDay = DateTime.sunday]) =>
+  DateTime prevWeekFirstDay([int firstDay = DateTime.sunday]) =>
       weekFirstDay(firstDay).subtract(week);
 
-  DateTime prevWeekLastDay([final int lastDay = DateTime.saturday]) =>
+  DateTime prevWeekLastDay([int lastDay = DateTime.saturday]) =>
       weekLastDay(lastDay).subtract(week);
 
-  DateTime nextWeekFirstDay([final int firstDay = DateTime.sunday]) =>
+  DateTime nextWeekFirstDay([int firstDay = DateTime.sunday]) =>
       weekFirstDay(firstDay).add(week);
 
-  DateTime nextWeekLastDay([final int lastDay = DateTime.saturday]) =>
+  DateTime nextWeekLastDay([int lastDay = DateTime.saturday]) =>
       weekLastDay(lastDay).add(week);
 
   DateTime get yearFirstDay => copyWith(month: 1, day: 1).startOfDay;

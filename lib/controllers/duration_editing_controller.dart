@@ -3,14 +3,14 @@ import 'package:folly_fields/validators/duration_validator.dart';
 
 class DurationEditingController extends ValidatorEditingController<Duration> {
   DurationEditingController({
-    final Duration? duration,
-    final String yearSuffix = 'y',
-    final String monthSuffix = 'M',
-    final String daySuffix = 'd',
-    final String hourSuffix = 'h',
-    final String minuteSuffix = 'm',
-    final String secondSuffix = 's',
-    final String millisecondSuffix = 'ms',
+    Duration? duration,
+    String yearSuffix = 'y',
+    String monthSuffix = 'M',
+    String daySuffix = 'd',
+    String hourSuffix = 'h',
+    String minuteSuffix = 'm',
+    String secondSuffix = 's',
+    String millisecondSuffix = 'ms',
   }) : super(
          validator: DurationValidator(
            yearSuffix: yearSuffix,
@@ -26,13 +26,13 @@ class DurationEditingController extends ValidatorEditingController<Duration> {
 
   DurationEditingController.fromValue(
     super.value, {
-    final String yearSuffix = 'y',
-    final String monthSuffix = 'M',
-    final String daySuffix = 'd',
-    final String hourSuffix = 'h',
-    final String minuteSuffix = 'm',
-    final String secondSuffix = 's',
-    final String millisecondSuffix = 'ms',
+    String yearSuffix = 'y',
+    String monthSuffix = 'M',
+    String daySuffix = 'd',
+    String hourSuffix = 'h',
+    String minuteSuffix = 'm',
+    String secondSuffix = 's',
+    String millisecondSuffix = 'ms',
   }) : super.fromValue(
          validator: DurationValidator(
            yearSuffix: yearSuffix,

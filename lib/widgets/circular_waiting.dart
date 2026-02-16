@@ -35,7 +35,7 @@ class CircularWaiting {
     showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
-      builder: (final BuildContext context) => PopScope(
+      builder: (BuildContext context) => PopScope(
         canPop: false,
         // TODO(edufolly): Check onPopInvokedWithResult
         // ignore: deprecated_member_use
@@ -55,8 +55,8 @@ class CircularWaiting {
             stream: _streamController.stream,
             builder:
                 (
-                  final BuildContext context,
-                  final AsyncSnapshot<Map<String, dynamic>> snapshot,
+                  BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot,
                 ) {
                   String msg = message;
                   String? sub = subtitle;
@@ -110,12 +110,12 @@ class CircularWaiting {
     }
   }
 
-  void sendMessage(final String msg) {
+  void sendMessage(String msg) {
     message = msg;
     _send();
   }
 
-  void sendValue(final double dbl) {
+  void sendValue(double dbl) {
     value = dbl;
     _send();
   }

@@ -6,8 +6,7 @@ import '../cartesian_product_helper.dart';
 void main() {
   Matcher invalidIpAddress = throwsA(
     predicate(
-      (final dynamic e) =>
-          e is ArgumentError && e.message == 'invalidIpAddress',
+      (dynamic e) => e is ArgumentError && e.message == 'invalidIpAddress',
     ),
   );
 
@@ -35,8 +34,8 @@ void main() {
 
   group('IPv4 Creating from String Level 1', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       test(
         'Testing "${data.first}" for "false"',
@@ -52,8 +51,8 @@ void main() {
 
   group('IPv4 Creating from String Level 2', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       String key = data.join('.');
       test(
@@ -65,8 +64,8 @@ void main() {
 
   group('IPv4 Creating from List Level 2', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       test(
         'Testing "$data" for "false"',
@@ -79,8 +78,8 @@ void main() {
 
   group('IPv4 Creating from String Level 3', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       if (data.length == data.toSet().length) {
         String key = data.join('.');
@@ -95,8 +94,8 @@ void main() {
 
   group('IPv4 Creating from List Level 3', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       if (data.length == data.toSet().length) {
         test(
@@ -111,8 +110,8 @@ void main() {
 
   group('IPv4 Creating from String Level 4', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       if (result || data.length == data.toSet().length) {
         String key = data.join('.');
@@ -123,7 +122,7 @@ void main() {
               ? expect(
                   Ipv4Address.fromString(key),
                   isA<Ipv4Address>().having(
-                    (final Ipv4Address ip) => ip.toString(),
+                    (Ipv4Address ip) => ip.toString(),
                     'Test',
                     key,
                   ),
@@ -138,8 +137,8 @@ void main() {
     const String separator = '-';
 
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       if (result || data.length == data.toSet().length) {
         test(
@@ -148,7 +147,7 @@ void main() {
               ? expect(
                   Ipv4Address.fromList(data, separator: separator),
                   isA<Ipv4Address>().having(
-                    (final Ipv4Address ip) => ip.toString(separator: separator),
+                    (Ipv4Address ip) => ip.toString(separator: separator),
                     'Test',
                     data.join(separator),
                   ),
@@ -164,8 +163,8 @@ void main() {
 
   group('IPv4 hashCode', () {
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       if (result) {
         String key = data.join('.');

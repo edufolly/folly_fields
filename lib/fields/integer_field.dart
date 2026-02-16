@@ -8,12 +8,12 @@ class IntegerField extends StringField {
     super.labelPrefix,
     super.label,
     super.labelWidget,
-    IntegerEditingController? super.controller,
-    final FormFieldValidator<int?>? validator,
+    IntegerEditingController? controller,
+    FormFieldValidator<int?>? validator,
     super.textAlign = TextAlign.end,
     super.maxLength,
-    final FormFieldSetter<int?>? onSaved,
-    final int? initialValue,
+    FormFieldSetter<int?>? onSaved,
+    int? initialValue,
     super.enabled,
     super.autoValidateMode,
     super.onChanged,
@@ -51,24 +51,18 @@ class IntegerField extends StringField {
          'label or labelWidget must be null.',
        ),
        super(
+         controller: controller,
          keyboard: TextInputType.number,
-         validator: (final String? value) {
-           if (enabled && validator != null) {
-             return validator(int.tryParse(value ?? ''));
-           }
-
-           return null;
-         },
+         validator: (String? value) =>
+             enabled ? validator?.call(int.tryParse(value ?? '')) : null,
          minLines: 1,
          maxLines: 1,
          obscureText: false,
          inputFormatter: <TextInputFormatter>[
            FilteringTextInputFormatter.allow(RegExp('^-?[0-9]*')),
          ],
-         onSaved: (final String? value) {
-           if (enabled && onSaved != null) {
-             return onSaved(int.tryParse(value ?? ''));
-           }
+         onSaved: (String? value) {
+           if (enabled) onSaved?.call(int.tryParse(value ?? ''));
          },
          initialValue: initialValue?.toString(),
          autocorrect: false,

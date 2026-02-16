@@ -12,7 +12,7 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   DateTimeValidator({
     this.locale = 'pt_br',
     this.dateFormat = 'dd/MM/yyyy HH:mm',
-    final String mask = 'B#/D#/#### A#:C#',
+    String mask = 'B#/D#/#### A#:C#',
   }) : super(<TextInputFormatter>[
          MaskTextInputFormatter(
            mask: mask,
@@ -30,17 +30,17 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   TextInputType get keyboard => TextInputType.datetime;
 
   @override
-  String? format(final DateTime? value) =>
+  String? format(DateTime? value) =>
       value?.let(DateFormat(dateFormat, locale).format);
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  bool isValid(final String? value) => valid(value) == null;
+  bool isValid(String? value) => valid(value) == null;
 
   @override
-  DateTime? parse(final String? text) {
+  DateTime? parse(String? text) {
     if (text != null && isValid(text)) {
       try {
         return DateFormat(dateFormat, locale).parse(text);
@@ -53,16 +53,12 @@ class DateTimeValidator extends AbstractParserValidator<DateTime> {
   }
 
   @override
-  String? valid(final String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Data e Hora inválidas.';
-    }
+  String? valid(String? value) {
+    if (value == null || value.isEmpty) return 'Data e Hora inválidas.';
 
     List<String> parts = value.split(' ');
 
-    if (parts.length != 2) {
-      return 'Partes da Data e Hora inválidas.';
-    }
+    if (parts.length != 2) return 'Partes da Data e Hora inválidas.';
 
     return FollyUtils.validDate(parts.first) ??
         FollyUtils.validTime(parts.last);

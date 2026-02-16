@@ -1,21 +1,22 @@
 import 'dart:math';
 
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:sprintf/sprintf.dart';
 
 class CreditCardCodeField extends StringField {
   CreditCardCodeField({
-    required final CreditCardType creditCardType,
-    final String validatorMessage = 'Informe o %s.',
+    required CreditCardType creditCardType,
+    String validatorMessage = 'Informe o %s.',
     super.labelPrefix,
-    final String? label,
+    String? label,
     super.controller,
-    final String? Function(String? value)? validator,
+    String? Function(String? value)? validator,
     super.textAlign,
-    final void Function(String? value)? onSaved,
-    final String? initialValue,
+    void Function(String? value)? onSaved,
+    String? initialValue,
     super.enabled,
     super.autoValidateMode,
     super.onChanged,
@@ -27,7 +28,7 @@ class CreditCardCodeField extends StringField {
     super.textCapitalization,
     super.scrollPadding,
     super.enableInteractiveSelection,
-    final bool required = true,
+    bool required = true,
     super.style,
     super.decoration,
     super.padding,
@@ -54,7 +55,7 @@ class CreditCardCodeField extends StringField {
          keyboard: TextInputType.number,
          label: label ?? creditCardType.code.name,
          validator: enabled
-             ? (final String? value) {
+             ? (String? value) {
                  if (!required && (value == null || value.isEmpty)) {
                    return null;
                  }
@@ -84,15 +85,9 @@ class CreditCardCodeField extends StringField {
            FilteringTextInputFormatter.digitsOnly,
          ],
          onSaved: enabled
-             ? (String? value) {
-                 if (onSaved != null) {
-                   if (!required && value != null && value.isEmpty) {
-                     value = null;
-                   }
-
-                   onSaved(value);
-                 }
-               }
+             ? (String? value) => onSaved?.call(
+                 !required && isNullOrBlank(value) ? null : value,
+               )
              : null,
        );
 }

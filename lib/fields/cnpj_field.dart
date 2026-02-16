@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/cnpj_validator.dart';
 
 class CnpjField extends ValidatorField {
   CnpjField({
-    final CnpjValidator? cnpjValidator,
+    CnpjValidator? cnpjValidator,
     super.validatorMessage = 'Informe o CNPJ.',
     super.labelPrefix,
     super.label,

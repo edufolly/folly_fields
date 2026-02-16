@@ -11,12 +11,12 @@ class EmailValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.emailAddress;
 
   @override
-  String? format(final String? value) => value;
+  String? format(String? value) => value;
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  bool isValid(final String? value) =>
+  bool isValid(String? value) =>
       value?.let(ev.EmailValidator.validate) ?? false;
 }

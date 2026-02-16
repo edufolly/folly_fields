@@ -9,5 +9,5 @@ class DateValidator extends DateTimeValidator {
   });
 
   @override
-  String? valid(final String? value) => FollyUtils.validDate(value);
+  String? valid(String? value) => FollyUtils.validDate(value);
 }

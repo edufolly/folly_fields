@@ -26,13 +26,11 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  String? format(final Decimal? decimal) {
-    if (decimal == null) {
-      return null;
-    }
+  String? format(Decimal? decimal) {
+    if (decimal == null) return null;
 
     List<String> parts = decimal.doubleValue
         .toStringAsFixed(precision)
@@ -61,13 +59,11 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   }
 
   @override
-  bool isValid(final String? decimal) => valid(decimal) == null;
+  bool isValid(String? decimal) => valid(decimal) == null;
 
   @override
-  Decimal? parse(final String? value) {
-    if (value.isNullOrBlank) {
-      return null;
-    }
+  Decimal? parse(String? value) {
+    if (value.isNullOrBlank) return null;
 
     bool isNegative = value!.startsWith('-');
 
@@ -100,5 +96,5 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   }
 
   @override
-  String? valid(final String? value) => null;
+  String? valid(String? value) => null;
 }

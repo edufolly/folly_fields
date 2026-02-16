@@ -103,7 +103,7 @@ class StringField extends ResponsiveStateless {
        );
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
     TextStyle? effectiveStyle = style ?? theme.textTheme.titleMedium;
@@ -163,21 +163,16 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  String? _realValue(final String value) {
-    if (emptyIsNull && value.isEmpty) {
-      return null;
-    }
+  String? _realValue(String value) {
+    if (emptyIsNull && value.isEmpty) return null;
 
-    if (trimOnSaved) {
-      return value.trim();
-    }
+    if (trimOnSaved) return value.trim();
 
     return value;
   }
 
-  String? _internalValidator(final String? value) =>
+  String? _internalValidator(String? value) =>
       validator?.call(value?.let(_realValue));
 
-  void _internalOnSave(final String? value) =>
-      onSaved?.call(value?.let(_realValue));
+  void _internalOnSave(String? value) => onSaved?.call(value?.let(_realValue));
 }

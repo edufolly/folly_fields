@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/ipv4_validator.dart';
 
 class Ipv4Field extends ValidatorField {
   Ipv4Field({
-    final Ipv4Validator? ipv4Validator,
+    Ipv4Validator? ipv4Validator,
     super.validatorMessage = 'IPv4 inválido.',
     super.labelPrefix,
     super.label,

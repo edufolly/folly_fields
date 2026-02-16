@@ -1,12 +1,12 @@
 name: folly_fields
 description: Basic form fields and utilities.
-version: 4.3.1
+version: 4.4.0
 repository: https://github.com/edufolly/folly_fields/
 homepage: https://edufolly.github.io/folly_fields/
 
 environment:
-  sdk: ">=3.10.0 <4.0.0"
-  flutter: ">=3.38.0"
+  sdk: ">=3.11.0 <4.0.0"
+  flutter: ">=3.41.0"
 
 dependencies:
   # https://pub.dev/packages/cpf_cnpj_validator

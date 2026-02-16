@@ -1,39 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:folly_fields/controllers/icon_data_field_controller.dart';
+import 'package:folly_fields/controllers/icon_data_external_field_controller.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
-import 'package:folly_fields/widgets/animated_search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-@Deprecated('This method will be removed.')
 class IconDataField extends ResponsiveFormField<IconData> {
-  final IconDataFieldController? controller;
-  final Map<String, IconData> icons;
+  final IconDataExternalFieldController? controller;
+  final FocusNode? focusNode;
+  final String Function(IconData value) iconLabel;
+  final Future<IconData?> Function(BuildContext context, IconData? data)
+  selection;
+  final bool clearOnCancel;
 
   IconDataField({
-    required this.icons,
-    final String? labelPrefix,
-    final String? label,
-    final Widget? labelWidget,
+    required this.iconLabel,
+    required this.selection,
     this.controller,
-    final FormFieldValidator<IconData>? validator,
+    this.focusNode,
+    this.clearOnCancel = false,
+    String? labelPrefix,
+    String? label,
+    Widget? labelWidget,
     super.onSaved,
-    final IconData? initialValue,
-    super.enabled,
-    final AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    final bool filled = false,
-    final Color? fillColor,
-    final double iconSize = 32.0,
-    final double maxCrossAxisExtent = 40.0,
-    final double mainAxisSpacing = 6.0,
-    final double crossAxisSpacing = 6.0,
-    final double height = 128.0,
-    final double spaceBetween = 16.0,
-    final InputDecoration? decoration,
-    final EdgeInsets padding = const EdgeInsets.all(8),
-    final String? hintText,
-    final EdgeInsets? contentPadding,
-    final bool showClearSelectionButton = true,
+    FormFieldValidator<IconData>? validator,
+    IconData? initialValue,
+    super.enabled = true,
+    super.autovalidateMode = AutovalidateMode.disabled,
+    TextStyle? style,
+    double? iconSize,
+    InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -50,110 +48,75 @@ class IconDataField extends ResponsiveFormField<IconData> {
          'label or labelWidget must be null.',
        ),
        super(
-         initialValue: controller != null ? controller.value : initialValue,
+         initialValue: controller?.value ?? initialValue,
          validator: enabled ? validator : null,
-         autovalidateMode: autoValidateMode,
-         builder: (final FormFieldState<IconData> field) {
-           _IconDataFieldState state = field as _IconDataFieldState;
+         builder: (FormFieldState<IconData> field) {
+           _IconDataExternalFieldState state =
+               field as _IconDataExternalFieldState;
 
-           InputDecoration effectiveDecoration =
+           final ThemeData theme = Theme.of(state.context);
+
+           final bool hasFocus = state._effectiveFocusNode.hasFocus;
+
+           final Color? color = enabled
+               ? hasFocus
+                     ? theme.colorScheme.primary
+                     : null
+               : theme.disabledColor;
+
+           final TextStyle? effectiveStyle =
+               (style ??
+                       theme.textTheme.titleMedium?.copyWith(
+                         color: theme.colorScheme.onSurfaceVariant,
+                       ))
+                   ?.copyWith(color: color);
+
+           final InputDecoration effectiveDecoration =
                (decoration ??
                        InputDecoration(
                          border: const OutlineInputBorder(),
-                         filled: filled,
-                         fillColor: fillColor,
                          label: labelWidget,
                          labelText: <String?>[
                            labelPrefix,
                            label,
                          ].nonNulls.join(' - '),
                          counterText: '',
-                         hintText: hintText,
-                         contentPadding:
-                             contentPadding ??
-                             const EdgeInsets.fromLTRB(12, 0, 8, 12),
+                         contentPadding: contentPadding,
+                         suffixIcon: suffixIcon,
                        ))
-                   .applyDefaults(Theme.of(field.context).inputDecorationTheme);
+                   .applyDefaults(theme.inputDecorationTheme)
+                   .copyWith(
+                     prefixIcon: state.value != null
+                         ? Icon(state.value, size: iconSize, color: color)
+                         : null,
+                     enabled: enabled,
+                     errorText: state.errorText,
+                   );
 
            return Padding(
              padding: padding,
-             child: InputDecorator(
-               decoration: effectiveDecoration.copyWith(
-                 errorText: enabled ? field.errorText : null,
-               ),
-               child: Column(
-                 children: <Widget>[
-                   Padding(
-                     padding: const EdgeInsets.only(top: 16),
-                     child: Row(
-                       crossAxisAlignment: CrossAxisAlignment.end,
-                       children: <Widget>[
-                         Expanded(
-                           child: isNull(state.value)
-                               ? Container()
-                               : Padding(
-                                   padding: const EdgeInsets.only(
-                                     left: 8,
-                                     right: 16,
-                                   ),
-                                   child: Row(
-                                     children: <Widget>[
-                                       Icon(state.value, size: iconSize),
-                                       const SizedBox(width: 16),
-                                       Chip(
-                                         label: Text(
-                                           state._effectiveController.name,
-                                         ),
-                                       ),
-                                       if (showClearSelectionButton)
-                                         const SizedBox(width: 8),
-                                       if (showClearSelectionButton)
-                                         IconButton(
-                                           icon: const Icon(
-                                             FontAwesomeIcons.xmark,
-                                           ),
-                                           onPressed: () =>
-                                               state.didChange(null),
-                                         ),
-                                     ],
-                                   ),
-                                 ),
-                         ),
-                         AnimatedSearch(controller: state._textController),
-                       ],
-                     ),
+             child: Focus(
+               focusNode: state._effectiveFocusNode,
+               canRequestFocus: enabled,
+               skipTraversal: !enabled,
+               child: MouseRegion(
+                 cursor: enabled
+                     ? SystemMouseCursors.click
+                     : SystemMouseCursors.basic,
+                 onEnter: (_) => state.hovering(enter: true),
+                 onExit: (_) => state.hovering(enter: false),
+                 child: GestureDetector(
+                   onTap: enabled ? state._handleTap : null,
+                   child: InputDecorator(
+                     decoration: effectiveDecoration,
+                     isEmpty: state.value == null,
+                     isFocused: hasFocus,
+                     isHovering: state._isHovering,
+                     child: isNull(state.value)
+                         ? null
+                         : Text(iconLabel(state.value!), style: effectiveStyle),
                    ),
-                   Padding(
-                     padding: EdgeInsets.only(top: spaceBetween),
-                     child: SizedBox(
-                       height: height,
-                       child: Scrollbar(
-                         controller: state._scrollController,
-                         child: GridView.builder(
-                           controller: state._scrollController,
-                           gridDelegate:
-                               SliverGridDelegateWithMaxCrossAxisExtent(
-                                 maxCrossAxisExtent: maxCrossAxisExtent,
-                                 mainAxisSpacing: mainAxisSpacing,
-                                 crossAxisSpacing: crossAxisSpacing,
-                               ),
-                           itemCount: state.names.length,
-                           itemBuilder:
-                               (final BuildContext context, final int index) {
-                                 IconData iconData = state
-                                     ._effectiveController
-                                     .icons[state.names[index]]!;
-
-                                 return GestureDetector(
-                                   onTap: () => state.didChange(iconData),
-                                   child: Icon(iconData, size: iconSize),
-                                 );
-                               },
-                         ),
-                       ),
-                     ),
-                   ),
-                 ],
+                 ),
                ),
              ),
            );
@@ -161,99 +124,80 @@ class IconDataField extends ResponsiveFormField<IconData> {
        );
 
   @override
-  FormFieldState<IconData> createState() => _IconDataFieldState();
+  FormFieldState<IconData> createState() => _IconDataExternalFieldState();
 }
 
-@Deprecated('This method will be removed.')
-class _IconDataFieldState extends FormFieldState<IconData> {
-  final TextEditingController _textController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-  IconDataFieldController? _controller;
-  List<String> names = <String>[];
+class _IconDataExternalFieldState extends FormFieldState<IconData> {
+  IconDataExternalFieldController? _controller;
+  FocusNode? _focusNode;
+  bool _isHovering = false;
 
   @override
   IconDataField get widget => super.widget as IconDataField;
 
-  IconDataFieldController get _effectiveController =>
+  IconDataExternalFieldController get _effectiveController =>
       widget.controller ?? _controller!;
+
+  FocusNode get _effectiveFocusNode => widget.focusNode ?? _focusNode!;
 
   @override
   void initState() {
     super.initState();
+    if (isNull(widget.controller)) {
+      _controller = IconDataExternalFieldController(value: widget.initialValue);
+    }
+    _effectiveController.addListener(_handleControllerChanged);
 
-    _textController.addListener(_handleSearch);
+    if (isNull(widget.focusNode)) {
+      _focusNode = FocusNode();
+    }
+    _effectiveFocusNode.addListener(_handleFocusChanged);
+  }
 
-    if (widget.controller == null) {
-      _controller = IconDataFieldController(
-        value: widget.initialValue,
-        icons: widget.icons,
-      );
-    } else {
-      widget.controller!.addListener(_handleControllerChanged);
+  void hovering({required bool enter}) => setState(() => _isHovering = enter);
+
+  Future<void> _handleTap() async {
+    _effectiveFocusNode.requestFocus();
+
+    final IconData? newValue = await widget.selection(context, value);
+
+    if (newValue == null && !widget.clearOnCancel) {
+      return;
     }
 
-    names = _effectiveController.icons.keys.toList();
+    didChange(newValue);
   }
 
   @override
-  void didUpdateWidget(final IconDataField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
-      oldWidget.controller?.removeListener(_handleControllerChanged);
-
-      widget.controller?.addListener(_handleControllerChanged);
-
-      if (oldWidget.controller != null && widget.controller == null) {
-        _controller = IconDataFieldController.fromValue(oldWidget.controller!);
-      }
-
-      if (widget.controller != null) {
-        setValue(widget.controller!.value);
-
-        if (oldWidget.controller == null) {
-          _controller = null;
-        }
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _textController.removeListener(_handleSearch);
-    widget.controller?.removeListener(_handleControllerChanged);
-    _scrollController.dispose();
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChange(final IconData? value) {
+  void didChange(IconData? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;
     }
   }
 
-  @override
-  void reset() {
-    super.reset();
-    setState(() => _effectiveController.value = widget.initialValue);
-  }
-
-  void _handleSearch() {
-    String text = _textController.text.toLowerCase();
-
-    names = _effectiveController.icons.keys
-        .where((final String key) => key.toLowerCase().contains(text))
-        .toList();
-
-    // ignore: no-empty-block
-    setState(() {});
-  }
-
   void _handleControllerChanged() {
     if (_effectiveController.value != value) {
       didChange(_effectiveController.value);
     }
+  }
+
+  void _handleFocusChanged() => setState(() {});
+
+  @override
+  void reset() {
+    super.reset();
+    _effectiveController.value = widget.initialValue;
+  }
+
+  @override
+  void dispose() {
+    _effectiveController.removeListener(_handleControllerChanged);
+    _controller?.dispose();
+
+    _effectiveFocusNode.removeListener(_handleFocusChanged);
+    _focusNode?.dispose();
+
+    super.dispose();
   }
 }

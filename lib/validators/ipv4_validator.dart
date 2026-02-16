@@ -16,38 +16,32 @@ class Ipv4Validator extends AbstractParserValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => value;
+  String? format(String? value) => value;
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   @override
-  bool isValid(final String? value) =>
-      value?.let((final String it) => isNull(valid(it))) ?? false;
+  bool isValid(String? value) =>
+      value?.let((String it) => isNull(valid(it))) ?? false;
 
   @override
-  String? parse(final String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
+  String? parse(String? value) {
+    if (value == null || value.isEmpty) return null;
 
     List<String> parts = value.split('.');
 
-    if (parts.length != 4) {
-      return null;
-    }
+    if (parts.length != 4) return null;
 
     for (final String part in parts) {
       int? octet = int.tryParse(part);
-      if (octet == null || octet < 0 || octet > 255) {
-        return null;
-      }
+      if (octet == null || octet < 0 || octet > 255) return null;
     }
 
     return value;
   }
 
   @override
-  String? valid(final String? value) =>
+  String? valid(String? value) =>
       parse(value) == null ? 'IPv4 inválido.' : null;
 }

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer-match-file-name
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/widgets/error_message.dart';
 import 'package:folly_fields/widgets/waiting_message.dart';
 
@@ -11,20 +11,22 @@ class SilentFutureBuilder<T> extends SafeFutureBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-         onWait: (final ConnectionState connectionState, final Widget widget) =>
+         onWait: (ConnectionState connectionState, Widget widget) =>
              const SizedBox.shrink(),
          onError:
              (
-               final Object? error,
-               final StackTrace? stackTrace,
-               final Widget widget,
-               final ConnectionState connectionState,
+               Object? error,
+               StackTrace? stackTrace,
+               Widget widget,
+               ConnectionState connectionState,
              ) {
-               if (kDebugMode) {
-                 print(connectionState);
-                 print(error);
-                 print(stackTrace);
-               }
+               debugPrintStack(
+                 label: <String>[
+                   if (isNotNull(error)) 'Error: $error',
+                   'ConnectionState: $connectionState',
+                 ].join('\n'),
+                 stackTrace: stackTrace,
+               );
 
                return const SizedBox.shrink();
              },
@@ -64,25 +66,24 @@ class SafeFutureBuilder<T> extends StatelessWidget {
        );
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return FutureBuilder<T>(
       future: future,
       initialData: initialData,
-      builder: (final BuildContext context, final AsyncSnapshot<T> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
           Widget child = ErrorMessage(
             error: snapshot.error,
             stackTrace: snapshot.stackTrace,
           );
 
-          return onError != null
-              ? onError!(
-                  snapshot.error,
-                  snapshot.stackTrace,
-                  child,
-                  snapshot.connectionState,
-                )
-              : child;
+          return onError?.call(
+                snapshot.error,
+                snapshot.stackTrace,
+                child,
+                snapshot.connectionState,
+              ) ??
+              child;
         }
 
         if (snapshot.hasData) {
@@ -106,20 +107,22 @@ class SilentStreamBuilder<T> extends SafeStreamBuilder<T> {
     super.initialData,
     super.key,
   }) : super(
-         onWait: (final ConnectionState connectionState, final Widget widget) =>
+         onWait: (ConnectionState connectionState, Widget widget) =>
              const SizedBox.shrink(),
          onError:
              (
-               final Object? error,
-               final StackTrace? stackTrace,
-               final Widget widget,
-               final ConnectionState connectionState,
+               Object? error,
+               StackTrace? stackTrace,
+               Widget widget,
+               ConnectionState connectionState,
              ) {
-               if (kDebugMode) {
-                 print(connectionState);
-                 print(error);
-                 print(stackTrace);
-               }
+               debugPrintStack(
+                 label: <String>[
+                   if (isNotNull(error)) 'Error: $error',
+                   'ConnectionState: $connectionState',
+                 ].join('\n'),
+                 stackTrace: stackTrace,
+               );
 
                return const SizedBox.shrink();
              },
@@ -159,25 +162,24 @@ class SafeStreamBuilder<T> extends StatelessWidget {
        );
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return StreamBuilder<T>(
       stream: stream,
       initialData: initialData,
-      builder: (final BuildContext context, final AsyncSnapshot<T> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         if (snapshot.hasError) {
           Widget child = ErrorMessage(
             error: snapshot.error,
             stackTrace: snapshot.stackTrace,
           );
 
-          return onError != null
-              ? onError!(
-                  snapshot.error,
-                  snapshot.stackTrace,
-                  child,
-                  snapshot.connectionState,
-                )
-              : child;
+          return onError?.call(
+                snapshot.error,
+                snapshot.stackTrace,
+                child,
+                snapshot.connectionState,
+              ) ??
+              child;
         }
 
         if (snapshot.hasData) {

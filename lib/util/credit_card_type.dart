@@ -215,17 +215,13 @@ enum CreditCardType {
     this.extraBrands = const <String>[],
   });
 
-  bool validLength(final String? ccNum) =>
+  bool validLength(String? ccNum) =>
       ccNum != null && lengths.contains(clearNum(ccNum).length);
 
-  bool validNumber(final String? ccNum) {
-    if (!checkLuhn) {
-      return true;
-    }
+  bool validNumber(String? ccNum) {
+    if (!checkLuhn) return true;
 
-    if (ccNum == null || ccNum.length < 2) {
-      return false;
-    }
+    if (ccNum == null || ccNum.length < 2) return false;
 
     String cNum = clearNum(ccNum);
     int mod = cNum.length % 2;
@@ -237,9 +233,7 @@ enum CreditCardType {
 
         if (pos % 2 == mod) {
           digit *= 2;
-          if (digit > 9) {
-            digit -= 9;
-          }
+          if (digit > 9) digit -= 9;
         }
 
         sum += digit;
@@ -251,22 +245,19 @@ enum CreditCardType {
     }
   }
 
-  bool cvvCheck(final String? cvv) =>
+  bool cvvCheck(String? cvv) =>
       cvv != null &&
       code.size.contains(cvv.length) &&
       code.size.contains(clearNum(cvv).length);
 
-  static String clearNum(final String ccNum) =>
-      ccNum.replaceAll(RegExp(r'\D'), '');
+  static String clearNum(String ccNum) => ccNum.replaceAll(RegExp(r'\D'), '');
 
-  static CreditCardType detectType(final String ccNum) {
+  static CreditCardType detectType(String ccNum) {
     String cNum = clearNum(ccNum);
 
     for (final CreditCardType type in CreditCardType.values) {
       for (final Range range in type.patterns) {
-        if (range.isValid(cNum)) {
-          return type;
-        }
+        if (range.isValid(cNum)) return type;
       }
     }
 
@@ -274,15 +265,15 @@ enum CreditCardType {
   }
 
   // TODO(edufolly): Create a factory.
-  static CreditCardType parse(final String? value) {
+  static CreditCardType parse(String? value) {
     return CreditCardType.values.firstWhere(
-      (final CreditCardType type) {
+      (CreditCardType type) {
         String? newValue = value?.replaceAll(RegExp(r'\s'), '').toLowerCase();
 
         return type.brand.toLowerCase() == newValue ||
             type.extraBrands.fold<bool>(
               false,
-              (final bool previous, final String element) =>
+              (bool previous, String element) =>
                   previous || element.toLowerCase() == newValue,
             );
       },
@@ -305,18 +296,14 @@ class Range {
 
   const Range(this.initialValue, [this.finalValue]);
 
-  bool isValid(final String ccNum) {
+  bool isValid(String ccNum) {
     int qtd = initialValue.toString().length;
 
-    if (ccNum.length < qtd) {
-      return false;
-    }
+    if (ccNum.length < qtd) return false;
 
     int? ccInt = int.tryParse(ccNum.substring(0, qtd));
 
-    if (ccInt == null) {
-      return false;
-    }
+    if (ccInt == null) return false;
 
     return finalValue == null
         ? ccInt == initialValue

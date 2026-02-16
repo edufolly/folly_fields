@@ -30,10 +30,8 @@ class DurationValidator extends AbstractParserValidator<Duration> {
        );
 
   @override
-  String? format(final Duration? duration) {
-    if (duration == null) {
-      return null;
-    }
+  String? format(Duration? duration) {
+    if (duration == null) return null;
 
     int milliseconds = duration.inMilliseconds;
     int seconds = 0;
@@ -109,7 +107,7 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   }
 
   @override
-  String? strip(final String? value) => value;
+  String? strip(String? value) => value;
 
   RegExp get regExp => RegExp(
     '(\\d+$yearSuffix)?\\s*'
@@ -122,18 +120,15 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   );
 
   @override
-  bool isValid(final String? value) =>
+  bool isValid(String? value) =>
       value?.let(
-        (final String it) =>
-            regExp.firstMatch(it.trim())?.group(0) == it.trim(),
+        (String it) => regExp.firstMatch(it.trim())?.group(0) == it.trim(),
       ) ??
       false;
 
   @override
-  Duration? parse(final String? value) {
-    if (value == null || !isValid(value)) {
-      return Duration.zero;
-    }
+  Duration? parse(String? value) {
+    if (value == null || !isValid(value)) return Duration.zero;
 
     String input = value.split(' ').join();
     RegExp onlyNumbers = RegExp(r'\d+');
@@ -185,5 +180,5 @@ class DurationValidator extends AbstractParserValidator<Duration> {
   }
 
   @override
-  String? valid(final String? value) => null;
+  String? valid(String? value) => null;
 }

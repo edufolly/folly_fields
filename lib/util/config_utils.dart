@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:folly_fields/extensions/scope_extension.dart';
 
 @Deprecated('Refactor this class.')
 class ConfigUtils {
@@ -11,8 +11,8 @@ class ConfigUtils {
   ConfigUtils(this.context);
 
   Future<void> loadFromAsset(
-    final String assetPath, {
-    final bool removeEnvSubst = true,
+    String assetPath, {
+    bool removeEnvSubst = true,
   }) async {
     configJson.clear();
 
@@ -25,35 +25,26 @@ class ConfigUtils {
 
       if (removeEnvSubst) {
         localConfig.removeWhere(
-          (final String key, final dynamic value) =>
-              value.toString().startsWith(r'${'),
+          (String key, dynamic value) => value.toString().startsWith(r'${'),
         );
       }
 
       configJson.addAll(localConfig);
     } on Exception catch (e, s) {
-      if (kDebugMode) {
-        print(e);
-        print(s);
-      }
+      debugPrintStack(label: e.toString(), stackTrace: s);
     }
   }
 
-  String stringOrDefault(final String key, final String defaultValue) =>
+  String stringOrDefault(String key, String defaultValue) =>
       configJson[key] ?? defaultValue;
 
-  bool boolOrDefault(final String key, {required final bool defaultValue}) =>
-      configJson.containsKey(key)
-      ? configJson[key].toString().toLowerCase() == 'true'
-      : defaultValue;
+  bool boolOrDefault(String key, {required bool defaultValue}) =>
+      configJson[key]?.toString().let((String it) => it == 'true') ??
+      defaultValue;
 
-  int intOrDefault(final String key, final int defaultValue) =>
-      configJson.containsKey(key)
-      ? int.tryParse(configJson[key]) ?? defaultValue
-      : defaultValue;
+  int intOrDefault(String key, int defaultValue) =>
+      configJson[key]?.toString().let(int.tryParse) ?? defaultValue;
 
-  double doubleOrDefault(final String key, final double defaultValue) =>
-      configJson.containsKey(key)
-      ? double.tryParse(configJson[key].toString()) ?? defaultValue
-      : defaultValue;
+  double doubleOrDefault(String key, double defaultValue) =>
+      configJson[key]?.toString().let(double.tryParse) ?? defaultValue;
 }

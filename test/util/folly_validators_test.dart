@@ -194,14 +194,14 @@ void main() {
       /// List
       <dynamic>[]: true,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>{key}, value),
       ),
 
       /// Set
       <dynamic>{}: true,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>[key], value),
       ),
 
@@ -247,14 +247,14 @@ void main() {
       /// List
       <dynamic>[]: false,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>{key}, value),
       ),
 
       /// Set
       <dynamic>{}: false,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>[key], value),
       ),
 
@@ -300,14 +300,14 @@ void main() {
       /// List
       <dynamic>[]: false,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>{key}, value),
       ),
 
       /// Set
       <dynamic>{}: false,
       ...tests.map(
-        (final dynamic key, final bool value) =>
+        (dynamic key, bool value) =>
             MapEntry<dynamic, bool>(<dynamic>[key], value),
       ),
 

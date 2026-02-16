@@ -21,16 +21,12 @@ void main() async {
     'voyager': CreditCardType.unknown,
   };
 
-  for (final MapEntry<String, CreditCardType>(
-        :String key,
-        :CreditCardType value,
-      )
-      in cardsRequest.entries) {
+  for (final MapEntry<String, CreditCardType> e in cardsRequest.entries) {
     try {
       for (int pos = 0; pos < cardTest; pos++) {
         Response response = await post(
           base,
-          body: <String, String>{'bandeira': key},
+          body: <String, String>{'bandeira': e.key},
         );
 
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -38,7 +34,7 @@ void main() async {
 
         if (ccNum != null) {
           ccNum = ccNum.trim();
-          tests[ccNum] = value;
+          tests[ccNum] = e.value;
         }
       }
     } on Exception catch (e, s) {
@@ -48,25 +44,20 @@ void main() async {
   }
 
   group('Credit card detect type', () {
-    for (final MapEntry<String, CreditCardType>(
-          :String key,
-          :CreditCardType value,
-        )
-        in tests.entries) {
+    for (final MapEntry<String, CreditCardType> e in tests.entries) {
       test(
-        'Testing "$key" for $value',
-        () => expect(CreditCardType.detectType(key), value),
+        'Testing "${e.key}" for ${e.value}',
+        () => expect(CreditCardType.detectType(e.key), e.value),
       );
     }
   });
 
   group('Credit card luhn check', () {
-    for (final MapEntry<String, CreditCardType>(
-          :String key,
-          :CreditCardType value,
-        )
-        in tests.entries) {
-      test('Testing "$key"', () => expect(value.validNumber(key), true));
+    for (final MapEntry<String, CreditCardType> e in tests.entries) {
+      test(
+        'Testing "${e.key}"',
+        () => expect(e.value.validNumber(e.key), true),
+      );
     }
   });
 
@@ -134,11 +125,10 @@ void main() async {
   };
 
   group('Credit card CVV check for American Express', () {
-    for (final MapEntry<String, bool>(:String key, :bool value)
-        in cvvAmexTests.entries) {
+    for (final MapEntry<String, bool> e in cvvAmexTests.entries) {
       test(
-        'Testing "$key"',
-        () => expect(CreditCardType.amex.cvvCheck(key), value),
+        'Testing "${e.key}"',
+        () => expect(CreditCardType.amex.cvvCheck(e.key), e.value),
       );
     }
   });
@@ -151,11 +141,10 @@ void main() async {
   };
 
   group('Credit card CVV check for Unknown', () {
-    for (final MapEntry<String, bool>(:String key, :bool value)
-        in cvvUnknownTests.entries) {
+    for (final MapEntry<String, bool> e in cvvUnknownTests.entries) {
       test(
-        'Testing "$key"',
-        () => expect(CreditCardType.unknown.cvvCheck(key), value),
+        'Testing "${e.key}"',
+        () => expect(CreditCardType.unknown.cvvCheck(e.key), e.value),
       );
     }
   });
@@ -245,12 +234,11 @@ void main() async {
   };
 
   group('Credit card type parse check', () {
-    for (final MapEntry<String?, CreditCardType>(
-          :String? key,
-          :CreditCardType value,
-        )
-        in typeTests.entries) {
-      test('Testing "$key"', () => expect(CreditCardType.parse(key), value));
+    for (final MapEntry<String?, CreditCardType> e in typeTests.entries) {
+      test(
+        'Testing "${e.key}"',
+        () => expect(CreditCardType.parse(e.key), e.value),
+      );
     }
   });
 }

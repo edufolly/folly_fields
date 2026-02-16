@@ -35,6 +35,7 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.onTap,
     super.required = true,
     super.clearOnCancel = true,
+    super.lostFocus,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -43,23 +44,22 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.minHeight,
     super.key,
   }) : super(
-         updatePrefixIcon:
-             (final BuildContext context, final Color? color, _) =>
-                 Icon(FontAwesomeIcons.solidSquare, color: color),
+         updatePrefixIcon: (BuildContext context, Color? color, _) =>
+             Icon(FontAwesomeIcons.solidSquare, color: color),
        );
 
   @override
-  ColorEditingController createController(final Color? value) =>
+  ColorEditingController createController(Color? value) =>
       ColorEditingController(color: value);
 
   @override
   Future<Color?> selectData({
-    required final BuildContext context,
-    required final ColorEditingController controller,
+    required BuildContext context,
+    required ColorEditingController controller,
   }) {
     return showDialog<Color?>(
       context: context,
-      builder: (final BuildContext context) {
+      builder: (BuildContext context) {
         return AlertDialog(
           content: SingleChildScrollView(
             child: ColorPicker(
@@ -67,7 +67,7 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
                   controller.data ??
                   controller.pickerColor.value ??
                   Colors.transparent,
-              onColorChanged: (final Color value) =>
+              onColorChanged: (Color value) =>
                   controller.pickerColor.value = value,
               portraitOnly: true,
             ),

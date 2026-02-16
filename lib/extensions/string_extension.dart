@@ -1,3 +1,5 @@
+import 'package:folly_fields/extensions/num_extension.dart';
+
 extension NullableStringExtension on String? {
   bool get isNullOrEmpty => this?.isEmpty ?? true;
 
@@ -6,29 +8,33 @@ extension NullableStringExtension on String? {
   bool get isNullOrBlank => this?.trim().isEmpty ?? true;
 }
 
-bool isNullOrEmpty(final String? it) => it?.isEmpty ?? false;
+bool isNullOrEmpty(String? it) => it.isNullOrEmpty;
 
-bool isBlank(final String? it) => it?.trim().isEmpty ?? false;
+bool isBlank(String? it) => it.isBlank;
 
-bool isNullOrBlank(final String? it) => it?.trim().isEmpty ?? true;
+bool isNullOrBlank(String? it) => it.isNullOrBlank;
 
 extension StringExtension on String {
-  String repeat(final int length) =>
+  String take(int length) => substring(0, this.length.min(length));
+
+  String repeat(int length) =>
       List<String>.generate(length, (_) => this).join();
 
   String get capitalize =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 
   String get capitalizeWords =>
-      split(' ').map((final String e) => e.capitalize).toList().join(' ');
+      split(' ').map((String e) => e.capitalize).toList().join(' ');
 
   // TODO(edufolly): Add more characters.
   String get normalize => splitMapJoin(
     RegExp(r'[^a-zA-Z0-9\s]', caseSensitive: false),
-    onMatch: (final Match e) {
+    onMatch: (Match e) {
       return switch (e.group(0)) {
         'á' || 'à' || 'ã' || 'â' || 'ä' || 'å' => 'a',
         'Á' || 'À' || 'Ã' || 'Â' || 'Ä' || 'Å' => 'A',
+        'ç' => 'c',
+        'Ç' => 'C',
         'é' || 'è' || 'ê' || 'ë' => 'e',
         'É' || 'È' || 'Ê' || 'Ë' => 'E',
         'í' || 'ì' || 'î' || 'ï' => 'i',
@@ -37,12 +43,10 @@ extension StringExtension on String {
         'Ó' || 'Ò' || 'Õ' || 'Ô' || 'Ö' => 'O',
         'ú' || 'ù' || 'û' || 'ü' => 'u',
         'Ú' || 'Ù' || 'Û' || 'Ü' => 'U',
-        'ç' => 'c',
-        'Ç' => 'C',
         _ => e.group(0) ?? '',
       };
     },
-    onNonMatch: (final String e) => e,
+    onNonMatch: (String e) => e,
   );
 
   bool get isPascalCase =>
@@ -64,14 +68,14 @@ extension StringExtension on String {
 
   String get _camel2Snake => splitMapJoin(
     RegExp('[A-Z]'),
-    onMatch: (final Match m) => '_${m.group(0)!.toLowerCase()}',
-    onNonMatch: (final String n) => n,
+    onMatch: (Match m) => '_${m.group(0)!.toLowerCase()}',
+    onNonMatch: (String n) => n,
   );
 
   String get _snake2Pascal => toLowerCase().splitMapJoin(
     RegExp('_'),
-    onMatch: (final Match m) => '',
-    onNonMatch: (final String n) => n[0].toUpperCase() + n.substring(1),
+    onMatch: (Match m) => '',
+    onNonMatch: (String n) => n[0].toUpperCase() + n.substring(1),
   );
 
   String get _pascal2Camel => this[0].toLowerCase() + substring(1);
@@ -101,7 +105,7 @@ extension StringExtension on String {
 
   String get splitCase => splitMapJoin(
     RegExp('[A-Z]'),
-    onMatch: (final Match m) => ' ${m.group(0)}',
-    onNonMatch: (final String s) => s,
+    onMatch: (Match m) => ' ${m.group(0)}',
+    onNonMatch: (String s) => s,
   );
 }

@@ -5,7 +5,7 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 class ValidatorEditingController<T> extends TextEditingController {
   final AbstractParserValidator<T> validator;
 
-  ValidatorEditingController({required this.validator, final T? value})
+  ValidatorEditingController({required this.validator, T? value})
     : super(text: value?.let(validator.format));
 
   ValidatorEditingController.fromValue(
@@ -15,5 +15,5 @@ class ValidatorEditingController<T> extends TextEditingController {
 
   T? get data => text.isEmpty ? null : validator.parse(text);
 
-  set data(final T? value) => text = value?.let(validator.format) ?? '';
+  set data(T? value) => text = value?.let(validator.format) ?? '';
 }
