@@ -44,6 +44,7 @@ class DecimalField
     super.onTap,
     super.required = true,
     super.clearOnCancel = true,
+    super.lostFocus,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

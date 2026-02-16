@@ -25,7 +25,7 @@ mixin Responsive on Widget {
 
   double get safeMinHeight => minHeight ?? -1;
 
-  int responsiveSize(final ResponsiveSize size) => switch (size) {
+  int responsiveSize(ResponsiveSize size) => switch (size) {
     ResponsiveSize.extraSmall => safeSizeExtraSmall,
     ResponsiveSize.small => safeSizeSmall,
     ResponsiveSize.medium => safeSizeMedium,
@@ -45,15 +45,15 @@ enum ResponsiveSize {
 
   const ResponsiveSize(this.value);
 
-  bool operator >(final ResponsiveSize other) => value > other.value;
+  bool operator >(ResponsiveSize other) => value > other.value;
 
-  bool operator >=(final ResponsiveSize other) => value >= other.value;
+  bool operator >=(ResponsiveSize other) => value >= other.value;
 
-  bool operator <(final ResponsiveSize other) => value < other.value;
+  bool operator <(ResponsiveSize other) => value < other.value;
 
-  bool operator <=(final ResponsiveSize other) => value <= other.value;
+  bool operator <=(ResponsiveSize other) => value <= other.value;
 
-  bool equals(final ResponsiveSize other) => value == other.value;
+  bool equals(ResponsiveSize other) => value == other.value;
 }
 
 abstract class ResponsiveStateless extends StatelessWidget with Responsive {

@@ -48,6 +48,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     super.onTap,
     super.required = true,
     super.clearOnCancel = true,
+    super.lostFocus,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

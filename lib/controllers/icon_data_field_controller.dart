@@ -24,7 +24,7 @@ class IconDataFieldController extends ValueNotifier<IconData?> {
     if (value == null) return '';
 
     return _icons.keys.firstWhere(
-      (final String key) => _icons[key] == value,
+      (String key) => _icons[key] == value,
       orElse: () => '',
     );
   }

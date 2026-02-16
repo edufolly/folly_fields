@@ -45,7 +45,7 @@ linter:
 
     # Incompatible with:
     # prefer_final_parameters
-    avoid_final_parameters: false
+    avoid_final_parameters: true
 
     avoid_function_literals_in_foreach_calls: true
     avoid_futureor_void: true

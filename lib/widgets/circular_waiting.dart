@@ -110,12 +110,12 @@ class CircularWaiting {
     }
   }
 
-  void sendMessage(final String msg) {
+  void sendMessage(String msg) {
     message = msg;
     _send();
   }
 
-  void sendValue(final double dbl) {
+  void sendValue(double dbl) {
     value = dbl;
     _send();
   }

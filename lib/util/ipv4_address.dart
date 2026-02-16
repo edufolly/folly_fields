@@ -6,22 +6,15 @@ class Ipv4Address {
 
   const Ipv4Address(this.ip);
 
-  const Ipv4Address.fromDecimals(
-    final int oc1,
-    final int oc2,
-    final int oc3,
-    final int oc4,
-  ) : assert(oc1 >= 0 && oc1 <= 255, 'First octet must be between 0 and 255'),
+  const Ipv4Address.fromDecimals(int oc1, int oc2, int oc3, int oc4)
+    : assert(oc1 >= 0 && oc1 <= 255, 'First octet must be between 0 and 255'),
       assert(oc2 >= 0 && oc2 <= 255, 'Second octet must be between 0 and 255'),
       assert(oc3 >= 0 && oc3 <= 255, 'Third octet must be between 0 and 255'),
       assert(oc4 >= 0 && oc4 <= 255, 'Fourth octet must be between 0 and 255'),
       ip = (oc1 << 24) + (oc2 << 16) + (oc3 << 8) + oc4;
 
   // TODO(edufolly): Refactor this code!
-  factory Ipv4Address.fromList(
-    final List<dynamic> list, {
-    final String separator = '.',
-  }) {
+  factory Ipv4Address.fromList(List<dynamic> list, {String separator = '.'}) {
     if (list.length != 4) throw ArgumentError('invalidIpAddress');
     return Ipv4Address.fromString(list.join(separator), separator: separator);
   }
@@ -58,33 +51,32 @@ class Ipv4Address {
   int get integer => ip;
 
   @override
-  String toString({final String separator = '.'}) =>
+  String toString({String separator = '.'}) =>
       <int>[dot1, dot2, dot3, dot4].join(separator);
 
   @override
   int get hashCode => ip;
 
   @override
-  bool operator ==(final Object other) =>
-      other is Ipv4Address && ip == other.integer;
+  bool operator ==(Object other) => other is Ipv4Address && ip == other.integer;
 
-  Ipv4Address operator +(final int value) {
+  Ipv4Address operator +(int value) {
     int newValue = ip + value;
     if (newValue > 4294967295) throw ArgumentError('invalidIpAddress');
     return Ipv4Address(newValue);
   }
 
-  Ipv4Address operator -(final int value) {
+  Ipv4Address operator -(int value) {
     int newValue = ip - value;
     if (newValue < 0) throw ArgumentError('invalidIpAddress');
     return Ipv4Address(newValue);
   }
 
-  bool operator >(final Ipv4Address value) => ip > value.integer;
+  bool operator >(Ipv4Address value) => ip > value.integer;
 
-  bool operator <(final Ipv4Address value) => ip < value.integer;
+  bool operator <(Ipv4Address value) => ip < value.integer;
 
-  bool operator >=(final Ipv4Address value) => ip >= value.integer;
+  bool operator >=(Ipv4Address value) => ip >= value.integer;
 
-  bool operator <=(final Ipv4Address value) => ip <= value.integer;
+  bool operator <=(Ipv4Address value) => ip <= value.integer;
 }

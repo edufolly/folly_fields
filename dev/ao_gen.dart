@@ -22,11 +22,11 @@ void main() async {
           producer: Rule.fromJson,
         )
         ..retainWhere(
-          (final Rule rule) =>
+          (Rule rule) =>
               rule.state != RuleState.removed &&
               rule.state != RuleState.deprecated,
         )
-        ..sort((final Rule a, final Rule b) => a.name.compareTo(b.name));
+        ..sort((Rule a, Rule b) => a.name.compareTo(b.name));
 
   YamlDocument doc = loadYamlDocument(
     File('analysis_options.yaml').readAsStringSync(),
@@ -114,7 +114,7 @@ class Rule {
     required this.sinceDartSdk,
   });
 
-  factory Rule.fromJson(final dynamic map) => switch (map) {
+  factory Rule.fromJson(dynamic map) => switch (map) {
     Map<dynamic, dynamic> _ => Rule(
       name: map['name']?.toString() ?? '',
       description: map['description']?.toString() ?? '',
@@ -132,13 +132,13 @@ class Rule {
 
 class Utils {
   static Iterable<T>? _fromJsonRawIterable<T>(
-    final Iterable<dynamic>? value, {
-    required final T Function(dynamic e) producer,
+    Iterable<dynamic>? value, {
+    required T Function(dynamic e) producer,
   }) => value?.map<T>(producer);
 
   static List<T> fromJsonSafeList<T>(
-    final dynamic value, {
-    required final T Function(dynamic e) producer,
+    dynamic value, {
+    required T Function(dynamic e) producer,
   }) => value == null
       ? <T>[]
       : (value is Iterable)
@@ -146,8 +146,8 @@ class Utils {
       : <T>[producer(value)];
 
   static Set<T> fromJsonSafeSet<T>(
-    final dynamic value, {
-    required final T Function(dynamic e) producer,
+    dynamic value, {
+    required T Function(dynamic e) producer,
   }) => value == null
       ? <T>{}
       : (value is Iterable)
@@ -155,20 +155,17 @@ class Utils {
       : <T>{producer(value)};
 
   static Set<T> fromJsonSafeEnumSet<T extends Enum>(
-    final dynamic value,
-    final Iterable<T> values,
+    dynamic value,
+    Iterable<T> values,
   ) => switch (value) {
     null => <T>{},
     Iterable<dynamic> _ =>
-      value.map((final dynamic e) => values.byName(e.toString())).toSet(),
+      value.map((dynamic e) => values.byName(e.toString())).toSet(),
     _ => <T>{values.byName(value.toString())},
   };
 
-  static Set<String> fromJsonSafeStringSet(final dynamic value) =>
-      fromJsonSafeSet<String>(
-        value,
-        producer: (final dynamic e) => e.toString(),
-      );
+  static Set<String> fromJsonSafeStringSet(dynamic value) =>
+      fromJsonSafeSet<String>(value, producer: (dynamic e) => e.toString());
 }
 
 enum RuleGroup {
@@ -177,13 +174,11 @@ enum RuleGroup {
   errors,
   none;
 
-  static RuleGroup parse(
-    final dynamic value, {
-    final RuleGroup defaultValue = none,
-  }) => RuleGroup.values.firstWhere(
-    (final RuleGroup element) => element.name == value.toString().toLowerCase(),
-    orElse: () => defaultValue,
-  );
+  static RuleGroup parse(dynamic value, {RuleGroup defaultValue = none}) =>
+      RuleGroup.values.firstWhere(
+        (RuleGroup element) => element.name == value.toString().toLowerCase(),
+        orElse: () => defaultValue,
+      );
 }
 
 enum RuleState { stable, deprecated, experimental, removed }

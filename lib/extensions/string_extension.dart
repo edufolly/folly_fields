@@ -105,7 +105,7 @@ extension StringExtension on String {
 
   String get splitCase => splitMapJoin(
     RegExp('[A-Z]'),
-    onMatch: (final Match m) => ' ${m.group(0)}',
-    onNonMatch: (final String s) => s,
+    onMatch: (Match m) => ' ${m.group(0)}',
+    onNonMatch: (String s) => s,
   );
 }

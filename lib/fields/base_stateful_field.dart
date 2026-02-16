@@ -55,6 +55,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
   final IconData? suffixIconData;
   final VoidCallback? onTap;
   final bool clearOnCancel;
+  final void Function(T?)? lostFocus;
 
   const BaseStatefulField({
     this.required = true,
@@ -89,6 +90,7 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
     this.suffixIconData,
     this.onTap,
     this.clearOnCancel = true,
+    this.lostFocus,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -159,6 +161,10 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
         baseOffset: 0,
         extentOffset: _effectiveController.text.length,
       );
+    }
+
+    if (widget.lostFocus != null && !_effectiveFocusNode.hasFocus) {
+      widget.lostFocus?.call(_effectiveController.data);
     }
   }
 

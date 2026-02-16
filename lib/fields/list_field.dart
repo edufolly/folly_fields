@@ -35,6 +35,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
   final IconData deleteIcon;
   final String Function(BuildContext context, T model)? deleteMessage;
   final String deleteDefaultMessage;
+  final Future<T?> Function(BuildContext context, T model)? itemOnTap;
 
   ListField({
     this.controller,
@@ -61,7 +62,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
     this.deleteIcon = FontAwesomeIcons.trashCan,
     this.deleteMessage,
     this.deleteDefaultMessage = 'Deseja excluir o ítem?',
-    // TODO(edufolly): Item on tap event.
+    this.itemOnTap,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -131,8 +132,27 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
 
                            /// List Items
                            ...value.map(
-                             (T model) =>
-                                 _ListItem<T>(state, model, enabled: enabled),
+                             (T model) => _ListItem<T>(
+                               context: state.context,
+                               widget: state.widget,
+                               focusNode: state._effectiveFocusNode,
+                               model: model,
+                               enabled: enabled,
+                               onRemove: (T model) =>
+                                   state.didChange(state.value?..remove(model)),
+                               onTap: state.widget.itemOnTap == null
+                                   ? null
+                                   : (T model) async {
+                                       final T? newModel = await state
+                                           .widget
+                                           .itemOnTap
+                                           ?.call(state.context, model);
+
+                                       if (newModel == null) return;
+
+                                       state.didChange(state.value);
+                                     },
+                             ),
                            ),
                          ].intersperse(const Divider()),
                        );
@@ -184,47 +204,50 @@ class _ListAddButton<T> extends StatelessWidget {
 }
 
 class _ListItem<T> extends StatelessWidget {
-  final _ListFieldState<T> state;
+  final BuildContext context;
+  final ListField<T> widget;
   final T model;
   final bool enabled;
+  final void Function(T model) onRemove;
+  final FocusNode? focusNode;
+  final Future<void> Function(T model)? onTap;
 
-  const _ListItem(this.state, this.model, {required this.enabled, super.key});
+  const _ListItem({
+    required this.context,
+    required this.widget,
+    required this.model,
+    required this.enabled,
+    required this.onRemove,
+    this.focusNode,
+    this.onTap,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       enabled: enabled,
-      leading: state.widget.getLeading?.call(
-        state.context,
-        model,
-        enabled: enabled,
-      ),
+      onTap: onTap != null && enabled ? () => onTap?.call(model) : null,
+      leading: widget.getLeading?.call(context, model, enabled: enabled),
       title:
-          state.widget.getTitle?.call(state.context, model, enabled: enabled) ??
+          widget.getTitle?.call(context, model, enabled: enabled) ??
           Text(model.toString()),
-      subtitle: state.widget.getSubtitle?.call(
-        state.context,
-        model,
-        enabled: enabled,
-      ),
-      trailing: (state.widget.canDelete?.call(model) ?? true)
+      subtitle: widget.getSubtitle?.call(context, model, enabled: enabled),
+      trailing: (widget.canDelete?.call(model) ?? true)
           ? IconButton(
-              icon: Icon(state.widget.deleteIcon),
+              icon: Icon(widget.deleteIcon),
               onPressed: enabled
                   ? () async {
-                      state._effectiveFocusNode.requestFocus();
+                      focusNode?.requestFocus();
 
                       final bool go = await FollyDialogs.yesNoDialog(
-                        context: state.context,
+                        context: context,
                         message:
-                            state.widget.deleteMessage?.call(
-                              state.context,
-                              model,
-                            ) ??
-                            state.widget.deleteDefaultMessage,
+                            widget.deleteMessage?.call(context, model) ??
+                            widget.deleteDefaultMessage,
                       );
 
-                      if (go) state.didChange(state.value?..remove(model));
+                      if (go) onRemove(model);
                     }
                   : null,
             )

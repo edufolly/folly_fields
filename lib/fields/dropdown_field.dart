@@ -14,7 +14,7 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
     this.controller,
     FormFieldValidator<T?>? validator,
     super.onSaved,
-    final T? initialValue,
+    T? initialValue,
     this.items,
     super.enabled,
     AutovalidateMode autoValidateMode = AutovalidateMode.disabled,

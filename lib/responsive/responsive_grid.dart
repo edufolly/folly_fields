@@ -32,68 +32,61 @@ class ResponsiveGrid extends ResponsiveStateless {
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
       responsiveSizes:
-          responsiveSizes?.takeIf((final List<double> it) => it.length == 4) ??
+          responsiveSizes?.takeIf((List<double> it) => it.length == 4) ??
           <double>[540, 720, 960, 1770],
-      builder:
-          (final BuildContext context, final ResponsiveSize responsiveSize) {
-            List<Widget> columnChildren = <Widget>[];
+      builder: (BuildContext context, ResponsiveSize responsiveSize) {
+        List<Widget> columnChildren = <Widget>[];
 
-            int total = 0;
+        int total = 0;
 
-            double minHeight = -1;
+        double minHeight = -1;
 
-            List<Widget> rowChildren = <Widget>[];
+        List<Widget> rowChildren = <Widget>[];
 
-            for (final Responsive child in children) {
-              int size = child.responsiveSize(responsiveSize);
+        for (final Responsive child in children) {
+          int size = child.responsiveSize(responsiveSize);
 
-              if (size > 0) {
-                if (total + size > maxColumns) {
-                  columnChildren.add(_createRow(rowChildren, minHeight));
-                  rowChildren = <Widget>[];
-                  total = 0;
-                  minHeight = -1;
-                }
-
-                if (child.safeMinHeight > minHeight) {
-                  minHeight = child.safeMinHeight;
-                }
-
-                total += size;
-
-                rowChildren.add(
-                  Flexible(
-                    flex: size,
-                    child: padding != null
-                        ? Padding(padding: padding!, child: child)
-                        : child,
-                  ),
-                );
-              }
-            }
-
-            if (rowChildren.isNotEmpty) {
+          if (size > 0) {
+            if (total + size > maxColumns) {
               columnChildren.add(_createRow(rowChildren, minHeight));
+              rowChildren = <Widget>[];
+              total = 0;
+              minHeight = -1;
             }
 
-            return ChildBuilder(
-              child: Column(children: columnChildren),
-              builder: (final BuildContext context, final Widget child) =>
-                  margin == null
-                  ? child
-                  : Padding(padding: margin!, child: child),
+            if (child.safeMinHeight > minHeight) {
+              minHeight = child.safeMinHeight;
+            }
+
+            total += size;
+
+            rowChildren.add(
+              Flexible(
+                flex: size,
+                child: padding != null
+                    ? Padding(padding: padding!, child: child)
+                    : child,
+              ),
             );
-          },
+          }
+        }
+
+        if (rowChildren.isNotEmpty) {
+          columnChildren.add(_createRow(rowChildren, minHeight));
+        }
+
+        return ChildBuilder(
+          child: Column(children: columnChildren),
+          builder: (BuildContext context, Widget child) =>
+              margin == null ? child : Padding(padding: margin!, child: child),
+        );
+      },
     );
   }
 
-  Widget _createRow(final List<Widget> rowData, final double minHeight) =>
-      ChildBuilder(
-        child: Row(
-          crossAxisAlignment: rowCrossAxisAlignment,
-          children: rowData,
-        ),
-        builder: (final BuildContext context, final Widget child) =>
-            minHeight >= 0 ? SizedBox(height: minHeight, child: child) : child,
-      );
+  Widget _createRow(List<Widget> rowData, double minHeight) => ChildBuilder(
+    child: Row(crossAxisAlignment: rowCrossAxisAlignment, children: rowData),
+    builder: (BuildContext context, Widget child) =>
+        minHeight >= 0 ? SizedBox(height: minHeight, child: child) : child,
+  );
 }

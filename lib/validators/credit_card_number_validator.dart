@@ -6,10 +6,9 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 class CreditCardNumberValidator extends AbstractValidator<String> {
   CreditCardType _type;
 
-  CreditCardNumberValidator({
-    final CreditCardType type = CreditCardType.unknown,
-  }) : _type = type,
-       super(<TextInputFormatter>[MaskTextInputFormatter(mask: type.mask)]);
+  CreditCardNumberValidator({CreditCardType type = CreditCardType.unknown})
+    : _type = type,
+      super(<TextInputFormatter>[MaskTextInputFormatter(mask: type.mask)]);
 
   CreditCardType get type => _type;
 

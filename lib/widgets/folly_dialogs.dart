@@ -6,10 +6,10 @@ class FollyDialogs {
   static Future<void> dialogMessage({
     required BuildContext context,
     required String? message,
-    final String title = 'Atenção',
-    final String buttonText = 'OK',
-    final String defaultMessage = 'Ocorreu um erro.',
-    final bool scrollable = false,
+    String title = 'Atenção',
+    String buttonText = 'OK',
+    String defaultMessage = 'Ocorreu um erro.',
+    bool scrollable = false,
   }) {
     return showDialog(
       context: context,

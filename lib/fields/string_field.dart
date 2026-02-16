@@ -163,7 +163,7 @@ class StringField extends ResponsiveStateless {
     );
   }
 
-  String? _realValue(final String value) {
+  String? _realValue(String value) {
     if (emptyIsNull && value.isEmpty) return null;
 
     if (trimOnSaved) return value.trim();
@@ -171,9 +171,8 @@ class StringField extends ResponsiveStateless {
     return value;
   }
 
-  String? _internalValidator(final String? value) =>
+  String? _internalValidator(String? value) =>
       validator?.call(value?.let(_realValue));
 
-  void _internalOnSave(final String? value) =>
-      onSaved?.call(value?.let(_realValue));
+  void _internalOnSave(String? value) => onSaved?.call(value?.let(_realValue));
 }

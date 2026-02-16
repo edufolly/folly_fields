@@ -35,6 +35,7 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.onTap,
     super.required = true,
     super.clearOnCancel = true,
+    super.lostFocus,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,

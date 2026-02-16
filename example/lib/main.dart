@@ -175,32 +175,6 @@ class MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
 
-                    ListField<ExampleModel>(
-                      label: 'Lista',
-                      getLeading: (_, model, {required enabled}) => Icon(
-                        Icons.circle,
-                        color: !enabled
-                            ? theme.disabledColor
-                            : model.active
-                            ? Colors.green
-                            : Colors.red,
-                      ),
-                      getTitle: (_, model, {required enabled}) =>
-                          Text(model.text ?? ''),
-                      getSubtitle: (_, model, {required enabled}) =>
-                          model.document?.let(Text.new),
-                      initialValue: model.list,
-                      addButtonLabel: 'Adicionar Exemplo',
-                      addButtonIcon: FontAwesomeIcons.circlePlus,
-                      addButtonOnTap: (context, data) async => List.of(data)
-                        ..add(
-                          ExampleModel.generate(
-                            seed: DateTime.now().microsecond,
-                          ),
-                        ),
-                      onSaved: (value) => model.list = value ?? [],
-                    ),
-
                     // [RootCode]
                     CodeLink(
                       code: code,
@@ -662,6 +636,41 @@ class MyHomePageState extends State<MyHomePage> {
                             onSaved: (value) => model.fruitIndex = value?.first,
                           ),
                       // [/ChoiceChipField]
+                    ),
+
+                    CodeLink(
+                      code: code,
+                      tag: 'ListField',
+                      source: '$githubUrl/list_field.dart',
+                      child:
+                          // [ListField]
+                          ListField<ExampleModel>(
+                            label: 'Lista',
+                            initialValue: model.list,
+                            getLeading: (_, model, {required enabled}) => Icon(
+                              Icons.circle,
+                              color: !enabled
+                                  ? theme.disabledColor
+                                  : model.active
+                                  ? Colors.green
+                                  : Colors.red,
+                            ),
+                            getTitle: (_, model, {required enabled}) =>
+                                Text(model.text ?? ''),
+                            getSubtitle: (_, model, {required enabled}) =>
+                                model.document?.let(Text.new),
+                            addButtonOnTap: (context, data) async =>
+                                List.of(data)..add(
+                                  ExampleModel.generate(
+                                    seed: DateTime.now().microsecond,
+                                  ),
+                                ),
+                            itemOnTap: (context, model) async => model
+                              ..text = 'NEW EXAMPLE'
+                              ..active = !model.active,
+                            onSaved: (value) => model.list = value ?? [],
+                          ),
+                      // [/ListField]
                     ),
 
                     // [/RootCode]
