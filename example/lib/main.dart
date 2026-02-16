@@ -190,7 +190,7 @@ class MyHomePageState extends State<MyHomePage> {
                       getSubtitle: (_, model, {required enabled}) =>
                           model.document?.let(Text.new),
                       initialValue: model.list,
-                      addButtonMessage: 'Adicionar Exemplo',
+                      addButtonLabel: 'Adicionar Exemplo',
                       addButtonIcon: FontAwesomeIcons.circlePlus,
                       addButtonOnTap: (context, data) async => List.of(data)
                         ..add(

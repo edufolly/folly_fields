@@ -3,6 +3,7 @@ import 'package:folly_fields/controllers/list_field_controller.dart';
 import 'package:folly_fields/extensions/list_extension.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
+import 'package:folly_fields/widgets/folly_dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListField<T> extends ResponsiveFormField<List<T>> {
@@ -27,11 +28,13 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
   })?
   getSubtitle;
   final IconData addButtonIcon;
-  final String addButtonMessage;
+  final String addButtonLabel;
   final Future<List<T>?> Function(BuildContext context, List<T> data)?
   addButtonOnTap;
   final bool Function(T model)? canDelete;
   final IconData deleteIcon;
+  final String Function(BuildContext context, T model)? deleteMessage;
+  final String deleteDefaultMessage;
 
   ListField({
     this.controller,
@@ -52,11 +55,12 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
     EdgeInsets? contentPadding,
     bool showAddButton = true,
     this.addButtonIcon = FontAwesomeIcons.plus,
-    this.addButtonMessage = 'Adicionar',
+    this.addButtonLabel = 'Adicionar',
     this.addButtonOnTap,
     this.canDelete,
     this.deleteIcon = FontAwesomeIcons.trashCan,
-    // TODO(edufolly): Delete before ask.
+    this.deleteMessage,
+    this.deleteDefaultMessage = 'Deseja excluir o ítem?',
     // TODO(edufolly): Item on tap event.
     super.sizeExtraSmall,
     super.sizeSmall,
@@ -157,7 +161,7 @@ class _ListAddButton<T> extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: FilledButton.icon(
         icon: Icon(state.widget.addButtonIcon),
-        label: Text(state.widget.addButtonMessage),
+        label: Text(state.widget.addButtonLabel),
         onPressed: isNull(state.widget.addButtonOnTap) || !enabled
             ? null
             : () async {
@@ -207,9 +211,20 @@ class _ListItem<T> extends StatelessWidget {
           ? IconButton(
               icon: Icon(state.widget.deleteIcon),
               onPressed: enabled
-                  ? () {
+                  ? () async {
                       state._effectiveFocusNode.requestFocus();
-                      state.didChange(state.value?..remove(model));
+
+                      final bool go = await FollyDialogs.yesNoDialog(
+                        context: state.context,
+                        message:
+                            state.widget.deleteMessage?.call(
+                              state.context,
+                              model,
+                            ) ??
+                            state.widget.deleteDefaultMessage,
+                      );
+
+                      if (go) state.didChange(state.value?..remove(model));
                     }
                   : null,
             )
@@ -247,28 +262,6 @@ class _ListFieldState<T> extends FormFieldState<List<T>> {
 
   void hovering({required bool enter}) => setState(() => _isHovering = enter);
 
-  // @override
-  // void didUpdateWidget(final ListField<T> oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (widget.controller != oldWidget.controller) {
-  //     oldWidget.controller?.removeListener(_handleControllerChanged);
-  //
-  //     widget.controller?.addListener(_handleControllerChanged);
-  //
-  //     if (oldWidget.controller != null && widget.controller == null) {
-  //     _controller = ListFieldController<T>.fromValue(oldWidget.controller!);
-  //     }
-  //
-  //     if (widget.controller != null) {
-  //       setValue(widget.controller!.value);
-  //
-  //       if (oldWidget.controller == null) {
-  //         _controller = null;
-  //       }
-  //     }
-  //   }
-  // }
-
   @override
   void didChange(List<T>? value) {
     super.didChange(value);
@@ -291,22 +284,6 @@ class _ListFieldState<T> extends FormFieldState<List<T>> {
     // setState(() => _effectiveController.value = widget.initialValue ?? <T>[])
     _effectiveController.value = widget.initialValue ?? <T>[];
   }
-
-  // void update(
-  //   final T element, {
-  //   required bool selected,
-  //   required bool multiple,
-  // }) {
-  //   final List<T> value = List<T>.from(_effectiveController.value);
-  //
-  //   if (selected) {
-  //     value.add(element);
-  //   } else {
-  //     value.remove(element);
-  //   }
-  //
-  //   didChange(value);
-  // }
 
   @override
   void dispose() {
