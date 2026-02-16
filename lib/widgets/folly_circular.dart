@@ -7,12 +7,11 @@ class FollyCircular extends StatelessWidget {
   const FollyCircular({super.key, this.color, this.size = 16.0});
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: SizedBox(
         width: size,
-        // ignore: no-equal-arguments
         height: size,
         child: FittedBox(
           child: CircularProgressIndicator(

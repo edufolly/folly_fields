@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('This class will be removed.')
 class FollyDivider extends StatelessWidget {
   final double height;
   final Color? color;
@@ -13,7 +14,7 @@ class FollyDivider extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) => Container(
+  Widget build(BuildContext context) => Container(
     height: height,
     color:
         color ??

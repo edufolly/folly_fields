@@ -2,6 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This class will be removed.')
 class FollyMenuGroup extends StatelessWidget {
   final String? label;
   final IconData? iconData;
@@ -23,7 +24,7 @@ class FollyMenuGroup extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     Color accentColor =
         color ??
         (Theme.of(context).brightness == Brightness.light

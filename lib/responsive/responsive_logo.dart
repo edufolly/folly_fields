@@ -18,7 +18,7 @@ class ResponsiveLogo extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) => Image.asset(
+  Widget build(BuildContext context) => Image.asset(
     path,
     width: math.min(
       math.max(MediaQuery.of(context).size.width * percent, min),

@@ -18,20 +18,20 @@ class IconDataField extends ResponsiveFormField<IconData> {
     this.controller,
     this.focusNode,
     this.clearOnCancel = false,
-    final String? labelPrefix,
-    final String? label,
-    final Widget? labelWidget,
+    String? labelPrefix,
+    String? label,
+    Widget? labelWidget,
     super.onSaved,
-    final FormFieldValidator<IconData>? validator,
-    final IconData? initialValue,
+    FormFieldValidator<IconData>? validator,
+    IconData? initialValue,
     super.enabled = true,
     super.autovalidateMode = AutovalidateMode.disabled,
-    final TextStyle? style,
-    final double? iconSize,
-    final InputDecoration? decoration,
-    final EdgeInsets padding = const EdgeInsets.all(8),
-    final Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
-    final EdgeInsets? contentPadding,
+    TextStyle? style,
+    double? iconSize,
+    InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -154,8 +154,7 @@ class _IconDataExternalFieldState extends FormFieldState<IconData> {
     _effectiveFocusNode.addListener(_handleFocusChanged);
   }
 
-  void hovering({required final bool enter}) =>
-      setState(() => _isHovering = enter);
+  void hovering({required bool enter}) => setState(() => _isHovering = enter);
 
   Future<void> _handleTap() async {
     _effectiveFocusNode.requestFocus();
@@ -170,7 +169,7 @@ class _IconDataExternalFieldState extends FormFieldState<IconData> {
   }
 
   @override
-  void didChange(final IconData? value) {
+  void didChange(IconData? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;

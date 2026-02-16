@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/mac_address_validator.dart';
 
 class MacAddressField extends ValidatorField {
   MacAddressField({
-    final MacAddressValidator? macAddressValidator,
+    MacAddressValidator? macAddressValidator,
     super.validatorMessage = 'Informe o MAC Address.',
     super.labelPrefix,
     super.label,

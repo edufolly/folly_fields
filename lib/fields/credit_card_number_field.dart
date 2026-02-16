@@ -135,7 +135,7 @@ class _CreditCardNumberFieldState extends State<CreditCardNumberField> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return ValidatorField(
       abstractValidator: validator,
       validatorMessage: widget.validatorMessage,

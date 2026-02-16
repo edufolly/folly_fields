@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This class will be removed.')
 class EmptyButton extends ResponsiveStateless {
   const EmptyButton({
     super.sizeExtraSmall,
@@ -14,7 +15,7 @@ class EmptyButton extends ResponsiveStateless {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return const Flexible(
       flex: 0,
       child: IconButton(

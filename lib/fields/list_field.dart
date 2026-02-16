@@ -39,18 +39,18 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
     this.getLeading,
     this.getTitle,
     this.getSubtitle,
-    final String? labelPrefix,
-    final String? label,
-    final Widget? labelWidget,
-    final FormFieldValidator<List<T>?>? validator,
+    String? labelPrefix,
+    String? label,
+    Widget? labelWidget,
+    FormFieldValidator<List<T>?>? validator,
     super.onSaved,
-    final List<T>? initialValue,
+    List<T>? initialValue,
     super.enabled,
-    final AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    final InputDecoration? decoration,
-    final EdgeInsets padding = const EdgeInsets.all(8),
-    final EdgeInsets? contentPadding,
-    final bool showAddButton = true,
+    super.autovalidateMode = AutovalidateMode.disabled,
+    InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    EdgeInsets? contentPadding,
+    bool showAddButton = true,
     this.addButtonIcon = FontAwesomeIcons.plus,
     this.addButtonMessage = 'Adicionar',
     this.addButtonOnTap,
@@ -76,8 +76,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
        super(
          initialValue: controller != null ? controller.value : initialValue,
          validator: enabled ? validator : null,
-         autovalidateMode: autoValidateMode,
-         builder: (final FormFieldState<List<T>?> field) {
+         builder: (FormFieldState<List<T>?> field) {
            final _ListFieldState<T> state = field as _ListFieldState<T>;
 
            final ThemeData theme = Theme.of(state.context);
@@ -117,7 +116,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
                    isHovering: state._isHovering,
                    child: ValueListenableBuilder<List<T>>(
                      valueListenable: state._effectiveController,
-                     builder: (_, final List<T> value, _) {
+                     builder: (_, List<T> value, _) {
                        return Column(
                          mainAxisSize: MainAxisSize.min,
                          crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -128,7 +127,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
 
                            /// List Items
                            ...value.map(
-                             (final T model) =>
+                             (T model) =>
                                  _ListItem<T>(state, model, enabled: enabled),
                            ),
                          ].intersperse(const Divider()),
@@ -153,7 +152,7 @@ class _ListAddButton<T> extends StatelessWidget {
   const _ListAddButton(this.state, {required this.enabled, super.key});
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: FilledButton.icon(
@@ -188,7 +187,7 @@ class _ListItem<T> extends StatelessWidget {
   const _ListItem(this.state, this.model, {required this.enabled, super.key});
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return ListTile(
       enabled: enabled,
       leading: state.widget.getLeading?.call(
@@ -246,8 +245,7 @@ class _ListFieldState<T> extends FormFieldState<List<T>> {
     _effectiveFocusNode.addListener(_handleFocusChanged);
   }
 
-  void hovering({required final bool enter}) =>
-      setState(() => _isHovering = enter);
+  void hovering({required bool enter}) => setState(() => _isHovering = enter);
 
   // @override
   // void didUpdateWidget(final ListField<T> oldWidget) {
@@ -272,7 +270,7 @@ class _ListFieldState<T> extends FormFieldState<List<T>> {
   // }
 
   @override
-  void didChange(final List<T>? value) {
+  void didChange(List<T>? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value ?? <T>[];
@@ -296,8 +294,8 @@ class _ListFieldState<T> extends FormFieldState<List<T>> {
 
   // void update(
   //   final T element, {
-  //   required final bool selected,
-  //   required final bool multiple,
+  //   required bool selected,
+  //   required bool multiple,
   // }) {
   //   final List<T> value = List<T>.from(_effectiveController.value);
   //

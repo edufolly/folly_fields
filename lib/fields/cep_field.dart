@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/cep_validator.dart';
 
 class CepField extends ValidatorField {
   CepField({
-    final CepValidator? cepValidator,
+    CepValidator? cepValidator,
     super.validatorMessage = 'Informe o CEP.',
     super.required,
     super.labelPrefix,

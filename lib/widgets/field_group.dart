@@ -19,7 +19,7 @@ class FieldGroup extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: InputDecorator(

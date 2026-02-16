@@ -47,13 +47,13 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   });
 
   @override
-  TimeEditingController createController(final TimeOfDay? value) =>
+  TimeEditingController createController(TimeOfDay? value) =>
       TimeEditingController(value: value);
 
   @override
   Future<TimeOfDay?> selectData({
-    required final BuildContext context,
-    required final TimeEditingController controller,
+    required BuildContext context,
+    required TimeEditingController controller,
   }) => showTimePicker(
     context: context,
     initialTime: controller.data ?? TimeOfDay.now(),

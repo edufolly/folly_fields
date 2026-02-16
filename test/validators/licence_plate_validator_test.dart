@@ -19,8 +19,8 @@ void main() {
     ];
 
     cartesianProductGenerate(domain, (
-      final List<dynamic> data, {
-      required final bool result,
+      List<dynamic> data, {
+      required bool result,
     }) {
       String key = data.join();
       test(

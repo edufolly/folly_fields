@@ -1,9 +1,9 @@
 void cartesianProductGenerate(
-  final List<Map<dynamic, bool>> domain,
-  final void Function(List<dynamic> data, {required bool result}) runTest, {
-  final List<dynamic> data = const <dynamic>[],
-  final int depth = 0,
-  final bool result = true,
+  List<Map<dynamic, bool>> domain,
+  void Function(List<dynamic> data, {required bool result}) runTest, {
+  List<dynamic> data = const <dynamic>[],
+  int depth = 0,
+  bool result = true,
 }) {
   for (int i = 0; i < domain[depth].length; i++) {
     MapEntry<dynamic, bool> entry = domain[depth].entries.toList()[i];

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('This class will be removed.')
 class FollyMenuItem extends StatelessWidget {
   final String label;
   final IconData? iconData;
@@ -19,7 +20,7 @@ class FollyMenuItem extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     Color accentColor =
         color ??
         (Theme.of(context).brightness == Brightness.light

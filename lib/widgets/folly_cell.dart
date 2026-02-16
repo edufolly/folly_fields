@@ -27,9 +27,9 @@ class FollyCell extends StatelessWidget {
     required this.padding,
     required this.align,
     required this.color,
-    required final TextAlign textAlign,
-    required final TextStyle? style,
-    required final bool selectable,
+    required TextAlign textAlign,
+    required TextStyle? style,
+    required bool selectable,
     super.key,
   }) : child = selectable
            ? SelectableText(text, textAlign: textAlign, style: style)
@@ -327,7 +327,7 @@ class FollyCell extends StatelessWidget {
         );
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: padding,
       child: Align(alignment: align, child: child),

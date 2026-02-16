@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/cest_validator.dart';
 
 class CestField extends ValidatorField {
   CestField({
-    final CestValidator? cestValidator,
+    CestValidator? cestValidator,
     super.validatorMessage = 'Informe o CEST.',
     super.required,
     super.labelPrefix,

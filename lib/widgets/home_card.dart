@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/popup_icon_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This class will be removed.')
 class HomeCard<T, O> extends StatelessWidget {
   final T item;
   final String name;
@@ -37,7 +38,7 @@ class HomeCard<T, O> extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     Color effectiveColor =
         color ??
         (Theme.of(context).brightness == Brightness.light

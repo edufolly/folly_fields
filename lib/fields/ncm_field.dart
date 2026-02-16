@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/ncm_validator.dart';
 
 class NcmField extends ValidatorField {
   NcmField({
-    final NcmValidator? ncmValidator,
+    NcmValidator? ncmValidator,
     super.validatorMessage = 'Informe o NCM.',
     super.labelPrefix,
     super.label,

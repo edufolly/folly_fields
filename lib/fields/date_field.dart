@@ -58,7 +58,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   }) : super(maxLength: mask.length);
 
   @override
-  DateEditingController createController(final DateTime? value) =>
+  DateEditingController createController(DateTime? value) =>
       DateEditingController(
         value: value,
         locale: locale,
@@ -68,8 +68,8 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
 
   @override
   Future<DateTime?> selectData({
-    required final BuildContext context,
-    required final DateEditingController controller,
+    required BuildContext context,
+    required DateEditingController controller,
   }) => showDatePicker(
     context: context,
     initialDate: controller.data ?? DateTime.now(),

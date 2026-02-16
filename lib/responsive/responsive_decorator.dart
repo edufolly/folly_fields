@@ -16,5 +16,5 @@ class ResponsiveDecorator extends ResponsiveStateless {
   });
 
   @override
-  Widget build(final BuildContext context) => child;
+  Widget build(BuildContext context) => child;
 }

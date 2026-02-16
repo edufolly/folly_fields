@@ -13,7 +13,7 @@ class ResponsiveBuilder extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) =>
+  Widget build(BuildContext context) =>
       builder(context, _checkResponsiveSize(context));
 
   ResponsiveSize _checkResponsiveSize(final BuildContext context) {

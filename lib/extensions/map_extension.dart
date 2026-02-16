@@ -4,6 +4,6 @@
 //   }
 // }
 
-bool isNullOrEmpty(final Map<dynamic, dynamic>? it) => it?.isEmpty ?? true;
+bool isNullOrEmpty(Map<dynamic, dynamic>? it) => it?.isEmpty ?? true;
 
-bool isNotEmpty(final Map<dynamic, dynamic>? it) => it?.isNotEmpty ?? false;
+bool isNotEmpty(Map<dynamic, dynamic>? it) => it?.isNotEmpty ?? false;

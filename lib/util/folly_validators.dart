@@ -1,6 +1,7 @@
 import 'package:folly_fields/util/decimal.dart';
 
 // TODO(edufolly): How to use i18n?
+// TODO(edufolly): Move to extensions?
 class FollyValidators {
   static String? allowAll(final dynamic value) => null;
 

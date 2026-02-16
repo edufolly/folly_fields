@@ -15,9 +15,9 @@ class MaskTextInputFormatter implements TextInputFormatter {
   TextEditingValue? _lastNewValue;
 
   MaskTextInputFormatter({
-    final String mask = '',
-    final Map<String, RegExp>? filter,
-    final String initialText = '',
+    String mask = '',
+    Map<String, RegExp>? filter,
+    String initialText = '',
   }) {
     updateMask(
       mask: mask,
@@ -33,8 +33,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
   }
 
   TextEditingValue updateMask({
-    final String mask = '',
-    final Map<String, RegExp>? filter,
+    String mask = '',
+    Map<String, RegExp>? filter,
     // bool clear = false,
   }) {
     _mask = mask;
@@ -43,9 +43,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     //   clear = true;
     // }
 
-    if (filter != null) {
-      _updateFilter(filter);
-    }
+    if (filter != null) _updateFilter(filter);
 
     _calcMaskLength();
 
@@ -74,13 +72,13 @@ class MaskTextInputFormatter implements TextInputFormatter {
 
   bool isFill() => _resultTextArray.length == _maskLength;
 
-  String maskText(final String text) => MaskTextInputFormatter(
+  String maskText(String text) => MaskTextInputFormatter(
     mask: _mask,
     filter: _maskFilter,
     initialText: text,
   ).getMaskedText();
 
-  String unmaskText(final String text) => MaskTextInputFormatter(
+  String unmaskText(String text) => MaskTextInputFormatter(
     mask: _mask,
     filter: _maskFilter,
     initialText: text,
@@ -88,8 +86,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    final TextEditingValue oldValue,
-    final TextEditingValue newValue,
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
   ) {
     if (_lastResValue == oldValue && newValue == _lastNewValue) {
       return oldValue;
@@ -101,8 +99,8 @@ class MaskTextInputFormatter implements TextInputFormatter {
   }
 
   TextEditingValue _format(
-    final TextEditingValue oldValue,
-    final TextEditingValue newValue,
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
   ) {
     String mask = _mask;
 
@@ -262,7 +260,6 @@ class MaskTextInputFormatter implements TextInputFormatter {
       text: _resultTextMasked,
       selection: TextSelection(
         baseOffset: finalCursorPosition,
-        // ignore: no-equal-arguments
         extentOffset: finalCursorPosition,
         affinity: newValue.selection.affinity,
         isDirectional: newValue.selection.isDirectional,
@@ -280,7 +277,7 @@ class MaskTextInputFormatter implements TextInputFormatter {
     }
   }
 
-  void _updateFilter(final Map<String, RegExp> filter) {
+  void _updateFilter(Map<String, RegExp> filter) {
     _maskFilter = filter;
     _maskChars = _maskFilter.keys.toList(growable: false);
   }
@@ -289,15 +286,11 @@ class MaskTextInputFormatter implements TextInputFormatter {
 class _TextMatcher {
   final List<String> _symbolArray = <String>[];
 
-  int get length => _symbolArray.fold(
-    0,
-    (final int prev, final String match) => prev + match.length,
-  );
+  int get length => _symbolArray.fold(0, (int p, String m) => p + m.length);
 
-  void removeRange(final int start, final int end) =>
-      _symbolArray.removeRange(start, end);
+  void removeRange(int start, int end) => _symbolArray.removeRange(start, end);
 
-  void insert(final int start, final String substring) {
+  void insert(int start, String substring) {
     for (int pos = 0; pos < substring.length; pos++) {
       _symbolArray.insert(start + pos, substring[pos]);
     }
@@ -305,16 +298,16 @@ class _TextMatcher {
 
   bool get isEmpty => _symbolArray.isEmpty;
 
-  void removeAt(final int index) => _symbolArray.removeAt(index);
+  void removeAt(int index) => _symbolArray.removeAt(index);
 
-  String operator [](final int index) => _symbolArray[index];
+  String operator [](int index) => _symbolArray[index];
 
   void clear() => _symbolArray.clear();
 
   @override
   String toString() => _symbolArray.join();
 
-  void set(final String text) {
+  void set(String text) {
     _symbolArray.clear();
     for (int pos = 0; pos < text.length; pos++) {
       _symbolArray.add(text[pos]);
@@ -328,8 +321,8 @@ class UppercaseMask extends MaskTextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    final TextEditingValue oldValue,
-    final TextEditingValue newValue,
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
   ) => super.formatEditUpdate(
     oldValue,
     newValue.copyWith(text: newValue.text.toUpperCase()),
@@ -355,8 +348,8 @@ class ChangeMask extends MaskTextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-    final TextEditingValue oldValue,
-    final TextEditingValue newValue,
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
   ) {
     int oldLength = oldValue.text.length;
     int newLength = newValue.text.length;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/widgets/popup_icon_menu_item.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This class will be removed.')
 class FollyMenuHeader<O> extends StatelessWidget {
   final String name;
   final String email;
@@ -26,7 +27,7 @@ class FollyMenuHeader<O> extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     Color localForeground = color ?? Theme.of(context).colorScheme.onPrimary;
 
     Color localBackground = background ?? Theme.of(context).colorScheme.primary;
@@ -102,7 +103,7 @@ class FollyUserHeader<O> extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 6, 8),
       child: Column(
@@ -237,20 +238,15 @@ class FollyUserHeader<O> extends StatelessWidget {
     );
   }
 
-  String _initials(final String name, final String email) {
+  String _initials(String name, String email) {
     if (name.length < 2) {
-      if (email.length < 2) {
-        return '??';
-      }
-
+      if (email.length < 2) return '??';
       return email.substring(0, 2);
     }
 
     List<String> parts = name.split(' ');
 
-    if (parts.length < 2) {
-      return name.substring(0, 2);
-    }
+    if (parts.length < 2) return name.substring(0, 2);
 
     return parts.first[0] + parts.last[0];
   }

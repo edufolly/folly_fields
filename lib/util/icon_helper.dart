@@ -5,27 +5,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class IconHelper {
   static IconData iconData(
-    final String? iconName, {
-    final IconData defaultIconData = FontAwesomeIcons.solidCircle,
+    String? iconName, {
+    IconData defaultIconData = FontAwesomeIcons.solidCircle,
   }) => data[iconName] ?? defaultIconData;
 
-  static String? iconName(final IconData? iconData) {
+  static String? iconName(IconData? iconData) {
     if (iconData == null) {
       return null;
     }
 
     for (final MapEntry<String, IconData> entry in data.entries) {
-      if (entry.value == iconData) {
-        return entry.key;
-      }
+      if (entry.value == iconData) return entry.key;
     }
 
     return null;
   }
 
   static Map<String, IconData> get unique {
-    final Set<IconData> seen = <IconData>{};
-    final Map<String, IconData> unq = <String, IconData>{};
+    Set<IconData> seen = <IconData>{};
+    Map<String, IconData> unq = <String, IconData>{};
 
     for (final MapEntry<String, IconData> entry in data.entries) {
       if (!seen.contains(entry.value)) {

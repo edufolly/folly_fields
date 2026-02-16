@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/licence_plate_validator.dart';
 
 class LicencePlateField extends ValidatorField {
   LicencePlateField({
-    final LicencePlateValidator? licencePlateValidator,
+    LicencePlateValidator? licencePlateValidator,
     super.validatorMessage = 'Informe a placa do veículo.',
     super.labelPrefix,
     super.label,

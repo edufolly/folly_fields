@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/util/icon_helper.dart';
 
+@Deprecated('This class will be removed.')
 class PopupIconMenuItem<O> {
   final O operation;
   final String name;

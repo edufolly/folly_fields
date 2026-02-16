@@ -8,28 +8,28 @@ extension NullableStringExtension on String? {
   bool get isNullOrBlank => this?.trim().isEmpty ?? true;
 }
 
-bool isNullOrEmpty(final String? it) => it.isNullOrEmpty;
+bool isNullOrEmpty(String? it) => it.isNullOrEmpty;
 
-bool isBlank(final String? it) => it.isBlank;
+bool isBlank(String? it) => it.isBlank;
 
-bool isNullOrBlank(final String? it) => it.isNullOrBlank;
+bool isNullOrBlank(String? it) => it.isNullOrBlank;
 
 extension StringExtension on String {
-  String take(final int length) => substring(0, this.length.min(length));
+  String take(int length) => substring(0, this.length.min(length));
 
-  String repeat(final int length) =>
+  String repeat(int length) =>
       List<String>.generate(length, (_) => this).join();
 
   String get capitalize =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
 
   String get capitalizeWords =>
-      split(' ').map((final String e) => e.capitalize).toList().join(' ');
+      split(' ').map((String e) => e.capitalize).toList().join(' ');
 
   // TODO(edufolly): Add more characters.
   String get normalize => splitMapJoin(
     RegExp(r'[^a-zA-Z0-9\s]', caseSensitive: false),
-    onMatch: (final Match e) {
+    onMatch: (Match e) {
       return switch (e.group(0)) {
         'á' || 'à' || 'ã' || 'â' || 'ä' || 'å' => 'a',
         'Á' || 'À' || 'Ã' || 'Â' || 'Ä' || 'Å' => 'A',
@@ -46,7 +46,7 @@ extension StringExtension on String {
         _ => e.group(0) ?? '',
       };
     },
-    onNonMatch: (final String e) => e,
+    onNonMatch: (String e) => e,
   );
 
   bool get isPascalCase =>
@@ -68,14 +68,14 @@ extension StringExtension on String {
 
   String get _camel2Snake => splitMapJoin(
     RegExp('[A-Z]'),
-    onMatch: (final Match m) => '_${m.group(0)!.toLowerCase()}',
-    onNonMatch: (final String n) => n,
+    onMatch: (Match m) => '_${m.group(0)!.toLowerCase()}',
+    onNonMatch: (String n) => n,
   );
 
   String get _snake2Pascal => toLowerCase().splitMapJoin(
     RegExp('_'),
-    onMatch: (final Match m) => '',
-    onNonMatch: (final String n) => n[0].toUpperCase() + n.substring(1),
+    onMatch: (Match m) => '',
+    onNonMatch: (String n) => n[0].toUpperCase() + n.substring(1),
   );
 
   String get _pascal2Camel => this[0].toLowerCase() + substring(1);

@@ -12,7 +12,7 @@ class UppercaseField extends StringField {
     super.minLines,
     super.maxLines,
     super.obscureText,
-    final List<TextInputFormatter>? inputFormatter,
+    List<TextInputFormatter>? inputFormatter,
     super.textAlign,
     super.maxLength,
     super.onSaved,
@@ -61,10 +61,8 @@ class UppercaseField extends StringField {
        super(
          inputFormatter: <TextInputFormatter>[
            TextInputFormatter.withFunction(
-             (
-               final TextEditingValue oldValue,
-               final TextEditingValue newValue,
-             ) => newValue.copyWith(text: newValue.text.toUpperCase()),
+             (TextEditingValue oldValue, TextEditingValue newValue) =>
+                 newValue.copyWith(text: newValue.text.toUpperCase()),
            ),
            ...inputFormatter ?? <TextInputFormatter>[],
          ],

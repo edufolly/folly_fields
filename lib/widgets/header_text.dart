@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+@Deprecated('This class will be removed.')
 class HeaderText extends StatelessWidget {
   final String text;
   final bool enabled;
@@ -7,7 +8,7 @@ class HeaderText extends StatelessWidget {
   const HeaderText(this.text, {this.enabled = true, super.key});
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     TextStyle? columnHeaderTheme = Theme.of(context).textTheme.titleSmall;
 
     if (columnHeaderTheme != null && !enabled) {

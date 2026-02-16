@@ -2,44 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/dropdown_editing_controller.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 
+// TODO(edufolly): Review this class.
 class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
   final DropdownEditingController<T, I>? controller;
   final Map<T, I>? items;
 
   DropdownField({
-    final String? labelPrefix,
-    final String? label,
-    final Widget? labelWidget,
+    String? labelPrefix,
+    String? label,
+    Widget? labelWidget,
     this.controller,
-    final FormFieldValidator<T?>? validator,
+    FormFieldValidator<T?>? validator,
     super.onSaved,
     final T? initialValue,
     this.items,
     super.enabled,
-    final AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
-    final Function(T? value)? onChanged,
-    final bool filled = false,
-    final Color? fillColor,
-    final DropdownButtonBuilder? selectedItemBuilder,
-    final Widget? hint,
-    final Widget? disabledHint,
-    final Color? focusColor,
-    final int elevation = 8,
-    final TextStyle? style,
-    final Widget? icon,
-    final Color? iconDisabledColor,
-    final Color? iconEnabledColor,
-    final double iconSize = 24.0,
-    final bool isDense = true,
-    final bool isExpanded = false,
-    final double? itemHeight,
-    final FocusNode? focusNode,
-    final bool autofocus = false,
-    final Color? dropdownColor,
-    final InputDecoration? decoration,
-    final EdgeInsets padding = const EdgeInsets.all(8),
-    final String? hintText,
-    final EdgeInsets? contentPadding,
+    AutovalidateMode autoValidateMode = AutovalidateMode.disabled,
+    Function(T? value)? onChanged,
+    bool filled = false,
+    Color? fillColor,
+    DropdownButtonBuilder? selectedItemBuilder,
+    Widget? hint,
+    Widget? disabledHint,
+    Color? focusColor,
+    int elevation = 8,
+    TextStyle? style,
+    Widget? icon,
+    Color? iconDisabledColor,
+    Color? iconEnabledColor,
+    double iconSize = 24.0,
+    bool isDense = true,
+    bool isExpanded = false,
+    double? itemHeight,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    Color? dropdownColor,
+    InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    String? hintText,
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -69,7 +70,7 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
          initialValue: controller != null ? controller.value : initialValue,
          validator: enabled ? validator : null,
          autovalidateMode: autoValidateMode,
-         builder: (final FormFieldState<T?> field) {
+         builder: (FormFieldState<T?> field) {
            _DropdownFieldState<T, I> state = field as _DropdownFieldState<T, I>;
 
            InputDecoration effectiveDecoration =
@@ -95,8 +96,9 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
              child: Focus(
                canRequestFocus: false,
                skipTraversal: true,
+               // TODO(edufolly): Why is this builder necessary?
                child: Builder(
-                 builder: (final BuildContext context) {
+                 builder: (BuildContext context) {
                    return InputDecorator(
                      decoration: effectiveDecoration.copyWith(
                        errorText: enabled ? field.errorText : null,
@@ -112,7 +114,7 @@ class DropdownField<T, I extends Widget> extends ResponsiveFormField<T> {
                          hint: hint,
                          disabledHint: disabledHint,
                          onChanged: enabled
-                             ? (final T? value) {
+                             ? (T? value) {
                                  state.didChange(value);
                                  if (onChanged != null && state.isValid) {
                                    onChanged(value);
@@ -170,7 +172,7 @@ class _DropdownFieldState<T, I extends Widget> extends FormFieldState<T> {
   }
 
   @override
-  void didUpdateWidget(final DropdownField<T, I> oldWidget) {
+  void didUpdateWidget(DropdownField<T, I> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -194,7 +196,7 @@ class _DropdownFieldState<T, I extends Widget> extends FormFieldState<T> {
   }
 
   @override
-  void didChange(final T? value) {
+  void didChange(T? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value;

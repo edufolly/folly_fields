@@ -105,11 +105,11 @@ abstract class BaseStatefulField<T, C extends ValidatorEditingController<T?>>
          'label or labelWidget must be null.',
        );
 
-  C createController(final T? value);
+  C createController(T? value);
 
   Future<T?> selectData({
-    required final BuildContext context,
-    required final C controller,
+    required BuildContext context,
+    required C controller,
   }) async => null;
 
   @override
@@ -169,13 +169,13 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
 
     return ValueListenableBuilder<T?>(
       valueListenable: _updatePrefixIconNotifier!,
-      builder: (final BuildContext context, final T? value, _) =>
+      builder: (BuildContext context, T? value, _) =>
           widget.updatePrefixIcon!(context, value, widget.prefixIcon),
     );
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     final TextStyle? effectiveStyle =
@@ -243,7 +243,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
         keyboardType: _effectiveController.validator.keyboard,
         decoration: effectiveDecoration,
         validator: widget.enabled
-            ? (final String? value) {
+            ? (String? value) {
                 if (!widget.required && (value == null || value.isEmpty)) {
                   return null;
                 }
@@ -267,8 +267,7 @@ class _BaseStatefulFieldState<T, C extends ValidatorEditingController<T?>>
         inputFormatters: _effectiveController.validator.inputFormatters,
         textAlign: widget.textAlign,
         maxLength: widget.maxLength,
-        onSaved: (final String? value) =>
-            widget.enabled && widget.onSaved != null
+        onSaved: (String? value) => widget.enabled && widget.onSaved != null
             ? widget.onSaved!(_effectiveController.validator.parse(value))
             : null,
         enabled: widget.enabled,

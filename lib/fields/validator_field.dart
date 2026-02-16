@@ -7,20 +7,20 @@ import 'package:folly_fields/validators/abstract_validator.dart';
 
 class ValidatorField extends StringField {
   ValidatorField({
-    required final AbstractValidator<String> abstractValidator,
-    required final String validatorMessage,
-    final bool required = true,
+    required AbstractValidator<String> abstractValidator,
+    required String validatorMessage,
+    bool required = true,
     super.labelPrefix,
     super.label,
     super.labelWidget,
     super.controller,
-    final FormFieldValidator<String>? validator,
+    FormFieldValidator<String>? validator,
     super.obscureText,
-    final List<TextInputFormatter>? inputFormatter,
+    List<TextInputFormatter>? inputFormatter,
     super.textAlign,
     super.maxLength,
-    final FormFieldSetter<String>? onSaved,
-    final String? initialValue,
+    FormFieldSetter<String>? onSaved,
+    String? initialValue,
     super.enabled,
     super.autoValidateMode,
     super.onChanged,
@@ -63,16 +63,12 @@ class ValidatorField extends StringField {
        super(
          keyboard: abstractValidator.keyboard,
          validator: enabled
-             ? (final String? value) {
+             ? (String? value) {
                  if (!required && isNullOrBlank(value)) return null;
 
-                 if (validator != null) {
-                   return validator(value);
-                 }
+                 if (validator != null) return validator(value);
 
-                 if (!abstractValidator.isValid(value)) {
-                   return validatorMessage;
-                 }
+                 if (!abstractValidator.isValid(value)) return validatorMessage;
 
                  return null;
                }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/responsive/responsive.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+@Deprecated('This class will be removed.')
 class TableIconButton extends ResponsiveStateless {
   final VoidCallback onPressed;
   final bool enabled;
@@ -23,7 +24,7 @@ class TableIconButton extends ResponsiveStateless {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     ListTileThemeData tileTheme = ListTileTheme.of(context);
 
     Color? iconColor =

@@ -62,7 +62,7 @@ class DateTimeField
   }) : super(maxLength: mask.length);
 
   @override
-  DateTimeEditingController createController(final DateTime? value) =>
+  DateTimeEditingController createController(DateTime? value) =>
       DateTimeEditingController(
         value: value,
         locale: locale,
@@ -72,8 +72,8 @@ class DateTimeField
 
   @override
   Future<DateTime?> selectData({
-    required final BuildContext context,
-    required final DateTimeEditingController controller,
+    required BuildContext context,
+    required DateTimeEditingController controller,
   }) async {
     DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -84,9 +84,7 @@ class DateTimeField
       initialDatePickerMode: initialDatePickerMode,
     );
 
-    if (selectedDate == null) {
-      return null;
-    }
+    if (selectedDate == null) return null;
 
     TimeOfDay initialTime = TimeOfDay.now();
 
@@ -102,9 +100,7 @@ class DateTimeField
       initialEntryMode: initialTimeEntryMode,
     );
 
-    if (selectedTime == null) {
-      return null;
-    }
+    if (selectedTime == null) return null;
 
     return selectedDate.mergeStart(time: selectedTime);
   }

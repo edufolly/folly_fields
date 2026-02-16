@@ -10,11 +10,11 @@ class CnaeValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => strip(value)?.replaceAllMapped(
+  String? format(String? value) => strip(value)?.replaceAllMapped(
     RegExp(r'^(\d{4})(\d)(\d{2})$'),
-    (final Match m) => '${m[1]}-${m[2]}/${m[3]}',
+    (Match m) => '${m[1]}-${m[2]}/${m[3]}',
   );
 
   @override
-  bool isValid(final String? value) => strip(value)?.length == 7;
+  bool isValid(String? value) => strip(value)?.length == 7;
 }

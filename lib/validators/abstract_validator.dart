@@ -7,18 +7,18 @@ abstract class AbstractValidator<T> {
 
   TextInputType get keyboard => TextInputType.text;
 
-  String? format(final T? value);
+  String? format(T? value);
 
-  String? strip(final String? value) => value?.replaceAll(RegExp(r'\D'), '');
+  String? strip(String? value) => value?.replaceAll(RegExp(r'\D'), '');
 
-  bool isValid(final String? value);
+  bool isValid(String? value);
 }
 
 // @Deprecated('Remove this class!')
 abstract class AbstractParser<T> {
-  T? parse(final String? value);
+  T? parse(String? value);
 
-  String? valid(final String? value);
+  String? valid(String? value);
 }
 
 // @Deprecated('Remove this class!')

@@ -29,7 +29,7 @@ class ResponsiveGrid extends ResponsiveStateless {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return ResponsiveBuilder(
       responsiveSizes:
           responsiveSizes?.takeIf((final List<double> it) => it.length == 4) ??

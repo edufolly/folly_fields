@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,11 +14,8 @@ class ErrorMessage extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
-    if (kDebugMode) {
-      print(error);
-      print(stackTrace);
-    }
+  Widget build(BuildContext context) {
+    debugPrintStack(label: error.toString(), stackTrace: stackTrace);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

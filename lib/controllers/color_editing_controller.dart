@@ -5,7 +5,7 @@ import 'package:folly_fields/validators/color_validator.dart';
 class ColorEditingController extends ValidatorEditingController<Color?> {
   ValueNotifier<Color?> pickerColor = ValueNotifier<Color?>(null);
 
-  ColorEditingController({final Color? color})
+  ColorEditingController({Color? color})
     : super(validator: ColorValidator(), value: color) {
     pickerColor.value = color;
   }

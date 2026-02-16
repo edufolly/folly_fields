@@ -4,7 +4,7 @@ import 'package:folly_fields/validators/cpf_validator.dart';
 
 class CpfField extends ValidatorField {
   CpfField({
-    final CpfValidator? cpfValidator,
+    CpfValidator? cpfValidator,
     super.validatorMessage = 'Informe o CPF.',
     super.labelPrefix,
     super.label,

@@ -11,7 +11,7 @@ class DecimalField
   final String thousandSeparator;
 
   const DecimalField({
-    // required final Decimal initialValue,
+    // required Decimal initialValue,
     this.defaultPrecision = 2,
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
@@ -54,7 +54,7 @@ class DecimalField
   });
 
   @override
-  DecimalEditingController createController(final Decimal? value) =>
+  DecimalEditingController createController(Decimal? value) =>
       DecimalEditingController(
         Decimal(
           precision: value?.precision ?? defaultPrecision,

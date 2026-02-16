@@ -18,17 +18,17 @@ class CpfCnpjValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => strip(value)?.let(
-    (final String it) =>
+  String? format(String? value) => strip(value)?.let(
+    (String it) =>
         it.length > 11 ? CNPJValidator.format(it) : CPFValidator.format(it),
   );
 
   @override
-  bool isValid(final String? value) =>
+  bool isValid(String? value) =>
       strip(value)
           .takeUnless(isNull)
           ?.let(
-            (final String it) => it.length > 11
+            (String it) => it.length > 11
                 ? CNPJValidator.isValid(it, false)
                 : CPFValidator.isValid(it, false),
           ) ??

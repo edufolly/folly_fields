@@ -102,7 +102,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
   }
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     TextStyle effectiveStyle =
         widget.style ?? Theme.of(context).textTheme.titleMedium!;
 
@@ -114,7 +114,7 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
 
     return ValueListenableBuilder<bool?>(
       valueListenable: obscuredNotifier,
-      builder: (final BuildContext context, final bool? value, _) {
+      builder: (BuildContext context, bool? value, _) {
         InputDecoration effectiveDecoration =
             (widget.decoration ??
                     InputDecoration(
@@ -180,13 +180,13 @@ class _PasswordToggleFieldState extends State<PasswordVisibleField> {
     );
   }
 
-  String? _realValue(final String value) =>
+  String? _realValue(String value) =>
       (widget.emptyIsNull && value.isEmpty) ? null : value;
 
-  String? _internalValidator(final String? value) =>
+  String? _internalValidator(String? value) =>
       widget.validator?.call(value?.let(_realValue));
 
-  void _internalOnSave(final String? value) =>
+  void _internalOnSave(String? value) =>
       widget.onSaved?.call(value?.let(_realValue));
 
   @override

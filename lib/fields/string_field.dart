@@ -103,7 +103,7 @@ class StringField extends ResponsiveStateless {
        );
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
     TextStyle? effectiveStyle = style ?? theme.textTheme.titleMedium;
@@ -164,13 +164,9 @@ class StringField extends ResponsiveStateless {
   }
 
   String? _realValue(final String value) {
-    if (emptyIsNull && value.isEmpty) {
-      return null;
-    }
+    if (emptyIsNull && value.isEmpty) return null;
 
-    if (trimOnSaved) {
-      return value.trim();
-    }
+    if (trimOnSaved) return value.trim();
 
     return value;
   }

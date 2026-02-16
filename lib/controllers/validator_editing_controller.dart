@@ -15,5 +15,5 @@ class ValidatorEditingController<T> extends TextEditingController {
 
   T? get data => text.isEmpty ? null : validator.parse(text);
 
-  set data(final T? value) => text = value?.let(validator.format) ?? '';
+  set data(T? value) => text = value?.let(validator.format) ?? '';
 }

@@ -14,20 +14,20 @@ class BoolField extends ResponsiveFormField<bool> {
     this.controller,
     this.focusNode,
     this.onChanged,
-    final String? labelPrefix,
-    final String? label,
-    final Widget? labelWidget,
-    final void Function(bool value)? onSaved,
-    final String? Function(bool value)? validator,
-    final bool? initialValue,
+    String? labelPrefix,
+    String? label,
+    Widget? labelWidget,
+    void Function(bool value)? onSaved,
+    String? Function(bool value)? validator,
+    bool? initialValue,
     super.enabled = true,
     super.autovalidateMode = AutovalidateMode.disabled,
-    final TextStyle? style,
-    final InputDecoration? decoration,
-    final EdgeInsets padding = const EdgeInsets.all(8),
-    final Widget? prefixIcon,
-    final Widget? suffixIcon,
-    final EdgeInsets? contentPadding,
+    TextStyle? style,
+    InputDecoration? decoration,
+    EdgeInsets padding = const EdgeInsets.all(8),
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -46,12 +46,12 @@ class BoolField extends ResponsiveFormField<bool> {
        super(
          initialValue: controller?.value ?? initialValue,
          validator: enabled && validator != null
-             ? (final bool? value) => validator(value ?? false)
+             ? (bool? value) => validator(value ?? false)
              : null,
          onSaved: enabled && onSaved != null
-             ? (final bool? value) => onSaved(value ?? false)
+             ? (bool? value) => onSaved(value ?? false)
              : null,
-         builder: (final FormFieldState<bool> field) {
+         builder: (FormFieldState<bool> field) {
            final _BoolFieldState state = field as _BoolFieldState;
 
            final ThemeData theme = Theme.of(state.context);
@@ -169,8 +169,7 @@ class _BoolFieldState extends FormFieldState<bool> {
     _effectiveFocusNode.addListener(_handleFocusChanged);
   }
 
-  void hovering({required final bool enter}) =>
-      setState(() => _isHovering = enter);
+  void hovering({required bool enter}) => setState(() => _isHovering = enter);
 
   void _handleTap() {
     _effectiveFocusNode.requestFocus();
@@ -178,7 +177,7 @@ class _BoolFieldState extends FormFieldState<bool> {
   }
 
   @override
-  void didChange(final bool? value) {
+  void didChange(bool? value) {
     super.didChange(value);
     if (_effectiveController.value != value) {
       _effectiveController.value = value ?? false;

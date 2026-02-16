@@ -13,7 +13,7 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
 
   CreditCardType get type => _type;
 
-  set type(final CreditCardType value) {
+  set type(CreditCardType value) {
     _type = value;
 
     (inputFormatters!.first as MaskTextInputFormatter).updateMask(
@@ -25,9 +25,9 @@ class CreditCardNumberValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => strip(value);
+  String? format(String? value) => strip(value);
 
   @override
-  bool isValid(final String? value) =>
+  bool isValid(String? value) =>
       _type.validLength(value) && _type.validNumber(value);
 }

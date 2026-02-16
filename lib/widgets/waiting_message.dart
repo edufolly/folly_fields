@@ -6,7 +6,7 @@ class WaitingMessage extends StatelessWidget {
   const WaitingMessage({this.message, super.key});
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[

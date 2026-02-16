@@ -4,9 +4,9 @@ import 'package:folly_fields/validators/decimal_validator.dart';
 
 class DecimalEditingController extends ValidatorEditingController<Decimal> {
   DecimalEditingController(
-    final Decimal value, {
-    final String decimalSeparator = ',',
-    final String thousandSeparator = '.',
+    Decimal value, {
+    String decimalSeparator = ',',
+    String thousandSeparator = '.',
   }) : super(
          validator: DecimalValidator(
            value.precision,
@@ -17,7 +17,7 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
     decimal = value;
   }
 
-  set decimal(final Decimal dec) {
+  set decimal(Decimal dec) {
     String? masked = validator.format(dec);
     if (masked != null && masked != text) {
       text = masked;
@@ -27,7 +27,7 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
   Decimal get decimal =>
       data ?? Decimal(precision: (validator as DecimalValidator).precision);
 
-  set intValue(final int intValue) {
+  set intValue(int intValue) {
     decimal = Decimal(
       precision: (validator as DecimalValidator).precision,
       intValue: intValue,
@@ -36,7 +36,7 @@ class DecimalEditingController extends ValidatorEditingController<Decimal> {
 
   int get intValue => decimal.intValue;
 
-  set doubleValue(final double doubleValue) {
+  set doubleValue(double doubleValue) {
     decimal = Decimal(
       precision: (validator as DecimalValidator).precision,
       doubleValue: doubleValue,

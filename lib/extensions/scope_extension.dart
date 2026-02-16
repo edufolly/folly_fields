@@ -1,24 +1,24 @@
 extension ScopeExtension<T> on T {
-  R let<R>(final R Function(T it) block) => block.call(this);
+  R let<R>(R Function(T it) block) => block.call(this);
 
-  T also(final void Function(T it) block) {
+  T also(void Function(T it) block) {
     block.call(this);
     return this;
   }
 
-  T? takeIf(final bool Function(T it) condition) =>
+  T? takeIf(bool Function(T it) condition) =>
       condition.call(this) ? this : null;
 
-  T? takeUnless(final bool Function(T it) condition) =>
+  T? takeUnless(bool Function(T it) condition) =>
       condition.call(this) ? null : this;
 }
 
-void todo(final String message) => throw UnimplementedError(message);
+void todo(String message) => throw UnimplementedError(message);
 
-void error(final String message) => throw Exception(message);
+void error(String message) => throw Exception(message);
 
-String parseString(final dynamic it) => it.toString();
+String parseString(dynamic it) => it.toString();
 
-bool isNull(final dynamic it) => it == null;
+bool isNull(dynamic it) => it == null;
 
-bool isNotNull(final dynamic it) => it != null;
+bool isNotNull(dynamic it) => it != null;

@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 class IconDataExternalFieldController extends ValueNotifier<IconData?> {
-  IconDataExternalFieldController({final IconData? value}) : super(value);
+  IconDataExternalFieldController({IconData? value}) : super(value);
 
   IconDataExternalFieldController.fromValue(
-    final IconDataExternalFieldController controller,
+    IconDataExternalFieldController controller,
   ) : super(controller.value);
 }

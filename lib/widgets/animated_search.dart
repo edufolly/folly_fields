@@ -19,7 +19,7 @@ class AnimatedSearchState extends State<AnimatedSearch> {
   bool expanded = false;
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: expanded ? widget.maxSize : 40,

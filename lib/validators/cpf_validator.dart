@@ -14,14 +14,13 @@ class CpfValidator extends AbstractValidator<String> {
   TextInputType get keyboard => TextInputType.number;
 
   @override
-  String? format(final String? value) => value?.let(CPFValidator.format);
+  String? format(String? value) => value?.let(CPFValidator.format);
 
   @override
-  bool isValid(final String? value) =>
-      value?.let(CPFValidator.isValid) ?? false;
+  bool isValid(String? value) => value?.let(CPFValidator.isValid) ?? false;
 
-  static String generate({final bool format = false}) =>
+  static String generate({bool format = false}) =>
       CPFValidator.generate(format);
 
-  static String parse(final String value) => CPFValidator.format(value);
+  static String parse(String value) => CPFValidator.format(value);
 }

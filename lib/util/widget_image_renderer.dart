@@ -23,18 +23,14 @@ class WidgetImageRenderer<T> extends StatelessWidget {
   });
 
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
     return RepaintBoundary(
       key: controller._globalKey,
       child: ValueListenableBuilder<_InternalHolder<T?>>(
         valueListenable: controller,
         child: child,
         builder:
-            (
-              final BuildContext context,
-              final _InternalHolder<T?> value,
-              final Widget? child,
-            ) {
+            (BuildContext context, _InternalHolder<T?> value, Widget? child) {
               WidgetsBinding.instance.endOfFrame.then((_) => _captureWidget());
 
               return builder(context, value.value, child);
@@ -74,9 +70,7 @@ class WidgetImageRenderer<T> extends StatelessWidget {
 
       controller._process = false;
 
-      if (errorTag.isNotEmpty) {
-        throw WidgetImageRenderingException(errorTag);
-      }
+      if (errorTag.isNotEmpty) throw WidgetImageRenderingException(errorTag);
     }
   }
 }
@@ -100,9 +94,9 @@ class WidgetImageController<T> extends ValueNotifier<_InternalHolder<T>> {
   final GlobalKey _globalKey = GlobalKey();
   bool _process = false;
 
-  WidgetImageController({final T? value}) : super(_InternalHolder<T>(value));
+  WidgetImageController({T? value}) : super(_InternalHolder<T>(value));
 
-  bool process(final T value) {
+  bool process(T value) {
     if (!_process) {
       _process = true;
       this.value = _InternalHolder<T>(value);

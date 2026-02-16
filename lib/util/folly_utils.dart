@@ -5,7 +5,8 @@ import 'package:folly_fields/extensions/string_extension.dart';
 
 // TODO(edufolly): Review this class.
 class FollyUtils {
-  static String? validDate(final String? value) {
+  // TODO(edufolly): Move to StringExtension.
+  static String? validDate(String? value) {
     if (isNullOrBlank(value)) return 'Informe uma data.';
 
     List<String> parts = value!.split('/');
@@ -31,7 +32,8 @@ class FollyUtils {
     return null;
   }
 
-  static String? validTime(final String? value) {
+  // TODO(edufolly): Move to StringExtension.
+  static String? validTime(String? value) {
     if (value == null || value.length != 5) return 'Informe uma hora.';
 
     List<String> parts = value.split(':');
@@ -51,17 +53,20 @@ class FollyUtils {
     return null;
   }
 
+  // TODO(edufolly): Create a Extension.
   static Color textColorByLuminance(
-    final Color color, {
-    final Color darkColor = Colors.black,
-    final Color lightColor = Colors.white,
-    final double threshold = 0.183,
+    Color color, {
+    Color darkColor = Colors.black,
+    Color lightColor = Colors.white,
+    double threshold = 0.183,
   }) => color.computeLuminance() > threshold ? darkColor : lightColor;
 
-  static String colorHex(final Color color) =>
+  // TODO(edufolly): Create a Extension.
+  static String colorHex(Color color) =>
       colorToInt(color).toRadixString(16).toUpperCase().padLeft(8, '0');
 
-  static Color? colorParse(final String? text) {
+  // TODO(edufolly): Move to StringExtension.
+  static Color? colorParse(String? text) {
     if (text == null) return null;
 
     try {
@@ -87,10 +92,7 @@ class FollyUtils {
     }
   }
 
-  static MaterialColor? createMaterialColor({
-    final int? intColor,
-    final Color? color,
-  }) {
+  static MaterialColor? createMaterialColor({int? intColor, Color? color}) {
     final Color? newColor = intColor?.let(Color.new) ?? color;
 
     if (newColor == null) return null;
@@ -109,9 +111,9 @@ class FollyUtils {
     });
   }
 
-  static int _floatToInt8(final double x) => (x * 255.0).round() & 0xff;
+  static int _floatToInt8(double x) => (x * 255.0).round() & 0xff;
 
-  static int colorToInt(final Color color) =>
+  static int colorToInt(Color color) =>
       _floatToInt8(color.a) << 24 |
       _floatToInt8(color.r) << 16 |
       _floatToInt8(color.g) << 8 |
