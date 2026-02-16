@@ -3,14 +3,10 @@ extension IterableEnumExtension<T extends Enum> on Iterable<T> {
       byNameOrNull(name) ?? defaultValue;
 
   T? byNameOrNull(final String? name) {
-    if (name == null) {
-      return null;
-    }
+    if (name == null) return null;
 
     for (final T value in this) {
-      if (value.name == name) {
-        return value;
-      }
+      if (value.name == name) return value;
     }
 
     return null;

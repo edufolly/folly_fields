@@ -1,3 +1,5 @@
+import 'package:folly_fields/extensions/num_extension.dart';
+
 extension NullableStringExtension on String? {
   bool get isNullOrEmpty => this?.isEmpty ?? true;
 
@@ -6,13 +8,15 @@ extension NullableStringExtension on String? {
   bool get isNullOrBlank => this?.trim().isEmpty ?? true;
 }
 
-bool isNullOrEmpty(final String? it) => it?.isEmpty ?? false;
+bool isNullOrEmpty(final String? it) => it.isNullOrEmpty;
 
-bool isBlank(final String? it) => it?.trim().isEmpty ?? false;
+bool isBlank(final String? it) => it.isBlank;
 
-bool isNullOrBlank(final String? it) => it?.trim().isEmpty ?? true;
+bool isNullOrBlank(final String? it) => it.isNullOrBlank;
 
 extension StringExtension on String {
+  String take(final int length) => substring(0, this.length.min(length));
+
   String repeat(final int length) =>
       List<String>.generate(length, (_) => this).join();
 
@@ -29,6 +33,8 @@ extension StringExtension on String {
       return switch (e.group(0)) {
         'á' || 'à' || 'ã' || 'â' || 'ä' || 'å' => 'a',
         'Á' || 'À' || 'Ã' || 'Â' || 'Ä' || 'Å' => 'A',
+        'ç' => 'c',
+        'Ç' => 'C',
         'é' || 'è' || 'ê' || 'ë' => 'e',
         'É' || 'È' || 'Ê' || 'Ë' => 'E',
         'í' || 'ì' || 'î' || 'ï' => 'i',
@@ -37,8 +43,6 @@ extension StringExtension on String {
         'Ó' || 'Ò' || 'Õ' || 'Ô' || 'Ö' => 'O',
         'ú' || 'ù' || 'û' || 'ü' => 'u',
         'Ú' || 'Ù' || 'Û' || 'Ü' => 'U',
-        'ç' => 'c',
-        'Ç' => 'C',
         _ => e.group(0) ?? '',
       };
     },

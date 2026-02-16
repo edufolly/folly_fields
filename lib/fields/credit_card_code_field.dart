@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/services.dart';
+import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields/fields/string_field.dart';
 import 'package:folly_fields/util/credit_card_type.dart';
 import 'package:sprintf/sprintf.dart';
@@ -84,15 +85,9 @@ class CreditCardCodeField extends StringField {
            FilteringTextInputFormatter.digitsOnly,
          ],
          onSaved: enabled
-             ? (String? value) {
-                 if (onSaved != null) {
-                   if (!required && value != null && value.isEmpty) {
-                     value = null;
-                   }
-
-                   onSaved(value);
-                 }
-               }
+             ? (final String? value) => onSaved?.call(
+                 !required && isNullOrBlank(value) ? null : value,
+               )
              : null,
        );
 }
