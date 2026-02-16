@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-10 16:29:20</td>
+            <td class="headerValue">2026-02-16 21:53:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -76,17 +76,16 @@
 <span id="L14"><span class="lineNum">      14</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
 <span id="L15"><span class="lineNum">      15</span>              : </span>
 <span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :   String? format(final String? value) =&gt; value?.let(CPFValidator.format);</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           1 :   String? format(String? value) =&gt; value?.let(CPFValidator.format);</span></span>
 <span id="L18"><span class="lineNum">      18</span>              : </span>
 <span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L20"><span class="lineNum">      20</span>              :   bool isValid(final String? value) =&gt;</span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :       value?.let(CPFValidator.isValid) ?? false;</span></span>
-<span id="L22"><span class="lineNum">      22</span>              : </span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :   static String generate({final bool format = false}) =&gt;</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :       CPFValidator.generate(format);</span></span>
-<span id="L25"><span class="lineNum">      25</span>              : </span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC tlaBgUNC">           0 :   static String parse(final String value) =&gt; CPFValidator.format(value);</span></span>
-<span id="L27"><span class="lineNum">      27</span>              : }</span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :   bool isValid(String? value) =&gt; value?.let(CPFValidator.isValid) ?? false;</span></span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :   static String generate({bool format = false}) =&gt;</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :       CPFValidator.generate(format);</span></span>
+<span id="L24"><span class="lineNum">      24</span>              : </span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC tlaBgUNC">           0 :   static String parse(String value) =&gt; CPFValidator.format(value);</span></span>
+<span id="L26"><span class="lineNum">      26</span>              : }</span>
         </pre>
               </td>
             </tr>

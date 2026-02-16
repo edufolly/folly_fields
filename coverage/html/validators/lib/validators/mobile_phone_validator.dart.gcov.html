@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-10 16:29:20</td>
+            <td class="headerValue">2026-02-16 21:53:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -74,29 +74,25 @@
 <span id="L12"><span class="lineNum">      12</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :   String? format(final String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           2 :   String? format(String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
 <span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           1 :     RegExp(r'^(\d{2})(\d{5})(\d{4})$'),</span></span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           5 :     (final Match m) =&gt; '(${m[1]}) ${m[2]}-${m[3]}',</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           5 :     (Match m) =&gt; '(${m[1]}) ${m[2]}-${m[3]}',</span></span>
 <span id="L18"><span class="lineNum">      18</span>              :   );</span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
 <span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           1 :   @override</span></span>
-<span id="L21"><span class="lineNum">      21</span>              :   bool isValid(final String? value) {</span>
+<span id="L21"><span class="lineNum">      21</span>              :   bool isValid(String? value) {</span>
 <span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :     String? v = strip(value);</span></span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
 <span id="L24"><span class="lineNum">      24</span>              :     /// phone must be defined</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :     if (v == null || v.length != 11) {</span></span>
-<span id="L26"><span class="lineNum">      26</span>              :       return false;</span>
-<span id="L27"><span class="lineNum">      27</span>              :     }</span>
-<span id="L28"><span class="lineNum">      28</span>              : </span>
-<span id="L29"><span class="lineNum">      29</span>              :     /// Não existe DDD com zero.</span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           4 :     if (v[0] == '0' || v[1] == '0') {</span></span>
-<span id="L31"><span class="lineNum">      31</span>              :       return false;</span>
-<span id="L32"><span class="lineNum">      32</span>              :     }</span>
-<span id="L33"><span class="lineNum">      33</span>              : </span>
-<span id="L34"><span class="lineNum">      34</span>              :     /// Telefones celulares sempre iniciam com 9.</span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :     return v[2] == '9';</span></span>
-<span id="L36"><span class="lineNum">      36</span>              :   }</span>
-<span id="L37"><span class="lineNum">      37</span>              : }</span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :     if (v == null || v.length != 11) return false;</span></span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span>              :     /// Não existe DDD com zero.</span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           4 :     if (v[0] == '0' || v[1] == '0') return false;</span></span>
+<span id="L29"><span class="lineNum">      29</span>              : </span>
+<span id="L30"><span class="lineNum">      30</span>              :     /// Telefones celulares sempre iniciam com 9.</span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           2 :     return v[2] == '9';</span></span>
+<span id="L32"><span class="lineNum">      32</span>              :   }</span>
+<span id="L33"><span class="lineNum">      33</span>              : }</span>
         </pre>
               </td>
             </tr>

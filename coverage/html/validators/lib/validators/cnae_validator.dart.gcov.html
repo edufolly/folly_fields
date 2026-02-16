@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2026-02-10 16:29:20</td>
+            <td class="headerValue">2026-02-16 21:53:43</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -72,13 +72,13 @@
 <span id="L10"><span class="lineNum">      10</span>              :   TextInputType get keyboard =&gt; TextInputType.number;</span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   String? format(final String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   String? format(String? value) =&gt; strip(value)?.replaceAllMapped(</span></span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :     RegExp(r'^(\d{4})(\d)(\d{2})$'),</span></span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     (final Match m) =&gt; '${m[1]}-${m[2]}/${m[3]}',</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     (Match m) =&gt; '${m[1]}-${m[2]}/${m[3]}',</span></span>
 <span id="L16"><span class="lineNum">      16</span>              :   );</span>
 <span id="L17"><span class="lineNum">      17</span>              : </span>
 <span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :   @override</span></span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   bool isValid(final String? value) =&gt; strip(value)?.length == 7;</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :   bool isValid(String? value) =&gt; strip(value)?.length == 7;</span></span>
 <span id="L20"><span class="lineNum">      20</span>              : }</span>
         </pre>
               </td>
