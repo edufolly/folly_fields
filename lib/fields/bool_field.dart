@@ -52,7 +52,7 @@ class BoolField extends ResponsiveFormField<bool> {
              ? (final bool? value) => onSaved(value ?? false)
              : null,
          builder: (final FormFieldState<bool> field) {
-           _BoolFieldState state = field as _BoolFieldState;
+           final _BoolFieldState state = field as _BoolFieldState;
 
            final ThemeData theme = Theme.of(state.context);
 

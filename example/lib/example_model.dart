@@ -42,6 +42,7 @@ class ExampleModel {
   String? multiline;
   int? fruitIndex;
   String? ipv4;
+  List<ExampleModel> list = [];
 
   ExampleModel();
 
@@ -95,6 +96,12 @@ class ExampleModel {
         '${complete(1, max: 256)}.'
         '${complete(1, max: 256)}.'
         '${complete(1, max: 256)}';
+
+    if (seed == 1) {
+      list.add(ExampleModel.generate(seed: 128));
+      list.add(ExampleModel.generate(seed: 256));
+      list.add(ExampleModel.generate(seed: 512));
+    }
   }
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -128,7 +135,11 @@ class ExampleModel {
     'multiline': multiline,
     'fruitIndex': fruitIndex,
     'ipv4': ipv4,
+    'listCount': list.length,
   };
+
+  @override
+  String toString() => '$text';
 
   static String complete(int length, {int max = 10}) =>
       List<String>.generate(length, (_) => rnd.nextInt(max).toString()).join();

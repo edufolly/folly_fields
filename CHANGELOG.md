@@ -2,6 +2,7 @@
 
 * Create _error_ and _todo_ methods to throw Exception.
 * Replace IconDataField to IconDataExternalField.
+* Change ListField to use Column instead of ListView.
 
 ## [4.3.1] - 2026-02-10
 

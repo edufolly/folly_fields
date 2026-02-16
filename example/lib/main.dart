@@ -72,6 +72,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   /// Modelo padrão para o exemplo.
   ExampleModel model = ExampleModel.generate();
+
   // ExampleModel model = ExampleModel();
 
   @override
@@ -155,6 +156,8 @@ class MyHomePageState extends State<MyHomePage> {
 
             String code = response.body;
 
+            final ThemeData theme = Theme.of(context);
+
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Form(
@@ -168,8 +171,34 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Text(
                         'Formulário Básico',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineMedium,
+                        style: theme.textTheme.headlineMedium,
                       ),
+                    ),
+
+                    ListField<ExampleModel>(
+                      label: 'Lista',
+                      getLeading: (_, model, {required enabled}) => Icon(
+                        Icons.circle,
+                        color: !enabled
+                            ? theme.disabledColor
+                            : model.active
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                      getTitle: (_, model, {required enabled}) =>
+                          Text(model.text ?? ''),
+                      getSubtitle: (_, model, {required enabled}) =>
+                          model.document?.let(Text.new),
+                      initialValue: model.list,
+                      addButtonMessage: 'Adicionar Exemplo',
+                      addButtonIcon: FontAwesomeIcons.circlePlus,
+                      addButtonOnTap: (context, data) async => List.of(data)
+                        ..add(
+                          ExampleModel.generate(
+                            seed: DateTime.now().microsecond,
+                          ),
+                        ),
+                      onSaved: (value) => model.list = value ?? [],
                     ),
 
                     // [RootCode]
