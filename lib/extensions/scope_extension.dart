@@ -13,6 +13,10 @@ extension ScopeExtension<T> on T {
       condition.call(this) ? null : this;
 }
 
+void todo(final String message) => throw UnimplementedError(message);
+
+void error(final String message) => throw Exception(message);
+
 String parseString(final dynamic it) => it.toString();
 
 bool isNull(final dynamic it) => it == null;

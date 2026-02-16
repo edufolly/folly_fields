@@ -515,11 +515,11 @@ class MyHomePageState extends State<MyHomePage> {
 
                     CodeLink(
                       code: code,
-                      tag: 'IconDataExternalField',
-                      source: '$githubUrl/icon_data_external_field.dart',
+                      tag: 'IconDataField',
+                      source: '$githubUrl/icon_data_field.dart',
                       child:
-                          // [IconDataExternalField]
-                          IconDataExternalField(
+                          // [IconDataField]
+                          IconDataField(
                             label: 'Ícone',
                             clearOnCancel: true,
                             initialValue: model.icon,
@@ -560,7 +560,7 @@ class MyHomePageState extends State<MyHomePage> {
                             },
                             onSaved: (value) => model.icon = value,
                           ),
-                      // [/IconDataExternalField]
+                      // [/IconDataField]
                     ),
 
                     CodeLink(

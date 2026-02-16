@@ -15,7 +15,7 @@ export 'date_time_field.dart';
 export 'decimal_field.dart';
 export 'dropdown_field.dart';
 export 'email_field.dart';
-export 'icon_data_external_field.dart';
+export 'icon_data_field.dart';
 export 'integer_field.dart';
 export 'ipv4_field.dart';
 export 'licence_plate_field.dart';
