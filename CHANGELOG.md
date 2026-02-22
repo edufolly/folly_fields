@@ -1,3 +1,7 @@
+## [4.4.1] - 2026-02-22
+
+* Add method sort in ListField.
+
 ## [4.4.0] - 2026-02-16
 
 * Create _error_ and _todo_ methods to throw Exception.
