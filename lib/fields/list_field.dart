@@ -36,6 +36,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
   final String Function(BuildContext context, T model)? deleteMessage;
   final String deleteDefaultMessage;
   final Future<T?> Function(BuildContext context, T model)? itemOnTap;
+  final int Function(T a, T b)? sort;
 
   ListField({
     this.controller,
@@ -63,6 +64,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
     this.deleteMessage,
     this.deleteDefaultMessage = 'Deseja excluir o ítem?',
     this.itemOnTap,
+    this.sort,
     super.sizeExtraSmall,
     super.sizeSmall,
     super.sizeMedium,
@@ -110,9 +112,9 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
                canRequestFocus: enabled,
                skipTraversal: !enabled,
                child: MouseRegion(
-                 cursor: enabled
-                     ? SystemMouseCursors.click
-                     : SystemMouseCursors.basic,
+                 // cursor: enabled
+                 //     ? SystemMouseCursors.click
+                 //     : SystemMouseCursors.basic,
                  onEnter: (_) => state.hovering(enter: true),
                  onExit: (_) => state.hovering(enter: false),
                  child: InputDecorator(
@@ -128,7 +130,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
                          children: <Widget>[
                            /// Add Button
                            if (showAddButton)
-                             _ListAddButton<T>(state, enabled: enabled),
+                             _ListAddButton<T>(state, sort, enabled: enabled),
 
                            /// List Items
                            ...value.map(
@@ -140,7 +142,7 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
                                enabled: enabled,
                                onRemove: (T model) =>
                                    state.didChange(state.value?..remove(model)),
-                               onTap: state.widget.itemOnTap == null
+                               onTap: isNull(state.widget.itemOnTap) && !enabled
                                    ? null
                                    : (T model) async {
                                        final T? newModel = await state
@@ -149,6 +151,10 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
                                            ?.call(state.context, model);
 
                                        if (newModel == null) return;
+
+                                       if (sort != null) {
+                                         state.value?.sort(sort);
+                                       }
 
                                        state.didChange(state.value);
                                      },
@@ -171,9 +177,15 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
 
 class _ListAddButton<T> extends StatelessWidget {
   final _ListFieldState<T> state;
+  final int Function(T a, T b)? sort;
   final bool enabled;
 
-  const _ListAddButton(this.state, {required this.enabled, super.key});
+  const _ListAddButton(
+    this.state,
+    this.sort, {
+    required this.enabled,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -188,14 +200,16 @@ class _ListAddButton<T> extends StatelessWidget {
                 state._effectiveFocusNode.requestFocus();
 
                 final List<T>? newItems = await state.widget.addButtonOnTap
-                    ?.call(state.context, state.value ?? <T>[]);
+                    ?.call(state.context, List<T>.of(state.value ?? <T>[]));
 
                 if (isNotNull(newItems)) {
-                  state.didChange(
-                    state.value
-                      ?..clear()
-                      ..addAll(newItems!),
-                  );
+                  state.value!
+                    ..clear()
+                    ..addAll(newItems!);
+
+                  if (sort != null) state.value!.sort(sort);
+
+                  state.didChange(state.value);
                 }
               },
       ),
