@@ -66,7 +66,7 @@ class _CreditCardState extends State<CreditCard> {
         actions: <Widget>[
           IconButton(
             onPressed: _save,
-            icon: const Icon(FontAwesomeIcons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
@@ -100,7 +100,7 @@ class _CreditCardState extends State<CreditCard> {
                           if (value.isValid)
                             const Padding(
                               padding: EdgeInsets.only(left: 16),
-                              child: Icon(FontAwesomeIcons.check),
+                              child: Icon(Icons.check),
                             ),
                         ],
                       );
@@ -143,26 +143,26 @@ class _CreditCardState extends State<CreditCard> {
     CreditCardType creditCardType,
     Color? color,
   ) => switch (creditCardType) {
-    CreditCardType.visa => Icon(FontAwesomeIcons.ccVisa, color: color),
+    CreditCardType.visa => Icon(FontAwesomeIcons.ccVisa.data, color: color),
     CreditCardType.mastercard => Icon(
-      FontAwesomeIcons.ccMastercard,
+      FontAwesomeIcons.ccMastercard.data,
       color: color,
     ),
-    CreditCardType.amex => Icon(FontAwesomeIcons.ccAmex, color: color),
+    CreditCardType.amex => Icon(FontAwesomeIcons.ccAmex.data, color: color),
     CreditCardType.dinersclub => Icon(
-      FontAwesomeIcons.ccDinersClub,
+      FontAwesomeIcons.ccDinersClub.data,
       color: color,
     ),
-    CreditCardType.discover => Icon(FontAwesomeIcons.ccDiscover, color: color),
-    CreditCardType.jcb => Icon(FontAwesomeIcons.ccJcb, color: color),
-    CreditCardType.unionpay => Icon(FontAwesomeIcons.creditCard, color: color),
-    CreditCardType.maestro => Icon(FontAwesomeIcons.creditCard, color: color),
-    CreditCardType.elo => Icon(FontAwesomeIcons.creditCard, color: color),
-    CreditCardType.mir => Icon(FontAwesomeIcons.creditCard, color: color),
-    CreditCardType.hiper => Icon(FontAwesomeIcons.creditCard, color: color),
-    CreditCardType.hipercard => Icon(FontAwesomeIcons.creditCard, color: color),
+    CreditCardType.discover => Icon(FontAwesomeIcons.ccDiscover.data, color: color),
+    CreditCardType.jcb => Icon(FontAwesomeIcons.ccJcb.data, color: color),
+    CreditCardType.unionpay => Icon(FontAwesomeIcons.creditCard.data, color: color),
+    CreditCardType.maestro => Icon(FontAwesomeIcons.creditCard.data, color: color),
+    CreditCardType.elo => Icon(FontAwesomeIcons.creditCard.data, color: color),
+    CreditCardType.mir => Icon(FontAwesomeIcons.creditCard.data, color: color),
+    CreditCardType.hiper => Icon(FontAwesomeIcons.creditCard.data, color: color),
+    CreditCardType.hipercard => Icon(FontAwesomeIcons.creditCard.data, color: color),
     CreditCardType.unknown => Icon(
-      FontAwesomeIcons.solidCreditCard,
+      FontAwesomeIcons.solidCreditCard.data,
       color: color,
     ),
   };

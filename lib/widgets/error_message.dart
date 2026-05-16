@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ErrorMessage extends StatelessWidget {
   final Object? error;
@@ -9,7 +8,7 @@ class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     this.error = 'Ocorreu um erro.',
     this.stackTrace,
-    this.icon = FontAwesomeIcons.triangleExclamation,
+    this.icon = Icons.info,
     super.key,
   });
 

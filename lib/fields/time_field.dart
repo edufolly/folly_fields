@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/time_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   final TimePickerEntryMode initialEntryMode;
@@ -9,7 +8,7 @@ class TimeField extends BaseStatefulField<TimeOfDay, TimeEditingController> {
   const TimeField({
     this.initialEntryMode = TimePickerEntryMode.dial,
     super.maxLength = 5,
-    super.suffixIconData = FontAwesomeIcons.clock,
+    super.suffixIconData = Icons.access_time,
     super.labelPrefix,
     super.label,
     super.labelWidget,

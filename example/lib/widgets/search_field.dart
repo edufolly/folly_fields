@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SearchField extends StatelessWidget {
   final TextEditingController controller;
@@ -18,8 +17,8 @@ class SearchField extends StatelessWidget {
     this.hintText,
     this.isDense = true,
     this.iconSize,
-    this.prefixIcon = FontAwesomeIcons.magnifyingGlass,
-    this.clearIcon = FontAwesomeIcons.xmark,
+    this.prefixIcon = Icons.search,
+    this.clearIcon = Icons.close,
     super.key,
   });
 

@@ -5,7 +5,6 @@ import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/extensions/string_extension.dart';
 import 'package:folly_fields_example/models/abstract_base_model.dart';
 import 'package:folly_fields_example/widgets/search_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomSheetGridSelection<Entity extends AbstractBaseModel<Id>, Id>
     extends StatefulWidget {
@@ -194,7 +193,7 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: FilledButton.icon(
-              icon: const Icon(FontAwesomeIcons.check),
+              icon: const Icon(Icons.check),
               label: const Text('Confirmar seleção'),
               onPressed: () =>
                   Navigator.of(context).pop(_selection.values.toList()),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/date_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DateField extends BaseStatefulField<DateTime, DateEditingController> {
   final DatePickerEntryMode initialEntryMode;
@@ -20,7 +19,7 @@ class DateField extends BaseStatefulField<DateTime, DateEditingController> {
     this.locale = 'pt_br',
     this.dateFormat = 'dd/MM/yyyy',
     this.mask = 'B#/D#/####',
-    super.suffixIconData = FontAwesomeIcons.solidCalendarDays,
+    super.suffixIconData = Icons.calendar_today,
     super.labelPrefix,
     super.label,
     super.labelWidget,

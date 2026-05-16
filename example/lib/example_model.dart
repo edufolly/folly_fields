@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:folly_fields/extensions/date_time_extension.dart';
 import 'package:folly_fields/util/decimal.dart';
-import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/validators/cnpj_validator.dart';
 import 'package:folly_fields/validators/cpf_validator.dart';
 import 'package:folly_fields/validators/mac_address_validator.dart';
@@ -78,9 +77,10 @@ class ExampleModel {
     ordinal = ExampleEnum.random;
     active = ms.isEven;
 
-    int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
-    String iconName = IconHelper.data.keys.elementAt(iconNumber);
-    icon = IconHelper.iconData(iconName);
+    // TODO(edufolly): Create class to user FontAwesome.
+    // int iconNumber = rnd.nextInt(IconHelper.data.keys.length);
+    // String iconName = IconHelper.data.keys.elementAt(iconNumber);
+    // icon = IconHelper.iconData(iconName);
 
     multiline =
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomSheetHeader extends StatelessWidget {
   final String title;
@@ -33,7 +32,7 @@ class BottomSheetHeader extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(FontAwesomeIcons.xmark),
+            icon: const Icon(Icons.close),
           ),
         ],
       ),

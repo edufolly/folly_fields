@@ -10,16 +10,15 @@ class DecimalTextFormatter extends TextInputFormatter {
     required this.precision,
     this.decimalSeparator = ',',
     this.thousandSeparator = '.',
-  }) : allow = RegExp('[-0-9$decimalSeparator$thousandSeparator]');
+  }) : allow = precision > 0
+           ? RegExp('[-0-9$decimalSeparator$thousandSeparator]')
+           : RegExp('[-0-9$thousandSeparator]');
 
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // print('old: ${oldValue.toJSON()}');
-    // print('new: ${newValue.toJSON()}');
-
     int signals = RegExp('-').allMatches(newValue.text).length;
 
     bool isNegative = oldValue.text.startsWith('-');
@@ -38,26 +37,28 @@ class DecimalTextFormatter extends TextInputFormatter {
 
     /// Empty value
     if (newText.isEmpty ||
-        newText == decimalSeparator ||
+        (precision > 0 && newText == decimalSeparator) ||
         newText == thousandSeparator) {
-      // print('New value is empty or equals to "$decimalSeparator" '
-      //       'or equals to "$thousandSeparator"');
-      // print('\n');
+      String textRes = isNegative ? '-0' : '0';
+      int offsetRes = isNegative ? 2 : 1;
 
-      return TextEditingValue(
-        text: '${isNegative ? '-0' : '0'}$decimalSeparator'.padRight(
+      if (precision > 0) {
+        textRes = '$textRes$decimalSeparator'.padRight(
           precision + (isNegative ? 3 : 2),
           '0',
-        ),
-        selection: TextSelection.collapsed(offset: (isNegative ? 2 : 1)),
+        );
+      } else {
+        offsetRes = textRes.length;
+      }
+
+      return TextEditingValue(
+        text: textRes,
+        selection: TextSelection.collapsed(offset: offsetRes),
       );
     }
 
     /// Char not allowed.
     if (allow.allMatches(newText).length != newText.length) {
-      // print('Char not allowed.');
-      // print('\n');
-
       return oldValue;
     }
 
@@ -67,57 +68,54 @@ class DecimalTextFormatter extends TextInputFormatter {
     int newDecimalCount = newText.split(decimalSeparator).length;
     int newThousandCount = newText.split(thousandSeparator).length;
 
-    if (oldDecimalCount < newDecimalCount ||
+    if ((precision > 0 && oldDecimalCount < newDecimalCount) ||
         oldThousandCount < newThousandCount) {
-      int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
+      if (precision > 0) {
+        int curPos = oldValue.text.indexOf(decimalSeparator) + 1;
 
-      // print('curPos: $curPos');
+        if (newValue.selection.baseOffset <= curPos) {
+          Map<String, dynamic> oldValueJson = oldValue.toJSON();
+          oldValueJson['selectionBase'] = curPos;
+          oldValueJson['selectionExtent'] = curPos;
 
-      if (newValue.selection.baseOffset <= curPos) {
-        Map<String, dynamic> oldValueJson = oldValue.toJSON();
-        oldValueJson['selectionBase'] = curPos;
-        oldValueJson['selectionExtent'] = curPos;
-
-        // print('\n');
-
-        return TextEditingValue.fromJSON(oldValueJson);
+          return TextEditingValue.fromJSON(oldValueJson);
+        }
       }
-
-      // print('\n');
 
       return oldValue;
     }
 
     /// Decimal Part
-    if (newText.contains(decimalSeparator)) {
-      List<String> parts = newText.split(decimalSeparator);
+    if (precision > 0) {
+      if (newText.contains(decimalSeparator)) {
+        List<String> parts = newText.split(decimalSeparator);
 
-      // print('Integer Part: ${parts.first}');
-      // print('Decimal Part: ${parts.last}');
+        String decimalPart = parts.last;
 
-      String decimalPart = parts.last;
+        decimalPart = decimalPart.length > precision
+            ? decimalPart.substring(0, precision)
+            : decimalPart.padRight(precision, '0');
 
-      decimalPart = decimalPart.length > precision
-          ? decimalPart.substring(0, precision)
-          : decimalPart.padRight(precision, '0');
-
-      newText = '${parts.first}$decimalSeparator$decimalPart';
-    } else {
-      if (newText.length == 1) {
-        newText += decimalSeparator.padRight(precision + 1, '0');
+        newText = '${parts.first}$decimalSeparator$decimalPart';
       } else {
-        int pos = newText.length - precision;
-        newText =
-            newText.substring(0, pos) +
-            decimalSeparator +
-            newText.substring(pos);
+        if (newText.length == 1) {
+          newText += decimalSeparator.padRight(precision + 1, '0');
+        } else {
+          int pos = newText.length - precision;
+          newText =
+              newText.substring(0, pos) +
+              decimalSeparator +
+              newText.substring(pos);
+        }
       }
     }
 
     int firstLength = newText.length;
 
     /// Integer Part
-    List<String> parts = newText.split(decimalSeparator);
+    List<String> parts = precision > 0
+        ? newText.split(decimalSeparator)
+        : <String>[newText, ''];
 
     int integerPart =
         int.tryParse(parts.first.replaceAll(thousandSeparator, '')) ?? 0;
@@ -128,18 +126,16 @@ class DecimalTextFormatter extends TextInputFormatter {
       numbers.insert(pos, thousandSeparator);
     }
 
-    newText = numbers.reversed.join() + decimalSeparator + parts.last;
+    newText =
+        numbers.reversed.join() +
+        (precision > 0 ? (decimalSeparator + parts.last) : '');
 
     /// Cursor Positioning
     int newTextLength = newText.length;
 
     int newPos = newValue.selection.baseOffset;
 
-    // print('newPos: $newPos');
-
     newPos += newTextLength - firstLength;
-
-    // print('delta: ${newTextLength - firstLength}');
 
     if (delNegative) {
       newPos -= 2;
@@ -159,9 +155,6 @@ class DecimalTextFormatter extends TextInputFormatter {
     newValueJson['text'] = newText;
     newValueJson['selectionBase'] = newPos;
     newValueJson['selectionExtent'] = newPos;
-
-    // print('newValueJson: $newValueJson');
-    // print('\n');
 
     return TextEditingValue.fromJSON(newValueJson);
   }

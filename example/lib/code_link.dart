@@ -86,7 +86,7 @@ class CodeLink extends StatelessWidget {
             ),
             ElevatedButton.icon(
               label: const Text('Código Fonte'),
-              icon: const Icon(FontAwesomeIcons.github),
+              icon: Icon(FontAwesomeIcons.github.data),
               onPressed: () {
                 CircularWaiting wait = CircularWaiting(context)..show();
 
