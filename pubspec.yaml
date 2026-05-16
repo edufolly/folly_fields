@@ -29,9 +29,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: ^10.12.0
-
   # https://pub.dev/packages/intl
   intl: ^0.20.0
 

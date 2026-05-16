@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/fields/all_fields.dart';
-import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields/util/safe_builder.dart';
 import 'package:folly_fields/widgets/circular_waiting.dart';
 import 'package:folly_fields/widgets/error_message.dart';
@@ -11,6 +10,7 @@ import 'package:folly_fields_example/code_link.dart';
 import 'package:folly_fields_example/example_enum.dart';
 import 'package:folly_fields_example/example_model.dart';
 import 'package:folly_fields_example/models/font_awesome_model.dart';
+import 'package:folly_fields_example/utils/icon_helper.dart';
 import 'package:folly_fields_example/views/credit_card.dart';
 import 'package:folly_fields_example/views/four_images.dart';
 import 'package:folly_fields_example/widgets/bottom_sheet_grid_selection.dart';
@@ -81,7 +81,7 @@ class MyHomePageState extends State<MyHomePage> {
       /// Github
       MyMenuItem(
         name: 'GitHub',
-        iconData: FontAwesomeIcons.github,
+        iconData: FontAwesomeIcons.github.data,
         onPressed: (context) {
           CircularWaiting wait = CircularWaiting(context)..show();
 
@@ -101,7 +101,7 @@ class MyHomePageState extends State<MyHomePage> {
       /// Circular Waiting
       MyMenuItem(
         name: 'Circular Waiting',
-        iconData: FontAwesomeIcons.spinner,
+        iconData: FontAwesomeIcons.spinner.data,
         onPressed: (context) {
           final wait = CircularWaiting(
             context,
@@ -116,13 +116,13 @@ class MyHomePageState extends State<MyHomePage> {
       /// Four Images
       MyMenuItem(
         name: 'Quatro Imagens',
-        iconData: FontAwesomeIcons.image,
+        iconData: FontAwesomeIcons.image.data,
         onPressed: (context) => Navigator.of(context).pushNamed('/four_images'),
       ),
 
       MyMenuItem(
         name: 'Credit Card',
-        iconData: FontAwesomeIcons.creditCard,
+        iconData: FontAwesomeIcons.creditCard.data,
         onPressed: (context) => Navigator.of(context).pushNamed('/credit_card'),
       ),
     ];
@@ -133,7 +133,7 @@ class MyHomePageState extends State<MyHomePage> {
         actions: [
           PopupMenuButton<MyMenuItem>(
             tooltip: 'Menu',
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+            icon: Icon(FontAwesomeIcons.ellipsisVertical.data),
             itemBuilder: (context) =>
                 menuItems.map((e) => e.popupMenuItem).toList(),
             onSelected: (item) => item.onPressed(context),

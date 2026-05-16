@@ -33,7 +33,7 @@ class BottomSheetHeader extends StatelessWidget {
           ),
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(FontAwesomeIcons.xmark),
+            icon: const Icon(Icons.close),
           ),
         ],
       ),

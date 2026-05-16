@@ -25,10 +25,10 @@ dependencies:
     path: ../
 
   # https://pub.dev/packages/font_awesome_flutter
-  font_awesome_flutter: 10.12.0
+  font_awesome_flutter: 11.0.0
 
   # https://pub.dev/packages/google_fonts
-  google_fonts: 8.0.1
+  google_fonts: 8.1.0
 
   # https://pub.dev/packages/http
   http: 1.6.0

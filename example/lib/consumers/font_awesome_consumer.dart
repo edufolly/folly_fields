@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:folly_fields/extensions/string_extension.dart';
-import 'package:folly_fields/util/icon_helper.dart';
 import 'package:folly_fields_example/models/font_awesome_model.dart';
+import 'package:folly_fields_example/utils/icon_helper.dart';
 
 class FontAwesomeConsumer {
   static Future<List<FontAwesomeModel>> list(

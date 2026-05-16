@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:folly_fields/controllers/color_editing_controller.dart';
 import 'package:folly_fields/fields/base_stateful_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ColorField extends BaseStatefulField<Color, ColorEditingController> {
   ColorField({
     super.maxLength = 8,
-    super.suffixIconData = FontAwesomeIcons.palette,
+    super.suffixIconData = Icons.palette,
     super.labelPrefix,
     super.label,
     super.labelWidget,
@@ -45,7 +44,7 @@ class ColorField extends BaseStatefulField<Color, ColorEditingController> {
     super.key,
   }) : super(
          updatePrefixIcon: (BuildContext context, Color? color, _) =>
-             Icon(FontAwesomeIcons.solidSquare, color: color),
+             Icon(Icons.square, color: color),
        );
 
   @override

@@ -4,7 +4,6 @@ import 'package:folly_fields/extensions/list_extension.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
 import 'package:folly_fields/widgets/folly_dialogs.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListField<T> extends ResponsiveFormField<List<T>> {
   final ListFieldController<T>? controller;
@@ -56,11 +55,11 @@ class ListField<T> extends ResponsiveFormField<List<T>> {
     EdgeInsets padding = const EdgeInsets.all(8),
     EdgeInsets? contentPadding,
     bool showAddButton = true,
-    this.addButtonIcon = FontAwesomeIcons.plus,
+    this.addButtonIcon = Icons.add,
     this.addButtonLabel = 'Adicionar',
     this.addButtonOnTap,
     this.canDelete,
-    this.deleteIcon = FontAwesomeIcons.trashCan,
+    this.deleteIcon = Icons.delete,
     this.deleteMessage,
     this.deleteDefaultMessage = 'Deseja excluir o ítem?',
     this.itemOnTap,

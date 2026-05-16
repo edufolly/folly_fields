@@ -194,7 +194,7 @@ class _BottomSheetGridSelectionState<Entity extends AbstractBaseModel<Id>, Id>
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: FilledButton.icon(
-              icon: const Icon(FontAwesomeIcons.check),
+              icon: const Icon(Icons.check),
               label: const Text('Confirmar seleção'),
               onPressed: () =>
                   Navigator.of(context).pop(_selection.values.toList()),

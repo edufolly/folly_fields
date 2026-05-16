@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:folly_fields/controllers/icon_data_external_field_controller.dart';
 import 'package:folly_fields/extensions/scope_extension.dart';
 import 'package:folly_fields/responsive/responsive_form_field.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class IconDataField extends ResponsiveFormField<IconData> {
   final IconDataExternalFieldController? controller;
@@ -30,7 +29,7 @@ class IconDataField extends ResponsiveFormField<IconData> {
     double? iconSize,
     InputDecoration? decoration,
     EdgeInsets padding = const EdgeInsets.all(8),
-    Widget? suffixIcon = const Icon(FontAwesomeIcons.magnifyingGlass),
+    Widget? suffixIcon = const Icon(Icons.search),
     EdgeInsets? contentPadding,
     super.sizeExtraSmall,
     super.sizeSmall,

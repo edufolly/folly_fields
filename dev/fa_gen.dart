@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:http/http.dart';
 
 ///
-///
+/// How to run: dart run dev/fa_gen.dart
 ///
 void main() async {
-  const String version = '10.12.0';
+  const String version = '11.0.0';
 
   Response response = await get(
     Uri.parse(
@@ -21,7 +21,7 @@ void main() async {
 
   for (int pos = 0; pos < rows.length; pos++) {
     String row = rows[pos].trim();
-    if (row.startsWith('static const IconData')) {
+    if (row.startsWith('static const FaIconData')) {
       StringBuffer stringBuffer = StringBuffer(row);
       while (!row.endsWith(';')) {
         pos++;
@@ -34,7 +34,7 @@ void main() async {
     }
   }
 
-  RegExp regExp = RegExp('static const IconData (.*)=(.*);');
+  RegExp regExp = RegExp('static const FaIconData (.*)=(.*);');
 
   StringBuffer sb = StringBuffer();
 
