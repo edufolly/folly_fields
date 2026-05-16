@@ -65,7 +65,7 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
   Decimal? parse(String? value) {
     if (value.isNullOrBlank) return null;
 
-    bool isNegative = value!.startsWith('-');
+    bool isNegative = value!.trim().startsWith('-');
 
     String newValue = value.replaceAll('-', '');
 
@@ -75,7 +75,7 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
     String decimalPart = '0';
 
     if (sepPos < 0) {
-      integerPart = newValue;
+      integerPart = super.strip(newValue)!;
     } else if (sepPos == 0) {
       decimalPart = super.strip(newValue)!;
     } else {
@@ -89,10 +89,7 @@ class DecimalValidator extends AbstractParserValidator<Decimal> {
 
     String str = '${isNegative ? '-' : ''}$integerPart.$decimalPart';
 
-    return Decimal(
-      precision: precision,
-      doubleValue: double.tryParse(str) ?? 0,
-    );
+    return Decimal(precision: precision, doubleValue: double.parse(str));
   }
 
   @override

@@ -3,7 +3,7 @@ import 'package:folly_fields/util/decimal.dart';
 import 'package:folly_fields/validators/decimal_validator.dart';
 
 void main() {
-  group('NewDecimalValidator parse', () {
+  group('DecimalValidator parse', () {
     Map<String?, Decimal?> parseTests = <String?, Decimal?>{
       /// Zero
       null: null,
@@ -21,10 +21,17 @@ void main() {
       ',00009': Decimal(precision: 4, doubleValue: 0),
       '-,00009': Decimal(precision: 4, doubleValue: 0),
 
+      /// With Spaces
+      ' -1': Decimal(precision: 4, doubleValue: -1),
+      ' -1 ': Decimal(precision: 4, doubleValue: -1),
+      ' -0,1': Decimal(precision: 4, doubleValue: -0.1),
+      ' -0,1 ': Decimal(precision: 4, doubleValue: -0.1),
+
       /// Positive
       ',01': Decimal(precision: 4, doubleValue: 0.01),
       ',001': Decimal(precision: 4, doubleValue: 0.001),
       ',0001': Decimal(precision: 4, doubleValue: 0.0001),
+      '0,1': Decimal(precision: 4, doubleValue: 0.1),
       '0,01': Decimal(precision: 4, doubleValue: 0.01),
       '0,001': Decimal(precision: 4, doubleValue: 0.001),
       '0,0001': Decimal(precision: 4, doubleValue: 0.0001),
@@ -51,6 +58,7 @@ void main() {
       '1,9999': Decimal(precision: 4, doubleValue: 1.9999),
       '11,9999': Decimal(precision: 4, doubleValue: 11.9999),
       '111,9999': Decimal(precision: 4, doubleValue: 111.9999),
+      '1.111': Decimal(precision: 4, doubleValue: 1111),
       '1.111,9999': Decimal(precision: 4, doubleValue: 1111.9999),
       '1111,9999': Decimal(precision: 4, doubleValue: 1111.9999),
       '11.111,9999': Decimal(precision: 4, doubleValue: 11111.9999),
@@ -83,6 +91,7 @@ void main() {
       '-,01': Decimal(precision: 4, doubleValue: -0.01),
       '-,001': Decimal(precision: 4, doubleValue: -0.001),
       '-,0001': Decimal(precision: 4, doubleValue: -0.0001),
+      '-0,1': Decimal(precision: 4, doubleValue: -0.1),
       '-0,01': Decimal(precision: 4, doubleValue: -0.01),
       '-0,001': Decimal(precision: 4, doubleValue: -0.001),
       '-0,0001': Decimal(precision: 4, doubleValue: -0.0001),
@@ -109,6 +118,7 @@ void main() {
       '-1,9999': Decimal(precision: 4, doubleValue: -1.9999),
       '-11,9999': Decimal(precision: 4, doubleValue: -11.9999),
       '-111,9999': Decimal(precision: 4, doubleValue: -111.9999),
+      '-1.111': Decimal(precision: 4, doubleValue: -1111),
       '-1.111,9999': Decimal(precision: 4, doubleValue: -1111.9999),
       '-1111,9999': Decimal(precision: 4, doubleValue: -1111.9999),
       '-11.111,9999': Decimal(precision: 4, doubleValue: -11111.9999),
@@ -154,7 +164,7 @@ void main() {
     }
   });
 
-  group('NewDecimalValidator format', () {
+  group('DecimalValidator format', () {
     Map<Decimal, String> formatTest = <Decimal, String>{
       /// Zero
       Decimal(precision: 4, doubleValue: 0): '0,0000',

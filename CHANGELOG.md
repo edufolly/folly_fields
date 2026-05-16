@@ -2,6 +2,8 @@
 
 * Remove FontAwesome dependency.
 * Remove IconHelper class.
+* Fix DecimalValidator parse bug.
+* Fix DecimalTextFormatter format bug.
 
 ## [4.4.1] - 2026-02-22
 
